@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>would like to · be able to 시험 – 잉글리시아이스쿨관</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; background: #f5f3ff; color: #1a1a1a; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; padding: 22px 20px 18px; text-align: center; }
+  .header-sub { font-size: 11px; opacity: 0.8; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .header-title { font-size: 19px; font-weight: 700; margin-bottom: 4px; }
+  .header-desc { font-size: 12px; opacity: 0.8; }
+  .content { padding: 20px 16px; max-width: 520px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 14px; padding: 20px; margin-bottom: 16px; border: 1px solid #ddd6fe; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  label { font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 6px; margin-top: 14px; }
+  label:first-of-type { margin-top: 0; }
+  input[type=text], select { width: 100%; padding: 12px 14px; font-size: 15px; border: 1.5px solid #ddd6fe; border-radius: 10px; background: #fff; color: #1a1a1a; outline: none; }
+  input[type=text]:focus, select:focus { border-color: #7c3aed; }
+  .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+  .start-btn:disabled { background: #aaa; cursor: default; }
+
+  .progress-wrap { margin-bottom: 16px; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 12px; color: #888; }
+  .progress-score { font-size: 12px; font-weight: 600; color: #7c3aed; }
+  .progress-bar { height: 6px; background: #ddd6fe; border-radius: 99px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 99px; transition: width 0.4s ease; }
+
+  .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .question-num { font-size: 11px; color: #7c3aed; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
+  .badge-able  { background: #dbeafe; color: #1e40af; }
+  .badge-neg   { background: #fce7f3; color: #9d174d; }
+  .badge-que   { background: #d1fae5; color: #065f46; }
+  .badge-like  { background: #fef3c7; color: #92400e; }
+  .badge-mixed { background: #ede9fe; color: #5b21b6; }
+  .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
+  .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #f5f3ff; border: 1.5px solid #ddd6fe; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
+  .option-btn:hover:not(:disabled) { background: #ede9fe; border-color: #7c3aed; }
+  .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
+  .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
+  .option-btn:disabled { cursor: default; }
+
+  .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
+  .feedback.correct { background: #e6f9f0; color: #1a6640; }
+  .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
+
+  .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+
+  .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .result-emoji { font-size: 52px; margin-bottom: 12px; }
+  .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .result-score { font-size: 42px; font-weight: 800; color: #7c3aed; margin-bottom: 4px; }
+  .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
+  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #f5f3ff; border-radius: 12px; margin-bottom: 20px; }
+  .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div id="startScreen">
+  <div class="header">
+    <div class="header-sub">ENGLISH TEST</div>
+    <div class="header-title">would like to · be able to 시험 📝</div>
+    <div class="header-desc">초등 4~5학년 · 30문제 · 객관식</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <label>이름</label>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요" oninput="checkReady()">
+      <label>반</label>
+      <select id="studentClass" onchange="checkReady()">
+        <option value="">반을 선택하세요</option>
+        <option>A반</option><option>B반</option><option>C반</option><option>D반</option>
+      </select>
+      <button class="start-btn" id="startBtn" disabled onclick="startTest()">시험 시작하기 →</button>
+    </div>
+  </div>
+</div>
+
+<div id="testScreen" class="hidden">
+  <div class="header">
+    <div class="header-sub" id="headerName"></div>
+    <div class="header-title">would like to · be able to</div>
+  </div>
+  <div class="content">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label" id="progressLabel">1 / 30</span>
+        <span class="progress-score" id="progressScore">점수: 0</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="question-card">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;">
+        <div class="question-num" id="questionNum">Q1</div>
+        <div class="question-badge" id="questionBadge"></div>
+      </div>
+      <div class="question-text" id="questionText"></div>
+      <div class="question-sub" id="questionSub"></div>
+    </div>
+    <div class="options" id="optionsArea"></div>
+    <div class="feedback hidden" id="feedbackArea"></div>
+    <button class="next-btn hidden" id="nextBtn" onclick="nextQuestion()">다음 문제 →</button>
+  </div>
+</div>
+
+<div id="resultScreen" class="hidden">
+  <div class="header">
+    <div class="header-sub">RESULT</div>
+    <div class="header-title">시험 완료! 🎉</div>
+  </div>
+  <div class="content">
+    <div class="result-card">
+      <div class="result-emoji" id="resultEmoji"></div>
+      <div class="result-title" id="resultName"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-sub">30문제 중</div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+
+  // ── be able to 긍정문 (1~7) ──────────────────────────────
+  { badge:"be able to", badgeClass:"badge-able",
+    q:"'be able to'의 뜻으로 알맞은 것은?", sub:"",
+    options:["~해야 한다","~하고 싶다","~할 수 있다","~하면 안 된다"], answer:2 },
+
+  { badge:"be able to", badgeClass:"badge-able",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"I ___ able to swim.",
+    options:["can","do","am","is"], answer:2 },
+
+  { badge:"be able to", badgeClass:"badge-able",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"She ___ able to speak French.",
+    options:["am","are","is","be"], answer:2 },
+
+  { badge:"be able to", badgeClass:"badge-able",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"They ___ able to run very fast.",
+    options:["is","am","be","are"], answer:3 },
+
+  { badge:"be able to", badgeClass:"badge-able",
+    q:"be able to 뒤에 오는 동사의 형태는?", sub:"",
+    options:["동사+s/es","동사+ing","동사+ed","동사원형"], answer:3 },
+
+  { badge:"be able to", badgeClass:"badge-able",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["He is able to swims.","She is able to dancing.","I am able to ride a bike.","They are able to ran fast."], answer:2 },
+
+  { badge:"be able to", badgeClass:"badge-able",
+    q:"우리말 뜻에 맞는 영어 문장은?", sub:"그는 기타를 칠 수 있다.",
+    options:["He is able to plays the guitar.","He are able to play the guitar.","He is able to play the guitar.","He am able to play the guitar."], answer:2 },
+
+  // ── can ↔ be able to 바꾸기 (8~14) ──────────────────────
+  { badge:"can = be able to", badgeClass:"badge-able",
+    q:"can과 be able to는 서로 바꿔 쓸 수 있나요?", sub:"",
+    options:["항상 바꿀 수 없다","같은 의미로 바꿔 쓸 수 있다","can만 부정문에 쓴다","be able to만 의문문에 쓴다"], answer:1 },
+
+  { badge:"can = be able to", badgeClass:"badge-able",
+    q:"다음 문장을 be able to로 바꾼 것은?", sub:"I can cook pasta.",
+    options:["I am able to cooks pasta.","I am able to cook pasta.","I is able to cook pasta.","I are able to cook pasta."], answer:1 },
+
+  { badge:"can = be able to", badgeClass:"badge-able",
+    q:"다음 문장을 can으로 바꾼 것은?", sub:"She is able to draw well.",
+    options:["She cans draw well.","She can draws well.","She can draw well.","She can drawing well."], answer:2 },
+
+  { badge:"can = be able to", badgeClass:"badge-able",
+    q:"다음 문장을 be able to로 바꾼 것은?", sub:"They can jump high.",
+    options:["They is able to jump high.","They are able to jumps high.","They are able to jump high.","They am able to jump high."], answer:2 },
+
+  { badge:"can = be able to", badgeClass:"badge-able",
+    q:"다음 문장을 can으로 바꾼 것은?", sub:"He is able to speak English.",
+    options:["He cans speak English.","He can speaks English.","He can to speak English.","He can speak English."], answer:3 },
+
+  { badge:"can = be able to", badgeClass:"badge-able",
+    q:"다음 문장을 be able to로 바꾼 것은?", sub:"We can solve this problem.",
+    options:["We are able to solve this problem.","We is able to solve this problem.","We are able to solves this problem.","We am able to solve this problem."], answer:0 },
+
+  { badge:"can = be able to", badgeClass:"badge-able",
+    q:"다음 중 뜻이 같은 문장끼리 묶인 것은?", sub:"",
+    options:["I can swim. / I should swim.","She can run. / She is able to run.","He must swim. / He is able to swim.","They can jump. / They have to jump."], answer:1 },
+
+  // ── be able to 부정문 (15~20) ────────────────────────────
+  { badge:"부정문", badgeClass:"badge-neg",
+    q:"be able to의 부정문 형태로 알맞은 것은?", sub:"",
+    options:["be not able to","be able not to","be able to not","don't be able to"], answer:0 },
+
+  { badge:"부정문", badgeClass:"badge-neg",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"I ___ not able to fly.",
+    options:["do","can","am","is"], answer:2 },
+
+  { badge:"부정문", badgeClass:"badge-neg",
+    q:"다음 문장을 be able to 부정문으로 바꾼 것은?", sub:"She can't sing.",
+    options:["She is not able to sings.","She is able to not sing.","She is not able to sing.","She not is able to sing."], answer:2 },
+
+  { badge:"부정문", badgeClass:"badge-neg",
+    q:"다음 문장을 be able to 부정문으로 바꾼 것은?", sub:"They can't run fast.",
+    options:["They are not able to run fast.","They is not able to run fast.","They are able to not run fast.","They not are able to run fast."], answer:0 },
+
+  { badge:"부정문", badgeClass:"badge-neg",
+    q:"다음 중 올바른 부정문은?", sub:"",
+    options:["He is not able to swims.","She are not able to dance.","I am not able to drive.","They is not able to fly."], answer:2 },
+
+  { badge:"부정문", badgeClass:"badge-neg",
+    q:"우리말 뜻에 맞는 영어 문장은?", sub:"그녀는 피아노를 칠 수 없다.",
+    options:["She is able to play the piano.","She is not able to plays the piano.","She is not able to play the piano.","She are not able to play the piano."], answer:2 },
+
+  // ── be able to 의문문 (21~25) ────────────────────────────
+  { badge:"의문문", badgeClass:"badge-que",
+    q:"'Can you swim?'을 be able to 의문문으로 바꾼 것은?", sub:"",
+    options:["Do you able to swim?","Is you able to swim?","Are you able to swim?","You are able to swim?"], answer:2 },
+
+  { badge:"의문문", badgeClass:"badge-que",
+    q:"'Can he play soccer?'를 be able to 의문문으로 바꾼 것은?", sub:"",
+    options:["Is he able to play soccer?","Are he able to play soccer?","Does he able to play soccer?","He is able to play soccer?"], answer:0 },
+
+  { badge:"의문문", badgeClass:"badge-que",
+    q:"'Can they speak Korean?'을 be able to 의문문으로 바꾼 것은?", sub:"",
+    options:["Is they able to speak Korean?","Are they able to speak Korean?","Do they able to speak Korean?","They are able to speak Korean?"], answer:1 },
+
+  { badge:"의문문", badgeClass:"badge-que",
+    q:"의문문에 대한 알맞은 대답은?", sub:"Are you able to ride a horse?",
+    options:["Yes, I can.","Yes, I am.","Yes, I do.","Yes, I able."], answer:1 },
+
+  { badge:"의문문", badgeClass:"badge-que",
+    q:"의문문에 대한 알맞은 대답은?", sub:"Is she able to cook?",
+    options:["No, she can't.","No, she isn't.","No, she doesn't.","No, she aren't."], answer:1 },
+
+  // ── would like to (26~30) ────────────────────────────────
+  { badge:"would like to", badgeClass:"badge-like",
+    q:"'would like to'의 뜻으로 알맞은 것은?", sub:"",
+    options:["~해야 한다","~할 수 있다","~하고 싶다","~하면 안 된다"], answer:2 },
+
+  { badge:"would like to", badgeClass:"badge-like",
+    q:"would like to 뒤에 오는 동사의 형태는?", sub:"",
+    options:["동사+s/es","동사+ing","동사원형","동사+ed"], answer:2 },
+
+  { badge:"would like to", badgeClass:"badge-like",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"I would like to ___ a pizza.",
+    options:["eats","eating","ate","eat"], answer:3 },
+
+  { badge:"would like to", badgeClass:"badge-like",
+    q:"다음 중 would like to가 올바르게 쓰인 문장은?", sub:"",
+    options:["She would like to swims.","He would like to dancing.","I would like to visit London.","They would like to plays games."], answer:2 },
+
+  { badge:"would like to", badgeClass:"badge-like",
+    q:"우리말 뜻에 맞는 영어 문장은?", sub:"나는 의사가 되고 싶다.",
+    options:["I would like to is a doctor.","I would like to am a doctor.","I would like to be a doctor.","I would like to being a doctor."], answer:2 },
+];
+
+let currentQ = 0, score = 0, answered = false;
+
+function checkReady() {
+  const name = document.getElementById('studentName').value.trim();
+  const cls  = document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled = !(name && cls);
+}
+
+function startTest() {
+  const name = document.getElementById('studentName').value.trim();
+  const cls  = document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent = name + ' · ' + cls;
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  currentQ = 0; score = 0;
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  const q = questions[currentQ];
+  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
+  const badge = document.getElementById('questionBadge');
+  badge.textContent = q.badge;
+  badge.className   = 'question-badge ' + q.badgeClass;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('questionSub').textContent  = q.sub;
+  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
+  document.getElementById('progressScore').textContent = '점수: ' + score;
+  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+  document.getElementById('feedbackArea').classList.add('hidden');
+  document.getElementById('nextBtn').classList.add('hidden');
+
+  const area = document.getElementById('optionsArea');
+  area.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className   = 'option-btn';
+    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
+    btn.onclick = () => selectAnswer(i);
+    area.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q    = questions[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('feedbackArea');
+  if (idx === q.answer) {
+    score++;
+    btns[idx].classList.add('correct');
+    fb.className   = 'feedback correct';
+    fb.textContent = '✅ 정답이에요! 잘했어요!';
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.answer].classList.add('correct');
+    fb.className   = 'feedback wrong';
+    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+  }
+  fb.classList.remove('hidden');
+  document.getElementById('nextBtn').classList.remove('hidden');
+  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= 30) showResult();
+  else showQuestion();
+}
+
+function showResult() {
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  const name = document.getElementById('studentName').value.trim();
+  const pct  = Math.round(score / 30 * 100);
+  document.getElementById('resultName').textContent  = name + '의 결과';
+  document.getElementById('resultScore').textContent = score + ' / 30';
+  let emoji, msg;
+  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! be able to · would like to 마스터! 👏'; }
+  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
+  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
+  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultMsg').textContent   = msg;
+}
+
+function retryTest() {
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  currentQ = 0; score = 0;
+  showQuestion();
+}
+</script>
+</body>
+</html>

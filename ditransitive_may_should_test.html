@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>수여동사·may·should 시험 – 잉글리시아이스쿨관</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; background: #f0fdf9; color: #1a1a1a; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #0f766e, #115e59); color: #fff; padding: 22px 20px 18px; text-align: center; }
+  .header-sub { font-size: 11px; opacity: 0.8; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .header-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .header-desc { font-size: 12px; opacity: 0.8; }
+  .content { padding: 20px 16px; max-width: 520px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 14px; padding: 20px; margin-bottom: 16px; border: 1px solid #99f6e4; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  label { font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 6px; margin-top: 14px; }
+  label:first-of-type { margin-top: 0; }
+  input[type=text], select { width: 100%; padding: 12px 14px; font-size: 15px; border: 1.5px solid #99f6e4; border-radius: 10px; background: #fff; color: #1a1a1a; outline: none; }
+  input[type=text]:focus, select:focus { border-color: #0f766e; }
+  .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #0f766e, #115e59); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+  .start-btn:disabled { background: #aaa; cursor: default; }
+
+  .progress-wrap { margin-bottom: 16px; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 12px; color: #888; }
+  .progress-score { font-size: 12px; font-weight: 600; color: #0f766e; }
+  .progress-bar { height: 6px; background: #99f6e4; border-radius: 99px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #0f766e, #2dd4bf); border-radius: 99px; transition: width 0.4s ease; }
+
+  .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .question-num { font-size: 11px; color: #0f766e; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
+  .badge-give  { background: #dbeafe; color: #1e40af; }
+  .badge-may   { background: #fef3c7; color: #92400e; }
+  .badge-should{ background: #ede9fe; color: #5b21b6; }
+  .badge-mixed { background: #fce7f3; color: #9d174d; }
+  .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
+  .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #f0fdf9; border: 1.5px solid #99f6e4; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
+  .option-btn:hover:not(:disabled) { background: #ccfbf1; border-color: #0f766e; }
+  .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
+  .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
+  .option-btn:disabled { cursor: default; }
+
+  .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
+  .feedback.correct { background: #e6f9f0; color: #1a6640; }
+  .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
+
+  .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #0f766e, #115e59); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+
+  .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .result-emoji { font-size: 52px; margin-bottom: 12px; }
+  .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .result-score { font-size: 42px; font-weight: 800; color: #0f766e; margin-bottom: 4px; }
+  .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
+  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #f0fdf9; border-radius: 12px; margin-bottom: 20px; }
+  .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #0f766e, #115e59); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div id="startScreen">
+  <div class="header">
+    <div class="header-sub">ENGLISH TEST</div>
+    <div class="header-title">수여동사 · may · should 시험 📝</div>
+    <div class="header-desc">초등 4~5학년 · 30문제 · 객관식</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <label>이름</label>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요" oninput="checkReady()">
+      <label>반</label>
+      <select id="studentClass" onchange="checkReady()">
+        <option value="">반을 선택하세요</option>
+        <option>A반</option><option>B반</option><option>C반</option><option>D반</option>
+      </select>
+      <button class="start-btn" id="startBtn" disabled onclick="startTest()">시험 시작하기 →</button>
+    </div>
+  </div>
+</div>
+
+<div id="testScreen" class="hidden">
+  <div class="header">
+    <div class="header-sub" id="headerName"></div>
+    <div class="header-title">수여동사 · may · should</div>
+  </div>
+  <div class="content">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label" id="progressLabel">1 / 30</span>
+        <span class="progress-score" id="progressScore">점수: 0</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="question-card">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;">
+        <div class="question-num" id="questionNum">Q1</div>
+        <div class="question-badge" id="questionBadge"></div>
+      </div>
+      <div class="question-text" id="questionText"></div>
+      <div class="question-sub" id="questionSub"></div>
+    </div>
+    <div class="options" id="optionsArea"></div>
+    <div class="feedback hidden" id="feedbackArea"></div>
+    <button class="next-btn hidden" id="nextBtn" onclick="nextQuestion()">다음 문제 →</button>
+  </div>
+</div>
+
+<div id="resultScreen" class="hidden">
+  <div class="header">
+    <div class="header-sub">RESULT</div>
+    <div class="header-title">시험 완료! 🎉</div>
+  </div>
+  <div class="content">
+    <div class="result-card">
+      <div class="result-emoji" id="resultEmoji"></div>
+      <div class="result-title" id="resultName"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-sub">30문제 중</div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+
+  // ── 수여동사: 간목+직목 순서 (1~10) ─────────────────────
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"수여동사 문장의 어순으로 알맞은 것은?", sub:"",
+    options:["주어 + 동사 + 직목 + 간목","주어 + 동사 + 간목 + 직목","주어 + 간목 + 동사 + 직목","간목 + 주어 + 동사 + 직목"], answer:1 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"다음 문장에서 간접목적어(~에게)를 고르세요.", sub:"She gave me a present.",
+    options:["She","gave","me","a present"], answer:2 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"다음 문장에서 직접목적어(~을/를)를 고르세요.", sub:"He showed us his drawing.",
+    options:["He","showed","us","his drawing"], answer:3 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"어순이 올바른 문장을 고르세요.", sub:"",
+    options:["I gave a cookie him.","I gave him a cookie.","I him gave a cookie.","A cookie I gave him."], answer:1 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"어순이 올바른 문장을 고르세요.", sub:"",
+    options:["She sent a letter me.","She me sent a letter.","She sent me a letter.","Me she sent a letter."], answer:2 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"Mom made ___ a cake.",
+    options:["a cake me","me a cake – 순서 바꿔","us","to us"], answer:2 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"우리말 뜻에 맞는 영어 문장은?", sub:"선생님이 우리에게 숙제를 주셨다.",
+    options:["The teacher gave homework us.","The teacher gave us homework.","The teacher us gave homework.","The teacher gave homework to we."], answer:1 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"다음 중 수여동사가 쓰인 문장은?", sub:"",
+    options:["She runs fast.","He is tall.","I taught her math.","They play soccer."], answer:2 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"He bought ___ a new bag.",
+    options:["to her","her","she","hers"], answer:1 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"다음 중 올바른 수여동사 문장은?", sub:"",
+    options:["She told me the answer.","She told the answer me.","She told to me the answer.","She me told the answer."], answer:0 },
+
+  // ── 직목+전치사+간목 (11~14) ─────────────────────────────
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"직목을 앞으로 쓸 때 give 동사에 쓰는 전치사는?", sub:"I gave him a book. → I gave a book ___ him.",
+    options:["for","of","to","by"], answer:2 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"직목을 앞으로 쓸 때 make 동사에 쓰는 전치사는?", sub:"Mom made me a sandwich. → Mom made a sandwich ___ me.",
+    options:["to","by","of","for"], answer:3 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"다음 문장을 바르게 바꾼 것은?", sub:"She showed me her photo.",
+    options:["She showed her photo for me.","She showed her photo to me.","She showed her photo by me.","She showed her photo of me."], answer:1 },
+
+  { badge:"수여동사", badgeClass:"badge-give",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["He sent a card for her.","He sent a card to her.","He sent a card by her.","He sent a card of her."], answer:1 },
+
+  // ── may (15~22) ───────────────────────────────────────────
+  { badge:"may", badgeClass:"badge-may",
+    q:"'may'의 뜻으로 알맞은 것은?", sub:"",
+    options:["~해야 한다","~할 수 있다 (능력)","~해도 된다 / ~일지도 모른다","~하면 안 된다"], answer:2 },
+
+  { badge:"may", badgeClass:"badge-may",
+    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"You may use my pen.",
+    options:["너는 내 펜을 사용해야 한다.","너는 내 펜을 사용해도 된다.","너는 내 펜을 사용할 수 없다.","너는 내 펜을 사용하면 안 된다."], answer:1 },
+
+  { badge:"may", badgeClass:"badge-may",
+    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"It may rain tomorrow.",
+    options:["내일 비가 올 것이다.","내일 비가 와야 한다.","내일 비가 올지도 모른다.","내일 비가 오면 안 된다."], answer:2 },
+
+  { badge:"may", badgeClass:"badge-may",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"You ___ sit here. (앉아도 된다)",
+    options:["must","should","may","will"], answer:2 },
+
+  { badge:"may", badgeClass:"badge-may",
+    q:"may 뒤에 오는 동사의 형태는?", sub:"",
+    options:["동사+ing","동사+s/es","동사+ed","동사원형"], answer:3 },
+
+  { badge:"may", badgeClass:"badge-may",
+    q:"다음 중 may가 올바르게 쓰인 문장은?", sub:"",
+    options:["She may goes home now.","He may to eat lunch.","They may leave early.","I may eating dinner."], answer:2 },
+
+  { badge:"may", badgeClass:"badge-may",
+    q:"우리말 뜻에 맞는 영어 문장은?", sub:"그는 지금 도서관에 있을지도 모른다.",
+    options:["He must be at the library now.","He may be at the library now.","He should be at the library now.","He can be at the library now."], answer:1 },
+
+  { badge:"may", badgeClass:"badge-may",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["You may to open the window.","She mays go outside.","He may stay home today.","They may eating pizza."], answer:2 },
+
+  // ── should (23~30) ────────────────────────────────────────
+  { badge:"should", badgeClass:"badge-should",
+    q:"'should'의 뜻으로 알맞은 것은?", sub:"",
+    options:["~해도 된다","~해야 한다 (권고·충고)","~할 수 있다","~하면 안 된다"], answer:1 },
+
+  { badge:"should", badgeClass:"badge-should",
+    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"You should eat more vegetables.",
+    options:["너는 채소를 더 먹어도 된다.","너는 채소를 더 먹을 수 있다.","너는 채소를 더 먹어야 한다.","너는 채소를 더 먹으면 안 된다."], answer:2 },
+
+  { badge:"should", badgeClass:"badge-should",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"You ___ see a doctor. You look sick.",
+    options:["may","can","should","must not"], answer:2 },
+
+  { badge:"should", badgeClass:"badge-should",
+    q:"should 뒤에 오는 동사의 형태는?", sub:"",
+    options:["동사+s/es","동사+ing","동사+ed","동사원형"], answer:3 },
+
+  { badge:"should", badgeClass:"badge-should",
+    q:"다음 중 should가 올바르게 쓰인 문장은?", sub:"",
+    options:["She should goes to bed early.","He should to study more.","They should be quiet in class.","I should eating breakfast."], answer:2 },
+
+  { badge:"should", badgeClass:"badge-should",
+    q:"'should not'의 줄임말은?", sub:"",
+    options:["shoudn't","shouldnt","shouldn't","shouldnot"], answer:2 },
+
+  { badge:"should", badgeClass:"badge-should",
+    q:"우리말 뜻에 맞는 영어 문장은?", sub:"너는 늦게까지 자지 않아야 한다.",
+    options:["You may not stay up late.","You should not stay up late.","You must stay up late.","You can not stay up late."], answer:1 },
+
+  { badge:"should", badgeClass:"badge-should",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["He should wears a coat.","She should to drink water.","You should exercise every day.","They shoulds sleep early."], answer:2 },
+];
+
+let currentQ = 0, score = 0, answered = false;
+
+function checkReady() {
+  const name = document.getElementById('studentName').value.trim();
+  const cls  = document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled = !(name && cls);
+}
+
+function startTest() {
+  const name = document.getElementById('studentName').value.trim();
+  const cls  = document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent = name + ' · ' + cls;
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  currentQ = 0; score = 0;
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  const q = questions[currentQ];
+  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
+  const badge = document.getElementById('questionBadge');
+  badge.textContent = q.badge;
+  badge.className   = 'question-badge ' + q.badgeClass;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('questionSub').textContent  = q.sub;
+  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
+  document.getElementById('progressScore').textContent = '점수: ' + score;
+  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+  document.getElementById('feedbackArea').classList.add('hidden');
+  document.getElementById('nextBtn').classList.add('hidden');
+
+  const area = document.getElementById('optionsArea');
+  area.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className   = 'option-btn';
+    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
+    btn.onclick = () => selectAnswer(i);
+    area.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q    = questions[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('feedbackArea');
+  if (idx === q.answer) {
+    score++;
+    btns[idx].classList.add('correct');
+    fb.className   = 'feedback correct';
+    fb.textContent = '✅ 정답이에요! 잘했어요!';
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.answer].classList.add('correct');
+    fb.className   = 'feedback wrong';
+    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+  }
+  fb.classList.remove('hidden');
+  document.getElementById('nextBtn').classList.remove('hidden');
+  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= 30) showResult();
+  else showQuestion();
+}
+
+function showResult() {
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  const name = document.getElementById('studentName').value.trim();
+  const pct  = Math.round(score / 30 * 100);
+  document.getElementById('resultName').textContent  = name + '의 결과';
+  document.getElementById('resultScore').textContent = score + ' / 30';
+  let emoji, msg;
+  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! 수여동사·may·should 마스터! 👏'; }
+  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
+  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
+  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultMsg').textContent   = msg;
+}
+
+function retryTest() {
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  currentQ = 0; score = 0;
+  showQuestion();
+}
+</script>
+</body>
+</html>

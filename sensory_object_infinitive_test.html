@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>감각동사·목적어·to부정사 시험 – 잉글리시아이스쿨관</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; background: #f8faff; color: #1a1a1a; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #1d4ed8, #1e3a8a); color: #fff; padding: 22px 20px 18px; text-align: center; }
+  .header-sub { font-size: 11px; opacity: 0.8; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .header-title { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .header-desc { font-size: 12px; opacity: 0.8; }
+  .content { padding: 20px 16px; max-width: 520px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 14px; padding: 20px; margin-bottom: 16px; border: 1px solid #bfdbfe; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  label { font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 6px; margin-top: 14px; }
+  label:first-of-type { margin-top: 0; }
+  input[type=text], select { width: 100%; padding: 12px 14px; font-size: 15px; border: 1.5px solid #bfdbfe; border-radius: 10px; background: #fff; color: #1a1a1a; outline: none; }
+  input[type=text]:focus, select:focus { border-color: #1d4ed8; }
+  .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #1d4ed8, #1e3a8a); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+  .start-btn:disabled { background: #aaa; cursor: default; }
+
+  .progress-wrap { margin-bottom: 16px; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 12px; color: #888; }
+  .progress-score { font-size: 12px; font-weight: 600; color: #1d4ed8; }
+  .progress-bar { height: 6px; background: #bfdbfe; border-radius: 99px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #1d4ed8, #60a5fa); border-radius: 99px; transition: width 0.4s ease; }
+
+  .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .question-num { font-size: 11px; color: #1d4ed8; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
+  .badge-sense  { background: #fef3c7; color: #92400e; }
+  .badge-obj    { background: #d1fae5; color: #065f46; }
+  .badge-inf    { background: #ede9fe; color: #5b21b6; }
+  .badge-mixed  { background: #fce7f3; color: #9d174d; }
+  .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
+  .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #f8faff; border: 1.5px solid #bfdbfe; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
+  .option-btn:hover:not(:disabled) { background: #eff6ff; border-color: #1d4ed8; }
+  .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
+  .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
+  .option-btn:disabled { cursor: default; }
+
+  .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
+  .feedback.correct { background: #e6f9f0; color: #1a6640; }
+  .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
+
+  .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #1d4ed8, #1e3a8a); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+
+  .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .result-emoji { font-size: 52px; margin-bottom: 12px; }
+  .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .result-score { font-size: 42px; font-weight: 800; color: #1d4ed8; margin-bottom: 4px; }
+  .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
+  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #eff6ff; border-radius: 12px; margin-bottom: 20px; }
+  .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #1d4ed8, #1e3a8a); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div id="startScreen">
+  <div class="header">
+    <div class="header-sub">ENGLISH TEST</div>
+    <div class="header-title">감각동사 · 목적어 · to부정사 시험 📝</div>
+    <div class="header-desc">초등 4~5학년 · 30문제 · 객관식</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <label>이름</label>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요" oninput="checkReady()">
+      <label>반</label>
+      <select id="studentClass" onchange="checkReady()">
+        <option value="">반을 선택하세요</option>
+        <option>A반</option><option>B반</option><option>C반</option><option>D반</option>
+      </select>
+      <button class="start-btn" id="startBtn" disabled onclick="startTest()">시험 시작하기 →</button>
+    </div>
+  </div>
+</div>
+
+<div id="testScreen" class="hidden">
+  <div class="header">
+    <div class="header-sub" id="headerName"></div>
+    <div class="header-title">감각동사 · 목적어 · to부정사</div>
+  </div>
+  <div class="content">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label" id="progressLabel">1 / 30</span>
+        <span class="progress-score" id="progressScore">점수: 0</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="question-card">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;">
+        <div class="question-num" id="questionNum">Q1</div>
+        <div class="question-badge" id="questionBadge"></div>
+      </div>
+      <div class="question-text" id="questionText"></div>
+      <div class="question-sub" id="questionSub"></div>
+    </div>
+    <div class="options" id="optionsArea"></div>
+    <div class="feedback hidden" id="feedbackArea"></div>
+    <button class="next-btn hidden" id="nextBtn" onclick="nextQuestion()">다음 문제 →</button>
+  </div>
+</div>
+
+<div id="resultScreen" class="hidden">
+  <div class="header">
+    <div class="header-sub">RESULT</div>
+    <div class="header-title">시험 완료! 🎉</div>
+  </div>
+  <div class="content">
+    <div class="result-card">
+      <div class="result-emoji" id="resultEmoji"></div>
+      <div class="result-title" id="resultName"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-sub">30문제 중</div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+
+  // ── 감각동사 (1~10) ──────────────────────────────────────
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"다음 중 감각동사는?", sub:"",
+    options:["run","eat","look","jump"], answer:2 },
+
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"다음 중 감각동사끼리 묶인 것은?", sub:"",
+    options:["run – jump – swim","look – smell – taste","eat – drink – sleep","read – write – draw"], answer:1 },
+
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"감각동사 뒤에 오는 말로 알맞은 것은?", sub:"The soup smells ___.",
+    options:["deliciously","to delicious","delicious","delight"], answer:2 },
+
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"This cake tastes ___.",
+    options:["sweetly","to sweet","sweeting","sweet"], answer:3 },
+
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"She looks ___ today.",
+    options:["happily","to happy","happy","happiness"], answer:2 },
+
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"The music sounds ___.",
+    options:["beautifully","beauty","to beautiful","beautiful"], answer:3 },
+
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"The blanket feels ___.",
+    options:["softly","to soft","soft","softing"], answer:2 },
+
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["She looks beautifully.","The food smells goodly.","He looks tired.","It tastes sweetly."], answer:2 },
+
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"This flower smells nice.",
+    options:["이 꽃은 예쁘게 보인다.","이 꽃은 좋은 냄새가 난다.","이 꽃은 좋은 맛이 난다.","이 꽃은 부드럽게 느껴진다."], answer:1 },
+
+  { badge:"감각동사", badgeClass:"badge-sense",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["It sounds greatly.","The soup tastes delicious.","She feels happily.","He looks tiredly."], answer:1 },
+
+  // ── 일반동사의 목적어 (11~18) ────────────────────────────
+  { badge:"동사+목적어", badgeClass:"badge-obj",
+    q:"다음 문장에서 목적어를 고르세요.", sub:"I like pizza very much.",
+    options:["I","like","pizza","very"], answer:2 },
+
+  { badge:"동사+목적어", badgeClass:"badge-obj",
+    q:"다음 문장에서 목적어를 고르세요.", sub:"She reads books every night.",
+    options:["She","reads","books","every"], answer:2 },
+
+  { badge:"동사+목적어", badgeClass:"badge-obj",
+    q:"빈칸에 알맞은 목적어를 고르세요.", sub:"He drinks ___ every morning.",
+    options:["tired","slowly","milk","happily"], answer:2 },
+
+  { badge:"동사+목적어", badgeClass:"badge-obj",
+    q:"다음 중 목적어가 있는 문장은?", sub:"",
+    options:["She is happy.","He runs fast.","I love music.","They are tired."], answer:2 },
+
+  { badge:"동사+목적어", badgeClass:"badge-obj",
+    q:"다음 중 목적어가 없는 문장은?", sub:"",
+    options:["I eat rice.","She reads a book.","He swims fast.","They play soccer."], answer:2 },
+
+  { badge:"동사+목적어", badgeClass:"badge-obj",
+    q:"다음 문장에서 동사와 목적어를 바르게 짝지은 것은?", sub:"Tom watches TV after dinner.",
+    options:["Tom – watches","watches – TV","TV – after","after – dinner"], answer:1 },
+
+  { badge:"동사+목적어", badgeClass:"badge-obj",
+    q:"빈칸에 알맞은 목적어를 고르세요.", sub:"We need ___ for the test.",
+    options:["hard","quickly","a pencil","well"], answer:2 },
+
+  { badge:"동사+목적어", badgeClass:"badge-obj",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["She likes to happily.","I eat very.","He has a big dog.","They run a book."], answer:2 },
+
+  // ── to부정사 목적어 (19~28) ──────────────────────────────
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"동사 뒤에 또 다른 동사가 올 때 알맞은 형태는?", sub:"I want ___ pizza.",
+    options:["eat","eats","eating","to eat"], answer:3 },
+
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"She likes ___ books.",
+    options:["read","reads","to read","reading to"], answer:2 },
+
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"He needs ___ early.",
+    options:["wake up","wakes up","to wake up","waking"], answer:2 },
+
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"They decided ___ soccer.",
+    options:["play","plays","playing","to play"], answer:3 },
+
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"to부정사에서 to 뒤에 오는 동사의 형태는?", sub:"",
+    options:["동사원형","동사+ing","동사+s/es","동사+ed"], answer:0 },
+
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"다음 중 to부정사가 올바르게 쓰인 문장은?", sub:"",
+    options:["I want to eats lunch.","She hopes to be a doctor.","He likes to swims.","They need to studies."], answer:1 },
+
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"I love ___ music.",
+    options:["listen","listens","to listen to","to listening"], answer:2 },
+
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"She wants ___ a nurse.",
+    options:["be","is","to be","being"], answer:2 },
+
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"다음 중 to부정사가 올바르게 쓰인 문장은?", sub:"",
+    options:["He wants to goes home.","I need to buy some food.","She hopes to sings well.","They plan to runs together."], answer:1 },
+
+  { badge:"to부정사", badgeClass:"badge-inf",
+    q:"우리말 뜻에 맞는 영어 문장은?", sub:"나는 수영하는 것을 좋아한다.",
+    options:["I like swim.","I like swims.","I like to swim.","I like to swims."], answer:2 },
+
+  // ── 종합 (29~30) ─────────────────────────────────────────
+  { badge:"종합", badgeClass:"badge-mixed",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["The food smells well.","I want to play outside.","She looks happily.","He needs eat lunch."], answer:1 },
+
+  { badge:"종합", badgeClass:"badge-mixed",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["I hope to be a singer.","She looks beautifully.","He wants eat pizza.","They decide playing soccer."], answer:0 },
+];
+
+let currentQ = 0, score = 0, answered = false;
+
+function checkReady() {
+  const name = document.getElementById('studentName').value.trim();
+  const cls  = document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled = !(name && cls);
+}
+
+function startTest() {
+  const name = document.getElementById('studentName').value.trim();
+  const cls  = document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent = name + ' · ' + cls;
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  currentQ = 0; score = 0;
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  const q = questions[currentQ];
+  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
+  const badge = document.getElementById('questionBadge');
+  badge.textContent = q.badge;
+  badge.className   = 'question-badge ' + q.badgeClass;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('questionSub').textContent  = q.sub;
+  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
+  document.getElementById('progressScore').textContent = '점수: ' + score;
+  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+  document.getElementById('feedbackArea').classList.add('hidden');
+  document.getElementById('nextBtn').classList.add('hidden');
+
+  const area = document.getElementById('optionsArea');
+  area.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className   = 'option-btn';
+    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
+    btn.onclick = () => selectAnswer(i);
+    area.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q    = questions[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('feedbackArea');
+  if (idx === q.answer) {
+    score++;
+    btns[idx].classList.add('correct');
+    fb.className   = 'feedback correct';
+    fb.textContent = '✅ 정답이에요! 잘했어요!';
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.answer].classList.add('correct');
+    fb.className   = 'feedback wrong';
+    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+  }
+  fb.classList.remove('hidden');
+  document.getElementById('nextBtn').classList.remove('hidden');
+  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= 30) showResult();
+  else showQuestion();
+}
+
+function showResult() {
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  const name = document.getElementById('studentName').value.trim();
+  const pct  = Math.round(score / 30 * 100);
+  document.getElementById('resultName').textContent  = name + '의 결과';
+  document.getElementById('resultScore').textContent = score + ' / 30';
+  let emoji, msg;
+  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! 감각동사·목적어·to부정사 마스터! 👏'; }
+  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
+  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
+  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultMsg').textContent   = msg;
+}
+
+function retryTest() {
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  currentQ = 0; score = 0;
+  showQuestion();
+}
+</script>
+</body>
+</html>
