@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>지시·소유격·목적격 대명사 시험 – 잉글리시아이스쿨관</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; background: #f0f9ff; color: #1a1a1a; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #0e7490, #155e75); color: #fff; padding: 22px 20px 18px; text-align: center; }
+  .header-sub { font-size: 11px; opacity: 0.8; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .header-title { font-size: 21px; font-weight: 700; margin-bottom: 4px; }
+  .header-desc { font-size: 12px; opacity: 0.8; }
+  .content { padding: 20px 16px; max-width: 520px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 14px; padding: 20px; margin-bottom: 16px; border: 1px solid #a5f3fc; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  label { font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 6px; margin-top: 14px; }
+  label:first-of-type { margin-top: 0; }
+  input[type=text], select { width: 100%; padding: 12px 14px; font-size: 15px; border: 1.5px solid #a5f3fc; border-radius: 10px; background: #fff; color: #1a1a1a; outline: none; }
+  input[type=text]:focus, select:focus { border-color: #0e7490; }
+  .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #0e7490, #155e75); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+  .start-btn:disabled { background: #aaa; cursor: default; }
+
+  .progress-wrap { margin-bottom: 16px; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 12px; color: #888; }
+  .progress-score { font-size: 12px; font-weight: 600; color: #0e7490; }
+  .progress-bar { height: 6px; background: #a5f3fc; border-radius: 99px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #0e7490, #22d3ee); border-radius: 99px; transition: width 0.4s ease; }
+
+  .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+  .question-num { font-size: 11px; color: #0e7490; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
+  .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
+  .badge-dem   { background: #dbeafe; color: #1e40af; }
+  .badge-pos   { background: #d1fae5; color: #065f46; }
+  .badge-obj   { background: #ede9fe; color: #5b21b6; }
+  .badge-mixed { background: #fef3c7; color: #92400e; }
+  .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
+  .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
+
+  .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+  .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #f0f9ff; border: 1.5px solid #a5f3fc; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
+  .option-btn:hover:not(:disabled) { background: #e0f7fa; border-color: #0e7490; }
+  .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
+  .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
+  .option-btn:disabled { cursor: default; }
+
+  .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
+  .feedback.correct { background: #e6f9f0; color: #1a6640; }
+  .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
+
+  .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #0e7490, #155e75); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+
+  .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .result-emoji { font-size: 52px; margin-bottom: 12px; }
+  .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .result-score { font-size: 42px; font-weight: 800; color: #0e7490; margin-bottom: 4px; }
+  .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
+  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #f0f9ff; border-radius: 12px; margin-bottom: 20px; }
+  .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #0e7490, #155e75); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div id="startScreen">
+  <div class="header">
+    <div class="header-sub">ENGLISH TEST</div>
+    <div class="header-title">지시·소유격·목적격 대명사 시험 📝</div>
+    <div class="header-desc">초등 4~5학년 · 30문제 · 객관식</div>
+  </div>
+  <div class="content">
+    <div class="card">
+      <label>이름</label>
+      <input type="text" id="studentName" placeholder="이름을 입력하세요" oninput="checkReady()">
+      <label>반</label>
+      <select id="studentClass" onchange="checkReady()">
+        <option value="">반을 선택하세요</option>
+        <option>A반</option><option>B반</option><option>C반</option><option>D반</option>
+      </select>
+      <button class="start-btn" id="startBtn" disabled onclick="startTest()">시험 시작하기 →</button>
+    </div>
+  </div>
+</div>
+
+<div id="testScreen" class="hidden">
+  <div class="header">
+    <div class="header-sub" id="headerName"></div>
+    <div class="header-title">지시·소유격·목적격 대명사</div>
+  </div>
+  <div class="content">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label" id="progressLabel">1 / 30</span>
+        <span class="progress-score" id="progressScore">점수: 0</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="question-card">
+      <div style="display:flex;align-items:center;flex-wrap:wrap;">
+        <div class="question-num" id="questionNum">Q1</div>
+        <div class="question-badge" id="questionBadge"></div>
+      </div>
+      <div class="question-text" id="questionText"></div>
+      <div class="question-sub" id="questionSub"></div>
+    </div>
+    <div class="options" id="optionsArea"></div>
+    <div class="feedback hidden" id="feedbackArea"></div>
+    <button class="next-btn hidden" id="nextBtn" onclick="nextQuestion()">다음 문제 →</button>
+  </div>
+</div>
+
+<div id="resultScreen" class="hidden">
+  <div class="header">
+    <div class="header-sub">RESULT</div>
+    <div class="header-title">시험 완료! 🎉</div>
+  </div>
+  <div class="content">
+    <div class="result-card">
+      <div class="result-emoji" id="resultEmoji"></div>
+      <div class="result-title" id="resultName"></div>
+      <div class="result-score" id="resultScore"></div>
+      <div class="result-sub">30문제 중</div>
+      <div class="result-msg" id="resultMsg"></div>
+      <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const questions = [
+
+  // ── 지시대명사 this / that / these / those (1~10) ────────
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"'this'의 뜻으로 알맞은 것은?", sub:"",
+    options:["저것","그것들","이것","저것들"], answer:2 },
+
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"'those'의 뜻으로 알맞은 것은?", sub:"",
+    options:["이것","저것들","이것들","저것"], answer:1 },
+
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"빈칸에 알맞은 말을 고르세요. (가까이 있는 한 개)", sub:"___ is my pencil.",
+    options:["That","These","Those","This"], answer:3 },
+
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"빈칸에 알맞은 말을 고르세요. (멀리 있는 여러 개)", sub:"___ are my books.",
+    options:["This","That","Those","These"], answer:2 },
+
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"빈칸에 알맞은 말을 고르세요. (가까이 있는 여러 개)", sub:"___ are apples.",
+    options:["That","This","Those","These"], answer:3 },
+
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"That is a very big tree.",
+    options:["이것은 매우 큰 나무이다.","저것은 매우 큰 나무이다.","이것들은 매우 큰 나무이다.","저것들은 매우 큰 나무이다."], answer:1 },
+
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"우리말 뜻에 맞는 영어 문장은?", sub:"이것들은 내 신발이야.",
+    options:["This is my shoes.","That are my shoes.","These are my shoes.","Those is my shoes."], answer:2 },
+
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"These ___ my friends.",
+    options:["is","am","was","are"], answer:3 },
+
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"That ___ a nice car.",
+    options:["are","am","is","be"], answer:2 },
+
+  { badge:"지시대명사", badgeClass:"badge-dem",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["This are my cats.","Those is a dog.","These is fun.","Those are my classmates."], answer:3 },
+
+  // ── 소유격 (11~20) ───────────────────────────────────────
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"'my'의 뜻으로 알맞은 것은?", sub:"",
+    options:["나를","나의","나는","나에게"], answer:1 },
+
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"밑줄 친 부분의 소유격으로 알맞은 것은?", sub:"This is the bag of Tom.",
+    options:["Tom's bag","Toms bag","bag of Tom's","Toms' bag"], answer:0 },
+
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"She loves ___ cat. (그녀의)",
+    options:["she","her","hers","him"], answer:1 },
+
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"He forgot ___ homework. (그의)",
+    options:["him","he","his","her"], answer:2 },
+
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"We love ___ school. (우리의)",
+    options:["us","we","ours","our"], answer:3 },
+
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"They painted ___ room. (그들의)",
+    options:["them","they","theirs","their"], answer:3 },
+
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"I lost ___ umbrella. (나의)",
+    options:["me","I","my","mine"], answer:2 },
+
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"___ name is Minho. (그의)",
+    options:["He","Him","His","Her"], answer:2 },
+
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["She forgot her bag.","He lost he book.","They visited their grandmother.","I love I dog."], answer:2 },
+
+  { badge:"소유격", badgeClass:"badge-pos",
+    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"The dog wagged ___ tail. (그것의)",
+    options:["it","its","it's","their"], answer:1 },
+
+  // ── 목적격 (21~30) ───────────────────────────────────────
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"'him'의 뜻으로 알맞은 것은?", sub:"",
+    options:["그는","그의","그를/그에게","그것"], answer:2 },
+
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"I like ___. (그녀를)",
+    options:["she","her","hers","he"], answer:1 },
+
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"She called ___. (나를)",
+    options:["I","my","mine","me"], answer:3 },
+
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"Can you help ___? (우리를)",
+    options:["we","our","ours","us"], answer:3 },
+
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"I saw ___ at the park. (그들을)",
+    options:["they","their","theirs","them"], answer:3 },
+
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"She gave ___ a gift. (그에게)",
+    options:["he","his","him","her"], answer:2 },
+
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"밑줄 친 부분을 목적격으로 바꾼 것은?", sub:"I know Tom and Jane.",
+    options:["they","them","their","theirs"], answer:1 },
+
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"다음 중 올바른 문장은?", sub:"",
+    options:["She loves he.","I called she.","They helped us.","He saw I."], answer:2 },
+
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"빈칸에 알맞은 말을 고르세요.", sub:"My dog follows ___ everywhere. (나를)",
+    options:["I","my","me","mine"], answer:2 },
+
+  { badge:"목적격", badgeClass:"badge-obj",
+    q:"다음 표에서 주격→소유격→목적격 순서가 바른 것은?", sub:"",
+    options:["I → my → me","She → her → hers","He → his → him","They → their → theirs"], answer:2 },
+];
+
+let currentQ = 0, score = 0, answered = false;
+
+function checkReady() {
+  const name = document.getElementById('studentName').value.trim();
+  const cls  = document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled = !(name && cls);
+}
+
+function startTest() {
+  const name = document.getElementById('studentName').value.trim();
+  const cls  = document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent = name + ' · ' + cls;
+  document.getElementById('startScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  currentQ = 0; score = 0;
+  showQuestion();
+}
+
+function showQuestion() {
+  answered = false;
+  const q = questions[currentQ];
+  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
+  const badge = document.getElementById('questionBadge');
+  badge.textContent = q.badge;
+  badge.className   = 'question-badge ' + q.badgeClass;
+  document.getElementById('questionText').textContent = q.q;
+  document.getElementById('questionSub').textContent  = q.sub;
+  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
+  document.getElementById('progressScore').textContent = '점수: ' + score;
+  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+  document.getElementById('feedbackArea').classList.add('hidden');
+  document.getElementById('nextBtn').classList.add('hidden');
+
+  const area = document.getElementById('optionsArea');
+  area.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className   = 'option-btn';
+    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
+    btn.onclick = () => selectAnswer(i);
+    area.appendChild(btn);
+  });
+}
+
+function selectAnswer(idx) {
+  if (answered) return;
+  answered = true;
+  const q    = questions[currentQ];
+  const btns = document.querySelectorAll('.option-btn');
+  btns.forEach(b => b.disabled = true);
+  const fb = document.getElementById('feedbackArea');
+  if (idx === q.answer) {
+    score++;
+    btns[idx].classList.add('correct');
+    fb.className   = 'feedback correct';
+    fb.textContent = '✅ 정답이에요! 잘했어요!';
+  } else {
+    btns[idx].classList.add('wrong');
+    btns[q.answer].classList.add('correct');
+    fb.className   = 'feedback wrong';
+    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+  }
+  fb.classList.remove('hidden');
+  document.getElementById('nextBtn').classList.remove('hidden');
+  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+}
+
+function nextQuestion() {
+  currentQ++;
+  if (currentQ >= 30) showResult();
+  else showQuestion();
+}
+
+function showResult() {
+  document.getElementById('testScreen').classList.add('hidden');
+  document.getElementById('resultScreen').classList.remove('hidden');
+  const name = document.getElementById('studentName').value.trim();
+  const pct  = Math.round(score / 30 * 100);
+  document.getElementById('resultName').textContent  = name + '의 결과';
+  document.getElementById('resultScore').textContent = score + ' / 30';
+  let emoji, msg;
+  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! 대명사 마스터! 정말 대단해요! 👏'; }
+  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
+  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
+  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultMsg').textContent   = msg;
+}
+
+function retryTest() {
+  document.getElementById('resultScreen').classList.add('hidden');
+  document.getElementById('testScreen').classList.remove('hidden');
+  currentQ = 0; score = 0;
+  showQuestion();
+}
+</script>
+</body>
+</html>
