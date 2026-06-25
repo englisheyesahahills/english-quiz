@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>매일 영어 복습 퀴즈 Unit 1~11</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; background: #f0f4ff; color: #1a1a1a; min-height: 100vh; }
+
+/* ── 로그인 화면 ── */
+.login-wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; }
+.login-box { background: #fff; border-radius: 20px; padding: 32px 24px; max-width: 400px; width: 100%; box-shadow: 0 4px 24px rgba(37,99,235,0.10); }
+.login-logo { font-size: 40px; text-align: center; margin-bottom: 8px; }
+.login-title { font-size: 20px; font-weight: 800; text-align: center; color: #1e40af; margin-bottom: 4px; }
+.login-sub   { font-size: 13px; color: #94a3b8; text-align: center; margin-bottom: 24px; }
+.login-label { font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 6px; display: block; }
+.login-input { width: 100%; padding: 13px 14px; font-size: 15px; border: 1.5px solid #e2e8f0; border-radius: 10px; outline: none; margin-bottom: 14px; background: #f8faff; }
+.login-input:focus { border-color: #2563eb; background: #fff; }
+.class-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 20px; }
+.class-btn { padding: 10px 0; font-size: 14px; font-weight: 700; border: 2px solid #e2e8f0; border-radius: 10px; background: #f8faff; cursor: pointer; color: #475569; transition: all 0.12s; }
+.class-btn.selected { background: #2563eb; color: #fff; border-color: #2563eb; }
+.start-quiz-btn { width: 100%; padding: 15px; font-size: 16px; font-weight: 800; background: linear-gradient(135deg,#2563eb,#1e40af); color: #fff; border: none; border-radius: 12px; cursor: pointer; letter-spacing: 0.3px; }
+.start-quiz-btn:disabled { background: #cbd5e1; cursor: default; }
+
+/* ── 메인 화면 ── */
+.main-header { background: linear-gradient(135deg,#2563eb,#1e40af); color: #fff; padding: 22px 20px 18px; }
+.main-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+.main-header h1 { font-size: 18px; font-weight: 800; }
+.user-badge { font-size: 13px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 99px; font-weight: 700; }
+.main-header p  { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.unit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; max-width: 520px; margin: 0 auto; }
+.unit-card { background: #fff; border-radius: 14px; padding: 15px 13px; cursor: pointer; border: 2px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.15s; }
+.unit-card:hover { border-color: #2563eb; background: #eff6ff; }
+.unit-num  { font-size: 10px; font-weight: 700; color: #2563eb; margin-bottom: 3px; letter-spacing: 0.5px; }
+.unit-name { font-size: 13px; font-weight: 700; color: #1e293b; line-height: 1.4; }
+.unit-sub  { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+.unit-done { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; margin-top: 5px; }
+.done-perfect { background: #dcfce7; color: #16a34a; }
+.done-good    { background: #dbeafe; color: #1e40af; }
+.done-try     { background: #fef3c7; color: #92400e; }
+
+/* ── 개념 화면 ── */
+.concept-wrap { max-width: 520px; margin: 0 auto; }
+.concept-header { background: linear-gradient(135deg,#2563eb,#1e40af); color: #fff; padding: 18px 20px 14px; }
+.concept-header-top { display: flex; align-items: center; gap: 10px; }
+.back-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; font-size: 18px; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; flex-shrink: 0; }
+.concept-title { font-size: 16px; font-weight: 700; }
+.concept-body { padding: 16px; }
+.concept-card { background: #fff; border-radius: 14px; padding: 18px 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.concept-card h3 { font-size: 14px; font-weight: 800; color: #1e40af; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.concept-card p  { font-size: 13px; color: #475569; line-height: 1.7; margin-bottom: 6px; }
+.concept-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+.concept-table th { background: #eff6ff; color: #1e40af; font-weight: 700; padding: 7px 10px; border: 1px solid #dbeafe; }
+.concept-table td { padding: 7px 10px; border: 1px solid #e2e8f0; color: #334155; }
+.concept-example { background: #f0f9ff; border-left: 3px solid #2563eb; padding: 10px 12px; border-radius: 0 8px 8px 0; font-size: 13px; color: #1e3a8a; font-style: italic; margin: 6px 0; line-height: 1.7; }
+.start-btn-green { width: 100%; padding: 15px; font-size: 15px; font-weight: 800; background: linear-gradient(135deg,#059669,#047857); color: #fff; border: none; border-radius: 12px; cursor: pointer; margin-top: 4px; }
+
+/* ── 퀴즈 화면 ── */
+.quiz-wrap { max-width: 520px; margin: 0 auto; }
+.quiz-header { background: linear-gradient(135deg,#2563eb,#1e40af); color: #fff; padding: 18px 20px 14px; }
+.quiz-header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.quiz-title { font-size: 15px; font-weight: 700; }
+.score-badge { font-size: 12px; background: rgba(255,255,255,0.2); padding: 3px 9px; border-radius: 99px; margin-left: auto; }
+.prog-bar { height: 5px; background: rgba(255,255,255,0.3); border-radius: 99px; }
+.prog-fill { height: 100%; background: #fff; border-radius: 99px; transition: width 0.4s; }
+.quiz-body { padding: 16px; }
+.q-card { background: #fff; border-radius: 14px; padding: 20px 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.q-num  { font-size: 11px; color: #2563eb; font-weight: 700; margin-bottom: 5px; }
+.q-tag  { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-left: 5px; background: #dbeafe; color: #1e40af; }
+.q-text { font-size: 15px; font-weight: 700; line-height: 1.5; margin-top: 4px; }
+.q-sub  { font-size: 14px; color: #334155; margin-top: 7px; font-style: italic; }
+.opts { display: flex; flex-direction: column; gap: 9px; margin-top: 2px; }
+.opt  { width: 100%; padding: 12px 14px; font-size: 14px; font-weight: 500; background: #f8faff; border: 1.5px solid #e2e8f0; border-radius: 11px; cursor: pointer; text-align: left; transition: all 0.12s; color: #1a1a1a; }
+.opt:hover:not(:disabled) { background: #eff6ff; border-color: #2563eb; }
+.opt.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
+.opt.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
+.opt:disabled { cursor: default; }
+.arrange-hint { font-size: 12px; color: #888; margin: 4px 0 8px; }
+.word-pool { display: flex; flex-wrap: wrap; gap: 7px; min-height: 38px; margin-bottom: 8px; }
+.word-chip { padding: 7px 11px; font-size: 13px; font-weight: 700; background: #dbeafe; color: #1e40af; border-radius: 8px; cursor: pointer; border: 2px solid #93c5fd; transition: all 0.12s; user-select: none; }
+.word-chip:hover { background: #bfdbfe; }
+.word-chip.used { opacity: 0.28; pointer-events: none; }
+.answer-box { min-height: 42px; border: 2px dashed #93c5fd; border-radius: 10px; padding: 7px 9px; display: flex; flex-wrap: wrap; gap: 7px; background: #f8faff; margin-bottom: 8px; }
+.placed-chip { padding: 7px 11px; font-size: 13px; font-weight: 700; background: #2563eb; color: #fff; border-radius: 8px; cursor: pointer; }
+.check-btn { width: 100%; padding: 12px; font-size: 14px; font-weight: 700; background: #2563eb; color: #fff; border: none; border-radius: 10px; cursor: pointer; margin-bottom: 8px; }
+.check-btn:disabled { background: #cbd5e1; cursor: default; }
+.fb { padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.fb.correct { background: #e6f9f0; color: #1a6640; }
+.fb.wrong   { background: #fff0f0; color: #b91c1c; }
+.next-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg,#2563eb,#1e40af); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+
+/* ── 결과 화면 ── */
+.result-body { padding: 24px 16px; }
+.result-box { background: #fff; border-radius: 20px; padding: 28px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); text-align: center; }
+.r-emoji { font-size: 50px; margin-bottom: 10px; }
+.r-unit  { font-size: 13px; color: #64748b; margin-bottom: 4px; }
+.r-score { font-size: 48px; font-weight: 900; color: #2563eb; }
+.r-sub   { font-size: 13px; color: #888; margin-bottom: 14px; }
+.r-msg   { font-size: 14px; color: #444; padding: 12px; background: #eff6ff; border-radius: 10px; margin-bottom: 18px; line-height: 1.6; }
+.r-notion { background: #f1f5f9; border-radius: 12px; padding: 14px; margin-bottom: 16px; text-align: left; }
+.r-notion-title { font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 8px; }
+.r-notion-row { display: flex; justify-content: space-between; font-size: 13px; padding: 3px 0; border-bottom: 1px solid #e2e8f0; }
+.r-notion-row:last-child { border-bottom: none; }
+.r-btns { display: flex; gap: 10px; }
+.r-retry { flex:1; padding: 13px; font-size: 14px; font-weight: 700; background: #eff6ff; color: #2563eb; border: 2px solid #2563eb; border-radius: 11px; cursor: pointer; }
+.r-home  { flex:1; padding: 13px; font-size: 14px; font-weight: 700; background: linear-gradient(135deg,#2563eb,#1e40af); color: #fff; border: none; border-radius: 11px; cursor: pointer; }
+.notion-send-btn { width: 100%; padding: 12px; font-size: 14px; font-weight: 700; background: #000; color: #fff; border: none; border-radius: 10px; cursor: pointer; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+.notion-send-btn:disabled { background: #94a3b8; cursor: default; }
+.notion-ok { font-size: 12px; color: #16a34a; font-weight: 700; text-align: center; margin-bottom: 10px; }
+
+.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ══ 로그인 ══ -->
+<div id="loginScreen" class="login-wrap">
+  <div class="login-box">
+    <div class="login-logo">📚</div>
+    <div class="login-title">매일 영어 복습 퀴즈</div>
+    <div class="login-sub">이름과 반을 선택하고 시작해요!</div>
+    <label class="login-label">이름</label>
+    <input class="login-input" id="nameInput" placeholder="이름을 입력하세요" oninput="checkLogin()">
+    <label class="login-label">반</label>
+    <div class="class-grid">
+      <button class="class-btn" onclick="selectClass('A')">A반</button>
+      <button class="class-btn" onclick="selectClass('B')">B반</button>
+      <button class="class-btn" onclick="selectClass('C')">C반</button>
+      <button class="class-btn" onclick="selectClass('D')">D반</button>
+    </div>
+    <button class="start-quiz-btn" id="loginBtn" disabled onclick="doLogin()">퀴즈 시작하기 →</button>
+  </div>
+</div>
+
+<!-- ══ 메인 ══ -->
+<div id="mainScreen" class="hidden">
+  <div class="main-header">
+    <div class="main-header-top">
+      <h1>📚 매일 영어 복습</h1>
+      <div class="user-badge" id="userBadge"></div>
+    </div>
+    <p>Unit을 선택해서 개념 학습 → 퀴즈 도전!</p>
+  </div>
+  <div class="unit-grid" id="unitGrid"></div>
+</div>
+
+<!-- ══ 개념 ══ -->
+<div id="conceptScreen" class="hidden">
+  <div class="concept-wrap">
+    <div class="concept-header">
+      <div class="concept-header-top">
+        <button class="back-btn" onclick="goMain()">←</button>
+        <div class="concept-title" id="conceptTitle"></div>
+      </div>
+    </div>
+    <div class="concept-body" id="conceptBody"></div>
+  </div>
+</div>
+
+<!-- ══ 퀴즈 ══ -->
+<div id="quizScreen" class="hidden">
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <div class="quiz-header-top">
+        <button class="back-btn" onclick="goMain()">←</button>
+        <div class="quiz-title" id="quizTitle"></div>
+        <div class="score-badge" id="scoreBadge">0 / 6</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="quiz-body" id="quizBody"></div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════════════
+// 유닛 데이터
+// ════════════════════════════════════════════════
+const units = [
+ {
+  num:1, name:"주격 인칭대명사", sub:"I / He / She / They …",
+  concept:[
+   { icon:"💡", title:"주격 인칭대명사란?",
+     body:"문장에서 주어 자리에 오는 대명사예요. 사람이나 사물 이름 대신 쓸 수 있어요.",
+     table:{ heads:["인칭","단수","복수"], rows:[["1인칭","I (나)","We (우리)"],["2인칭","You (너)","You (너희)"],["3인칭","He/She/It","They (그들)"]] } },
+   { icon:"📝", title:"예문",
+     ex:["Tom → He is my friend.\n(Tom은 → 그는 내 친구야.)", "Jane and I → We are students.\n(Jane과 나 → 우리는 학생이야.)", "The cat → It is cute.\n(그 고양이 → 그것은 귀여워.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"'그녀'를 나타내는 주격 인칭대명사는?", opts:["He","She","It","They"], a:1 },
+   { type:"mc", q:"Tom을 대명사로 바꾼 것은?", opts:["She","It","He","They"], a:2 },
+   { type:"mc", q:"'나와 내 친구들'을 대명사로 바꾼 것은?", opts:["I","He","We","They"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그것은 내 가방이야.)", words:["my","It","bag.","is"], answer:"It is my bag." },
+   { type:"mc", q:"Jane and Tom을 대명사로 바꾼 것은?", opts:["He","She","It","They"], a:3 },
+   { type:"mc", q:"다음 중 주격 인칭대명사가 아닌 것은?", opts:["I","We","My","They"], a:2 },
+  ]
+ },
+ {
+  num:2, name:"be동사", sub:"am / is / are",
+  concept:[
+   { icon:"💡", title:"be동사 규칙",
+     body:"주어에 따라 be동사 형태가 달라져요!",
+     table:{ heads:["주어","be동사"], rows:[["I","am"],["He / She / It","is"],["You / We / They","are"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I am a student.  (나는 학생이야.)", "She is kind.  (그녀는 친절해.)", "They are my friends.  (그들은 내 친구야.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"빈칸에 알맞은 be동사는? 'I ___ a student.'", opts:["is","are","am","be"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 be동사는? 'She ___ kind.'", opts:["am","are","be","is"], a:3 },
+   { type:"mc", q:"빈칸에 알맞은 be동사는? 'They ___ my friends.'", opts:["am","is","are","be"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그는 내 남동생이야.)", words:["He","my","is","brother."], answer:"He is my brother." },
+   { type:"mc", q:"다음 중 올바른 문장은?", opts:["I are happy.","She am tall.","He is my brother.","They is funny."], a:2 },
+   { type:"mc", q:"'We ___ best friends.' 빈칸에 알맞은 것은?", opts:["is","am","be","are"], a:3 },
+  ]
+ },
+ {
+  num:3, name:"be동사 부정문", sub:"am not / isn't / aren't",
+  concept:[
+   { icon:"💡", title:"be동사 부정문 만들기",
+     body:"be동사 바로 뒤에 not을 붙여요!",
+     table:{ heads:["긍정문","부정문","줄임말"], rows:[["I am","I am not","(줄임 없음)"],["She is","She is not","She isn't"],["They are","They are not","They aren't"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I am not tired.  (나는 피곤하지 않아.)", "He isn't a doctor.  (그는 의사가 아니야.)", "They aren't my classmates.  (그들은 내 반 친구가 아니야.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"'I am not tired.'의 뜻은?", opts:["나는 피곤하다.","나는 피곤하지 않다.","나는 피곤할 수 있다.","나는 피곤해야 한다."], a:1 },
+   { type:"mc", q:"'He is not a doctor.'를 줄인 형태는?", opts:["He amn't a doctor.","He isn't a doctor.","He aren't a doctor.","He don't a doctor."], a:1 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그들은 내 반 친구가 아니야.)", words:["They","my","aren't","classmates."], answer:"They aren't my classmates." },
+   { type:"mc", q:"빈칸에 알맞은 것은? 'She ___ from Korea.'", opts:["aren't","am not","isn't","don't"], a:2 },
+   { type:"mc", q:"다음 중 올바른 부정문은?", opts:["I isn't a singer.","We amn't late.","He aren't my friend.","You aren't wrong."], a:3 },
+   { type:"mc", q:"빈칸에 알맞은 것은? 'We ___ in the same class.'", opts:["isn't","am not","is not","aren't"], a:3 },
+  ]
+ },
+ {
+  num:4, name:"be동사 의문문", sub:"Are you~? / Is he~?",
+  concept:[
+   { icon:"💡", title:"be동사 의문문 만들기",
+     body:"be동사를 주어 앞으로 보내요!",
+     table:{ heads:["평서문","의문문","대답"], rows:[["I am~","Am I~?","Yes, you are. / No, you aren't."],["She is~","Is she~?","Yes, she is. / No, she isn't."],["They are~","Are they~?","Yes, they are. / No, they aren't."]] } },
+   { icon:"📝", title:"예문",
+     ex:["Are you okay?  →  Yes, I am. / No, I'm not.", "Is he your brother?  →  Yes, he is. / No, he isn't.", "Are they students?  →  Yes, they are. / No, they aren't."] }
+  ],
+  qs:[
+   { type:"mc", q:"'(너는 행복하니?)'에 알맞은 의문문은?", opts:["Do you happy?","You are happy?","Are you happy?","Is you happy?"], a:2 },
+   { type:"mc", q:"'(그녀는 선생님이니?)'에 알맞은 의문문은?", opts:["Does she a teacher?","Is she a teacher?","Are she a teacher?","She is a teacher?"], a:1 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그들은 형제니?)", words:["Are","brothers?","they"], answer:"Are they brothers?" },
+   { type:"mc", q:"'Are you okay?'에 알맞은 대답은?", opts:["Yes, I am.","Yes, I do.","Yes, I is.","Yes, you are."], a:0 },
+   { type:"mc", q:"'Is she your sister?'에 알맞은 부정 대답은?", opts:["No, she don't.","No, she isn't.","No, she aren't.","No, she doesn't."], a:1 },
+   { type:"mc", q:"빈칸에 알맞은 것은? '___ he from Canada?'", opts:["Are","Am","Do","Is"], a:3 },
+  ]
+ },
+ {
+  num:5, name:"지시대명사", sub:"this / that / these / those",
+  concept:[
+   { icon:"💡", title:"지시대명사 한눈에 보기",
+     body:"가깝고 멀고, 하나와 여럿을 구별해요!",
+     table:{ heads:["","가까이","멀리"], rows:[["한 개","this (이것)","that (저것)"],["여러 개","these (이것들)","those (저것들)"]] } },
+   { icon:"📝", title:"예문",
+     ex:["This is my pencil.  (이것은 내 연필이야.)", "Those are my books.  (저것들은 내 책이야.)", "These are apples.  →  are 사용 (복수!)"] }
+  ],
+  qs:[
+   { type:"mc", q:"가까이 있는 한 개를 가리킬 때 쓰는 말은?", opts:["That","These","Those","This"], a:3 },
+   { type:"mc", q:"'저것들은 내 신발이야.'에 알맞은 문장은?", opts:["This are my shoes.","That is my shoes.","These are my shoes.","Those are my shoes."], a:3 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(이것들은 사과야.)", words:["These","apples.","are"], answer:"These are apples." },
+   { type:"mc", q:"'That is a very big tree.'의 뜻은?", opts:["이것은 매우 큰 나무이다.","저것은 매우 큰 나무이다.","이것들은 매우 큰 나무이다.","저것들은 매우 큰 나무이다."], a:1 },
+   { type:"mc", q:"빈칸에 알맞은 be동사는? 'These ___ my friends.'", opts:["is","am","was","are"], a:3 },
+   { type:"mc", q:"다음 중 올바른 문장은?", opts:["This are my cats.","Those is a dog.","These is fun.","Those are my classmates."], a:3 },
+  ]
+ },
+ {
+  num:6, name:"소유격 인칭대명사", sub:"my / your / his / her / our / their",
+  concept:[
+   { icon:"💡", title:"소유격 – '~의' 라는 뜻",
+     body:"명사 앞에 붙어서 누구의 것인지 알려줘요.",
+     table:{ heads:["주격","소유격","뜻"], rows:[["I","my","나의"],["He","his","그의"],["She","her","그녀의"],["We","our","우리의"],["They","their","그들의"],["It","its","그것의"]] } },
+   { icon:"📝", title:"예문",
+     ex:["This is my bag.  (이것은 내 가방이야.)", "She lost her umbrella.  (그녀는 우산을 잃어버렸어.)", "His name is Minho.  (그의 이름은 민호야.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"빈칸에 알맞은 소유격은? 'She loves ___ cat. (그녀의)'", opts:["she","her","hers","him"], a:1 },
+   { type:"mc", q:"빈칸에 알맞은 소유격은? 'He forgot ___ homework. (그의)'", opts:["him","he","his","her"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그의 이름은 민호야.)", words:["His","Minho.","name","is"], answer:"His name is Minho." },
+   { type:"mc", q:"빈칸에 알맞은 소유격은? 'We love ___ school. (우리의)'", opts:["us","we","ours","our"], a:3 },
+   { type:"mc", q:"'This is the bag of Tom.'을 소유격으로 바꾼 것은?", opts:["Tom's bag","Toms bag","bag of Tom's","Toms' bag"], a:0 },
+   { type:"mc", q:"다음 중 올바른 문장은?", opts:["She forgot her bag.","He lost he book.","They visited their grandmother.","I love I dog."], a:2 },
+  ]
+ },
+ {
+  num:7, name:"목적격 인칭대명사", sub:"me / him / her / us / them",
+  concept:[
+   { icon:"💡", title:"목적격 – '~을/를, ~에게' 라는 뜻",
+     body:"동사 뒤 목적어 자리에 써요.",
+     table:{ heads:["주격","목적격","뜻"], rows:[["I","me","나를/나에게"],["He","him","그를/그에게"],["She","her","그녀를/그녀에게"],["We","us","우리를/우리에게"],["They","them","그들을/그들에게"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I like her.  (나는 그녀를 좋아해.)", "She called me.  (그녀는 나를 불렀어.)", "Can you help us?  (우리를 도와줄 수 있어?)"] }
+  ],
+  qs:[
+   { type:"mc", q:"'him'의 뜻으로 알맞은 것은?", opts:["그는","그의","그를/그에게","그것"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 목적격은? 'I like ___. (그녀를)'", opts:["she","her","hers","he"], a:1 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그녀는 나를 불렀어.)", words:["She","me.","called"], answer:"She called me." },
+   { type:"mc", q:"빈칸에 알맞은 목적격은? 'Can you help ___? (우리를)'", opts:["we","our","ours","us"], a:3 },
+   { type:"mc", q:"다음 중 올바른 문장은?", opts:["She loves he.","I called she.","They helped us.","He saw I."], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 목적격은? 'She gave ___ a gift. (그에게)'", opts:["he","his","him","her"], a:2 },
+  ]
+ },
+ {
+  num:8, name:"소유대명사", sub:"mine / his / hers / ours / theirs",
+  concept:[
+   { icon:"💡", title:"소유대명사 – '~의 것' 이라는 뜻",
+     body:"소유격 + 명사를 한 단어로 줄인 거예요!",
+     table:{ heads:["소유격+명사","소유대명사","뜻"], rows:[["my bag","mine","내 것"],["his bag","his","그의 것"],["her bag","hers","그녀의 것"],["our bag","ours","우리 것"],["their bag","theirs","그들의 것"]] } },
+   { icon:"📝", title:"예문",
+     ex:["This bag is mine.  (이 가방은 내 것이야.)", "That bike is his.  (저 자전거는 그의 것이야.)", "A: Is this yours?  B: Yes, it's mine."] }
+  ],
+  qs:[
+   { type:"mc", q:"'mine'의 뜻으로 알맞은 것은?", opts:["나의","나를","내 것","나는"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 소유대명사는? 'This bag is ___. (나의 것)'", opts:["my","me","mine","I"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(저 자전거는 그의 것이야.)", words:["That","his.","bike","is"], answer:"That bike is his." },
+   { type:"mc", q:"빈칸에 알맞은 소유대명사는? 'These gloves are ___. (그녀의 것)'", opts:["she","her","hers","him"], a:2 },
+   { type:"mc", q:"다음 중 소유대명사가 올바르게 쓰인 문장은?", opts:["That coat is her.","This book is my.","These toys are theirs.","That car is he."], a:2 },
+   { type:"mc", q:"소유대명사끼리 바르게 묶인 것은?", opts:["my – her – their","mine – hers – theirs","me – him – them","I – she – they"], a:1 },
+  ]
+ },
+ {
+  num:9, name:"there + be동사 긍정·부정", sub:"There is / There are / isn't / aren't",
+  concept:[
+   { icon:"💡", title:"There is / There are",
+     body:"'~이 있다'는 표현이에요. 뒤에 오는 명사가 단수면 is, 복수면 are를 써요!",
+     table:{ heads:["구분","긍정","부정"], rows:[["단수 (1개)","There is~","There isn't~"],["복수 (여러개)","There are~","There aren't~"]] } },
+   { icon:"📝", title:"예문",
+     ex:["There is a cat on the sofa.  (소파 위에 고양이가 있어.)", "There are two books on the desk.  (책상 위에 책이 두 권 있어.)", "There isn't a dog in the yard.  (마당에 개가 없어.)", "There aren't any students.  (학생들이 없어.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"빈칸에 알맞은 말은? '___ a cat on the sofa.'", opts:["There are","There is","There am","There be"], a:1 },
+   { type:"mc", q:"빈칸에 알맞은 말은? '___ two books on the desk.'", opts:["There is","There am","There are","There be"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(냉장고 안에 달걀이 있어.)", words:["There","an","is","egg","the","in","fridge."], answer:"There is an egg in the fridge." },
+   { type:"mc", q:"'There is not'의 줄임말로 알맞은 것은?", opts:["There isn't","There aren't","There don't","There not is"], a:0 },
+   { type:"mc", q:"알맞은 부정문은? '책상 위에 연필이 없다.'", opts:["There are not a pencil.","There isn't a pencil on the desk.","There don't a pencil.","There not is a pencil."], a:1 },
+   { type:"mc", q:"다음 중 올바른 문장은?", opts:["There are a dog.","There is three cats.","There is a bird in the tree.","There am some flowers."], a:2 },
+  ]
+ },
+ {
+  num:10, name:"there + be동사 의문문", sub:"Is there~? / Are there~?",
+  concept:[
+   { icon:"💡", title:"There is/are 의문문 만들기",
+     body:"is/are를 there 앞으로 보내요!",
+     table:{ heads:["평서문","의문문","긍정 대답","부정 대답"], rows:[["There is~","Is there~?","Yes, there is.","No, there isn't."],["There are~","Are there~?","Yes, there are.","No, there aren't."]] } },
+   { icon:"📝", title:"예문",
+     ex:["Is there a bank near here?  (근처에 은행이 있니?)\n→ Yes, there is. / No, there isn't.", "Are there any books on the shelf?  (선반에 책이 있니?)\n→ Yes, there are. / No, there aren't."] }
+  ],
+  qs:[
+   { type:"mc", q:"알맞은 의문문은? '___ there a cat?'", opts:["Are","Do","Is","Does"], a:2 },
+   { type:"mc", q:"'There are three windows.'를 의문문으로 바꾼 것은?", opts:["Is there three windows?","Are there three windows?","Do there three windows?","There are three windows?"], a:1 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(근처에 공원이 있니?)", words:["Is","a","there","nearby?","park"], answer:"Is there a park nearby?" },
+   { type:"mc", q:"'Is there a dog in the yard?'에 알맞은 긍정 대답은?", opts:["Yes, there do.","Yes, there is.","Yes, there are.","Yes, it does."], a:1 },
+   { type:"mc", q:"'Are there any chairs?'에 알맞은 부정 대답은?", opts:["No, there isn't.","No, it isn't.","No, there aren't.","No, they aren't."], a:2 },
+   { type:"mc", q:"다음 중 올바른 의문문은?", opts:["Is there any books?","Are there any books on the shelf?","Do there any books?","There are books?"], a:1 },
+  ]
+ },
+ {
+  num:11, name:"there + be동사 + 위치 전치사", sub:"on / in / under / next to / behind / in front of",
+  concept:[
+   { icon:"💡", title:"위치 전치사 한눈에 보기",
+     table:{ heads:["전치사","뜻","예시"], rows:[["on","~ 위에 (접촉)","on the desk"],["in","~ 안에","in the bag"],["under","~ 아래에","under the bed"],["next to","~ 옆에","next to the window"],["behind","~ 뒤에","behind the door"],["in front of","~ 앞에","in front of the school"]] } },
+   { icon:"📝", title:"예문",
+     ex:["There is a cat on the sofa.  (소파 위에 고양이가 있어.)", "There are books in the bag.  (가방 안에 책이 있어.)", "There is a ball under the table.  (테이블 아래에 공이 있어.)", "There is a park next to my house.  (우리 집 옆에 공원이 있어.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"'on'의 뜻으로 알맞은 것은?", opts:["~ 안에","~ 위에 (접촉)","~ 아래에","~ 옆에"], a:1 },
+   { type:"mc", q:"'(소파 위에)' There is a cat ___ the sofa.", opts:["in","under","on","behind"], a:2 },
+   { type:"mc", q:"'(테이블 아래에)' There is a ball ___ the table.", opts:["on","in","next to","under"], a:3 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(침대 아래에 상자가 있어.)", words:["There","a","is","box","the","under","bed."], answer:"There is a box under the bed." },
+   { type:"mc", q:"'There is a dog behind the door.'의 뜻은?", opts:["문 앞에 개가 있다.","문 옆에 개가 있다.","문 위에 개가 있다.","문 뒤에 개가 있다."], a:3 },
+   { type:"mc", q:"'(우리 집 옆에)' There is a park ___ my house.", opts:["in","on","behind","next to"], a:3 },
+  ]
+ },
+];
+
+// ════════════════════════════════════════════════
+// Notion 연동
+// ════════════════════════════════════════════════
+const NOTION_API = "https://api.anthropic.com/v1/messages";
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzuyHvfimLJqJV-0Q1c6LFvOiOQyl0An424E3yNHxiUEbpGv8-ztZsFKxdTep39cTHd/exec";
+
+async function sendToNotion(userName, userClass, unitNum, unitName, score, total) {
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  try {
+    const res = await fetch(SHEET_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: userName,
+        class: userClass + "반",
+        unit: "Unit " + unitNum + " " + unitName,
+        score: score,
+        datetime: dateStr + " " + timeStr
+      })
+    });
+    const data = await res.json();
+    return data.result === "success";
+  } catch(e) { return false; }
+}
+
+// ════════════════════════════════════════════════
+// 상태
+// ════════════════════════════════════════════════
+let userName='', userClass='', curUnit=0, curQ=0, score=0, answered=false;
+let placed=[], usedIdx=[];
+
+function getKey(){ return `quiz_${userName}_${userClass}`; }
+function getRecord(){ try{ return JSON.parse(localStorage.getItem(getKey())||'{}'); }catch(e){return{};} }
+function saveRecord(uNum,sc){ const r=getRecord(); r[uNum]=sc; try{ localStorage.setItem(getKey(),JSON.stringify(r)); }catch(e){} }
+
+// ════════════════════════════════════════════════
+// 로그인
+// ════════════════════════════════════════════════
+function selectClass(c){
+  userClass=c;
+  document.querySelectorAll('.class-btn').forEach(b=>{ b.classList.toggle('selected', b.textContent===c+'반'); });
+  checkLogin();
+}
+function checkLogin(){
+  const n=document.getElementById('nameInput').value.trim();
+  document.getElementById('loginBtn').disabled=!(n&&userClass);
+}
+function doLogin(){
+  userName=document.getElementById('nameInput').value.trim();
+  show('mainScreen'); hide('loginScreen');
+  renderMain();
+}
+
+// ════════════════════════════════════════════════
+// 메인
+// ════════════════════════════════════════════════
+function renderMain(){
+  document.getElementById('userBadge').textContent=`${userName} · ${userClass}반`;
+  const rec=getRecord();
+  const grid=document.getElementById('unitGrid');
+  grid.innerHTML='';
+  units.forEach((u,i)=>{
+    const sc=rec[u.num];
+    let doneHtml='';
+    if(sc!==undefined){
+      const cls=sc>=5?'done-perfect':sc>=3?'done-good':'done-try';
+      doneHtml=`<div class="unit-done ${cls}">${sc===6?'⭐ 만점!':'✓ '+sc+'/6'}</div>`;
+    }
+    const d=document.createElement('div');
+    d.className='unit-card';
+    d.onclick=()=>showConcept(i);
+    d.innerHTML=`<div class="unit-num">UNIT ${u.num}</div><div class="unit-name">${u.name}</div><div class="unit-sub">${u.sub}</div>${doneHtml}`;
+    grid.appendChild(d);
+  });
+}
+function goMain(){ show('mainScreen'); hide('conceptScreen'); hide('quizScreen'); renderMain(); }
+
+// ════════════════════════════════════════════════
+// 개념 화면
+// ════════════════════════════════════════════════
+function showConcept(idx){
+  curUnit=idx;
+  const u=units[idx];
+  document.getElementById('conceptTitle').textContent=`Unit ${u.num}  ${u.name}`;
+  let html='';
+  u.concept.forEach(c=>{
+    html+=`<div class="concept-card"><h3>${c.icon} ${c.title}</h3>`;
+    if(c.body) html+=`<p>${c.body}</p>`;
+    if(c.table){
+      html+=`<table class="concept-table"><tr>${c.table.heads.map(h=>`<th>${h}</th>`).join('')}</tr>`;
+      c.table.rows.forEach(r=>{ html+=`<tr>${r.map(cell=>`<td>${cell}</td>`).join('')}</tr>`; });
+      html+=`</table>`;
+    }
+    if(c.ex) c.ex.forEach(e=>{ html+=`<div class="concept-example">${e.replace(/\n/g,'<br>')}</div>`; });
+    html+=`</div>`;
+  });
+  html+=`<button class="start-btn-green" onclick="startQuiz(${idx})">✏️ 퀴즈 풀기 (6문제)</button>`;
+  document.getElementById('conceptBody').innerHTML=html;
+  hide('mainScreen'); show('conceptScreen');
+}
+
+// ════════════════════════════════════════════════
+// 퀴즈
+// ════════════════════════════════════════════════
+function startQuiz(idx){
+  curUnit=idx; curQ=0; score=0; answered=false;
+  hide('conceptScreen'); hide('mainScreen'); show('quizScreen');
+  document.getElementById('quizTitle').textContent=`Unit ${units[idx].num}  ${units[idx].name}`;
+  renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  const q=units[curUnit].qs[curQ];
+  document.getElementById('progFill').style.width=(curQ/6*100)+'%';
+  document.getElementById('scoreBadge').textContent=score+' / 6';
+  let html=`<div class="q-card">
+    <div style="display:flex;align-items:center;">
+      <div class="q-num">Q${curQ+1} / 6</div>
+      <div class="q-tag">${q.type==='mc'?'객관식':'배열'}</div>
+    </div>
+    <div class="q-text">${q.q}</div>
+    ${q.sub?`<div class="q-sub">${q.sub}</div>`:''}
+  </div>`;
+
+  if(q.type==='mc'){
+    html+=`<div class="opts" id="optsArea">`;
+    q.opts.forEach((o,i)=>{ html+=`<button class="opt" onclick="selMC(${i})">${['①','②','③','④'][i]} ${o}</button>`; });
+    html+=`</div>`;
+  } else {
+    const sh=[...q.words].sort(()=>Math.random()-0.5);
+    placed=[]; usedIdx=new Array(sh.length).fill(false);
+    window._arrWords=sh;
+    html+=`<div><div class="arrange-hint">💬 단어를 눌러 문장을 만들어요. 선택한 단어를 누르면 취소돼요!</div>
+      <div class="word-pool" id="wordPool">${sh.map((w,i)=>`<div class="word-chip" id="chip${i}" onclick="placeW(${i})">${w}</div>`).join('')}</div>
+      <div class="answer-box" id="ansBox"></div>
+      <button class="check-btn" id="checkBtn" disabled onclick="checkArr()">확인하기 ✓</button>
+    </div>`;
+  }
+  html+=`<div class="fb hidden" id="fbArea"></div>
+         <button class="next-btn hidden" id="nxtBtn" onclick="nextQ()">${curQ<5?'다음 문제 →':'결과 보기 🎉'}</button>`;
+  document.getElementById('quizBody').innerHTML=html;
+}
+
+function selMC(i){
+  if(answered)return; answered=true;
+  const q=units[curUnit].qs[curQ];
+  const btns=document.querySelectorAll('.opt');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('fbArea'); fb.classList.remove('hidden');
+  if(i===q.a){ score++; btns[i].classList.add('correct'); fb.className='fb correct'; fb.textContent='✅ 정답이에요! 잘했어요!'; }
+  else{ btns[i].classList.add('wrong'); btns[q.a].classList.add('correct'); fb.className='fb wrong'; fb.textContent='❌ 틀렸어요. 정답: '+q.opts[q.a]; }
+  document.getElementById('nxtBtn').classList.remove('hidden');
+}
+
+function placeW(i){
+  if(usedIdx[i])return;
+  usedIdx[i]=true; placed.push({i,w:window._arrWords[i]});
+  document.getElementById('chip'+i).classList.add('used');
+  renderAns(); document.getElementById('checkBtn').disabled=false;
+}
+function removeW(pos){
+  const item=placed[pos]; usedIdx[item.i]=false; placed.splice(pos,1);
+  document.getElementById('chip'+item.i).classList.remove('used');
+  renderAns(); if(placed.length===0)document.getElementById('checkBtn').disabled=true;
+}
+function renderAns(){
+  const box=document.getElementById('ansBox'); box.innerHTML='';
+  placed.forEach((item,pos)=>{ const c=document.createElement('div'); c.className='placed-chip'; c.textContent=item.w; c.onclick=()=>removeW(pos); box.appendChild(c); });
+}
+function checkArr(){
+  if(answered)return; answered=true;
+  const q=units[curUnit].qs[curQ];
+  const ans=placed.map(p=>p.w).join(' ');
+  const fb=document.getElementById('fbArea'); fb.classList.remove('hidden');
+  document.getElementById('checkBtn').disabled=true;
+  document.querySelectorAll('.word-chip').forEach(c=>c.style.pointerEvents='none');
+  document.querySelectorAll('.placed-chip').forEach(c=>c.style.cursor='default');
+  if(ans===q.answer){ score++; fb.className='fb correct'; fb.textContent='✅ 정답이에요! 잘했어요!'; }
+  else{ fb.className='fb wrong'; fb.textContent=`❌ 틀렸어요. 정답: ${q.answer}`; }
+  document.getElementById('nxtBtn').classList.remove('hidden');
+}
+function nextQ(){ curQ++; if(curQ>=6)showResult(); else renderQ(); }
+
+// ════════════════════════════════════════════════
+// 결과
+// ════════════════════════════════════════════════
+function showResult(){
+  const u=units[curUnit];
+  saveRecord(u.num,score);
+  document.getElementById('progFill').style.width='100%';
+  document.getElementById('scoreBadge').textContent=score+' / 6';
+  const pct=Math.round(score/6*100);
+  let emoji,msg;
+  if(pct>=100){emoji='🏆';msg='만점이에요! 완벽하게 이해했어요! 정말 대단해요 👏';}
+  else if(pct>=67){emoji='😊';msg='잘했어요! 틀린 문제를 개념 설명에서 다시 확인해봐요!';}
+  else if(pct>=33){emoji='🙂';msg='조금 더 연습해봐요! 개념 카드를 다시 읽고 도전해요!';}
+  else{emoji='📚';msg='개념을 먼저 꼼꼼히 읽고 다시 도전해봐요!';}
+
+  const now=new Date();
+  const dateStr=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const timeStr=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+  document.getElementById('quizBody').innerHTML=`
+  <div class="result-body">
+    <div class="result-box">
+      <div class="r-emoji">${emoji}</div>
+      <div class="r-unit">Unit ${u.num} · ${u.name}</div>
+      <div class="r-score">${score} / 6</div>
+      <div class="r-sub">6문제 중 ${score}개 정답 (${pct}%)</div>
+      <div class="r-msg">${msg}</div>
+      <div class="r-notion">
+        <div class="r-notion-title">📋 퀴즈 결과 기록</div>
+        <div class="r-notion-row"><span>이름</span><span>${userName} (${userClass}반)</span></div>
+        <div class="r-notion-row"><span>Unit</span><span>Unit ${u.num} · ${u.name}</span></div>
+        <div class="r-notion-row"><span>점수</span><span>${score} / 6 (${pct}%)</span></div>
+        <div class="r-notion-row"><span>날짜</span><span>${dateStr} ${timeStr}</span></div>
+      </div>
+      <button class="notion-send-btn" id="notionBtn" onclick="doSendNotion()">
+        <span>📊</span> 결과 저장하기
+      </button>
+      <div class="notion-ok hidden" id="notionOk">✅ 구글 시트에 저장했어요!</div>
+      <div class="r-btns">
+        <button class="r-retry" onclick="startQuiz(${curUnit})">다시 풀기 🔄</button>
+        <button class="r-home" onclick="goMain()">단원 목록 🏠</button>
+      </div>
+    </div>
+  </div>`;
+  window._resultData={userName,userClass,unitNum:u.num,unitName:u.name,score,total:6};
+}
+
+async function doSendNotion(){
+  const btn=document.getElementById('notionBtn');
+  btn.disabled=true; btn.textContent='📊 저장 중...';
+  const d=window._resultData;
+  const ok=await sendToNotion(d.userName,d.userClass,d.unitNum,d.unitName,d.score,d.total);
+  if(ok){ btn.classList.add('hidden'); document.getElementById('notionOk').classList.remove('hidden'); }
+  else{ btn.disabled=false; btn.innerHTML='<span>📊</span> 다시 시도하기'; }
+}
+
+// ════════════════════════════════════════════════
+// 유틸
+// ════════════════════════════════════════════════
+function show(id){ document.getElementById(id).classList.remove('hidden'); }
+function hide(id){ document.getElementById(id).classList.add('hidden'); }
+</script>
+</body>
+</html>
