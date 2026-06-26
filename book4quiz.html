@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>매일 영어 복습 퀴즈 4권 Unit 1~12</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; background: #fdf4ff; color: #1a1a1a; min-height: 100vh; }
+
+.login-wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; }
+.login-box { background: #fff; border-radius: 20px; padding: 32px 24px; max-width: 400px; width: 100%; box-shadow: 0 4px 24px rgba(124,58,237,0.10); }
+.login-logo { font-size: 40px; text-align: center; margin-bottom: 8px; }
+.login-title { font-size: 20px; font-weight: 800; text-align: center; color: #6d28d9; margin-bottom: 4px; }
+.login-sub { font-size: 13px; color: #94a3b8; text-align: center; margin-bottom: 24px; }
+.login-label { font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 6px; display: block; }
+.login-input { width: 100%; padding: 13px 14px; font-size: 15px; border: 1.5px solid #e2e8f0; border-radius: 10px; outline: none; margin-bottom: 14px; background: #faf5ff; }
+.login-input:focus { border-color: #7c3aed; background: #fff; }
+.class-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 20px; }
+.class-btn { padding: 10px 0; font-size: 14px; font-weight: 700; border: 2px solid #e2e8f0; border-radius: 10px; background: #faf5ff; cursor: pointer; color: #475569; transition: all 0.12s; }
+.class-btn.selected { background: #7c3aed; color: #fff; border-color: #7c3aed; }
+.start-quiz-btn { width: 100%; padding: 15px; font-size: 16px; font-weight: 800; background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+.start-quiz-btn:disabled { background: #cbd5e1; cursor: default; }
+
+.main-header { background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; padding: 22px 20px 18px; }
+.main-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+.main-header h1 { font-size: 18px; font-weight: 800; }
+.user-badge { font-size: 13px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 99px; font-weight: 700; }
+.main-header p { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.unit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; max-width: 520px; margin: 0 auto; }
+.unit-card { background: #fff; border-radius: 14px; padding: 15px 13px; cursor: pointer; border: 2px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.15s; }
+.unit-card:hover { border-color: #7c3aed; background: #faf5ff; }
+.unit-num { font-size: 10px; font-weight: 700; color: #7c3aed; margin-bottom: 3px; letter-spacing: 0.5px; }
+.unit-name { font-size: 13px; font-weight: 700; color: #1e293b; line-height: 1.4; }
+.unit-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+.unit-done { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; margin-top: 5px; }
+.done-perfect { background: #dcfce7; color: #16a34a; }
+.done-good { background: #dbeafe; color: #1e40af; }
+.done-try { background: #fef3c7; color: #92400e; }
+
+.concept-wrap { max-width: 520px; margin: 0 auto; }
+.concept-header { background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; padding: 18px 20px 14px; }
+.concept-header-top { display: flex; align-items: center; gap: 10px; }
+.back-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; font-size: 18px; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; flex-shrink: 0; }
+.concept-title { font-size: 16px; font-weight: 700; }
+.concept-body { padding: 16px; }
+.concept-card { background: #fff; border-radius: 14px; padding: 18px 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.concept-card h3 { font-size: 14px; font-weight: 800; color: #6d28d9; margin-bottom: 10px; }
+.concept-card p { font-size: 13px; color: #475569; line-height: 1.7; margin-bottom: 6px; }
+.concept-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+.concept-table th { background: #ede9fe; color: #6d28d9; font-weight: 700; padding: 7px 10px; border: 1px solid #ddd6fe; }
+.concept-table td { padding: 7px 10px; border: 1px solid #e2e8f0; color: #334155; }
+.concept-example { background: #faf5ff; border-left: 3px solid #7c3aed; padding: 10px 12px; border-radius: 0 8px 8px 0; font-size: 13px; color: #4c1d95; font-style: italic; margin: 6px 0; line-height: 1.7; }
+.start-btn-purple { width: 100%; padding: 15px; font-size: 15px; font-weight: 800; background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; border: none; border-radius: 12px; cursor: pointer; margin-top: 4px; }
+
+.quiz-wrap { max-width: 520px; margin: 0 auto; }
+.quiz-header { background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; padding: 18px 20px 14px; }
+.quiz-header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.quiz-title { font-size: 15px; font-weight: 700; }
+.score-badge { font-size: 12px; background: rgba(255,255,255,0.2); padding: 3px 9px; border-radius: 99px; margin-left: auto; }
+.prog-bar { height: 5px; background: rgba(255,255,255,0.3); border-radius: 99px; }
+.prog-fill { height: 100%; background: #fff; border-radius: 99px; transition: width 0.4s; }
+.quiz-body { padding: 16px; }
+.q-card { background: #fff; border-radius: 14px; padding: 20px 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.q-num { font-size: 11px; color: #7c3aed; font-weight: 700; margin-bottom: 5px; }
+.q-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-left: 5px; background: #ede9fe; color: #6d28d9; }
+.q-text { font-size: 15px; font-weight: 700; line-height: 1.5; margin-top: 4px; }
+.q-sub { font-size: 14px; color: #334155; margin-top: 7px; font-style: italic; }
+.opts { display: flex; flex-direction: column; gap: 9px; margin-top: 2px; }
+.opt { width: 100%; padding: 12px 14px; font-size: 14px; font-weight: 500; background: #faf5ff; border: 1.5px solid #ddd6fe; border-radius: 11px; cursor: pointer; text-align: left; transition: all 0.12s; color: #1a1a1a; }
+.opt:hover:not(:disabled) { background: #ede9fe; border-color: #7c3aed; }
+.opt.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
+.opt.wrong { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
+.opt:disabled { cursor: default; }
+.arrange-hint { font-size: 12px; color: #888; margin: 4px 0 8px; }
+.word-pool { display: flex; flex-wrap: wrap; gap: 7px; min-height: 38px; margin-bottom: 8px; }
+.word-chip { padding: 7px 11px; font-size: 13px; font-weight: 700; background: #ede9fe; color: #6d28d9; border-radius: 8px; cursor: pointer; border: 2px solid #c4b5fd; transition: all 0.12s; user-select: none; }
+.word-chip:hover { background: #ddd6fe; }
+.word-chip.used { opacity: 0.28; pointer-events: none; }
+.answer-box { min-height: 42px; border: 2px dashed #c4b5fd; border-radius: 10px; padding: 7px 9px; display: flex; flex-wrap: wrap; gap: 7px; background: #faf5ff; margin-bottom: 8px; }
+.placed-chip { padding: 7px 11px; font-size: 13px; font-weight: 700; background: #7c3aed; color: #fff; border-radius: 8px; cursor: pointer; }
+.check-btn { width: 100%; padding: 12px; font-size: 14px; font-weight: 700; background: #7c3aed; color: #fff; border: none; border-radius: 10px; cursor: pointer; margin-bottom: 8px; }
+.check-btn:disabled { background: #cbd5e1; cursor: default; }
+.fb { padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.fb.correct { background: #e6f9f0; color: #1a6640; }
+.fb.wrong { background: #fff0f0; color: #b91c1c; }
+.next-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+
+.result-body { padding: 24px 16px; }
+.result-box { background: #fff; border-radius: 20px; padding: 28px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); text-align: center; }
+.r-emoji { font-size: 50px; margin-bottom: 10px; }
+.r-unit { font-size: 13px; color: #64748b; margin-bottom: 4px; }
+.r-score { font-size: 48px; font-weight: 900; color: #7c3aed; }
+.r-sub { font-size: 13px; color: #888; margin-bottom: 14px; }
+.r-msg { font-size: 14px; color: #444; padding: 12px; background: #faf5ff; border-radius: 10px; margin-bottom: 16px; line-height: 1.6; }
+.r-record { background: #f1f5f9; border-radius: 12px; padding: 14px; margin-bottom: 16px; text-align: left; }
+.r-record-title { font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 8px; }
+.r-record-row { display: flex; justify-content: space-between; font-size: 13px; padding: 3px 0; border-bottom: 1px solid #e2e8f0; }
+.r-record-row:last-child { border-bottom: none; }
+.save-btn { width: 100%; padding: 13px; font-size: 14px; font-weight: 700; background: #7c3aed; color: #fff; border: none; border-radius: 11px; cursor: pointer; margin-bottom: 10px; }
+.save-btn:disabled { background: #94a3b8; cursor: default; }
+.save-ok { font-size: 12px; color: #16a34a; font-weight: 700; text-align: center; margin-bottom: 10px; }
+.r-btns { display: flex; gap: 10px; }
+.r-retry { flex:1; padding: 13px; font-size: 14px; font-weight: 700; background: #faf5ff; color: #7c3aed; border: 2px solid #7c3aed; border-radius: 11px; cursor: pointer; }
+.r-home { flex:1; padding: 13px; font-size: 14px; font-weight: 700; background: linear-gradient(135deg,#7c3aed,#6d28d9); color: #fff; border: none; border-radius: 11px; cursor: pointer; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-wrap">
+  <div class="login-box">
+    <div class="login-logo">📒</div>
+    <div class="login-title">매일 영어 복습 퀴즈 4권</div>
+    <div class="login-sub">이름과 반을 선택하고 시작해요!</div>
+    <label class="login-label">이름</label>
+    <input class="login-input" id="nameInput" placeholder="이름을 입력하세요" oninput="checkLogin()">
+    <label class="login-label">반</label>
+    <div class="class-grid">
+      <button class="class-btn" onclick="selectClass('A')">A반</button>
+      <button class="class-btn" onclick="selectClass('B')">B반</button>
+      <button class="class-btn" onclick="selectClass('C')">C반</button>
+      <button class="class-btn" onclick="selectClass('D')">D반</button>
+    </div>
+    <button class="start-quiz-btn" id="loginBtn" disabled onclick="doLogin()">퀴즈 시작하기 →</button>
+  </div>
+</div>
+
+<div id="mainScreen" class="hidden">
+  <div class="main-header">
+    <div class="main-header-top">
+      <h1>📒 매일 영어 복습 4권</h1>
+      <div class="user-badge" id="userBadge"></div>
+    </div>
+    <p>Unit을 선택해서 개념 학습 → 퀴즈 도전!</p>
+  </div>
+  <div class="unit-grid" id="unitGrid"></div>
+</div>
+
+<div id="conceptScreen" class="hidden">
+  <div class="concept-wrap">
+    <div class="concept-header">
+      <div class="concept-header-top">
+        <button class="back-btn" onclick="goMain()">←</button>
+        <div class="concept-title" id="conceptTitle"></div>
+      </div>
+    </div>
+    <div class="concept-body" id="conceptBody"></div>
+  </div>
+</div>
+
+<div id="quizScreen" class="hidden">
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <div class="quiz-header-top">
+        <button class="back-btn" onclick="goMain()">←</button>
+        <div class="quiz-title" id="quizTitle"></div>
+        <div class="score-badge" id="scoreBadge">0 / 6</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="quiz-body" id="quizBody"></div>
+  </div>
+</div>
+
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyYuOSK7-ZB7aefdcx_JC3YRqB0AqMeGcT-m0qiZpz44LZmR9unRZ0vIizuX5O_LAgkJQ/exec";
+const BOOK = "4권";
+
+const units = [
+ {
+  num:1, name:"감각동사", sub:"look / smell / taste / sound / feel",
+  concept:[
+   { icon:"💡", title:"감각동사란?",
+     body:"보고, 냄새 맡고, 맛보고, 듣고, 느끼는 동사예요. 감각동사 뒤에는 형용사가 와요! (부사 ❌)",
+     table:{ heads:["감각동사","뜻","예시"], rows:[["look","~처럼 보이다","She looks happy."],["smell","~한 냄새가 나다","It smells good."],["taste","~한 맛이 나다","This tastes sweet."],["sound","~하게 들리다","That sounds great."],["feel","~하게 느껴지다","It feels soft."]] } },
+   { icon:"📝", title:"예문",
+     ex:["She looks happy.  (그녀는 행복해 보여.) ✅", "She looks happily. ❌  → 형용사 써야 해요!", "The soup smells delicious.  (그 수프는 맛있는 냄새가 나.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"감각동사 뒤에 오는 말로 알맞은 것은?", sub:"The soup smells ___.", opts:["deliciously","to delicious","delicious","delight"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 말을 고르세요.", sub:"This cake tastes ___.", opts:["sweetly","to sweet","sweeting","sweet"], a:3 },
+   { type:"mc", q:"빈칸에 알맞은 말을 고르세요.", sub:"She looks ___ today.", opts:["happily","to happy","happy","happiness"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그 음악은 아름답게 들려.)", words:["sounds","The","music","beautiful."], answer:"The music sounds beautiful." },
+   { type:"mc", q:"다음 중 올바른 문장은?", sub:"", opts:["She looks beautifully.","The food smells goodly.","He looks tired.","It tastes sweetly."], a:2 },
+   { type:"mc", q:"다음 중 감각동사는?", sub:"", opts:["run","eat","feel","jump"], a:2 },
+  ]
+ },
+ {
+  num:2, name:"일반동사와 목적어", sub:"동사 + 목적어(명사)",
+  concept:[
+   { icon:"💡", title:"목적어란?",
+     body:"동사의 대상이 되는 말이에요. '~을/를'에 해당해요!",
+     table:{ heads:["문장","동사","목적어"], rows:[["I like pizza.","like","pizza"],["She reads books.","reads","books"],["He drinks milk.","drinks","milk"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I like pizza.  (나는 피자를 좋아해.)", "She reads books every night.  (그녀는 매일 밤 책을 읽어.)", "He drinks milk.  (그는 우유를 마셔.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"다음 문장에서 목적어를 고르세요.", sub:"I like pizza very much.", opts:["I","like","pizza","very"], a:2 },
+   { type:"mc", q:"다음 문장에서 목적어를 고르세요.", sub:"She reads books every night.", opts:["She","reads","books","every"], a:2 },
+   { type:"mc", q:"다음 중 목적어가 있는 문장은?", sub:"", opts:["She is happy.","He runs fast.","I love music.","They are tired."], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(나는 영어를 공부해.)", words:["study","I","English."], answer:"I study English." },
+   { type:"mc", q:"빈칸에 알맞은 목적어를 고르세요.", sub:"He drinks ___ every morning.", opts:["tired","slowly","milk","happily"], a:2 },
+   { type:"mc", q:"다음 중 올바른 문장은?", sub:"", opts:["She is a kindly teacher.","He runs very fastly.","I eat rice for lunch.","They play happy."], a:2 },
+  ]
+ },
+ {
+  num:3, name:"to부정사 목적어", sub:"동사 + to + 동사원형",
+  concept:[
+   { icon:"💡", title:"to부정사 목적어",
+     body:"동사 뒤에 또 다른 동사가 올 때 to를 붙여요! to 뒤에는 반드시 동사원형!",
+     table:{ heads:["표현","뜻"], rows:[["want to + 동사원형","~하고 싶다"],["like to + 동사원형","~하는 것을 좋아하다"],["need to + 동사원형","~할 필요가 있다"],["decide to + 동사원형","~하기로 결정하다"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I want to eat pizza.  (나는 피자를 먹고 싶어.)", "She likes to read books.  (그녀는 책 읽는 것을 좋아해.)", "He needs to wake up early.  (그는 일찍 일어나야 해.)","to 뒤에는 동사원형! → to eats ❌ / to eat ✅"] }
+  ],
+  qs:[
+   { type:"mc", q:"빈칸에 알맞은 말을 고르세요.", sub:"I want ___ pizza.", opts:["eat","eats","eating","to eat"], a:3 },
+   { type:"mc", q:"빈칸에 알맞은 말을 고르세요.", sub:"She likes ___ books.", opts:["read","reads","to read","reading to"], a:2 },
+   { type:"mc", q:"to부정사에서 to 뒤에 오는 동사의 형태는?", sub:"", opts:["동사원형","동사+ing","동사+s/es","동사+ed"], a:0 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(나는 의사가 되고 싶어.)", words:["to","I","be","want","a","doctor."], answer:"I want to be a doctor." },
+   { type:"mc", q:"다음 중 to부정사가 올바르게 쓰인 문장은?", sub:"", opts:["I want to eats lunch.","She hopes to be a doctor.","He likes to swims.","They need to studies."], a:1 },
+   { type:"mc", q:"우리말 뜻에 맞는 영어 문장은?", sub:"나는 수영하는 것을 좋아한다.", opts:["I like swim.","I like swims.","I like to swim.","I like to swims."], a:2 },
+  ]
+ },
+ {
+  num:4, name:"수여동사", sub:"주어 + 동사 + 간접목적어 + 직접목적어",
+  concept:[
+   { icon:"💡", title:"수여동사란?",
+     body:"'~에게 ~을 주다'처럼 두 개의 목적어를 갖는 동사예요!",
+     table:{ heads:["구분","뜻","예시"], rows:[["간접목적어","~에게 (사람)","him, me, us"],["직접목적어","~을/를 (사물)","a book, a gift"],["어순","주어+동사+간목+직목","I gave him a book."]] } },
+   { icon:"📝", title:"예문",
+     ex:["I gave him a book.  (나는 그에게 책을 줬어.)", "She sent me a letter.  (그녀는 나에게 편지를 보냈어.)", "Mom made us a cake.  (엄마가 우리에게 케이크를 만들어 줬어.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"수여동사 문장의 어순으로 알맞은 것은?", sub:"", opts:["주어+동사+직목+간목","주어+동사+간목+직목","주어+간목+동사+직목","간목+주어+동사+직목"], a:1 },
+   { type:"mc", q:"다음 문장에서 간접목적어(~에게)를 고르세요.", sub:"She gave me a present.", opts:["She","gave","me","a present"], a:2 },
+   { type:"mc", q:"다음 문장에서 직접목적어(~을/를)를 고르세요.", sub:"He showed us his drawing.", opts:["He","showed","us","his drawing"], a:3 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(선생님이 우리에게 숙제를 주셨어.)", words:["gave","The","teacher","us","homework."], answer:"The teacher gave us homework." },
+   { type:"mc", q:"어순이 올바른 문장을 고르세요.", sub:"", opts:["I gave a cookie him.","I gave him a cookie.","I him gave a cookie.","A cookie I gave him."], a:1 },
+   { type:"mc", q:"다음 중 올바른 수여동사 문장은?", sub:"", opts:["She told me the answer.","She told the answer me.","She told to me the answer.","She me told the answer."], a:0 },
+  ]
+ },
+ {
+  num:5, name:"조동사 may", sub:"~해도 된다 / ~일지도 모른다",
+  concept:[
+   { icon:"💡", title:"may의 두 가지 뜻",
+     table:{ heads:["뜻","예시"], rows:[["~해도 된다 (허가)","You may use my pen."],["~일지도 모른다 (추측)","It may rain tomorrow."]] } },
+   { icon:"📝", title:"예문",
+     ex:["You may sit here.  (여기 앉아도 돼.)", "He may be at the library.  (그는 도서관에 있을지도 몰라.)", "may 뒤에는 동사원형! → may goes ❌ / may go ✅"] }
+  ],
+  qs:[
+   { type:"mc", q:"'may'의 뜻으로 알맞은 것은?", sub:"", opts:["~해야 한다","~할 수 있다","~해도 된다 / ~일지도 모른다","~하면 안 된다"], a:2 },
+   { type:"mc", q:"다음 문장의 뜻으로 알맞은 것은?", sub:"You may use my pen.", opts:["너는 내 펜을 사용해야 한다.","너는 내 펜을 사용해도 된다.","너는 내 펜을 사용할 수 없다.","너는 내 펜을 사용하면 안 된다."], a:1 },
+   { type:"mc", q:"다음 문장의 뜻으로 알맞은 것은?", sub:"It may rain tomorrow.", opts:["내일 비가 올 것이다.","내일 비가 와야 한다.","내일 비가 올지도 모른다.","내일 비가 오면 안 된다."], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그는 도서관에 있을지도 몰라.)", words:["be","He","may","the","at","library."], answer:"He may be at the library." },
+   { type:"mc", q:"다음 중 may가 올바르게 쓰인 문장은?", sub:"", opts:["She may goes home.","He may to eat lunch.","They may leave early.","I may eating dinner."], a:2 },
+   { type:"mc", q:"우리말 뜻에 맞는 영어 문장은?", sub:"너는 여기 앉아도 돼.", opts:["You must sit here.","You may sit here.","You should sit here.","You can to sit here."], a:1 },
+  ]
+ },
+ {
+  num:6, name:"should", sub:"~해야 한다 (충고·권고)",
+  concept:[
+   { icon:"💡", title:"should란?",
+     body:"'~해야 한다'는 충고나 권고를 나타내요. should 뒤에는 동사원형!",
+     table:{ heads:["구분","형태","예시"], rows:[["긍정","should + 동사원형","You should study."],["부정","should not / shouldn't + 동사원형","You shouldn't stay up late."]] } },
+   { icon:"📝", title:"예문",
+     ex:["You should eat more vegetables.  (채소를 더 먹어야 해.)", "You should see a doctor.  (병원에 가봐야 해.)", "You shouldn't stay up late.  (늦게까지 자지 않아야 해.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"'should'의 뜻으로 알맞은 것은?", sub:"", opts:["~해도 된다","~해야 한다 (충고)","~할 수 있다","~하면 안 된다"], a:1 },
+   { type:"mc", q:"빈칸에 알맞은 말을 고르세요.", sub:"You ___ see a doctor. You look sick.", opts:["may","can","should","must not"], a:2 },
+   { type:"mc", q:"다음 중 should가 올바르게 쓰인 문장은?", sub:"", opts:["She should goes to bed early.","He should to study more.","They should be quiet in class.","I should eating breakfast."], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(너는 매일 운동해야 해.)", words:["should","You","every","exercise","day."], answer:"You should exercise every day." },
+   { type:"mc", q:"'should not'의 줄임말은?", sub:"", opts:["shoudn't","shouldnt","shouldn't","shouldnot"], a:2 },
+   { type:"mc", q:"우리말 뜻에 맞는 영어 문장은?", sub:"너는 늦게까지 자지 않아야 해.", opts:["You may not stay up late.","You should not stay up late.","You must stay up late.","You can not stay up late."], a:1 },
+  ]
+ },
+ {
+  num:7, name:"would like to", sub:"~하고 싶다 + 동사원형",
+  concept:[
+   { icon:"💡", title:"would like to",
+     body:"'~하고 싶다'는 정중한 표현이에요. to 뒤에는 반드시 동사원형!",
+     table:{ heads:["형태","뜻","예시"], rows:[["would like to + 동사원형","~하고 싶다","I would like to eat pizza."],["Would you like to~?","~하고 싶으세요?","Would you like to join us?"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I would like to visit London.  (나는 런던을 방문하고 싶어.)", "She would like to be a nurse.  (그녀는 간호사가 되고 싶어.)", "to 뒤 동사원형! → would like to eats ❌ / to eat ✅"] }
+  ],
+  qs:[
+   { type:"mc", q:"'would like to'의 뜻으로 알맞은 것은?", sub:"", opts:["~해야 한다","~할 수 있다","~하고 싶다","~하면 안 된다"], a:2 },
+   { type:"mc", q:"would like to 뒤에 오는 동사의 형태는?", sub:"", opts:["동사+s/es","동사+ing","동사원형","동사+ed"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 말을 고르세요.", sub:"I would like to ___ a pizza.", opts:["eats","eating","ate","eat"], a:3 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(나는 의사가 되고 싶어.)", words:["like","I","would","be","to","a","doctor."], answer:"I would like to be a doctor." },
+   { type:"mc", q:"다음 중 would like to가 올바르게 쓰인 문장은?", sub:"", opts:["She would like to swims.","He would like to dancing.","I would like to visit London.","They would like to plays games."], a:2 },
+   { type:"mc", q:"우리말 뜻에 맞는 영어 문장은?", sub:"나는 피자를 먹고 싶어.", opts:["I would like to eating pizza.","I would like eat pizza.","I would like to eat pizza.","I would to eat pizza."], a:2 },
+  ]
+ },
+ {
+  num:8, name:"be able to", sub:"~할 수 있다 (= can)",
+  concept:[
+   { icon:"💡", title:"be able to = can",
+     body:"'~할 수 있다'는 뜻으로 can과 바꿔 쓸 수 있어요!",
+     table:{ heads:["주어","be동사","예시"], rows:[["I","am able to","I am able to swim."],["He/She/It","is able to","She is able to sing."],["You/We/They","are able to","They are able to run."]] } },
+   { icon:"📝", title:"예문",
+     ex:["I can swim. = I am able to swim.", "Can you swim? = Are you able to swim?", "I can't fly. = I am not able to fly."] }
+  ],
+  qs:[
+   { type:"mc", q:"'be able to'의 뜻으로 알맞은 것은?", sub:"", opts:["~해야 한다","~하고 싶다","~할 수 있다","~하면 안 된다"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 be동사는?", sub:"She ___ able to speak French.", opts:["am","are","is","be"], a:2 },
+   { type:"mc", q:"다음 문장을 be able to로 바꾼 것은?", sub:"I can cook pasta.", opts:["I am able to cooks pasta.","I am able to cook pasta.","I is able to cook pasta.","I are able to cook pasta."], a:1 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(너는 수영할 수 있니?)", words:["able","Are","to","you","swim?"], answer:"Are you able to swim?" },
+   { type:"mc", q:"'Can she run fast?'를 be able to로 바꾼 것은?", sub:"", opts:["Is she able to run fast?","Are she able to run fast?","Does she able to run fast?","She is able to run fast?"], a:0 },
+   { type:"mc", q:"다음 중 올바른 문장은?", sub:"", opts:["He is able to swims.","She are not able to dance.","I am not able to drive.","They is not able to fly."], a:2 },
+  ]
+ },
+ {
+  num:9, name:"비교급 (-er/-r/-ier/자음+er)", sub:"~보다 더 …한",
+  concept:[
+   { icon:"💡", title:"비교급 만들기 규칙",
+     table:{ heads:["규칙","예시"], rows:[["일반: +er","tall → taller, fast → faster"],["e로 끝: +r","large → larger, nice → nicer"],["자음+y: y→ier","happy → happier, busy → busier"],["단모음+단자음: 자음 두 번+er","hot → hotter, big → bigger"]] } },
+   { icon:"📝", title:"예문",
+     ex:["She is taller than me.  (그녀는 나보다 더 커.)", "This is bigger than that.  (이것이 저것보다 더 커.)", "비교급 + than: A is taller than B."] }
+  ],
+  qs:[
+   { type:"mc", q:"비교급으로 알맞은 것은?", sub:"tall → ?", opts:["tallier","most tall","more tall","taller"], a:3 },
+   { type:"mc", q:"비교급으로 알맞은 것은?", sub:"happy → ?", opts:["happyer","happier","more happy","happiermore"], a:1 },
+   { type:"mc", q:"비교급으로 알맞은 것은?", sub:"hot → ?", opts:["hoter","hotier","hotter","more hot"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그녀는 나보다 더 키가 커.)", words:["is","She","than","taller","me."], answer:"She is taller than me." },
+   { type:"mc", q:"비교급으로 알맞은 것은?", sub:"big → ?", opts:["biger","biggest","bigger","more big"], a:2 },
+   { type:"mc", q:"다음 중 올바른 비교급 문장은?", sub:"", opts:["She is more tall than her sister.","He is smarter than me.","I am more young than you.","They are more fast than us."], a:1 },
+  ]
+ },
+ {
+  num:10, name:"최상급 (-est/-st/-iest)", sub:"가장 …한",
+  concept:[
+   { icon:"💡", title:"최상급 만들기 규칙",
+     table:{ heads:["규칙","예시"], rows:[["일반: +est","tall → tallest, fast → fastest"],["e로 끝: +st","nice → nicest, large → largest"],["자음+y: y→iest","happy → happiest, busy → busiest"],["단모음+단자음: 자음 두 번+est","hot → hottest, big → biggest"]] } },
+   { icon:"📝", title:"예문",
+     ex:["She is the tallest in the class.  (그녀는 반에서 가장 키가 커.)", "He is the smartest student.  (그는 가장 똑똑한 학생이야.)", "최상급 앞에는 반드시 the!"] }
+  ],
+  qs:[
+   { type:"mc", q:"최상급으로 알맞은 것은?", sub:"tall → ?", opts:["tallier","most tall","tallest","tallier"], a:2 },
+   { type:"mc", q:"최상급으로 알맞은 것은?", sub:"happy → ?", opts:["happyest","happiest","most happy","happyer"], a:1 },
+   { type:"mc", q:"최상급으로 알맞은 것은?", sub:"big → ?", opts:["biger","bigest","biggest","most big"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그녀는 반에서 가장 키가 커.)", words:["is","She","tallest","the","class.","in"], answer:"She is the tallest in the class." },
+   { type:"mc", q:"다음 중 최상급 앞에 반드시 붙는 것은?", sub:"She is ___ tallest girl.", opts:["a","an","the","some"], a:2 },
+   { type:"mc", q:"다음 중 올바른 최상급 문장은?", sub:"", opts:["She is most kind in the class.","He is the most kind in the class.","I am the kindest in my family.","They are the most tallest."], a:2 },
+  ]
+ },
+ {
+  num:11, name:"more / most (3음절 이상)", sub:"more + 형용사 / most + 형용사",
+  concept:[
+   { icon:"💡", title:"3음절 이상 단어의 비교급·최상급",
+     body:"긴 단어(3음절 이상)는 앞에 more / most를 붙여요!",
+     table:{ heads:["구분","형태","예시"], rows:[["비교급","more + 형용사/부사","more beautiful, more difficult"],["최상급","most + 형용사/부사","most beautiful, most difficult"]] } },
+   { icon:"📝", title:"예문",
+     ex:["This is more beautiful than that.  (이것이 저것보다 더 아름다워.)", "She is the most beautiful girl.  (그녀는 가장 아름다운 소녀야.)", "beautiful → more beautiful → most beautiful"] }
+  ],
+  qs:[
+   { type:"mc", q:"비교급으로 알맞은 것은?", sub:"beautiful → ?", opts:["beautifuler","more beautiful","beautifuller","beautifulier"], a:1 },
+   { type:"mc", q:"최상급으로 알맞은 것은?", sub:"interesting → ?", opts:["interestingest","more interesting","most interesting","interestingiest"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 말을 고르세요.", sub:"This is the ___ movie I've ever seen. (exciting)", opts:["excitingest","more exciting","most exciting","excitingst"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(이것이 저것보다 더 어려워.)", words:["is","This","difficult","more","that.","than"], answer:"This is more difficult than that." },
+   { type:"mc", q:"다음 중 올바른 문장은?", sub:"", opts:["She is more tall than her sister.","He is the most kind in the class.","I am more young than you.","They are the most tallest."], a:1 },
+   { type:"mc", q:"우리말 뜻에 맞는 영어 문장은?", sub:"그녀는 우리 반에서 가장 친절해.", opts:["She is kinder in our class.","She is most kind in our class.","She is the most kind in our class.","She is the kinder in our class."], a:2 },
+  ]
+ },
+ {
+  num:12, name:"as ~ as (원급 비교)", sub:"as + 형용사/부사 + as",
+  concept:[
+   { icon:"💡", title:"as ~ as 원급 비교",
+     body:"'~만큼 ~하다'는 뜻이에요. as와 as 사이에는 반드시 원급(형용사/부사)!",
+     table:{ heads:["형태","뜻","예시"], rows:[["as + 형용사/부사 + as","~만큼 ~하다","as tall as"],["긍정","I am as tall as you.","나는 너만큼 키가 커."],["부정","I am not as tall as you.","나는 너만큼 키가 크지 않아."]] } },
+   { icon:"📝", title:"예문",
+     ex:["He runs as fast as a cheetah.  (그는 치타만큼 빨리 달려.)", "This bag is as heavy as that.  (이 가방은 저것만큼 무거워.)", "as taller as ❌ / as tall as ✅  → 원급(비교급 ❌)"] }
+  ],
+  qs:[
+   { type:"mc", q:"'as ~ as' 사이에 들어갈 형태로 알맞은 것은?", sub:"", opts:["비교급","최상급","원급 (형용사/부사)","동사원형"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 말을 고르세요.", sub:"I am as ___ as you.", opts:["taller","tallest","tall","more tall"], a:2 },
+   { type:"mc", q:"다음 문장의 뜻으로 알맞은 것은?", sub:"He runs as fast as a cheetah.", opts:["그는 치타보다 더 빨리 달린다.","그는 치타만큼 빨리 달린다.","그는 치타보다 느리게 달린다.","그는 치타가 달리는 것을 좋아한다."], a:1 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(이 가방은 저것만큼 무거워.)", words:["is","This","as","bag","as","heavy","that."], answer:"This bag is as heavy as that." },
+   { type:"mc", q:"다음 중 올바른 문장은?", sub:"", opts:["She is as taller as me.","He is as tallest as his brother.","This is as heavy as that.","They run as faster as lions."], a:2 },
+   { type:"mc", q:"우리말 뜻에 맞는 영어 문장은?", sub:"내 개는 사자만큼 용감해.", opts:["My dog is braver than a lion.","My dog is as braver as a lion.","My dog is as brave as a lion.","My dog is the bravest lion."], a:2 },
+  ]
+ },
+];
+
+let userName='', userClass='', curUnit=0, curQ=0, score=0, answered=false;
+let placed=[], usedIdx=[];
+
+function getKey(){ return `quiz4_${userName}_${userClass}`; }
+function getRecord(){ try{ return JSON.parse(localStorage.getItem(getKey())||'{}'); }catch(e){return{};} }
+function saveRecord(uNum,sc){ const r=getRecord(); r[uNum]=sc; try{ localStorage.setItem(getKey(),JSON.stringify(r)); }catch(e){} }
+
+async function sendScore(userName, userClass, unitNum, unitName, score) {
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  try {
+    const params = new URLSearchParams({
+      name: userName,
+      class: userClass + "반",
+      unit: BOOK + " Unit " + unitNum + " " + unitName,
+      score: score,
+      datetime: dateStr + " " + timeStr
+    });
+    await fetch(SHEET_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:params.toString() });
+    return true;
+  } catch(e) { return false; }
+}
+
+function selectClass(c){ userClass=c; document.querySelectorAll('.class-btn').forEach(b=>{ b.classList.toggle('selected', b.textContent===c+'반'); }); checkLogin(); }
+function checkLogin(){ const n=document.getElementById('nameInput').value.trim(); document.getElementById('loginBtn').disabled=!(n&&userClass); }
+function doLogin(){ userName=document.getElementById('nameInput').value.trim(); show('mainScreen'); hide('loginScreen'); renderMain(); }
+
+function renderMain(){
+  document.getElementById('userBadge').textContent=`${userName} · ${userClass}반`;
+  const rec=getRecord();
+  const grid=document.getElementById('unitGrid');
+  grid.innerHTML='';
+  units.forEach((u,i)=>{
+    const sc=rec[u.num];
+    let doneHtml='';
+    if(sc!==undefined){ const cls=sc>=5?'done-perfect':sc>=3?'done-good':'done-try'; doneHtml=`<div class="unit-done ${cls}">${sc===6?'⭐ 만점!':'✓ '+sc+'/6'}</div>`; }
+    const d=document.createElement('div');
+    d.className='unit-card';
+    d.onclick=()=>showConcept(i);
+    d.innerHTML=`<div class="unit-num">UNIT ${u.num}</div><div class="unit-name">${u.name}</div><div class="unit-sub">${u.sub}</div>${doneHtml}`;
+    grid.appendChild(d);
+  });
+}
+
+function goMain(){ show('mainScreen'); hide('conceptScreen'); hide('quizScreen'); renderMain(); }
+
+function showConcept(idx){
+  curUnit=idx;
+  const u=units[idx];
+  document.getElementById('conceptTitle').textContent=`Unit ${u.num}  ${u.name}`;
+  let html='';
+  u.concept.forEach(c=>{
+    html+=`<div class="concept-card"><h3>${c.icon} ${c.title}</h3>`;
+    if(c.body) html+=`<p>${c.body}</p>`;
+    if(c.table){ html+=`<table class="concept-table"><tr>${c.table.heads.map(h=>`<th>${h}</th>`).join('')}</tr>`; c.table.rows.forEach(r=>{ html+=`<tr>${r.map(cell=>`<td>${cell}</td>`).join('')}</tr>`; }); html+=`</table>`; }
+    if(c.ex) c.ex.forEach(e=>{ html+=`<div class="concept-example">${e.replace(/\n/g,'<br>')}</div>`; });
+    html+=`</div>`;
+  });
+  html+=`<button class="start-btn-purple" onclick="startQuiz(${idx})">✏️ 퀴즈 풀기 (6문제)</button>`;
+  document.getElementById('conceptBody').innerHTML=html;
+  hide('mainScreen'); show('conceptScreen');
+}
+
+function startQuiz(idx){
+  curUnit=idx; curQ=0; score=0; answered=false;
+  hide('conceptScreen'); hide('mainScreen'); show('quizScreen');
+  document.getElementById('quizTitle').textContent=`Unit ${units[idx].num}  ${units[idx].name}`;
+  renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  const q=units[curUnit].qs[curQ];
+  document.getElementById('progFill').style.width=(curQ/6*100)+'%';
+  document.getElementById('scoreBadge').textContent=score+' / 6';
+  let html=`<div class="q-card"><div style="display:flex;align-items:center;"><div class="q-num">Q${curQ+1} / 6</div><div class="q-tag">${q.type==='mc'?'객관식':'배열'}</div></div><div class="q-text">${q.q}</div>${q.sub?`<div class="q-sub">${q.sub}</div>`:''}</div>`;
+  if(q.type==='mc'){
+    html+=`<div class="opts" id="optsArea">`;
+    q.opts.forEach((o,i)=>{ html+=`<button class="opt" onclick="selMC(${i})">${['①','②','③','④'][i]} ${o}</button>`; });
+    html+=`</div>`;
+  } else {
+    const sh=[...q.words].sort(()=>Math.random()-0.5);
+    placed=[]; usedIdx=new Array(sh.length).fill(false);
+    window._arrWords=sh;
+    html+=`<div><div class="arrange-hint">💬 단어를 눌러 문장을 만들어요. 선택한 단어를 누르면 취소돼요!</div><div class="word-pool" id="wordPool">${sh.map((w,i)=>`<div class="word-chip" id="chip${i}" onclick="placeW(${i})">${w}</div>`).join('')}</div><div class="answer-box" id="ansBox"></div><button class="check-btn" id="checkBtn" disabled onclick="checkArr()">확인하기 ✓</button></div>`;
+  }
+  html+=`<div class="fb hidden" id="fbArea"></div><button class="next-btn hidden" id="nxtBtn" onclick="nextQ()">${curQ<5?'다음 문제 →':'결과 보기 🎉'}</button>`;
+  document.getElementById('quizBody').innerHTML=html;
+}
+
+function selMC(i){
+  if(answered)return; answered=true;
+  const q=units[curUnit].qs[curQ];
+  const btns=document.querySelectorAll('.opt');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('fbArea'); fb.classList.remove('hidden');
+  if(i===q.a){ score++; btns[i].classList.add('correct'); fb.className='fb correct'; fb.textContent='✅ 정답이에요! 잘했어요!'; }
+  else{ btns[i].classList.add('wrong'); btns[q.a].classList.add('correct'); fb.className='fb wrong'; fb.textContent='❌ 틀렸어요. 정답: '+q.opts[q.a]; }
+  document.getElementById('nxtBtn').classList.remove('hidden');
+}
+
+function placeW(i){ if(usedIdx[i])return; usedIdx[i]=true; placed.push({i,w:window._arrWords[i]}); document.getElementById('chip'+i).classList.add('used'); renderAns(); document.getElementById('checkBtn').disabled=false; }
+function removeW(pos){ const item=placed[pos]; usedIdx[item.i]=false; placed.splice(pos,1); document.getElementById('chip'+item.i).classList.remove('used'); renderAns(); if(placed.length===0)document.getElementById('checkBtn').disabled=true; }
+function renderAns(){ const box=document.getElementById('ansBox'); box.innerHTML=''; placed.forEach((item,pos)=>{ const c=document.createElement('div'); c.className='placed-chip'; c.textContent=item.w; c.onclick=()=>removeW(pos); box.appendChild(c); }); }
+function checkArr(){
+  if(answered)return; answered=true;
+  const q=units[curUnit].qs[curQ];
+  const ans=placed.map(p=>p.w).join(' ');
+  const fb=document.getElementById('fbArea'); fb.classList.remove('hidden');
+  document.getElementById('checkBtn').disabled=true;
+  document.querySelectorAll('.word-chip').forEach(c=>c.style.pointerEvents='none');
+  document.querySelectorAll('.placed-chip').forEach(c=>c.style.cursor='default');
+  if(ans===q.answer){ score++; fb.className='fb correct'; fb.textContent='✅ 정답이에요! 잘했어요!'; }
+  else{ fb.className='fb wrong'; fb.textContent=`❌ 틀렸어요. 정답: ${q.answer}`; }
+  document.getElementById('nxtBtn').classList.remove('hidden');
+}
+function nextQ(){ curQ++; if(curQ>=6)showResult(); else renderQ(); }
+
+function showResult(){
+  const u=units[curUnit];
+  saveRecord(u.num,score);
+  document.getElementById('progFill').style.width='100%';
+  document.getElementById('scoreBadge').textContent=score+' / 6';
+  const pct=Math.round(score/6*100);
+  let emoji,msg;
+  if(pct>=100){emoji='🏆';msg='만점이에요! 완벽하게 이해했어요! 👏';}
+  else if(pct>=67){emoji='😊';msg='잘했어요! 틀린 문제를 개념 설명에서 다시 확인해봐요!';}
+  else if(pct>=33){emoji='🙂';msg='조금 더 연습해봐요! 개념 카드를 다시 읽고 도전해요!';}
+  else{emoji='📚';msg='개념을 먼저 꼼꼼히 읽고 다시 도전해봐요!';}
+  const now=new Date();
+  const dateStr=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const timeStr=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  document.getElementById('quizBody').innerHTML=`
+  <div class="result-body"><div class="result-box">
+    <div class="r-emoji">${emoji}</div>
+    <div class="r-unit">4권 Unit ${u.num} · ${u.name}</div>
+    <div class="r-score">${score} / 6</div>
+    <div class="r-sub">6문제 중 ${score}개 정답 (${pct}%)</div>
+    <div class="r-msg">${msg}</div>
+    <div class="r-record">
+      <div class="r-record-title">📋 퀴즈 결과 기록</div>
+      <div class="r-record-row"><span>이름</span><span>${userName} (${userClass}반)</span></div>
+      <div class="r-record-row"><span>Unit</span><span>4권 Unit ${u.num} · ${u.name}</span></div>
+      <div class="r-record-row"><span>점수</span><span>${score} / 6 (${pct}%)</span></div>
+      <div class="r-record-row"><span>날짜</span><span>${dateStr} ${timeStr}</span></div>
+    </div>
+    <button class="save-btn" id="saveBtn" onclick="doSave()">📊 결과 저장하기</button>
+    <div class="save-ok hidden" id="saveOk">✅ 저장됐어요!</div>
+    <div class="r-btns">
+      <button class="r-retry" onclick="startQuiz(${curUnit})">다시 풀기 🔄</button>
+      <button class="r-home" onclick="goMain()">단원 목록 🏠</button>
+    </div>
+  </div></div>`;
+  window._resultData={userName,userClass,unitNum:u.num,unitName:u.name,score};
+}
+
+async function doSave(){
+  const btn=document.getElementById('saveBtn');
+  btn.disabled=true; btn.textContent='📊 저장 중...';
+  const d=window._resultData;
+  await sendScore(d.userName,d.userClass,d.unitNum,d.unitName,d.score);
+  btn.classList.add('hidden');
+  document.getElementById('saveOk').classList.remove('hidden');
+}
+
+function show(id){ document.getElementById(id).classList.remove('hidden'); }
+function hide(id){ document.getElementById(id).classList.add('hidden'); }
+</script>
+</body>
+</html>
