@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>보카클리어 중학 실력편 🌟</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Poppins:wght@400;600;800&display=swap');
+
+  :root {
+    --bg: #0f0e1a;
+    --surface: #1a1830;
+    --card: #221f38;
+    --accent: #7c6af7;
+    --accent2: #f76a8c;
+    --accent3: #6af7c8;
+    --text: #f0eeff;
+    --muted: #8885a8;
+    --border: #332f55;
+    --success: #4ade80;
+    --error: #f87171;
+    --warning: #fbbf24;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .progress-bar-wrap {
+    flex: 1;
+    max-width: 300px;
+    margin: 0 20px;
+    background: var(--border);
+    border-radius: 20px;
+    height: 8px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent3));
+    border-radius: 20px;
+    transition: width 0.4s ease;
+  }
+  .score-badge {
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: 20px;
+    padding: 4px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent3);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px 16px;
+  }
+
+  /* ── DAY SELECTOR ── */
+  .day-selector {
+    margin-bottom: 24px;
+  }
+  .day-selector h2 {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .day-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .day-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 10px;
+    padding: 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Poppins', sans-serif;
+  }
+  .day-btn:hover { border-color: var(--accent); color: var(--text); }
+  .day-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .day-btn.completed::after {
+    content: ' ✓';
+    color: var(--accent3);
+  }
+
+  /* ── MODE TABS ── */
+  .mode-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    background: var(--surface);
+    border-radius: 14px;
+    padding: 6px;
+    border: 1px solid var(--border);
+  }
+  .mode-tab {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+  .mode-tab .icon { font-size: 18px; }
+  .mode-tab:hover { color: var(--text); background: var(--card); }
+  .mode-tab.active {
+    background: var(--accent);
+    color: white;
+  }
+
+  /* ── STUDY CARD ── */
+  .study-area { display: none; }
+  .study-area.active { display: block; }
+
+  .word-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 32px 28px;
+    margin-bottom: 16px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .word-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 150px; height: 150px;
+    background: radial-gradient(circle, rgba(124,106,247,0.15) 0%, transparent 70%);
+  }
+  .word-card .day-tag {
+    display: inline-block;
+    background: rgba(124,106,247,0.2);
+    border: 1px solid rgba(124,106,247,0.4);
+    color: var(--accent);
+    border-radius: 20px;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    font-family: 'Poppins', sans-serif;
+  }
+  .word-card .english {
+    font-family: 'Poppins', sans-serif;
+    font-size: 38px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.1;
+  }
+  .word-card .korean {
+    font-size: 20px;
+    color: var(--accent3);
+    font-weight: 700;
+    margin-bottom: 12px;
+  }
+  .word-card .pos-tag {
+    display: inline-block;
+    background: rgba(106,247,200,0.1);
+    border: 1px solid rgba(106,247,200,0.3);
+    color: var(--accent3);
+    border-radius: 20px;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  /* ── FLIP CARD ── */
+  .flip-wrap {
+    perspective: 1000px;
+    cursor: pointer;
+    margin-bottom: 16px;
+  }
+  .flip-inner {
+    position: relative;
+    width: 100%;
+    min-height: 220px;
+    transform-style: preserve-3d;
+    transition: transform 0.5s cubic-bezier(.4,0,.2,1);
+  }
+  .flip-inner.flipped { transform: rotateY(180deg); }
+  .flip-front, .flip-back {
+    position: absolute;
+    width: 100%;
+    min-height: 220px;
+    backface-visibility: hidden;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .flip-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, #1e1b40, #2a2250);
+    border-color: var(--accent);
+  }
+  .flip-hint {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── SPEAK BUTTON ── */
+  .speak-btn {
+    background: rgba(124,106,247,0.15);
+    border: 1px solid rgba(124,106,247,0.4);
+    color: var(--accent);
+    border-radius: 50px;
+    padding: 10px 24px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 600;
+  }
+  .speak-btn:hover {
+    background: rgba(124,106,247,0.3);
+    transform: scale(1.03);
+  }
+  .speak-btn.speaking {
+    background: var(--accent);
+    color: white;
+    animation: pulse 0.8s ease infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  /* ── NAV BUTTONS ── */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .nav-btn {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    border-radius: 14px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 600;
+  }
+  .nav-btn:hover { border-color: var(--accent); }
+  .nav-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .nav-btn.primary:hover { background: #6a58e0; }
+  .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  /* ── QUIZ (MULTIPLE CHOICE) ── */
+  .quiz-question {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .quiz-question .q-word {
+    font-family: 'Poppins', sans-serif;
+    font-size: 34px;
+    font-weight: 800;
+    margin-bottom: 8px;
+  }
+  .quiz-question .q-label {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .choice-btn {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 14px;
+    padding: 14px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: left;
+    line-height: 1.4;
+  }
+  .choice-btn:hover:not(:disabled) { border-color: var(--accent); background: rgba(124,106,247,0.1); }
+  .choice-btn.correct { background: rgba(74,222,128,0.15); border-color: var(--success); color: var(--success); }
+  .choice-btn.wrong { background: rgba(248,113,113,0.15); border-color: var(--error); color: var(--error); }
+  .choice-btn:disabled { cursor: default; }
+
+  /* ── SHORT ANSWER ── */
+  .sa-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    margin-bottom: 16px;
+    text-align: center;
+  }
+  .sa-container .q-meaning {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent3);
+    margin-bottom: 8px;
+  }
+  .sa-container .q-hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+  .sa-input {
+    width: 100%;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: var(--text);
+    font-size: 18px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .sa-input:focus { border-color: var(--accent); }
+  .sa-input.correct { border-color: var(--success); background: rgba(74,222,128,0.07); }
+  .sa-input.wrong { border-color: var(--error); background: rgba(248,113,113,0.07); }
+  .sa-feedback {
+    margin-top: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    min-height: 24px;
+  }
+
+  /* ── SHADOWING ── */
+  .shadow-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    margin-bottom: 16px;
+  }
+  .shadow-word {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .shadow-ipa {
+    text-align: center;
+    color: var(--muted);
+    font-size: 16px;
+    margin-bottom: 8px;
+    font-family: 'Poppins', sans-serif;
+  }
+  .shadow-meaning {
+    text-align: center;
+    font-size: 18px;
+    color: var(--accent3);
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  .shadow-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .shadow-btn {
+    background: rgba(124,106,247,0.15);
+    border: 1px solid rgba(124,106,247,0.4);
+    color: var(--accent);
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 700;
+    transition: all 0.2s;
+  }
+  .shadow-btn:hover { background: rgba(124,106,247,0.3); }
+  .shadow-btn.active {
+    background: var(--accent2);
+    border-color: var(--accent2);
+    color: white;
+    animation: pulse 1s ease infinite;
+  }
+  .waveform {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    margin: 16px 0;
+  }
+  .wave-bar {
+    width: 4px;
+    background: var(--accent);
+    border-radius: 4px;
+    height: 8px;
+    transition: height 0.1s ease;
+  }
+  .wave-bar.active { animation: wave 0.6s ease infinite; }
+  @keyframes wave {
+    0%, 100% { height: 8px; }
+    50% { height: 40px; }
+  }
+  .wave-bar:nth-child(2n) { animation-delay: 0.1s; }
+  .wave-bar:nth-child(3n) { animation-delay: 0.2s; }
+
+  /* ── WORD LIST ── */
+  .word-list-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .word-list-table th {
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+  .word-list-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(51,47,85,0.5);
+    font-size: 14px;
+    vertical-align: middle;
+  }
+  .word-list-table tr:hover td { background: rgba(124,106,247,0.05); }
+  .word-en { font-family: 'Poppins', sans-serif; font-weight: 600; color: var(--text); }
+  .word-ko { color: var(--accent3); }
+  .mini-speak {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .mini-speak:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── RESULT PANEL ── */
+  .result-panel {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .result-emoji { font-size: 48px; margin-bottom: 12px; }
+  .result-score { font-size: 48px; font-family: 'Poppins', sans-serif; font-weight: 800; color: var(--accent3); }
+  .result-label { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+
+  /* ── WORD COUNTER ── */
+  .word-counter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .counter-num {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+  }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--card);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent3);
+    z-index: 999;
+    transition: transform 0.3s ease;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  @media (max-width: 480px) {
+    .word-card .english { font-size: 28px; }
+    .choices { grid-template-columns: 1fr; }
+    .mode-tab { font-size: 10px; }
+    .mode-tab .icon { font-size: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">VOCA CLEAR</div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
+  </div>
+  <div class="score-badge" id="scoreBadge">⭐ 0점</div>
+</div>
+
+<div class="main">
+
+  <!-- DAY SELECTOR -->
+  <div class="day-selector">
+    <h2>📚 학습 DAY 선택</h2>
+    <div class="day-grid" id="dayGrid"></div>
+  </div>
+
+  <!-- MODE TABS -->
+  <div class="mode-tabs">
+    <button class="mode-tab active" onclick="setMode('flash')" data-mode="flash">
+      <span class="icon">🃏</span>플래시카드
+    </button>
+    <button class="mode-tab" onclick="setMode('mc')" data-mode="mc">
+      <span class="icon">🎯</span>객관식
+    </button>
+    <button class="mode-tab" onclick="setMode('sa')" data-mode="sa">
+      <span class="icon">✏️</span>주관식
+    </button>
+    <button class="mode-tab" onclick="setMode('shadow')" data-mode="shadow">
+      <span class="icon">🎤</span>쉐도잉
+    </button>
+    <button class="mode-tab" onclick="setMode('list')" data-mode="list">
+      <span class="icon">📋</span>단어목록
+    </button>
+  </div>
+
+  <!-- FLASH CARD MODE -->
+  <div class="study-area active" id="mode-flash">
+    <div class="word-counter">
+      <span id="flashCounter">0 / 0</span>
+      <span style="color:var(--accent2); font-weight:700" id="flashStreak">🔥 0연속</span>
+    </div>
+    <div class="flip-wrap" id="flipWrap" onclick="flipCard()">
+      <div class="flip-inner" id="flipInner">
+        <div class="flip-front">
+          <span class="day-tag" id="flashDayTag">DAY 01</span>
+          <div class="english" id="flashWord">단어</div>
+          <div style="margin-top:16px">
+            <button class="speak-btn" id="flashSpeakBtn" onclick="event.stopPropagation(); speakWord()">🔊 발음 듣기</button>
+          </div>
+          <span class="flip-hint">탭하여 뜻 확인</span>
+        </div>
+        <div class="flip-back">
+          <span class="day-tag" id="flashDayTag2">DAY 01</span>
+          <div class="korean" id="flashMeaning">뜻</div>
+          <div class="pos-tag" id="flashPos">품사</div>
+          <div style="margin-top:20px; display:flex; gap:10px; flex-wrap:wrap; justify-content:center">
+            <button class="speak-btn" onclick="event.stopPropagation(); speakWord()">🔊 발음</button>
+            <button class="speak-btn" style="background:rgba(106,247,200,0.1); border-color:rgba(106,247,200,0.3); color:var(--accent3)" onclick="event.stopPropagation(); speakKorean()">🔊 뜻 읽기</button>
+          </div>
+          <span class="flip-hint">탭하여 영어로</span>
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="prevWord()">← 이전</button>
+      <button class="nav-btn primary" onclick="nextWord()">다음 →</button>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="markKnown()" style="color:var(--success); border-color:var(--success)">✓ 알았어요</button>
+      <button class="nav-btn" onclick="markUnknown()" style="color:var(--error); border-color:var(--error)">✗ 모르겠어요</button>
+    </div>
+  </div>
+
+  <!-- MULTIPLE CHOICE MODE -->
+  <div class="study-area" id="mode-mc">
+    <div class="word-counter">
+      <span><span class="counter-num" id="mcCurrent">1</span> / <span id="mcTotal">25</span></span>
+      <span style="color:var(--success)" id="mcScore">맞은 문제: 0</span>
+    </div>
+    <div class="quiz-question">
+      <div class="q-label">다음 영어 단어의 뜻은?</div>
+      <div class="q-word" id="mcWord">word</div>
+    </div>
+    <div class="choices" id="mcChoices"></div>
+    <button class="nav-btn primary" id="mcNextBtn" onclick="mcNext()" style="width:100%; display:none">다음 문제 →</button>
+    <div id="mcResult" style="display:none"></div>
+  </div>
+
+  <!-- SHORT ANSWER MODE -->
+  <div class="study-area" id="mode-sa">
+    <div class="word-counter">
+      <span><span class="counter-num" id="saCurrent">1</span> / <span id="saTotal">25</span></span>
+      <span style="color:var(--success)" id="saScore">맞은 문제: 0</span>
+    </div>
+    <div class="sa-container">
+      <div class="q-label" style="margin-bottom:8px">다음 뜻에 해당하는 영어 단어를 입력하세요</div>
+      <div class="q-meaning" id="saMeaning">뜻이 여기에 표시됩니다</div>
+      <div class="q-hint" id="saHint">힌트: _ _ _ _</div>
+      <input type="text" class="sa-input" id="saInput" placeholder="영어 단어 입력..." autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" onkeydown="if(event.key==='Enter') checkSA()">
+      <div class="sa-feedback" id="saFeedback"></div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="showSAHint()">💡 힌트</button>
+      <button class="nav-btn primary" id="saCheckBtn" onclick="checkSA()">확인 ✓</button>
+    </div>
+    <button class="nav-btn" id="saNextBtn" onclick="saNext()" style="width:100%; display:none; margin-bottom:12px">다음 문제 →</button>
+  </div>
+
+  <!-- SHADOWING MODE -->
+  <div class="study-area" id="mode-shadow">
+    <div class="word-counter">
+      <span><span class="counter-num" id="shadowIdx">1</span> / <span id="shadowTotal">25</span></span>
+      <span style="color:var(--accent2)">🎤 쉐도잉 연습</span>
+    </div>
+    <div class="shadow-card">
+      <div class="shadow-word" id="shadowWord">word</div>
+      <div class="shadow-ipa" id="shadowIPA"></div>
+      <div class="shadow-meaning" id="shadowMeaning">뜻</div>
+      <div class="waveform" id="waveform">
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+        <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+      </div>
+      <div class="shadow-controls">
+        <button class="shadow-btn" onclick="shadowSpeak()">🔊 발음 듣기</button>
+        <button class="shadow-btn" onclick="shadowSlowSpeak()">🐌 천천히</button>
+        <button class="shadow-btn" onclick="shadowRepeat()">🔁 반복 (3회)</button>
+        <button class="shadow-btn" id="shadowRecBtn" onclick="toggleRecord()">🎙️ 내 발음 녹음</button>
+      </div>
+      <div style="margin-top:14px; text-align:center; font-size:13px; color:var(--muted)" id="shadowTip">
+        발음을 듣고 따라 말해보세요!
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="shadowPrev()">← 이전</button>
+      <button class="nav-btn primary" onclick="shadowNext()">다음 →</button>
+    </div>
+  </div>
+
+  <!-- WORD LIST MODE -->
+  <div class="study-area" id="mode-list">
+    <div style="margin-bottom:12px; display:flex; gap:8px; align-items:center">
+      <input type="text" id="searchInput" placeholder="🔍 단어 검색..." oninput="filterWords()"
+        style="flex:1; background:var(--card); border:1px solid var(--border); color:var(--text); border-radius:10px; padding:10px 14px; font-size:14px; outline:none; font-family:'Noto Sans KR',sans-serif">
+    </div>
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden">
+      <table class="word-list-table">
+        <thead>
+          <tr>
+            <th>영어</th>
+            <th>뜻</th>
+            <th>DAY</th>
+            <th>🔊</th>
+          </tr>
+        </thead>
+        <tbody id="wordListBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="toast" id="toast">저장 완료!</div>
+
+<script>
+// ══════════════════════════════════════════
+//  WORD DATABASE (DAY 01 ~ 40)
+// ══════════════════════════════════════════
+const WORDS = [
+// DAY 01
+{d:"DAY 01",e:"meal",k:"식사, 끼니",p:"명사"},
+{d:"DAY 01",e:"prepare",k:"준비하다",p:"동사"},
+{d:"DAY 01",e:"awake",k:"깨어 있는; (잠이) 깨다, 깨우다",p:"형용사"},
+{d:"DAY 01",e:"asleep",k:"잠이 든, 자고 있는",p:"형용사"},
+{d:"DAY 01",e:"rest",k:"휴식, 나머지; 쉬다, 휴식하다",p:"명사"},
+{d:"DAY 01",e:"nap",k:"낮잠",p:"명사"},
+{d:"DAY 01",e:"regularly",k:"규칙적으로, 정기적으로",p:"부사"},
+{d:"DAY 01",e:"borrow",k:"빌리다",p:"동사"},
+{d:"DAY 01",e:"lend",k:"빌려주다",p:"동사"},
+{d:"DAY 01",e:"usual",k:"평소의, 보통의",p:"형용사"},
+{d:"DAY 01",e:"housework",k:"집안일, 가사",p:"명사"},
+{d:"DAY 01",e:"sweep",k:"(빗자루로) 쓸다",p:"동사"},
+{d:"DAY 01",e:"laundry",k:"빨래, 세탁(물)",p:"명사"},
+{d:"DAY 01",e:"fold",k:"(종이·천 등을) 접다, (옷 등을) 개다",p:"동사"},
+{d:"DAY 01",e:"iron",k:"다림질하다; 철, 쇠, 다리미",p:"동사"},
+{d:"DAY 01",e:"share",k:"함께 쓰다, 공유하다",p:"동사"},
+{d:"DAY 01",e:"lose",k:"잃다, 잃어버리다, 지다",p:"동사"},
+{d:"DAY 01",e:"own",k:"자신의; 소유하다",p:"형용사"},
+{d:"DAY 01",e:"forget",k:"잊다",p:"동사"},
+{d:"DAY 01",e:"package",k:"소포, 꾸러미",p:"명사"},
+{d:"DAY 01",e:"deliver",k:"배달하다",p:"동사"},
+{d:"DAY 01",e:"familiar",k:"익숙한, 친숙한",p:"형용사"},
+{d:"DAY 01",e:"everyday",k:"일상적인, 매일의",p:"형용사"},
+{d:"DAY 01",e:"be ready to",k:"~할 준비가 되다",p:"숙어/표현"},
+{d:"DAY 01",e:"once in a while",k:"가끔, 때때로",p:"숙어/표현"},
+// DAY 02
+{d:"DAY 02",e:"attend",k:"참석하다, 출석하다",p:"동사"},
+{d:"DAY 02",e:"absent",k:"결석한",p:"형용사"},
+{d:"DAY 02",e:"semester",k:"학기",p:"명사"},
+{d:"DAY 02",e:"grade",k:"학년, 성적, 점수",p:"명사"},
+{d:"DAY 02",e:"exam",k:"시험",p:"명사"},
+{d:"DAY 02",e:"presentation",k:"발표, 프레젠테이션",p:"명사"},
+{d:"DAY 02",e:"graduate",k:"졸업하다",p:"동사"},
+{d:"DAY 02",e:"education",k:"교육",p:"명사"},
+{d:"DAY 02",e:"principal",k:"교장; 주요한, 주된",p:"명사"},
+{d:"DAY 02",e:"president",k:"(조직·단체의) 장, 대통령",p:"명사"},
+{d:"DAY 02",e:"interest",k:"관심, 흥미",p:"명사"},
+{d:"DAY 02",e:"prize",k:"상, 상품",p:"명사"},
+{d:"DAY 02",e:"hard",k:"열심히; 어려운, 힘든, 딱딱한",p:"부사"},
+{d:"DAY 02",e:"excellent",k:"훌륭한, 탁월한",p:"형용사"},
+{d:"DAY 02",e:"behavior",k:"행동, 행실",p:"명사"},
+{d:"DAY 02",e:"counsel",k:"(전문적인) 상담을 하다",p:"동사"},
+{d:"DAY 02",e:"improve",k:"개선하다, 향상시키다",p:"동사"},
+{d:"DAY 02",e:"elementary school",k:"초등학교",p:"명사"},
+{d:"DAY 02",e:"college",k:"(단과) 대학",p:"명사"},
+{d:"DAY 02",e:"university",k:"(종합) 대학교",p:"명사"},
+{d:"DAY 02",e:"professor",k:"교수",p:"명사"},
+{d:"DAY 02",e:"tip",k:"조언, 비법, 팁",p:"명사"},
+{d:"DAY 02",e:"pay attention to",k:"~에 주의를 기울이다",p:"숙어/표현"},
+{d:"DAY 02",e:"catch up with",k:"~을 따라잡다",p:"숙어/표현"},
+{d:"DAY 02",e:"not ~ anymore",k:"더 이상 ~ 않다[아니다]",p:"숙어/표현"},
+// DAY 03
+{d:"DAY 03",e:"relationship",k:"관계",p:"명사"},
+{d:"DAY 03",e:"neighbor",k:"이웃, 이웃 사람",p:"명사"},
+{d:"DAY 03",e:"community",k:"지역 주민, 지역 사회",p:"명사"},
+{d:"DAY 03",e:"stranger",k:"낯선 사람, 처음 온 사람",p:"명사"},
+{d:"DAY 03",e:"promise",k:"약속하다; 약속",p:"동사"},
+{d:"DAY 03",e:"forgive",k:"용서하다",p:"동사"},
+{d:"DAY 03",e:"manner",k:"방식, 태도, (-s) 예의",p:"명사"},
+{d:"DAY 03",e:"apologize",k:"사과하다",p:"동사"},
+{d:"DAY 03",e:"blame",k:"탓하다, 비난하다",p:"동사"},
+{d:"DAY 03",e:"bother",k:"귀찮게 하다, 신경 쓰이게 하다",p:"동사"},
+{d:"DAY 03",e:"doubt",k:"의심하다; 의심, 의혹",p:"동사"},
+{d:"DAY 03",e:"helpful",k:"도움이 되는, 유용한",p:"형용사"},
+{d:"DAY 03",e:"envy",k:"부러워하다; 부러움",p:"동사"},
+{d:"DAY 03",e:"honesty",k:"정직, 솔직함",p:"명사"},
+{d:"DAY 03",e:"respect",k:"존경하다, 존중하다; 존경, 존중",p:"동사"},
+{d:"DAY 03",e:"rude",k:"무례한, 버릇없는",p:"형용사"},
+{d:"DAY 03",e:"treat",k:"대하다, 치료하다, 대접하다",p:"동사"},
+{d:"DAY 03",e:"care",k:"돌봄, 보살핌, 주의, 조심; 신경 쓰다",p:"명사"},
+{d:"DAY 03",e:"trust",k:"신뢰하다, 믿다; 신뢰, 믿음",p:"동사"},
+{d:"DAY 03",e:"bow",k:"(허리를 굽혀) 인사하다; 활, 나비 모양 매듭",p:"동사"},
+{d:"DAY 03",e:"ignore",k:"무시하다, 모른 체하다",p:"동사"},
+{d:"DAY 03",e:"contact",k:"연락하다; 연락, 접촉",p:"동사"},
+{d:"DAY 03",e:"bully",k:"괴롭히다, 못살게 굴다; 괴롭히는 사람",p:"동사"},
+{d:"DAY 03",e:"do ~ a favor",k:"~의 부탁을 들어주다",p:"숙어/표현"},
+{d:"DAY 03",e:"get along with",k:"~와 잘 지내다, ~와 사이가 좋다",p:"숙어/표현"},
+// DAY 04
+{d:"DAY 04",e:"lifetime",k:"일생, 평생",p:"명사"},
+{d:"DAY 04",e:"birth",k:"출생, 탄생",p:"명사"},
+{d:"DAY 04",e:"childhood",k:"어린 시절, 유년기",p:"명사"},
+{d:"DAY 04",e:"youth",k:"젊은 시절, 젊음",p:"명사"},
+{d:"DAY 04",e:"adult",k:"성인, 어른",p:"명사"},
+{d:"DAY 04",e:"couple",k:"(한 쌍의) 부부, 연인, 커플, 두어 개",p:"명사"},
+{d:"DAY 04",e:"elderly",k:"나이가 지긋한, 연로한",p:"형용사"},
+{d:"DAY 04",e:"death",k:"죽음, 사망",p:"명사"},
+{d:"DAY 04",e:"begin",k:"시작하다, 시작되다",p:"동사"},
+{d:"DAY 04",e:"succeed",k:"성공하다",p:"동사"},
+{d:"DAY 04",e:"fail",k:"실패하다",p:"동사"},
+{d:"DAY 04",e:"experience",k:"경험; 경험하다, 겪다",p:"명사"},
+{d:"DAY 04",e:"decision",k:"결정, 결심",p:"명사"},
+{d:"DAY 04",e:"luck",k:"운, 행운",p:"명사"},
+{d:"DAY 04",e:"wisdom",k:"지혜, 현명함",p:"명사"},
+{d:"DAY 04",e:"attitude",k:"태도, 자세, 마음가짐",p:"명사"},
+{d:"DAY 04",e:"meaningful",k:"의미 있는, 유의미한",p:"형용사"},
+{d:"DAY 04",e:"remember",k:"기억하다",p:"동사"},
+{d:"DAY 04",e:"chance",k:"기회, 가능성",p:"명사"},
+{d:"DAY 04",e:"fate",k:"운명, 숙명",p:"명사"},
+{d:"DAY 04",e:"overcome",k:"극복하다",p:"동사"},
+{d:"DAY 04",e:"someday",k:"(미래의) 언젠가",p:"부사"},
+{d:"DAY 04",e:"come true",k:"실현되다",p:"숙어/표현"},
+{d:"DAY 04",e:"bring up",k:"~을 기르다, ~을 양육하다",p:"숙어/표현"},
+{d:"DAY 04",e:"pass away",k:"세상을 떠나다, 돌아가시다",p:"숙어/표현"},
+// DAY 05
+{d:"DAY 05",e:"invitation",k:"초대, 초대장",p:"명사"},
+{d:"DAY 05",e:"guest",k:"손님",p:"명사"},
+{d:"DAY 05",e:"congratulation",k:"축하",p:"명사"},
+{d:"DAY 05",e:"decorate",k:"장식하다, 꾸미다",p:"동사"},
+{d:"DAY 05",e:"candle",k:"양초",p:"명사"},
+{d:"DAY 05",e:"excited",k:"신이 난, 흥분한",p:"형용사"},
+{d:"DAY 05",e:"surprise",k:"놀라게 하다; 놀라운 일, 놀람",p:"동사"},
+{d:"DAY 05",e:"special",k:"특별한, 특수한",p:"형용사"},
+{d:"DAY 05",e:"event",k:"행사, 사건",p:"명사"},
+{d:"DAY 05",e:"wedding",k:"결혼식",p:"명사"},
+{d:"DAY 05",e:"anniversary",k:"기념일",p:"명사"},
+{d:"DAY 05",e:"refuse",k:"거절하다, 거부하다",p:"동사"},
+{d:"DAY 05",e:"accept",k:"받아들이다, 수락하다",p:"동사"},
+{d:"DAY 05",e:"festival",k:"축제",p:"명사"},
+{d:"DAY 05",e:"parade",k:"행렬, 퍼레이드",p:"명사"},
+{d:"DAY 05",e:"firework",k:"폭죽, 불꽃놀이",p:"명사"},
+{d:"DAY 05",e:"costume",k:"의상, 복장",p:"명사"},
+{d:"DAY 05",e:"mask",k:"탈, 가면",p:"명사"},
+{d:"DAY 05",e:"trick",k:"속임수, 장난, 묘기",p:"명사"},
+{d:"DAY 05",e:"participate",k:"참가하다, 참여하다",p:"동사"},
+{d:"DAY 05",e:"moment",k:"순간, 때, 잠깐, 잠시",p:"명사"},
+{d:"DAY 05",e:"offer",k:"제공하다, 제의하다",p:"동사"},
+{d:"DAY 05",e:"wrap",k:"싸다, 포장하다",p:"동사"},
+{d:"DAY 05",e:"fill in",k:"(서류·양식 등을) 작성하다",p:"숙어/표현"},
+{d:"DAY 05",e:"spend+돈/시간+-ing",k:"~하는 데 (돈을) 쓰다, ~하는 데 (시간을) 보내다",p:"숙어/표현"},
+// DAY 06
+{d:"DAY 06",e:"physical",k:"신체의, 육체적인",p:"형용사"},
+{d:"DAY 06",e:"heart",k:"심장, 마음",p:"명사"},
+{d:"DAY 06",e:"stomach",k:"위, 배",p:"명사"},
+{d:"DAY 06",e:"brain",k:"뇌, 두뇌",p:"명사"},
+{d:"DAY 06",e:"chest",k:"가슴",p:"명사"},
+{d:"DAY 06",e:"waist",k:"허리",p:"명사"},
+{d:"DAY 06",e:"back",k:"등, 등뼈, 뒷면, 뒤쪽",p:"명사"},
+{d:"DAY 06",e:"breath",k:"숨, 호흡",p:"명사"},
+{d:"DAY 06",e:"arm",k:"팔",p:"명사"},
+{d:"DAY 06",e:"knee",k:"무릎",p:"명사"},
+{d:"DAY 06",e:"heel",k:"발뒤꿈치, (신발의) 굽",p:"명사"},
+{d:"DAY 06",e:"palm",k:"손바닥, 야자수",p:"명사"},
+{d:"DAY 06",e:"thumb",k:"엄지손가락",p:"명사"},
+{d:"DAY 06",e:"skin",k:"피부",p:"명사"},
+{d:"DAY 06",e:"bone",k:"뼈",p:"명사"},
+{d:"DAY 06",e:"muscle",k:"근육, 근력",p:"명사"},
+{d:"DAY 06",e:"blood",k:"피, 혈액",p:"명사"},
+{d:"DAY 06",e:"tear",k:"눈물, 울음; 찢다, 뜯다",p:"명사"},
+{d:"DAY 06",e:"tongue",k:"혀, 언어",p:"명사"},
+{d:"DAY 06",e:"strength",k:"힘, 기운, 체력, 장점, 강점",p:"명사"},
+{d:"DAY 06",e:"alive",k:"살아 있는",p:"형용사"},
+{d:"DAY 06",e:"deaf",k:"귀가 먹은, 청각 장애가 있는",p:"형용사"},
+{d:"DAY 06",e:"blind",k:"눈이 먼, 시각 장애의",p:"형용사"},
+{d:"DAY 06",e:"work out",k:"(헬스장 등에서 정기적으로) 운동하다",p:"숙어/표현"},
+{d:"DAY 06",e:"stay up",k:"(늦게까지) 깨어 있다, 자지 않고 있다",p:"숙어/표현"},
+// DAY 07
+{d:"DAY 07",e:"personality",k:"성격, 개성",p:"명사"},
+{d:"DAY 07",e:"friendly",k:"친절한, 상냥한",p:"형용사"},
+{d:"DAY 07",e:"outgoing",k:"외향적인, 사교적인",p:"형용사"},
+{d:"DAY 07",e:"gentle",k:"온화한, 부드러운",p:"형용사"},
+{d:"DAY 07",e:"active",k:"활동적인, 적극적인",p:"형용사"},
+{d:"DAY 07",e:"faithful",k:"충실한, 의리 있는",p:"형용사"},
+{d:"DAY 07",e:"hard-working",k:"근면한, 열심히 일하는",p:"형용사"},
+{d:"DAY 07",e:"modest",k:"겸손한, 보통의, 적당한",p:"형용사"},
+{d:"DAY 07",e:"shy",k:"수줍은, 부끄러워하는",p:"형용사"},
+{d:"DAY 07",e:"thoughtful",k:"배려심 있는, 사려 깊은",p:"형용사"},
+{d:"DAY 07",e:"confident",k:"자신감 있는, 확신하는",p:"형용사"},
+{d:"DAY 07",e:"curious",k:"궁금한, 호기심이 많은",p:"형용사"},
+{d:"DAY 07",e:"polite",k:"예의 바른, 공손한",p:"형용사"},
+{d:"DAY 07",e:"pride",k:"자랑스러움, 자부심",p:"명사"},
+{d:"DAY 07",e:"clever",k:"영리한, 재치 있는",p:"형용사"},
+{d:"DAY 07",e:"intelligent",k:"총명한, 지적인",p:"형용사"},
+{d:"DAY 07",e:"fault",k:"단점, 결점, 잘못, 책임",p:"명사"},
+{d:"DAY 07",e:"cruel",k:"잔인한, 무자비한",p:"형용사"},
+{d:"DAY 07",e:"mean",k:"못된, 심술궂은; 의미하다",p:"형용사"},
+{d:"DAY 07",e:"talkative",k:"수다스러운, 말이 많은",p:"형용사"},
+{d:"DAY 07",e:"silly",k:"어리석은, 바보 같은",p:"형용사"},
+{d:"DAY 07",e:"appearance",k:"외모, 겉모습",p:"명사"},
+{d:"DAY 07",e:"unlike",k:"~와 다른, ~와 달리",p:"숙어/표현"},
+{d:"DAY 07",e:"take after",k:"~을 닮다",p:"숙어/표현"},
+{d:"DAY 07",e:"not only A but also B",k:"A 뿐만 아니라 B도",p:"숙어/표현"},
+// DAY 08
+{d:"DAY 08",e:"emotion",k:"감정",p:"명사"},
+{d:"DAY 08",e:"happiness",k:"행복",p:"명사"},
+{d:"DAY 08",e:"delight",k:"(큰) 기쁨, 즐거움",p:"명사"},
+{d:"DAY 08",e:"satisfied",k:"만족하는",p:"형용사"},
+{d:"DAY 08",e:"hopeful",k:"희망에 찬, 기대하는",p:"형용사"},
+{d:"DAY 08",e:"thankful",k:"감사해하는, 고마워하는",p:"형용사"},
+{d:"DAY 08",e:"pleased",k:"기뻐하는",p:"형용사"},
+{d:"DAY 08",e:"sadness",k:"슬픔",p:"명사"},
+{d:"DAY 08",e:"anger",k:"화, 분노",p:"명사"},
+{d:"DAY 08",e:"mad",k:"몹시 화난, 열받은",p:"형용사"},
+{d:"DAY 08",e:"upset",k:"속상한, 기분이 상한",p:"형용사"},
+{d:"DAY 08",e:"jealous",k:"질투하는, 시기하는",p:"형용사"},
+{d:"DAY 08",e:"fear",k:"공포, 두려움, 무서움",p:"명사"},
+{d:"DAY 08",e:"afraid",k:"두려워하는",p:"형용사"},
+{d:"DAY 08",e:"scream",k:"비명을 지르다; 비명 (소리)",p:"동사"},
+{d:"DAY 08",e:"shock",k:"충격, 충격적인 일; 충격을 주다",p:"명사"},
+{d:"DAY 08",e:"nervous",k:"초조한, 긴장한",p:"형용사"},
+{d:"DAY 08",e:"tired",k:"피곤한, 지친, 싫증 난, 지겨운",p:"형용사"},
+{d:"DAY 08",e:"disappointed",k:"실망한, 낙담한",p:"형용사"},
+{d:"DAY 08",e:"worry",k:"걱정하다, 염려하다",p:"동사"},
+{d:"DAY 08",e:"miss",k:"그리워하다, 놓치다",p:"동사"},
+{d:"DAY 08",e:"regret",k:"후회하다; 유감, 후회",p:"동사"},
+{d:"DAY 08",e:"seem",k:"~인 것 같다, ~인 듯이 보이다",p:"동사"},
+{d:"DAY 08",e:"fall in love with",k:"~와 사랑에 빠지다",p:"숙어/표현"},
+{d:"DAY 08",e:"be scared of",k:"~을 무서워하다",p:"숙어/표현"},
+// DAY 09
+{d:"DAY 09",e:"gesture",k:"몸짓, 손짓, 제스처",p:"명사"},
+{d:"DAY 09",e:"movement",k:"움직임, 동작, (사회적·정치적) 운동",p:"명사"},
+{d:"DAY 09",e:"action",k:"행동, 행위",p:"명사"},
+{d:"DAY 09",e:"bend",k:"굽히다, 구부리다, 숙이다",p:"동사"},
+{d:"DAY 09",e:"lie",k:"누워 있다, 눕다, 거짓말하다",p:"동사"},
+{d:"DAY 09",e:"slide",k:"미끄러지다; 미끄럼틀",p:"동사"},
+{d:"DAY 09",e:"lean",k:"기대다, (몸을) 기울이다",p:"동사"},
+{d:"DAY 09",e:"strike",k:"치다, 부딪치다",p:"동사"},
+{d:"DAY 09",e:"swing",k:"흔들리다, 흔들다; 그네",p:"동사"},
+{d:"DAY 09",e:"lift",k:"들다, 들어 올리다",p:"동사"},
+{d:"DAY 09",e:"hide",k:"숨기다, 감추다, 숨다",p:"동사"},
+{d:"DAY 09",e:"roll",k:"굴러가다, 굴리다; 두루마리",p:"동사"},
+{d:"DAY 09",e:"stretch",k:"쭉 펴다, 스트레칭하다",p:"동사"},
+{d:"DAY 09",e:"repeat",k:"반복하다, 다시 말하다",p:"동사"},
+{d:"DAY 09",e:"sigh",k:"한숨을 쉬다; 한숨 (소리)",p:"동사"},
+{d:"DAY 09",e:"blink",k:"(눈을) 깜박이다",p:"동사"},
+{d:"DAY 09",e:"glance",k:"흘끗[휙] 보다",p:"동사"},
+{d:"DAY 09",e:"raise",k:"들어 올리다, 올리다, 모으다, 기르다",p:"동사"},
+{d:"DAY 09",e:"continue",k:"계속하다, 계속되다",p:"동사"},
+{d:"DAY 09",e:"react",k:"반응하다",p:"동사"},
+{d:"DAY 09",e:"relax",k:"편히 쉬다, 긴장을 풀다",p:"동사"},
+{d:"DAY 09",e:"suddenly",k:"갑자기, 별안간",p:"부사"},
+{d:"DAY 09",e:"quick",k:"빠른, 신속한, 민첩한",p:"형용사"},
+{d:"DAY 09",e:"by chance",k:"우연히",p:"숙어/표현"},
+{d:"DAY 09",e:"as soon as",k:"~하자마자",p:"숙어/표현"},
+// DAY 10
+{d:"DAY 10",e:"healthy",k:"건강한, 건강에 좋은",p:"형용사"},
+{d:"DAY 10",e:"disease",k:"병, 질병",p:"명사"},
+{d:"DAY 10",e:"ill",k:"아픈, 몸이 안 좋은",p:"형용사"},
+{d:"DAY 10",e:"weak",k:"약한, 힘이 없는",p:"형용사"},
+{d:"DAY 10",e:"toothache",k:"치통",p:"명사"},
+{d:"DAY 10",e:"stomachache",k:"배탈, 복통",p:"명사"},
+{d:"DAY 10",e:"fever",k:"열, 발열",p:"명사"},
+{d:"DAY 10",e:"flu",k:"독감",p:"명사"},
+{d:"DAY 10",e:"cancer",k:"암",p:"명사"},
+{d:"DAY 10",e:"symptom",k:"증상, 증세",p:"명사"},
+{d:"DAY 10",e:"sore",k:"쓰라린, 아픈",p:"형용사"},
+{d:"DAY 10",e:"hurt",k:"다치게 하다, 아프다",p:"동사"},
+{d:"DAY 10",e:"painful",k:"고통스러운, 아픈",p:"형용사"},
+{d:"DAY 10",e:"patient",k:"환자; 참을성이 있는, 인내심이 있는",p:"명사"},
+{d:"DAY 10",e:"condition",k:"상태, 컨디션, 환경",p:"명사"},
+{d:"DAY 10",e:"heal",k:"낫다, 낫게 하다",p:"동사"},
+{d:"DAY 10",e:"medicine",k:"약, 의약품",p:"명사"},
+{d:"DAY 10",e:"pill",k:"알약",p:"명사"},
+{d:"DAY 10",e:"effect",k:"영향, 효과, 결과",p:"명사"},
+{d:"DAY 10",e:"stress",k:"스트레스, 긴장감",p:"명사"},
+{d:"DAY 10",e:"smoke",k:"담배를 피우다; 연기",p:"동사"},
+{d:"DAY 10",e:"exercise",k:"운동하다; 운동, 연습 (문제)",p:"동사"},
+{d:"DAY 10",e:"suffer from",k:"앓다",p:"숙어/표현"},
+{d:"DAY 10",e:"make sure (that)",k:"반드시 ~하도록 하다, ~라는 것을 확인하다",p:"숙어/표현"},
+{d:"DAY 10",e:"get better",k:"나아지다, 호전되다",p:"숙어/표현"},
+// DAY 11
+{d:"DAY 11",e:"pot",k:"냄비, 솥, 주전자, 포트",p:"명사"},
+{d:"DAY 11",e:"pan",k:"팬, (긴 손잡이가 달린) 냄비",p:"명사"},
+{d:"DAY 11",e:"jar",k:"유리병, 단지",p:"명사"},
+{d:"DAY 11",e:"plate",k:"접시",p:"명사"},
+{d:"DAY 11",e:"chopstick",k:"젓가락",p:"명사"},
+{d:"DAY 11",e:"straw",k:"빨대, 짚",p:"명사"},
+{d:"DAY 11",e:"mixture",k:"혼합, 혼합물",p:"명사"},
+{d:"DAY 11",e:"peel",k:"껍질을 벗기다; 껍질",p:"동사"},
+{d:"DAY 11",e:"slice",k:"얇게 썰다, 자르다; 얇게 썬 조각",p:"동사"},
+{d:"DAY 11",e:"chop",k:"썰다, 다지다",p:"동사"},
+{d:"DAY 11",e:"boil",k:"끓이다, 삶다",p:"동사"},
+{d:"DAY 11",e:"steam",k:"찌다; 수증기, 김",p:"동사"},
+{d:"DAY 11",e:"blend",k:"섞다, 혼합하다",p:"동사"},
+{d:"DAY 11",e:"pour",k:"따르다, 붓다, 쏟아지다",p:"동사"},
+{d:"DAY 11",e:"stir",k:"휘젓다, 휘저어 섞다",p:"동사"},
+{d:"DAY 11",e:"recipe",k:"요리법, 조리법",p:"명사"},
+{d:"DAY 11",e:"delicious",k:"아주 맛있는",p:"형용사"},
+{d:"DAY 11",e:"diet",k:"식사, 식단, 식이요법, 다이어트",p:"명사"},
+{d:"DAY 11",e:"flour",k:"밀가루",p:"명사"},
+{d:"DAY 11",e:"noodle",k:"국수, 면",p:"명사"},
+{d:"DAY 11",e:"seafood",k:"해산물",p:"명사"},
+{d:"DAY 11",e:"chew",k:"씹다",p:"동사"},
+{d:"DAY 11",e:"swallow",k:"삼키다",p:"동사"},
+{d:"DAY 11",e:"a spoonful of",k:"~ 한 숟가락",p:"숙어/표현"},
+{d:"DAY 11",e:"help yourself (to)",k:"마음껏 (가져다) 먹다",p:"숙어/표현"},
+// DAY 12
+{d:"DAY 12",e:"design",k:"디자인, 설계; 디자인하다, 설계하다",p:"명사"},
+{d:"DAY 12",e:"style",k:"스타일, 방식",p:"명사"},
+{d:"DAY 12",e:"trend",k:"유행, 추세, 트렌드",p:"명사"},
+{d:"DAY 12",e:"pattern",k:"무늬, 패턴",p:"명사"},
+{d:"DAY 12",e:"stripe",k:"줄무늬",p:"명사"},
+{d:"DAY 12",e:"plain",k:"무늬가 없는, 단순한",p:"형용사"},
+{d:"DAY 12",e:"colorful",k:"색이 다채로운, 화려한",p:"형용사"},
+{d:"DAY 12",e:"tight",k:"꼭 끼는, 딱 붙는",p:"형용사"},
+{d:"DAY 12",e:"fit",k:"(치수·모양 등이) 맞다",p:"동사"},
+{d:"DAY 12",e:"cloth",k:"옷감, 천",p:"명사"},
+{d:"DAY 12",e:"cotton",k:"면, 솜",p:"명사"},
+{d:"DAY 12",e:"wool",k:"양모, 모직",p:"명사"},
+{d:"DAY 12",e:"fur",k:"털, 모피",p:"명사"},
+{d:"DAY 12",e:"sew",k:"바느질하다, 꿰매다",p:"동사"},
+{d:"DAY 12",e:"knit",k:"(옷 등을) 뜨다, (옷감을) 짜다",p:"동사"},
+{d:"DAY 12",e:"needle",k:"바늘",p:"명사"},
+{d:"DAY 12",e:"button",k:"단추, 버튼",p:"명사"},
+{d:"DAY 12",e:"sleeve",k:"소매",p:"명사"},
+{d:"DAY 12",e:"boots",k:"장화, 부츠",p:"명사"},
+{d:"DAY 12",e:"sneakers",k:"스니커즈",p:"명사"},
+{d:"DAY 12",e:"suit",k:"정장; 어울리다",p:"명사"},
+{d:"DAY 12",e:"jewelry",k:"보석류, 장신구",p:"명사"},
+{d:"DAY 12",e:"wallet",k:"지갑",p:"명사"},
+{d:"DAY 12",e:"look good on",k:"~에게 잘 어울리다",p:"숙어/표현"},
+{d:"DAY 12",e:"try on",k:"~을 입어 보다, ~을 신어 보다",p:"숙어/표현"},
+// DAY 13
+{d:"DAY 13",e:"store",k:"가게, 상점; 보관하다, 저장하다",p:"명사"},
+{d:"DAY 13",e:"grocery",k:"식료품",p:"명사"},
+{d:"DAY 13",e:"goods",k:"상품, 제품",p:"명사"},
+{d:"DAY 13",e:"prefer",k:"더 좋아하다, 선호하다",p:"동사"},
+{d:"DAY 13",e:"purchase",k:"구입하다, 구매하다; 구입, 구매",p:"동사"},
+{d:"DAY 13",e:"pay",k:"지불하다, 내다; 임금, 보수",p:"동사"},
+{d:"DAY 13",e:"cost",k:"(값·비용이) ~이다[들다]; 값, 비용",p:"동사"},
+{d:"DAY 13",e:"include",k:"포함하다, 넣다",p:"동사"},
+{d:"DAY 13",e:"expensive",k:"비싼",p:"형용사"},
+{d:"DAY 13",e:"brand",k:"브랜드, 상표",p:"명사"},
+{d:"DAY 13",e:"discount",k:"할인",p:"명사"},
+{d:"DAY 13",e:"customer",k:"손님, 고객",p:"명사"},
+{d:"DAY 13",e:"clerk",k:"점원, 판매원",p:"명사"},
+{d:"DAY 13",e:"cashier",k:"계산원",p:"명사"},
+{d:"DAY 13",e:"counter",k:"계산대, 판매대",p:"명사"},
+{d:"DAY 13",e:"recommend",k:"추천하다, 권하다",p:"동사"},
+{d:"DAY 13",e:"complain",k:"불평하다, 항의하다",p:"동사"},
+{d:"DAY 13",e:"receipt",k:"영수증",p:"명사"},
+{d:"DAY 13",e:"change",k:"거스름돈, 잔돈, 변화; 변하다, 바꾸다",p:"명사"},
+{d:"DAY 13",e:"precious",k:"귀중한, 값비싼",p:"형용사"},
+{d:"DAY 13",e:"afford",k:"(~을 할) 여유가 있다",p:"동사"},
+{d:"DAY 13",e:"choice",k:"선택(권)",p:"명사"},
+{d:"DAY 13",e:"credit card",k:"신용 카드",p:"명사"},
+{d:"DAY 13",e:"for free",k:"무료로",p:"숙어/표현"},
+{d:"DAY 13",e:"stand in line",k:"줄을 서다",p:"숙어/표현"},
+// DAY 14
+{d:"DAY 14",e:"match",k:"경기, 시합, 성냥; 어울리다, 일치하다",p:"명사"},
+{d:"DAY 14",e:"goal",k:"목표, 골, 득점",p:"명사"},
+{d:"DAY 14",e:"shot",k:"(축구·농구 등에서의) 슛, (총기의) 발사, 총성",p:"명사"},
+{d:"DAY 14",e:"victory",k:"승리, 우승",p:"명사"},
+{d:"DAY 14",e:"champion",k:"챔피언, 우승자",p:"명사"},
+{d:"DAY 14",e:"medal",k:"메달",p:"명사"},
+{d:"DAY 14",e:"stadium",k:"경기장, 스타디움",p:"명사"},
+{d:"DAY 14",e:"outdoor",k:"야외의",p:"형용사"},
+{d:"DAY 14",e:"athlete",k:"(운동)선수",p:"명사"},
+{d:"DAY 14",e:"coach",k:"(스포츠 팀의) 코치",p:"명사"},
+{d:"DAY 14",e:"referee",k:"심판",p:"명사"},
+{d:"DAY 14",e:"practice",k:"연습하다; 연습",p:"동사"},
+{d:"DAY 14",e:"patience",k:"인내심, 참을성",p:"명사"},
+{d:"DAY 14",e:"achieve",k:"성취하다, 달성하다",p:"동사"},
+{d:"DAY 14",e:"effort",k:"노력, 수고",p:"명사"},
+{d:"DAY 14",e:"challenge",k:"도전; 도전하다",p:"명사"},
+{d:"DAY 14",e:"cheer",k:"환호하다, 응원하다",p:"동사"},
+{d:"DAY 14",e:"beat",k:"이기다, 치다, 두드리다",p:"동사"},
+{d:"DAY 14",e:"competition",k:"대회, 시합, 경쟁",p:"명사"},
+{d:"DAY 14",e:"marathon",k:"마라톤",p:"명사"},
+{d:"DAY 14",e:"sweat",k:"땀; 땀을 흘리다",p:"명사"},
+{d:"DAY 14",e:"tournament",k:"토너먼트, 승자 진출전",p:"명사"},
+{d:"DAY 14",e:"gain",k:"얻다, 획득하다",p:"동사"},
+{d:"DAY 14",e:"in spite of",k:"~에도 불구하고",p:"숙어/표현"},
+{d:"DAY 14",e:"be held",k:"열리다, 개최되다",p:"숙어/표현"},
+// DAY 15
+{d:"DAY 15",e:"travel",k:"여행하다, 이동하다; 여행, 이동",p:"동사"},
+{d:"DAY 15",e:"journey",k:"(장거리) 여행",p:"명사"},
+{d:"DAY 15",e:"tourist",k:"관광객",p:"명사"},
+{d:"DAY 15",e:"schedule",k:"일정, 계획표; 일정을 잡다",p:"명사"},
+{d:"DAY 15",e:"flight",k:"비행, 항공편",p:"명사"},
+{d:"DAY 15",e:"airport",k:"공항",p:"명사"},
+{d:"DAY 15",e:"passport",k:"여권",p:"명사"},
+{d:"DAY 15",e:"passenger",k:"승객, 여객",p:"명사"},
+{d:"DAY 15",e:"flight attendant",k:"(비행기) 승무원",p:"명사"},
+{d:"DAY 15",e:"reservation",k:"예약",p:"명사"},
+{d:"DAY 15",e:"cancel",k:"취소하다",p:"동사"},
+{d:"DAY 15",e:"board",k:"탑승하다; 게시판, 칠판, 판자",p:"동사"},
+{d:"DAY 15",e:"depart",k:"떠나다, 출발하다",p:"동사"},
+{d:"DAY 15",e:"land",k:"착륙하다, 도착하다; 육지, 땅",p:"동사"},
+{d:"DAY 15",e:"delay",k:"미루다, 연기하다; 지연, 지체",p:"동사"},
+{d:"DAY 15",e:"abroad",k:"외국으로, 해외에",p:"부사"},
+{d:"DAY 15",e:"aboard",k:"탑승하여",p:"부사"},
+{d:"DAY 15",e:"village",k:"마을, 촌락",p:"명사"},
+{d:"DAY 15",e:"scenery",k:"경치, 풍경",p:"명사"},
+{d:"DAY 15",e:"landmark",k:"랜드마크",p:"명사"},
+{d:"DAY 15",e:"spot",k:"장소, 지점, 점",p:"명사"},
+{d:"DAY 15",e:"amazing",k:"놀라운, 굉장한",p:"형용사"},
+{d:"DAY 15",e:"be crowded with",k:"~으로 붐비다",p:"숙어/표현"},
+{d:"DAY 15",e:"be known for",k:"~으로 알려져 있다, ~으로 유명하다",p:"숙어/표현"},
+{d:"DAY 15",e:"look forward to",k:"~을 고대하다",p:"숙어/표현"},
+// DAY 16
+{d:"DAY 16",e:"nature",k:"자연, 천성, 본성",p:"명사"},
+{d:"DAY 16",e:"forest",k:"숲",p:"명사"},
+{d:"DAY 16",e:"desert",k:"사막",p:"명사"},
+{d:"DAY 16",e:"waterfall",k:"폭포",p:"명사"},
+{d:"DAY 16",e:"coast",k:"해안",p:"명사"},
+{d:"DAY 16",e:"cave",k:"동굴",p:"명사"},
+{d:"DAY 16",e:"valley",k:"골짜기, 계곡",p:"명사"},
+{d:"DAY 16",e:"shore",k:"물가, 기슭",p:"명사"},
+{d:"DAY 16",e:"cliff",k:"절벽, 낭떠러지",p:"명사"},
+{d:"DAY 16",e:"island",k:"섬",p:"명사"},
+{d:"DAY 16",e:"mud",k:"진흙",p:"명사"},
+{d:"DAY 16",e:"flow",k:"흐르다, 흘러가다; 흐름",p:"동사"},
+{d:"DAY 16",e:"sunset",k:"해 질 녘, 일몰",p:"명사"},
+{d:"DAY 16",e:"dawn",k:"새벽(녘)",p:"명사"},
+{d:"DAY 16",e:"breeze",k:"산들바람, 미풍",p:"명사"},
+{d:"DAY 16",e:"lightning",k:"번개, 번갯불",p:"명사"},
+{d:"DAY 16",e:"earthquake",k:"지진",p:"명사"},
+{d:"DAY 16",e:"flood",k:"홍수; 물에 잠기다, 범람하다",p:"명사"},
+{d:"DAY 16",e:"disaster",k:"재난, 재해, 참사",p:"명사"},
+{d:"DAY 16",e:"landscape",k:"풍경, 경치",p:"명사"},
+{d:"DAY 16",e:"continent",k:"대륙",p:"명사"},
+{d:"DAY 16",e:"pole",k:"(지구의) 극, 막대, 기둥",p:"명사"},
+{d:"DAY 16",e:"wonder",k:"궁금해하다; 감탄, 경이",p:"동사"},
+{d:"DAY 16",e:"be surrounded by",k:"~으로 둘러싸여 있다",p:"숙어/표현"},
+{d:"DAY 16",e:"be filled with",k:"~으로 가득 차 있다",p:"숙어/표현"},
+// DAY 17
+{d:"DAY 17",e:"plant",k:"식물, 공장; 심다",p:"명사"},
+{d:"DAY 17",e:"seed",k:"씨, 씨앗",p:"명사"},
+{d:"DAY 17",e:"branch",k:"(나뭇)가지, 지점",p:"명사"},
+{d:"DAY 17",e:"pine",k:"소나무",p:"명사"},
+{d:"DAY 17",e:"bamboo",k:"대나무",p:"명사"},
+{d:"DAY 17",e:"bush",k:"관목, 덤불",p:"명사"},
+{d:"DAY 17",e:"weed",k:"잡초",p:"명사"},
+{d:"DAY 17",e:"insect",k:"곤충",p:"명사"},
+{d:"DAY 17",e:"camel",k:"낙타",p:"명사"},
+{d:"DAY 17",e:"whale",k:"고래",p:"명사"},
+{d:"DAY 17",e:"dinosaur",k:"공룡",p:"명사"},
+{d:"DAY 17",e:"lay",k:"(알을) 낳다, (내려)놓다, 눕히다",p:"동사"},
+{d:"DAY 17",e:"hatch",k:"부화하다, 부화시키다",p:"동사"},
+{d:"DAY 17",e:"leap",k:"뛰어오르다, 뛰어넘다",p:"동사"},
+{d:"DAY 17",e:"bite",k:"물다; 물린 자국",p:"동사"},
+{d:"DAY 17",e:"dig",k:"파다, 캐다",p:"동사"},
+{d:"DAY 17",e:"bloom",k:"꽃이 피다",p:"동사"},
+{d:"DAY 17",e:"male",k:"남성의, 수컷의; 남성, 수컷",p:"형용사"},
+{d:"DAY 17",e:"female",k:"여성의, 암컷의; 여성, 암컷",p:"형용사"},
+{d:"DAY 17",e:"various",k:"여러 가지의, 다양한",p:"형용사"},
+{d:"DAY 17",e:"wild",k:"야생의",p:"형용사"},
+{d:"DAY 17",e:"hunt",k:"사냥하다; 사냥",p:"동사"},
+{d:"DAY 17",e:"trap",k:"덫, 함정; 가두다, 덫으로 잡다",p:"명사"},
+{d:"DAY 17",e:"look after",k:"~을 돌보다, ~을 보살피다",p:"숙어/표현"},
+{d:"DAY 17",e:"find out",k:"~을 알아내다",p:"숙어/표현"},
+// DAY 18
+{d:"DAY 18",e:"space",k:"우주, 공간, 자리",p:"명사"},
+{d:"DAY 18",e:"planet",k:"행성",p:"명사"},
+{d:"DAY 18",e:"earth",k:"지구, 땅, 육지, 흙",p:"명사"},
+{d:"DAY 18",e:"spaceship",k:"우주선",p:"명사"},
+{d:"DAY 18",e:"explore",k:"탐험하다, 탐사하다",p:"동사"},
+{d:"DAY 18",e:"astronaut",k:"우주비행사",p:"명사"},
+{d:"DAY 18",e:"exist",k:"존재하다",p:"동사"},
+{d:"DAY 18",e:"universe",k:"우주",p:"명사"},
+{d:"DAY 18",e:"alien",k:"외계인; 외계의, 낯선",p:"명사"},
+{d:"DAY 18",e:"gravity",k:"중력",p:"명사"},
+{d:"DAY 18",e:"surface",k:"표면",p:"명사"},
+{d:"DAY 18",e:"float",k:"뜨다, 떠다니다",p:"동사"},
+{d:"DAY 18",e:"solar",k:"태양의, 태양열의",p:"형용사"},
+{d:"DAY 18",e:"lunar",k:"달의",p:"형용사"},
+{d:"DAY 18",e:"heat",k:"열, 열기; 가열하다",p:"명사"},
+{d:"DAY 18",e:"storm",k:"폭풍",p:"명사"},
+{d:"DAY 18",e:"temperature",k:"온도, 기온",p:"명사"},
+{d:"DAY 18",e:"climate",k:"기후",p:"명사"},
+{d:"DAY 18",e:"cycle",k:"주기, 순환",p:"명사"},
+{d:"DAY 18",e:"appear",k:"나타나다, 생기다, ~처럼 보이다, ~인 것 같다",p:"동사"},
+{d:"DAY 18",e:"shadow",k:"그림자, 그늘",p:"명사"},
+{d:"DAY 18",e:"last",k:"계속되다, 지속되다; 마지막의, 최종의, 지난",p:"동사"},
+{d:"DAY 18",e:"be likely to",k:"~할 것 같다, ~일 것 같다",p:"숙어/표현"},
+{d:"DAY 18",e:"sooner or later",k:"조만간, 머지않아",p:"숙어/표현"},
+{d:"DAY 18",e:"a number of",k:"(수가) 많은",p:"숙어/표현"},
+// DAY 19
+{d:"DAY 19",e:"material",k:"재료, 물질, 자료",p:"명사"},
+{d:"DAY 19",e:"wooden",k:"나무로 된, 목제의",p:"형용사"},
+{d:"DAY 19",e:"metal",k:"금속",p:"명사"},
+{d:"DAY 19",e:"solid",k:"고체; 고체의, 단단한",p:"명사"},
+{d:"DAY 19",e:"liquid",k:"액체; 액체의",p:"명사"},
+{d:"DAY 19",e:"shape",k:"모양, 형태; ~ 모양으로 만들다",p:"명사"},
+{d:"DAY 19",e:"object",k:"물건, 물체, 목적, 목표",p:"명사"},
+{d:"DAY 19",e:"form",k:"형태, 형식, (문서의) 서식; 형성하다, 구성되다",p:"명사"},
+{d:"DAY 19",e:"melt",k:"녹다, 녹이다",p:"동사"},
+{d:"DAY 19",e:"frozen",k:"얼어붙은, 언, 냉동의",p:"형용사"},
+{d:"DAY 19",e:"expand",k:"확대되다, 팽창하다",p:"동사"},
+{d:"DAY 19",e:"unique",k:"독특한, 유일한, 고유의",p:"형용사"},
+{d:"DAY 19",e:"different",k:"다른, 차이가 있는",p:"형용사"},
+{d:"DAY 19",e:"similar",k:"비슷한, 유사한",p:"형용사"},
+{d:"DAY 19",e:"perfect",k:"완벽한",p:"형용사"},
+{d:"DAY 19",e:"possible",k:"가능한",p:"형용사"},
+{d:"DAY 19",e:"firm",k:"단단한, 확고한; 회사",p:"형용사"},
+{d:"DAY 19",e:"sink",k:"가라앉다; 싱크대, 세면대",p:"동사"},
+{d:"DAY 19",e:"bar",k:"막대기, 바, (특정 음식이나 음료를 파는) 바",p:"명사"},
+{d:"DAY 19",e:"powder",k:"가루, 분말",p:"명사"},
+{d:"DAY 19",e:"everywhere",k:"모든 곳에, 어디에나",p:"부사"},
+{d:"DAY 19",e:"still",k:"아직도, 여전히",p:"부사"},
+{d:"DAY 19",e:"forever",k:"영원히, 언제까지나",p:"부사"},
+{d:"DAY 19",e:"upside down",k:"거꾸로, 뒤집혀",p:"숙어/표현"},
+{d:"DAY 19",e:"turn into",k:"~이 되다, ~으로 변하다",p:"숙어/표현"},
+// DAY 20
+{d:"DAY 20",e:"experiment",k:"실험",p:"명사"},
+{d:"DAY 20",e:"research",k:"연구, 조사; 연구하다, 조사하다",p:"명사"},
+{d:"DAY 20",e:"cause",k:"원인, 이유; 초래하다, 야기하다",p:"명사"},
+{d:"DAY 20",e:"result",k:"결과",p:"명사"},
+{d:"DAY 20",e:"method",k:"방법, 방식",p:"명사"},
+{d:"DAY 20",e:"process",k:"과정, 절차",p:"명사"},
+{d:"DAY 20",e:"detail",k:"세부 사항",p:"명사"},
+{d:"DAY 20",e:"collect",k:"모으다, 수집하다",p:"동사"},
+{d:"DAY 20",e:"predict",k:"예상하다, 예측하다",p:"동사"},
+{d:"DAY 20",e:"analyze",k:"분석하다",p:"동사"},
+{d:"DAY 20",e:"compare",k:"비교하다",p:"동사"},
+{d:"DAY 20",e:"try",k:"노력하다, 애를 쓰다, (시험 삼아) 해 보다",p:"동사"},
+{d:"DAY 20",e:"curiosity",k:"호기심",p:"명사"},
+{d:"DAY 20",e:"focus",k:"초점, 중점; 집중하다",p:"명사"},
+{d:"DAY 20",e:"prove",k:"입증하다, 증명하다",p:"동사"},
+{d:"DAY 20",e:"complete",k:"완전한, 완벽한; 끝마치다, 완성하다",p:"형용사"},
+{d:"DAY 20",e:"exact",k:"정확한, 딱 맞는",p:"형용사"},
+{d:"DAY 20",e:"range",k:"범위, 다양성",p:"명사"},
+{d:"DAY 20",e:"control",k:"통제하다, 조절하다; 통제, 제어",p:"동사"},
+{d:"DAY 20",e:"cell",k:"세포",p:"명사"},
+{d:"DAY 20",e:"chemical",k:"화학의, 화학적인; 화학 물질",p:"형용사"},
+{d:"DAY 20",e:"electricity",k:"전기",p:"명사"},
+{d:"DAY 20",e:"except for",k:"~을 제외하고",p:"숙어/표현"},
+{d:"DAY 20",e:"come up with",k:"~을 생각해내다",p:"숙어/표현"},
+{d:"DAY 20",e:"first of all",k:"우선, 첫째로, 무엇보다도",p:"숙어/표현"},
+// DAY 21
+{d:"DAY 21",e:"society",k:"사회",p:"명사"},
+{d:"DAY 21",e:"crowd",k:"군중, 무리",p:"명사"},
+{d:"DAY 21",e:"citizen",k:"시민, 주민",p:"명사"},
+{d:"DAY 21",e:"senior",k:"연장자, 상급자, 졸업반 학생",p:"명사"},
+{d:"DAY 21",e:"freedom",k:"자유",p:"명사"},
+{d:"DAY 21",e:"equal",k:"동일한, 같은, 평등한; ~와 같다, 동등하다",p:"형용사"},
+{d:"DAY 21",e:"right",k:"옳은, 올바른, 오른쪽의; 권리, 오른쪽",p:"형용사"},
+{d:"DAY 21",e:"rule",k:"규칙, 원칙; 통치하다, 지배하다",p:"명사"},
+{d:"DAY 21",e:"real",k:"진짜의, 현실의",p:"형용사"},
+{d:"DAY 21",e:"common",k:"평범한, 흔한, 공통의",p:"형용사"},
+{d:"DAY 21",e:"private",k:"개인적인, 사적인, 사립의",p:"형용사"},
+{d:"DAY 21",e:"lead",k:"인도하다, 이끌다",p:"동사"},
+{d:"DAY 21",e:"wealth",k:"부, (많은) 재산",p:"명사"},
+{d:"DAY 21",e:"fame",k:"명성",p:"명사"},
+{d:"DAY 21",e:"population",k:"인구, 주민 수",p:"명사"},
+{d:"DAY 21",e:"matter",k:"문제, 일; 중요하다",p:"명사"},
+{d:"DAY 21",e:"main",k:"주요한, 주된",p:"형용사"},
+{d:"DAY 21",e:"general",k:"일반적인, 보통의; (육군·공군의) 장군",p:"형용사"},
+{d:"DAY 21",e:"responsible",k:"책임이 있는",p:"형용사"},
+{d:"DAY 21",e:"support",k:"지지하다, 지원하다; 지지, 지원",p:"동사"},
+{d:"DAY 21",e:"volunteer",k:"자원봉사를 하다; 자원봉사자",p:"동사"},
+{d:"DAY 21",e:"charity",k:"자선, 자선 단체",p:"명사"},
+{d:"DAY 21",e:"donate",k:"기부하다, 기증하다",p:"동사"},
+{d:"DAY 21",e:"in need",k:"어려움에 처한, 도움이 필요한",p:"숙어/표현"},
+{d:"DAY 21",e:"tend to",k:"~하는 경향이 있다, ~하기 쉽다",p:"숙어/표현"},
+// DAY 22
+{d:"DAY 22",e:"economy",k:"경제, 경기",p:"명사"},
+{d:"DAY 22",e:"rich",k:"부유한, 풍부한",p:"형용사"},
+{d:"DAY 22",e:"exchange",k:"교환하다, 맞바꾸다",p:"동사"},
+{d:"DAY 22",e:"produce",k:"생산하다, 제작하다",p:"동사"},
+{d:"DAY 22",e:"product",k:"생산물, 상품, 제품",p:"명사"},
+{d:"DAY 22",e:"income",k:"수입, 소득",p:"명사"},
+{d:"DAY 22",e:"tax",k:"세금",p:"명사"},
+{d:"DAY 22",e:"supply",k:"공급하다, 제공하다; 공급",p:"동사"},
+{d:"DAY 22",e:"demand",k:"요구하다; 수요, 요구",p:"동사"},
+{d:"DAY 22",e:"invest",k:"투자하다",p:"동사"},
+{d:"DAY 22",e:"trade",k:"거래하다; 무역, 거래",p:"동사"},
+{d:"DAY 22",e:"increase",k:"증가하다, 늘다; 증가, 인상",p:"동사"},
+{d:"DAY 22",e:"reduce",k:"줄이다, 낮추다",p:"동사"},
+{d:"DAY 22",e:"provide",k:"제공하다, 공급하다",p:"동사"},
+{d:"DAY 22",e:"charge",k:"청구하다, 충전하다; 요금, 사용료",p:"동사"},
+{d:"DAY 22",e:"extra",k:"여분의, 추가의",p:"형용사"},
+{d:"DAY 22",e:"fee",k:"요금, 비용",p:"명사"},
+{d:"DAY 22",e:"total",k:"총, 전체의; 합계",p:"형용사"},
+{d:"DAY 22",e:"profit",k:"이익, 수익",p:"명사"},
+{d:"DAY 22",e:"average",k:"평균; 평균의, 보통의",p:"명사"},
+{d:"DAY 22",e:"deal",k:"거래",p:"명사"},
+{d:"DAY 22",e:"fortune",k:"재산, 부, 운, 행운",p:"명사"},
+{d:"DAY 22",e:"on the other hand",k:"다른 한편으로는, 반면에",p:"숙어/표현"},
+{d:"DAY 22",e:"instead of",k:"~ 대신에",p:"숙어/표현"},
+{d:"DAY 22",e:"depend on",k:"~에 의존하다, ~에 달려 있다",p:"숙어/표현"},
+// DAY 23
+{d:"DAY 23",e:"historical",k:"역사에 관련된, 역사적인",p:"형용사"},
+{d:"DAY 23",e:"past",k:"과거; 과거의, 지난",p:"명사"},
+{d:"DAY 23",e:"present",k:"현재, 지금, 선물; 현재의, 참석한",p:"명사"},
+{d:"DAY 23",e:"century",k:"세기, 100년",p:"명사"},
+{d:"DAY 23",e:"period",k:"기간, 시기, 시대",p:"명사"},
+{d:"DAY 23",e:"ancient",k:"고대의",p:"형용사"},
+{d:"DAY 23",e:"modern",k:"현대의, 근대의",p:"형용사"},
+{d:"DAY 23",e:"royal",k:"왕의, 왕실의",p:"형용사"},
+{d:"DAY 23",e:"treasure",k:"보물",p:"명사"},
+{d:"DAY 23",e:"dynasty",k:"왕가, 왕조",p:"명사"},
+{d:"DAY 23",e:"record",k:"기록하다, 녹음하다; 기록",p:"동사"},
+{d:"DAY 23",e:"remind",k:"생각나게 하다, 상기시키다",p:"동사"},
+{d:"DAY 23",e:"human",k:"인간, 인류; 인간의, 인류의",p:"명사"},
+{d:"DAY 23",e:"generation",k:"세대",p:"명사"},
+{d:"DAY 23",e:"tradition",k:"전통",p:"명사"},
+{d:"DAY 23",e:"custom",k:"관습, 풍습",p:"명사"},
+{d:"DAY 23",e:"remain",k:"계속 ~이다, 남아 있다",p:"동사"},
+{d:"DAY 23",e:"revolution",k:"혁명",p:"명사"},
+{d:"DAY 23",e:"important",k:"중요한",p:"형용사"},
+{d:"DAY 23",e:"truth",k:"진실, 사실",p:"명사"},
+{d:"DAY 23",e:"false",k:"거짓의, 사실이 아닌",p:"형용사"},
+{d:"DAY 23",e:"realize",k:"깨닫다, 알아차리다, 실현하다",p:"동사"},
+{d:"DAY 23",e:"due to",k:"~ 때문에",p:"숙어/표현"},
+{d:"DAY 23",e:"in the end",k:"마침내, 결국",p:"숙어/표현"},
+{d:"DAY 23",e:"used to",k:"(전에는) ~였다, ~하곤 했다",p:"숙어/표현"},
+// DAY 24
+{d:"DAY 24",e:"law",k:"법, 법률",p:"명사"},
+{d:"DAY 24",e:"crime",k:"범죄, 범행",p:"명사"},
+{d:"DAY 24",e:"judge",k:"판사, 심사 위원; 판단하다",p:"명사"},
+{d:"DAY 24",e:"lawyer",k:"변호사",p:"명사"},
+{d:"DAY 24",e:"detective",k:"형사, 탐정",p:"명사"},
+{d:"DAY 24",e:"thief",k:"도둑",p:"명사"},
+{d:"DAY 24",e:"kill",k:"죽이다",p:"동사"},
+{d:"DAY 24",e:"steal",k:"훔치다, 도둑질하다",p:"동사"},
+{d:"DAY 24",e:"rob",k:"강탈하다, (은행·상점 등을) 털다",p:"동사"},
+{d:"DAY 24",e:"happen",k:"일어나다, 발생하다",p:"동사"},
+{d:"DAY 24",e:"chase",k:"뒤쫓다, 추격하다; 추적, 추격",p:"동사"},
+{d:"DAY 24",e:"arrest",k:"체포하다; 체포",p:"동사"},
+{d:"DAY 24",e:"prison",k:"교도소, 감옥",p:"명사"},
+{d:"DAY 24",e:"escape",k:"탈출하다; 탈출",p:"동사"},
+{d:"DAY 24",e:"court",k:"법정, 법원, 코트",p:"명사"},
+{d:"DAY 24",e:"fair",k:"공평한, 공정한; 박람회",p:"형용사"},
+{d:"DAY 24",e:"trial",k:"재판",p:"명사"},
+{d:"DAY 24",e:"suspect",k:"용의자; 의심하다",p:"명사"},
+{d:"DAY 24",e:"punish",k:"처벌하다, 벌주다",p:"동사"},
+{d:"DAY 24",e:"admit",k:"인정하다, 허가하다",p:"동사"},
+{d:"DAY 24",e:"deny",k:"부인하다, 부정하다",p:"동사"},
+{d:"DAY 24",e:"footprint",k:"발자국",p:"명사"},
+{d:"DAY 24",e:"run away",k:"도망치다, 달아나다",p:"숙어/표현"},
+{d:"DAY 24",e:"turn out",k:"~인 것으로 드러나다[밝혀지다]",p:"숙어/표현"},
+{d:"DAY 24",e:"keep ~ from -ing",k:"~가 …하지 못하게 하다",p:"숙어/표현"},
+// DAY 25
+{d:"DAY 25",e:"nation",k:"국가, 국민",p:"명사"},
+{d:"DAY 25",e:"kingdom",k:"왕국",p:"명사"},
+{d:"DAY 25",e:"capital",k:"수도, 자본, (알파벳의) 대문자",p:"명사"},
+{d:"DAY 25",e:"flag",k:"기, 깃발",p:"명사"},
+{d:"DAY 25",e:"culture",k:"문화",p:"명사"},
+{d:"DAY 25",e:"language",k:"언어, 말",p:"명사"},
+{d:"DAY 25",e:"race",k:"인종, 경주, 달리기",p:"명사"},
+{d:"DAY 25",e:"tribe",k:"부족, 종족",p:"명사"},
+{d:"DAY 25",e:"native",k:"태어난 곳의, 모국어의",p:"형용사"},
+{d:"DAY 25",e:"foreigner",k:"외국인",p:"명사"},
+{d:"DAY 25",e:"area",k:"지역, 구역",p:"명사"},
+{d:"DAY 25",e:"local",k:"지역의, 현지의; 현지인",p:"형용사"},
+{d:"DAY 25",e:"international",k:"국제적인",p:"형용사"},
+{d:"DAY 25",e:"peace",k:"평화",p:"명사"},
+{d:"DAY 25",e:"war",k:"전쟁",p:"명사"},
+{d:"DAY 25",e:"soldier",k:"군인, 병사",p:"명사"},
+{d:"DAY 25",e:"army",k:"군대, 육군",p:"명사"},
+{d:"DAY 25",e:"invade",k:"침략하다, 침입하다",p:"동사"},
+{d:"DAY 25",e:"attack",k:"공격, 폭행; 공격하다, 폭행하다",p:"동사"},
+{d:"DAY 25",e:"defend",k:"방어하다, 지키다",p:"동사"},
+{d:"DAY 25",e:"independence",k:"독립, 자립",p:"명사"},
+{d:"DAY 25",e:"symbol",k:"상징, 상징물",p:"명사"},
+{d:"DAY 25",e:"global",k:"세계적인, 지구상의",p:"형용사"},
+{d:"DAY 25",e:"be located in",k:"~에 위치해 있다",p:"숙어/표현"},
+{d:"DAY 25",e:"be divided into",k:"~으로 나뉘다",p:"숙어/표현"},
+// DAY 26
+{d:"DAY 26",e:"tale",k:"이야기",p:"명사"},
+{d:"DAY 26",e:"fable",k:"우화",p:"명사"},
+{d:"DAY 26",e:"novel",k:"소설",p:"명사"},
+{d:"DAY 26",e:"poem",k:"시",p:"명사"},
+{d:"DAY 26",e:"play",k:"연극, 희곡, 놀이; 놀다, 경기하다, 연주하다",p:"명사"},
+{d:"DAY 26",e:"tragedy",k:"비극",p:"명사"},
+{d:"DAY 26",e:"comic",k:"만화의, 웃기는",p:"형용사"},
+{d:"DAY 26",e:"publish",k:"출판하다, 발행하다",p:"동사"},
+{d:"DAY 26",e:"describe",k:"묘사하다, 자세히 설명하다",p:"동사"},
+{d:"DAY 26",e:"conclusion",k:"결론, 결말",p:"명사"},
+{d:"DAY 26",e:"character",k:"등장인물, 캐릭터, 성격, 특징, 문자",p:"명사"},
+{d:"DAY 26",e:"adventure",k:"모험",p:"명사"},
+{d:"DAY 26",e:"monster",k:"괴물",p:"명사"},
+{d:"DAY 26",e:"dragon",k:"용",p:"명사"},
+{d:"DAY 26",e:"ghost",k:"유령",p:"명사"},
+{d:"DAY 26",e:"fairy",k:"요정",p:"명사"},
+{d:"DAY 26",e:"giant",k:"거인; 거대한, 초대형의",p:"명사"},
+{d:"DAY 26",e:"witch",k:"마녀",p:"명사"},
+{d:"DAY 26",e:"scary",k:"무서운, 겁나는",p:"형용사"},
+{d:"DAY 26",e:"castle",k:"성",p:"명사"},
+{d:"DAY 26",e:"saying",k:"속담, 격언",p:"명사"},
+{d:"DAY 26",e:"sentence",k:"문장",p:"명사"},
+{d:"DAY 26",e:"once upon a time",k:"옛날 옛적에",p:"숙어/표현"},
+{d:"DAY 26",e:"be based on",k:"~에 기초를 두다, ~을 바탕으로 하다",p:"숙어/표현"},
+{d:"DAY 26",e:"for the first time",k:"처음으로",p:"숙어/표현"},
+// DAY 27
+{d:"DAY 27",e:"artwork",k:"예술 작품",p:"명사"},
+{d:"DAY 27",e:"artist",k:"화가, 예술가",p:"명사"},
+{d:"DAY 27",e:"create",k:"창조하다, 만들어 내다",p:"동사"},
+{d:"DAY 27",e:"opera",k:"오페라, 가극",p:"명사"},
+{d:"DAY 27",e:"classical",k:"고전의, 고전적인",p:"형용사"},
+{d:"DAY 27",e:"chorus",k:"합창",p:"명사"},
+{d:"DAY 27",e:"rhythm",k:"리듬",p:"명사"},
+{d:"DAY 27",e:"note",k:"쪽지, 메모, 음, 음표",p:"명사"},
+{d:"DAY 27",e:"instrument",k:"기구, 악기",p:"명사"},
+{d:"DAY 27",e:"stage",k:"무대, 단계, 시기",p:"명사"},
+{d:"DAY 27",e:"perform",k:"공연하다, 수행하다",p:"동사"},
+{d:"DAY 27",e:"exhibition",k:"전시회, 전시",p:"명사"},
+{d:"DAY 27",e:"display",k:"전시하다, 진열하다; 전시, 진열",p:"동사"},
+{d:"DAY 27",e:"portrait",k:"초상화",p:"명사"},
+{d:"DAY 27",e:"statue",k:"조각상",p:"명사"},
+{d:"DAY 27",e:"architecture",k:"건축 양식, 건축학",p:"명사"},
+{d:"DAY 27",e:"original",k:"본래의; 원본, 원작",p:"형용사"},
+{d:"DAY 27",e:"beauty",k:"아름다움, 미, 미인",p:"명사"},
+{d:"DAY 27",e:"value",k:"가치, 중요성",p:"명사"},
+{d:"DAY 27",e:"clap",k:"박수를 치다; 박수",p:"동사"},
+{d:"DAY 27",e:"folk",k:"민속의, 민간의",p:"형용사"},
+{d:"DAY 27",e:"attract",k:"끌다, 끌어들이다",p:"동사"},
+{d:"DAY 27",e:"most of all",k:"무엇보다도",p:"숙어/표현"},
+{d:"DAY 27",e:"be worth -ing",k:"~할 만한 가치가 있다",p:"숙어/표현"},
+{d:"DAY 27",e:"be known as",k:"~으로 알려지다",p:"숙어/표현"},
+// DAY 28
+{d:"DAY 28",e:"film",k:"영화",p:"명사"},
+{d:"DAY 28",e:"theater",k:"극장",p:"명사"},
+{d:"DAY 28",e:"fantasy",k:"환상, 공상, 판타지",p:"명사"},
+{d:"DAY 28",e:"romantic",k:"낭만적인, 로맨틱한",p:"형용사"},
+{d:"DAY 28",e:"comedy",k:"코미디, 희극",p:"명사"},
+{d:"DAY 28",e:"horror",k:"공포",p:"명사"},
+{d:"DAY 28",e:"mystery",k:"미스터리, 수수께끼, 추리물",p:"명사"},
+{d:"DAY 28",e:"sci-fi",k:"공상 과학 영화[소설], SF물",p:"명사"},
+{d:"DAY 28",e:"series",k:"시리즈, 연속",p:"명사"},
+{d:"DAY 28",e:"scene",k:"장면, 현장",p:"명사"},
+{d:"DAY 28",e:"screen",k:"화면, 스크린",p:"명사"},
+{d:"DAY 28",e:"audition",k:"오디션, 심사",p:"명사"},
+{d:"DAY 28",e:"cast",k:"캐스팅하다, 배우로 선정하다; 출연진, 깁스",p:"동사"},
+{d:"DAY 28",e:"award",k:"상; 수여하다",p:"명사"},
+{d:"DAY 28",e:"public",k:"대중의, 공공의; 대중, 일반인",p:"형용사"},
+{d:"DAY 28",e:"live",k:"생방송의, 라이브의",p:"형용사"},
+{d:"DAY 28",e:"audience",k:"관중, 청중",p:"명사"},
+{d:"DAY 28",e:"celebrity",k:"유명 인사",p:"명사"},
+{d:"DAY 28",e:"idol",k:"우상, 아이돌 스타",p:"명사"},
+{d:"DAY 28",e:"director",k:"감독, 관리자",p:"명사"},
+{d:"DAY 28",e:"advertisement",k:"광고",p:"명사"},
+{d:"DAY 28",e:"article",k:"(신문의) 기사",p:"명사"},
+{d:"DAY 28",e:"report",k:"보도하다, 보고하다; 보도, 보고(서)",p:"동사"},
+{d:"DAY 28",e:"be moved by",k:"~에 감동하다",p:"숙어/표현"},
+{d:"DAY 28",e:"take place",k:"열리다, 개최되다",p:"숙어/표현"},
+// DAY 29
+{d:"DAY 29",e:"thought",k:"생각",p:"명사"},
+{d:"DAY 29",e:"expression",k:"표현",p:"명사"},
+{d:"DAY 29",e:"knowledge",k:"지식, 앎",p:"명사"},
+{d:"DAY 29",e:"communication",k:"의사소통",p:"명사"},
+{d:"DAY 29",e:"conversation",k:"대화",p:"명사"},
+{d:"DAY 29",e:"explain",k:"설명하다",p:"동사"},
+{d:"DAY 29",e:"discuss",k:"논의하다, 토론하다",p:"동사"},
+{d:"DAY 29",e:"opinion",k:"의견, 견해",p:"명사"},
+{d:"DAY 29",e:"agree",k:"동의하다",p:"동사"},
+{d:"DAY 29",e:"advise",k:"충고하다, 조언하다",p:"동사"},
+{d:"DAY 29",e:"order",k:"명령하다, 주문하다; 명령, 주문, 순서",p:"동사"},
+{d:"DAY 29",e:"suggest",k:"제안하다",p:"동사"},
+{d:"DAY 29",e:"allow",k:"허락하다, 허용하다",p:"동사"},
+{d:"DAY 29",e:"mistake",k:"실수, 잘못",p:"명사"},
+{d:"DAY 29",e:"mind",k:"신경 쓰다, 싫어하다; 마음, 정신",p:"동사"},
+{d:"DAY 29",e:"argue",k:"말다툼하다, 언쟁하다",p:"동사"},
+{d:"DAY 29",e:"imagine",k:"상상하다",p:"동사"},
+{d:"DAY 29",e:"nod",k:"(고개를) 끄덕이다",p:"동사"},
+{d:"DAY 29",e:"yell",k:"소리치다, 고함지르다",p:"동사"},
+{d:"DAY 29",e:"whisper",k:"속삭이다",p:"동사"},
+{d:"DAY 29",e:"correct",k:"맞는, 정확한; 고치다, 바로잡다",p:"형용사"},
+{d:"DAY 29",e:"confuse",k:"혼란스럽게 하다, 혼동하다",p:"동사"},
+{d:"DAY 29",e:"memory",k:"기억력, 기억, 추억",p:"명사"},
+{d:"DAY 29",e:"can't help -ing",k:"~하지 않을 수 없다",p:"숙어/표현"},
+{d:"DAY 29",e:"give ~ a call",k:"~에게 전화를 하다",p:"숙어/표현"},
+// DAY 30
+{d:"DAY 30",e:"online",k:"온라인의; 온라인으로",p:"형용사"},
+{d:"DAY 30",e:"connect",k:"연결하다, 접속하다",p:"동사"},
+{d:"DAY 30",e:"click",k:"클릭하다",p:"동사"},
+{d:"DAY 30",e:"address",k:"주소, 연설, 강연",p:"명사"},
+{d:"DAY 30",e:"file",k:"파일, 서류",p:"명사"},
+{d:"DAY 30",e:"image",k:"이미지, 인상, 모습, 그림",p:"명사"},
+{d:"DAY 30",e:"information",k:"정보",p:"명사"},
+{d:"DAY 30",e:"search",k:"찾아보다, 검색하다; 수색, 검색",p:"동사"},
+{d:"DAY 30",e:"download",k:"다운로드하다, 내려받다",p:"동사"},
+{d:"DAY 30",e:"post",k:"(웹사이트에 정보·사진을) 올리다",p:"동사"},
+{d:"DAY 30",e:"comment",k:"논평, 댓글; 의견을 말하다",p:"명사"},
+{d:"DAY 30",e:"reply",k:"대답하다, 답변하다; 대답, 답장",p:"동사"},
+{d:"DAY 30",e:"data",k:"자료, 데이터",p:"명사"},
+{d:"DAY 30",e:"delete",k:"삭제하다",p:"동사"},
+{d:"DAY 30",e:"update",k:"갱신하다, 업데이트하다",p:"동사"},
+{d:"DAY 30",e:"application",k:"애플리케이션, 응용 프로그램, 지원(서), 신청(서)",p:"명사"},
+{d:"DAY 30",e:"text",k:"(휴대 전화로) 문자를 보내다; 글, 본문",p:"동사"},
+{d:"DAY 30",e:"chat",k:"이야기를 나누다, 채팅하다; 수다, 채팅",p:"동사"},
+{d:"DAY 30",e:"influence",k:"영향(력); 영향을 미치다",p:"명사"},
+{d:"DAY 30",e:"anytime",k:"언제든지, 언제나",p:"부사"},
+{d:"DAY 30",e:"even",k:"~조차도, 심지어",p:"부사"},
+{d:"DAY 30",e:"addiction",k:"중독",p:"명사"},
+{d:"DAY 30",e:"thanks to",k:"~ 덕분에",p:"숙어/표현"},
+{d:"DAY 30",e:"stand for",k:"(약자·기호 등이) ~을 의미하다, ~을 나타내다",p:"숙어/표현"},
+{d:"DAY 30",e:"stop -ing",k:"~하는 것을 그만두다[멈추다]",p:"숙어/표현"},
+// DAY 31
+{d:"DAY 31",e:"company",k:"회사, 기업",p:"명사"},
+{d:"DAY 31",e:"business",k:"사업, 업무",p:"명사"},
+{d:"DAY 31",e:"manage",k:"경영하다, 운영하다, 관리하다",p:"동사"},
+{d:"DAY 31",e:"boss",k:"사장, (직장의) 상사",p:"명사"},
+{d:"DAY 31",e:"client",k:"의뢰인, 고객",p:"명사"},
+{d:"DAY 31",e:"meeting",k:"회의",p:"명사"},
+{d:"DAY 31",e:"salary",k:"급여, 봉급",p:"명사"},
+{d:"DAY 31",e:"earn",k:"(돈을) 벌다",p:"동사"},
+{d:"DAY 31",e:"task",k:"일, 과제",p:"명사"},
+{d:"DAY 31",e:"hire",k:"고용하다, 채용하다",p:"동사"},
+{d:"DAY 31",e:"fire",k:"해고하다; 불",p:"동사"},
+{d:"DAY 31",e:"apply",k:"지원하다, 신청하다",p:"동사"},
+{d:"DAY 31",e:"quit",k:"그만두다",p:"동사"},
+{d:"DAY 31",e:"interview",k:"인터뷰를 하다, 면접하다; 인터뷰, 면접",p:"동사"},
+{d:"DAY 31",e:"ability",k:"능력, 자질",p:"명사"},
+{d:"DAY 31",e:"skill",k:"기술, 기능",p:"명사"},
+{d:"DAY 31",e:"reward",k:"보상, 사례(금); 보상하다",p:"명사"},
+{d:"DAY 31",e:"career",k:"직업, 경력",p:"명사"},
+{d:"DAY 31",e:"copy",k:"복사하다, 모방하다, 베끼다; 복사(본)",p:"동사"},
+{d:"DAY 31",e:"print",k:"인쇄하다, 프린트하다",p:"동사"},
+{d:"DAY 31",e:"contract",k:"계약(서), 약정; 계약하다",p:"명사"},
+{d:"DAY 31",e:"signature",k:"서명, 사인; 대표하는",p:"명사"},
+{d:"DAY 31",e:"carry on",k:"계속해 나가다, 이어서 계속하다",p:"숙어/표현"},
+{d:"DAY 31",e:"ask ~ to",k:"~에게 …해 달라고 부탁[요청]하다",p:"숙어/표현"},
+{d:"DAY 31",e:"make a living",k:"생계를 꾸리다",p:"숙어/표현"},
+// DAY 32
+{d:"DAY 32",e:"tool",k:"도구, 연장",p:"명사"},
+{d:"DAY 32",e:"machine",k:"기계",p:"명사"},
+{d:"DAY 32",e:"technology",k:"(과학) 기술",p:"명사"},
+{d:"DAY 32",e:"develop",k:"발전하다, 발달시키다",p:"동사"},
+{d:"DAY 32",e:"invent",k:"발명하다",p:"동사"},
+{d:"DAY 32",e:"bulb",k:"전구",p:"명사"},
+{d:"DAY 32",e:"device",k:"장치, 장비",p:"명사"},
+{d:"DAY 32",e:"energy",k:"에너지, 활력, 기운",p:"명사"},
+{d:"DAY 32",e:"powerful",k:"강력한, 강한",p:"형용사"},
+{d:"DAY 32",e:"level",k:"수준, 정도, 높이",p:"명사"},
+{d:"DAY 32",e:"replace",k:"대체하다, 대신하다",p:"동사"},
+{d:"DAY 32",e:"automatic",k:"자동의",p:"형용사"},
+{d:"DAY 32",e:"necessary",k:"필요한, 필수적인",p:"형용사"},
+{d:"DAY 32",e:"practical",k:"실제적인, 현실적인, 실용적인",p:"형용사"},
+{d:"DAY 32",e:"convenient",k:"편리한",p:"형용사"},
+{d:"DAY 32",e:"easily",k:"쉽게",p:"부사"},
+{d:"DAY 32",e:"press",k:"누르다, 압박하다; 신문, 언론",p:"동사"},
+{d:"DAY 32",e:"system",k:"체계, 시스템, 장치",p:"명사"},
+{d:"DAY 32",e:"combination",k:"결합, 조합",p:"명사"},
+{d:"DAY 32",e:"adapt",k:"적응하다, 각색하다",p:"동사"},
+{d:"DAY 32",e:"flash",k:"번쩍이다; 번쩍이는 빛, (카메라의) 플래시",p:"동사"},
+{d:"DAY 32",e:"tube",k:"관, 튜브",p:"명사"},
+{d:"DAY 32",e:"get rid of",k:"~을 버리다, ~을 제거하다",p:"숙어/표현"},
+{d:"DAY 32",e:"up to date",k:"최신의, 첨단의",p:"숙어/표현"},
+{d:"DAY 32",e:"deal with",k:"~을 다루다, ~을 처리하다",p:"숙어/표현"},
+// DAY 33
+{d:"DAY 33",e:"accident",k:"사고",p:"명사"},
+{d:"DAY 33",e:"dangerous",k:"위험한",p:"형용사"},
+{d:"DAY 33",e:"safety",k:"안전, 안전성",p:"명사"},
+{d:"DAY 33",e:"trouble",k:"문제, 어려움, 곤경",p:"명사"},
+{d:"DAY 33",e:"alarm",k:"자명종, 경보(기), 경고 신호",p:"명사"},
+{d:"DAY 33",e:"signal",k:"신호",p:"명사"},
+{d:"DAY 33",e:"prevent",k:"막다, 예방하다",p:"동사"},
+{d:"DAY 33",e:"notice",k:"알다, 알아차리다; 예고, 통지, 안내문",p:"동사"},
+{d:"DAY 33",e:"avoid",k:"피하다, 방지하다",p:"동사"},
+{d:"DAY 33",e:"damage",k:"손상, 피해; 손상을 입히다, 피해를 주다",p:"명사"},
+{d:"DAY 33",e:"terrible",k:"끔찍한, 참혹한",p:"형용사"},
+{d:"DAY 33",e:"exit",k:"출구; 나가다",p:"명사"},
+{d:"DAY 33",e:"crash",k:"충돌하다, 추락하다; 충돌, 추락 (사고)",p:"동사"},
+{d:"DAY 33",e:"burn",k:"(불에) 타다, 태우다, 데다, 화상을 입다",p:"동사"},
+{d:"DAY 33",e:"poison",k:"독, 독약",p:"명사"},
+{d:"DAY 33",e:"injure",k:"부상을 입다[입히다]",p:"동사"},
+{d:"DAY 33",e:"serious",k:"심각한, 진지한",p:"형용사"},
+{d:"DAY 33",e:"rescue",k:"구조하다, 구출하다; 구조, 구출",p:"동사"},
+{d:"DAY 33",e:"survive",k:"살아남다, 생존하다",p:"동사"},
+{d:"DAY 33",e:"unexpected",k:"예상치 못한, 뜻밖의",p:"형용사"},
+{d:"DAY 33",e:"emergency",k:"긴급 상황, 비상(사태)",p:"명사"},
+{d:"DAY 33",e:"urgent",k:"긴급한, 다급한",p:"형용사"},
+{d:"DAY 33",e:"first aid",k:"응급 처치, 응급 치료",p:"명사"},
+{d:"DAY 33",e:"after a while",k:"잠시 후에",p:"숙어/표현"},
+{d:"DAY 33",e:"watch out for",k:"~을 조심하다, ~에 대해 주의하다",p:"숙어/표현"},
+// DAY 34
+{d:"DAY 34",e:"environment",k:"환경",p:"명사"},
+{d:"DAY 34",e:"protect",k:"보호하다, 지키다",p:"동사"},
+{d:"DAY 34",e:"pollution",k:"오염, 공해",p:"명사"},
+{d:"DAY 34",e:"trash",k:"쓰레기",p:"명사"},
+{d:"DAY 34",e:"dust",k:"먼지",p:"명사"},
+{d:"DAY 34",e:"noise",k:"(시끄러운) 소리, 소음",p:"명사"},
+{d:"DAY 34",e:"greenhouse",k:"온실",p:"명사"},
+{d:"DAY 34",e:"harmful",k:"해로운, 유해한",p:"형용사"},
+{d:"DAY 34",e:"save",k:"구하다, 절약하다, 저축하다",p:"동사"},
+{d:"DAY 34",e:"recycle",k:"재활용하다",p:"동사"},
+{d:"DAY 34",e:"separate",k:"분리하다",p:"동사"},
+{d:"DAY 34",e:"immediately",k:"즉시, 곧바로",p:"부사"},
+{d:"DAY 34",e:"effective",k:"효과적인",p:"형용사"},
+{d:"DAY 34",e:"warn",k:"경고하다, 주의를 주다",p:"동사"},
+{d:"DAY 34",e:"limit",k:"제한하다, 한정하다; 제한, 한계",p:"동사"},
+{d:"DAY 34",e:"destroy",k:"파괴하다",p:"동사"},
+{d:"DAY 34",e:"threaten",k:"위협하다, 협박하다",p:"동사"},
+{d:"DAY 34",e:"waste",k:"낭비하다; 낭비, 폐기물, 쓰레기",p:"동사"},
+{d:"DAY 34",e:"affect",k:"영향을 미치다",p:"동사"},
+{d:"DAY 34",e:"direct",k:"직접적인, 직행의",p:"형용사"},
+{d:"DAY 34",e:"eco-friendly",k:"친환경적인, 환경친화적인",p:"형용사"},
+{d:"DAY 34",e:"recently",k:"최근에",p:"부사"},
+{d:"DAY 34",e:"had better",k:"~하는 편이 좋다[낫다]",p:"숙어/표현"},
+{d:"DAY 34",e:"keep ~ in mind",k:"~을 명심하다",p:"숙어/표현"},
+{d:"DAY 34",e:"above all",k:"무엇보다도, 특히",p:"숙어/표현"},
+// DAY 35
+{d:"DAY 35",e:"hero",k:"영웅, 주인공",p:"명사"},
+{d:"DAY 35",e:"popular",k:"인기 있는, 대중적인",p:"형용사"},
+{d:"DAY 35",e:"well-known",k:"잘 알려진, 유명한",p:"형용사"},
+{d:"DAY 35",e:"major",k:"주요한, 중요한; 전공",p:"형용사"},
+{d:"DAY 35",e:"difficult",k:"어려운, 힘든",p:"형용사"},
+{d:"DAY 35",e:"hate",k:"몹시 싫어하다; 증오, 미움",p:"동사"},
+{d:"DAY 35",e:"impressive",k:"인상적인, 감명 깊은",p:"형용사"},
+{d:"DAY 35",e:"valuable",k:"귀중한, 소중한, 값비싼",p:"형용사"},
+{d:"DAY 35",e:"courage",k:"용기",p:"명사"},
+{d:"DAY 35",e:"miracle",k:"기적",p:"명사"},
+{d:"DAY 35",e:"consider",k:"고려하다, ~을 …라고 여기다",p:"동사"},
+{d:"DAY 35",e:"wrong",k:"잘못된, 틀린",p:"형용사"},
+{d:"DAY 35",e:"situation",k:"상황, 처지",p:"명사"},
+{d:"DAY 35",e:"expect",k:"기대하다, 예상하다",p:"동사"},
+{d:"DAY 35",e:"forecast",k:"예측하다, 예보하다; 예측, 예보",p:"동사"},
+{d:"DAY 35",e:"silence",k:"침묵, 정적",p:"명사"},
+{d:"DAY 35",e:"boring",k:"재미없는, 지루한",p:"형용사"},
+{d:"DAY 35",e:"especially",k:"특히",p:"부사"},
+{d:"DAY 35",e:"yet",k:"아직",p:"부사"},
+{d:"DAY 35",e:"rumor",k:"소문",p:"명사"},
+{d:"DAY 35",e:"riddle",k:"수수께끼",p:"명사"},
+{d:"DAY 35",e:"humor",k:"유머, 익살",p:"명사"},
+{d:"DAY 35",e:"turn over",k:"~을 뒤집다",p:"숙어/표현"},
+{d:"DAY 35",e:"be related to",k:"~와 관련이 있다, ~와 친척[동족] 간이다",p:"숙어/표현"},
+{d:"DAY 35",e:"have nothing to do with",k:"~와 (아무) 관련이 없다",p:"숙어/표현"},
+// DAY 36
+{d:"DAY 36",e:"structure",k:"구조, 구성, 구조물, 건축물",p:"명사"},
+{d:"DAY 36",e:"ceiling",k:"천장",p:"명사"},
+{d:"DAY 36",e:"roof",k:"지붕",p:"명사"},
+{d:"DAY 36",e:"chimney",k:"굴뚝",p:"명사"},
+{d:"DAY 36",e:"fence",k:"담장, 울타리",p:"명사"},
+{d:"DAY 36",e:"balcony",k:"발코니",p:"명사"},
+{d:"DAY 36",e:"elevator",k:"엘리베이터, 승강기",p:"명사"},
+{d:"DAY 36",e:"stair",k:"계단, 층계",p:"명사"},
+{d:"DAY 36",e:"gate",k:"문, 출입문, 탑승구",p:"명사"},
+{d:"DAY 36",e:"garage",k:"차고",p:"명사"},
+{d:"DAY 36",e:"yard",k:"뜰, 마당",p:"명사"},
+{d:"DAY 36",e:"lawn",k:"잔디밭",p:"명사"},
+{d:"DAY 36",e:"floor",k:"(실내의) 바닥, (건물의) 층",p:"명사"},
+{d:"DAY 36",e:"palace",k:"궁전",p:"명사"},
+{d:"DAY 36",e:"terrific",k:"아주 좋은, 멋진, 훌륭한",p:"형용사"},
+{d:"DAY 36",e:"comfortable",k:"편한, 편안한",p:"형용사"},
+{d:"DAY 36",e:"repair",k:"고치다, 수리하다; 수리",p:"동사"},
+{d:"DAY 36",e:"arrange",k:"배열하다, 정리하다, 준비하다",p:"동사"},
+{d:"DAY 36",e:"polish",k:"(윤이 나도록) 닦다, 광을 내다; 광택제",p:"동사"},
+{d:"DAY 36",e:"leak",k:"(물·가스 등이) 새다",p:"동사"},
+{d:"DAY 36",e:"dirt",k:"먼지, 때",p:"명사"},
+{d:"DAY 36",e:"messy",k:"지저분한, 엉망인",p:"형용사"},
+{d:"DAY 36",e:"belong to",k:"~의 것이다, ~에 속하다",p:"숙어/표현"},
+{d:"DAY 36",e:"drop by",k:"잠시 들르다",p:"숙어/표현"},
+{d:"DAY 36",e:"be used to -ing",k:"~에 익숙해지다",p:"숙어/표현"},
+// DAY 37
+{d:"DAY 37",e:"shelf",k:"선반",p:"명사"},
+{d:"DAY 37",e:"closet",k:"벽장, 붙박이장",p:"명사"},
+{d:"DAY 37",e:"drawer",k:"서랍",p:"명사"},
+{d:"DAY 37",e:"furniture",k:"가구",p:"명사"},
+{d:"DAY 37",e:"air conditioner",k:"에어컨, 냉방 장치",p:"명사"},
+{d:"DAY 37",e:"refrigerator",k:"냉장고",p:"명사"},
+{d:"DAY 37",e:"vacuum",k:"진공청소기로 청소하다; 진공",p:"동사"},
+{d:"DAY 37",e:"handle",k:"다루다, 처리하다; 손잡이",p:"동사"},
+{d:"DAY 37",e:"basic",k:"기본의, 기초의",p:"형용사"},
+{d:"DAY 37",e:"daily",k:"매일의, 하루의",p:"형용사"},
+{d:"DAY 37",e:"useful",k:"유용한, 도움이 되는",p:"형용사"},
+{d:"DAY 37",e:"tidy",k:"정돈된, 깔끔한",p:"형용사"},
+{d:"DAY 37",e:"wipe",k:"닦다, 닦아내다",p:"동사"},
+{d:"DAY 37",e:"rub",k:"문지르다, 비비다",p:"동사"},
+{d:"DAY 37",e:"hang",k:"걸다, 걸려 있다",p:"동사"},
+{d:"DAY 37",e:"remove",k:"제거하다, 치우다",p:"동사"},
+{d:"DAY 37",e:"loose",k:"헐거운, 느슨한, 헐렁한",p:"형용사"},
+{d:"DAY 37",e:"nail",k:"손톱, 발톱, 못; 못으로 박다[고정하다]",p:"명사"},
+{d:"DAY 37",e:"hammer",k:"망치로 치다; 망치",p:"동사"},
+{d:"DAY 37",e:"bucket",k:"양동이",p:"명사"},
+{d:"DAY 37",e:"ladder",k:"사다리",p:"명사"},
+{d:"DAY 37",e:"scissors",k:"가위",p:"명사"},
+{d:"DAY 37",e:"blanket",k:"담요",p:"명사"},
+{d:"DAY 37",e:"in the middle of",k:"~의 한가운데에, ~의 중반에, ~이 한창일 때",p:"숙어/표현"},
+{d:"DAY 37",e:"break down",k:"고장 나다",p:"숙어/표현"},
+// DAY 38
+{d:"DAY 38",e:"traffic",k:"교통(량), 차량",p:"명사"},
+{d:"DAY 38",e:"transportation",k:"교통수단, 수송",p:"명사"},
+{d:"DAY 38",e:"seat",k:"좌석, 자리",p:"명사"},
+{d:"DAY 38",e:"site",k:"현장, 부지, (인터넷) 사이트",p:"명사"},
+{d:"DAY 38",e:"reach",k:"이르다, 도착하다",p:"동사"},
+{d:"DAY 38",e:"curve",k:"(도로의) 커브길, 곡선",p:"명사"},
+{d:"DAY 38",e:"sidewalk",k:"인도, 보도",p:"명사"},
+{d:"DAY 38",e:"rail",k:"기차, 철도",p:"명사"},
+{d:"DAY 38",e:"sail",k:"항해하다; 돛",p:"동사"},
+{d:"DAY 38",e:"flat",k:"평평한, 납작한, 바람이 빠진, 펑크 난",p:"형용사"},
+{d:"DAY 38",e:"rough",k:"거친, 울퉁불퉁한, 대강의",p:"형용사"},
+{d:"DAY 38",e:"broad",k:"(폭이) 넓은, 널찍한",p:"형용사"},
+{d:"DAY 38",e:"careful",k:"주의 깊은, 조심하는",p:"형용사"},
+{d:"DAY 38",e:"route",k:"길, 경로",p:"명사"},
+{d:"DAY 38",e:"fasten",k:"매다, 채우다",p:"동사"},
+{d:"DAY 38",e:"engine",k:"엔진",p:"명사"},
+{d:"DAY 38",e:"wheel",k:"바퀴",p:"명사"},
+{d:"DAY 38",e:"chain",k:"(쇠)사슬, 체인, 체인점",p:"명사"},
+{d:"DAY 38",e:"fix",k:"수리하다, 고치다, 고정시키다",p:"동사"},
+{d:"DAY 38",e:"downtown",k:"시내로, 중심가에",p:"부사"},
+{d:"DAY 38",e:"bump",k:"부딪치다, 충돌하다",p:"동사"},
+{d:"DAY 38",e:"besides",k:"게다가, ~ 외에",p:"부사"},
+{d:"DAY 38",e:"head for",k:"~으로 향하다",p:"숙어/표현"},
+{d:"DAY 38",e:"on one's way to",k:"~으로 가는 길에",p:"숙어/표현"},
+{d:"DAY 38",e:"get to",k:"~에 도착하다",p:"숙어/표현"},
+// DAY 39
+{d:"DAY 39",e:"amount",k:"(시간·물질의) 양, (돈의) 액수",p:"명사"},
+{d:"DAY 39",e:"measure",k:"측정하다, 재다",p:"동사"},
+{d:"DAY 39",e:"single",k:"단 하나의, 1인용의",p:"형용사"},
+{d:"DAY 39",e:"double",k:"두 개로 된, 두 배의, 2인용의",p:"형용사"},
+{d:"DAY 39",e:"half",k:"반, 절반",p:"명사"},
+{d:"DAY 39",e:"several",k:"몇몇의",p:"형용사"},
+{d:"DAY 39",e:"enough",k:"충분한; 충분히",p:"형용사"},
+{d:"DAY 39",e:"whole",k:"전체의, 전부의",p:"형용사"},
+{d:"DAY 39",e:"nothing",k:"아무것도 ~ 아니다[없다]",p:"기타"},
+{d:"DAY 39",e:"less",k:"더 적은; 덜, 더 적게",p:"형용사"},
+{d:"DAY 39",e:"bundle",k:"묶음, 꾸러미, 다발",p:"명사"},
+{d:"DAY 39",e:"piece",k:"조각, 부분, 작품, 곡",p:"명사"},
+{d:"DAY 39",e:"pile",k:"무더기, 더미; 쌓다",p:"명사"},
+{d:"DAY 39",e:"contain",k:"들어 있다, 포함하다",p:"동사"},
+{d:"DAY 39",e:"scale",k:"규모, 범위, 저울, 체중계",p:"명사"},
+{d:"DAY 39",e:"medium",k:"중간의, 보통의",p:"형용사"},
+{d:"DAY 39",e:"huge",k:"막대한, 거대한",p:"형용사"},
+{d:"DAY 39",e:"quite",k:"꽤, 상당히",p:"부사"},
+{d:"DAY 39",e:"height",k:"키, 높이",p:"명사"},
+{d:"DAY 39",e:"rate",k:"비율, 속도",p:"명사"},
+{d:"DAY 39",e:"within",k:"~ 안에, ~ 이내에",p:"기타"},
+{d:"DAY 39",e:"empty",k:"비어 있는, 빈",p:"형용사"},
+{d:"DAY 39",e:"actually",k:"사실은, 실제로는",p:"부사"},
+{d:"DAY 39",e:"be short of",k:"~이 부족하다",p:"숙어/표현"},
+{d:"DAY 39",e:"add A to B",k:"A를 B에 추가하다",p:"숙어/표현"},
+// DAY 40
+{d:"DAY 40",e:"direction",k:"방향, 지시, 명령",p:"명사"},
+{d:"DAY 40",e:"straight",k:"똑바로, 곧장; 곧은",p:"부사"},
+{d:"DAY 40",e:"toward(s)",k:"~ 쪽으로, ~을 향하여",p:"기타"},
+{d:"DAY 40",e:"far",k:"멀리, 멀리 떨어져",p:"부사"},
+{d:"DAY 40",e:"distance",k:"거리",p:"명사"},
+{d:"DAY 40",e:"location",k:"장소, 위치",p:"명사"},
+{d:"DAY 40",e:"center",k:"중앙, 중심",p:"명사"},
+{d:"DAY 40",e:"bottom",k:"맨 아래, 바닥",p:"명사"},
+{d:"DAY 40",e:"position",k:"위치, 자리, 자세",p:"명사"},
+{d:"DAY 40",e:"eastern",k:"동쪽에 위치한, 동양의",p:"형용사"},
+{d:"DAY 40",e:"western",k:"서쪽에 위치한, 서양의",p:"형용사"},
+{d:"DAY 40",e:"northern",k:"북쪽의, 북부의",p:"형용사"},
+{d:"DAY 40",e:"southern",k:"남쪽의, 남부의",p:"형용사"},
+{d:"DAY 40",e:"base",k:"밑받침, 기초, 토대",p:"명사"},
+{d:"DAY 40",e:"upstairs",k:"위층으로, 위층에",p:"부사"},
+{d:"DAY 40",e:"beside",k:"~ 옆에, ~의 곁에",p:"기타"},
+{d:"DAY 40",e:"below",k:"~의 아래에, ~ 미만으로, ~보다 낮은",p:"기타"},
+{d:"DAY 40",e:"through",k:"~을 통해, ~을 통과하여",p:"기타"},
+{d:"DAY 40",e:"among",k:"~ 중에, ~ 사이에",p:"기타"},
+{d:"DAY 40",e:"beyond",k:"~ 너머에, ~을 지나서, 넘어서",p:"기타"},
+{d:"DAY 40",e:"mark",k:"표시하다; 자국, 표시",p:"동사"},
+{d:"DAY 40",e:"closely",k:"가까이, 자세히, 면밀히",p:"부사"},
+{d:"DAY 40",e:"ahead of",k:"~의 앞에",p:"숙어/표현"},
+{d:"DAY 40",e:"on the other side of",k:"~의 반대쪽[맞은편]에",p:"숙어/표현"},
+{d:"DAY 40",e:"side by side",k:"나란히",p:"숙어/표현"},
+];
+
+// ── STATE ──
+let currentDay = 'DAY 01';
+let currentMode = 'flash';
+let currentIdx = 0;
+let isFlipped = false;
+let score = 0;
+let streak = 0;
+let mcCorrect = 0;
+let mcIdx = 0;
+let saCorrect = 0;
+let saIdx = 0;
+let shadowIdx = 0;
+let currentWords = [];
+let mcAnswered = false;
+let saAnswered = false;
+const completedDays = new Set(JSON.parse(localStorage.getItem('completedDays') || '[]'));
+const knownWords = new Set(JSON.parse(localStorage.getItem('knownWords') || '[]'));
+
+// ── INIT ──
+function init() {
+  buildDayGrid();
+  loadDay('DAY 01');
+}
+
+function buildDayGrid() {
+  const grid = document.getElementById('dayGrid');
+  const days = [...new Set(WORDS.map(w => w.d))];
+  grid.innerHTML = '';
+  // Add "ALL" button
+  const allBtn = document.createElement('button');
+  allBtn.className = 'day-btn';
+  allBtn.textContent = '전체';
+  allBtn.onclick = () => loadDay('ALL');
+  grid.appendChild(allBtn);
+  days.forEach(d => {
+    const btn = document.createElement('button');
+    btn.className = 'day-btn' + (d === currentDay ? ' active' : '') + (completedDays.has(d) ? ' completed' : '');
+    btn.textContent = d.replace('DAY ', 'D');
+    btn.onclick = () => loadDay(d);
+    btn.id = 'daybtn-' + d.replace(' ', '');
+    grid.appendChild(btn);
+  });
+}
+
+function loadDay(day) {
+  currentDay = day;
+  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('daybtn-' + day.replace(' ', ''));
+  if (btn) btn.classList.add('active');
+  if (day === 'ALL') {
+    currentWords = [...WORDS];
+    document.querySelectorAll('.day-btn')[0].classList.add('active');
+  } else {
+    currentWords = WORDS.filter(w => w.d === day);
+  }
+  shuffle(currentWords);
+  currentIdx = 0;
+  mcIdx = 0; mcCorrect = 0;
+  saIdx = 0; saCorrect = 0;
+  shadowIdx = 0;
+  streak = 0;
+  isFlipped = false;
+  refreshMode();
+}
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+// ── MODE SWITCHING ──
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
+  document.querySelectorAll('.study-area').forEach(a => a.classList.remove('active'));
+  document.getElementById('mode-' + mode).classList.add('active');
+  currentIdx = 0; mcIdx = 0; saIdx = 0; shadowIdx = 0;
+  isFlipped = false;
+  refreshMode();
+}
+
+function refreshMode() {
+  if (currentMode === 'flash') renderFlash();
+  else if (currentMode === 'mc') renderMC();
+  else if (currentMode === 'sa') renderSA();
+  else if (currentMode === 'shadow') renderShadow();
+  else if (currentMode === 'list') renderList();
+  updateProgress();
+}
+
+// ── FLASH CARD ──
+function renderFlash() {
+  if (!currentWords.length) return;
+  const w = currentWords[currentIdx];
+  document.getElementById('flashWord').textContent = w.e;
+  document.getElementById('flashMeaning').textContent = w.k;
+  document.getElementById('flashPos').textContent = w.p;
+  document.getElementById('flashDayTag').textContent = w.d;
+  document.getElementById('flashDayTag2').textContent = w.d;
+  document.getElementById('flashCounter').textContent = `${currentIdx + 1} / ${currentWords.length}`;
+  document.getElementById('flashStreak').textContent = `🔥 ${streak}연속`;
+  const fi = document.getElementById('flipInner');
+  fi.classList.remove('flipped');
+  isFlipped = false;
+}
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('flipInner').classList.toggle('flipped', isFlipped);
+}
+
+function nextWord() {
+  if (currentIdx < currentWords.length - 1) {
+    currentIdx++;
+    renderFlash();
+  } else {
+    showToast('🎉 DAY 완료! 수고했어요!');
+    markDayComplete();
+  }
+}
+
+function prevWord() {
+  if (currentIdx > 0) { currentIdx--; renderFlash(); }
+}
+
+function markKnown() {
+  knownWords.add(currentWords[currentIdx].e);
+  localStorage.setItem('knownWords', JSON.stringify([...knownWords]));
+  streak++;
+  score += 10;
+  updateScore();
+  nextWord();
+}
+
+function markUnknown() {
+  knownWords.delete(currentWords[currentIdx].e);
+  streak = 0;
+  nextWord();
+}
+
+function markDayComplete() {
+  if (currentDay !== 'ALL') {
+    completedDays.add(currentDay);
+    localStorage.setItem('completedDays', JSON.stringify([...completedDays]));
+    buildDayGrid();
+    loadDay(currentDay);
+  }
+}
+
+// ── MULTIPLE CHOICE ──
+function renderMC() {
+  if (!currentWords.length) return;
+  mcAnswered = false;
+  const w = currentWords[mcIdx % currentWords.length];
+  document.getElementById('mcWord').textContent = w.e;
+  document.getElementById('mcCurrent').textContent = mcIdx + 1;
+  document.getElementById('mcTotal').textContent = currentWords.length;
+  document.getElementById('mcScore').textContent = `맞은 문제: ${mcCorrect}`;
+  document.getElementById('mcNextBtn').style.display = 'none';
+
+  // Build choices: 1 correct + 3 random wrong
+  const wrongPool = WORDS.filter(x => x.e !== w.e && x.k !== w.k);
+  shuffle(wrongPool);
+  const choices = [w, ...wrongPool.slice(0, 3)];
+  shuffle(choices);
+
+  const container = document.getElementById('mcChoices');
+  container.innerHTML = '';
+  choices.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = c.k;
+    btn.onclick = () => checkMC(btn, c.e === w.e, w.k);
+    container.appendChild(btn);
+  });
+}
+
+function checkMC(btn, isCorrect, correctAnswer) {
+  if (mcAnswered) return;
+  mcAnswered = true;
+  if (isCorrect) {
+    btn.classList.add('correct');
+    mcCorrect++;
+    score += 10;
+    streak++;
+  } else {
+    btn.classList.add('wrong');
+    streak = 0;
+    // Show correct
+    document.querySelectorAll('.choice-btn').forEach(b => {
+      if (b.textContent === correctAnswer) b.classList.add('correct');
+    });
+  }
+  document.querySelectorAll('.choice-btn').forEach(b => b.disabled = true);
+  document.getElementById('mcNextBtn').style.display = 'block';
+  updateScore();
+  document.getElementById('mcScore').textContent = `맞은 문제: ${mcCorrect}`;
+}
+
+function mcNext() {
+  mcIdx++;
+  if (mcIdx >= currentWords.length) {
+    showToast(`🎯 완료! ${mcCorrect}/${currentWords.length} 정답!`);
+    mcIdx = 0; mcCorrect = 0;
+  }
+  renderMC();
+}
+
+// ── SHORT ANSWER ──
+function renderSA() {
+  if (!currentWords.length) return;
+  saAnswered = false;
+  const w = currentWords[saIdx % currentWords.length];
+  document.getElementById('saMeaning').textContent = w.k;
+  document.getElementById('saCurrent').textContent = saIdx + 1;
+  document.getElementById('saTotal').textContent = currentWords.length;
+  document.getElementById('saScore').textContent = `맞은 문제: ${saCorrect}`;
+
+  const hint = w.e.split('').map((c, i) => i === 0 ? c : (c === ' ' ? ' ' : '_')).join('');
+  document.getElementById('saHint').textContent = `힌트: ${hint} (${w.e.length}글자)`;
+
+  const input = document.getElementById('saInput');
+  input.value = '';
+  input.className = 'sa-input';
+  input.disabled = false;
+  document.getElementById('saFeedback').textContent = '';
+  document.getElementById('saFeedback').style.color = '';
+  document.getElementById('saNextBtn').style.display = 'none';
+  document.getElementById('saCheckBtn').style.display = '';
+  setTimeout(() => input.focus(), 100);
+}
+
+function checkSA() {
+  if (saAnswered) return;
+  const w = currentWords[saIdx % currentWords.length];
+  const input = document.getElementById('saInput');
+  const answer = input.value.trim().toLowerCase();
+  const correct = w.e.toLowerCase();
+  saAnswered = true;
+  input.disabled = true;
+
+  if (answer === correct) {
+    input.className = 'sa-input correct';
+    document.getElementById('saFeedback').textContent = '✅ 정답! 훌륭해요!';
+    document.getElementById('saFeedback').style.color = 'var(--success)';
+    saCorrect++; score += 15; streak++;
+  } else {
+    input.className = 'sa-input wrong';
+    document.getElementById('saFeedback').textContent = `❌ 정답: ${w.e}`;
+    document.getElementById('saFeedback').style.color = 'var(--error)';
+    streak = 0;
+  }
+  document.getElementById('saNextBtn').style.display = 'block';
+  document.getElementById('saCheckBtn').style.display = 'none';
+  updateScore();
+  document.getElementById('saScore').textContent = `맞은 문제: ${saCorrect}`;
+}
+
+function showSAHint() {
+  const w = currentWords[saIdx % currentWords.length];
+  const halfReveal = w.e.split('').map((c, i) => i % 2 === 0 ? c : (c === ' ' ? ' ' : '_')).join('');
+  document.getElementById('saHint').textContent = `힌트: ${halfReveal}`;
+}
+
+function saNext() {
+  saIdx++;
+  if (saIdx >= currentWords.length) {
+    showToast(`✏️ 완료! ${saCorrect}/${currentWords.length} 정답!`);
+    saIdx = 0; saCorrect = 0;
+  }
+  renderSA();
+}
+
+// ── SHADOWING ──
+function renderShadow() {
+  if (!currentWords.length) return;
+  const w = currentWords[shadowIdx % currentWords.length];
+  document.getElementById('shadowWord').textContent = w.e;
+  document.getElementById('shadowMeaning').textContent = w.k;
+  document.getElementById('shadowIdx').textContent = shadowIdx + 1;
+  document.getElementById('shadowTotal').textContent = currentWords.length;
+  document.getElementById('shadowTip').textContent = '발음을 듣고 따라 말해보세요! 🎤';
+
+  // Simple IPA hints for common words
+  const ipaMap = {
+    meal: '/miːl/', prepare: '/prɪˈpɛr/', awake: '/əˈweɪk/', rest: '/rɛst/',
+    borrow: '/ˈbɒrəʊ/', lend: '/lɛnd/', forget: '/fərˈɡɛt/'
+  };
+  document.getElementById('shadowIPA').textContent = ipaMap[w.e] || '';
+
+  stopWave();
+}
+
+function shadowSpeak() {
+  const w = currentWords[shadowIdx % currentWords.length];
+  speak(w.e, 1);
+  startWave(1500);
+}
+
+function shadowSlowSpeak() {
+  const w = currentWords[shadowIdx % currentWords.length];
+  speak(w.e, 0.7);
+  startWave(2200);
+}
+
+function shadowRepeat() {
+  const w = currentWords[shadowIdx % currentWords.length];
+  let i = 0;
+  function next() {
+    if (i >= 3) return;
+    speak(w.e, 0.85);
+    startWave(1600);
+    i++;
+    setTimeout(next, 2000);
+  }
+  next();
+}
+
+let mediaRecorder = null;
+let recording = false;
+
+function toggleRecord() {
+  const btn = document.getElementById('shadowRecBtn');
+  if (!recording) {
+    if (!navigator.mediaDevices) {
+      showToast('⚠️ 마이크 접근이 지원되지 않습니다');
+      return;
+    }
+    navigator.mediaDevices.getUserMedia({audio: true}).then(stream => {
+      mediaRecorder = new MediaRecorder(stream);
+      mediaRecorder.start();
+      recording = true;
+      btn.textContent = '⏹️ 녹음 중지';
+      btn.classList.add('active');
+      startWave(999999);
+      document.getElementById('shadowTip').textContent = '🔴 녹음 중... 멈추려면 버튼을 다시 누르세요';
+      mediaRecorder.ondataavailable = () => {};
+      mediaRecorder.onstop = () => {
+        stream.getTracks().forEach(t => t.stop());
+        showToast('✅ 녹음 완료! 잘 했어요!');
+        document.getElementById('shadowTip').textContent = '녹음이 완료됐어요! 다시 시도해보세요 👏';
+        stopWave();
+      };
+    }).catch(() => showToast('⚠️ 마이크 권한이 필요합니다'));
+  } else {
+    mediaRecorder.stop();
+    recording = false;
+    btn.textContent = '🎙️ 내 발음 녹음';
+    btn.classList.remove('active');
+  }
+}
+
+function startWave(duration) {
+  const bars = document.querySelectorAll('.wave-bar');
+  bars.forEach(b => b.classList.add('active'));
+  if (duration < 99999) setTimeout(() => stopWave(), duration);
+}
+
+function stopWave() {
+  document.querySelectorAll('.wave-bar').forEach(b => b.classList.remove('active'));
+}
+
+function shadowNext() {
+  shadowIdx++;
+  if (shadowIdx >= currentWords.length) {
+    showToast('🎤 쉐도잉 완료!');
+    shadowIdx = 0;
+  }
+  renderShadow();
+}
+
+function shadowPrev() {
+  if (shadowIdx > 0) { shadowIdx--; renderShadow(); }
+}
+
+// ── WORD LIST ──
+function renderList() {
+  const tbody = document.getElementById('wordListBody');
+  tbody.innerHTML = '';
+  currentWords.forEach(w => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="word-en">${w.e}</span></td>
+      <td><span class="word-ko">${w.k}</span></td>
+      <td style="color:var(--muted); font-size:12px">${w.d}</td>
+      <td><button class="mini-speak" onclick="speak('${w.e.replace(/'/g,"\\'")}', 1)">🔊</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function filterWords() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const rows = document.querySelectorAll('#wordListBody tr');
+  rows.forEach(r => {
+    const text = r.textContent.toLowerCase();
+    r.style.display = text.includes(q) ? '' : 'none';
+  });
+}
+
+// ── TTS ──
+function speak(text, rate = 1) {
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(text);
+  utt.lang = 'en-US';
+  utt.rate = rate;
+  utt.pitch = 1;
+  const voices = window.speechSynthesis.getVoices();
+  const en = voices.find(v => v.lang === 'en-US' && !v.name.includes('Google')) ||
+             voices.find(v => v.lang.startsWith('en'));
+  if (en) utt.voice = en;
+  window.speechSynthesis.speak(utt);
+  return utt;
+}
+
+function speakWord() {
+  const w = currentWords[currentIdx];
+  if (!w) return;
+  const btn = document.getElementById('flashSpeakBtn');
+  if (btn) { btn.classList.add('speaking'); setTimeout(() => btn.classList.remove('speaking'), 1800); }
+  speak(w.e);
+}
+
+function speakKorean() {
+  const w = currentWords[currentIdx];
+  if (!w) return;
+  window.speechSynthesis.cancel();
+  const utt = new SpeechSynthesisUtterance(w.k);
+  utt.lang = 'ko-KR';
+  window.speechSynthesis.speak(utt);
+}
+
+// ── SCORE & PROGRESS ──
+function updateScore() {
+  document.getElementById('scoreBadge').textContent = `⭐ ${score}점`;
+}
+
+function updateProgress() {
+  const total = currentWords.length || 1;
+  let done = 0;
+  if (currentMode === 'flash') done = currentIdx;
+  else if (currentMode === 'mc') done = mcIdx;
+  else if (currentMode === 'sa') done = saIdx;
+  else if (currentMode === 'shadow') done = shadowIdx;
+  document.getElementById('progressFill').style.width = `${(done / total) * 100}%`;
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// Load voices
+window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+init();
+</script>
+</body>
+</html>
