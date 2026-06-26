@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>능률VOCA 초등 기본 단어 학습</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;background:#f0fdf4;color:#1a1a1a;min-height:100vh;}
+
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.login-box{background:#fff;border-radius:20px;padding:32px 24px;max-width:400px;width:100%;box-shadow:0 4px 24px rgba(5,150,105,0.12);}
+.login-logo{font-size:44px;text-align:center;margin-bottom:8px;}
+.login-title{font-size:20px;font-weight:800;text-align:center;color:#065f46;margin-bottom:4px;}
+.login-sub{font-size:13px;color:#94a3b8;text-align:center;margin-bottom:24px;}
+.lbl{font-size:13px;font-weight:700;color:#475569;display:block;margin-bottom:6px;}
+.linput{width:100%;padding:13px 14px;font-size:15px;border:1.5px solid #e2e8f0;border-radius:10px;outline:none;margin-bottom:14px;background:#f0fdf4;}
+.linput:focus{border-color:#10b981;}
+.class-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px;}
+.cbtn{padding:10px 0;font-size:14px;font-weight:700;border:2px solid #e2e8f0;border-radius:10px;background:#f0fdf4;cursor:pointer;color:#475569;transition:all .12s;}
+.cbtn.sel{background:#10b981;color:#fff;border-color:#10b981;}
+.go-btn{width:100%;padding:15px;font-size:16px;font-weight:800;background:linear-gradient(135deg,#10b981,#065f46);color:#fff;border:none;border-radius:12px;cursor:pointer;}
+.go-btn:disabled{background:#cbd5e1;cursor:default;}
+
+.main-hd{background:linear-gradient(135deg,#10b981,#065f46);color:#fff;padding:20px;}
+.main-hd-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;}
+.main-hd h1{font-size:18px;font-weight:800;}
+.ubadge{font-size:13px;background:rgba(255,255,255,0.2);padding:4px 10px;border-radius:99px;font-weight:700;}
+.main-hd p{font-size:12px;opacity:.8;margin-top:4px;}
+.day-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:16px;max-width:520px;margin:0 auto;}
+.day-card{background:#fff;border-radius:12px;padding:14px 10px;cursor:pointer;border:2px solid transparent;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:all .15s;text-align:center;}
+.day-card:hover{border-color:#10b981;background:#f0fdf4;}
+.day-num{font-size:13px;font-weight:800;color:#065f46;margin-bottom:2px;}
+.day-cnt{font-size:11px;color:#94a3b8;}
+.day-done{font-size:10px;font-weight:700;padding:2px 6px;border-radius:99px;background:#dcfce7;color:#16a34a;margin-top:4px;display:inline-block;}
+
+.screen-hd{background:linear-gradient(135deg,#10b981,#065f46);color:#fff;padding:16px 20px;}
+.screen-hd-top{display:flex;align-items:center;gap:10px;}
+.back-btn{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:18px;width:34px;height:34px;border-radius:8px;cursor:pointer;flex-shrink:0;}
+.screen-title{font-size:16px;font-weight:700;}
+
+.learn-wrap{max-width:520px;margin:0 auto;padding:16px;}
+.mode-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:16px;}
+.tab-btn{padding:9px 4px;font-size:12px;font-weight:700;border:2px solid #a7f3d0;border-radius:10px;background:#fff;cursor:pointer;color:#065f46;transition:all .12s;text-align:center;}
+.tab-btn.active{background:#10b981;color:#fff;border-color:#10b981;}
+
+.word-card{background:#fff;border-radius:20px;padding:32px 20px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.08);margin-bottom:16px;min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
+.wc-day{font-size:11px;color:#10b981;font-weight:700;margin-bottom:8px;}
+.wc-en{font-size:36px;font-weight:900;color:#065f46;margin-bottom:8px;}
+.wc-type{font-size:12px;color:#94a3b8;margin-bottom:12px;}
+.wc-kr{font-size:20px;font-weight:700;color:#1a1a1a;}
+.wc-hint{font-size:12px;color:#94a3b8;margin-top:8px;}
+.speak-btn{background:linear-gradient(135deg,#10b981,#065f46);color:#fff;border:none;border-radius:12px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:16px;width:100%;}
+.nav-btns{display:flex;gap:10px;margin-bottom:16px;}
+.nav-btn{flex:1;padding:12px;font-size:14px;font-weight:700;border:2px solid #a7f3d0;border-radius:11px;background:#fff;cursor:pointer;color:#065f46;}
+.nav-btn.primary{background:linear-gradient(135deg,#10b981,#065f46);color:#fff;border-color:#10b981;}
+.nav-btn:disabled{opacity:.4;cursor:default;}
+.prog-info{text-align:center;font-size:13px;color:#888;margin-bottom:6px;}
+.prog-bar2{height:5px;background:#a7f3d0;border-radius:99px;margin-bottom:16px;}
+.prog-fill2{height:100%;background:#10b981;border-radius:99px;transition:width .4s;}
+
+.test-q{background:#fff;border-radius:14px;padding:20px 16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.test-q-num{font-size:11px;color:#10b981;font-weight:700;margin-bottom:6px;}
+.test-q-word{font-size:24px;font-weight:900;color:#065f46;margin-bottom:4px;}
+.test-q-type{font-size:12px;color:#94a3b8;}
+.test-opts{display:flex;flex-direction:column;gap:9px;}
+.test-opt{width:100%;padding:12px 14px;font-size:14px;font-weight:500;background:#f0fdf4;border:1.5px solid #a7f3d0;border-radius:11px;cursor:pointer;text-align:left;transition:all .12s;color:#1a1a1a;}
+.test-opt:hover:not(:disabled){background:#d1fae5;border-color:#10b981;}
+.test-opt.correct{background:#e6f9f0;border-color:#25a56a;color:#1a6640;font-weight:700;}
+.test-opt.wrong{background:#fff0f0;border-color:#f87171;color:#b91c1c;}
+.test-opt:disabled{cursor:default;}
+.test-fb{padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-bottom:8px;}
+.test-fb.ok{background:#e6f9f0;color:#1a6640;}
+.test-fb.ng{background:#fff0f0;color:#b91c1c;}
+.next-btn2{width:100%;padding:13px;font-size:14px;font-weight:700;background:linear-gradient(135deg,#10b981,#065f46);color:#fff;border:none;border-radius:11px;cursor:pointer;}
+
+.subj-wrap{background:#fff;border-radius:14px;padding:20px 16px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.subj-q{font-size:22px;font-weight:900;color:#065f46;margin-bottom:4px;text-align:center;}
+.subj-type{font-size:12px;color:#94a3b8;text-align:center;margin-bottom:16px;}
+.subj-input{width:100%;padding:13px 14px;font-size:16px;border:1.5px solid #a7f3d0;border-radius:10px;outline:none;margin-bottom:10px;text-align:center;}
+.subj-input:focus{border-color:#10b981;}
+.subj-check{width:100%;padding:12px;font-size:14px;font-weight:700;background:#10b981;color:#fff;border:none;border-radius:10px;cursor:pointer;margin-bottom:8px;}
+
+.shadow-card{background:#fff;border-radius:20px;padding:28px 20px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.08);margin-bottom:16px;}
+.shadow-en{font-size:32px;font-weight:900;color:#065f46;margin-bottom:6px;}
+.shadow-kr{font-size:18px;color:#475569;margin-bottom:20px;}
+.shadow-btns{display:flex;gap:10px;margin-bottom:12px;}
+.sh-btn{flex:1;padding:13px;font-size:14px;font-weight:700;border:none;border-radius:11px;cursor:pointer;}
+.sh-listen{background:linear-gradient(135deg,#10b981,#065f46);color:#fff;}
+.sh-record{background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;}
+.sh-record.recording{background:linear-gradient(135deg,#f97316,#ea580c);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+.sh-result{padding:12px;border-radius:10px;font-size:13px;font-weight:700;margin-bottom:10px;line-height:1.5;}
+.sh-result.ok{background:#e6f9f0;color:#1a6640;}
+.sh-result.ng{background:#fff0f0;color:#b91c1c;}
+.sh-result.info{background:#eff6ff;color:#1e40af;}
+
+.result-body{padding:24px 16px;}
+.result-box{background:#fff;border-radius:20px;padding:28px 20px;text-align:center;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.r-emoji{font-size:50px;margin-bottom:10px;}
+.r-score{font-size:48px;font-weight:900;color:#10b981;}
+.r-sub{font-size:13px;color:#888;margin-bottom:14px;}
+.r-msg{font-size:14px;padding:12px;background:#f0fdf4;border-radius:10px;margin-bottom:16px;color:#444;line-height:1.6;}
+.save-status{font-size:12px;color:#16a34a;font-weight:700;margin-bottom:12px;min-height:18px;}
+.r-btns{display:flex;gap:10px;}
+.r-retry{flex:1;padding:13px;font-size:14px;font-weight:700;background:#f0fdf4;color:#10b981;border:2px solid #10b981;border-radius:11px;cursor:pointer;}
+.r-home{flex:1;padding:13px;font-size:14px;font-weight:700;background:linear-gradient(135deg,#10b981,#065f46);color:#fff;border:none;border-radius:11px;cursor:pointer;}
+
+.hidden{display:none;}
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-wrap">
+  <div class="login-box">
+    <div class="login-logo">📗</div>
+    <div class="login-title">능률VOCA 초등 기본</div>
+    <div class="login-sub">단어 학습 · 테스트 · 쉐도잉</div>
+    <label class="lbl">이름</label>
+    <input class="linput" id="nameInput" placeholder="이름을 입력하세요" oninput="checkLogin()">
+    <label class="lbl">반</label>
+    <div class="class-grid">
+      <button class="cbtn" onclick="selClass('A')">A반</button>
+      <button class="cbtn" onclick="selClass('B')">B반</button>
+      <button class="cbtn" onclick="selClass('C')">C반</button>
+      <button class="cbtn" onclick="selClass('D')">D반</button>
+    </div>
+    <button class="go-btn" id="loginBtn" disabled onclick="doLogin()">시작하기 →</button>
+  </div>
+</div>
+
+<div id="mainScreen" class="hidden">
+  <div class="main-hd">
+    <div class="main-hd-top"><h1>📗 능률VOCA 초등 기본</h1><div class="ubadge" id="ubadge"></div></div>
+    <p>DAY를 선택해서 단어를 학습해요!</p>
+  </div>
+  <div class="day-grid" id="dayGrid"></div>
+</div>
+
+<div id="learnScreen" class="hidden">
+  <div class="screen-hd">
+    <div class="screen-hd-top">
+      <button class="back-btn" onclick="goMain()">←</button>
+      <div class="screen-title" id="learnTitle"></div>
+    </div>
+  </div>
+  <div class="learn-wrap">
+    <div class="mode-tabs">
+      <button class="tab-btn active" id="tab0" onclick="setMode(0)">📖 학습</button>
+      <button class="tab-btn" id="tab1" onclick="setMode(1)">✅ 객관식</button>
+      <button class="tab-btn" id="tab2" onclick="setMode(2)">✏️ 주관식</button>
+      <button class="tab-btn" id="tab3" onclick="setMode(3)">🎤 쉐도잉</button>
+    </div>
+    <div id="modeContent"></div>
+  </div>
+</div>
+
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzJLPd5mts_LdZBMPhPH42lNVrJX_CQXqebR05hGw2R591nYjHPn0BqElTi01sRieI/exec";
+
+const days = {
+  1:[{en:"fun",kr:"재미, 즐거움",type:"명"},{en:"bed",kr:"침대",type:"명"},{en:"book",kr:"책",type:"명"},{en:"name",kr:"이름",type:"명"},{en:"play",kr:"1.놀다 2.경기하다",type:"동"},{en:"player",kr:"선수",type:"명"},{en:"go",kr:"가다",type:"동"},{en:"school",kr:"학교",type:"명"},{en:"like",kr:"좋아하다",type:"동"},{en:"read",kr:"읽다",type:"동"},{en:"reader",kr:"독자",type:"명"},{en:"have",kr:"가지다",type:"동"},{en:"lesson",kr:"수업",type:"명"},{en:"together",kr:"함께, 같이",type:"부"}],
+  2:[{en:"pizza",kr:"피자",type:"명"},{en:"sit",kr:"앉다",type:"동"},{en:"good",kr:"좋은, 괜찮은",type:"형"},{en:"class",kr:"1.반 2.수업",type:"명"},{en:"hair",kr:"머리카락",type:"명"},{en:"write",kr:"쓰다",type:"동"},{en:"writer",kr:"작가",type:"명"},{en:"time",kr:"시간",type:"명"},{en:"soccer",kr:"축구",type:"명"},{en:"can",kr:"~할 수 있다",type:"동"},{en:"look",kr:"보다, 바라보다",type:"동"},{en:"please",kr:"제발",type:"부"},{en:"world",kr:"세계",type:"명"}],
+  3:[{en:"hat",kr:"모자",type:"명"},{en:"up",kr:"위로",type:"부"},{en:"old",kr:"1.나이든 2.오래된",type:"형"},{en:"great",kr:"훌륭한, 멋진",type:"형"},{en:"song",kr:"노래",type:"명"},{en:"listen",kr:"듣다",type:"동"},{en:"day",kr:"1.하루 2.낮",type:"명"},{en:"want",kr:"원하다",type:"동"},{en:"and",kr:"~와, 그리고",type:"접"},{en:"study",kr:"공부하다",type:"동"},{en:"summer",kr:"여름",type:"명"},{en:"picture",kr:"1.그림 2.사진",type:"명"}],
+  4:[{en:"bag",kr:"가방",type:"명"},{en:"dog",kr:"개",type:"명"},{en:"who",kr:"누구",type:"대"},{en:"week",kr:"일주일",type:"명"},{en:"today",kr:"오늘",type:"부"},{en:"story",kr:"이야기",type:"명"},{en:"talk",kr:"말하다",type:"동"},{en:"do",kr:"하다",type:"동"},{en:"check",kr:"확인하다",type:"동"},{en:"happy",kr:"행복한, 기쁜",type:"형"},{en:"tiger",kr:"호랑이",type:"명"},{en:"homework",kr:"숙제",type:"명"}],
+  5:[{en:"cap",kr:"(앞챙) 모자",type:"명"},{en:"jump",kr:"뛰어오르다",type:"동"},{en:"watch",kr:"손목시계",type:"명"},{en:"friend",kr:"친구",type:"명"},{en:"music",kr:"음악",type:"명"},{en:"in",kr:"~안에",type:"전"},{en:"room",kr:"방",type:"명"},{en:"take",kr:"데려가다",type:"동"},{en:"turn",kr:"돌다, 돌리다",type:"동"},{en:"put",kr:"놓다, 넣다",type:"동"},{en:"science",kr:"과학",type:"명"},{en:"scientist",kr:"과학자",type:"명"},{en:"breakfast",kr:"아침 식사",type:"명"}],
+  6:[{en:"big",kr:"큰",type:"형"},{en:"box",kr:"상자",type:"명"},{en:"about",kr:"~에 대해",type:"전"},{en:"movie",kr:"영화",type:"명"},{en:"word",kr:"단어",type:"명"},{en:"say",kr:"말하다",type:"동"},{en:"birthday",kr:"생일",type:"명"},{en:"will",kr:"~할 것이다",type:"동"},{en:"sing",kr:"노래하다",type:"동"},{en:"singer",kr:"가수",type:"명"},{en:"bike",kr:"자전거",type:"명"},{en:"library",kr:"도서관",type:"명"},{en:"festival",kr:"축제",type:"명"}],
+  7:[{en:"sad",kr:"슬픈",type:"형"},{en:"run",kr:"달리다",type:"동"},{en:"ball",kr:"공",type:"명"},{en:"on",kr:"~위에",type:"전"},{en:"many",kr:"많은",type:"형"},{en:"color",kr:"색깔",type:"명"},{en:"colorful",kr:"알록달록한",type:"형"},{en:"come",kr:"오다",type:"동"},{en:"angry",kr:"화난",type:"형"},{en:"speak",kr:"말하다",type:"동"},{en:"water",kr:"물",type:"명"},{en:"morning",kr:"아침",type:"명"},{en:"afternoon",kr:"오후",type:"명"}],
+  8:[{en:"pen",kr:"펜",type:"명"},{en:"desk",kr:"책상",type:"명"},{en:"toy",kr:"장난감",type:"명"},{en:"see",kr:"보다",type:"동"},{en:"for",kr:"~을 위해",type:"전"},{en:"smell",kr:"냄새가 나다",type:"동"},{en:"under",kr:"~아래에",type:"전"},{en:"swim",kr:"수영하다",type:"동"},{en:"make",kr:"만들다",type:"동"},{en:"ready",kr:"준비가 된",type:"형"},{en:"weekend",kr:"주말",type:"명"},{en:"tomorrow",kr:"내일",type:"부"}],
+  9:[{en:"cat",kr:"고양이",type:"명"},{en:"robot",kr:"로봇",type:"명"},{en:"chicken",kr:"닭, 닭고기",type:"명"},{en:"student",kr:"학생",type:"명"},{en:"goal",kr:"목표",type:"명"},{en:"dance",kr:"춤을 추다",type:"동"},{en:"eat",kr:"먹다",type:"동"},{en:"park",kr:"공원",type:"명"},{en:"there",kr:"거기에",type:"부"},{en:"now",kr:"지금",type:"부"},{en:"weather",kr:"날씨",type:"명"},{en:"exercise",kr:"운동하다",type:"동"}],
+  10:[{en:"hot",kr:"1.더운 2.뜨거운",type:"형"},{en:"pig",kr:"돼지",type:"명"},{en:"lunch",kr:"점심 식사",type:"명"},{en:"brother",kr:"형/오빠/남동생",type:"명"},{en:"house",kr:"집, 주택",type:"명"},{en:"left",kr:"왼쪽",type:"명"},{en:"from",kr:"~에서",type:"전"},{en:"eraser",kr:"지우개",type:"명"},{en:"visit",kr:"방문하다",type:"동"},{en:"visitor",kr:"방문객",type:"명"},{en:"short",kr:"1.짧은 2.키가 작은",type:"형"},{en:"delicious",kr:"아주 맛있는",type:"형"},{en:"baseball",kr:"야구",type:"명"}],
+  11:[{en:"car",kr:"차, 자동차",type:"명"},{en:"milk",kr:"우유",type:"명"},{en:"out",kr:"밖에",type:"부"},{en:"pants",kr:"바지",type:"명"},{en:"sound",kr:"소리",type:"명"},{en:"what",kr:"무엇",type:"대"},{en:"food",kr:"음식",type:"명"},{en:"learn",kr:"배우다",type:"동"},{en:"save",kr:"구하다",type:"동"},{en:"join",kr:"가입하다",type:"동"},{en:"should",kr:"~해야 한다",type:"동"},{en:"basketball",kr:"농구",type:"명"}],
+  12:[{en:"apple",kr:"사과",type:"명"},{en:"fish",kr:"물고기, 생선",type:"명"},{en:"chair",kr:"의자",type:"명"},{en:"sister",kr:"언니/누나/여동생",type:"명"},{en:"clock",kr:"시계",type:"명"},{en:"some",kr:"몇몇의",type:"형"},{en:"help",kr:"돕다",type:"동"},{en:"helpful",kr:"도움이 되는",type:"형"},{en:"touch",kr:"만지다",type:"동"},{en:"know",kr:"알다",type:"동"},{en:"long",kr:"긴",type:"형"},{en:"family",kr:"가족",type:"명"},{en:"person",kr:"사람",type:"명"}],
+  13:[{en:"club",kr:"동아리",type:"명"},{en:"plan",kr:"계획하다",type:"동"},{en:"home",kr:"집, 가정",type:"명"},{en:"shirt",kr:"셔츠",type:"명"},{en:"piano",kr:"피아노",type:"명"},{en:"bad",kr:"나쁜",type:"형"},{en:"work",kr:"일하다",type:"동"},{en:"find",kr:"찾다",type:"동"},{en:"push",kr:"밀다",type:"동"},{en:"cold",kr:"1.추운 2.차가운",type:"형"},{en:"umbrella",kr:"우산",type:"명"},{en:"thank",kr:"감사하다",type:"동"}],
+  14:[{en:"uncle",kr:"삼촌",type:"명"},{en:"dress",kr:"드레스, 원피스",type:"명"},{en:"meet",kr:"만나다",type:"동"},{en:"meeting",kr:"회의",type:"명"},{en:"dinner",kr:"저녁 식사",type:"명"},{en:"evening",kr:"저녁",type:"명"},{en:"ice",kr:"얼음",type:"명"},{en:"very",kr:"매우, 아주",type:"부"},{en:"art",kr:"미술, 예술",type:"명"},{en:"draw",kr:"그리다",type:"동"},{en:"use",kr:"사용하다",type:"동"},{en:"useful",kr:"유용한",type:"형"},{en:"scissors",kr:"가위",type:"명"},{en:"season",kr:"계절",type:"명"}],
+  15:[{en:"fox",kr:"여우",type:"명"},{en:"duck",kr:"오리",type:"명"},{en:"egg",kr:"알, 달걀",type:"명"},{en:"star",kr:"별",type:"명"},{en:"pencil",kr:"연필",type:"명"},{en:"how",kr:"어떻게/얼마나",type:"부"},{en:"shop",kr:"가게, 상점",type:"명"},{en:"next",kr:"다음의",type:"형"},{en:"doctor",kr:"의사",type:"명"},{en:"open",kr:"열다",type:"동"},{en:"notebook",kr:"공책",type:"명"},{en:"welcome",kr:"환영하다",type:"동"}],
+  16:[{en:"sick",kr:"아픈",type:"형"},{en:"king",kr:"왕",type:"명"},{en:"cook",kr:"요리하다",type:"동"},{en:"night",kr:"밤",type:"명"},{en:"sun",kr:"태양, 해",type:"명"},{en:"sunny",kr:"화창한",type:"형"},{en:"where",kr:"어디에",type:"부"},{en:"kitchen",kr:"부엌",type:"명"},{en:"walk",kr:"걷다",type:"동"},{en:"wash",kr:"씻다",type:"동"},{en:"drink",kr:"마시다",type:"동"},{en:"yesterday",kr:"어제",type:"부"},{en:"violin",kr:"바이올린",type:"명"}],
+  17:[{en:"belt",kr:"허리띠, 벨트",type:"명"},{en:"man",kr:"남자",type:"명"},{en:"father",kr:"아버지, 아빠",type:"명"},{en:"pilot",kr:"조종사",type:"명"},{en:"trip",kr:"(짧은) 여행",type:"명"},{en:"close",kr:"닫다",type:"동"},{en:"skate",kr:"스케이트를 타다",type:"동"},{en:"life",kr:"생활",type:"명"},{en:"down",kr:"아래로",type:"부"},{en:"every",kr:"모든",type:"형"},{en:"police",kr:"경찰",type:"명"},{en:"restaurant",kr:"식당",type:"명"}],
+  18:[{en:"jam",kr:"잼",type:"명"},{en:"son",kr:"아들",type:"명"},{en:"idea",kr:"생각, 아이디어",type:"명"},{en:"shoe",kr:"신, 신발",type:"명"},{en:"well",kr:"잘, 제대로",type:"부"},{en:"live",kr:"살다",type:"동"},{en:"fall",kr:"떨어지다",type:"동"},{en:"small",kr:"작은",type:"형"},{en:"stand",kr:"서다",type:"동"},{en:"when",kr:"언제",type:"부"},{en:"early",kr:"일찍",type:"부"},{en:"borrow",kr:"빌리다",type:"동"}],
+  19:[{en:"tent",kr:"텐트, 천막",type:"명"},{en:"boy",kr:"남자아이, 소년",type:"명"},{en:"table",kr:"탁자, 식탁",type:"명"},{en:"boat",kr:"(작은) 배, 보트",type:"명"},{en:"sleep",kr:"자다",type:"동"},{en:"sleepy",kr:"졸린",type:"형"},{en:"sure",kr:"확신하는",type:"형"},{en:"lion",kr:"사자",type:"명"},{en:"stay",kr:"머무르다",type:"동"},{en:"enter",kr:"들어가다",type:"동"},{en:"nose",kr:"코",type:"명"},{en:"grandfather",kr:"할아버지",type:"명"},{en:"textbook",kr:"교과서",type:"명"}],
+  20:[{en:"fan",kr:"팬",type:"명"},{en:"map",kr:"지도",type:"명"},{en:"nice",kr:"1.좋은 2.친절한",type:"형"},{en:"bread",kr:"빵",type:"명"},{en:"tree",kr:"나무",type:"명"},{en:"bird",kr:"새",type:"명"},{en:"fly",kr:"날다",type:"동"},{en:"cute",kr:"귀여운, 예쁜",type:"형"},{en:"bring",kr:"가져오다",type:"동"},{en:"new",kr:"새로운",type:"형"},{en:"hospital",kr:"(큰) 병원",type:"명"},{en:"present",kr:"선물",type:"명"}],
+  21:[{en:"bath",kr:"목욕",type:"명"},{en:"sky",kr:"하늘",type:"명"},{en:"sea",kr:"바다",type:"명"},{en:"line",kr:"선, 줄",type:"명"},{en:"face",kr:"얼굴",type:"명"},{en:"travel",kr:"여행하다",type:"동"},{en:"stop",kr:"멈추다",type:"동"},{en:"wait",kr:"기다리다",type:"동"},{en:"all",kr:"모든",type:"형"},{en:"fine",kr:"1.좋은 2.건강한",type:"형"},{en:"energy",kr:"1.에너지 2.기운",type:"명"},{en:"problem",kr:"문제",type:"명"}],
+  22:[{en:"jacket",kr:"재킷, 겉옷",type:"명"},{en:"monkey",kr:"원숭이",type:"명"},{en:"space",kr:"공간",type:"명"},{en:"warm",kr:"따뜻한",type:"형"},{en:"town",kr:"마을, 소도시",type:"명"},{en:"with",kr:"1.~와 함께 2.~을 사용하여",type:"전"},{en:"buy",kr:"사다",type:"동"},{en:"start",kr:"시작하다",type:"동"},{en:"wear",kr:"입고 있다",type:"동"},{en:"first",kr:"첫 번째의",type:"형"},{en:"choose",kr:"선택하다",type:"동"},{en:"vegetable",kr:"야채, 채소",type:"명"}],
+  23:[{en:"horse",kr:"말",type:"명"},{en:"number",kr:"숫자, 번호",type:"명"},{en:"bank",kr:"은행",type:"명"},{en:"mouse",kr:"쥐, 생쥐",type:"명"},{en:"picnic",kr:"소풍, 피크닉",type:"명"},{en:"grow",kr:"자라다",type:"동"},{en:"farm",kr:"농장",type:"명"},{en:"farmer",kr:"농부",type:"명"},{en:"show",kr:"보여 주다",type:"동"},{en:"twice",kr:"두 번",type:"부"},{en:"front",kr:"앞쪽",type:"명"},{en:"restroom",kr:"화장실",type:"명"},{en:"understand",kr:"이해하다",type:"동"}],
+  24:[{en:"zoo",kr:"동물원",type:"명"},{en:"vase",kr:"꽃병",type:"명"},{en:"market",kr:"시장",type:"명"},{en:"last",kr:"마지막의",type:"형"},{en:"winter",kr:"겨울",type:"명"},{en:"miss",kr:"놓치다",type:"동"},{en:"tennis",kr:"테니스",type:"명"},{en:"kick",kr:"(발로) 차다",type:"동"},{en:"fast",kr:"빠른",type:"형"},{en:"free",kr:"자유로운",type:"형"},{en:"always",kr:"항상",type:"부"},{en:"answer",kr:"대답하다",type:"동"}],
+  25:[{en:"elephant",kr:"코끼리",type:"명"},{en:"doll",kr:"인형",type:"명"},{en:"act",kr:"행동하다",type:"동"},{en:"tell",kr:"말하다",type:"동"},{en:"coat",kr:"외투, 코트",type:"명"},{en:"build",kr:"(건물을) 짓다",type:"동"},{en:"bake",kr:"(빵 등을) 굽다",type:"동"},{en:"baker",kr:"제빵사",type:"명"},{en:"fruit",kr:"과일, 열매",type:"명"},{en:"sell",kr:"팔다",type:"동"},{en:"full",kr:"가득한",type:"형"},{en:"difficult",kr:"어려운",type:"형"},{en:"company",kr:"회사",type:"명"}],
+  26:[{en:"rabbit",kr:"토끼",type:"명"},{en:"carrot",kr:"당근",type:"명"},{en:"hand",kr:"손",type:"명"},{en:"clean",kr:"깨끗한",type:"형"},{en:"floor",kr:"(실내) 바닥",type:"명"},{en:"pick",kr:"고르다",type:"동"},{en:"catch",kr:"(붙)잡다",type:"동"},{en:"feel",kr:"느끼다",type:"동"},{en:"little",kr:"작은",type:"형"},{en:"flower",kr:"꽃",type:"명"},{en:"break",kr:"깨다, 부수다",type:"동"},{en:"danger",kr:"위험",type:"명"},{en:"dangerous",kr:"위험한",type:"형"}],
+  27:[{en:"hit",kr:"치다, 때리다",type:"동"},{en:"leg",kr:"다리",type:"명"},{en:"city",kr:"(대)도시",type:"명"},{en:"late",kr:"늦은",type:"형"},{en:"later",kr:"나중에",type:"부"},{en:"center",kr:"중앙, 중심",type:"명"},{en:"spring",kr:"봄",type:"명"},{en:"call",kr:"전화하다",type:"동"},{en:"tall",kr:"키가 큰",type:"형"},{en:"carry",kr:"나르다",type:"동"},{en:"finish",kr:"끝내다",type:"동"},{en:"country",kr:"나라, 국가",type:"명"},{en:"example",kr:"예, 예시",type:"명"}],
+  28:[{en:"ring",kr:"반지",type:"명"},{en:"win",kr:"이기다",type:"동"},{en:"skirt",kr:"치마",type:"명"},{en:"move",kr:"움직이다",type:"동"},{en:"garden",kr:"정원",type:"명"},{en:"tired",kr:"피곤한",type:"형"},{en:"need",kr:"필요하다",type:"동"},{en:"fix",kr:"고치다",type:"동"},{en:"right",kr:"정확한, 옳은",type:"형"},{en:"hope",kr:"바라다",type:"동"},{en:"climb",kr:"오르다",type:"동"},{en:"office",kr:"사무실",type:"명"}],
+  29:[{en:"girl",kr:"여자아이, 소녀",type:"명"},{en:"sock",kr:"양말",type:"명"},{en:"upset",kr:"속상한, 화난",type:"형"},{en:"mother",kr:"어머니, 엄마",type:"명"},{en:"teach",kr:"가르치다",type:"동"},{en:"teacher",kr:"선생님",type:"명"},{en:"foot",kr:"발",type:"명"},{en:"think",kr:"생각하다",type:"동"},{en:"give",kr:"주다",type:"동"},{en:"after",kr:"~후에",type:"전"},{en:"wrong",kr:"잘못된, 틀린",type:"형"},{en:"honest",kr:"정직한",type:"형"},{en:"project",kr:"프로젝트",type:"명"}],
+  30:[{en:"door",kr:"문",type:"명"},{en:"cut",kr:"자르다",type:"동"},{en:"window",kr:"창문",type:"명"},{en:"rain",kr:"비",type:"명"},{en:"rainy",kr:"비가 오는",type:"형"},{en:"keep",kr:"유지하다",type:"동"},{en:"mind",kr:"마음, 정신",type:"명"},{en:"letter",kr:"편지",type:"명"},{en:"kind",kr:"친절한",type:"형"},{en:"ask",kr:"묻다",type:"동"},{en:"strawberry",kr:"딸기",type:"명"},{en:"question",kr:"질문",type:"명"},{en:"believe",kr:"믿다",type:"동"}],
+  31:[{en:"wet",kr:"젖은",type:"형"},{en:"rich",kr:"부유한",type:"형"},{en:"queen",kr:"여왕",type:"명"},{en:"wind",kr:"바람",type:"명"},{en:"windy",kr:"바람이 부는",type:"형"},{en:"bill",kr:"계산서",type:"명"},{en:"return",kr:"돌아오다",type:"동"},{en:"land",kr:"땅, 육지",type:"명"},{en:"way",kr:"길, 도로",type:"명"},{en:"pass",kr:"지나가다",type:"동"},{en:"back",kr:"뒤로",type:"부"},{en:"mountain",kr:"산",type:"명"},{en:"business",kr:"사업",type:"명"}],
+  32:[{en:"fat",kr:"뚱뚱한",type:"형"},{en:"top",kr:"맨 위, 꼭대기",type:"명"},{en:"before",kr:"~전에",type:"전"},{en:"guitar",kr:"기타",type:"명"},{en:"hard",kr:"딱딱한, 단단한",type:"형"},{en:"hold",kr:"잡다, 들다",type:"동"},{en:"lie",kr:"눕다",type:"동"},{en:"knee",kr:"무릎",type:"명"},{en:"high",kr:"높은",type:"형"},{en:"store",kr:"가게, 상점",type:"명"},{en:"condition",kr:"상태",type:"명"},{en:"introduce",kr:"소개하다",type:"동"}]
+};
+
+let userName='', userClass='', curDay=0, curIdx=0, curMode=0;
+let testWords=[], testQ=0, testScore=0, testAnswered=false;
+let recognizing=false, speechRec=null;
+
+function getKey(){return 'voca_'+userName+'_'+userClass;}
+function getRec(){try{return JSON.parse(localStorage.getItem(getKey())||'{}')}catch(e){return{}}}
+function saveRec(d){const r=getRec();r[d]=true;try{localStorage.setItem(getKey(),JSON.stringify(r))}catch(e){}}
+
+function selClass(c){userClass=c;document.querySelectorAll('.cbtn').forEach(b=>{b.classList.toggle('sel',b.textContent===c+'반')});checkLogin();}
+function checkLogin(){document.getElementById('loginBtn').disabled=!(document.getElementById('nameInput').value.trim()&&userClass);}
+function doLogin(){userName=document.getElementById('nameInput').value.trim();show('mainScreen');hide('loginScreen');renderMain();}
+
+function renderMain(){
+  document.getElementById('ubadge').textContent=userName+' · '+userClass+'반';
+  const rec=getRec(), grid=document.getElementById('dayGrid');
+  grid.innerHTML='';
+  Object.keys(days).forEach(d=>{
+    const el=document.createElement('div');
+    el.className='day-card'; el.onclick=()=>openDay(parseInt(d));
+    el.innerHTML='<div class="day-num">DAY '+d+'</div><div class="day-cnt">'+days[d].length+'단어</div>'+(rec[d]?'<div class="day-done">✓ 완료</div>':'');
+    grid.appendChild(el);
+  });
+}
+function goMain(){show('mainScreen');hide('learnScreen');renderMain();}
+
+function openDay(d){
+  curDay=d; curIdx=0; curMode=0;
+  document.getElementById('learnTitle').textContent='DAY '+d+' ('+days[d].length+'단어)';
+  hide('mainScreen'); show('learnScreen'); setMode(0);
+}
+
+function setMode(m){
+  curMode=m;
+  [0,1,2,3].forEach(i=>document.getElementById('tab'+i).classList.toggle('active',i===m));
+  if(m===0)renderLearn();
+  else if(m===1)startMCTest();
+  else if(m===2)startSubjTest();
+  else startShadow();
+}
+
+function renderLearn(){
+  const ws=days[curDay], w=ws[curIdx];
+  const pct=((curIdx+1)/ws.length*100).toFixed(0);
+  document.getElementById('modeContent').innerHTML=
+    '<div class="prog-info">'+(curIdx+1)+' / '+ws.length+'</div>'+
+    '<div class="prog-bar2"><div class="prog-fill2" style="width:'+pct+'%"></div></div>'+
+    '<div class="word-card" onclick="toggleMeaning()">'+
+      '<div class="wc-day">DAY '+curDay+'</div>'+
+      '<div class="wc-en">'+w.en+'</div>'+
+      '<div class="wc-type">['+w.type+']</div>'+
+      '<div class="wc-kr hidden" id="krText">'+w.kr+'</div>'+
+      '<div class="wc-hint" id="hintText">카드를 탭하면 뜻이 나와요 👆</div>'+
+    '</div>'+
+    '<button class="speak-btn" onclick="speak(\''+w.en+'\')">🔊 발음 듣기</button>'+
+    '<div class="nav-btns">'+
+      '<button class="nav-btn" onclick="prevWord()" '+(curIdx===0?'disabled':'')+'>← 이전</button>'+
+      '<button class="nav-btn primary" onclick="nextWord()">'+(curIdx<ws.length-1?'다음 →':'✅ 완료')+'</button>'+
+    '</div>';
+}
+
+function toggleMeaning(){
+  document.getElementById('krText').classList.toggle('hidden');
+  document.getElementById('hintText').classList.toggle('hidden');
+}
+function prevWord(){if(curIdx>0){curIdx--;renderLearn();}}
+function nextWord(){
+  if(curIdx<days[curDay].length-1){curIdx++;renderLearn();}
+  else{saveRec(curDay);alert('🎉 DAY '+curDay+' 학습 완료!');}
+}
+function speak(w){const u=new SpeechSynthesisUtterance(w);u.lang='en-US';u.rate=0.9;speechSynthesis.cancel();speechSynthesis.speak(u);}
+
+function startMCTest(){
+  testWords=[...days[curDay]].sort(()=>Math.random()-.5);
+  testQ=0;testScore=0;testAnswered=false;renderMCQ();
+}
+function renderMCQ(){
+  if(testQ>=testWords.length){showResult('객관식');return;}
+  const w=testWords[testQ];
+  const wrong=days[curDay].filter(x=>x.en!==w.en).sort(()=>Math.random()-.5).slice(0,3);
+  const opts=[...wrong,w].sort(()=>Math.random()-.5);
+  window._mcOpts=opts; window._mcAns=w.en;
+  const pct=(testQ/testWords.length*100).toFixed(0);
+  document.getElementById('modeContent').innerHTML=
+    '<div class="prog-info">Q'+(testQ+1)+' / '+testWords.length+' &nbsp;|&nbsp; 점수: '+testScore+'</div>'+
+    '<div class="prog-bar2"><div class="prog-fill2" style="width:'+pct+'%"></div></div>'+
+    '<div class="test-q"><div class="test-q-num">Q'+(testQ+1)+'</div><div class="test-q-word">'+w.en+'</div><div class="test-q-type">['+w.type+']</div></div>'+
+    '<div class="test-opts">'+opts.map((o,i)=>'<button class="test-opt" onclick="selMC('+i+',\''+o.en+'\')" id="opt'+i+'">'+['①','②','③','④'][i]+' '+o.kr+'</button>').join('')+'</div>'+
+    '<div class="test-fb hidden" id="mcFb"></div>'+
+    '<button class="next-btn2 hidden" id="mcNext" onclick="nextMCQ()">'+(testQ<testWords.length-1?'다음 →':'결과 보기 🎉')+'</button>';
+}
+function selMC(i,en){
+  if(testAnswered)return; testAnswered=true;
+  const btns=document.querySelectorAll('.test-opt'); btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('mcFb'); fb.classList.remove('hidden');
+  if(en===window._mcAns){testScore++;btns[i].classList.add('correct');fb.className='test-fb ok';fb.textContent='✅ 정답! 잘했어요!';speak(window._mcAns);}
+  else{btns[i].classList.add('wrong');btns[window._mcOpts.findIndex(o=>o.en===window._mcAns)].classList.add('correct');fb.className='test-fb ng';fb.textContent='❌ 틀렸어요. 정답: '+window._mcOpts.find(o=>o.en===window._mcAns).kr;}
+  document.getElementById('mcNext').classList.remove('hidden');
+}
+function nextMCQ(){testQ++;testAnswered=false;renderMCQ();}
+
+function startSubjTest(){
+  testWords=[...days[curDay]].sort(()=>Math.random()-.5);
+  testQ=0;testScore=0;testAnswered=false;renderSubjQ();
+}
+function renderSubjQ(){
+  if(testQ>=testWords.length){showResult('주관식');return;}
+  const w=testWords[testQ];
+  window._subjAns=w.en;
+  const pct=(testQ/testWords.length*100).toFixed(0);
+  document.getElementById('modeContent').innerHTML=
+    '<div class="prog-info">Q'+(testQ+1)+' / '+testWords.length+' &nbsp;|&nbsp; 점수: '+testScore+'</div>'+
+    '<div class="prog-bar2"><div class="prog-fill2" style="width:'+pct+'%"></div></div>'+
+    '<div class="subj-wrap">'+
+      '<div class="subj-q">'+w.kr+'</div>'+
+      '<div class="subj-type">['+w.type+'] → 영어 단어를 입력하세요</div>'+
+      '<input class="subj-input" id="subjInput" placeholder="영어 단어 입력..." onkeydown="if(event.key===\'Enter\')checkSubj()">'+
+      '<button class="subj-check" onclick="checkSubj()">확인하기 ✓</button>'+
+    '</div>'+
+    '<div class="test-fb hidden" id="subjFb"></div>'+
+    '<button class="next-btn2 hidden" id="subjNext" onclick="nextSubjQ()">'+(testQ<testWords.length-1?'다음 →':'결과 보기 🎉')+'</button>';
+  setTimeout(()=>document.getElementById('subjInput')?.focus(),100);
+}
+function checkSubj(){
+  if(testAnswered)return; testAnswered=true;
+  const inp=document.getElementById('subjInput');
+  const val=inp.value.trim().toLowerCase();
+  inp.disabled=true;
+  const fb=document.getElementById('subjFb'); fb.classList.remove('hidden');
+  document.getElementById('subjNext').classList.remove('hidden');
+  if(val===window._subjAns.toLowerCase()){
+    testScore++;inp.style.borderColor='#25a56a';inp.style.background='#e6f9f0';
+    fb.className='test-fb ok';fb.textContent='✅ 정답! 잘했어요!';speak(window._subjAns);
+  }else{
+    inp.style.borderColor='#f87171';inp.style.background='#fff0f0';
+    fb.className='test-fb ng';fb.textContent='❌ 틀렸어요. 정답: '+window._subjAns;
+  }
+}
+function nextSubjQ(){testQ++;testAnswered=false;renderSubjQ();}
+
+function startShadow(){
+  testWords=[...days[curDay]].sort(()=>Math.random()-.5);
+  testQ=0;testScore=0;renderShadow();
+}
+function renderShadow(){
+  if(testQ>=testWords.length){showResult('쉐도잉');return;}
+  const w=testWords[testQ];
+  const pct=(testQ/testWords.length*100).toFixed(0);
+  document.getElementById('modeContent').innerHTML=
+    '<div class="prog-info">'+(testQ+1)+' / '+testWords.length+' &nbsp;|&nbsp; 점수: '+testScore+'</div>'+
+    '<div class="prog-bar2"><div class="prog-fill2" style="width:'+pct+'%"></div></div>'+
+    '<div class="shadow-card">'+
+      '<div class="shadow-en">'+w.en+'</div>'+
+      '<div class="shadow-kr">'+w.kr+' ['+w.type+']</div>'+
+      '<div class="shadow-btns">'+
+        '<button class="sh-btn sh-listen" onclick="speak(\''+w.en+'\')">🔊 듣기</button>'+
+        '<button class="sh-btn sh-record" id="recBtn" onclick="toggleRec(\''+w.en+'\')">🎤 따라 말하기</button>'+
+      '</div>'+
+      '<div class="sh-result info" id="shResult">🔊 먼저 발음을 듣고, 🎤 버튼을 눌러 따라 말해보세요!</div>'+
+    '</div>'+
+    '<button class="next-btn2" onclick="nextShadow()">'+(testQ<testWords.length-1?'다음 단어 →':'결과 보기 🎉')+'</button>';
+  speak(w.en);
+}
+function toggleRec(word){
+  if(!('SpeechRecognition' in window||'webkitSpeechRecognition' in window)){
+    document.getElementById('shResult').textContent='⚠️ Chrome 브라우저에서만 음성 인식이 돼요!'; return;
+  }
+  if(recognizing){speechRec&&speechRec.stop();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  speechRec=new SR(); speechRec.lang='en-US'; speechRec.interimResults=false;
+  const btn=document.getElementById('recBtn');
+  btn.classList.add('recording'); btn.textContent='⏹ 말하는 중...'; recognizing=true;
+  speechRec.onresult=(e)=>{
+    const said=e.results[0][0].transcript.toLowerCase().trim();
+    const correct=word.toLowerCase();
+    btn.classList.remove('recording'); btn.textContent='🎤 따라 말하기'; recognizing=false;
+    const res=document.getElementById('shResult');
+    if(said===correct||said.includes(correct)||correct.includes(said)){
+      testScore++;res.className='sh-result ok';res.textContent='✅ 잘했어요! "'+said+'" 정확해요! 👏';
+    }else{res.className='sh-result ng';res.textContent='❌ 다시 도전! 내가 들은 것: "'+said+'" / 정답: "'+word+'"';}
+  };
+  speechRec.onerror=()=>{
+    btn.classList.remove('recording'); btn.textContent='🎤 따라 말하기'; recognizing=false;
+    document.getElementById('shResult').textContent='⚠️ 음성을 인식하지 못했어요. 다시 시도해보세요!';
+  };
+  speechRec.start();
+}
+function nextShadow(){testQ++;renderShadow();}
+
+function showResult(mode){
+  saveRec(curDay);
+  const total=testWords.length, pct=Math.round(testScore/total*100);
+  let emoji,msg;
+  if(pct>=90){emoji='🏆';msg='완벽해요! 단어 마스터! 👏';}
+  else if(pct>=70){emoji='😊';msg='잘했어요! 조금 더 연습하면 완벽해질 거예요!';}
+  else if(pct>=50){emoji='🙂';msg='절반 이상 맞혔어요! 틀린 단어를 다시 복습해봐요!';}
+  else{emoji='📚';msg='다시 한 번 단어 학습하고 도전해봐요!';}
+  document.getElementById('modeContent').innerHTML=
+    '<div class="result-body"><div class="result-box">'+
+      '<div class="r-emoji">'+emoji+'</div>'+
+      '<div style="font-size:13px;color:#64748b;margin-bottom:4px;">DAY '+curDay+' · '+mode+'</div>'+
+      '<div class="r-score">'+testScore+' / '+total+'</div>'+
+      '<div class="r-sub">'+total+'문제 중 '+testScore+'개 정답 ('+pct+'%)</div>'+
+      '<div class="r-msg">'+msg+'</div>'+
+      '<div class="save-status" id="saveStatus">📊 결과 저장 중...</div>'+
+      '<div class="r-btns">'+
+        '<button class="r-retry" onclick="setMode('+curMode+')">다시 풀기 🔄</button>'+
+        '<button class="r-home" onclick="goMain()">DAY 목록 🏠</button>'+
+      '</div>'+
+    '</div></div>';
+  sendScore(mode, testScore, total);
+}
+
+async function sendScore(mode, score, total){
+  const now=new Date();
+  const dt=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-'+String(now.getDate()).padStart(2,'0')+' '+String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+  try{
+    const p=new URLSearchParams({name:userName,class:userClass+'반',unit:'VOCA DAY'+curDay+' '+mode,score:score,datetime:dt});
+    await fetch(SHEET_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:p.toString()});
+    const el=document.getElementById('saveStatus');
+    if(el) el.textContent='✅ 저장됐어요!';
+  }catch(e){
+    const el=document.getElementById('saveStatus');
+    if(el) el.textContent='⚠️ 저장 실패. 인터넷 연결을 확인해주세요.';
+  }
+}
+
+function show(id){document.getElementById(id).classList.remove('hidden');}
+function hide(id){document.getElementById(id).classList.add('hidden');}
+</script>
+</body>
+</html>
