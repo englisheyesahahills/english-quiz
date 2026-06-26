@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>매일 영어 복습 퀴즈 5권 Unit 1~12</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; background: #fff8f0; color: #1a1a1a; min-height: 100vh; }
+
+.login-wrap { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 20px; }
+.login-box { background: #fff; border-radius: 20px; padding: 32px 24px; max-width: 400px; width: 100%; box-shadow: 0 4px 24px rgba(234,88,12,0.10); }
+.login-logo { font-size: 40px; text-align: center; margin-bottom: 8px; }
+.login-title { font-size: 20px; font-weight: 800; text-align: center; color: #c2410c; margin-bottom: 4px; }
+.login-sub { font-size: 13px; color: #94a3b8; text-align: center; margin-bottom: 24px; }
+.login-label { font-size: 13px; font-weight: 700; color: #475569; margin-bottom: 6px; display: block; }
+.login-input { width: 100%; padding: 13px 14px; font-size: 15px; border: 1.5px solid #e2e8f0; border-radius: 10px; outline: none; margin-bottom: 14px; background: #fff8f0; }
+.login-input:focus { border-color: #ea580c; background: #fff; }
+.class-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; margin-bottom: 20px; }
+.class-btn { padding: 10px 0; font-size: 14px; font-weight: 700; border: 2px solid #e2e8f0; border-radius: 10px; background: #fff8f0; cursor: pointer; color: #475569; transition: all 0.12s; }
+.class-btn.selected { background: #ea580c; color: #fff; border-color: #ea580c; }
+.start-quiz-btn { width: 100%; padding: 15px; font-size: 16px; font-weight: 800; background: linear-gradient(135deg,#ea580c,#c2410c); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+.start-quiz-btn:disabled { background: #cbd5e1; cursor: default; }
+
+.main-header { background: linear-gradient(135deg,#ea580c,#c2410c); color: #fff; padding: 22px 20px 18px; }
+.main-header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px; }
+.main-header h1 { font-size: 18px; font-weight: 800; }
+.user-badge { font-size: 13px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 99px; font-weight: 700; }
+.main-header p { font-size: 12px; opacity: 0.8; margin-top: 4px; }
+.unit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; max-width: 520px; margin: 0 auto; }
+.unit-card { background: #fff; border-radius: 14px; padding: 15px 13px; cursor: pointer; border: 2px solid transparent; box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.15s; }
+.unit-card:hover { border-color: #ea580c; background: #fff8f0; }
+.unit-num { font-size: 10px; font-weight: 700; color: #ea580c; margin-bottom: 3px; letter-spacing: 0.5px; }
+.unit-name { font-size: 13px; font-weight: 700; color: #1e293b; line-height: 1.4; }
+.unit-sub { font-size: 10px; color: #94a3b8; margin-top: 2px; }
+.unit-done { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; margin-top: 5px; }
+.done-perfect { background: #dcfce7; color: #16a34a; }
+.done-good { background: #dbeafe; color: #1e40af; }
+.done-try { background: #fef3c7; color: #92400e; }
+
+.concept-wrap { max-width: 520px; margin: 0 auto; }
+.concept-header { background: linear-gradient(135deg,#ea580c,#c2410c); color: #fff; padding: 18px 20px 14px; }
+.concept-header-top { display: flex; align-items: center; gap: 10px; }
+.back-btn { background: rgba(255,255,255,0.2); border: none; color: #fff; font-size: 18px; width: 34px; height: 34px; border-radius: 8px; cursor: pointer; flex-shrink: 0; }
+.concept-title { font-size: 16px; font-weight: 700; }
+.concept-body { padding: 16px; }
+.concept-card { background: #fff; border-radius: 14px; padding: 18px 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.concept-card h3 { font-size: 14px; font-weight: 800; color: #c2410c; margin-bottom: 10px; }
+.concept-card p { font-size: 13px; color: #475569; line-height: 1.7; margin-bottom: 6px; }
+.concept-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0; }
+.concept-table th { background: #ffedd5; color: #c2410c; font-weight: 700; padding: 7px 10px; border: 1px solid #fed7aa; }
+.concept-table td { padding: 7px 10px; border: 1px solid #e2e8f0; color: #334155; }
+.concept-example { background: #fff8f0; border-left: 3px solid #ea580c; padding: 10px 12px; border-radius: 0 8px 8px 0; font-size: 13px; color: #9a3412; font-style: italic; margin: 6px 0; line-height: 1.7; }
+.start-btn-orange { width: 100%; padding: 15px; font-size: 15px; font-weight: 800; background: linear-gradient(135deg,#ea580c,#c2410c); color: #fff; border: none; border-radius: 12px; cursor: pointer; margin-top: 4px; }
+
+.quiz-wrap { max-width: 520px; margin: 0 auto; }
+.quiz-header { background: linear-gradient(135deg,#ea580c,#c2410c); color: #fff; padding: 18px 20px 14px; }
+.quiz-header-top { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.quiz-title { font-size: 15px; font-weight: 700; }
+.score-badge { font-size: 12px; background: rgba(255,255,255,0.2); padding: 3px 9px; border-radius: 99px; margin-left: auto; }
+.prog-bar { height: 5px; background: rgba(255,255,255,0.3); border-radius: 99px; }
+.prog-fill { height: 100%; background: #fff; border-radius: 99px; transition: width 0.4s; }
+.quiz-body { padding: 16px; }
+.q-card { background: #fff; border-radius: 14px; padding: 20px 16px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.q-num { font-size: 11px; color: #ea580c; font-weight: 700; margin-bottom: 5px; }
+.q-tag { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-left: 5px; background: #ffedd5; color: #c2410c; }
+.q-text { font-size: 15px; font-weight: 700; line-height: 1.5; margin-top: 4px; }
+.q-sub { font-size: 14px; color: #334155; margin-top: 7px; font-style: italic; }
+.opts { display: flex; flex-direction: column; gap: 9px; margin-top: 2px; }
+.opt { width: 100%; padding: 12px 14px; font-size: 14px; font-weight: 500; background: #fff8f0; border: 1.5px solid #fed7aa; border-radius: 11px; cursor: pointer; text-align: left; transition: all 0.12s; color: #1a1a1a; }
+.opt:hover:not(:disabled) { background: #ffedd5; border-color: #ea580c; }
+.opt.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
+.opt.wrong { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
+.opt:disabled { cursor: default; }
+.arrange-hint { font-size: 12px; color: #888; margin: 4px 0 8px; }
+.word-pool { display: flex; flex-wrap: wrap; gap: 7px; min-height: 38px; margin-bottom: 8px; }
+.word-chip { padding: 7px 11px; font-size: 13px; font-weight: 700; background: #ffedd5; color: #c2410c; border-radius: 8px; cursor: pointer; border: 2px solid #fdba74; transition: all 0.12s; user-select: none; }
+.word-chip:hover { background: #fed7aa; }
+.word-chip.used { opacity: 0.28; pointer-events: none; }
+.answer-box { min-height: 42px; border: 2px dashed #fdba74; border-radius: 10px; padding: 7px 9px; display: flex; flex-wrap: wrap; gap: 7px; background: #fff8f0; margin-bottom: 8px; }
+.placed-chip { padding: 7px 11px; font-size: 13px; font-weight: 700; background: #ea580c; color: #fff; border-radius: 8px; cursor: pointer; }
+.check-btn { width: 100%; padding: 12px; font-size: 14px; font-weight: 700; background: #ea580c; color: #fff; border: none; border-radius: 10px; cursor: pointer; margin-bottom: 8px; }
+.check-btn:disabled { background: #cbd5e1; cursor: default; }
+.fb { padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
+.fb.correct { background: #e6f9f0; color: #1a6640; }
+.fb.wrong { background: #fff0f0; color: #b91c1c; }
+.next-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg,#ea580c,#c2410c); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
+
+.result-body { padding: 24px 16px; }
+.result-box { background: #fff; border-radius: 20px; padding: 28px 20px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); text-align: center; }
+.r-emoji { font-size: 50px; margin-bottom: 10px; }
+.r-unit { font-size: 13px; color: #64748b; margin-bottom: 4px; }
+.r-score { font-size: 48px; font-weight: 900; color: #ea580c; }
+.r-sub { font-size: 13px; color: #888; margin-bottom: 14px; }
+.r-msg { font-size: 14px; color: #444; padding: 12px; background: #fff8f0; border-radius: 10px; margin-bottom: 16px; line-height: 1.6; }
+.r-record { background: #f1f5f9; border-radius: 12px; padding: 14px; margin-bottom: 16px; text-align: left; }
+.r-record-title { font-size: 12px; font-weight: 700; color: #475569; margin-bottom: 8px; }
+.r-record-row { display: flex; justify-content: space-between; font-size: 13px; padding: 3px 0; border-bottom: 1px solid #e2e8f0; }
+.r-record-row:last-child { border-bottom: none; }
+.save-btn { width: 100%; padding: 13px; font-size: 14px; font-weight: 700; background: #ea580c; color: #fff; border: none; border-radius: 11px; cursor: pointer; margin-bottom: 10px; }
+.save-btn:disabled { background: #94a3b8; cursor: default; }
+.save-ok { font-size: 12px; color: #16a34a; font-weight: 700; text-align: center; margin-bottom: 10px; }
+.r-btns { display: flex; gap: 10px; }
+.r-retry { flex:1; padding: 13px; font-size: 14px; font-weight: 700; background: #fff8f0; color: #ea580c; border: 2px solid #ea580c; border-radius: 11px; cursor: pointer; }
+.r-home { flex:1; padding: 13px; font-size: 14px; font-weight: 700; background: linear-gradient(135deg,#ea580c,#c2410c); color: #fff; border: none; border-radius: 11px; cursor: pointer; }
+.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div id="loginScreen" class="login-wrap">
+  <div class="login-box">
+    <div class="login-logo">📙</div>
+    <div class="login-title">매일 영어 복습 퀴즈 5권</div>
+    <div class="login-sub">이름과 반을 선택하고 시작해요!</div>
+    <label class="login-label">이름</label>
+    <input class="login-input" id="nameInput" placeholder="이름을 입력하세요" oninput="checkLogin()">
+    <label class="login-label">반</label>
+    <div class="class-grid">
+      <button class="class-btn" onclick="selectClass('A')">A반</button>
+      <button class="class-btn" onclick="selectClass('B')">B반</button>
+      <button class="class-btn" onclick="selectClass('C')">C반</button>
+      <button class="class-btn" onclick="selectClass('D')">D반</button>
+    </div>
+    <button class="start-quiz-btn" id="loginBtn" disabled onclick="doLogin()">퀴즈 시작하기 →</button>
+  </div>
+</div>
+
+<div id="mainScreen" class="hidden">
+  <div class="main-header">
+    <div class="main-header-top">
+      <h1>📙 매일 영어 복습 5권</h1>
+      <div class="user-badge" id="userBadge"></div>
+    </div>
+    <p>Unit을 선택해서 개념 학습 → 퀴즈 도전!</p>
+  </div>
+  <div class="unit-grid" id="unitGrid"></div>
+</div>
+
+<div id="conceptScreen" class="hidden">
+  <div class="concept-wrap">
+    <div class="concept-header">
+      <div class="concept-header-top">
+        <button class="back-btn" onclick="goMain()">←</button>
+        <div class="concept-title" id="conceptTitle"></div>
+      </div>
+    </div>
+    <div class="concept-body" id="conceptBody"></div>
+  </div>
+</div>
+
+<div id="quizScreen" class="hidden">
+  <div class="quiz-wrap">
+    <div class="quiz-header">
+      <div class="quiz-header-top">
+        <button class="back-btn" onclick="goMain()">←</button>
+        <div class="quiz-title" id="quizTitle"></div>
+        <div class="score-badge" id="scoreBadge">0 / 6</div>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+    <div class="quiz-body" id="quizBody"></div>
+  </div>
+</div>
+
+<script>
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbyYuOSK7-ZB7aefdcx_JC3YRqB0AqMeGcT-m0qiZpz44LZmR9unRZ0vIizuX5O_LAgkJQ/exec";
+const BOOK = "5권";
+
+const units = [
+ {
+  num:1, name:"be동사 과거시제", sub:"was / were",
+  concept:[
+   { icon:"💡", title:"be동사 과거형",
+     body:"현재 am/is → 과거 was, 현재 are → 과거 were!",
+     table:{ heads:["주어","현재","과거"], rows:[["I","am","was"],["He/She/It","is","was"],["You/We/They","are","were"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I was sick yesterday.  (나는 어제 아팠어.)", "She was happy last year.  (그녀는 작년에 행복했어.)", "They were at the park.  (그들은 공원에 있었어.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"빈칸에 알맞은 be동사 과거형은?", sub:"I ___ sick yesterday.", opts:["am","is","was","were"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 be동사 과거형은?", sub:"They ___ at the park.", opts:["was","is","am","were"], a:3 },
+   { type:"mc", q:"빈칸에 알맞은 be동사 과거형은?", sub:"She ___ happy last year.", opts:["is","are","was","were"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(우리는 어제 학교에 있었어.)", words:["were","We","school","at","yesterday."], answer:"We were at school yesterday." },
+   { type:"mc", q:"다음 중 올바른 문장은?", sub:"", opts:["He were a teacher.","We was students.","I was tired.","They was late."], a:2 },
+   { type:"mc", q:"'was'의 주어로 알맞지 않은 것은?", sub:"", opts:["I","He","She","They"], a:3 },
+  ]
+ },
+ {
+  num:2, name:"be동사 과거 부정문", sub:"was not / were not",
+  concept:[
+   { icon:"💡", title:"be동사 과거 부정문",
+     body:"was/were 뒤에 not을 붙여요!",
+     table:{ heads:["긍정","부정","줄임말"], rows:[["I was","I was not","I wasn't"],["She was","She was not","She wasn't"],["They were","They were not","They weren't"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I wasn't there.  (나는 거기 없었어.)", "He wasn't a doctor.  (그는 의사가 아니었어.)", "They weren't students.  (그들은 학생이 아니었어.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"알맞은 과거 부정문은?", sub:"나는 거기 없었다.", opts:["I wasn't there.","I weren't there.","I didn't there.","I amn't there."], a:0 },
+   { type:"mc", q:"알맞은 과거 부정문은?", sub:"그들은 학생이 아니었다.", opts:["They wasn't students.","They weren't students.","They didn't students.","They aren't students."], a:1 },
+   { type:"mc", q:"빈칸에 알맞은 말은?", sub:"She ___ at home yesterday.", opts:["weren't","wasn't","didn't","isn't"], a:1 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그는 어제 학교에 없었어.)", words:["wasn't","He","school","at","yesterday."], answer:"He wasn't at school yesterday." },
+   { type:"mc", q:"다음 중 올바른 부정문은?", sub:"", opts:["I weren't happy.","She wasn't tired.","He weren't a student.","We wasn't late."], a:1 },
+   { type:"mc", q:"'were not'의 줄임말은?", sub:"", opts:["wasn't","werent","weren't","wern't"], a:2 },
+  ]
+ },
+ {
+  num:3, name:"be동사 과거 의문문", sub:"Was/Were + 주어 ~?",
+  concept:[
+   { icon:"💡", title:"be동사 과거 의문문",
+     body:"was/were를 주어 앞으로 보내요!",
+     table:{ heads:["평서문","의문문","긍정 대답","부정 대답"], rows:[["She was~","Was she~?","Yes, she was.","No, she wasn't."],["They were~","Were they~?","Yes, they were.","No, they weren't."]] } },
+   { icon:"📝", title:"예문",
+     ex:["Was she at school?  (그녀는 학교에 있었니?)", "Were they happy?  (그들은 행복했니?)", "Yes, she was. / No, she wasn't."] }
+  ],
+  qs:[
+   { type:"mc", q:"알맞은 과거 의문문은?", sub:"(너는 어제 집에 있었니?)", opts:["Did you home yesterday?","Were you home yesterday?","Was you home yesterday?","Are you home yesterday?"], a:1 },
+   { type:"mc", q:"'Was she at school?'에 알맞은 긍정 대답은?", sub:"", opts:["Yes, she was.","Yes, she is.","Yes, she were.","Yes, she did."], a:0 },
+   { type:"mc", q:"빈칸에 알맞은 말은?", sub:"___ they happy yesterday?", opts:["Was","Is","Were","Are"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그는 어제 아팠니?)", words:["Was","yesterday?","he","sick"], answer:"Was he sick yesterday?" },
+   { type:"mc", q:"'Were they students?'에 알맞은 부정 대답은?", sub:"", opts:["No, they wasn't.","No, they weren't.","No, they didn't.","No, they aren't."], a:1 },
+   { type:"mc", q:"다음 중 올바른 의문문은?", sub:"", opts:["Was they happy?","Were he a doctor?","Were they students?","Was we tired?"], a:2 },
+  ]
+ },
+ {
+  num:4, name:"시간 표현 부사(구)", sub:"yesterday / last / ago / now / every",
+  concept:[
+   { icon:"💡", title:"시간 표현 부사(구)",
+     table:{ heads:["표현","뜻","예시"], rows:[["yesterday","어제","I was sick yesterday."],["last + 시간","지난 ~","last night, last year"],["~ ago","~ 전에","two days ago"],["today","오늘","I am busy today."],["now","지금","She is sleeping now."],["this + 시간","이번 ~","this morning, this week"],["every + 시간","매 ~","every day, every morning"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I saw him yesterday.  (나는 어제 그를 봤어.)", "She visited us last week.  (그녀는 지난주에 우리를 방문했어.)", "He left two hours ago.  (그는 두 시간 전에 떠났어.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"'어제'를 나타내는 시간 표현은?", sub:"", opts:["now","yesterday","every","this"], a:1 },
+   { type:"mc", q:"빈칸에 알맞은 시간 표현은?", sub:"She visited us ___ week.", opts:["ago","every","last","now"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 시간 표현은?", sub:"He left two hours ___.", opts:["last","ago","now","then"], a:1 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(나는 어제 그를 봤어.)", words:["saw","I","yesterday.","him"], answer:"I saw him yesterday." },
+   { type:"mc", q:"과거시제와 함께 쓰이는 표현은?", sub:"", opts:["now","this morning","last night","every day"], a:2 },
+   { type:"mc", q:"'every day'의 뜻으로 알맞은 것은?", sub:"", opts:["어제","매일","지금","지난"], a:1 },
+  ]
+ },
+ {
+  num:5, name:"일반동사 과거시제", sub:"동사원형 + ed",
+  concept:[
+   { icon:"💡", title:"일반동사 과거형 규칙",
+     table:{ heads:["규칙","예시"], rows:[["일반: +ed","walk→walked, play→played"],["e로 끝: +d","love→loved, live→lived"],["자음+y: y→ied","study→studied, cry→cried"],["단모음+단자음: 자음 두 번+ed","stop→stopped, plan→planned"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I walked to school yesterday.  (나는 어제 걸어서 학교에 갔어.)", "She studied English last night.  (그녀는 어젯밤에 영어를 공부했어.)", "He stopped the car.  (그는 차를 멈췄어.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"과거형으로 알맞은 것은?", sub:"walk → ?", opts:["walkes","walked","walkd","walkked"], a:1 },
+   { type:"mc", q:"과거형으로 알맞은 것은?", sub:"study → ?", opts:["studyed","studyd","studied","studyied"], a:2 },
+   { type:"mc", q:"과거형으로 알맞은 것은?", sub:"stop → ?", opts:["stoped","stopd","stopted","stopped"], a:3 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그녀는 어젯밤에 영어를 공부했어.)", words:["studied","She","last","English","night."], answer:"She studied English last night." },
+   { type:"mc", q:"빈칸에 알맞은 과거형은?", sub:"I ___ to school yesterday.", opts:["walk","walks","walking","walked"], a:3 },
+   { type:"mc", q:"과거형으로 알맞은 것은?", sub:"live → ?", opts:["liveed","lived","liveied","liveked"], a:1 },
+  ]
+ },
+ {
+  num:6, name:"일반동사 불규칙 과거형", sub:"go→went / eat→ate / run→ran …",
+  concept:[
+   { icon:"💡", title:"불규칙 과거형",
+     body:"규칙이 없어서 외워야 해요!",
+     table:{ heads:["원형","과거형","원형","과거형"], rows:[["go","went","come","came"],["eat","ate","see","saw"],["run","ran","have","had"],["get","got","make","made"],["take","took","give","gave"],["write","wrote","read","read"]] } },
+   { icon:"📝", title:"예문",
+     ex:["I went to the park yesterday.  (나는 어제 공원에 갔어.)", "She ate pizza for lunch.  (그녀는 점심에 피자를 먹었어.)", "He ran very fast.  (그는 매우 빨리 달렸어.)"] }
+  ],
+  qs:[
+   { type:"mc", q:"'go'의 과거형은?", sub:"", opts:["goed","goes","went","gone"], a:2 },
+   { type:"mc", q:"'eat'의 과거형은?", sub:"", opts:["eated","eats","ate","eaten"], a:2 },
+   { type:"mc", q:"'run'의 과거형은?", sub:"", opts:["runned","runs","run","ran"], a:3 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(나는 어제 공원에 갔어.)", words:["went","I","the","to","yesterday.","park"], answer:"I went to the park yesterday." },
+   { type:"mc", q:"빈칸에 알맞은 과거형은?", sub:"She ___ pizza for lunch yesterday.", opts:["eat","eats","ate","eaten"], a:2 },
+   { type:"mc", q:"'see'의 과거형은?", sub:"", opts:["seed","sees","seen","saw"], a:3 },
+  ]
+ },
+ {
+  num:7, name:"일반동사 과거 부정문", sub:"didn't + 동사원형",
+  concept:[
+   { icon:"💡", title:"일반동사 과거 부정문",
+     body:"주어에 관계없이 didn't + 동사원형을 써요!",
+     table:{ heads:["형태","예시"], rows:[["didn't + 동사원형","I didn't eat lunch."],["주어 상관없이 didn't","She didn't go. / They didn't run."]] } },
+   { icon:"📝", title:"예문",
+     ex:["I didn't eat lunch yesterday.  (나는 어제 점심을 먹지 않았어.)", "She didn't go to school.  (그녀는 학교에 가지 않았어.)", "didn't 뒤에 동사원형! → didn't ate ❌ / didn't eat ✅"] }
+  ],
+  qs:[
+   { type:"mc", q:"알맞은 과거 부정문은?", sub:"나는 어제 점심을 먹지 않았다.", opts:["I wasn't eat lunch.","I didn't ate lunch.","I didn't eat lunch.","I don't eat lunch."], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 말은?", sub:"She ___ go to school yesterday.", opts:["wasn't","didn't","doesn't","isn't"], a:1 },
+   { type:"mc", q:"다음 중 올바른 부정문은?", sub:"", opts:["He didn't went home.","She didn't played soccer.","They didn't study hard.","I didn't was tired."], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그녀는 어제 TV를 보지 않았어.)", words:["didn't","She","TV","watch","yesterday."], answer:"She didn't watch TV yesterday." },
+   { type:"mc", q:"'didn't' 뒤에 오는 동사의 형태는?", sub:"", opts:["동사+s/es","동사+ing","동사+ed","동사원형"], a:3 },
+   { type:"mc", q:"빈칸에 알맞은 말은?", sub:"They ___ run in the gym.", opts:["didn't","weren't","don't","hasn't"], a:0 },
+  ]
+ },
+ {
+  num:8, name:"일반동사 과거 의문문", sub:"Did + 주어 + 동사원형?",
+  concept:[
+   { icon:"💡", title:"일반동사 과거 의문문",
+     table:{ heads:["형태","예시"], rows:[["Did + 주어 + 동사원형?","Did you eat lunch?"],["긍정 대답","Yes, 주어 + did.","Yes, I did."],["부정 대답","No, 주어 + didn't.","No, I didn't."]] } },
+   { icon:"📝", title:"예문",
+     ex:["Did you eat lunch?  (너는 점심 먹었니?)", "Did she go to school?  (그녀는 학교 갔니?)", "Yes, I did. / No, I didn't."] }
+  ],
+  qs:[
+   { type:"mc", q:"알맞은 과거 의문문은?", sub:"(너는 어제 숙제를 했니?)", opts:["Do you did your homework?","Did you do your homework?","Did you did your homework?","Does you do your homework?"], a:1 },
+   { type:"mc", q:"'Did she go to school?'에 알맞은 긍정 대답은?", sub:"", opts:["Yes, she does.","Yes, she is.","Yes, she did.","Yes, she was."], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 말은?", sub:"___ he run fast yesterday?", opts:["Was","Does","Were","Did"], a:3 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(너는 어제 피자를 먹었니?)", words:["Did","eat","yesterday?","you","pizza"], answer:"Did you eat pizza yesterday?" },
+   { type:"mc", q:"다음 중 올바른 의문문은?", sub:"", opts:["Did she went home?","Did he plays soccer?","Did they study hard?","Did I was tired?"], a:2 },
+   { type:"mc", q:"'Did you swim?'에 알맞은 부정 대답은?", sub:"", opts:["No, I wasn't.","No, I didn't.","No, I don't.","No, I haven't."], a:1 },
+  ]
+ },
+ {
+  num:9, name:"미래시제 will", sub:"will + 동사원형",
+  concept:[
+   { icon:"💡", title:"미래시제 will",
+     body:"'~할 것이다'는 뜻이에요. will 뒤에는 반드시 동사원형!",
+     table:{ heads:["형태","예시"], rows:[["will + 동사원형","I will go to school."],["주어 관계없이 will","She will come. / They will run."]] } },
+   { icon:"📝", title:"예문",
+     ex:["I will go to school tomorrow.  (나는 내일 학교에 갈 거야.)", "She will be a doctor.  (그녀는 의사가 될 거야.)", "will 뒤 동사원형! → will goes ❌ / will go ✅"] }
+  ],
+  qs:[
+   { type:"mc", q:"'will'의 뜻으로 알맞은 것은?", sub:"", opts:["~했다","~하고 있다","~할 것이다","~해야 한다"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 말은?", sub:"I ___ go to school tomorrow.", opts:["was","did","will","am"], a:2 },
+   { type:"mc", q:"다음 중 올바른 문장은?", sub:"", opts:["She will goes home.","He will to eat lunch.","They will play soccer.","I will eating dinner."], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그녀는 내일 의사가 될 거야.)", words:["will","She","a","be","tomorrow.","doctor"], answer:"She will be a doctor tomorrow." },
+   { type:"mc", q:"우리말 뜻에 맞는 영어 문장은?", sub:"나는 내일 피자를 먹을 거야.", opts:["I ate pizza tomorrow.","I eat pizza tomorrow.","I will eat pizza tomorrow.","I was eating pizza tomorrow."], a:2 },
+   { type:"mc", q:"'will' 뒤에 오는 동사의 형태는?", sub:"", opts:["동사+s/es","동사+ing","동사+ed","동사원형"], a:3 },
+  ]
+ },
+ {
+  num:10, name:"will 부정문·의문문", sub:"won't / Will + 주어 + 동사원형?",
+  concept:[
+   { icon:"💡", title:"will 부정문·의문문",
+     table:{ heads:["구분","형태","예시"], rows:[["부정문","will not / won't + 동사원형","I won't go."],["의문문","Will + 주어 + 동사원형?","Will you go?"],["긍정 대답","Yes, 주어 + will.","Yes, I will."],["부정 대답","No, 주어 + won't.","No, I won't."]] } },
+   { icon:"📝", title:"예문",
+     ex:["I won't go there.  (나는 거기 가지 않을 거야.)", "Will she come?  (그녀가 올까?)", "Yes, she will. / No, she won't."] }
+  ],
+  qs:[
+   { type:"mc", q:"알맞은 부정문은?", sub:"나는 거기 가지 않을 거야.", opts:["I didn't go there.","I won't go there.","I wasn't go there.","I don't go there."], a:1 },
+   { type:"mc", q:"'will not'의 줄임말은?", sub:"", opts:["willn't","wont","won't","wills not"], a:2 },
+   { type:"mc", q:"알맞은 의문문은?", sub:"(그녀가 올까?)", opts:["Does she will come?","Was she come?","Will she come?","Did she will come?"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(너는 내일 학교에 올 거니?)", words:["Will","come","tomorrow?","you","to","school"], answer:"Will you come to school tomorrow?" },
+   { type:"mc", q:"'Will you help me?'에 알맞은 긍정 대답은?", sub:"", opts:["Yes, I do.","Yes, I was.","Yes, I will.","Yes, I did."], a:2 },
+   { type:"mc", q:"다음 중 올바른 부정문은?", sub:"", opts:["She won't goes home.","He will not to eat.","They won't play soccer.","I wont eating dinner."], a:2 },
+  ]
+ },
+ {
+  num:11, name:"be going to (미래)", sub:"be going to + 동사원형",
+  concept:[
+   { icon:"💡", title:"be going to",
+     body:"'~할 예정이다'는 뜻이에요. will과 바꿔 쓸 수 있어요!",
+     table:{ heads:["주어","형태","예시"], rows:[["I","am going to","I am going to eat."],["He/She/It","is going to","She is going to sing."],["You/We/They","are going to","They are going to run."]] } },
+   { icon:"📝", title:"예문",
+     ex:["I am going to eat pizza.  (나는 피자를 먹을 거야.)", "She is going to visit London.  (그녀는 런던을 방문할 거야.)", "I will eat pizza. = I am going to eat pizza."] }
+  ],
+  qs:[
+   { type:"mc", q:"'be going to'의 뜻으로 알맞은 것은?", sub:"", opts:["~했다","~하고 있다","~할 예정이다","~해야 한다"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 말은?", sub:"She ___ going to visit London.", opts:["am","are","is","be"], a:2 },
+   { type:"mc", q:"다음 중 올바른 문장은?", sub:"", opts:["I am going to eats pizza.","She is going to sings.","They are going to play soccer.","He am going to run."], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그들은 내일 축구를 할 거야.)", words:["are","They","to","going","tomorrow.","play","soccer"], answer:"They are going to play soccer tomorrow." },
+   { type:"mc", q:"'I will eat pizza.'와 같은 뜻은?", sub:"", opts:["I was eating pizza.","I am going to eat pizza.","I am eating pizza.","I ate pizza."], a:1 },
+   { type:"mc", q:"빈칸에 알맞은 말은?", sub:"We ___ going to study tonight.", opts:["is","am","are","be"], a:2 },
+  ]
+ },
+ {
+  num:12, name:"be going to 부정문·의문문", sub:"not going to / Are you going to~?",
+  concept:[
+   { icon:"💡", title:"be going to 부정문·의문문",
+     table:{ heads:["구분","형태","예시"], rows:[["부정문","be + not + going to + 동사원형","I am not going to go."],["의문문","be동사 + 주어 + going to + 동사원형?","Are you going to eat?"],["긍정 대답","Yes, 주어 + be동사.","Yes, I am."],["부정 대답","No, 주어 + be동사 + not.","No, I'm not."]] } },
+   { icon:"📝", title:"예문",
+     ex:["I am not going to eat lunch.  (나는 점심을 먹지 않을 거야.)", "Are you going to come?  (너 올 거야?)", "Yes, I am. / No, I'm not."] }
+  ],
+  qs:[
+   { type:"mc", q:"알맞은 부정문은?", sub:"나는 점심을 먹지 않을 거야.", opts:["I won't going to eat lunch.","I am not going to eat lunch.","I didn't going to eat lunch.","I wasn't going to eat lunch."], a:1 },
+   { type:"mc", q:"알맞은 의문문은?", sub:"(너 올 거야?)", opts:["Will you going to come?","Did you going to come?","Are you going to come?","Do you going to come?"], a:2 },
+   { type:"mc", q:"빈칸에 알맞은 말은?", sub:"She ___ not going to sing today.", opts:["do","did","is","will"], a:2 },
+   { type:"arr", q:"단어를 순서대로 눌러 문장을 완성해요.", sub:"(그는 오늘 학교에 가지 않을 거야.)", words:["not","He","going","is","school.","to","to","go"], answer:"He is not going to go to school." },
+   { type:"mc", q:"'Are you going to eat?'에 알맞은 긍정 대답은?", sub:"", opts:["Yes, I will.","Yes, I do.","Yes, I am.","Yes, I was."], a:2 },
+   { type:"mc", q:"다음 중 올바른 의문문은?", sub:"", opts:["Is she going to sings?","Are they going to play?","Am he going to run?","Were you going to eat?"], a:1 },
+  ]
+ },
+];
+
+let userName='', userClass='', curUnit=0, curQ=0, score=0, answered=false;
+let placed=[], usedIdx=[];
+
+function getKey(){ return `quiz5_${userName}_${userClass}`; }
+function getRecord(){ try{ return JSON.parse(localStorage.getItem(getKey())||'{}'); }catch(e){return{};} }
+function saveRecord(uNum,sc){ const r=getRecord(); r[uNum]=sc; try{ localStorage.setItem(getKey(),JSON.stringify(r)); }catch(e){} }
+
+async function sendScore(userName, userClass, unitNum, unitName, score) {
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  try {
+    const params = new URLSearchParams({
+      name: userName, class: userClass + "반",
+      unit: BOOK + " Unit " + unitNum + " " + unitName,
+      score: score, datetime: dateStr + " " + timeStr
+    });
+    await fetch(SHEET_URL, { method:"POST", mode:"no-cors", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body:params.toString() });
+    return true;
+  } catch(e) { return false; }
+}
+
+function selectClass(c){ userClass=c; document.querySelectorAll('.class-btn').forEach(b=>{ b.classList.toggle('selected', b.textContent===c+'반'); }); checkLogin(); }
+function checkLogin(){ const n=document.getElementById('nameInput').value.trim(); document.getElementById('loginBtn').disabled=!(n&&userClass); }
+function doLogin(){ userName=document.getElementById('nameInput').value.trim(); show('mainScreen'); hide('loginScreen'); renderMain(); }
+
+function renderMain(){
+  document.getElementById('userBadge').textContent=`${userName} · ${userClass}반`;
+  const rec=getRecord();
+  const grid=document.getElementById('unitGrid');
+  grid.innerHTML='';
+  units.forEach((u,i)=>{
+    const sc=rec[u.num];
+    let doneHtml='';
+    if(sc!==undefined){ const cls=sc>=5?'done-perfect':sc>=3?'done-good':'done-try'; doneHtml=`<div class="unit-done ${cls}">${sc===6?'⭐ 만점!':'✓ '+sc+'/6'}</div>`; }
+    const d=document.createElement('div');
+    d.className='unit-card'; d.onclick=()=>showConcept(i);
+    d.innerHTML=`<div class="unit-num">UNIT ${u.num}</div><div class="unit-name">${u.name}</div><div class="unit-sub">${u.sub}</div>${doneHtml}`;
+    grid.appendChild(d);
+  });
+}
+
+function goMain(){ show('mainScreen'); hide('conceptScreen'); hide('quizScreen'); renderMain(); }
+
+function showConcept(idx){
+  curUnit=idx;
+  const u=units[idx];
+  document.getElementById('conceptTitle').textContent=`Unit ${u.num}  ${u.name}`;
+  let html='';
+  u.concept.forEach(c=>{
+    html+=`<div class="concept-card"><h3>${c.icon} ${c.title}</h3>`;
+    if(c.body) html+=`<p>${c.body}</p>`;
+    if(c.table){ html+=`<table class="concept-table"><tr>${c.table.heads.map(h=>`<th>${h}</th>`).join('')}</tr>`; c.table.rows.forEach(r=>{ html+=`<tr>${r.map(cell=>`<td>${cell}</td>`).join('')}</tr>`; }); html+=`</table>`; }
+    if(c.ex) c.ex.forEach(e=>{ html+=`<div class="concept-example">${e.replace(/\n/g,'<br>')}</div>`; });
+    html+=`</div>`;
+  });
+  html+=`<button class="start-btn-orange" onclick="startQuiz(${idx})">✏️ 퀴즈 풀기 (6문제)</button>`;
+  document.getElementById('conceptBody').innerHTML=html;
+  hide('mainScreen'); show('conceptScreen');
+}
+
+function startQuiz(idx){
+  curUnit=idx; curQ=0; score=0; answered=false;
+  hide('conceptScreen'); hide('mainScreen'); show('quizScreen');
+  document.getElementById('quizTitle').textContent=`Unit ${units[idx].num}  ${units[idx].name}`;
+  renderQ();
+}
+
+function renderQ(){
+  answered=false;
+  const q=units[curUnit].qs[curQ];
+  document.getElementById('progFill').style.width=(curQ/6*100)+'%';
+  document.getElementById('scoreBadge').textContent=score+' / 6';
+  let html=`<div class="q-card"><div style="display:flex;align-items:center;"><div class="q-num">Q${curQ+1} / 6</div><div class="q-tag">${q.type==='mc'?'객관식':'배열'}</div></div><div class="q-text">${q.q}</div>${q.sub?`<div class="q-sub">${q.sub}</div>`:''}</div>`;
+  if(q.type==='mc'){
+    html+=`<div class="opts" id="optsArea">`;
+    q.opts.forEach((o,i)=>{ html+=`<button class="opt" onclick="selMC(${i})">${['①','②','③','④'][i]} ${o}</button>`; });
+    html+=`</div>`;
+  } else {
+    const sh=[...q.words].sort(()=>Math.random()-0.5);
+    placed=[]; usedIdx=new Array(sh.length).fill(false);
+    window._arrWords=sh;
+    html+=`<div><div class="arrange-hint">💬 단어를 눌러 문장을 만들어요. 선택한 단어를 누르면 취소돼요!</div><div class="word-pool" id="wordPool">${sh.map((w,i)=>`<div class="word-chip" id="chip${i}" onclick="placeW(${i})">${w}</div>`).join('')}</div><div class="answer-box" id="ansBox"></div><button class="check-btn" id="checkBtn" disabled onclick="checkArr()">확인하기 ✓</button></div>`;
+  }
+  html+=`<div class="fb hidden" id="fbArea"></div><button class="next-btn hidden" id="nxtBtn" onclick="nextQ()">${curQ<5?'다음 문제 →':'결과 보기 🎉'}</button>`;
+  document.getElementById('quizBody').innerHTML=html;
+}
+
+function selMC(i){
+  if(answered)return; answered=true;
+  const q=units[curUnit].qs[curQ];
+  const btns=document.querySelectorAll('.opt');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('fbArea'); fb.classList.remove('hidden');
+  if(i===q.a){ score++; btns[i].classList.add('correct'); fb.className='fb correct'; fb.textContent='✅ 정답이에요! 잘했어요!'; }
+  else{ btns[i].classList.add('wrong'); btns[q.a].classList.add('correct'); fb.className='fb wrong'; fb.textContent='❌ 틀렸어요. 정답: '+q.opts[q.a]; }
+  document.getElementById('nxtBtn').classList.remove('hidden');
+}
+
+function placeW(i){ if(usedIdx[i])return; usedIdx[i]=true; placed.push({i,w:window._arrWords[i]}); document.getElementById('chip'+i).classList.add('used'); renderAns(); document.getElementById('checkBtn').disabled=false; }
+function removeW(pos){ const item=placed[pos]; usedIdx[item.i]=false; placed.splice(pos,1); document.getElementById('chip'+item.i).classList.remove('used'); renderAns(); if(placed.length===0)document.getElementById('checkBtn').disabled=true; }
+function renderAns(){ const box=document.getElementById('ansBox'); box.innerHTML=''; placed.forEach((item,pos)=>{ const c=document.createElement('div'); c.className='placed-chip'; c.textContent=item.w; c.onclick=()=>removeW(pos); box.appendChild(c); }); }
+function checkArr(){
+  if(answered)return; answered=true;
+  const q=units[curUnit].qs[curQ];
+  const ans=placed.map(p=>p.w).join(' ');
+  const fb=document.getElementById('fbArea'); fb.classList.remove('hidden');
+  document.getElementById('checkBtn').disabled=true;
+  document.querySelectorAll('.word-chip').forEach(c=>c.style.pointerEvents='none');
+  document.querySelectorAll('.placed-chip').forEach(c=>c.style.cursor='default');
+  if(ans===q.answer){ score++; fb.className='fb correct'; fb.textContent='✅ 정답이에요! 잘했어요!'; }
+  else{ fb.className='fb wrong'; fb.textContent=`❌ 틀렸어요. 정답: ${q.answer}`; }
+  document.getElementById('nxtBtn').classList.remove('hidden');
+}
+function nextQ(){ curQ++; if(curQ>=6)showResult(); else renderQ(); }
+
+function showResult(){
+  const u=units[curUnit];
+  saveRecord(u.num,score);
+  document.getElementById('progFill').style.width='100%';
+  document.getElementById('scoreBadge').textContent=score+' / 6';
+  const pct=Math.round(score/6*100);
+  let emoji,msg;
+  if(pct>=100){emoji='🏆';msg='만점이에요! 완벽하게 이해했어요! 👏';}
+  else if(pct>=67){emoji='😊';msg='잘했어요! 틀린 문제를 개념 설명에서 다시 확인해봐요!';}
+  else if(pct>=33){emoji='🙂';msg='조금 더 연습해봐요! 개념 카드를 다시 읽고 도전해요!';}
+  else{emoji='📚';msg='개념을 먼저 꼼꼼히 읽고 다시 도전해봐요!';}
+  const now=new Date();
+  const dateStr=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+  const timeStr=`${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+  document.getElementById('quizBody').innerHTML=`
+  <div class="result-body"><div class="result-box">
+    <div class="r-emoji">${emoji}</div>
+    <div class="r-unit">5권 Unit ${u.num} · ${u.name}</div>
+    <div class="r-score">${score} / 6</div>
+    <div class="r-sub">6문제 중 ${score}개 정답 (${pct}%)</div>
+    <div class="r-msg">${msg}</div>
+    <div class="r-record">
+      <div class="r-record-title">📋 퀴즈 결과 기록</div>
+      <div class="r-record-row"><span>이름</span><span>${userName} (${userClass}반)</span></div>
+      <div class="r-record-row"><span>Unit</span><span>5권 Unit ${u.num} · ${u.name}</span></div>
+      <div class="r-record-row"><span>점수</span><span>${score} / 6 (${pct}%)</span></div>
+      <div class="r-record-row"><span>날짜</span><span>${dateStr} ${timeStr}</span></div>
+    </div>
+    <button class="save-btn" id="saveBtn" onclick="doSave()">📊 결과 저장하기</button>
+    <div class="save-ok hidden" id="saveOk">✅ 저장됐어요!</div>
+    <div class="r-btns">
+      <button class="r-retry" onclick="startQuiz(${curUnit})">다시 풀기 🔄</button>
+      <button class="r-home" onclick="goMain()">단원 목록 🏠</button>
+    </div>
+  </div></div>`;
+  window._resultData={userName,userClass,unitNum:u.num,unitName:u.name,score};
+}
+
+async function doSave(){
+  const btn=document.getElementById('saveBtn');
+  btn.disabled=true; btn.textContent='📊 저장 중...';
+  const d=window._resultData;
+  await sendScore(d.userName,d.userClass,d.unitNum,d.unitName,d.score);
+  btn.classList.add('hidden');
+  document.getElementById('saveOk').classList.remove('hidden');
+}
+
+function show(id){ document.getElementById(id).classList.remove('hidden'); }
+function hide(id){ document.getElementById(id).classList.add('hidden'); }
+</script>
+</body>
+</html>
