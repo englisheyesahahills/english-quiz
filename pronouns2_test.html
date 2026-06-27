@@ -19,14 +19,12 @@
   input[type=text]:focus, select:focus { border-color: #0e7490; }
   .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #0e7490, #155e75); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .start-btn:disabled { background: #aaa; cursor: default; }
-
   .progress-wrap { margin-bottom: 16px; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .progress-label { font-size: 12px; color: #888; }
   .progress-score { font-size: 12px; font-weight: 600; color: #0e7490; }
   .progress-bar { height: 6px; background: #a5f3fc; border-radius: 99px; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, #0e7490, #22d3ee); border-radius: 99px; transition: width 0.4s ease; }
-
   .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
   .question-num { font-size: 11px; color: #0e7490; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
   .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
@@ -36,32 +34,23 @@
   .badge-mixed { background: #fef3c7; color: #92400e; }
   .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
   .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
-
   .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
   .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #f0f9ff; border: 1.5px solid #a5f3fc; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
   .option-btn:hover:not(:disabled) { background: #e0f7fa; border-color: #0e7490; }
   .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
   .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
   .option-btn:disabled { cursor: default; }
-
   .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
   .feedback.correct { background: #e6f9f0; color: #1a6640; }
   .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
-
   .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #0e7490, #155e75); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
-
   .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .result-emoji { font-size: 52px; margin-bottom: 12px; }
   .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
   .result-score { font-size: 42px; font-weight: 800; color: #0e7490; margin-bottom: 4px; }
   .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
-  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #f0f9ff; border-radius: 12px; margin-bottom: 20px; }
-
-  .save-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #7c3aed, #6d28d9); color: #fff; border: none; border-radius: 12px; cursor: pointer; margin-bottom: 10px; }
-  .save-btn:disabled { background: #94a3b8; cursor: default; }
-  .save-ok   { font-size: 13px; color: #16a34a; font-weight: 700; text-align: center; margin-bottom: 10px; display:none; padding: 10px; background: #e6f9f0; border-radius: 10px; }
-  .save-fail { font-size: 13px; color: #dc2626; font-weight: 700; text-align: center; margin-bottom: 10px; display:none; padding: 10px; background: #fff0f0; border-radius: 10px; }
-
+  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #f0f9ff; border-radius: 12px; margin-bottom: 16px; }
+  .save-box { border-radius: 10px; padding: 12px; font-size: 13px; margin: 16px 0; text-align: center; background: #f0f9ff; color: #0e7490; }
   .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #0e7490, #155e75); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .hidden { display: none; }
 </style>
@@ -127,261 +116,158 @@
       <div class="result-score" id="resultScore"></div>
       <div class="result-sub">30문제 중</div>
       <div class="result-msg" id="resultMsg"></div>
-      <button class="save-btn" id="saveBtn" onclick="doSave()">📊 노션에 결과 저장하기</button>
-      <div class="save-ok"   id="saveOk">✅ 노션에 저장됐어요!</div>
-      <div class="save-fail" id="saveFail">⚠️ 저장 실패. 다시 시도해주세요.</div>
+      <div class="save-box" id="save-status">📤 노션에 저장 중...</div>
       <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
     </div>
   </div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════
-// 📝 노션 저장 — 문법퀴즈결과 DB
-// ══════════════════════════════════════════════
-const NOTION_DS_ID = '388f4df0-1d56-80df-9f14-000b051ef728';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzNu6BnyzJz8VqB1LKjE89CQha4RSorTG-hxatwM3z_dWsiKivK9k7aVWPILc5h-uP/exec';
 
-async function saveToNotion(name, cls, score, total) {
-  const now = new Date();
-  const isoNow = now.toISOString().slice(0, 16);
-  const displayTime = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+async function saveToNotion(name, cls, score, total, unit) {
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const params = new URLSearchParams();
+    params.append('name', name);
+    params.append('unit', unit + ' | ' + cls);
+    params.append('score', score);
+    params.append('total', total);
+    await fetch(SCRIPT_URL, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 300,
-        system: '당신은 Notion 저장 도우미입니다. 데이터를 Notion DB에 저장하고 {"success":true} 만 반환하세요.',
-        messages: [{
-          role: 'user',
-          content: `다음 시험 결과를 Notion DB(collection://${NOTION_DS_ID})에 저장해주세요:
-이름(title): "${name}"
-단원(text): "지시·소유격·목적격 대명사 | ${cls} | ${displayTime}"
-총 문제수(number): ${total}
-맞은 개수(number): ${score}
-제출시간(date): "${isoNow}"`
-        }],
-        mcp_servers: [{ type: 'url', url: 'https://mcp.notion.com/mcp', name: 'notion-mcp' }]
-      })
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
     });
-    const data = await res.json();
-    return data.content && data.content.length > 0;
-  } catch(e) {
-    console.error('Notion save error:', e);
-    return false;
-  }
+    return true;
+  } catch(e) { return false; }
 }
 
 const questions = [
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"'this'의 뜻으로 알맞은 것은?", sub:"",
-    options:["저것","그것들","이것","저것들"], answer:2 },
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"'those'의 뜻으로 알맞은 것은?", sub:"",
-    options:["이것","저것들","이것들","저것"], answer:1 },
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"빈칸에 알맞은 말을 고르세요. (가까이 있는 한 개)", sub:"___ is my pencil.",
-    options:["That","These","Those","This"], answer:3 },
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"빈칸에 알맞은 말을 고르세요. (멀리 있는 여러 개)", sub:"___ are my books.",
-    options:["This","That","Those","These"], answer:2 },
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"빈칸에 알맞은 말을 고르세요. (가까이 있는 여러 개)", sub:"___ are apples.",
-    options:["That","This","Those","These"], answer:3 },
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"That is a very big tree.",
-    options:["이것은 매우 큰 나무이다.","저것은 매우 큰 나무이다.","이것들은 매우 큰 나무이다.","저것들은 매우 큰 나무이다."], answer:1 },
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"이것들은 내 신발이야.",
-    options:["This is my shoes.","That are my shoes.","These are my shoes.","Those is my shoes."], answer:2 },
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"These ___ my friends.",
-    options:["is","am","was","are"], answer:3 },
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"That ___ a nice car.",
-    options:["are","am","is","be"], answer:2 },
-  { badge:"지시대명사", badgeClass:"badge-dem",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["This are my cats.","Those is a dog.","These is fun.","Those are my classmates."], answer:3 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"'my'의 뜻으로 알맞은 것은?", sub:"",
-    options:["나를","나의","나는","나에게"], answer:1 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"밑줄 친 부분의 소유격으로 알맞은 것은?", sub:"This is the bag of Tom.",
-    options:["Tom's bag","Toms bag","bag of Tom's","Toms' bag"], answer:0 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"She loves ___ cat. (그녀의)",
-    options:["she","her","hers","him"], answer:1 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"He forgot ___ homework. (그의)",
-    options:["him","he","his","her"], answer:2 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"We love ___ school. (우리의)",
-    options:["us","we","ours","our"], answer:3 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"They painted ___ room. (그들의)",
-    options:["them","they","theirs","their"], answer:3 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"I lost ___ umbrella. (나의)",
-    options:["me","I","my","mine"], answer:2 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"___ name is Minho. (그의)",
-    options:["He","Him","His","Her"], answer:2 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["She forgot her bag.","He lost he book.","They visited their grandmother.","I love I dog."], answer:2 },
-  { badge:"소유격", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유격을 고르세요.", sub:"The dog wagged ___ tail. (그것의)",
-    options:["it","its","it's","their"], answer:1 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"'him'의 뜻으로 알맞은 것은?", sub:"",
-    options:["그는","그의","그를/그에게","그것"], answer:2 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"I like ___. (그녀를)",
-    options:["she","her","hers","he"], answer:1 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"She called ___. (나를)",
-    options:["I","my","mine","me"], answer:3 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"Can you help ___? (우리를)",
-    options:["we","our","ours","us"], answer:3 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"I saw ___ at the park. (그들을)",
-    options:["they","their","theirs","them"], answer:3 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"빈칸에 알맞은 목적격을 고르세요.", sub:"She gave ___ a gift. (그에게)",
-    options:["he","his","him","her"], answer:2 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"밑줄 친 부분을 목적격으로 바꾼 것은?", sub:"I know Tom and Jane.",
-    options:["they","them","their","theirs"], answer:1 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["She loves he.","I called she.","They helped us.","He saw I."], answer:2 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"My dog follows ___ everywhere. (나를)",
-    options:["I","my","me","mine"], answer:2 },
-  { badge:"목적격", badgeClass:"badge-obj",
-    q:"다음 표에서 주격→소유격→목적격 순서가 바른 것은?", sub:"",
-    options:["I → my → me","She → her → hers","He → his → him","They → their → theirs"], answer:2 },
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"'this'의 뜻으로 알맞은 것은?",sub:"",options:["저것","그것들","이것","저것들"],answer:2},
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"'those'의 뜻으로 알맞은 것은?",sub:"",options:["이것","저것들","이것들","저것"],answer:1},
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"빈칸에 알맞은 말을 고르세요. (가까이 있는 한 개)",sub:"___ is my pencil.",options:["That","These","Those","This"],answer:3},
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"빈칸에 알맞은 말을 고르세요. (멀리 있는 여러 개)",sub:"___ are my books.",options:["This","That","Those","These"],answer:2},
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"빈칸에 알맞은 말을 고르세요. (가까이 있는 여러 개)",sub:"___ are apples.",options:["That","This","Those","These"],answer:3},
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"다음 문장의 뜻으로 알맞은 것은?",sub:"That is a very big tree.",options:["이것은 매우 큰 나무이다.","저것은 매우 큰 나무이다.","이것들은 매우 큰 나무이다.","저것들은 매우 큰 나무이다."],answer:1},
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"우리말 뜻에 맞는 영어 문장은?",sub:"이것들은 내 신발이야.",options:["This is my shoes.","That are my shoes.","These are my shoes.","Those is my shoes."],answer:2},
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"빈칸에 알맞은 be동사를 고르세요.",sub:"These ___ my friends.",options:["is","am","was","are"],answer:3},
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"빈칸에 알맞은 be동사를 고르세요.",sub:"That ___ a nice car.",options:["are","am","is","be"],answer:2},
+  {badge:"지시대명사",badgeClass:"badge-dem",q:"다음 중 올바른 문장은?",sub:"",options:["This are my cats.","Those is a dog.","These is fun.","Those are my classmates."],answer:3},
+  {badge:"소유격",badgeClass:"badge-pos",q:"'my'의 뜻으로 알맞은 것은?",sub:"",options:["나를","나의","나는","나에게"],answer:1},
+  {badge:"소유격",badgeClass:"badge-pos",q:"밑줄 친 부분의 소유격으로 알맞은 것은?",sub:"This is the bag of Tom.",options:["Tom's bag","Toms bag","bag of Tom's","Toms' bag"],answer:0},
+  {badge:"소유격",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유격을 고르세요.",sub:"She loves ___ cat. (그녀의)",options:["she","her","hers","him"],answer:1},
+  {badge:"소유격",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유격을 고르세요.",sub:"He forgot ___ homework. (그의)",options:["him","he","his","her"],answer:2},
+  {badge:"소유격",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유격을 고르세요.",sub:"We love ___ school. (우리의)",options:["us","we","ours","our"],answer:3},
+  {badge:"소유격",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유격을 고르세요.",sub:"They painted ___ room. (그들의)",options:["them","they","theirs","their"],answer:3},
+  {badge:"소유격",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유격을 고르세요.",sub:"I lost ___ umbrella. (나의)",options:["me","I","my","mine"],answer:2},
+  {badge:"소유격",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유격을 고르세요.",sub:"___ name is Minho. (그의)",options:["He","Him","His","Her"],answer:2},
+  {badge:"소유격",badgeClass:"badge-pos",q:"다음 중 올바른 문장은?",sub:"",options:["She forgot her bag.","He lost he book.","They visited their grandmother.","I love I dog."],answer:2},
+  {badge:"소유격",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유격을 고르세요.",sub:"The dog wagged ___ tail. (그것의)",options:["it","its","it's","their"],answer:1},
+  {badge:"목적격",badgeClass:"badge-obj",q:"'him'의 뜻으로 알맞은 것은?",sub:"",options:["그는","그의","그를/그에게","그것"],answer:2},
+  {badge:"목적격",badgeClass:"badge-obj",q:"빈칸에 알맞은 목적격을 고르세요.",sub:"I like ___. (그녀를)",options:["she","her","hers","he"],answer:1},
+  {badge:"목적격",badgeClass:"badge-obj",q:"빈칸에 알맞은 목적격을 고르세요.",sub:"She called ___. (나를)",options:["I","my","mine","me"],answer:3},
+  {badge:"목적격",badgeClass:"badge-obj",q:"빈칸에 알맞은 목적격을 고르세요.",sub:"Can you help ___? (우리를)",options:["we","our","ours","us"],answer:3},
+  {badge:"목적격",badgeClass:"badge-obj",q:"빈칸에 알맞은 목적격을 고르세요.",sub:"I saw ___ at the park. (그들을)",options:["they","their","theirs","them"],answer:3},
+  {badge:"목적격",badgeClass:"badge-obj",q:"빈칸에 알맞은 목적격을 고르세요.",sub:"She gave ___ a gift. (그에게)",options:["he","his","him","her"],answer:2},
+  {badge:"목적격",badgeClass:"badge-obj",q:"밑줄 친 부분을 목적격으로 바꾼 것은?",sub:"I know Tom and Jane.",options:["they","them","their","theirs"],answer:1},
+  {badge:"목적격",badgeClass:"badge-obj",q:"다음 중 올바른 문장은?",sub:"",options:["She loves he.","I called she.","They helped us.","He saw I."],answer:2},
+  {badge:"목적격",badgeClass:"badge-obj",q:"빈칸에 알맞은 말을 고르세요.",sub:"My dog follows ___ everywhere. (나를)",options:["I","my","me","mine"],answer:2},
+  {badge:"목적격",badgeClass:"badge-obj",q:"다음 표에서 주격→소유격→목적격 순서가 바른 것은?",sub:"",options:["I → my → me","She → her → hers","He → his → him","They → their → theirs"],answer:2},
 ];
 
-let currentQ = 0, score = 0, answered = false;
-let _name = '', _cls = '', _total = 30;
+let currentQ=0, score=0, answered=false;
+let _name='', _cls='';
 
-function checkReady() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('startBtn').disabled = !(name && cls);
+function checkReady(){
+  const name=document.getElementById('studentName').value.trim();
+  const cls=document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled=!(name&&cls);
 }
 
-function startTest() {
-  _name = document.getElementById('studentName').value.trim();
-  _cls  = document.getElementById('studentClass').value;
-  document.getElementById('headerName').textContent = _name + ' · ' + _cls;
+function startTest(){
+  _name=document.getElementById('studentName').value.trim();
+  _cls=document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent=_name+' · '+_cls;
   document.getElementById('startScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 
-function showQuestion() {
-  answered = false;
-  const q = questions[currentQ];
-  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
-  const badge = document.getElementById('questionBadge');
-  badge.textContent = q.badge;
-  badge.className   = 'question-badge ' + q.badgeClass;
-  document.getElementById('questionText').textContent = q.q;
-  document.getElementById('questionSub').textContent  = q.sub;
-  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
-  document.getElementById('progressScore').textContent = '점수: ' + score;
-  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+function showQuestion(){
+  answered=false;
+  const q=questions[currentQ];
+  document.getElementById('questionNum').textContent='Q'+(currentQ+1);
+  const badge=document.getElementById('questionBadge');
+  badge.textContent=q.badge; badge.className='question-badge '+q.badgeClass;
+  document.getElementById('questionText').textContent=q.q;
+  document.getElementById('questionSub').textContent=q.sub;
+  document.getElementById('progressLabel').textContent=(currentQ+1)+' / 30';
+  document.getElementById('progressScore').textContent='점수: '+score;
+  document.getElementById('progressFill').style.width=(currentQ/30*100)+'%';
   document.getElementById('feedbackArea').classList.add('hidden');
   document.getElementById('nextBtn').classList.add('hidden');
-
-  const area = document.getElementById('optionsArea');
-  area.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className   = 'option-btn';
-    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
-    btn.onclick = () => selectAnswer(i);
+  const area=document.getElementById('optionsArea');
+  area.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=['①','②','③','④'][i]+' '+opt;
+    btn.onclick=()=>selectAnswer(i);
     area.appendChild(btn);
   });
 }
 
-function selectAnswer(idx) {
-  if (answered) return;
-  answered = true;
-  const q    = questions[currentQ];
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
-  const fb = document.getElementById('feedbackArea');
-  if (idx === q.answer) {
-    score++;
-    btns[idx].classList.add('correct');
-    fb.className   = 'feedback correct';
-    fb.textContent = '✅ 정답이에요! 잘했어요!';
+function selectAnswer(idx){
+  if(answered)return; answered=true;
+  const q=questions[currentQ];
+  const btns=document.querySelectorAll('.option-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedbackArea');
+  if(idx===q.answer){
+    score++; btns[idx].classList.add('correct');
+    fb.className='feedback correct'; fb.textContent='✅ 정답이에요! 잘했어요!';
   } else {
-    btns[idx].classList.add('wrong');
-    btns[q.answer].classList.add('correct');
-    fb.className   = 'feedback wrong';
-    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+    btns[idx].classList.add('wrong'); btns[q.answer].classList.add('correct');
+    fb.className='feedback wrong';
+    fb.textContent='❌ 틀렸어요. 정답은 '+['①','②','③','④'][q.answer]+' '+q.options[q.answer]+' 이에요.';
   }
   fb.classList.remove('hidden');
   document.getElementById('nextBtn').classList.remove('hidden');
-  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+  document.getElementById('nextBtn').textContent=currentQ<29?'다음 문제 →':'결과 보기 🎉';
 }
 
-function nextQuestion() {
+function nextQuestion(){
   currentQ++;
-  if (currentQ >= 30) showResult();
+  if(currentQ>=30)showResult();
   else showQuestion();
 }
 
-function showResult() {
+async function showResult(){
   document.getElementById('testScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.remove('hidden');
-  const pct = Math.round(score / 30 * 100);
-  document.getElementById('resultName').textContent  = _name + '의 결과';
-  document.getElementById('resultScore').textContent = score + ' / 30';
-  let emoji, msg;
-  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! 대명사 마스터! 정말 대단해요! 👏'; }
-  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
-  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
-  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
-  document.getElementById('resultEmoji').textContent = emoji;
-  document.getElementById('resultMsg').textContent   = msg;
+  const pct=Math.round(score/30*100);
+  document.getElementById('resultName').textContent=_name+'의 결과';
+  document.getElementById('resultScore').textContent=score+' / 30';
+  let emoji,msg;
+  if(pct>=90){emoji='🏆';msg='완벽해요! 대명사 마스터! 정말 대단해요! 👏';}
+  else if(pct>=70){emoji='😊';msg='잘했어요! 조금만 더 연습하면 완벽해질 거예요!';}
+  else if(pct>=50){emoji='🙂';msg='절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.';}
+  else{emoji='📚';msg='조금 더 열심히 공부해봐요! 다시 도전해보세요!';}
+  document.getElementById('resultEmoji').textContent=emoji;
+  document.getElementById('resultMsg').textContent=msg;
+
+  const saveEl=document.getElementById('save-status');
+  await saveToNotion(_name, _cls, score, 30, '지시·소유격·목적격 대명사 시험');
+  saveEl.style.background='#dcfce7';
+  saveEl.style.color='#15803d';
+  saveEl.textContent='✅ 결과가 노션에 자동 저장됐어요!';
 }
 
-async function doSave() {
-  const btn = document.getElementById('saveBtn');
-  btn.disabled = true;
-  btn.textContent = '⏳ 저장 중...';
-  const ok = await saveToNotion(_name, _cls, score, _total);
-  btn.style.display = 'none';
-  if (ok) {
-    document.getElementById('saveOk').style.display = 'block';
-  } else {
-    document.getElementById('saveFail').style.display = 'block';
-    btn.style.display = 'block';
-    btn.disabled = false;
-    btn.textContent = '📊 다시 저장하기';
-  }
-}
-
-function retryTest() {
+function retryTest(){
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  // 저장 버튼 초기화
-  const btn = document.getElementById('saveBtn');
-  btn.style.display = 'block';
-  btn.disabled = false;
-  btn.textContent = '📊 노션에 결과 저장하기';
-  document.getElementById('saveOk').style.display = 'none';
-  document.getElementById('saveFail').style.display = 'none';
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 </script>
