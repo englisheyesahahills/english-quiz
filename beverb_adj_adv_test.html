@@ -19,44 +19,39 @@
   input[type=text]:focus, select:focus { border-color: #6d28d9; }
   .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #6d28d9, #4c1d95); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .start-btn:disabled { background: #aaa; cursor: default; }
-
   .progress-wrap { margin-bottom: 16px; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .progress-label { font-size: 12px; color: #888; }
   .progress-score { font-size: 12px; font-weight: 600; color: #6d28d9; }
   .progress-bar { height: 6px; background: #ddd6fe; border-radius: 99px; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, #6d28d9, #a78bfa); border-radius: 99px; transition: width 0.4s ease; }
-
   .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
   .question-num { font-size: 11px; color: #6d28d9; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
   .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
-  .badge-be     { background: #dbeafe; color: #1e40af; }
-  .badge-gen    { background: #d1fae5; color: #065f46; }
-  .badge-adj    { background: #fef3c7; color: #92400e; }
-  .badge-adv    { background: #fce7f3; color: #9d174d; }
-  .badge-mixed  { background: #ede9fe; color: #5b21b6; }
+  .badge-be    { background: #dbeafe; color: #1e40af; }
+  .badge-gen   { background: #d1fae5; color: #065f46; }
+  .badge-adj   { background: #fef3c7; color: #92400e; }
+  .badge-adv   { background: #fce7f3; color: #9d174d; }
+  .badge-mixed { background: #ede9fe; color: #5b21b6; }
   .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
   .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
-
   .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
   .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #faf5ff; border: 1.5px solid #ddd6fe; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
   .option-btn:hover:not(:disabled) { background: #ede9fe; border-color: #6d28d9; }
   .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
   .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
   .option-btn:disabled { cursor: default; }
-
   .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
   .feedback.correct { background: #e6f9f0; color: #1a6640; }
   .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
-
   .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #6d28d9, #4c1d95); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
-
   .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .result-emoji { font-size: 52px; margin-bottom: 12px; }
   .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
   .result-score { font-size: 42px; font-weight: 800; color: #6d28d9; margin-bottom: 4px; }
   .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
-  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #faf5ff; border-radius: 12px; margin-bottom: 20px; }
+  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #faf5ff; border-radius: 12px; margin-bottom: 16px; }
+  .save-box { border-radius: 10px; padding: 12px; font-size: 13px; margin: 16px 0; text-align: center; background: #faf5ff; color: #6d28d9; }
   .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #6d28d9, #4c1d95); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .hidden { display: none; }
 </style>
@@ -122,232 +117,158 @@
       <div class="result-score" id="resultScore"></div>
       <div class="result-sub">30문제 중</div>
       <div class="result-msg" id="resultMsg"></div>
+      <div class="save-box" id="save-status">📤 노션에 저장 중...</div>
       <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
     </div>
   </div>
 </div>
 
 <script>
-const questions = [
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgj6MoU4-tLSyf_n1iyFvtMU49mnY59TC4KvKbZ7a3MGn1U06eZblrHb9xXEidZrXz/exec';
 
-  // ── be동사 구분 (1~7) ────────────────────────────────────
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"다음 중 be동사가 쓰인 문장은?", sub:"",
-    options:["I run every morning.","She eats rice.","He is tall.","They play soccer."], answer:2 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"The flowers ___ beautiful.",
-    options:["do","run","are","have"], answer:2 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"다음 문장에서 be동사를 고르세요.", sub:"My dog is very cute.",
-    options:["My","dog","is","cute"], answer:2 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"다음 중 be동사의 역할로 알맞은 것은?", sub:"She is a doctor.",
-    options:["동작을 나타낸다","상태나 성질을 나타낸다","과거를 나타낸다","미래를 나타낸다"], answer:1 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"다음 중 be동사가 필요한 문장은?", sub:"",
-    options:["I ___ swim fast.","She ___ happy today.","They ___ play tennis.","He ___ run to school."], answer:1 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"빈칸에 be동사와 일반동사 중 알맞은 것을 고르세요.", sub:"I ___ hungry after school.",
-    options:["eat","run","am","do"], answer:2 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["She is runs every day.","He am a good student.","They are my classmates.","I is tired now."], answer:2 },
-
-  // ── 일반동사 구분 (8~14) ─────────────────────────────────
-  { badge:"일반동사", badgeClass:"badge-gen",
-    q:"다음 중 일반동사가 쓰인 문장은?", sub:"",
-    options:["She is kind.","He is my brother.","I am happy.","They eat lunch together."], answer:3 },
-
-  { badge:"일반동사", badgeClass:"badge-gen",
-    q:"다음 문장에서 일반동사를 고르세요.", sub:"She drinks milk every morning.",
-    options:["She","drinks","milk","every"], answer:1 },
-
-  { badge:"일반동사", badgeClass:"badge-gen",
-    q:"다음 중 일반동사의 역할로 알맞은 것은?", sub:"He plays soccer.",
-    options:["상태나 성질을 나타낸다","주어를 보충 설명한다","구체적인 동작을 나타낸다","형용사를 꾸며준다"], answer:2 },
-
-  { badge:"일반동사", badgeClass:"badge-gen",
-    q:"빈칸에 알맞은 일반동사를 고르세요.", sub:"I ___ books every night.",
-    options:["am","is","are","read"], answer:3 },
-
-  { badge:"일반동사", badgeClass:"badge-gen",
-    q:"다음 중 일반동사가 필요한 문장은?", sub:"",
-    options:["She ___ tired.","He ___ tall.","They ___ soccer after school.","It ___ cold today."], answer:2 },
-
-  { badge:"일반동사", badgeClass:"badge-gen",
-    q:"be동사와 일반동사 중 빈칸에 알맞은 것은?", sub:"My father ___ to work by bus.",
-    options:["is","am","goes","are"], answer:2 },
-
-  { badge:"일반동사", badgeClass:"badge-gen",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["She is goes to school.","He run fast every day.","They are play in the park.","I study English every day."], answer:3 },
-
-  // ── 형용사 (15~22) ───────────────────────────────────────
-  { badge:"형용사", badgeClass:"badge-adj",
-    q:"다음 중 형용사는?", sub:"",
-    options:["run","quickly","beautiful","eat"], answer:2 },
-
-  { badge:"형용사", badgeClass:"badge-adj",
-    q:"다음 문장에서 형용사를 고르세요.", sub:"She has a cute puppy.",
-    options:["She","has","cute","puppy"], answer:2 },
-
-  { badge:"형용사", badgeClass:"badge-adj",
-    q:"형용사의 역할로 알맞은 것은?", sub:"",
-    options:["동사를 꾸며준다","명사를 꾸며주거나 상태를 설명한다","문장 전체를 꾸며준다","주어 역할을 한다"], answer:1 },
-
-  { badge:"형용사", badgeClass:"badge-adj",
-    q:"빈칸에 알맞은 형용사를 고르세요.", sub:"It is a ___ day today.",
-    options:["slowly","brightly","sunny","happily"], answer:2 },
-
-  { badge:"형용사", badgeClass:"badge-adj",
-    q:"다음 중 형용사끼리 묶인 것은?", sub:"",
-    options:["fast – run – jump","big – small – tall","slowly – quickly – well","eat – sleep – walk"], answer:1 },
-
-  { badge:"형용사", badgeClass:"badge-adj",
-    q:"밑줄 친 단어의 품사는?", sub:"He is a kind teacher.",
-    options:["명사","동사","부사","형용사"], answer:3 },
-
-  { badge:"형용사", badgeClass:"badge-adj",
-    q:"빈칸에 알맞은 형용사를 고르세요.", sub:"I feel ___ today. (행복한)",
-    options:["happily","happy","happiness","happen"], answer:1 },
-
-  { badge:"형용사", badgeClass:"badge-adj",
-    q:"다음 중 형용사가 올바르게 쓰인 문장은?", sub:"",
-    options:["She runs fastly.","He is a tall man.","I eat quickly the food.","They play happy."], answer:1 },
-
-  // ── 부사 (23~30) ─────────────────────────────────────────
-  { badge:"부사", badgeClass:"badge-adv",
-    q:"다음 중 부사는?", sub:"",
-    options:["happy","slowly","big","pretty"], answer:1 },
-
-  { badge:"부사", badgeClass:"badge-adv",
-    q:"다음 문장에서 부사를 고르세요.", sub:"She sings very beautifully.",
-    options:["She","sings","very","beautifully"], answer:3 },
-
-  { badge:"부사", badgeClass:"badge-adv",
-    q:"부사의 역할로 알맞은 것은?", sub:"",
-    options:["명사를 꾸며준다","동사·형용사·다른 부사를 꾸며준다","주어 역할을 한다","목적어 역할을 한다"], answer:1 },
-
-  { badge:"부사", badgeClass:"badge-adv",
-    q:"형용사를 부사로 바르게 바꾼 것은?", sub:"slow → ?",
-    options:["slows","slowful","slowly","slowed"], answer:2 },
-
-  { badge:"부사", badgeClass:"badge-adv",
-    q:"빈칸에 알맞은 부사를 고르세요.", sub:"He runs very ___. (빠르게)",
-    options:["fast","fastly","faster","fastest"], answer:0 },
-
-  { badge:"부사", badgeClass:"badge-adv",
-    q:"밑줄 친 단어의 품사는?", sub:"She speaks English fluently.",
-    options:["명사","형용사","부사","동사"], answer:2 },
-
-  { badge:"부사", badgeClass:"badge-adv",
-    q:"다음 중 형용사와 부사의 형태가 같은 단어는?", sub:"",
-    options:["slow","quick","fast","loud"], answer:2 },
-
-  { badge:"부사", badgeClass:"badge-adv",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["She is a kindly teacher.","He runs fastly every day.","They speak very loudly.","I feel happily today."], answer:2 },
-];
-
-let currentQ = 0, score = 0, answered = false;
-
-function checkReady() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('startBtn').disabled = !(name && cls);
+async function saveToNotion(name, cls, score, total, unit) {
+  try {
+    const params = new URLSearchParams();
+    params.append('name', name);
+    params.append('unit', unit + ' | ' + cls);
+    params.append('score', score);
+    params.append('total', total);
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+    return true;
+  } catch(e) { return false; }
 }
 
-function startTest() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('headerName').textContent = name + ' · ' + cls;
+const questions = [
+  {badge:"be동사",badgeClass:"badge-be",q:"다음 중 be동사가 쓰인 문장은?",sub:"",options:["I run every morning.","She eats rice.","He is tall.","They play soccer."],answer:2},
+  {badge:"be동사",badgeClass:"badge-be",q:"빈칸에 알맞은 be동사를 고르세요.",sub:"The flowers ___ beautiful.",options:["do","run","are","have"],answer:2},
+  {badge:"be동사",badgeClass:"badge-be",q:"다음 문장에서 be동사를 고르세요.",sub:"My dog is very cute.",options:["My","dog","is","cute"],answer:2},
+  {badge:"be동사",badgeClass:"badge-be",q:"다음 중 be동사의 역할로 알맞은 것은?",sub:"She is a doctor.",options:["동작을 나타낸다","상태나 성질을 나타낸다","과거를 나타낸다","미래를 나타낸다"],answer:1},
+  {badge:"be동사",badgeClass:"badge-be",q:"다음 중 be동사가 필요한 문장은?",sub:"",options:["I ___ swim fast.","She ___ happy today.","They ___ play tennis.","He ___ run to school."],answer:1},
+  {badge:"be동사",badgeClass:"badge-be",q:"빈칸에 be동사와 일반동사 중 알맞은 것을 고르세요.",sub:"I ___ hungry after school.",options:["eat","run","am","do"],answer:2},
+  {badge:"be동사",badgeClass:"badge-be",q:"다음 중 올바른 문장은?",sub:"",options:["She is runs every day.","He am a good student.","They are my classmates.","I is tired now."],answer:2},
+  {badge:"일반동사",badgeClass:"badge-gen",q:"다음 중 일반동사가 쓰인 문장은?",sub:"",options:["She is kind.","He is my brother.","I am happy.","They eat lunch together."],answer:3},
+  {badge:"일반동사",badgeClass:"badge-gen",q:"다음 문장에서 일반동사를 고르세요.",sub:"She drinks milk every morning.",options:["She","drinks","milk","every"],answer:1},
+  {badge:"일반동사",badgeClass:"badge-gen",q:"다음 중 일반동사의 역할로 알맞은 것은?",sub:"He plays soccer.",options:["상태나 성질을 나타낸다","주어를 보충 설명한다","구체적인 동작을 나타낸다","형용사를 꾸며준다"],answer:2},
+  {badge:"일반동사",badgeClass:"badge-gen",q:"빈칸에 알맞은 일반동사를 고르세요.",sub:"I ___ books every night.",options:["am","is","are","read"],answer:3},
+  {badge:"일반동사",badgeClass:"badge-gen",q:"다음 중 일반동사가 필요한 문장은?",sub:"",options:["She ___ tired.","He ___ tall.","They ___ soccer after school.","It ___ cold today."],answer:2},
+  {badge:"일반동사",badgeClass:"badge-gen",q:"be동사와 일반동사 중 빈칸에 알맞은 것은?",sub:"My father ___ to work by bus.",options:["is","am","goes","are"],answer:2},
+  {badge:"일반동사",badgeClass:"badge-gen",q:"다음 중 올바른 문장은?",sub:"",options:["She is goes to school.","He run fast every day.","They are play in the park.","I study English every day."],answer:3},
+  {badge:"형용사",badgeClass:"badge-adj",q:"다음 중 형용사는?",sub:"",options:["run","quickly","beautiful","eat"],answer:2},
+  {badge:"형용사",badgeClass:"badge-adj",q:"다음 문장에서 형용사를 고르세요.",sub:"She has a cute puppy.",options:["She","has","cute","puppy"],answer:2},
+  {badge:"형용사",badgeClass:"badge-adj",q:"형용사의 역할로 알맞은 것은?",sub:"",options:["동사를 꾸며준다","명사를 꾸며주거나 상태를 설명한다","문장 전체를 꾸며준다","주어 역할을 한다"],answer:1},
+  {badge:"형용사",badgeClass:"badge-adj",q:"빈칸에 알맞은 형용사를 고르세요.",sub:"It is a ___ day today.",options:["slowly","brightly","sunny","happily"],answer:2},
+  {badge:"형용사",badgeClass:"badge-adj",q:"다음 중 형용사끼리 묶인 것은?",sub:"",options:["fast – run – jump","big – small – tall","slowly – quickly – well","eat – sleep – walk"],answer:1},
+  {badge:"형용사",badgeClass:"badge-adj",q:"밑줄 친 단어의 품사는?",sub:"He is a kind teacher.",options:["명사","동사","부사","형용사"],answer:3},
+  {badge:"형용사",badgeClass:"badge-adj",q:"빈칸에 알맞은 형용사를 고르세요.",sub:"I feel ___ today. (행복한)",options:["happily","happy","happiness","happen"],answer:1},
+  {badge:"형용사",badgeClass:"badge-adj",q:"다음 중 형용사가 올바르게 쓰인 문장은?",sub:"",options:["She runs fastly.","He is a tall man.","I eat quickly the food.","They play happy."],answer:1},
+  {badge:"부사",badgeClass:"badge-adv",q:"다음 중 부사는?",sub:"",options:["happy","slowly","big","pretty"],answer:1},
+  {badge:"부사",badgeClass:"badge-adv",q:"다음 문장에서 부사를 고르세요.",sub:"She sings very beautifully.",options:["She","sings","very","beautifully"],answer:3},
+  {badge:"부사",badgeClass:"badge-adv",q:"부사의 역할로 알맞은 것은?",sub:"",options:["명사를 꾸며준다","동사·형용사·다른 부사를 꾸며준다","주어 역할을 한다","목적어 역할을 한다"],answer:1},
+  {badge:"부사",badgeClass:"badge-adv",q:"형용사를 부사로 바르게 바꾼 것은?",sub:"slow → ?",options:["slows","slowful","slowly","slowed"],answer:2},
+  {badge:"부사",badgeClass:"badge-adv",q:"빈칸에 알맞은 부사를 고르세요.",sub:"He runs very ___. (빠르게)",options:["fast","fastly","faster","fastest"],answer:0},
+  {badge:"부사",badgeClass:"badge-adv",q:"밑줄 친 단어의 품사는?",sub:"She speaks English fluently.",options:["명사","형용사","부사","동사"],answer:2},
+  {badge:"부사",badgeClass:"badge-adv",q:"다음 중 형용사와 부사의 형태가 같은 단어는?",sub:"",options:["slow","quick","fast","loud"],answer:2},
+  {badge:"부사",badgeClass:"badge-adv",q:"다음 중 올바른 문장은?",sub:"",options:["She is a kindly teacher.","He runs fastly every day.","They speak very loudly.","I feel happily today."],answer:2},
+];
+
+let currentQ=0, score=0, answered=false;
+let _name='', _cls='';
+
+function checkReady(){
+  const name=document.getElementById('studentName').value.trim();
+  const cls=document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled=!(name&&cls);
+}
+
+function startTest(){
+  _name=document.getElementById('studentName').value.trim();
+  _cls=document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent=_name+' · '+_cls;
   document.getElementById('startScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 
-function showQuestion() {
-  answered = false;
-  const q = questions[currentQ];
-  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
-  const badge = document.getElementById('questionBadge');
-  badge.textContent = q.badge;
-  badge.className   = 'question-badge ' + q.badgeClass;
-  document.getElementById('questionText').textContent = q.q;
-  document.getElementById('questionSub').textContent  = q.sub;
-  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
-  document.getElementById('progressScore').textContent = '점수: ' + score;
-  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+function showQuestion(){
+  answered=false;
+  const q=questions[currentQ];
+  document.getElementById('questionNum').textContent='Q'+(currentQ+1);
+  const badge=document.getElementById('questionBadge');
+  badge.textContent=q.badge; badge.className='question-badge '+q.badgeClass;
+  document.getElementById('questionText').textContent=q.q;
+  document.getElementById('questionSub').textContent=q.sub;
+  document.getElementById('progressLabel').textContent=(currentQ+1)+' / 30';
+  document.getElementById('progressScore').textContent='점수: '+score;
+  document.getElementById('progressFill').style.width=(currentQ/30*100)+'%';
   document.getElementById('feedbackArea').classList.add('hidden');
   document.getElementById('nextBtn').classList.add('hidden');
-
-  const area = document.getElementById('optionsArea');
-  area.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className   = 'option-btn';
-    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
-    btn.onclick = () => selectAnswer(i);
+  const area=document.getElementById('optionsArea');
+  area.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=['①','②','③','④'][i]+' '+opt;
+    btn.onclick=()=>selectAnswer(i);
     area.appendChild(btn);
   });
 }
 
-function selectAnswer(idx) {
-  if (answered) return;
-  answered = true;
-  const q    = questions[currentQ];
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
-  const fb = document.getElementById('feedbackArea');
-  if (idx === q.answer) {
-    score++;
-    btns[idx].classList.add('correct');
-    fb.className   = 'feedback correct';
-    fb.textContent = '✅ 정답이에요! 잘했어요!';
+function selectAnswer(idx){
+  if(answered)return; answered=true;
+  const q=questions[currentQ];
+  const btns=document.querySelectorAll('.option-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedbackArea');
+  if(idx===q.answer){
+    score++; btns[idx].classList.add('correct');
+    fb.className='feedback correct'; fb.textContent='✅ 정답이에요! 잘했어요!';
   } else {
-    btns[idx].classList.add('wrong');
-    btns[q.answer].classList.add('correct');
-    fb.className   = 'feedback wrong';
-    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+    btns[idx].classList.add('wrong'); btns[q.answer].classList.add('correct');
+    fb.className='feedback wrong';
+    fb.textContent='❌ 틀렸어요. 정답은 '+['①','②','③','④'][q.answer]+' '+q.options[q.answer]+' 이에요.';
   }
   fb.classList.remove('hidden');
   document.getElementById('nextBtn').classList.remove('hidden');
-  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+  document.getElementById('nextBtn').textContent=currentQ<29?'다음 문제 →':'결과 보기 🎉';
 }
 
-function nextQuestion() {
+function nextQuestion(){
   currentQ++;
-  if (currentQ >= 30) showResult();
+  if(currentQ>=30)showResult();
   else showQuestion();
 }
 
-function showResult() {
+async function showResult(){
   document.getElementById('testScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.remove('hidden');
-  const name = document.getElementById('studentName').value.trim();
-  const pct  = Math.round(score / 30 * 100);
-  document.getElementById('resultName').textContent  = name + '의 결과';
-  document.getElementById('resultScore').textContent = score + ' / 30';
-  let emoji, msg;
-  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! be동사·일반동사·형용사·부사 마스터! 👏'; }
-  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
-  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
-  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
-  document.getElementById('resultEmoji').textContent = emoji;
-  document.getElementById('resultMsg').textContent   = msg;
+  const pct=Math.round(score/30*100);
+  document.getElementById('resultName').textContent=_name+'의 결과';
+  document.getElementById('resultScore').textContent=score+' / 30';
+  let emoji,msg;
+  if(pct>=90){emoji='🏆';msg='완벽해요! be동사·일반동사·형용사·부사 마스터! 👏';}
+  else if(pct>=70){emoji='😊';msg='잘했어요! 조금만 더 연습하면 완벽해질 거예요!';}
+  else if(pct>=50){emoji='🙂';msg='절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.';}
+  else{emoji='📚';msg='조금 더 열심히 공부해봐요! 다시 도전해보세요!';}
+  document.getElementById('resultEmoji').textContent=emoji;
+  document.getElementById('resultMsg').textContent=msg;
+
+  const saveEl=document.getElementById('save-status');
+  await saveToNotion(_name, _cls, score, 30, 'be동사·일반동사·형용사·부사 시험');
+  saveEl.style.background='#dcfce7';
+  saveEl.style.color='#15803d';
+  saveEl.textContent='✅ 결과가 노션에 자동 저장됐어요!';
 }
 
-function retryTest() {
+function retryTest(){
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 </script>
