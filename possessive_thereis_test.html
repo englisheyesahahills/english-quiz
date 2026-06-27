@@ -19,43 +19,38 @@
   input[type=text]:focus, select:focus { border-color: #be185d; }
   .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #be185d, #9d174d); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .start-btn:disabled { background: #aaa; cursor: default; }
-
   .progress-wrap { margin-bottom: 16px; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .progress-label { font-size: 12px; color: #888; }
   .progress-score { font-size: 12px; font-weight: 600; color: #be185d; }
   .progress-bar { height: 6px; background: #fbcfe8; border-radius: 99px; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, #be185d, #f472b6); border-radius: 99px; transition: width 0.4s ease; }
-
   .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
   .question-num { font-size: 11px; color: #be185d; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
   .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
-  .badge-pos    { background: #dbeafe; color: #1e40af; }
-  .badge-there  { background: #d1fae5; color: #065f46; }
-  .badge-neg    { background: #fce7f3; color: #9d174d; }
-  .badge-mixed  { background: #fef3c7; color: #92400e; }
+  .badge-pos   { background: #dbeafe; color: #1e40af; }
+  .badge-there { background: #d1fae5; color: #065f46; }
+  .badge-neg   { background: #fce7f3; color: #9d174d; }
+  .badge-mixed { background: #fef3c7; color: #92400e; }
   .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
   .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
-
   .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
   .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #fdf2f8; border: 1.5px solid #fbcfe8; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
   .option-btn:hover:not(:disabled) { background: #fce7f3; border-color: #be185d; }
   .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
   .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
   .option-btn:disabled { cursor: default; }
-
   .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
   .feedback.correct { background: #e6f9f0; color: #1a6640; }
   .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
-
   .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #be185d, #9d174d); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
-
   .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .result-emoji { font-size: 52px; margin-bottom: 12px; }
   .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
   .result-score { font-size: 42px; font-weight: 800; color: #be185d; margin-bottom: 4px; }
   .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
-  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #fdf2f8; border-radius: 12px; margin-bottom: 20px; }
+  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #fdf2f8; border-radius: 12px; margin-bottom: 16px; }
+  .save-box { border-radius: 10px; padding: 12px; font-size: 13px; margin: 16px 0; text-align: center; background: #fdf2f8; color: #be185d; }
   .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #be185d, #9d174d); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .hidden { display: none; }
 </style>
@@ -121,231 +116,158 @@
       <div class="result-score" id="resultScore"></div>
       <div class="result-sub">30문제 중</div>
       <div class="result-msg" id="resultMsg"></div>
+      <div class="save-box" id="save-status">📤 노션에 저장 중...</div>
       <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
     </div>
   </div>
 </div>
 
 <script>
-const questions = [
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzNu6BnyzJz8VqB1LKjE89CQha4RSorTG-hxatwM3z_dWsiKivK9k7aVWPILc5h-uP/exec';
 
-  // ── 소유대명사 (1~12) ────────────────────────────────────
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"'mine'의 뜻으로 알맞은 것은?", sub:"",
-    options:["나의","나를","내 것","나는"], answer:2 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"'yours'의 뜻으로 알맞은 것은?", sub:"",
-    options:["너의","너를","너는","네 것"], answer:3 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유대명사를 고르세요.", sub:"This bag is ___. (나의 것)",
-    options:["my","me","mine","I"], answer:2 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유대명사를 고르세요.", sub:"That bike is ___. (그의 것)",
-    options:["he","him","his","her"], answer:2 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유대명사를 고르세요.", sub:"These gloves are ___. (그녀의 것)",
-    options:["she","her","hers","him"], answer:2 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유대명사를 고르세요.", sub:"This house is ___. (우리의 것)",
-    options:["we","us","our","ours"], answer:3 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유대명사를 고르세요.", sub:"Those shoes are ___. (그들의 것)",
-    options:["they","them","their","theirs"], answer:3 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"밑줄 친 부분을 소유대명사로 바꾼 것은?", sub:"This is my pencil.",
-    options:["me","mine","my","I"], answer:1 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"다음 중 소유대명사가 올바르게 쓰인 문장은?", sub:"",
-    options:["That coat is her.","This book is my.","These toys are theirs.","That car is he."], answer:2 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"빈칸에 알맞은 소유대명사를 고르세요.", sub:"A: Is this your eraser?  B: Yes, it's ___.",
-    options:["my","me","mine","I"], answer:2 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"다음 중 소유대명사끼리 짝지어진 것은?", sub:"",
-    options:["my – her – their","mine – hers – theirs","me – him – them","I – she – they"], answer:1 },
-
-  { badge:"소유대명사", badgeClass:"badge-pos",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"저 자전거는 그의 것이야.",
-    options:["That bike is he.","That bike is him.","That bike is his.","That bike is her."], answer:2 },
-
-  // ── there is / there are 긍정문 (13~21) ─────────────────
-  { badge:"there is/are", badgeClass:"badge-there",
-    q:"'There is'의 뜻으로 알맞은 것은?", sub:"",
-    options:["~가 있지 않다","~가 있다 (단수)","~가 있다 (복수)","거기에 가다"], answer:1 },
-
-  { badge:"there is/are", badgeClass:"badge-there",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"___ a cat on the sofa.",
-    options:["There are","There is","There am","There be"], answer:1 },
-
-  { badge:"there is/are", badgeClass:"badge-there",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"___ two books on the desk.",
-    options:["There is","There am","There are","There be"], answer:2 },
-
-  { badge:"there is/are", badgeClass:"badge-there",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"냉장고 안에 달걀이 있다.",
-    options:["There are an egg in the fridge.","There is an egg in the fridge.","There is eggs in the fridge.","There am an egg in the fridge."], answer:1 },
-
-  { badge:"there is/are", badgeClass:"badge-there",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"공원에 아이들이 많이 있다.",
-    options:["There is many children in the park.","There are many children in the park.","There am many children in the park.","There be many children in the park."], answer:1 },
-
-  { badge:"there is/are", badgeClass:"badge-there",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"___ a hospital near my house.",
-    options:["There are","There be","There am","There is"], answer:3 },
-
-  { badge:"there is/are", badgeClass:"badge-there",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["There are a dog in the yard.","There is three cats on the roof.","There is a bird in the tree.","There am some flowers here."], answer:2 },
-
-  { badge:"there is/are", badgeClass:"badge-there",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"___ some juice in the cup.",
-    options:["There are","There is","There am","There be"], answer:1 },
-
-  { badge:"there is/are", badgeClass:"badge-there",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["There are a pencil on the table.","There is five apples in the basket.","There are five apples in the basket.","There am a bag on the chair."], answer:2 },
-
-  // ── there is / there are 부정문 (22~30) ──────────────────
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"'There is not'의 줄임말로 알맞은 것은?", sub:"",
-    options:["There isn't","There aren't","There don't","There not is"], answer:0 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"알맞은 부정문을 고르세요.", sub:"책상 위에 연필이 없다.",
-    options:["There are not a pencil on the desk.","There isn't a pencil on the desk.","There don't a pencil on the desk.","There not is a pencil on the desk."], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"알맞은 부정문을 고르세요.", sub:"냉장고 안에 우유가 없다.",
-    options:["There aren't milk in the fridge.","There isn't milk in the fridge.","There don't milk in the fridge.","There not milk in the fridge."], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"___ any students in the classroom.",
-    options:["There isn't","There aren't","There don't","There am not"], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"___ a park near my school.",
-    options:["There aren't","There don't","There isn't","There am not"], answer:2 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"다음 중 올바른 부정문은?", sub:"",
-    options:["There isn't any chairs in the room.","There aren't any chairs in the room.","There don't any chairs in the room.","There not are any chairs in the room."], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"마당에 나무가 없다.",
-    options:["There aren't a tree in the yard.","There isn't a tree in the yard.","There don't a tree in the yard.","There not is a tree in the yard."], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["There isn't three windows in my room.","There aren't three windows in my room.","There don't three windows in my room.","There am not three windows in my room."], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"긍정문을 부정문으로 바르게 바꾼 것은?", sub:"There are some cookies on the plate.",
-    options:["There is not some cookies on the plate.","There aren't any cookies on the plate.","There don't cookies on the plate.","There isn't any cookies on the plate."], answer:1 },
-];
-
-let currentQ = 0, score = 0, answered = false;
-
-function checkReady() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('startBtn').disabled = !(name && cls);
+async function saveToNotion(name, cls, score, total, unit) {
+  try {
+    const params = new URLSearchParams();
+    params.append('name', name);
+    params.append('unit', unit + ' | ' + cls);
+    params.append('score', score);
+    params.append('total', total);
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+    return true;
+  } catch(e) { return false; }
 }
 
-function startTest() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('headerName').textContent = name + ' · ' + cls;
+const questions = [
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"'mine'의 뜻으로 알맞은 것은?",sub:"",options:["나의","나를","내 것","나는"],answer:2},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"'yours'의 뜻으로 알맞은 것은?",sub:"",options:["너의","너를","너는","네 것"],answer:3},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유대명사를 고르세요.",sub:"This bag is ___. (나의 것)",options:["my","me","mine","I"],answer:2},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유대명사를 고르세요.",sub:"That bike is ___. (그의 것)",options:["he","him","his","her"],answer:2},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유대명사를 고르세요.",sub:"These gloves are ___. (그녀의 것)",options:["she","her","hers","him"],answer:2},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유대명사를 고르세요.",sub:"This house is ___. (우리의 것)",options:["we","us","our","ours"],answer:3},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유대명사를 고르세요.",sub:"Those shoes are ___. (그들의 것)",options:["they","them","their","theirs"],answer:3},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"밑줄 친 부분을 소유대명사로 바꾼 것은?",sub:"This is my pencil.",options:["me","mine","my","I"],answer:1},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"다음 중 소유대명사가 올바르게 쓰인 문장은?",sub:"",options:["That coat is her.","This book is my.","These toys are theirs.","That car is he."],answer:2},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"빈칸에 알맞은 소유대명사를 고르세요.",sub:"A: Is this your eraser?  B: Yes, it's ___.",options:["my","me","mine","I"],answer:2},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"다음 중 소유대명사끼리 짝지어진 것은?",sub:"",options:["my – her – their","mine – hers – theirs","me – him – them","I – she – they"],answer:1},
+  {badge:"소유대명사",badgeClass:"badge-pos",q:"우리말 뜻에 맞는 영어 문장은?",sub:"저 자전거는 그의 것이야.",options:["That bike is he.","That bike is him.","That bike is his.","That bike is her."],answer:2},
+  {badge:"there is/are",badgeClass:"badge-there",q:"'There is'의 뜻으로 알맞은 것은?",sub:"",options:["~가 있지 않다","~가 있다 (단수)","~가 있다 (복수)","거기에 가다"],answer:1},
+  {badge:"there is/are",badgeClass:"badge-there",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ a cat on the sofa.",options:["There are","There is","There am","There be"],answer:1},
+  {badge:"there is/are",badgeClass:"badge-there",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ two books on the desk.",options:["There is","There am","There are","There be"],answer:2},
+  {badge:"there is/are",badgeClass:"badge-there",q:"우리말 뜻에 맞는 영어 문장은?",sub:"냉장고 안에 달걀이 있다.",options:["There are an egg in the fridge.","There is an egg in the fridge.","There is eggs in the fridge.","There am an egg in the fridge."],answer:1},
+  {badge:"there is/are",badgeClass:"badge-there",q:"우리말 뜻에 맞는 영어 문장은?",sub:"공원에 아이들이 많이 있다.",options:["There is many children in the park.","There are many children in the park.","There am many children in the park.","There be many children in the park."],answer:1},
+  {badge:"there is/are",badgeClass:"badge-there",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ a hospital near my house.",options:["There are","There be","There am","There is"],answer:3},
+  {badge:"there is/are",badgeClass:"badge-there",q:"다음 중 올바른 문장은?",sub:"",options:["There are a dog in the yard.","There is three cats on the roof.","There is a bird in the tree.","There am some flowers here."],answer:2},
+  {badge:"there is/are",badgeClass:"badge-there",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ some juice in the cup.",options:["There are","There is","There am","There be"],answer:1},
+  {badge:"there is/are",badgeClass:"badge-there",q:"다음 중 올바른 문장은?",sub:"",options:["There are a pencil on the table.","There is five apples in the basket.","There are five apples in the basket.","There am a bag on the chair."],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"'There is not'의 줄임말로 알맞은 것은?",sub:"",options:["There isn't","There aren't","There don't","There not is"],answer:0},
+  {badge:"부정문",badgeClass:"badge-neg",q:"알맞은 부정문을 고르세요.",sub:"책상 위에 연필이 없다.",options:["There are not a pencil on the desk.","There isn't a pencil on the desk.","There don't a pencil on the desk.","There not is a pencil on the desk."],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"알맞은 부정문을 고르세요.",sub:"냉장고 안에 우유가 없다.",options:["There aren't milk in the fridge.","There isn't milk in the fridge.","There don't milk in the fridge.","There not milk in the fridge."],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ any students in the classroom.",options:["There isn't","There aren't","There don't","There am not"],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ a park near my school.",options:["There aren't","There don't","There isn't","There am not"],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"다음 중 올바른 부정문은?",sub:"",options:["There isn't any chairs in the room.","There aren't any chairs in the room.","There don't any chairs in the room.","There not are any chairs in the room."],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"우리말 뜻에 맞는 영어 문장은?",sub:"마당에 나무가 없다.",options:["There aren't a tree in the yard.","There isn't a tree in the yard.","There don't a tree in the yard.","There not is a tree in the yard."],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"다음 중 올바른 문장은?",sub:"",options:["There isn't three windows in my room.","There aren't three windows in my room.","There don't three windows in my room.","There am not three windows in my room."],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"긍정문을 부정문으로 바르게 바꾼 것은?",sub:"There are some cookies on the plate.",options:["There is not some cookies on the plate.","There aren't any cookies on the plate.","There don't cookies on the plate.","There isn't any cookies on the plate."],answer:1},
+];
+
+let currentQ=0, score=0, answered=false;
+let _name='', _cls='';
+
+function checkReady(){
+  const name=document.getElementById('studentName').value.trim();
+  const cls=document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled=!(name&&cls);
+}
+
+function startTest(){
+  _name=document.getElementById('studentName').value.trim();
+  _cls=document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent=_name+' · '+_cls;
   document.getElementById('startScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 
-function showQuestion() {
-  answered = false;
-  const q = questions[currentQ];
-  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
-  const badge = document.getElementById('questionBadge');
-  badge.textContent = q.badge;
-  badge.className   = 'question-badge ' + q.badgeClass;
-  document.getElementById('questionText').textContent = q.q;
-  document.getElementById('questionSub').textContent  = q.sub;
-  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
-  document.getElementById('progressScore').textContent = '점수: ' + score;
-  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+function showQuestion(){
+  answered=false;
+  const q=questions[currentQ];
+  document.getElementById('questionNum').textContent='Q'+(currentQ+1);
+  const badge=document.getElementById('questionBadge');
+  badge.textContent=q.badge; badge.className='question-badge '+q.badgeClass;
+  document.getElementById('questionText').textContent=q.q;
+  document.getElementById('questionSub').textContent=q.sub;
+  document.getElementById('progressLabel').textContent=(currentQ+1)+' / 30';
+  document.getElementById('progressScore').textContent='점수: '+score;
+  document.getElementById('progressFill').style.width=(currentQ/30*100)+'%';
   document.getElementById('feedbackArea').classList.add('hidden');
   document.getElementById('nextBtn').classList.add('hidden');
-
-  const area = document.getElementById('optionsArea');
-  area.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className   = 'option-btn';
-    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
-    btn.onclick = () => selectAnswer(i);
+  const area=document.getElementById('optionsArea');
+  area.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=['①','②','③','④'][i]+' '+opt;
+    btn.onclick=()=>selectAnswer(i);
     area.appendChild(btn);
   });
 }
 
-function selectAnswer(idx) {
-  if (answered) return;
-  answered = true;
-  const q    = questions[currentQ];
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
-  const fb = document.getElementById('feedbackArea');
-  if (idx === q.answer) {
-    score++;
-    btns[idx].classList.add('correct');
-    fb.className   = 'feedback correct';
-    fb.textContent = '✅ 정답이에요! 잘했어요!';
+function selectAnswer(idx){
+  if(answered)return; answered=true;
+  const q=questions[currentQ];
+  const btns=document.querySelectorAll('.option-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedbackArea');
+  if(idx===q.answer){
+    score++; btns[idx].classList.add('correct');
+    fb.className='feedback correct'; fb.textContent='✅ 정답이에요! 잘했어요!';
   } else {
-    btns[idx].classList.add('wrong');
-    btns[q.answer].classList.add('correct');
-    fb.className   = 'feedback wrong';
-    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+    btns[idx].classList.add('wrong'); btns[q.answer].classList.add('correct');
+    fb.className='feedback wrong';
+    fb.textContent='❌ 틀렸어요. 정답은 '+['①','②','③','④'][q.answer]+' '+q.options[q.answer]+' 이에요.';
   }
   fb.classList.remove('hidden');
   document.getElementById('nextBtn').classList.remove('hidden');
-  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+  document.getElementById('nextBtn').textContent=currentQ<29?'다음 문제 →':'결과 보기 🎉';
 }
 
-function nextQuestion() {
+function nextQuestion(){
   currentQ++;
-  if (currentQ >= 30) showResult();
+  if(currentQ>=30)showResult();
   else showQuestion();
 }
 
-function showResult() {
+async function showResult(){
   document.getElementById('testScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.remove('hidden');
-  const name = document.getElementById('studentName').value.trim();
-  const pct  = Math.round(score / 30 * 100);
-  document.getElementById('resultName').textContent  = name + '의 결과';
-  document.getElementById('resultScore').textContent = score + ' / 30';
-  let emoji, msg;
-  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! 소유대명사·there is/are 마스터! 👏'; }
-  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
-  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
-  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
-  document.getElementById('resultEmoji').textContent = emoji;
-  document.getElementById('resultMsg').textContent   = msg;
+  const pct=Math.round(score/30*100);
+  document.getElementById('resultName').textContent=_name+'의 결과';
+  document.getElementById('resultScore').textContent=score+' / 30';
+  let emoji,msg;
+  if(pct>=90){emoji='🏆';msg='완벽해요! 소유대명사·there is/are 마스터! 👏';}
+  else if(pct>=70){emoji='😊';msg='잘했어요! 조금만 더 연습하면 완벽해질 거예요!';}
+  else if(pct>=50){emoji='🙂';msg='절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.';}
+  else{emoji='📚';msg='조금 더 열심히 공부해봐요! 다시 도전해보세요!';}
+  document.getElementById('resultEmoji').textContent=emoji;
+  document.getElementById('resultMsg').textContent=msg;
+
+  const saveEl=document.getElementById('save-status');
+  await saveToNotion(_name, _cls, score, 30, '소유대명사·there is/are 시험');
+  saveEl.style.background='#dcfce7';
+  saveEl.style.color='#15803d';
+  saveEl.textContent='✅ 결과가 노션에 자동 저장됐어요!';
 }
 
-function retryTest() {
+function retryTest(){
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 </script>
