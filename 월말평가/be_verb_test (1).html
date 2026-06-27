@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be동사 시험 — 잉글리시아이스텔라</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif; background: #f0f4ff; color: #1a1a1a; min-height: 100vh; }
+  .header { background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; padding: 22px 20px 18px; text-align: center; }
+  .header-sub { font-size: 11px; opacity: 0.8; margin-bottom: 4px; letter-spacing: 0.5px; }
+  .header-title { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .header-desc { font-size: 12px; opacity: 0.8; }
+  .content { padding: 20px 16px; max-width: 520px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 14px; padding: 20px; margin-bottom: 16px; border: 1px solid #e2e8f0; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+  label { font-size: 13px; font-weight: 600; color: #555; display: block; margin-bottom: 6px; margin-top: 14px; }
+  label:first-of-type { margin-top: 0; }
+  input[type=text], select { width: 100%; padding: 12px 14px; font-size: 15px; border: 1.5px solid #e0e5ee; border-radius: 10px; background: #fff; color: #1a1a1a; outline: none; }
+  input[type=text]:focus, select:focus { border-color: #2563eb; }
+  .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #2563eb, #1d4ed8); color: #fff; border: none; border-radius: 12px; cursor: pointer; letter-spacing: 0.5px; }
+  .start-btn:disabled { background: #aaa; cursor: default; }
+  .progress-wrap { margin-bottom: 16px; }
+  .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .progress-label { font-size: 12px; color: #888; }
+  .progress-score { font-size: 12px; font-weight: 600; color: #2563eb; }
+  .progress-bar { height: 6px; background: #e2e8f0; border-radius: 99px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #2563eb, #60a5fa); border-radius: 99px; transition: width 0.4s ease; }
+  .q-category { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
+  .q-num { font-size: 12px; color: #888; margin-bottom: 8px; }
+  .q-text { font-size: 16px; font-weight: 600; color: #1a1a1a; line-height: 1.65; margin-bottom: 16px; }
+  .q-text .blank { display: inline-block; border-bottom: 2px solid #2563eb; min-width: 60px; text-align: center; color: #2563eb; }
+  .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+  .opt-btn { text-align: left; padding: 13px 16px; font-size: 14px; border: 1.5px solid #e2e8f0; border-radius: 12px; background: #fff; color: #1a1a1a; cursor: pointer; transition: all 0.15s; font-weight: 500; }
+  .opt-btn:not(:disabled):hover { border-color: #2563eb; background: #eff6ff; }
+  .opt-btn:disabled { cursor: default; }
+  .opt-btn.correct { background: #dcfce7; border-color: #16a34a; color: #15803d; font-weight: 600; }
+  .opt-btn.wrong { background: #fee2e2; border-color: #dc2626; color: #b91c1c; }
+  .feedback { font-size: 13px; margin-top: 10px; padding: 10px 14px; border-radius: 10px; line-height: 1.6; display: none; }
+  .feedback.correct { background: #dcfce7; color: #15803d; }
+  .feedback.wrong { background: #fee2e2; color: #b91c1c; }
+  .next-btn { width: 100%; margin-top: 12px; padding: 13px; font-size: 14px; font-weight: 700; background: #2563eb; color: #fff; border: none; border-radius: 12px; cursor: pointer; display: none; }
+  .result-header { text-align: center; padding: 10px 0 20px; }
+  .score-big { font-size: 56px; font-weight: 800; color: #2563eb; line-height: 1; }
+  .score-total { font-size: 18px; color: #888; margin-top: 4px; }
+  .grade-badge { display: inline-block; margin-top: 12px; padding: 6px 20px; border-radius: 20px; font-size: 14px; font-weight: 700; }
+  .score-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 16px 0; }
+  .score-item { background: #f8fafc; border-radius: 12px; padding: 12px; text-align: center; border: 1px solid #e2e8f0; }
+  .score-item-num { font-size: 22px; font-weight: 700; color: #2563eb; }
+  .score-item-label { font-size: 11px; color: #888; margin-top: 2px; }
+  .report-section { margin-top: 6px; }
+  .report-title { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 2px solid #e2e8f0; }
+  .category-bar { margin-bottom: 12px; }
+  .cat-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 5px; }
+  .cat-name { font-weight: 600; color: #334155; }
+  .cat-score { font-weight: 700; }
+  .bar-bg { height: 8px; background: #e2e8f0; border-radius: 99px; }
+  .bar-fill { height: 100%; border-radius: 99px; transition: width 0.6s ease; }
+  .wrong-list { margin-top: 4px; }
+  .wrong-item { background: #fff7ed; border-radius: 10px; padding: 12px 14px; margin-bottom: 10px; border-left: 3px solid #f97316; }
+  .wrong-item-num { font-size: 11px; font-weight: 700; color: #ea580c; margin-bottom: 4px; }
+  .wrong-item-q { font-size: 13px; color: #1a1a1a; margin-bottom: 5px; line-height: 1.5; }
+  .wrong-item-my { font-size: 12px; color: #dc2626; margin-bottom: 3px; }
+  .wrong-item-ans { font-size: 13px; color: #15803d; background: #dcfce7; padding: 5px 10px; border-radius: 6px; display: inline-block; }
+  .saving-box { background: #eff6ff; border-radius: 10px; padding: 12px; font-size: 13px; color: #2563eb; margin: 16px 0; text-align: center; }
+  .save-done { background: #dcfce7; border-radius: 10px; padding: 12px; font-size: 13px; color: #15803d; margin: 16px 0; text-align: center; }
+  .save-fail { background: #fee2e2; border-radius: 10px; padding: 12px; font-size: 13px; color: #b91c1c; margin: 16px 0; text-align: center; }
+  .retry-btn { width: 100%; padding: 14px; font-size: 14px; font-weight: 700; background: #2563eb; color: #fff; border: none; border-radius: 12px; cursor: pointer; margin-top: 8px; }
+  .student-badge { display: inline-flex; align-items: center; gap: 6px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 20px; padding: 5px 14px; font-size: 13px; color: #2563eb; font-weight: 600; margin: 10px 0 0; }
+  .footer { text-align: center; padding: 20px; font-size: 11px; color: #bbb; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-sub">🎓 잉글리시아이스텔라 · 사하구 괴정동</div>
+  <div class="header-title">Be동사 시험</div>
+  <div class="header-desc">현재시제 · 과거시제 · 초등 4~5학년 · 30문제</div>
+</div>
+
+<div id="screen-info">
+  <div class="content">
+    <div class="card">
+      <div style="font-size:18px;font-weight:700;margin-bottom:6px;">✏️ 시험 시작</div>
+      <div style="font-size:13px;color:#888;margin-bottom:20px;line-height:1.6;">이름과 학년을 입력하고 시험을 시작하세요.<br>시험 결과는 선생님께 자동으로 전달돼요.</div>
+      <label>이름</label>
+      <input type="text" id="input-name" placeholder="예: 김민준" oninput="checkForm()">
+      <label>학년</label>
+      <select id="input-grade" onchange="checkForm()">
+        <option value="">학년 선택</option>
+        <option>초등 3학년</option><option>초등 4학년</option>
+        <option>초등 5학년</option><option>초등 6학년</option>
+      </select>
+      <label>반</label>
+      <select id="input-class" onchange="checkForm()">
+        <option value="">반 선택</option>
+        <option>A class</option><option>B class</option>
+        <option>C class</option><option>D class</option>
+      </select>
+      <button class="start-btn" id="start-btn" onclick="startTest()" disabled>시험 시작하기 →</button>
+    </div>
+  </div>
+</div>
+
+<div id="screen-test" style="display:none;">
+  <div style="text-align:center;padding:8px 0 0;">
+    <span class="student-badge" id="student-badge"></span>
+  </div>
+  <div class="content" style="padding-top:14px;">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span class="progress-label" id="q-info">문제 1 / 30</span>
+        <span class="progress-score" id="q-score">맞은 개수: 0</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress" style="width:0%"></div></div>
+    </div>
+    <div id="quiz-area"></div>
+  </div>
+</div>
+
+<div id="screen-result" style="display:none;">
+  <div class="content">
+    <div class="card">
+      <div class="result-header">
+        <div style="font-size:13px;color:#888;margin-bottom:4px;">최종 점수</div>
+        <div class="score-big" id="final-score">0</div>
+        <div class="score-total">/ 30문제</div>
+        <div class="grade-badge" id="grade-badge"></div>
+      </div>
+      <div class="score-grid">
+        <div class="score-item"><div class="score-item-num" id="res-correct">0</div><div class="score-item-label">✅ 맞은 개수</div></div>
+        <div class="score-item"><div class="score-item-num" style="color:#dc2626;" id="res-wrong">0</div><div class="score-item-label">❌ 틀린 개수</div></div>
+        <div class="score-item"><div class="score-item-num" style="color:#f97316;" id="res-pct">0%</div><div class="score-item-label">📊 정답률</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="report-title">📊 분야별 분석 레포트</div>
+      <div id="category-report"></div>
+    </div>
+    <div class="card" id="wrong-card" style="display:none;">
+      <div class="report-title">📌 틀린 문제 복습</div>
+      <div id="wrong-list"></div>
+    </div>
+    <div class="saving-box" id="save-status">📤 노션에 결과 저장 중...</div>
+    <button class="retry-btn" onclick="location.reload()">다시 풀기 🔄</button>
+  </div>
+</div>
+
+<div class="footer">잉글리시아이스텔라 · 부산 사하구 괴정동</div>
+
+<script>
+// ══════════════════════════════════════════════
+// 📝 노션 문법퀴즈결과 DB 자동 저장
+// 시험 완료 시 버튼 없이 자동으로 저장됩니다
+// ══════════════════════════════════════════════
+// ── Google Apps Script → 노션 자동 저장 ──
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyQIm7gF3LCdcXNdGExwz6QWOULUWY2WEhbknPpDDR99wK5Po3PrqT-DmT2D1c5dQp/exec';
+
+async function saveToNotion(name, grade, cls, score, total, unitText) {
+  try {
+    const payload = {
+      name: name,
+      unit: unitText + ' | ' + grade + ' ' + cls,
+      score: score,
+      total: total
+    };
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    return true;
+  } catch(e) {
+    return false;
+  }
+}
+
+const questions = [
+  { cat:"be동사 현재 (am/is/are)", catKey:"present_basic", text:"나는 학생이야.\nI _____ a student.", opts:["am","is","are","be"], ans:0, exp:"주어 I → am" },
+  { cat:"be동사 현재 (am/is/are)", catKey:"present_basic", text:"그는 의사야.\nHe _____ a doctor.", opts:["am","are","is","be"], ans:2, exp:"주어 He(3인칭 단수) → is" },
+  { cat:"be동사 현재 (am/is/are)", catKey:"present_basic", text:"그들은 친구야.\nThey _____ friends.", opts:["is","am","be","are"], ans:3, exp:"주어 They(복수) → are" },
+  { cat:"be동사 현재 (am/is/are)", catKey:"present_basic", text:"이것은 사과야.\nThis _____ an apple.", opts:["are","am","is","were"], ans:2, exp:"주어 This(단수) → is" },
+  { cat:"be동사 현재 (am/is/are)", catKey:"present_basic", text:"너는 정말 착해.\nYou _____ very kind.", opts:["am","is","was","are"], ans:3, exp:"주어 You → are" },
+  { cat:"be동사 현재 (am/is/are)", catKey:"present_basic", text:"우리는 같은 반이야.\nWe _____ in the same class.", opts:["is","am","are","was"], ans:2, exp:"주어 We(복수) → are" },
+  { cat:"be동사 현재 부정문", catKey:"present_neg", text:"나는 피곤하지 않아.\nI _____ not tired.", opts:["is","are","am","be"], ans:2, exp:"주어 I → am not tired" },
+  { cat:"be동사 현재 부정문", catKey:"present_neg", text:"그녀는 선생님이 아니야.\nShe _____ not a teacher.", opts:["am","are","is","be"], ans:2, exp:"주어 She → is not a teacher" },
+  { cat:"be동사 현재 부정문", catKey:"present_neg", text:"이 꽃들은 파란색이 아니야.\nThese flowers _____ not blue.", opts:["is","am","was","are"], ans:3, exp:"주어 These flowers(복수) → are not" },
+  { cat:"be동사 현재 부정문", catKey:"present_neg", text:"그것은 고양이가 아니야. 개야.\nIt _____ not a cat. It's a dog.", opts:["am","are","were","is"], ans:3, exp:"주어 It(단수) → is not" },
+  { cat:"be동사 현재 의문문", catKey:"present_q", text:"너는 배고프니?\n_____ you hungry?", opts:["Is","Am","Are","Was"], ans:2, exp:"주어 you → Are you hungry?" },
+  { cat:"be동사 현재 의문문", catKey:"present_q", text:"그는 집에 있니?\n_____ he at home?", opts:["Are","Am","Is","Were"], ans:2, exp:"주어 he(3인칭 단수) → Is he at home?" },
+  { cat:"be동사 현재 의문문", catKey:"present_q", text:"이것들은 너의 책이니?\n_____ these your books?", opts:["Is","Was","Am","Are"], ans:3, exp:"주어 these(복수) → Are these your books?" },
+  { cat:"be동사 현재 의문문", catKey:"present_q", text:"A: 너는 10살이니?\nA: _____ you ten years old?\nB: Yes, I _____.", opts:["Are / am","Is / is","Am / am","Were / was"], ans:0, exp:"Are you ~ ? → Yes, I am." },
+  { cat:"be동사 현재 응용", catKey:"present_app", text:"Tom과 Jane은 좋은 학생들이야.\nTom and Jane _____ good students.", opts:["is","am","was","are"], ans:3, exp:"Tom and Jane(복수 주어) → are" },
+  { cat:"be동사 현재 응용", catKey:"present_app", text:"하늘이 파래.\nThe sky _____ blue.", opts:["are","am","were","is"], ans:3, exp:"주어 The sky(단수) → is" },
+  { cat:"be동사 현재 응용", catKey:"present_app", text:"나의 엄마는 요리사야.\nMy mom _____ a cook.", opts:["are","am","is","were"], ans:2, exp:"주어 My mom(3인칭 단수) → is" },
+  { cat:"be동사 과거 (was/were)", catKey:"past_basic", text:"나는 어제 아팠어.\nI _____ sick yesterday.", opts:["am","is","were","was"], ans:3, exp:"주어 I + 과거 → was" },
+  { cat:"be동사 과거 (was/were)", catKey:"past_basic", text:"그것은 매우 맛있었어.\nIt _____ very delicious.", opts:["is","are","was","were"], ans:2, exp:"주어 It(단수) + 과거 → was" },
+  { cat:"be동사 과거 (was/were)", catKey:"past_basic", text:"그들은 공원에 있었어.\nThey _____ in the park.", opts:["was","is","are","were"], ans:3, exp:"주어 They(복수) + 과거 → were" },
+  { cat:"be동사 과거 (was/were)", catKey:"past_basic", text:"날씨가 어제 추웠어.\nThe weather _____ cold yesterday.", opts:["is","were","are","was"], ans:3, exp:"주어 The weather(단수) + 과거 → was" },
+  { cat:"be동사 과거 (was/were)", catKey:"past_basic", text:"우리는 도서관에 있었어.\nWe _____ at the library.", opts:["was","is","am","were"], ans:3, exp:"주어 We(복수) + 과거 → were" },
+  { cat:"be동사 과거 (was/were)", catKey:"past_basic", text:"그 영화는 정말 재미있었어.\nThe movie _____ really fun.", opts:["were","are","am","was"], ans:3, exp:"주어 The movie(단수) + 과거 → was" },
+  { cat:"be동사 과거 부정문", catKey:"past_neg", text:"그 시험은 어렵지 않았어.\nThe test _____ not difficult.", opts:["were","is","am","was"], ans:3, exp:"단수 주어 + 과거 부정 → was not" },
+  { cat:"be동사 과거 부정문", catKey:"past_neg", text:"아이들은 행복하지 않았어.\nThe children _____ not happy.", opts:["was","is","am","were"], ans:3, exp:"복수 주어 + 과거 부정 → were not" },
+  { cat:"be동사 과거 부정문", catKey:"past_neg", text:"나는 그때 집에 없었어.\nI _____ not at home then.", opts:["am","is","were","was"], ans:3, exp:"주어 I + 과거 부정 → was not" },
+  { cat:"be동사 과거 의문문", catKey:"past_q", text:"그는 어제 학교에 있었니?\n_____ he at school yesterday?", opts:["Are","Is","Were","Was"], ans:3, exp:"단수 주어 + 과거 의문 → Was he ~?" },
+  { cat:"be동사 과거 의문문", catKey:"past_q", text:"너희들은 어제 바빴니?\n_____ you busy yesterday?", opts:["Was","Is","Are","Were"], ans:3, exp:"복수/you + 과거 의문 → Were you ~?" },
+  { cat:"be동사 과거 의문문", catKey:"past_q", text:"A: 그 파티는 재미있었니?\nA: _____ the party fun?\nB: Yes, it _____.", opts:["Were / were","Was / was","Is / is","Are / are"], ans:1, exp:"단수 주어 → Was the party fun? / Yes, it was." },
+  { cat:"현재 vs 과거 구분", catKey:"pres_past_diff", text:"나는 지금 행복해. (현재)\n→ I _____ happy now.", opts:["was","were","am","is"], ans:2, exp:"현재 + 주어 I → am" },
+  { cat:"현재 vs 과거 구분", catKey:"pres_past_diff", text:"나는 아까 배고팠어. (과거)\n→ I _____ hungry a moment ago.", opts:["am","is","are","was"], ans:3, exp:"과거 + 주어 I → was" },
+];
+
+const catInfo = {
+  present_basic: { name:"be동사 현재 (am/is/are)", color:"#2563eb", bg:"#eff6ff" },
+  present_neg:   { name:"be동사 현재 부정문",       color:"#7c3aed", bg:"#f5f3ff" },
+  present_q:     { name:"be동사 현재 의문문",       color:"#0891b2", bg:"#ecfeff" },
+  present_app:   { name:"be동사 현재 응용",         color:"#059669", bg:"#ecfdf5" },
+  past_basic:    { name:"be동사 과거 (was/were)",   color:"#d97706", bg:"#fffbeb" },
+  past_neg:      { name:"be동사 과거 부정문",       color:"#dc2626", bg:"#fff1f2" },
+  past_q:        { name:"be동사 과거 의문문",       color:"#be185d", bg:"#fdf2f8" },
+  pres_past_diff:{ name:"현재 vs 과거 구분",        color:"#1d4ed8", bg:"#eff6ff" },
+};
+
+let studentInfo = null;
+let cur = 0, score = 0, answered = false;
+let wrongAnswers = [];
+let catResults = {};
+Object.keys(catInfo).forEach(k => { catResults[k] = { total:0, correct:0 }; });
+questions.forEach(q => { catResults[q.catKey].total++; });
+
+function checkForm() {
+  const n = document.getElementById('input-name').value.trim();
+  document.getElementById('start-btn').disabled = !n;
+}
+
+function startTest() {
+  const n = document.getElementById('input-name').value.trim();
+  const g = document.getElementById('input-grade').value;
+  const c = document.getElementById('input-class').value;
+  studentInfo = { name:n, grade:g, cls:c };
+  document.getElementById('screen-info').style.display = 'none';
+  document.getElementById('screen-test').style.display = 'block';
+  document.getElementById('student-badge').textContent = '👤 ' + n + (g?' · '+g:'') + (c?' · '+c:'');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  if (cur >= questions.length) { showResult(); return; }
+  const q = questions[cur];
+  const pct = Math.round(cur / questions.length * 100);
+  document.getElementById('progress').style.width = pct + '%';
+  document.getElementById('q-info').textContent = '문제 ' + (cur+1) + ' / ' + questions.length;
+  document.getElementById('q-score').textContent = '맞은 개수: ' + score;
+  const ci = catInfo[q.catKey];
+  const shuffled = shuffleOpts(q.opts, q.ans);
+  const textHtml = q.text.replace(/\n/g,'<br>').replace(/_____/g,'<span class="blank">_____</span>');
+  document.getElementById('quiz-area').innerHTML =
+    '<div class="card">' +
+    '<span class="q-category" style="background:'+ci.bg+';color:'+ci.color+';">'+ci.name+'</span>' +
+    '<div class="q-num">문제 '+(cur+1)+' / '+questions.length+'</div>' +
+    '<div class="q-text">'+textHtml+'</div>' +
+    '<div class="quiz-options">' +
+    shuffled.opts.map((o,i)=>'<button class="opt-btn" onclick="answer('+i+','+shuffled.correctIdx+',\''+q.catKey+'\')">'+['①','②','③','④'][i]+'  '+o+'</button>').join('') +
+    '</div><div class="feedback" id="fb"></div></div>' +
+    '<button class="next-btn" id="next-btn" onclick="nextQ()">'+(cur<questions.length-1?'다음 문제 →':'결과 보기 🎯')+'</button>';
+  answered = false;
+}
+
+function shuffleOpts(opts, ansIdx) {
+  const correct = opts[ansIdx];
+  const others = opts.filter((_,i) => i !== ansIdx);
+  const newIdx = cur % 4;
+  const newOpts = [...others];
+  newOpts.splice(newIdx, 0, correct);
+  return { opts:newOpts, correctIdx:newIdx };
+}
+
+function answer(i, correctIdx, catKey) {
+  if (answered) return;
+  answered = true;
+  const q = questions[cur];
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach(b => b.disabled = true);
+  btns[i].classList.add(i===correctIdx?'correct':'wrong');
+  if (i !== correctIdx) btns[correctIdx].classList.add('correct');
+  if (i === correctIdx) { score++; catResults[catKey].correct++; }
+  else {
+    wrongAnswers.push({ num:cur+1, text:q.text, myAns:btns[i].textContent.trim(), correct:q.exp, cat:catInfo[catKey].name });
+  }
+  const fb = document.getElementById('fb');
+  fb.style.display = 'block';
+  fb.className = 'feedback ' + (i===correctIdx?'correct':'wrong');
+  fb.innerHTML = '<strong>'+(i===correctIdx?'✓ 정답!':'✗ 오답')+'</strong> '+q.exp;
+  document.getElementById('next-btn').style.display = 'block';
+  document.getElementById('q-score').textContent = '맞은 개수: ' + score;
+}
+
+function nextQ() { cur++; renderQuestion(); }
+
+async function showResult() {
+  const pct = Math.round(score / questions.length * 100);
+  let grade, gradeColor, gradeBg;
+  if      (pct>=90){grade='🏆 최우수';gradeColor='#15803d';gradeBg='#dcfce7';}
+  else if (pct>=80){grade='🥇 우수';  gradeColor='#2563eb';gradeBg='#dbeafe';}
+  else if (pct>=70){grade='🥈 보통';  gradeColor='#d97706';gradeBg='#fef3c7';}
+  else if (pct>=60){grade='🥉 노력 필요';gradeColor='#f97316';gradeBg='#ffedd5';}
+  else             {grade='📖 복습 필요';gradeColor='#dc2626';gradeBg='#fee2e2';}
+
+  document.getElementById('screen-test').style.display = 'none';
+  document.getElementById('screen-result').style.display = 'block';
+  document.getElementById('final-score').textContent = score;
+  document.getElementById('res-correct').textContent = score;
+  document.getElementById('res-wrong').textContent = questions.length - score;
+  document.getElementById('res-pct').textContent = pct + '%';
+  document.getElementById('grade-badge').textContent = grade;
+  document.getElementById('grade-badge').style.cssText = 'background:'+gradeBg+';color:'+gradeColor+';';
+
+  // 분야별 분석 레포트
+  let catHtml = '';
+  Object.keys(catInfo).forEach(k => {
+    const r = catResults[k];
+    if (r.total===0) return;
+    const p = Math.round(r.correct/r.total*100);
+    const ci = catInfo[k];
+    const barColor = p>=80?'#16a34a':p>=60?'#d97706':'#dc2626';
+    catHtml += '<div class="category-bar"><div class="cat-label"><span class="cat-name">'+ci.name+'</span><span class="cat-score" style="color:'+barColor+';">'+r.correct+'/'+r.total+' ('+p+'%)</span></div><div class="bar-bg"><div class="bar-fill" style="width:'+p+'%;background:'+barColor+';"></div></div></div>';
+  });
+  document.getElementById('category-report').innerHTML = catHtml;
+
+  // 틀린 문제
+  if (wrongAnswers.length>0) {
+    document.getElementById('wrong-card').style.display = 'block';
+    document.getElementById('wrong-list').innerHTML = wrongAnswers.map(w =>
+      '<div class="wrong-item"><div class="wrong-item-num">✗ 문제 '+w.num+' · '+w.cat+'</div><div class="wrong-item-q">'+w.text.replace(/\n/g,'<br>')+'</div><div class="wrong-item-my">내 답: '+w.myAns+'</div><span class="wrong-item-ans">✓ 정답: '+w.correct+'</span></div>'
+    ).join('');
+  }
+
+  // ── 노션 자동 저장 ──
+  const weakCats = Object.keys(catInfo).filter(k=>{
+    const r=catResults[k]; return r.total>0 && (r.correct/r.total)<0.7;
+  }).map(k=>catInfo[k].name).join(', ');
+
+  const wrongSummary = Object.keys(catInfo).map(k=>{
+    const r=catResults[k];
+    const p=r.total>0?Math.round(r.correct/r.total*100):100;
+    return catInfo[k].name+': '+r.correct+'/'+r.total+'('+p+'%)';
+  }).join(' | ');
+
+  const unitText = 'be동사시험 | '+grade+' | 취약: '+(weakCats||'없음')+' | '+wrongSummary;
+
+  const saveEl = document.getElementById('save-status');
+  const ok = await saveToNotion(
+    studentInfo.name, studentInfo.grade, studentInfo.cls,
+    score, questions.length, unitText
+  );
+
+  if (ok) {
+    saveEl.className = 'save-done';
+    saveEl.textContent = '✅ 결과가 노션에 자동 저장됐어요!';
+  } else {
+    saveEl.className = 'save-fail';
+    saveEl.textContent = '⚠️ 저장 실패. 선생님께 말씀해 주세요.';
+  }
+}
+</script>
+</body>
+</html>
