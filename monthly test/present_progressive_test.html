@@ -17,16 +17,14 @@
   label:first-of-type { margin-top: 0; }
   input[type=text], select { width: 100%; padding: 12px 14px; font-size: 15px; border: 1.5px solid #e0e5ee; border-radius: 10px; background: #fff; color: #1a1a1a; outline: none; }
   input[type=text]:focus, select:focus { border-color: #7c3aed; }
-  .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #7c3aed, #5b21b6); color: #fff; border: none; border-radius: 12px; cursor: pointer; letter-spacing: 0.3px; }
+  .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #7c3aed, #5b21b6); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .start-btn:disabled { background: #aaa; cursor: default; }
-
   .progress-wrap { margin-bottom: 16px; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .progress-label { font-size: 12px; color: #888; }
   .progress-score { font-size: 12px; font-weight: 600; color: #7c3aed; }
   .progress-bar { height: 6px; background: #e2e8f0; border-radius: 99px; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a78bfa); border-radius: 99px; transition: width 0.4s ease; }
-
   .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
   .question-num { font-size: 11px; color: #7c3aed; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
   .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
@@ -36,28 +34,24 @@
   .badge-basic { background: #d1fae5; color: #065f46; }
   .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
   .question-sub { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
-
   .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
   .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #f8faff; border: 1.5px solid #e2e8f0; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
   .option-btn:hover:not(:disabled) { background: #f3f0ff; border-color: #7c3aed; }
   .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
   .option-btn.wrong { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
   .option-btn:disabled { cursor: default; }
-
   .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
   .feedback.correct { background: #e6f9f0; color: #1a6640; }
   .feedback.wrong { background: #fff0f0; color: #b91c1c; }
-
   .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #7c3aed, #5b21b6); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
-
   .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .result-emoji { font-size: 52px; margin-bottom: 12px; }
   .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
   .result-score { font-size: 42px; font-weight: 800; color: #7c3aed; margin-bottom: 4px; }
   .result-sub { font-size: 13px; color: #888; margin-bottom: 20px; }
-  .result-msg { font-size: 15px; color: #444; padding: 14px; background: #f5f3ff; border-radius: 12px; margin-bottom: 20px; }
+  .result-msg { font-size: 15px; color: #444; padding: 14px; background: #f5f3ff; border-radius: 12px; margin-bottom: 16px; }
+  .save-box { border-radius: 10px; padding: 12px; font-size: 13px; margin: 16px 0; text-align: center; background: #f5f3ff; color: #7c3aed; }
   .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #7c3aed, #5b21b6); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
-
   .hidden { display: none; }
 </style>
 </head>
@@ -122,205 +116,158 @@
       <div class="result-score" id="resultScore"></div>
       <div class="result-sub">30문제 중</div>
       <div class="result-msg" id="resultMsg"></div>
+      <div class="save-box" id="save-status">📤 노션에 저장 중...</div>
       <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
     </div>
   </div>
 </div>
 
 <script>
-const questions = [
-  // ─── ing 형태 (1~10) ───────────────────────────
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "run → ?",
-    options: ["runing","running","runnes","runs"], answer: 1 },
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "swim → ?",
-    options: ["swiming","swimmes","swimming","swims"], answer: 2 },
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "write → ?",
-    options: ["writeing","writing","writeing","writting"], answer: 1 },
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "sit → ?",
-    options: ["siting","sitting","sittes","sits"], answer: 1 },
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "dance → ?",
-    options: ["danceing","dancing","danceying","dances"], answer: 1 },
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "eat → ?",
-    options: ["eatting","eates","eateing","eating"], answer: 3 },
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "make → ?",
-    options: ["makeing","making","makking","maked"], answer: 1 },
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "study → ?",
-    options: ["studyying","studying","studiing","studeing"], answer: 1 },
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "cut → ?",
-    options: ["cuting","cutted","cutting","cuteing"], answer: 2 },
-  { badge: "ing형태", badgeClass: "badge-ing",
-    q: "동사의 -ing 형태로 알맞은 것은?", sub: "sleep → ?",
-    options: ["sleeping","slepping","sleepping","sleepeing"], answer: 0 },
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgj6MoU4-tLSyf_n1iyFvtMU49mnY59TC4KvKbZ7a3MGn1U06eZblrHb9xXEidZrXz/exec';
 
-  // ─── 기본 현재진행형 (11~18) ──────────────────
-  { badge: "현재진행형", badgeClass: "badge-basic",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "I ___ soccer now.",
-    options: ["play","plays","am playing","is playing"], answer: 2 },
-  { badge: "현재진행형", badgeClass: "badge-basic",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "She ___ a book right now.",
-    options: ["read","reads","am reading","is reading"], answer: 3 },
-  { badge: "현재진행형", badgeClass: "badge-basic",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "They ___ lunch now.",
-    options: ["eat","eats","are eating","is eating"], answer: 2 },
-  { badge: "현재진행형", badgeClass: "badge-basic",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "He ___ to music now.",
-    options: ["listen","listens","are listening","is listening"], answer: 3 },
-  { badge: "현재진행형", badgeClass: "badge-basic",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "We ___ in the park now.",
-    options: ["run","runs","are running","is running"], answer: 2 },
-  { badge: "현재진행형", badgeClass: "badge-basic",
-    q: "다음 중 현재진행형 문장은?", sub: "",
-    options: ["She eats breakfast.","He is sleeping now.","They went to school.","I play tennis."], answer: 1 },
-  { badge: "현재진행형", badgeClass: "badge-basic",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "Mom ___ dinner in the kitchen.",
-    options: ["cook","cooks","is cooking","are cooking"], answer: 2 },
-  { badge: "현재진행형", badgeClass: "badge-basic",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "My dog ___ in the yard.",
-    options: ["play","plays","is playing","are playing"], answer: 2 },
-
-  // ─── 부정문 (19~24) ──────────────────────────
-  { badge: "부정문", badgeClass: "badge-neg",
-    q: "알맞은 부정문을 고르세요.", sub: "I (지금 달리고 있지 않다).",
-    options: ["I am not running.","I not am running.","I don't running.","I doesn't running."], answer: 0 },
-  { badge: "부정문", badgeClass: "badge-neg",
-    q: "알맞은 부정문을 고르세요.", sub: "She (지금 자고 있지 않다).",
-    options: ["She not sleeping.","She don't sleeping.","She is not sleeping.","She aren't sleeping."], answer: 2 },
-  { badge: "부정문", badgeClass: "badge-neg",
-    q: "알맞은 부정문을 고르세요.", sub: "They (지금 공부하고 있지 않다).",
-    options: ["They isn't studying.","They are not studying.","They don't studying.","They not are studying."], answer: 1 },
-  { badge: "부정문", badgeClass: "badge-neg",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "He ___ watching TV now.",
-    options: ["don't","doesn't","isn't","aren't"], answer: 2 },
-  { badge: "부정문", badgeClass: "badge-neg",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "We ___ playing soccer now.",
-    options: ["isn't","don't","doesn't","aren't"], answer: 3 },
-  { badge: "부정문", badgeClass: "badge-neg",
-    q: "다음 중 올바른 부정문은?", sub: "",
-    options: ["I am not eat now.","She is not dancing.","He are not swimming.","They is not running."], answer: 1 },
-
-  // ─── 의문문 (25~30) ──────────────────────────
-  { badge: "의문문", badgeClass: "badge-que",
-    q: "알맞은 의문문을 고르세요.", sub: "(너는 지금 뭘 하고 있니?)",
-    options: ["What are you doing now?","What you are doing now?","What do you doing now?","Are what you doing?"], answer: 0 },
-  { badge: "의문문", badgeClass: "badge-que",
-    q: "알맞은 의문문을 고르세요.", sub: "(그는 지금 자고 있니?)",
-    options: ["Does he sleeping now?","Is he sleeping now?","Are he sleeping now?","Do he sleeping now?"], answer: 1 },
-  { badge: "의문문", badgeClass: "badge-que",
-    q: "알맞은 의문문을 고르세요.", sub: "(그들은 지금 뛰고 있니?)",
-    options: ["Do they running now?","Is they running now?","Are they running now?","Does they running now?"], answer: 2 },
-  { badge: "의문문", badgeClass: "badge-que",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "___ she playing the piano now?",
-    options: ["Do","Does","Is","Are"], answer: 2 },
-  { badge: "의문문", badgeClass: "badge-que",
-    q: "빈칸에 알맞은 말을 고르세요.", sub: "___ you watching TV now?",
-    options: ["Do","Does","Is","Are"], answer: 3 },
-  { badge: "의문문", badgeClass: "badge-que",
-    q: "다음 의문문의 알맞은 대답을 고르세요.", sub: "Is he swimming now?",
-    options: ["Yes, he does.","Yes, he is.","Yes, he swims.","Yes, he was."], answer: 1 },
-];
-
-let currentQ = 0, score = 0, answered = false;
-
-function checkReady() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls = document.getElementById('studentClass').value;
-  document.getElementById('startBtn').disabled = !(name && cls);
+async function saveToNotion(name, cls, score, total, unit) {
+  try {
+    const params = new URLSearchParams();
+    params.append('name', name);
+    params.append('unit', unit + ' | ' + cls);
+    params.append('score', score);
+    params.append('total', total);
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+    return true;
+  } catch(e) { return false; }
 }
 
-function startTest() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls = document.getElementById('studentClass').value;
-  document.getElementById('headerName').textContent = name + ' · ' + cls;
+const questions = [
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"run → ?",options:["runing","running","runnes","runs"],answer:1},
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"swim → ?",options:["swiming","swimmes","swimming","swims"],answer:2},
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"write → ?",options:["writeing","writing","writeing","writting"],answer:1},
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"sit → ?",options:["siting","sitting","sittes","sits"],answer:1},
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"dance → ?",options:["danceing","dancing","danceying","dances"],answer:1},
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"eat → ?",options:["eatting","eates","eateing","eating"],answer:3},
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"make → ?",options:["makeing","making","makking","maked"],answer:1},
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"study → ?",options:["studyying","studying","studiing","studeing"],answer:1},
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"cut → ?",options:["cuting","cutted","cutting","cuteing"],answer:2},
+  {badge:"ing형태",badgeClass:"badge-ing",q:"동사의 -ing 형태로 알맞은 것은?",sub:"sleep → ?",options:["sleeping","slepping","sleepping","sleepeing"],answer:0},
+  {badge:"현재진행형",badgeClass:"badge-basic",q:"빈칸에 알맞은 말을 고르세요.",sub:"I ___ soccer now.",options:["play","plays","am playing","is playing"],answer:2},
+  {badge:"현재진행형",badgeClass:"badge-basic",q:"빈칸에 알맞은 말을 고르세요.",sub:"She ___ a book right now.",options:["read","reads","am reading","is reading"],answer:3},
+  {badge:"현재진행형",badgeClass:"badge-basic",q:"빈칸에 알맞은 말을 고르세요.",sub:"They ___ lunch now.",options:["eat","eats","are eating","is eating"],answer:2},
+  {badge:"현재진행형",badgeClass:"badge-basic",q:"빈칸에 알맞은 말을 고르세요.",sub:"He ___ to music now.",options:["listen","listens","are listening","is listening"],answer:3},
+  {badge:"현재진행형",badgeClass:"badge-basic",q:"빈칸에 알맞은 말을 고르세요.",sub:"We ___ in the park now.",options:["run","runs","are running","is running"],answer:2},
+  {badge:"현재진행형",badgeClass:"badge-basic",q:"다음 중 현재진행형 문장은?",sub:"",options:["She eats breakfast.","He is sleeping now.","They went to school.","I play tennis."],answer:1},
+  {badge:"현재진행형",badgeClass:"badge-basic",q:"빈칸에 알맞은 말을 고르세요.",sub:"Mom ___ dinner in the kitchen.",options:["cook","cooks","is cooking","are cooking"],answer:2},
+  {badge:"현재진행형",badgeClass:"badge-basic",q:"빈칸에 알맞은 말을 고르세요.",sub:"My dog ___ in the yard.",options:["play","plays","is playing","are playing"],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"알맞은 부정문을 고르세요.",sub:"I (지금 달리고 있지 않다).",options:["I am not running.","I not am running.","I don't running.","I doesn't running."],answer:0},
+  {badge:"부정문",badgeClass:"badge-neg",q:"알맞은 부정문을 고르세요.",sub:"She (지금 자고 있지 않다).",options:["She not sleeping.","She don't sleeping.","She is not sleeping.","She aren't sleeping."],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"알맞은 부정문을 고르세요.",sub:"They (지금 공부하고 있지 않다).",options:["They isn't studying.","They are not studying.","They don't studying.","They not are studying."],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"빈칸에 알맞은 말을 고르세요.",sub:"He ___ watching TV now.",options:["don't","doesn't","isn't","aren't"],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"빈칸에 알맞은 말을 고르세요.",sub:"We ___ playing soccer now.",options:["isn't","don't","doesn't","aren't"],answer:3},
+  {badge:"부정문",badgeClass:"badge-neg",q:"다음 중 올바른 부정문은?",sub:"",options:["I am not eat now.","She is not dancing.","He are not swimming.","They is not running."],answer:1},
+  {badge:"의문문",badgeClass:"badge-que",q:"알맞은 의문문을 고르세요.",sub:"(너는 지금 뭘 하고 있니?)",options:["What are you doing now?","What you are doing now?","What do you doing now?","Are what you doing?"],answer:0},
+  {badge:"의문문",badgeClass:"badge-que",q:"알맞은 의문문을 고르세요.",sub:"(그는 지금 자고 있니?)",options:["Does he sleeping now?","Is he sleeping now?","Are he sleeping now?","Do he sleeping now?"],answer:1},
+  {badge:"의문문",badgeClass:"badge-que",q:"알맞은 의문문을 고르세요.",sub:"(그들은 지금 뛰고 있니?)",options:["Do they running now?","Is they running now?","Are they running now?","Does they running now?"],answer:2},
+  {badge:"의문문",badgeClass:"badge-que",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ she playing the piano now?",options:["Do","Does","Is","Are"],answer:2},
+  {badge:"의문문",badgeClass:"badge-que",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ you watching TV now?",options:["Do","Does","Is","Are"],answer:3},
+  {badge:"의문문",badgeClass:"badge-que",q:"다음 의문문의 알맞은 대답을 고르세요.",sub:"Is he swimming now?",options:["Yes, he does.","Yes, he is.","Yes, he swims.","Yes, he was."],answer:1},
+];
+
+let currentQ=0, score=0, answered=false;
+let _name='', _cls='';
+
+function checkReady(){
+  const name=document.getElementById('studentName').value.trim();
+  const cls=document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled=!(name&&cls);
+}
+
+function startTest(){
+  _name=document.getElementById('studentName').value.trim();
+  _cls=document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent=_name+' · '+_cls;
   document.getElementById('startScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 
-function showQuestion() {
-  answered = false;
-  const q = questions[currentQ];
-  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
-  const badge = document.getElementById('questionBadge');
-  badge.textContent = q.badge;
-  badge.className = 'question-badge ' + q.badgeClass;
-  document.getElementById('questionText').textContent = q.q;
-  document.getElementById('questionSub').textContent = q.sub;
-  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
-  document.getElementById('progressScore').textContent = '점수: ' + score;
-  document.getElementById('progressFill').style.width = (currentQ / 30 * 100) + '%';
+function showQuestion(){
+  answered=false;
+  const q=questions[currentQ];
+  document.getElementById('questionNum').textContent='Q'+(currentQ+1);
+  const badge=document.getElementById('questionBadge');
+  badge.textContent=q.badge; badge.className='question-badge '+q.badgeClass;
+  document.getElementById('questionText').textContent=q.q;
+  document.getElementById('questionSub').textContent=q.sub;
+  document.getElementById('progressLabel').textContent=(currentQ+1)+' / 30';
+  document.getElementById('progressScore').textContent='점수: '+score;
+  document.getElementById('progressFill').style.width=(currentQ/30*100)+'%';
   document.getElementById('feedbackArea').classList.add('hidden');
   document.getElementById('nextBtn').classList.add('hidden');
-
-  const area = document.getElementById('optionsArea');
-  area.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'option-btn';
-    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
-    btn.onclick = () => selectAnswer(i);
+  const area=document.getElementById('optionsArea');
+  area.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=['①','②','③','④'][i]+' '+opt;
+    btn.onclick=()=>selectAnswer(i);
     area.appendChild(btn);
   });
 }
 
-function selectAnswer(idx) {
-  if (answered) return;
-  answered = true;
-  const q = questions[currentQ];
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
-  const fb = document.getElementById('feedbackArea');
-  if (idx === q.answer) {
-    score++;
-    btns[idx].classList.add('correct');
-    fb.className = 'feedback correct';
-    fb.textContent = '✅ 정답이에요! 잘했어요!';
+function selectAnswer(idx){
+  if(answered)return; answered=true;
+  const q=questions[currentQ];
+  const btns=document.querySelectorAll('.option-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedbackArea');
+  if(idx===q.answer){
+    score++; btns[idx].classList.add('correct');
+    fb.className='feedback correct'; fb.textContent='✅ 정답이에요! 잘했어요!';
   } else {
-    btns[idx].classList.add('wrong');
-    btns[q.answer].classList.add('correct');
-    fb.className = 'feedback wrong';
-    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+    btns[idx].classList.add('wrong'); btns[q.answer].classList.add('correct');
+    fb.className='feedback wrong';
+    fb.textContent='❌ 틀렸어요. 정답은 '+['①','②','③','④'][q.answer]+' '+q.options[q.answer]+' 이에요.';
   }
   fb.classList.remove('hidden');
   document.getElementById('nextBtn').classList.remove('hidden');
-  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+  document.getElementById('nextBtn').textContent=currentQ<29?'다음 문제 →':'결과 보기 🎉';
 }
 
-function nextQuestion() {
+function nextQuestion(){
   currentQ++;
-  if (currentQ >= 30) showResult();
+  if(currentQ>=30)showResult();
   else showQuestion();
 }
 
-function showResult() {
+async function showResult(){
   document.getElementById('testScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.remove('hidden');
-  const name = document.getElementById('studentName').value.trim();
-  const pct = Math.round(score / 30 * 100);
-  document.getElementById('resultName').textContent = name + '의 결과';
-  document.getElementById('resultScore').textContent = score + ' / 30';
-  let emoji, msg;
-  if (pct >= 90) { emoji = '🏆'; msg = '완벽해요! 현재진행형 마스터! 정말 대단해요! 👏'; }
-  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
-  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
-  else { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
-  document.getElementById('resultEmoji').textContent = emoji;
-  document.getElementById('resultMsg').textContent = msg;
+  const pct=Math.round(score/30*100);
+  document.getElementById('resultName').textContent=_name+'의 결과';
+  document.getElementById('resultScore').textContent=score+' / 30';
+  let emoji,msg;
+  if(pct>=90){emoji='🏆';msg='완벽해요! 현재진행형 마스터! 정말 대단해요! 👏';}
+  else if(pct>=70){emoji='😊';msg='잘했어요! 조금만 더 연습하면 완벽해질 거예요!';}
+  else if(pct>=50){emoji='🙂';msg='절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.';}
+  else{emoji='📚';msg='조금 더 열심히 공부해봐요! 다시 도전해보세요!';}
+  document.getElementById('resultEmoji').textContent=emoji;
+  document.getElementById('resultMsg').textContent=msg;
+
+  const saveEl=document.getElementById('save-status');
+  await saveToNotion(_name, _cls, score, 30, '현재진행형 시험');
+  saveEl.style.background='#dcfce7';
+  saveEl.style.color='#15803d';
+  saveEl.textContent='✅ 결과가 노션에 자동 저장됐어요!';
 }
 
-function retryTest() {
+function retryTest(){
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 </script>
