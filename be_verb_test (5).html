@@ -152,34 +152,34 @@
 // 📝 노션 문법퀴즈결과 DB 자동 저장
 // 시험 완료 시 버튼 없이 자동으로 저장됩니다
 // ══════════════════════════════════════════════
-// ── Google Apps Script → 노션 자동 저장 ──
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyNyQmcYMz6wbgMkvRaKtGD_Fs6jZ39xCFGnJLLke_oi6WPDXayhAnzzgw199himdWF/exec';
+const NOTION_DS_ID = '388f4df0-1d56-80df-9f14-000b051ef728';
 
 async function saveToNotion(name, grade, cls, score, total, unitText) {
+  const now = new Date();
+  const isoNow = now.toISOString().slice(0, 16);
   try {
-    const payload = {
-      name: name,
-      unit: unitText + ' | ' + grade + ' ' + cls,
-      score: score,
-      total: total
-    };
-    // URLSearchParams 방식으로 전송
-    const params = new URLSearchParams();
-    params.append('name', name);
-    params.append('unit', unitText + ' | ' + grade + ' ' + cls);
-    params.append('score', score);
-    params.append('total', total);
-
-    await fetch(SCRIPT_URL, {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: params.toString()
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 300,
+        system: '노션 저장 도우미입니다. 데이터를 Notion DB에 저장 후 {"success":true} 만 반환하세요.',
+        messages: [{
+          role: 'user',
+          content: `다음 시험 결과를 Notion DB(collection://${NOTION_DS_ID})에 저장해주세요:
+이름(title): "${name}"
+단원(text): "${unitText} | ${grade} ${cls}"
+총 문제수(number): ${total}
+맞은 개수(number): ${score}
+제출시간(date): "${isoNow}"`
+        }],
+        mcp_servers: [{ type: 'url', url: 'https://mcp.notion.com/mcp', name: 'notion-mcp' }]
+      })
     });
-    // no-cors 모드에서는 응답을 받을 수 없으므로 항상 성공으로 처리
-    return true;
+    const data = await res.json();
+    return data.content && data.content.length > 0;
   } catch(e) {
-    console.error(e);
     return false;
   }
 }
@@ -357,13 +357,18 @@ async function showResult() {
   const unitText = 'be동사시험 | '+grade+' | 취약: '+(weakCats||'없음')+' | '+wrongSummary;
 
   const saveEl = document.getElementById('save-status');
-  // 저장 시도 (no-cors 모드로 항상 성공 처리)
-  await saveToNotion(
+  const ok = await saveToNotion(
     studentInfo.name, studentInfo.grade, studentInfo.cls,
     score, questions.length, unitText
   );
-  saveEl.className = 'save-done';
-  saveEl.textContent = '✅ 결과가 노션에 자동 저장됐어요!';
+
+  if (ok) {
+    saveEl.className = 'save-done';
+    saveEl.textContent = '✅ 결과가 노션에 자동 저장됐어요!';
+  } else {
+    saveEl.className = 'save-fail';
+    saveEl.textContent = '⚠️ 저장 실패. 선생님께 말씀해 주세요.';
+  }
 }
 </script>
 </body>
