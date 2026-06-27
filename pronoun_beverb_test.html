@@ -19,14 +19,12 @@
   input[type=text]:focus, select:focus { border-color: #d97706; }
   .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #d97706, #b45309); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .start-btn:disabled { background: #aaa; cursor: default; }
-
   .progress-wrap { margin-bottom: 16px; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .progress-label { font-size: 12px; color: #888; }
   .progress-score { font-size: 12px; font-weight: 600; color: #d97706; }
   .progress-bar { height: 6px; background: #fde68a; border-radius: 99px; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, #d97706, #fbbf24); border-radius: 99px; transition: width 0.4s ease; }
-
   .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
   .question-num { font-size: 11px; color: #d97706; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
   .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
@@ -37,26 +35,23 @@
   .badge-mixed   { background: #fef3c7; color: #92400e; }
   .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
   .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
-
   .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
   .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
   .option-btn:hover:not(:disabled) { background: #fef3c7; border-color: #d97706; }
   .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
   .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
   .option-btn:disabled { cursor: default; }
-
   .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
   .feedback.correct { background: #e6f9f0; color: #1a6640; }
   .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
-
   .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #d97706, #b45309); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
-
   .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .result-emoji { font-size: 52px; margin-bottom: 12px; }
   .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
   .result-score { font-size: 42px; font-weight: 800; color: #d97706; margin-bottom: 4px; }
   .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
   .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #fffbeb; border-radius: 12px; margin-bottom: 20px; }
+  .save-box { border-radius: 10px; padding: 12px; font-size: 13px; margin: 16px 0; text-align: center; background: #fffbeb; color: #d97706; }
   .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #d97706, #b45309); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .hidden { display: none; }
 </style>
@@ -122,232 +117,161 @@
       <div class="result-score" id="resultScore"></div>
       <div class="result-sub">30문제 중</div>
       <div class="result-msg" id="resultMsg"></div>
+      <div class="save-box" id="save-status">📤 노션에 저장 중...</div>
       <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
     </div>
   </div>
 </div>
 
 <script>
-const questions = [
+// ── 노션 자동 저장 (Google Apps Script 경유) ──
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzzNu6BnyzJz8VqB1LKjE89CQha4RSorTG-hxatwM3z_dWsiKivK9k7aVWPILc5h-uP/exec';
 
-  // ── 주격 인칭대명사 (1~8) ────────────────────────────────
-  { badge:"주격 대명사", badgeClass:"badge-pronoun",
-    q:"밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?", sub:"Tom is my friend.",
-    options:["She","He","It","They"], answer:1 },
-
-  { badge:"주격 대명사", badgeClass:"badge-pronoun",
-    q:"밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?", sub:"Jane and I are students.",
-    options:["They","She","We","He"], answer:2 },
-
-  { badge:"주격 대명사", badgeClass:"badge-pronoun",
-    q:"밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?", sub:"The cat is cute.",
-    options:["He","She","We","It"], answer:3 },
-
-  { badge:"주격 대명사", badgeClass:"badge-pronoun",
-    q:"밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?", sub:"Tom and Jerry are funny.",
-    options:["He","She","It","They"], answer:3 },
-
-  { badge:"주격 대명사", badgeClass:"badge-pronoun",
-    q:"빈칸에 알맞은 주격 대명사를 고르세요.", sub:"___ is my teacher. (여자 선생님)",
-    options:["He","It","She","They"], answer:2 },
-
-  { badge:"주격 대명사", badgeClass:"badge-pronoun",
-    q:"빈칸에 알맞은 주격 대명사를 고르세요.", sub:"___ are my friends. (친구들)",
-    options:["He","She","It","They"], answer:3 },
-
-  { badge:"주격 대명사", badgeClass:"badge-pronoun",
-    q:"빈칸에 알맞은 주격 대명사를 고르세요.", sub:"___ is a ball. (공)",
-    options:["He","She","It","They"], answer:2 },
-
-  { badge:"주격 대명사", badgeClass:"badge-pronoun",
-    q:"다음 중 주격 인칭대명사가 아닌 것은?", sub:"",
-    options:["I","We","My","They"], answer:2 },
-
-  // ── be동사 기본 (9~16) ──────────────────────────────────
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"I ___ a student.",
-    options:["is","are","am","be"], answer:2 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"She ___ kind.",
-    options:["am","are","be","is"], answer:3 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"They ___ soccer players.",
-    options:["am","is","are","be"], answer:2 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"He ___ tall and strong.",
-    options:["am","are","be","is"], answer:3 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"You ___ very smart.",
-    options:["am","is","are","be"], answer:2 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"빈칸에 알맞은 be동사를 고르세요.", sub:"We ___ best friends.",
-    options:["is","am","be","are"], answer:3 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["I are happy.","She am tall.","He is my brother.","They is funny."], answer:2 },
-
-  { badge:"be동사", badgeClass:"badge-be",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["We is classmates.","I is a teacher.","You am a good student.","It is a big dog."], answer:3 },
-
-  // ── be동사 부정문 (17~22) ────────────────────────────────
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"알맞은 부정문을 고르세요.", sub:"나는 피곤하지 않다.",
-    options:["I not am tired.","I don't tired.","I am not tired.","I amn't tired."], answer:2 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"알맞은 부정문을 고르세요.", sub:"그는 의사가 아니다.",
-    options:["He don't a doctor.","He is not a doctor.","He not is a doctor.","He isn't doctor."], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"They ___ my classmates.",
-    options:["isn't","am not","don't","aren't"], answer:3 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"She ___ from Korea.",
-    options:["aren't","am not","isn't","don't"], answer:2 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"다음 중 올바른 부정문은?", sub:"",
-    options:["I isn't a singer.","We amn't late.","He aren't my friend.","You aren't wrong."], answer:3 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"우리는 같은 반이 아니다.",
-    options:["We don't same class.","We isn't in the same class.","We are not in the same class.","We not are in the same class."], answer:2 },
-
-  // ── be동사 의문문 (23~30) ────────────────────────────────
-  { badge:"의문문", badgeClass:"badge-que",
-    q:"알맞은 의문문을 고르세요.", sub:"(너는 행복하니?)",
-    options:["Do you happy?","You are happy?","Are you happy?","Is you happy?"], answer:2 },
-
-  { badge:"의문문", badgeClass:"badge-que",
-    q:"알맞은 의문문을 고르세요.", sub:"(그녀는 선생님이니?)",
-    options:["Does she a teacher?","Is she a teacher?","Are she a teacher?","She is a teacher?"], answer:1 },
-
-  { badge:"의문문", badgeClass:"badge-que",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"___ they brothers?",
-    options:["Do","Is","Am","Are"], answer:3 },
-
-  { badge:"의문문", badgeClass:"badge-que",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"___ he from Canada?",
-    options:["Are","Am","Do","Is"], answer:3 },
-
-  { badge:"의문문", badgeClass:"badge-que",
-    q:"의문문에 대한 알맞은 대답은?", sub:"Are you okay?",
-    options:["Yes, I am.","Yes, I do.","Yes, I is.","Yes, you are."], answer:0 },
-
-  { badge:"의문문", badgeClass:"badge-que",
-    q:"의문문에 대한 알맞은 대답은?", sub:"Is she your sister?",
-    options:["No, she don't.","No, she isn't.","No, she aren't.","No, she doesn't."], answer:1 },
-
-  { badge:"의문문", badgeClass:"badge-que",
-    q:"다음 중 올바른 의문문은?", sub:"",
-    options:["Am they tired?","Is we late?","Are you a new student?","Is I wrong?"], answer:2 },
-
-  { badge:"의문문", badgeClass:"badge-que",
-    q:"다음 대화의 빈칸에 알맞은 말은?", sub:"A: Are they your parents?  B: Yes, ___ ___.",
-    options:["they do","they is","they are","they am"], answer:2 },
-];
-
-let currentQ = 0, score = 0, answered = false;
-
-function checkReady() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('startBtn').disabled = !(name && cls);
+async function saveToNotion(name, cls, score, total, unit) {
+  try {
+    const params = new URLSearchParams();
+    params.append('name', name);
+    params.append('unit', unit + ' | ' + cls);
+    params.append('score', score);
+    params.append('total', total);
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+    return true;
+  } catch(e) { return false; }
 }
 
-function startTest() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('headerName').textContent = name + ' · ' + cls;
+const questions = [
+  {badge:"주격 대명사",badgeClass:"badge-pronoun",q:"밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?",sub:"Tom is my friend.",options:["She","He","It","They"],answer:1},
+  {badge:"주격 대명사",badgeClass:"badge-pronoun",q:"밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?",sub:"Jane and I are students.",options:["They","She","We","He"],answer:2},
+  {badge:"주격 대명사",badgeClass:"badge-pronoun",q:"밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?",sub:"The cat is cute.",options:["He","She","We","It"],answer:3},
+  {badge:"주격 대명사",badgeClass:"badge-pronoun",q:"밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?",sub:"Tom and Jerry are funny.",options:["He","She","It","They"],answer:3},
+  {badge:"주격 대명사",badgeClass:"badge-pronoun",q:"빈칸에 알맞은 주격 대명사를 고르세요.",sub:"___ is my teacher. (여자 선생님)",options:["He","It","She","They"],answer:2},
+  {badge:"주격 대명사",badgeClass:"badge-pronoun",q:"빈칸에 알맞은 주격 대명사를 고르세요.",sub:"___ are my friends. (친구들)",options:["He","She","It","They"],answer:3},
+  {badge:"주격 대명사",badgeClass:"badge-pronoun",q:"빈칸에 알맞은 주격 대명사를 고르세요.",sub:"___ is a ball. (공)",options:["He","She","It","They"],answer:2},
+  {badge:"주격 대명사",badgeClass:"badge-pronoun",q:"다음 중 주격 인칭대명사가 아닌 것은?",sub:"",options:["I","We","My","They"],answer:2},
+  {badge:"be동사",badgeClass:"badge-be",q:"빈칸에 알맞은 be동사를 고르세요.",sub:"I ___ a student.",options:["is","are","am","be"],answer:2},
+  {badge:"be동사",badgeClass:"badge-be",q:"빈칸에 알맞은 be동사를 고르세요.",sub:"She ___ kind.",options:["am","are","be","is"],answer:3},
+  {badge:"be동사",badgeClass:"badge-be",q:"빈칸에 알맞은 be동사를 고르세요.",sub:"They ___ soccer players.",options:["am","is","are","be"],answer:2},
+  {badge:"be동사",badgeClass:"badge-be",q:"빈칸에 알맞은 be동사를 고르세요.",sub:"He ___ tall and strong.",options:["am","are","be","is"],answer:3},
+  {badge:"be동사",badgeClass:"badge-be",q:"빈칸에 알맞은 be동사를 고르세요.",sub:"You ___ very smart.",options:["am","is","are","be"],answer:2},
+  {badge:"be동사",badgeClass:"badge-be",q:"빈칸에 알맞은 be동사를 고르세요.",sub:"We ___ best friends.",options:["is","am","be","are"],answer:3},
+  {badge:"be동사",badgeClass:"badge-be",q:"다음 중 올바른 문장은?",sub:"",options:["I are happy.","She am tall.","He is my brother.","They is funny."],answer:2},
+  {badge:"be동사",badgeClass:"badge-be",q:"다음 중 올바른 문장은?",sub:"",options:["We is classmates.","I is a teacher.","You am a good student.","It is a big dog."],answer:3},
+  {badge:"부정문",badgeClass:"badge-neg",q:"알맞은 부정문을 고르세요.",sub:"나는 피곤하지 않다.",options:["I not am tired.","I don't tired.","I am not tired.","I amn't tired."],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"알맞은 부정문을 고르세요.",sub:"그는 의사가 아니다.",options:["He don't a doctor.","He is not a doctor.","He not is a doctor.","He isn't doctor."],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"빈칸에 알맞은 말을 고르세요.",sub:"They ___ my classmates.",options:["isn't","am not","don't","aren't"],answer:3},
+  {badge:"부정문",badgeClass:"badge-neg",q:"빈칸에 알맞은 말을 고르세요.",sub:"She ___ from Korea.",options:["aren't","am not","isn't","don't"],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"다음 중 올바른 부정문은?",sub:"",options:["I isn't a singer.","We amn't late.","He aren't my friend.","You aren't wrong."],answer:3},
+  {badge:"부정문",badgeClass:"badge-neg",q:"우리말 뜻에 맞는 영어 문장은?",sub:"우리는 같은 반이 아니다.",options:["We don't same class.","We isn't in the same class.","We are not in the same class.","We not are in the same class."],answer:2},
+  {badge:"의문문",badgeClass:"badge-que",q:"알맞은 의문문을 고르세요.",sub:"(너는 행복하니?)",options:["Do you happy?","You are happy?","Are you happy?","Is you happy?"],answer:2},
+  {badge:"의문문",badgeClass:"badge-que",q:"알맞은 의문문을 고르세요.",sub:"(그녀는 선생님이니?)",options:["Does she a teacher?","Is she a teacher?","Are she a teacher?","She is a teacher?"],answer:1},
+  {badge:"의문문",badgeClass:"badge-que",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ they brothers?",options:["Do","Is","Am","Are"],answer:3},
+  {badge:"의문문",badgeClass:"badge-que",q:"빈칸에 알맞은 말을 고르세요.",sub:"___ he from Canada?",options:["Are","Am","Do","Is"],answer:3},
+  {badge:"의문문",badgeClass:"badge-que",q:"의문문에 대한 알맞은 대답은?",sub:"Are you okay?",options:["Yes, I am.","Yes, I do.","Yes, I is.","Yes, you are."],answer:0},
+  {badge:"의문문",badgeClass:"badge-que",q:"의문문에 대한 알맞은 대답은?",sub:"Is she your sister?",options:["No, she don't.","No, she isn't.","No, she aren't.","No, she doesn't."],answer:1},
+  {badge:"의문문",badgeClass:"badge-que",q:"다음 중 올바른 의문문은?",sub:"",options:["Am they tired?","Is we late?","Are you a new student?","Is I wrong?"],answer:2},
+  {badge:"의문문",badgeClass:"badge-que",q:"다음 대화의 빈칸에 알맞은 말은?",sub:"A: Are they your parents?  B: Yes, ___ ___.",options:["they do","they is","they are","they am"],answer:2},
+];
+
+let currentQ=0, score=0, answered=false;
+let _name='', _cls='';
+
+function checkReady(){
+  const name=document.getElementById('studentName').value.trim();
+  const cls=document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled=!(name&&cls);
+}
+
+function startTest(){
+  _name=document.getElementById('studentName').value.trim();
+  _cls=document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent=_name+' · '+_cls;
   document.getElementById('startScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 
-function showQuestion() {
-  answered = false;
-  const q = questions[currentQ];
-  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
-  const badge = document.getElementById('questionBadge');
-  badge.textContent = q.badge;
-  badge.className   = 'question-badge ' + q.badgeClass;
-  document.getElementById('questionText').textContent = q.q;
-  document.getElementById('questionSub').textContent  = q.sub;
-  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
-  document.getElementById('progressScore').textContent = '점수: ' + score;
-  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+function showQuestion(){
+  answered=false;
+  const q=questions[currentQ];
+  document.getElementById('questionNum').textContent='Q'+(currentQ+1);
+  const badge=document.getElementById('questionBadge');
+  badge.textContent=q.badge; badge.className='question-badge '+q.badgeClass;
+  document.getElementById('questionText').textContent=q.q;
+  document.getElementById('questionSub').textContent=q.sub;
+  document.getElementById('progressLabel').textContent=(currentQ+1)+' / 30';
+  document.getElementById('progressScore').textContent='점수: '+score;
+  document.getElementById('progressFill').style.width=(currentQ/30*100)+'%';
   document.getElementById('feedbackArea').classList.add('hidden');
   document.getElementById('nextBtn').classList.add('hidden');
-
-  const area = document.getElementById('optionsArea');
-  area.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className   = 'option-btn';
-    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
-    btn.onclick = () => selectAnswer(i);
+  const area=document.getElementById('optionsArea');
+  area.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=['①','②','③','④'][i]+' '+opt;
+    btn.onclick=()=>selectAnswer(i);
     area.appendChild(btn);
   });
 }
 
-function selectAnswer(idx) {
-  if (answered) return;
-  answered = true;
-  const q    = questions[currentQ];
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
-  const fb = document.getElementById('feedbackArea');
-  if (idx === q.answer) {
-    score++;
-    btns[idx].classList.add('correct');
-    fb.className   = 'feedback correct';
-    fb.textContent = '✅ 정답이에요! 잘했어요!';
+function selectAnswer(idx){
+  if(answered)return; answered=true;
+  const q=questions[currentQ];
+  const btns=document.querySelectorAll('.option-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedbackArea');
+  if(idx===q.answer){
+    score++; btns[idx].classList.add('correct');
+    fb.className='feedback correct'; fb.textContent='✅ 정답이에요! 잘했어요!';
   } else {
-    btns[idx].classList.add('wrong');
-    btns[q.answer].classList.add('correct');
-    fb.className   = 'feedback wrong';
-    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+    btns[idx].classList.add('wrong'); btns[q.answer].classList.add('correct');
+    fb.className='feedback wrong';
+    fb.textContent='❌ 틀렸어요. 정답은 '+['①','②','③','④'][q.answer]+' '+q.options[q.answer]+' 이에요.';
   }
   fb.classList.remove('hidden');
   document.getElementById('nextBtn').classList.remove('hidden');
-  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+  document.getElementById('nextBtn').textContent=currentQ<29?'다음 문제 →':'결과 보기 🎉';
 }
 
-function nextQuestion() {
+function nextQuestion(){
   currentQ++;
-  if (currentQ >= 30) showResult();
+  if(currentQ>=30)showResult();
   else showQuestion();
 }
 
-function showResult() {
+async function showResult(){
   document.getElementById('testScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.remove('hidden');
-  const name = document.getElementById('studentName').value.trim();
-  const pct  = Math.round(score / 30 * 100);
-  document.getElementById('resultName').textContent  = name + '의 결과';
-  document.getElementById('resultScore').textContent = score + ' / 30';
-  let emoji, msg;
-  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! 주격 대명사·be동사 마스터! 👏'; }
-  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
-  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
-  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
-  document.getElementById('resultEmoji').textContent = emoji;
-  document.getElementById('resultMsg').textContent   = msg;
+  const pct=Math.round(score/30*100);
+  document.getElementById('resultName').textContent=_name+'의 결과';
+  document.getElementById('resultScore').textContent=score+' / 30';
+  let emoji,msg;
+  if(pct>=90){emoji='🏆';msg='완벽해요! 주격 대명사·be동사 마스터! 👏';}
+  else if(pct>=70){emoji='😊';msg='잘했어요! 조금만 더 연습하면 완벽해질 거예요!';}
+  else if(pct>=50){emoji='🙂';msg='절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.';}
+  else{emoji='📚';msg='조금 더 열심히 공부해봐요! 다시 도전해보세요!';}
+  document.getElementById('resultEmoji').textContent=emoji;
+  document.getElementById('resultMsg').textContent=msg;
+
+  // 노션 자동 저장
+  const saveEl=document.getElementById('save-status');
+  const unit='주격인칭대명사·be동사 시험';
+  await saveToNotion(_name, _cls, score, 30, unit);
+  saveEl.style.background='#dcfce7';
+  saveEl.style.color='#15803d';
+  saveEl.textContent='✅ 결과가 노션에 자동 저장됐어요!';
 }
 
-function retryTest() {
+function retryTest(){
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 </script>
