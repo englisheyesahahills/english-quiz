@@ -19,14 +19,12 @@
   input[type=text]:focus, select:focus { border-color: #b45309; }
   .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #b45309, #92400e); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .start-btn:disabled { background: #aaa; cursor: default; }
-
   .progress-wrap { margin-bottom: 16px; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .progress-label { font-size: 12px; color: #888; }
   .progress-score { font-size: 12px; font-weight: 600; color: #b45309; }
   .progress-bar { height: 6px; background: #fde68a; border-radius: 99px; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, #b45309, #fbbf24); border-radius: 99px; transition: width 0.4s ease; }
-
   .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
   .question-num { font-size: 11px; color: #b45309; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
   .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
@@ -37,26 +35,23 @@
   .badge-mixed { background: #fef3c7; color: #92400e; }
   .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
   .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
-
   .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
   .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #fffbeb; border: 1.5px solid #fde68a; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
   .option-btn:hover:not(:disabled) { background: #fef3c7; border-color: #b45309; }
   .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
   .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
   .option-btn:disabled { cursor: default; }
-
   .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
   .feedback.correct { background: #e6f9f0; color: #1a6640; }
   .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
-
   .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #b45309, #92400e); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
-
   .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .result-emoji { font-size: 52px; margin-bottom: 12px; }
   .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
   .result-score { font-size: 42px; font-weight: 800; color: #b45309; margin-bottom: 4px; }
   .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
-  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #fffbeb; border-radius: 12px; margin-bottom: 20px; }
+  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #fffbeb; border-radius: 12px; margin-bottom: 16px; }
+  .save-box { border-radius: 10px; padding: 12px; font-size: 13px; margin: 16px 0; text-align: center; background: #fffbeb; color: #b45309; }
   .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #b45309, #92400e); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .hidden { display: none; }
 </style>
@@ -122,232 +117,157 @@
       <div class="result-score" id="resultScore"></div>
       <div class="result-sub">30문제 중</div>
       <div class="result-msg" id="resultMsg"></div>
+      <div class="save-box" id="save-status">📤 노션에 저장 중...</div>
       <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
     </div>
   </div>
 </div>
 
 <script>
-const questions = [
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgj6MoU4-tLSyf_n1iyFvtMU49mnY59TC4KvKbZ7a3MGn1U06eZblrHb9xXEidZrXz/exec';
 
-  // ── 비교급 만들기 -er / -r / -ier / more~ (1~10) ─────────
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"비교급으로 알맞은 것은?", sub:"tall → ?",
-    options:["tallier","most tall","more tall","taller"], answer:3 },
-
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"비교급으로 알맞은 것은?", sub:"large → ?",
-    options:["largeer","larger","more large","largeier"], answer:1 },
-
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"비교급으로 알맞은 것은?", sub:"happy → ?",
-    options:["happyer","happier","more happy","happiermore"], answer:1 },
-
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"비교급으로 알맞은 것은?", sub:"beautiful → ?",
-    options:["beautifuler","beautifuller","more beautiful","beautifulier"], answer:2 },
-
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"비교급으로 알맞은 것은?", sub:"hot → ?",
-    options:["hoter","hotier","hotter","more hot"], answer:2 },
-
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"비교급으로 알맞은 것은?", sub:"difficult → ?",
-    options:["difficulter","difficultier","difficultest","more difficult"], answer:3 },
-
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"비교급으로 알맞은 것은?", sub:"busy → ?",
-    options:["busyer","busier","more busier","busiest"], answer:1 },
-
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"비교급으로 알맞은 것은?", sub:"big → ?",
-    options:["biger","biggest","bigger","more big"], answer:2 },
-
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"She is ___ than me. (키가 더 크다)",
-    options:["tall","tallest","taller","most tall"], answer:2 },
-
-  { badge:"비교급 만들기", badgeClass:"badge-comp",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"This bag is ___ than that one. (더 비싸다 / expensive)",
-    options:["expensiver","expensiveer","more expensiver","more expensive"], answer:3 },
-
-  // ── 최상급 만들기 -est / -st / -iest / most~ (11~18) ──────
-  { badge:"최상급 만들기", badgeClass:"badge-sup",
-    q:"최상급으로 알맞은 것은?", sub:"tall → ?",
-    options:["talliest","most tall","tallest","tallier"], answer:2 },
-
-  { badge:"최상급 만들기", badgeClass:"badge-sup",
-    q:"최상급으로 알맞은 것은?", sub:"nice → ?",
-    options:["nicest","niciest","most nicest","niceest"], answer:0 },
-
-  { badge:"최상급 만들기", badgeClass:"badge-sup",
-    q:"최상급으로 알맞은 것은?", sub:"happy → ?",
-    options:["happyest","happiest","most happy","happyer"], answer:1 },
-
-  { badge:"최상급 만들기", badgeClass:"badge-sup",
-    q:"최상급으로 알맞은 것은?", sub:"interesting → ?",
-    options:["interestingest","interestingiest","most interesting","more interesting"], answer:2 },
-
-  { badge:"최상급 만들기", badgeClass:"badge-sup",
-    q:"최상급으로 알맞은 것은?", sub:"thin → ?",
-    options:["thiner","thinnest","thinest","most thin"], answer:1 },
-
-  { badge:"최상급 만들기", badgeClass:"badge-sup",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"He is the ___ student in the class. (가장 똑똑한 / smart)",
-    options:["smarter","smartest","most smart","more smart"], answer:1 },
-
-  { badge:"최상급 만들기", badgeClass:"badge-sup",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"This is the ___ movie I've ever seen. (가장 재미있는 / exciting)",
-    options:["excitingest","more exciting","most exciting","excitingst"], answer:2 },
-
-  { badge:"최상급 만들기", badgeClass:"badge-sup",
-    q:"다음 중 최상급 앞에 반드시 붙는 것은?", sub:"She is ___ tallest girl.",
-    options:["a","an","the","some"], answer:2 },
-
-  // ── 비교급·최상급 문장 활용 (19~24) ─────────────────────
-  { badge:"비교급 문장", badgeClass:"badge-comp",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"A dog is ___ than a cat.",
-    options:["big","biger","bigger","biggest"], answer:2 },
-
-  { badge:"비교급 문장", badgeClass:"badge-comp",
-    q:"다음 중 올바른 비교급 문장은?", sub:"",
-    options:["She is more tall than her sister.","He is smarter than me.","I am more young than you.","They are more fast than us."], answer:1 },
-
-  { badge:"최상급 문장", badgeClass:"badge-sup",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"Cheetah is the ___ animal in the world. (가장 빠른 / fast)",
-    options:["faster","fastest","most fast","more fast"], answer:1 },
-
-  { badge:"최상급 문장", badgeClass:"badge-sup",
-    q:"다음 중 올바른 최상급 문장은?", sub:"",
-    options:["She is most kind in the class.","He is the most kind in the class.","I am the kindest in my family.","They are the most tallest."], answer:2 },
-
-  { badge:"비교급 문장", badgeClass:"badge-comp",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"이 책은 저 책보다 더 어렵다.",
-    options:["This book is difficulter than that one.","This book is more difficult than that one.","This book is most difficult than that one.","This book is the most difficult than that one."], answer:1 },
-
-  { badge:"최상급 문장", badgeClass:"badge-sup",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"그녀는 우리 반에서 가장 친절하다.",
-    options:["She is kinder in our class.","She is most kind in our class.","She is the kindest in our class.","She is the kinder in our class."], answer:2 },
-
-  // ── 원급 as ~ as (25~30) ─────────────────────────────────
-  { badge:"원급 as~as", badgeClass:"badge-as",
-    q:"'as ~ as' 사이에 들어갈 형태로 알맞은 것은?", sub:"",
-    options:["비교급","최상급","원급 (형용사/부사)","동사원형"], answer:2 },
-
-  { badge:"원급 as~as", badgeClass:"badge-as",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"I am as ___ as you.",
-    options:["taller","tallest","tall","more tall"], answer:2 },
-
-  { badge:"원급 as~as", badgeClass:"badge-as",
-    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"He runs as fast as a cheetah.",
-    options:["그는 치타보다 더 빨리 달린다.","그는 치타만큼 빨리 달린다.","그는 치타보다 느리게 달린다.","그는 치타가 달리는 것을 좋아한다."], answer:1 },
-
-  { badge:"원급 as~as", badgeClass:"badge-as",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["She is as taller as me.","He is as tallest as his brother.","This is as heavy as that.","They run as faster as lions."], answer:2 },
-
-  { badge:"원급 as~as", badgeClass:"badge-as",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"이 가방은 저 가방만큼 무겁다.",
-    options:["This bag is heavier than that bag.","This bag is as heavier as that bag.","This bag is as heavy as that bag.","This bag is the heaviest bag."], answer:2 },
-
-  { badge:"원급 as~as", badgeClass:"badge-as",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"My dog is as ___ as a lion.",
-    options:["braver","bravest","brave","most brave"], answer:2 },
-];
-
-let currentQ = 0, score = 0, answered = false;
-
-function checkReady() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('startBtn').disabled = !(name && cls);
+async function saveToNotion(name, cls, score, total, unit) {
+  try {
+    const params = new URLSearchParams();
+    params.append('name', name);
+    params.append('unit', unit + ' | ' + cls);
+    params.append('score', score);
+    params.append('total', total);
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+  } catch(e) {}
 }
 
-function startTest() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('headerName').textContent = name + ' · ' + cls;
+const questions = [
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"비교급으로 알맞은 것은?",sub:"tall → ?",options:["tallier","most tall","more tall","taller"],answer:3},
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"비교급으로 알맞은 것은?",sub:"large → ?",options:["largeer","larger","more large","largeier"],answer:1},
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"비교급으로 알맞은 것은?",sub:"happy → ?",options:["happyer","happier","more happy","happiermore"],answer:1},
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"비교급으로 알맞은 것은?",sub:"beautiful → ?",options:["beautifuler","beautifuller","more beautiful","beautifulier"],answer:2},
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"비교급으로 알맞은 것은?",sub:"hot → ?",options:["hoter","hotier","hotter","more hot"],answer:2},
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"비교급으로 알맞은 것은?",sub:"difficult → ?",options:["difficulter","difficultier","difficultest","more difficult"],answer:3},
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"비교급으로 알맞은 것은?",sub:"busy → ?",options:["busyer","busier","more busier","busiest"],answer:1},
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"비교급으로 알맞은 것은?",sub:"big → ?",options:["biger","biggest","bigger","more big"],answer:2},
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"빈칸에 알맞은 말을 고르세요.",sub:"She is ___ than me. (키가 더 크다)",options:["tall","tallest","taller","most tall"],answer:2},
+  {badge:"비교급 만들기",badgeClass:"badge-comp",q:"빈칸에 알맞은 말을 고르세요.",sub:"This bag is ___ than that one. (더 비싸다 / expensive)",options:["expensiver","expensiveer","more expensiver","more expensive"],answer:3},
+  {badge:"최상급 만들기",badgeClass:"badge-sup",q:"최상급으로 알맞은 것은?",sub:"tall → ?",options:["talliest","most tall","tallest","tallier"],answer:2},
+  {badge:"최상급 만들기",badgeClass:"badge-sup",q:"최상급으로 알맞은 것은?",sub:"nice → ?",options:["nicest","niciest","most nicest","niceest"],answer:0},
+  {badge:"최상급 만들기",badgeClass:"badge-sup",q:"최상급으로 알맞은 것은?",sub:"happy → ?",options:["happyest","happiest","most happy","happyer"],answer:1},
+  {badge:"최상급 만들기",badgeClass:"badge-sup",q:"최상급으로 알맞은 것은?",sub:"interesting → ?",options:["interestingest","interestingiest","most interesting","more interesting"],answer:2},
+  {badge:"최상급 만들기",badgeClass:"badge-sup",q:"최상급으로 알맞은 것은?",sub:"thin → ?",options:["thiner","thinnest","thinest","most thin"],answer:1},
+  {badge:"최상급 만들기",badgeClass:"badge-sup",q:"빈칸에 알맞은 말을 고르세요.",sub:"He is the ___ student in the class. (가장 똑똑한 / smart)",options:["smarter","smartest","most smart","more smart"],answer:1},
+  {badge:"최상급 만들기",badgeClass:"badge-sup",q:"빈칸에 알맞은 말을 고르세요.",sub:"This is the ___ movie I've ever seen. (가장 재미있는 / exciting)",options:["excitingest","more exciting","most exciting","excitingst"],answer:2},
+  {badge:"최상급 만들기",badgeClass:"badge-sup",q:"다음 중 최상급 앞에 반드시 붙는 것은?",sub:"She is ___ tallest girl.",options:["a","an","the","some"],answer:2},
+  {badge:"비교급 문장",badgeClass:"badge-comp",q:"빈칸에 알맞은 말을 고르세요.",sub:"A dog is ___ than a cat.",options:["big","biger","bigger","biggest"],answer:2},
+  {badge:"비교급 문장",badgeClass:"badge-comp",q:"다음 중 올바른 비교급 문장은?",sub:"",options:["She is more tall than her sister.","He is smarter than me.","I am more young than you.","They are more fast than us."],answer:1},
+  {badge:"최상급 문장",badgeClass:"badge-sup",q:"빈칸에 알맞은 말을 고르세요.",sub:"Cheetah is the ___ animal in the world. (가장 빠른 / fast)",options:["faster","fastest","most fast","more fast"],answer:1},
+  {badge:"최상급 문장",badgeClass:"badge-sup",q:"다음 중 올바른 최상급 문장은?",sub:"",options:["She is most kind in the class.","He is the most kind in the class.","I am the kindest in my family.","They are the most tallest."],answer:2},
+  {badge:"비교급 문장",badgeClass:"badge-comp",q:"우리말 뜻에 맞는 영어 문장은?",sub:"이 책은 저 책보다 더 어렵다.",options:["This book is difficulter than that one.","This book is more difficult than that one.","This book is most difficult than that one.","This book is the most difficult than that one."],answer:1},
+  {badge:"최상급 문장",badgeClass:"badge-sup",q:"우리말 뜻에 맞는 영어 문장은?",sub:"그녀는 우리 반에서 가장 친절하다.",options:["She is kinder in our class.","She is most kind in our class.","She is the kindest in our class.","She is the kinder in our class."],answer:2},
+  {badge:"원급 as~as",badgeClass:"badge-as",q:"'as ~ as' 사이에 들어갈 형태로 알맞은 것은?",sub:"",options:["비교급","최상급","원급 (형용사/부사)","동사원형"],answer:2},
+  {badge:"원급 as~as",badgeClass:"badge-as",q:"빈칸에 알맞은 말을 고르세요.",sub:"I am as ___ as you.",options:["taller","tallest","tall","more tall"],answer:2},
+  {badge:"원급 as~as",badgeClass:"badge-as",q:"다음 문장의 뜻으로 알맞은 것은?",sub:"He runs as fast as a cheetah.",options:["그는 치타보다 더 빨리 달린다.","그는 치타만큼 빨리 달린다.","그는 치타보다 느리게 달린다.","그는 치타가 달리는 것을 좋아한다."],answer:1},
+  {badge:"원급 as~as",badgeClass:"badge-as",q:"다음 중 올바른 문장은?",sub:"",options:["She is as taller as me.","He is as tallest as his brother.","This is as heavy as that.","They run as faster as lions."],answer:2},
+  {badge:"원급 as~as",badgeClass:"badge-as",q:"우리말 뜻에 맞는 영어 문장은?",sub:"이 가방은 저 가방만큼 무겁다.",options:["This bag is heavier than that bag.","This bag is as heavier as that bag.","This bag is as heavy as that bag.","This bag is the heaviest bag."],answer:2},
+  {badge:"원급 as~as",badgeClass:"badge-as",q:"빈칸에 알맞은 말을 고르세요.",sub:"My dog is as ___ as a lion.",options:["braver","bravest","brave","most brave"],answer:2},
+];
+
+let currentQ=0, score=0, answered=false;
+let _name='', _cls='';
+
+function checkReady(){
+  const name=document.getElementById('studentName').value.trim();
+  const cls=document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled=!(name&&cls);
+}
+
+function startTest(){
+  _name=document.getElementById('studentName').value.trim();
+  _cls=document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent=_name+' · '+_cls;
   document.getElementById('startScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 
-function showQuestion() {
-  answered = false;
-  const q = questions[currentQ];
-  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
-  const badge = document.getElementById('questionBadge');
-  badge.textContent = q.badge;
-  badge.className   = 'question-badge ' + q.badgeClass;
-  document.getElementById('questionText').textContent = q.q;
-  document.getElementById('questionSub').textContent  = q.sub;
-  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
-  document.getElementById('progressScore').textContent = '점수: ' + score;
-  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+function showQuestion(){
+  answered=false;
+  const q=questions[currentQ];
+  document.getElementById('questionNum').textContent='Q'+(currentQ+1);
+  const badge=document.getElementById('questionBadge');
+  badge.textContent=q.badge; badge.className='question-badge '+q.badgeClass;
+  document.getElementById('questionText').textContent=q.q;
+  document.getElementById('questionSub').textContent=q.sub;
+  document.getElementById('progressLabel').textContent=(currentQ+1)+' / 30';
+  document.getElementById('progressScore').textContent='점수: '+score;
+  document.getElementById('progressFill').style.width=(currentQ/30*100)+'%';
   document.getElementById('feedbackArea').classList.add('hidden');
   document.getElementById('nextBtn').classList.add('hidden');
-
-  const area = document.getElementById('optionsArea');
-  area.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className   = 'option-btn';
-    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
-    btn.onclick = () => selectAnswer(i);
+  const area=document.getElementById('optionsArea');
+  area.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=['①','②','③','④'][i]+' '+opt;
+    btn.onclick=()=>selectAnswer(i);
     area.appendChild(btn);
   });
 }
 
-function selectAnswer(idx) {
-  if (answered) return;
-  answered = true;
-  const q    = questions[currentQ];
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
-  const fb = document.getElementById('feedbackArea');
-  if (idx === q.answer) {
-    score++;
-    btns[idx].classList.add('correct');
-    fb.className   = 'feedback correct';
-    fb.textContent = '✅ 정답이에요! 잘했어요!';
+function selectAnswer(idx){
+  if(answered)return; answered=true;
+  const q=questions[currentQ];
+  const btns=document.querySelectorAll('.option-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedbackArea');
+  if(idx===q.answer){
+    score++; btns[idx].classList.add('correct');
+    fb.className='feedback correct'; fb.textContent='✅ 정답이에요! 잘했어요!';
   } else {
-    btns[idx].classList.add('wrong');
-    btns[q.answer].classList.add('correct');
-    fb.className   = 'feedback wrong';
-    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+    btns[idx].classList.add('wrong'); btns[q.answer].classList.add('correct');
+    fb.className='feedback wrong';
+    fb.textContent='❌ 틀렸어요. 정답은 '+['①','②','③','④'][q.answer]+' '+q.options[q.answer]+' 이에요.';
   }
   fb.classList.remove('hidden');
   document.getElementById('nextBtn').classList.remove('hidden');
-  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+  document.getElementById('nextBtn').textContent=currentQ<29?'다음 문제 →':'결과 보기 🎉';
 }
 
-function nextQuestion() {
+function nextQuestion(){
   currentQ++;
-  if (currentQ >= 30) showResult();
+  if(currentQ>=30)showResult();
   else showQuestion();
 }
 
-function showResult() {
+async function showResult(){
   document.getElementById('testScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.remove('hidden');
-  const name = document.getElementById('studentName').value.trim();
-  const pct  = Math.round(score / 30 * 100);
-  document.getElementById('resultName').textContent  = name + '의 결과';
-  document.getElementById('resultScore').textContent = score + ' / 30';
-  let emoji, msg;
-  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! 비교급·최상급·원급 마스터! 👏'; }
-  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
-  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
-  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
-  document.getElementById('resultEmoji').textContent = emoji;
-  document.getElementById('resultMsg').textContent   = msg;
+  const pct=Math.round(score/30*100);
+  document.getElementById('resultName').textContent=_name+'의 결과';
+  document.getElementById('resultScore').textContent=score+' / 30';
+  let emoji,msg;
+  if(pct>=90){emoji='🏆';msg='완벽해요! 비교급·최상급·원급 마스터! 👏';}
+  else if(pct>=70){emoji='😊';msg='잘했어요! 조금만 더 연습하면 완벽해질 거예요!';}
+  else if(pct>=50){emoji='🙂';msg='절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.';}
+  else{emoji='📚';msg='조금 더 열심히 공부해봐요! 다시 도전해보세요!';}
+  document.getElementById('resultEmoji').textContent=emoji;
+  document.getElementById('resultMsg').textContent=msg;
+
+  const saveEl=document.getElementById('save-status');
+  await saveToNotion(_name, _cls, score, 30, '비교급·최상급·원급 시험');
+  saveEl.style.background='#dcfce7';
+  saveEl.style.color='#15803d';
+  saveEl.textContent='✅ 결과가 노션에 자동 저장됐어요!';
 }
 
-function retryTest() {
+function retryTest(){
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 </script>
