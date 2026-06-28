@@ -19,43 +19,38 @@
   input[type=text]:focus, select:focus { border-color: #9333ea; }
   .start-btn { width: 100%; margin-top: 20px; padding: 15px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #9333ea, #7e22ce); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .start-btn:disabled { background: #aaa; cursor: default; }
-
   .progress-wrap { margin-bottom: 16px; }
   .progress-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
   .progress-label { font-size: 12px; color: #888; }
   .progress-score { font-size: 12px; font-weight: 600; color: #9333ea; }
   .progress-bar { height: 6px; background: #e9d5ff; border-radius: 99px; }
   .progress-fill { height: 100%; background: linear-gradient(90deg, #9333ea, #c084fc); border-radius: 99px; transition: width 0.4s ease; }
-
   .question-card { background: #fff; border-radius: 16px; padding: 22px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
   .question-num { font-size: 11px; color: #9333ea; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.5px; }
   .question-badge { display: inline-block; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 99px; margin-bottom: 8px; margin-left: 6px; }
-  .badge-must     { background: #ede9fe; color: #5b21b6; }
-  .badge-haveto   { background: #dbeafe; color: #1e40af; }
-  .badge-neg      { background: #fce7f3; color: #9d174d; }
-  .badge-mixed    { background: #fef3c7; color: #92400e; }
+  .badge-must   { background: #ede9fe; color: #5b21b6; }
+  .badge-haveto { background: #dbeafe; color: #1e40af; }
+  .badge-neg    { background: #fce7f3; color: #9d174d; }
+  .badge-mixed  { background: #fef3c7; color: #92400e; }
   .question-text { font-size: 16px; font-weight: 600; line-height: 1.5; color: #1a1a1a; }
   .question-sub  { font-size: 15px; color: #333; margin-top: 8px; font-style: italic; }
-
   .options { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
   .option-btn { width: 100%; padding: 13px 16px; font-size: 14px; font-weight: 500; background: #fdf4ff; border: 1.5px solid #e9d5ff; border-radius: 12px; cursor: pointer; text-align: left; transition: all 0.15s; color: #1a1a1a; }
   .option-btn:hover:not(:disabled) { background: #f3e8ff; border-color: #9333ea; }
   .option-btn.correct { background: #e6f9f0; border-color: #25a56a; color: #1a6640; font-weight: 700; }
   .option-btn.wrong   { background: #fff0f0; border-color: #f87171; color: #b91c1c; }
   .option-btn:disabled { cursor: default; }
-
   .feedback { margin-top: 10px; padding: 10px 14px; border-radius: 10px; font-size: 13px; font-weight: 600; }
   .feedback.correct { background: #e6f9f0; color: #1a6640; }
   .feedback.wrong   { background: #fff0f0; color: #b91c1c; }
-
   .next-btn { width: 100%; margin-top: 14px; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #9333ea, #7e22ce); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
-
   .result-card { background: #fff; border-radius: 20px; padding: 30px 20px; text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
   .result-emoji { font-size: 52px; margin-bottom: 12px; }
   .result-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
   .result-score { font-size: 42px; font-weight: 800; color: #9333ea; margin-bottom: 4px; }
   .result-sub   { font-size: 13px; color: #888; margin-bottom: 20px; }
-  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #fdf4ff; border-radius: 12px; margin-bottom: 20px; }
+  .result-msg   { font-size: 15px; color: #444; padding: 14px; background: #fdf4ff; border-radius: 12px; margin-bottom: 16px; }
+  .save-box { border-radius: 10px; padding: 12px; font-size: 13px; margin: 16px 0; text-align: center; background: #fdf4ff; color: #9333ea; }
   .retry-btn { width: 100%; padding: 14px; font-size: 15px; font-weight: 700; background: linear-gradient(135deg, #9333ea, #7e22ce); color: #fff; border: none; border-radius: 12px; cursor: pointer; }
   .hidden { display: none; }
 </style>
@@ -121,232 +116,157 @@
       <div class="result-score" id="resultScore"></div>
       <div class="result-sub">30문제 중</div>
       <div class="result-msg" id="resultMsg"></div>
+      <div class="save-box" id="save-status">📤 노션에 저장 중...</div>
       <button class="retry-btn" onclick="retryTest()">다시 풀기 🔄</button>
     </div>
   </div>
 </div>
 
 <script>
-const questions = [
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgj6MoU4-tLSyf_n1iyFvtMU49mnY59TC4KvKbZ7a3MGn1U06eZblrHb9xXEidZrXz/exec';
 
-  // ── must 기본 (1~7) ──────────────────────────────────────
-  { badge:"must", badgeClass:"badge-must",
-    q:"'must'의 뜻으로 알맞은 것은?", sub:"",
-    options:["~할 수 있다","~해야 한다","~하고 있다","~했다"], answer:1 },
-
-  { badge:"must", badgeClass:"badge-must",
-    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"You must wash your hands.",
-    options:["너는 손을 씻을 수 있다.","너는 손을 씻고 있다.","너는 손을 씻어야 한다.","너는 손을 씻었다."], answer:2 },
-
-  { badge:"must", badgeClass:"badge-must",
-    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"We must be quiet in the library.",
-    options:["우리는 도서관에서 조용할 수 있다.","우리는 도서관에서 조용해야 한다.","우리는 도서관에서 조용하다.","우리는 도서관에서 조용했다."], answer:1 },
-
-  { badge:"must", badgeClass:"badge-must",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"You ___ wear a seatbelt in the car.",
-    options:["can","are","must","did"], answer:2 },
-
-  { badge:"must", badgeClass:"badge-must",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"Students ___ arrive at school on time.",
-    options:["cans","must","musts","are"], answer:1 },
-
-  { badge:"must", badgeClass:"badge-must",
-    q:"다음 중 must를 올바르게 사용한 문장은?", sub:"",
-    options:["She musts sleep early.","He must sleeps early.","They must sleep early.","I must to sleep early."], answer:2 },
-
-  { badge:"must", badgeClass:"badge-must",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"너는 숙제를 해야 한다.",
-    options:["You can do your homework.","You must do your homework.","You are doing your homework.","You did your homework."], answer:1 },
-
-  // ── have to / has to (8~15) ──────────────────────────────
-  { badge:"have to", badgeClass:"badge-haveto",
-    q:"'have to'의 뜻으로 알맞은 것은?", sub:"",
-    options:["~할 수 있다","~하고 싶다","~해야 한다","~했다"], answer:2 },
-
-  { badge:"have to", badgeClass:"badge-haveto",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"I ___ go to bed early tonight.",
-    options:["have to","has to","must to","have"], answer:0 },
-
-  { badge:"have to", badgeClass:"badge-haveto",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"She ___ wear glasses.",
-    options:["have to","has to","must to","haves to"], answer:1 },
-
-  { badge:"have to", badgeClass:"badge-haveto",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"He ___ brush his teeth every night.",
-    options:["have to","has to","have","haves"], answer:1 },
-
-  { badge:"have to", badgeClass:"badge-haveto",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"They ___ clean their room.",
-    options:["has to","have to","haves to","must to"], answer:1 },
-
-  { badge:"have to", badgeClass:"badge-haveto",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["She have to study.","He has to studies.","We has to run.","I have to wake up early."], answer:3 },
-
-  { badge:"have to", badgeClass:"badge-haveto",
-    q:"다음 중 must와 바꿔 쓸 수 있는 것은?", sub:"You must eat vegetables.",
-    options:["You can eat vegetables.","You have to eat vegetables.","You are eating vegetables.","You want to eat vegetables."], answer:1 },
-
-  { badge:"have to", badgeClass:"badge-haveto",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"그녀는 매일 운동해야 한다.",
-    options:["She can exercise every day.","She has to exercise every day.","She have to exercise every day.","She exercises every day."], answer:1 },
-
-  // ── 부정문 (16~24) ───────────────────────────────────────
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"'must not'의 뜻으로 알맞은 것은?", sub:"",
-    options:["~할 필요 없다","~하면 안 된다","~할 수 없다","~하지 않았다"], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"'don't have to'의 뜻으로 알맞은 것은?", sub:"",
-    options:["~하면 안 된다","~할 수 없다","~할 필요 없다","~하지 않았다"], answer:2 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"You must not run in the hallway.",
-    options:["너는 복도에서 달릴 필요 없다.","너는 복도에서 달리면 안 된다.","너는 복도에서 달릴 수 없다.","너는 복도에서 달리지 않았다."], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"다음 문장의 뜻으로 알맞은 것은?", sub:"You don't have to bring lunch.",
-    options:["너는 점심을 가져오면 안 된다.","너는 점심을 가져올 수 없다.","너는 점심을 가져올 필요 없다.","너는 점심을 가져오지 않았다."], answer:2 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"빈칸에 알맞은 말을 고르세요. (금지)", sub:"You ___ touch that. It's dangerous!",
-    options:["don't have to","doesn't have to","must not","have not to"], answer:2 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"빈칸에 알맞은 말을 고르세요. (필요 없음)", sub:"It's Sunday. I ___ go to school.",
-    options:["must not","can't","don't have to","must"], answer:2 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"She ___ wear a uniform on weekends.",
-    options:["must not","doesn't have to","don't have to","hasn't to"], answer:1 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"다음 중 올바른 부정문은?", sub:"",
-    options:["You must not to swim here.","She don't has to hurry.","He doesn't have to wear a tie.","They musts not be late."], answer:2 },
-
-  { badge:"부정문", badgeClass:"badge-neg",
-    q:"두 문장의 의미 차이로 알맞은 것은?", sub:"A: You must not eat here.  B: You don't have to eat here.",
-    options:["A는 먹어도 된다. B는 먹으면 안 된다.","A는 먹으면 안 된다. B는 먹을 필요 없다.","A와 B 모두 먹으면 안 된다.","A와 B 모두 먹을 필요 없다."], answer:1 },
-
-  // ── 종합 (25~30) ─────────────────────────────────────────
-  { badge:"종합", badgeClass:"badge-mixed",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["She must wears a mask.","He have to study hard.","They must not run here.","I has to leave now."], answer:2 },
-
-  { badge:"종합", badgeClass:"badge-mixed",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"He ___ practice every day to get better.",
-    options:["don't have to","must not","has to","have to"], answer:2 },
-
-  { badge:"종합", badgeClass:"badge-mixed",
-    q:"빈칸에 알맞은 말을 고르세요.", sub:"We ___ be late for school. Let's hurry!",
-    options:["don't have to","must not","doesn't have to","have to"], answer:1 },
-
-  { badge:"종합", badgeClass:"badge-mixed",
-    q:"다음 중 올바른 문장은?", sub:"",
-    options:["You don't have to smoke. It's bad for you.","You must not smoke. It's bad for you.","You have not to smoke.","You don't must smoke."], answer:1 },
-
-  { badge:"종합", badgeClass:"badge-mixed",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"너는 여기서 사진을 찍으면 안 된다.",
-    options:["You don't have to take pictures here.","You can't take pictures here.","You must not take pictures here.","You have not take pictures here."], answer:2 },
-
-  { badge:"종합", badgeClass:"badge-mixed",
-    q:"우리말 뜻에 맞는 영어 문장은?", sub:"그는 오늘 일찍 일어날 필요 없다.",
-    options:["He must not wake up early today.","He doesn't have to wake up early today.","He can't wake up early today.","He has not wake up early today."], answer:1 },
-];
-
-let currentQ = 0, score = 0, answered = false;
-
-function checkReady() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('startBtn').disabled = !(name && cls);
+async function saveToNotion(name, cls, score, total, unit) {
+  try {
+    const params = new URLSearchParams();
+    params.append('name', name);
+    params.append('unit', unit + ' | ' + cls);
+    params.append('score', score);
+    params.append('total', total);
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
+    });
+  } catch(e) {}
 }
 
-function startTest() {
-  const name = document.getElementById('studentName').value.trim();
-  const cls  = document.getElementById('studentClass').value;
-  document.getElementById('headerName').textContent = name + ' · ' + cls;
+const questions = [
+  {badge:"must",badgeClass:"badge-must",q:"'must'의 뜻으로 알맞은 것은?",sub:"",options:["~할 수 있다","~해야 한다","~하고 있다","~했다"],answer:1},
+  {badge:"must",badgeClass:"badge-must",q:"다음 문장의 뜻으로 알맞은 것은?",sub:"You must wash your hands.",options:["너는 손을 씻을 수 있다.","너는 손을 씻고 있다.","너는 손을 씻어야 한다.","너는 손을 씻었다."],answer:2},
+  {badge:"must",badgeClass:"badge-must",q:"다음 문장의 뜻으로 알맞은 것은?",sub:"We must be quiet in the library.",options:["우리는 도서관에서 조용할 수 있다.","우리는 도서관에서 조용해야 한다.","우리는 도서관에서 조용하다.","우리는 도서관에서 조용했다."],answer:1},
+  {badge:"must",badgeClass:"badge-must",q:"빈칸에 알맞은 말을 고르세요.",sub:"You ___ wear a seatbelt in the car.",options:["can","are","must","did"],answer:2},
+  {badge:"must",badgeClass:"badge-must",q:"빈칸에 알맞은 말을 고르세요.",sub:"Students ___ arrive at school on time.",options:["cans","must","musts","are"],answer:1},
+  {badge:"must",badgeClass:"badge-must",q:"다음 중 must를 올바르게 사용한 문장은?",sub:"",options:["She musts sleep early.","He must sleeps early.","They must sleep early.","I must to sleep early."],answer:2},
+  {badge:"must",badgeClass:"badge-must",q:"우리말 뜻에 맞는 영어 문장은?",sub:"너는 숙제를 해야 한다.",options:["You can do your homework.","You must do your homework.","You are doing your homework.","You did your homework."],answer:1},
+  {badge:"have to",badgeClass:"badge-haveto",q:"'have to'의 뜻으로 알맞은 것은?",sub:"",options:["~할 수 있다","~하고 싶다","~해야 한다","~했다"],answer:2},
+  {badge:"have to",badgeClass:"badge-haveto",q:"빈칸에 알맞은 말을 고르세요.",sub:"I ___ go to bed early tonight.",options:["have to","has to","must to","have"],answer:0},
+  {badge:"have to",badgeClass:"badge-haveto",q:"빈칸에 알맞은 말을 고르세요.",sub:"She ___ wear glasses.",options:["have to","has to","must to","haves to"],answer:1},
+  {badge:"have to",badgeClass:"badge-haveto",q:"빈칸에 알맞은 말을 고르세요.",sub:"He ___ brush his teeth every night.",options:["have to","has to","have","haves"],answer:1},
+  {badge:"have to",badgeClass:"badge-haveto",q:"빈칸에 알맞은 말을 고르세요.",sub:"They ___ clean their room.",options:["has to","have to","haves to","must to"],answer:1},
+  {badge:"have to",badgeClass:"badge-haveto",q:"다음 중 올바른 문장은?",sub:"",options:["She have to study.","He has to studies.","We has to run.","I have to wake up early."],answer:3},
+  {badge:"have to",badgeClass:"badge-haveto",q:"다음 중 must와 바꿔 쓸 수 있는 것은?",sub:"You must eat vegetables.",options:["You can eat vegetables.","You have to eat vegetables.","You are eating vegetables.","You want to eat vegetables."],answer:1},
+  {badge:"have to",badgeClass:"badge-haveto",q:"우리말 뜻에 맞는 영어 문장은?",sub:"그녀는 매일 운동해야 한다.",options:["She can exercise every day.","She has to exercise every day.","She have to exercise every day.","She exercises every day."],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"'must not'의 뜻으로 알맞은 것은?",sub:"",options:["~할 필요 없다","~하면 안 된다","~할 수 없다","~하지 않았다"],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"'don't have to'의 뜻으로 알맞은 것은?",sub:"",options:["~하면 안 된다","~할 수 없다","~할 필요 없다","~하지 않았다"],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"다음 문장의 뜻으로 알맞은 것은?",sub:"You must not run in the hallway.",options:["너는 복도에서 달릴 필요 없다.","너는 복도에서 달리면 안 된다.","너는 복도에서 달릴 수 없다.","너는 복도에서 달리지 않았다."],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"다음 문장의 뜻으로 알맞은 것은?",sub:"You don't have to bring lunch.",options:["너는 점심을 가져오면 안 된다.","너는 점심을 가져올 수 없다.","너는 점심을 가져올 필요 없다.","너는 점심을 가져오지 않았다."],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"빈칸에 알맞은 말을 고르세요. (금지)",sub:"You ___ touch that. It's dangerous!",options:["don't have to","doesn't have to","must not","have not to"],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"빈칸에 알맞은 말을 고르세요. (필요 없음)",sub:"It's Sunday. I ___ go to school.",options:["must not","can't","don't have to","must"],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"빈칸에 알맞은 말을 고르세요.",sub:"She ___ wear a uniform on weekends.",options:["must not","doesn't have to","don't have to","hasn't to"],answer:1},
+  {badge:"부정문",badgeClass:"badge-neg",q:"다음 중 올바른 부정문은?",sub:"",options:["You must not to swim here.","She don't has to hurry.","He doesn't have to wear a tie.","They musts not be late."],answer:2},
+  {badge:"부정문",badgeClass:"badge-neg",q:"두 문장의 의미 차이로 알맞은 것은?",sub:"A: You must not eat here.  B: You don't have to eat here.",options:["A는 먹어도 된다. B는 먹으면 안 된다.","A는 먹으면 안 된다. B는 먹을 필요 없다.","A와 B 모두 먹으면 안 된다.","A와 B 모두 먹을 필요 없다."],answer:1},
+  {badge:"종합",badgeClass:"badge-mixed",q:"다음 중 올바른 문장은?",sub:"",options:["She must wears a mask.","He have to study hard.","They must not run here.","I has to leave now."],answer:2},
+  {badge:"종합",badgeClass:"badge-mixed",q:"빈칸에 알맞은 말을 고르세요.",sub:"He ___ practice every day to get better.",options:["don't have to","must not","has to","have to"],answer:2},
+  {badge:"종합",badgeClass:"badge-mixed",q:"빈칸에 알맞은 말을 고르세요.",sub:"We ___ be late for school. Let's hurry!",options:["don't have to","must not","doesn't have to","have to"],answer:1},
+  {badge:"종합",badgeClass:"badge-mixed",q:"다음 중 올바른 문장은?",sub:"",options:["You don't have to smoke. It's bad for you.","You must not smoke. It's bad for you.","You have not to smoke.","You don't must smoke."],answer:1},
+  {badge:"종합",badgeClass:"badge-mixed",q:"우리말 뜻에 맞는 영어 문장은?",sub:"너는 여기서 사진을 찍으면 안 된다.",options:["You don't have to take pictures here.","You can't take pictures here.","You must not take pictures here.","You have not take pictures here."],answer:2},
+  {badge:"종합",badgeClass:"badge-mixed",q:"우리말 뜻에 맞는 영어 문장은?",sub:"그는 오늘 일찍 일어날 필요 없다.",options:["He must not wake up early today.","He doesn't have to wake up early today.","He can't wake up early today.","He has not wake up early today."],answer:1},
+];
+
+let currentQ=0, score=0, answered=false;
+let _name='', _cls='';
+
+function checkReady(){
+  const name=document.getElementById('studentName').value.trim();
+  const cls=document.getElementById('studentClass').value;
+  document.getElementById('startBtn').disabled=!(name&&cls);
+}
+
+function startTest(){
+  _name=document.getElementById('studentName').value.trim();
+  _cls=document.getElementById('studentClass').value;
+  document.getElementById('headerName').textContent=_name+' · '+_cls;
   document.getElementById('startScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 
-function showQuestion() {
-  answered = false;
-  const q = questions[currentQ];
-  document.getElementById('questionNum').textContent = 'Q' + (currentQ + 1);
-  const badge = document.getElementById('questionBadge');
-  badge.textContent = q.badge;
-  badge.className   = 'question-badge ' + q.badgeClass;
-  document.getElementById('questionText').textContent = q.q;
-  document.getElementById('questionSub').textContent  = q.sub;
-  document.getElementById('progressLabel').textContent = (currentQ + 1) + ' / 30';
-  document.getElementById('progressScore').textContent = '점수: ' + score;
-  document.getElementById('progressFill').style.width  = (currentQ / 30 * 100) + '%';
+function showQuestion(){
+  answered=false;
+  const q=questions[currentQ];
+  document.getElementById('questionNum').textContent='Q'+(currentQ+1);
+  const badge=document.getElementById('questionBadge');
+  badge.textContent=q.badge; badge.className='question-badge '+q.badgeClass;
+  document.getElementById('questionText').textContent=q.q;
+  document.getElementById('questionSub').textContent=q.sub;
+  document.getElementById('progressLabel').textContent=(currentQ+1)+' / 30';
+  document.getElementById('progressScore').textContent='점수: '+score;
+  document.getElementById('progressFill').style.width=(currentQ/30*100)+'%';
   document.getElementById('feedbackArea').classList.add('hidden');
   document.getElementById('nextBtn').classList.add('hidden');
-
-  const area = document.getElementById('optionsArea');
-  area.innerHTML = '';
-  q.options.forEach((opt, i) => {
-    const btn = document.createElement('button');
-    btn.className   = 'option-btn';
-    btn.textContent = ['①','②','③','④'][i] + ' ' + opt;
-    btn.onclick = () => selectAnswer(i);
+  const area=document.getElementById('optionsArea');
+  area.innerHTML='';
+  q.options.forEach((opt,i)=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=['①','②','③','④'][i]+' '+opt;
+    btn.onclick=()=>selectAnswer(i);
     area.appendChild(btn);
   });
 }
 
-function selectAnswer(idx) {
-  if (answered) return;
-  answered = true;
-  const q    = questions[currentQ];
-  const btns = document.querySelectorAll('.option-btn');
-  btns.forEach(b => b.disabled = true);
-  const fb = document.getElementById('feedbackArea');
-  if (idx === q.answer) {
-    score++;
-    btns[idx].classList.add('correct');
-    fb.className   = 'feedback correct';
-    fb.textContent = '✅ 정답이에요! 잘했어요!';
+function selectAnswer(idx){
+  if(answered)return; answered=true;
+  const q=questions[currentQ];
+  const btns=document.querySelectorAll('.option-btn');
+  btns.forEach(b=>b.disabled=true);
+  const fb=document.getElementById('feedbackArea');
+  if(idx===q.answer){
+    score++; btns[idx].classList.add('correct');
+    fb.className='feedback correct'; fb.textContent='✅ 정답이에요! 잘했어요!';
   } else {
-    btns[idx].classList.add('wrong');
-    btns[q.answer].classList.add('correct');
-    fb.className   = 'feedback wrong';
-    fb.textContent = '❌ 틀렸어요. 정답은 ' + ['①','②','③','④'][q.answer] + ' ' + q.options[q.answer] + ' 이에요.';
+    btns[idx].classList.add('wrong'); btns[q.answer].classList.add('correct');
+    fb.className='feedback wrong';
+    fb.textContent='❌ 틀렸어요. 정답은 '+['①','②','③','④'][q.answer]+' '+q.options[q.answer]+' 이에요.';
   }
   fb.classList.remove('hidden');
   document.getElementById('nextBtn').classList.remove('hidden');
-  document.getElementById('nextBtn').textContent = currentQ < 29 ? '다음 문제 →' : '결과 보기 🎉';
+  document.getElementById('nextBtn').textContent=currentQ<29?'다음 문제 →':'결과 보기 🎉';
 }
 
-function nextQuestion() {
+function nextQuestion(){
   currentQ++;
-  if (currentQ >= 30) showResult();
+  if(currentQ>=30)showResult();
   else showQuestion();
 }
 
-function showResult() {
+async function showResult(){
   document.getElementById('testScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.remove('hidden');
-  const name = document.getElementById('studentName').value.trim();
-  const pct  = Math.round(score / 30 * 100);
-  document.getElementById('resultName').textContent  = name + '의 결과';
-  document.getElementById('resultScore').textContent = score + ' / 30';
-  let emoji, msg;
-  if      (pct >= 90) { emoji = '🏆'; msg = '완벽해요! must / have to 마스터! 정말 대단해요! 👏'; }
-  else if (pct >= 70) { emoji = '😊'; msg = '잘했어요! 조금만 더 연습하면 완벽해질 거예요!'; }
-  else if (pct >= 50) { emoji = '🙂'; msg = '절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.'; }
-  else                { emoji = '📚'; msg = '조금 더 열심히 공부해봐요! 다시 도전해보세요!'; }
-  document.getElementById('resultEmoji').textContent = emoji;
-  document.getElementById('resultMsg').textContent   = msg;
+  const pct=Math.round(score/30*100);
+  document.getElementById('resultName').textContent=_name+'의 결과';
+  document.getElementById('resultScore').textContent=score+' / 30';
+  let emoji,msg;
+  if(pct>=90){emoji='🏆';msg='완벽해요! must / have to 마스터! 정말 대단해요! 👏';}
+  else if(pct>=70){emoji='😊';msg='잘했어요! 조금만 더 연습하면 완벽해질 거예요!';}
+  else if(pct>=50){emoji='🙂';msg='절반 이상 맞혔어요! 틀린 문제를 다시 복습해봐요.';}
+  else{emoji='📚';msg='조금 더 열심히 공부해봐요! 다시 도전해보세요!';}
+  document.getElementById('resultEmoji').textContent=emoji;
+  document.getElementById('resultMsg').textContent=msg;
+
+  const saveEl=document.getElementById('save-status');
+  await saveToNotion(_name, _cls, score, 30, 'must/have to 시험');
+  saveEl.style.background='#dcfce7';
+  saveEl.style.color='#15803d';
+  saveEl.textContent='✅ 결과가 노션에 자동 저장됐어요!';
 }
 
-function retryTest() {
+function retryTest(){
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('testScreen').classList.remove('hidden');
-  currentQ = 0; score = 0;
+  currentQ=0; score=0;
   showQuestion();
 }
 </script>
