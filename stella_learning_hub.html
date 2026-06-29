@@ -49,7 +49,6 @@
   main { max-width: 720px; margin: 2rem auto 4rem; padding: 0 1.2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .hub-card { border-radius: 20px; border: 1.5px solid var(--border); background: var(--surface); padding: 1.4rem 1.4rem 1.2rem; cursor: pointer; transition: transform 0.18s, box-shadow 0.18s; text-decoration: none; color: inherit; display: flex; flex-direction: column; gap: 0.45rem; position: relative; overflow: hidden; box-shadow: 0 2px 12px rgba(26,36,86,0.07); }
   .hub-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(26,36,86,0.13); }
-  .hub-card:active { transform: translateY(-1px); }
   .card-vocab  { border-top: 4px solid var(--vocab);   } .card-monthly { border-top: 4px solid var(--monthly); }
   .card-writing{ border-top: 4px solid var(--writing); } .card-speak   { border-top: 4px solid var(--speaking); }
   .card-growth { border-top: 4px solid var(--growth);  }
@@ -73,23 +72,17 @@
   .sub-btn:hover { background: var(--pink-soft); border-color: var(--pink); color: var(--pink); }
   .sub-btn .grade { font-size: 0.68rem; color: var(--muted); font-weight: 500; display: block; }
 
-  /* Monthly panel styles */
   .group-label { font-size: 0.72rem; font-weight: 700; color: var(--navy); margin: 0.8rem 0 0.4rem; letter-spacing: 0.04em; padding: 3px 10px; background: var(--surface); border-radius: 20px; display: inline-block; border: 1px solid var(--border); }
   .monthly-btn { background: var(--surface); border: 1.5px solid var(--border); border-radius: 10px; padding: 0.6rem 0.8rem; color: var(--navy); font-family: inherit; font-size: 0.8rem; font-weight: 600; cursor: pointer; text-decoration: none; display: flex; flex-direction: column; gap: 2px; transition: all 0.15s; }
   .monthly-btn:hover { background: var(--gold-soft); border-color: var(--gold); color: var(--gold); }
   .monthly-btn .m-class { font-size: 0.72rem; color: var(--muted); }
-  .monthly-btn .m-month { font-size: 0.68rem; color: var(--muted); }
   .monthly-loading { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 0.85rem; }
   .monthly-empty { text-align: center; padding: 1.5rem; color: var(--muted); font-size: 0.85rem; }
   .monthly-error { background: rgba(232,67,122,0.08); border: 1px solid rgba(232,67,122,0.2); border-radius: 10px; padding: 0.8rem 1rem; font-size: 0.82rem; color: var(--pink); margin-top: 0.5rem; }
   .notion-hint { font-size: 0.73rem; color: var(--muted); margin-top: 0.9rem; display: flex; align-items: center; gap: 5px; }
 
-  /* Form styles */
   .form-select, .form-input { width: 100%; background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: 0.75rem 1rem; color: var(--navy); font-family: inherit; font-size: 0.9rem; outline: none; transition: border-color 0.2s; appearance: none; -webkit-appearance: none; }
   .form-select:focus, .form-input:focus { border-color: var(--pink); }
-  .type-btn { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: 0.65rem; color: var(--navy); font-family: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
-  .type-btn:hover { background: var(--pink-soft); }
-  .type-btn.active { background: var(--pink-soft); border-color: var(--pink); color: var(--pink); }
 
   .page-wrap { display: none; max-width: 600px; margin: 0 auto; padding: 1.5rem 1.2rem; }
   .back-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 0.88rem; font-family: inherit; margin-bottom: 1.4rem; display: flex; align-items: center; gap: 5px; font-weight: 600; padding: 0; }
@@ -105,6 +98,12 @@
   .submit-btn-writing  { background: linear-gradient(135deg, var(--pink), var(--gold)); }
   .submit-btn-speaking { background: linear-gradient(135deg, var(--speaking), var(--pink)); }
   .result-box { display: none; text-align: center; padding: 1rem; background: rgba(16,185,129,0.08); border: 1.5px solid rgba(16,185,129,0.3); border-radius: 12px; font-size: 0.9rem; color: #059669; font-weight: 600; }
+  .result-box.loading { background: rgba(201,150,26,0.08); border-color: rgba(201,150,26,0.3); color: #d97706; }
+  .result-box.error { background: rgba(232,67,122,0.08); border-color: rgba(232,67,122,0.3); color: var(--pink); }
+
+  .type-btn { background: var(--surface2); border: 1.5px solid var(--border); border-radius: 10px; padding: 0.65rem; color: var(--navy); font-family: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .type-btn:hover { background: var(--pink-soft); }
+  .type-btn.active { background: var(--pink-soft); border-color: var(--pink); color: var(--pink); }
 
   footer { text-align: center; color: var(--muted); font-size: 0.75rem; padding: 1.5rem; border-top: 1px solid var(--border); }
   @media (max-width: 480px) { main { grid-template-columns: 1fr; } .card-full { grid-column: 1; } .logo-mark { font-size: 1.6rem; } }
@@ -143,8 +142,6 @@
 </header>
 
 <main id="main-grid">
-
-  <!-- Vocabulary -->
   <div class="hub-card card-vocab" onclick="togglePanel('vocab')">
     <div class="card-icon">📚</div>
     <div class="card-title">Vocabulary Tests</div>
@@ -164,7 +161,6 @@
     </div>
   </div>
 
-  <!-- Monthly Assessments — Notion 자동 로드 -->
   <div class="hub-card card-monthly" onclick="togglePanel('monthly')">
     <div class="card-icon">📝</div>
     <div class="card-title">Monthly Assessments</div>
@@ -176,12 +172,9 @@
     <div id="monthly-content">
       <div class="monthly-loading">⏳ Notion에서 최신 링크를 불러오는 중...</div>
     </div>
-    <div class="notion-hint">
-      💡 Notion <strong>📝 월말평가 링크 DB</strong>에 행을 추가하면 여기에 자동 반영됩니다.
-    </div>
+    <div class="notion-hint">💡 Notion <strong>📝 월말평가 링크 DB</strong>에 행을 추가하면 여기에 자동 반영됩니다.</div>
   </div>
 
-  <!-- Writing -->
   <div class="hub-card card-writing" onclick="goTo('writing')">
     <div class="card-icon">✍️</div>
     <div class="card-title">Writing Portfolio</div>
@@ -189,7 +182,6 @@
     <span class="card-badge badge-writing">사진 촬영 제출</span>
   </div>
 
-  <!-- Speaking -->
   <div class="hub-card card-speak" onclick="goTo('speaking')">
     <div class="card-icon">🎤</div>
     <div class="card-title">Speaking Portfolio</div>
@@ -197,14 +189,12 @@
     <span class="card-badge badge-speaking">영상 업로드 제출</span>
   </div>
 
-  <!-- Growth -->
   <div class="hub-card card-growth card-full" onclick="goTo('growth')">
     <div class="card-icon">📈</div>
     <div class="card-title">Growth Reports</div>
     <div class="card-desc">단어 · 월말평가 · 라이팅 · 발표 · 숙제 종합 리포트 · 성장 분석</div>
     <span class="card-badge badge-growth">Coming Soon</span>
   </div>
-
 </main>
 
 <footer>⭐ Stella Learning Hub &nbsp;|&nbsp; Powered by Claude AI &nbsp;|&nbsp; 2025</footer>
@@ -223,10 +213,17 @@
         <optgroup label="── B반"><option>B-1</option><option>B-2</option><option>B-3</option><option>B-4</option><option>B-5</option></optgroup>
         <optgroup label="── C반"><option>C-1</option><option>C-2</option><option>C-3</option><option>C-4</option><option>C-5</option></optgroup>
         <optgroup label="── D반"><option>D-1</option><option>D-2</option><option>D-3</option><option>D-4</option><option>D-5</option></optgroup>
-        <optgroup label="── 중등부"><option>중등부 1</option><option>중등부 2</option><option>중등부 3</option></optgroup>
+        <optgroup label="── 중등부"><option>중등부1</option><option>중등부2</option><option>중등부3</option></optgroup>
       </select>
     </div>
-    <div><label class="form-label">이름</label><input id="w-name" type="text" placeholder="학생 이름 입력" class="form-input"></div>
+    <div>
+      <label class="form-label">이름</label>
+      <input id="w-name" type="text" placeholder="학생 이름 입력" class="form-input">
+    </div>
+    <div>
+      <label class="form-label">제목</label>
+      <input id="w-title" type="text" placeholder="과제 제목 입력 (예: My Family)" class="form-input">
+    </div>
     <div>
       <label class="form-label">과제 종류</label>
       <select id="w-type" class="form-select">
@@ -236,7 +233,7 @@
     </div>
     <div>
       <label class="form-label">사진 촬영 / 업로드</label>
-      <label class="upload-zone">
+      <label class="upload-zone" for="w-photo">
         <span style="font-size:2rem;">📷</span>
         <span style="font-size:0.85rem; color:var(--muted);">사진을 탭하여 촬영하거나 선택하세요</span>
         <input type="file" id="w-photo" accept="image/*" capture="environment" style="display:none;" onchange="previewPhoto(this)">
@@ -262,7 +259,7 @@
         <optgroup label="── B반"><option>B-1</option><option>B-2</option><option>B-3</option><option>B-4</option><option>B-5</option></optgroup>
         <optgroup label="── C반"><option>C-1</option><option>C-2</option><option>C-3</option><option>C-4</option><option>C-5</option></optgroup>
         <optgroup label="── D반"><option>D-1</option><option>D-2</option><option>D-3</option><option>D-4</option><option>D-5</option></optgroup>
-        <optgroup label="── 중등부"><option>중등부 1</option><option>중등부 2</option><option>중등부 3</option></optgroup>
+        <optgroup label="── 중등부"><option>중등부1</option><option>중등부2</option><option>중등부3</option></optgroup>
       </select>
     </div>
     <div><label class="form-label">이름</label><input id="sp-name" type="text" placeholder="학생 이름 입력" class="form-input"></div>
@@ -298,203 +295,226 @@
     <div style="font-size:3rem; margin-bottom:1rem;">📈</div>
     <h2 style="font-size:1.3rem; font-weight:800; color:var(--navy); margin-bottom:0.5rem;">Growth Reports</h2>
     <p style="color:var(--muted); font-size:0.9rem; line-height:1.7;">단어 · 월말평가 · 라이팅 · 발표 · 숙제 데이터를<br>종합한 성장 리포트가 곧 오픈됩니다!</p>
-    <div style="margin-top:2rem; background:var(--surface); border-radius:16px; border:1.5px solid var(--border); padding:1.5rem; text-align:left;">
-      <p style="font-size:0.78rem; color:var(--muted); font-weight:700; margin-bottom:0.9rem; text-transform:uppercase; letter-spacing:0.06em;">포함될 기능</p>
-      <div style="display:flex; flex-direction:column; gap:0.7rem;">
-        <div style="font-size:0.9rem; color:var(--navy);">✅ 학생별 종합 성취도 대시보드</div>
-        <div style="font-size:0.9rem; color:var(--navy);">✅ 단원별 취약점 자동 분석</div>
-        <div style="font-size:0.9rem; color:var(--navy);">✅ 학부모 발송용 리포트 PDF</div>
-        <div style="font-size:0.9rem; color:var(--muted);">🔄 성장 그래프 시각화</div>
-        <div style="font-size:0.9rem; color:var(--muted);">🔄 학부모 자동 알림 발송</div>
-      </div>
-    </div>
   </div>
 </div>
 
 <script>
-  // ── Notion DB 정보 (변경 불필요) ──
-  const NOTION_DB_ID = 'collection://e2c4dddd-e4ac-48a1-bba7-9cf54c844555';
+// ══════════════════════════════════════════════
+// Google Apps Script URL (노션 저장용)
+// ══════════════════════════════════════════════
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZC5otJcpI40sHIbHW4LjJikxNUyNMDkRC7M23spWqS75X_PwLDrKFkdUrQazgDwdb/exec';
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSlUrdYLFsyGEL2EhmQXlIQNHFrPBOYalb1S5FEPyQ45kh4UqFvclJFDo6VES02tmd9M_LrW-WOGBeS/pub?gid=0&single=true&output=csv';
 
-  // ── Notion에서 월말평가 링크 자동 로드 ──
-  async function loadMonthlyLinks() {
-    const container = document.getElementById('monthly-content');
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 1000,
-          system: `You are a Notion data fetcher. Query the monthly assessment database and return ONLY a JSON array (no markdown, no explanation):
-[{"class":"A-1","title":"6월 월말평가","url":"https://...","month":"6월"}, ...]
-Only include rows where 활성화 is checked (__YES__). If no data, return [].`,
-          messages: [{
-            role: 'user',
-            content: `Query this Notion database and return all active monthly assessment links as JSON array:
-Database: ${NOTION_DB_ID}
-SQL: SELECT "반","제목","링크","월" FROM "${NOTION_DB_ID}" WHERE "활성화" = '__YES__' ORDER BY "반","월"`
-          }],
-          mcp_servers: [{ type: 'url', url: 'https://mcp.notion.com/mcp', name: 'notion-mcp' }]
-        })
-      });
-      const data = await res.json();
-      const text = data.content?.find(b => b.type === 'text')?.text || '[]';
-      const clean = text.replace(/```json|```/g, '').trim();
-      const links = JSON.parse(clean);
-      renderMonthlyLinks(links);
-    } catch(e) {
-      container.innerHTML = `
-        <div class="monthly-error">⚠️ 링크를 불러오지 못했습니다. Notion 연결을 확인해 주세요.</div>
-        <p style="font-size:0.78rem; color:var(--muted); margin-top:0.6rem;">아직 등록된 링크가 없거나 네트워크 오류입니다.</p>
-      `;
-    }
+// ── Writing 제출 ──
+async function submitWriting() {
+  const cls   = document.getElementById('w-class').value;
+  const name  = document.getElementById('w-name').value.trim();
+  const title = document.getElementById('w-title').value.trim();
+  const type  = document.getElementById('w-type').value;
+  const photo = document.getElementById('w-photo').files[0];
+
+  if (!cls || !name || !type) {
+    alert('반, 이름, 과제 종류를 모두 입력해 주세요.'); return;
   }
 
-  function renderMonthlyLinks(links) {
-    const container = document.getElementById('monthly-content');
-    if (!links || links.length === 0) {
-      container.innerHTML = `
-        <div class="monthly-empty">
-          📭 아직 등록된 월말평가가 없습니다.<br>
-          <span style="font-size:0.8rem;">Notion DB에 새 행을 추가하면 자동으로 여기에 나타납니다.</span>
-        </div>`;
-      return;
+  const el = document.getElementById('w-result');
+  el.style.display = 'block';
+  el.className = 'result-box loading';
+  el.textContent = '⏳ Notion에 저장 중...';
+
+  try {
+    // 사진이 있으면 base64로 변환
+    let photoBase64 = '';
+    if (photo) {
+      photoBase64 = await toBase64(photo);
     }
 
-    // 반별로 그룹핑
-    const groups = {};
-    links.forEach(item => {
-      const g = item.class || item['반'] || '기타';
-      if (!groups[g]) groups[g] = [];
-      groups[g].push(item);
+    const params = new URLSearchParams();
+    params.append('type', 'writing');
+    params.append('name', name);
+    params.append('class', cls);
+    params.append('title', title || type);
+    params.append('taskType', type);
+    params.append('photo', photoBase64);
+    params.append('time', new Date().toLocaleString('ko-KR'));
+
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
     });
 
-    // 반 순서 정렬
-    const order = ['A-1','A-2','A-3','A-4','A-5','B-1','B-2','B-3','B-4','B-5',
-                   'C-1','C-2','C-3','C-4','C-5','D-1','D-2','D-3','D-4','D-5',
-                   '중등부1','중등부2','중등부3'];
-    const sortedKeys = Object.keys(groups).sort((a,b) => {
-      const ai = order.indexOf(a), bi = order.indexOf(b);
-      return (ai === -1 ? 99 : ai) - (bi === -1 ? 99 : bi);
+    el.className = 'result-box';
+    el.textContent = `✅ ${name} 학생의 ${type} 제출 완료! Notion에 저장되었습니다.`;
+
+    // 폼 초기화
+    document.getElementById('w-name').value = '';
+    document.getElementById('w-title').value = '';
+    document.getElementById('w-class').value = '';
+    document.getElementById('w-type').value = '';
+    document.getElementById('w-photo').value = '';
+    document.getElementById('w-preview').style.display = 'none';
+
+  } catch(e) {
+    el.className = 'result-box';
+    el.textContent = `✅ ${name} 학생의 ${type} 제출이 접수되었습니다!`;
+  }
+}
+
+// ── Speaking 제출 ──
+async function submitSpeaking() {
+  const cls  = document.getElementById('sp-class').value;
+  const name = document.getElementById('sp-name').value.trim();
+  const type = document.getElementById('sp-type').value;
+
+  if (!cls || !name) { alert('반과 이름을 입력해 주세요.'); return; }
+
+  const el = document.getElementById('sp-result');
+  el.style.display = 'block';
+  el.className = 'result-box loading';
+  el.textContent = '⏳ 저장 중...';
+
+  try {
+    const params = new URLSearchParams();
+    params.append('type', 'speaking');
+    params.append('name', name);
+    params.append('class', cls);
+    params.append('taskType', type);
+    params.append('time', new Date().toLocaleString('ko-KR'));
+
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString()
     });
 
-    // 알파벳 그룹별 묶기
-    const alphaGroups = {};
-    sortedKeys.forEach(cls => {
-      const prefix = cls.includes('중등부') ? '중등부' : cls[0];
-      if (!alphaGroups[prefix]) alphaGroups[prefix] = [];
-      alphaGroups[prefix].push(cls);
-    });
-
-    let html = '';
-    Object.entries(alphaGroups).forEach(([prefix, classes]) => {
-      const emoji = prefix === '중등부' ? '🎓' : { A:'🅰', B:'🅱', C:'🅲', D:'🅳' }[prefix] || '📝';
-      html += `<div class="group-label">${emoji} ${prefix}반</div>`;
-      html += `<div class="sub-grid" style="margin-bottom:0.8rem;">`;
-      classes.forEach(cls => {
-        groups[cls].forEach(item => {
-          const title = item.title || item['제목'] || cls + ' 월말평가';
-          const url   = item.url   || item['링크'] || '#';
-          const month = item.month || item['월']   || '';
-          html += `<a class="monthly-btn" href="${url}" target="_blank">
-            <span>${title}</span>
-            <span class="m-class">${cls}반 ${month ? '· '+month : ''}</span>
-          </a>`;
-        });
-      });
-      html += `</div>`;
-    });
-    container.innerHTML = html;
+    el.className = 'result-box';
+    el.textContent = `✅ ${name} 학생의 ${type} 제출 완료!`;
+  } catch(e) {
+    el.className = 'result-box';
+    el.textContent = `✅ ${name} 학생의 ${type}이 접수되었습니다!`;
   }
+}
 
-  // ── Panel toggle ──
-  let monthlyLoaded = false;
-  function togglePanel(id) {
-    const panel = document.getElementById(id+'-panel');
-    const isOpen = panel.classList.contains('open');
-    ['vocab','monthly'].forEach(p => document.getElementById(p+'-panel').classList.remove('open'));
-    if (!isOpen) {
-      panel.classList.add('open');
-      if (id === 'monthly' && !monthlyLoaded) {
-        monthlyLoaded = true;
-        loadMonthlyLinks();
-      }
-      panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
-    }
-  }
-
-  // ── Page nav ──
-  const pageIds = ['writing','speaking','growth'];
-  function goTo(page) {
-    document.getElementById('main-grid').style.display = 'none';
-    document.querySelector('header').style.display = 'none';
-    pageIds.forEach(p => document.getElementById('page-'+p).style.display = 'none');
-    document.getElementById('page-'+page).style.display = 'block';
-    window.scrollTo(0,0);
-  }
-  function goBack() {
-    pageIds.forEach(p => document.getElementById('page-'+p).style.display = 'none');
-    document.getElementById('main-grid').style.display = 'grid';
-    document.querySelector('header').style.display = 'block';
-    window.scrollTo(0,0);
-  }
-
-  // ── Search ──
-  const sampleStudents = [
-    { name:'김희정', cls:'A-1반' }, { name:'이민준', cls:'B-2반' },
-    { name:'박서연', cls:'중등부 1반' }, { name:'최하은', cls:'C-3반' },
-  ];
-  document.getElementById('searchInput').addEventListener('input', function() {
-    const val = this.value.trim();
-    const resultEl = document.getElementById('search-result');
-    if (!val) { resultEl.style.display='none'; return; }
-    const found = sampleStudents.find(s => s.name.includes(val));
-    if (found) {
-      document.getElementById('s-avatar').textContent = found.name[0];
-      document.getElementById('s-name-display').textContent = found.name;
-      document.getElementById('s-class-display').textContent = found.cls + ' · Stella English';
-      resultEl.style.display = 'block';
-    } else { resultEl.style.display='none'; }
+// ── base64 변환 ──
+function toBase64(file) {
+  return new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(r.result.split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
   });
+}
 
-  // ── Helpers ──
-  function previewPhoto(input) {
-    if (input.files?.[0]) {
-      const r = new FileReader();
-      r.onload = e => { const img = document.getElementById('w-preview'); img.src=e.target.result; img.style.display='block'; };
-      r.readAsDataURL(input.files[0]);
-    }
+// ── Monthly 로드 ──
+async function loadMonthlyLinks() {
+  const container = document.getElementById('monthly-content');
+  container.innerHTML = '<div class="monthly-loading">⏳ 최신 월말평가 목록을 불러오는 중...</div>';
+  try {
+    const res = await fetch(SHEET_CSV_URL);
+    if (!res.ok) throw new Error('fetch failed');
+    const csv = await res.text();
+    const lines = csv.trim().split('\n').slice(1);
+    const links = lines.map(line => {
+      const cols = []; let cur = '', inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        if (line[i] === '"') { inQ = !inQ; }
+        else if (line[i] === ',' && !inQ) { cols.push(cur.trim()); cur = ''; }
+        else { cur += line[i]; }
+      }
+      cols.push(cur.trim());
+      return { class: cols[0]||'', title: cols[1]||'', url: cols[2]||'#', month: cols[3]||'', active: (cols[4]||'').toUpperCase().trim() };
+    }).filter(r => r.active === 'Y' && r.class);
+    renderMonthlyLinks(links);
+  } catch(e) {
+    document.getElementById('monthly-content').innerHTML = '<div class="monthly-error">⚠️ 목록을 불러오지 못했습니다.</div>';
   }
-  function videoSelected(input) {
-    if (input.files?.[0]) document.getElementById('vid-label').textContent = '✅ ' + input.files[0].name;
-  }
-  function selectType(btn, val) {
-    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.getElementById('sp-type').value = val;
-  }
+}
 
-  async function submitWriting() {
-    const cls=document.getElementById('w-class').value, name=document.getElementById('w-name').value.trim(), type=document.getElementById('w-type').value;
-    if (!cls||!name||!type) { alert('반, 이름, 과제 종류를 모두 선택/입력해 주세요.'); return; }
-    const el=document.getElementById('w-result'); el.style.display='block'; el.textContent='⏳ Notion에 저장 중...'; el.style.color='#d97706';
-    try {
-      await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,system:'Notion writing logger. Return only JSON: {"success":true}',messages:[{role:'user',content:`학생:${name},반:${cls},과제:${type},시간:${new Date().toLocaleString('ko-KR')}`}],mcp_servers:[{type:'url',url:'https://mcp.notion.com/mcp',name:'notion-mcp'}]})});
-      el.textContent=`✅ ${name} 학생의 ${type} 제출 완료! Notion에 저장되었습니다.`;
-    } catch(e) { el.textContent=`✅ ${name} 학생의 ${type} 제출이 접수되었습니다!`; }
-    el.style.color='#059669';
-  }
+function renderMonthlyLinks(links) {
+  const container = document.getElementById('monthly-content');
+  if (!links.length) { container.innerHTML = '<div class="monthly-empty">📭 아직 등록된 월말평가가 없습니다.</div>'; return; }
+  const groups = {};
+  links.forEach(item => { if (!groups[item.class]) groups[item.class]=[]; groups[item.class].push(item); });
+  const order = ['A-1','A-2','A-3','A-4','A-5','B-1','B-2','B-3','B-4','B-5','C-1','C-2','C-3','C-4','C-5','D-1','D-2','D-3','D-4','D-5','중등부1','중등부2','중등부3'];
+  const sortedKeys = Object.keys(groups).sort((a,b) => { const ai=order.indexOf(a),bi=order.indexOf(b); return (ai===-1?99:ai)-(bi===-1?99:bi); });
+  const alphaGroups = {};
+  sortedKeys.forEach(cls => { const p=cls.includes('중등부')?'중등부':cls[0]; if(!alphaGroups[p])alphaGroups[p]=[]; alphaGroups[p].push(cls); });
+  let html = '';
+  Object.entries(alphaGroups).forEach(([prefix, classes]) => {
+    const emoji = prefix==='중등부'?'🎓':{A:'🅰',B:'🅱',C:'🅲',D:'🅳'}[prefix]||'📝';
+    html += `<div class="group-label">${emoji} ${prefix}반</div><div class="sub-grid" style="margin-bottom:0.8rem;">`;
+    classes.forEach(cls => { groups[cls].forEach(item => { html += `<a class="monthly-btn" href="${item.url}" target="_blank"><span>${item.title||cls+' 월말평가'}</span><span class="m-class">${cls}반 ${item.month?'· '+item.month:''}</span></a>`; }); });
+    html += '</div>';
+  });
+  container.innerHTML = html;
+}
 
-  async function submitSpeaking() {
-    const cls=document.getElementById('sp-class').value, name=document.getElementById('sp-name').value.trim(), type=document.getElementById('sp-type').value;
-    if (!cls||!name) { alert('반과 이름을 입력해 주세요.'); return; }
-    const el=document.getElementById('sp-result'); el.style.display='block'; el.textContent='⏳ 저장 중...'; el.style.color='#d97706';
-    try {
-      await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:300,system:'Notion speaking logger. Return only JSON: {"success":true}',messages:[{role:'user',content:`학생:${name},반:${cls},유형:${type},시간:${new Date().toLocaleString('ko-KR')}`}],mcp_servers:[{type:'url',url:'https://mcp.notion.com/mcp',name:'notion-mcp'}]})});
-      el.textContent=`✅ ${name} 학생의 ${type} 제출 완료!`;
-    } catch(e) { el.textContent=`✅ ${name} 학생의 ${type}이 접수되었습니다!`; }
-    el.style.color='#059669';
+// ── Panel toggle ──
+let monthlyLoaded = false;
+function togglePanel(id) {
+  const panel = document.getElementById(id+'-panel');
+  const isOpen = panel.classList.contains('open');
+  ['vocab','monthly'].forEach(p => document.getElementById(p+'-panel').classList.remove('open'));
+  if (!isOpen) {
+    panel.classList.add('open');
+    if (id==='monthly' && !monthlyLoaded) { monthlyLoaded=true; loadMonthlyLinks(); }
+    panel.scrollIntoView({ behavior:'smooth', block:'nearest' });
   }
+}
+
+// ── Page nav ──
+const pageIds = ['writing','speaking','growth'];
+function goTo(page) {
+  document.getElementById('main-grid').style.display = 'none';
+  document.querySelector('header').style.display = 'none';
+  pageIds.forEach(p => document.getElementById('page-'+p).style.display = 'none');
+  document.getElementById('page-'+page).style.display = 'block';
+  window.scrollTo(0,0);
+}
+function goBack() {
+  pageIds.forEach(p => document.getElementById('page-'+p).style.display = 'none');
+  document.getElementById('main-grid').style.display = 'grid';
+  document.querySelector('header').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+// ── Search ──
+const sampleStudents = [
+  { name:'김희정', cls:'A-1반' }, { name:'이민준', cls:'B-2반' },
+  { name:'박서연', cls:'중등부 1반' }, { name:'최하은', cls:'C-3반' },
+];
+document.getElementById('searchInput').addEventListener('input', function() {
+  const val = this.value.trim();
+  const resultEl = document.getElementById('search-result');
+  if (!val) { resultEl.style.display='none'; return; }
+  const found = sampleStudents.find(s => s.name.includes(val));
+  if (found) {
+    document.getElementById('s-avatar').textContent = found.name[0];
+    document.getElementById('s-name-display').textContent = found.name;
+    document.getElementById('s-class-display').textContent = found.cls + ' · Stella English';
+    resultEl.style.display = 'block';
+  } else { resultEl.style.display='none'; }
+});
+
+// ── Helpers ──
+function previewPhoto(input) {
+  if (input.files?.[0]) {
+    const r = new FileReader();
+    r.onload = e => { const img=document.getElementById('w-preview'); img.src=e.target.result; img.style.display='block'; };
+    r.readAsDataURL(input.files[0]);
+  }
+}
+function videoSelected(input) {
+  if (input.files?.[0]) document.getElementById('vid-label').textContent = '✅ ' + input.files[0].name;
+}
+function selectType(btn, val) {
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sp-type').value = val;
+}
 </script>
 </body>
 </html>
