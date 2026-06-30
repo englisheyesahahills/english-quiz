@@ -509,6 +509,11 @@ const WORDS = [
 ];
 
 // ══════════════════════════════════════════════════
+// NOTION SAVE — Apps Script (단어학습시스템 DB와 동일한 방식)
+// ══════════════════════════════════════════════════
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzJLPd5mts_LdZBMPhPH42lNVrJX_CQXqebR05hGw2R591nYjHPn0BqElTi01sRieI/exec";
+
+// ══════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════
 let currentDay = 0;
@@ -903,7 +908,7 @@ function toggleRecord(word) {
 }
 
 // ══════════════════════════════════════════════════
-// NOTION SAVE
+// NOTION SAVE (Google Apps Script 방식 — 단어학습시스템 DB)
 // ══════════════════════════════════════════════════
 async function saveToNotion() {
   const name = document.getElementById('studentName').value.trim();
@@ -911,43 +916,34 @@ async function saveToNotion() {
   if (!name) { showToast('이름을 입력해 주세요!'); return; }
 
   const unit = currentDay === 0 ? '전체' : `DAY ${String(currentDay).padStart(2,'0')}`;
+  const modeLabel = { flashcard:'플래시카드', list:'단어목록', mcq:'객관식', subjective:'주관식', shadowing:'쉐도잉' }[currentMode] || currentMode;
   const score = sessionTotal > 0 ? Math.round(sessionScore / sessionTotal * 100) : quizScore;
-  const now = new Date().toISOString().slice(0,16).replace('T',' ');
+  const now = new Date();
+  const dt = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
 
-  document.getElementById('saveStatus').textContent = '저장 중...';
+  const statusEl = document.getElementById('saveStatus');
+  statusEl.textContent = '저장 중...';
 
   try {
-    const response = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: "claude-sonnet-4-6",
-        max_tokens: 1000,
-        messages: [{
-          role: "user",
-          content: `Notion MCP를 사용해서 다음 데이터를 노션 데이터베이스(collection://38bf4df0-1d56-80e9-b4fe-000b1a0241d4)에 저장해줘:
-이름: ${name}
-반: ${cls || '미입력'}
-Unit: ${unit}
-점수: ${score}
-날짜시간: ${now}
-
-노션 create-pages 툴을 사용해서 저장해줘.`
-        }],
-        mcp_servers: [{
-          type: "url",
-          url: "https://mcp.notion.com/mcp",
-          name: "notion-mcp"
-        }]
-      })
+    const p = new URLSearchParams({
+      name: name,
+      class: cls || '미입력',
+      unit: 'VOCA중학 ' + unit + ' ' + modeLabel,
+      score: score,
+      datetime: dt
     });
-    const data = await response.json();
-    document.getElementById('saveStatus').textContent = '✅ 저장 완료!';
+    await fetch(SHEET_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: p.toString()
+    });
+    statusEl.textContent = '✅ 저장 완료!';
     showToast(`${name}님 점수(${score}점) 저장 완료!`);
-    setTimeout(() => document.getElementById('saveStatus').textContent = '', 3000);
+    setTimeout(() => statusEl.textContent = '', 3000);
   } catch(e) {
-    document.getElementById('saveStatus').textContent = '❌ 저장 실패';
-    showToast('저장에 실패했습니다. 직접 기록해 주세요.');
+    statusEl.textContent = '❌ 저장 실패';
+    showToast('저장에 실패했습니다. 인터넷 연결을 확인해 주세요.');
   }
 }
 
