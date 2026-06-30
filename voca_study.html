@@ -76,6 +76,47 @@
     color: var(--accent3);
   }
 
+  /* ── STUDENT BAR (이름/반/저장) ── */
+  .student-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .student-bar label {
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .student-bar input, .student-bar select {
+    background: var(--card);
+    border: 1px solid var(--border);
+    color: var(--text);
+    border-radius: 8px;
+    padding: 7px 10px;
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    outline: none;
+  }
+  .student-bar input { width: 100px; }
+  .student-bar input:focus, .student-bar select:focus { border-color: var(--accent); }
+  .student-save-btn {
+    background: var(--accent);
+    border: none;
+    color: white;
+    border-radius: 8px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .student-save-btn:hover { background: #6a58e0; }
+  .student-save-status { font-size: 12px; font-weight: 600; color: var(--accent3); }
+
   /* ── MAIN LAYOUT ── */
   .main {
     max-width: 720px;
@@ -581,6 +622,19 @@
     <div class="progress-bar-fill" id="progressFill" style="width:0%"></div>
   </div>
   <div class="score-badge" id="scoreBadge">⭐ 0점</div>
+</div>
+
+<div class="student-bar">
+  <label>이름</label>
+  <input type="text" id="studentName" placeholder="홍길동" maxlength="10">
+  <label>반</label>
+  <select id="studentClass">
+    <option value="">선택</option>
+    <option>A반</option><option>B반</option><option>C반</option>
+    <option>D반</option><option>E반</option><option>F반</option>
+  </select>
+  <button class="student-save-btn" onclick="manualSave()">💾 점수 저장</button>
+  <span class="student-save-status" id="saveStatus"></span>
 </div>
 
 <div class="main">
@@ -1805,6 +1859,52 @@ let saAnswered = false;
 const completedDays = new Set(JSON.parse(localStorage.getItem('completedDays') || '[]'));
 const knownWords = new Set(JSON.parse(localStorage.getItem('knownWords') || '[]'));
 
+// ══════════════════════════════════════════
+// NOTION SAVE (Google Apps Script 방식 — 단어학습시스템 DB와 동일)
+// ══════════════════════════════════════════
+const SHEET_URL = "https://script.google.com/macros/s/AKfycbzJLPd5mts_LdZBMPhPH42lNVrJX_CQXqebR05hGw2R591nYjHPn0BqElTi01sRieI/exec";
+
+function sendScoreToSheet(unitLabel, scoreValue) {
+  const name = document.getElementById('studentName').value.trim();
+  const cls = document.getElementById('studentClass').value;
+  if (!name) return; // 이름 없으면 조용히 스킵 (자동 호출 시 방해 안 되게)
+
+  const now = new Date();
+  const dt = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+
+  const p = new URLSearchParams({
+    name: name,
+    class: cls || '미입력',
+    unit: '보카클리어 ' + currentDay + ' ' + unitLabel,
+    score: scoreValue,
+    datetime: dt
+  });
+
+  fetch(SHEET_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: p.toString()
+  }).then(() => {
+    const status = document.getElementById('saveStatus');
+    if (status) { status.textContent = '✅ 저장 완료!'; setTimeout(() => status.textContent = '', 3000); }
+  }).catch(() => {
+    const status = document.getElementById('saveStatus');
+    if (status) status.textContent = '❌ 저장 실패';
+  });
+}
+
+function manualSave() {
+  const name = document.getElementById('studentName').value.trim();
+  if (!name) { showToast('이름을 입력해 주세요!'); return; }
+  document.getElementById('saveStatus').textContent = '저장 중...';
+  let label = '플래시카드', val = score;
+  if (currentMode === 'mc') { label = '객관식'; val = mcCorrect; }
+  else if (currentMode === 'sa') { label = '주관식'; val = saCorrect; }
+  else if (currentMode === 'shadow') { label = '쉐도잉'; val = score; }
+  sendScoreToSheet(label, val);
+}
+
 // ── INIT ──
 function init() {
   buildDayGrid();
@@ -1993,6 +2093,7 @@ function mcNext() {
   mcIdx++;
   if (mcIdx >= currentWords.length) {
     showToast(`🎯 완료! ${mcCorrect}/${currentWords.length} 정답!`);
+    sendScoreToSheet('객관식', mcCorrect);
     mcIdx = 0; mcCorrect = 0;
   }
   renderMC();
@@ -2058,6 +2159,7 @@ function saNext() {
   saIdx++;
   if (saIdx >= currentWords.length) {
     showToast(`✏️ 완료! ${saCorrect}/${currentWords.length} 정답!`);
+    sendScoreToSheet('주관식', saCorrect);
     saIdx = 0; saCorrect = 0;
   }
   renderSA();
