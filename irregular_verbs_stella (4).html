@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>동사 별자리 · 불규칙 동사 40</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-0:#f5f6fb;
+  --bg-1:#ffffff;
+  --bg-2:#eef0fa;
+  --line:#d7dcf2;
+  --ink:#171a35;
+  --ink-dim:#4a5079;
+  --ink-faint:#8087ad;
+  --gold:#b8790f;
+  --gold-dim:#e3c48a;
+  --present:#2f6fed;
+  --past:#7c3aed;
+  --pp:#d9760f;
+  --good:#0f9d58;
+  --bad:#e0324d;
+  --ontone:#ffffff;
+  --radius:18px;
+  --disp:'Space Grotesk', sans-serif;
+  --mono:'JetBrains Mono', monospace;
+  --kr:'Noto Sans KR', sans-serif;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg-0);
+  color:var(--ink);
+  font-family:var(--kr);
+  min-height:100vh;
+  position:relative;
+  overflow-x:hidden;
+}
+/* starfield */
+#stars{
+  position:fixed; inset:0; z-index:0; pointer-events:none;
+}
+.star{
+  position:absolute; width:2px; height:2px; background:var(--ink-faint); border-radius:50%;
+  opacity:.35; animation:twinkle 3.5s ease-in-out infinite;
+}
+@keyframes twinkle{0%,100%{opacity:.15;}50%{opacity:.9;}}
+
+.wrap{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:28px 20px 80px;}
+
+/* header */
+header{text-align:center; margin-bottom:28px;}
+.eyebrow{
+  font-family:var(--mono); letter-spacing:.28em; font-size:11px; color:var(--gold);
+  text-transform:uppercase; margin-bottom:10px;
+}
+h1{
+  font-family:var(--disp); font-weight:700; font-size:clamp(28px,6vw,42px);
+  margin:0 0 8px; letter-spacing:-.01em;
+  background:linear-gradient(90deg, var(--present), var(--past) 55%, var(--pp));
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+}
+.sub{color:var(--ink-dim); font-size:14.5px; line-height:1.6; max-width:520px; margin:0 auto;}
+.whoami{
+  margin-top:14px; font-family:var(--mono); font-size:12px; color:var(--ink-faint);
+}
+.whoami button{
+  background:none; border:none; color:var(--present); font-family:var(--mono); font-size:12px;
+  text-decoration:underline; cursor:pointer; padding:0; margin-left:8px;
+}
+.submitrow{display:flex; justify-content:center; margin-top:14px;}
+.submitbtn{
+  font-family:var(--kr); font-weight:600; font-size:13px; padding:10px 20px; border-radius:100px;
+  border:1px solid var(--gold-dim); background:transparent; color:var(--gold); cursor:pointer;
+  transition:all .15s ease;
+}
+.submitbtn:hover{background:var(--gold); color:#fff; border-color:var(--gold);}
+.submitbtn:disabled{opacity:.5; cursor:default;}
+.submitmsg{text-align:center; font-family:var(--mono); font-size:12px; margin-top:8px; min-height:16px;}
+.submitmsg.ok{color:var(--good);}
+.submitmsg.err{color:var(--bad);}
+
+/* nav pill for going back */
+.topbar{
+  display:none; align-items:center; justify-content:space-between; margin-bottom:18px;
+}
+.topbar.show{display:flex;}
+.backbtn{
+  background:none; border:1px solid var(--line); color:var(--ink-dim); font-family:var(--kr);
+  padding:8px 14px; border-radius:100px; font-size:13px; cursor:pointer;
+}
+.backbtn:hover{color:var(--ink); border-color:var(--ink-faint);}
+.progresswrap{flex:1; margin:0 16px; height:6px; background:var(--bg-2); border-radius:10px; overflow:hidden;}
+.progressbar{height:100%; background:linear-gradient(90deg,var(--present),var(--pp)); width:0%; transition:width .3s ease;}
+.counter{font-family:var(--mono); font-size:12px; color:var(--ink-faint); white-space:nowrap;}
+
+.screen{display:none;}
+.screen.active{display:block;}
+
+/* set chips */
+.section-label{
+  font-family:var(--mono); font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--ink-faint); margin:26px 0 12px;
+}
+.chiprow{display:flex; flex-wrap:wrap; gap:8px;}
+.chip{
+  font-family:var(--mono); font-size:13px; padding:9px 16px; border-radius:100px;
+  border:1px solid var(--line); background:var(--bg-1); color:var(--ink-dim); cursor:pointer;
+  transition:all .15s ease;
+}
+.chip:hover{border-color:var(--present); color:var(--ink);}
+.chip.active{background:var(--present); border-color:var(--present); color:var(--ontone); font-weight:700;}
+
+/* mode cards */
+.modegrid{display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:14px;}
+@media(max-width:560px){.modegrid{grid-template-columns:1fr;}}
+.modecard{
+  background:linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  border:1px solid var(--line); border-radius:var(--radius); padding:20px;
+  cursor:pointer; transition:transform .15s ease, border-color .15s ease;
+  position:relative; overflow:hidden;
+}
+.modecard:hover{transform:translateY(-3px); border-color:var(--gold-dim);}
+.modecard .icon{font-size:26px; margin-bottom:10px; display:block;}
+.modecard h3{font-family:var(--disp); font-size:17px; margin:0 0 6px; color:var(--ink);}
+.modecard p{font-size:12.5px; color:var(--ink-faint); margin:0; line-height:1.5;}
+
+/* flashcard */
+.stage{display:flex; flex-direction:column; align-items:center; padding:10px 0;}
+.card{
+  width:100%; max-width:440px; min-height:340px; border-radius:22px;
+  background:linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  border:1px solid var(--line); position:relative; padding:26px;
+  display:flex; flex-direction:column; cursor:pointer;
+  box-shadow:0 16px 40px -18px rgba(30,40,90,.18);
+}
+.card .no{font-family:var(--mono); font-size:12px; color:var(--gold); letter-spacing:.15em;}
+.cardfront{display:flex; flex-direction:column; align-items:center; justify-content:center; flex:1; text-align:center; gap:14px;}
+.meaning{font-family:var(--kr); font-weight:700; font-size:26px;}
+.baseword{font-family:var(--mono); font-size:34px; color:var(--present); font-weight:700;}
+.hint{font-size:12px; color:var(--ink-faint); margin-top:8px;}
+
+.constellation{flex:1; display:flex; flex-direction:column; justify-content:center; gap:6px; padding-top:6px;}
+.node{
+  display:flex; align-items:center; gap:14px; padding:12px 14px; border-radius:14px;
+  background:rgba(30,40,90,.03); border:1px solid var(--line); margin:4px 0;
+}
+.node .dot{
+  width:14px; height:14px; border-radius:50%; flex-shrink:0;
+  box-shadow:0 0 12px currentColor;
+}
+.node.present .dot{background:var(--present); color:var(--present);}
+.node.past .dot{background:var(--past); color:var(--past);}
+.node.pp .dot{background:var(--pp); color:var(--pp);}
+.node .tag{font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); width:64px;}
+.node .word{font-family:var(--mono); font-size:20px; font-weight:700; flex:1;}
+.node.present .word{color:var(--present);}
+.node.past .word{color:var(--past);}
+.node.pp .word{color:var(--pp);}
+.speakbtn{
+  background:none; border:1px solid var(--line); border-radius:50%; width:34px; height:34px;
+  color:var(--ink-dim); cursor:pointer; font-size:14px; flex-shrink:0; transition:all .15s;
+}
+.speakbtn:hover{border-color:var(--gold); color:var(--gold);}
+.connector{width:2px; height:10px; background:var(--line); margin-left:33px;}
+
+.cardctrl{display:flex; gap:10px; margin-top:20px; width:100%; max-width:440px;}
+.btn{
+  font-family:var(--kr); font-weight:600; font-size:14px; padding:13px 18px; border-radius:12px;
+  border:1px solid var(--line); background:var(--bg-1); color:var(--ink); cursor:pointer; flex:1;
+  transition:all .15s ease;
+}
+.btn:hover{border-color:var(--ink-faint);}
+.btn.primary{background:var(--present); border-color:var(--present); color:var(--ontone);}
+.btn.good{background:transparent; border-color:var(--good); color:var(--good);}
+.btn.good.active,.btn.good:hover{background:var(--good); color:var(--ontone);}
+.btn.bad{background:transparent; border-color:var(--bad); color:var(--bad);}
+.btn.bad.active,.btn.bad:hover{background:var(--bad); color:var(--ontone);}
+.navrow{display:flex; justify-content:space-between; width:100%; max-width:440px; margin-top:10px;}
+.navrow button{background:none; border:none; color:var(--ink-faint); font-family:var(--mono); font-size:12px; cursor:pointer; padding:8px;}
+.navrow button:hover{color:var(--ink);}
+
+/* quiz */
+.quizhead{text-align:center; margin-bottom:6px;}
+.scorebar{display:flex; justify-content:center; gap:22px; margin-bottom:22px; font-family:var(--mono); font-size:13px; color:var(--ink-dim);}
+.scorebar b{color:var(--gold);}
+.quizcard{
+  max-width:460px; margin:0 auto; background:linear-gradient(160deg, var(--bg-1), var(--bg-2));
+  border:1px solid var(--line); border-radius:22px; padding:28px; text-align:center;
+}
+.quizq{font-size:13px; color:var(--ink-faint); margin-bottom:10px; font-family:var(--mono); letter-spacing:.05em;}
+.quizmeaning{font-size:22px; font-weight:700; margin-bottom:4px;}
+.quizbase{font-family:var(--mono); font-size:30px; color:var(--present); font-weight:700; margin-bottom:22px;}
+.options{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+@media(max-width:420px){.options{grid-template-columns:1fr;}}
+.option{
+  font-family:var(--mono); font-size:17px; padding:16px 10px; border-radius:12px;
+  border:1px solid var(--line); background:var(--bg-1); color:var(--ink); cursor:pointer;
+  transition:all .15s ease;
+}
+.option:hover{border-color:var(--ink-faint);}
+.option.correct{background:var(--good); border-color:var(--good); color:var(--ontone); font-weight:700;}
+.option.wrong{background:var(--bad); border-color:var(--bad); color:var(--ontone); font-weight:700;}
+.option.disabled{pointer-events:none; opacity:.5;}
+.feedback{margin-top:16px; font-size:13px; color:var(--ink-dim); min-height:20px;}
+.nextbtn{margin-top:16px; display:none;}
+
+/* spelling */
+.spellcard{max-width:460px; margin:0 auto; background:linear-gradient(160deg, var(--bg-1), var(--bg-2)); border:1px solid var(--line); border-radius:22px; padding:28px;}
+.spellrow{display:flex; align-items:center; gap:12px; margin-bottom:18px;}
+.spellrow label{font-family:var(--mono); font-size:11px; letter-spacing:.15em; text-transform:uppercase; width:100px; color:var(--ink-faint);}
+.spellrow input{
+  flex:1; background:var(--bg-0); border:1px solid var(--line); border-radius:10px; padding:12px 14px;
+  color:var(--ink); font-family:var(--mono); font-size:16px; outline:none;
+}
+.spellrow input:focus{border-color:var(--present);}
+.spellrow input.correct{border-color:var(--good); background:rgba(99,212,161,.08);}
+.spellrow input.wrong{border-color:var(--bad); background:rgba(255,122,138,.08);}
+.spellanswer{font-family:var(--mono); font-size:12px; color:var(--good); margin-left:100px; margin-top:-10px; margin-bottom:14px; display:none;}
+.spellbtns{display:flex; gap:10px;}
+
+/* list */
+.searchbox{
+  width:100%; padding:13px 16px; border-radius:12px; border:1px solid var(--line); background:var(--bg-1);
+  color:var(--ink); font-family:var(--kr); font-size:14px; margin-bottom:16px; outline:none;
+}
+.searchbox:focus{border-color:var(--present);}
+.listtable{width:100%; border-collapse:collapse;}
+.listtable th{
+  font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-faint);
+  text-align:left; padding:8px 10px; border-bottom:1px solid var(--line);
+}
+.listtable td{padding:12px 10px; border-bottom:1px solid var(--bg-2); font-size:14px; vertical-align:middle;}
+.listtable tr:hover{background:rgba(30,40,90,.03);}
+.wordcell{display:flex; align-items:center; gap:8px; font-family:var(--mono);}
+.wordcell.present{color:var(--present);}
+.wordcell.past{color:var(--past);}
+.wordcell.pp{color:var(--pp);}
+.minispeak{background:none; border:none; color:inherit; opacity:.6; cursor:pointer; font-size:12px;}
+.minispeak:hover{opacity:1;}
+.knownmark{color:var(--good); font-size:12px;}
+.norow{color:var(--ink-faint); font-family:var(--mono); font-size:12px;}
+
+footer{text-align:center; margin-top:50px; color:var(--ink-faint); font-size:11.5px; font-family:var(--mono);}
+</style>
+</head>
+<body>
+<div id="stars"></div>
+<div class="wrap">
+
+  <header id="mainHeader">
+    <div class="eyebrow">STELLA ACADEMY · VERB CONSTELLATION</div>
+    <h1>동사 별자리</h1>
+    <p class="sub">불규칙 동사 40개, 현재 → 과거 → 과거분사가 하나의 별자리처럼 이어져요. 소리 내어 듣고, 맞혀보고, 직접 써보면서 자연스럽게 외워봐요.</p>
+    <div class="whoami" id="whoami"></div>
+  </header>
+
+  <!-- STUDENT GATE -->
+  <div class="screen" id="screen-gate">
+    <div class="stage">
+      <div class="spellcard" style="max-width:400px">
+        <div style="text-align:center; margin-bottom:18px;">
+          <div class="eyebrow" style="margin-bottom:8px;">시작하기 전에</div>
+          <div class="meaning" style="font-size:20px;">이름과 반을 알려주세요</div>
+          <p style="color:var(--ink-faint); font-size:12.5px; margin-top:8px;">학습 완료 기록이 선생님께 전달돼요.</p>
+        </div>
+        <div class="spellrow">
+          <label>이름</label>
+          <input type="text" id="gateName" autocomplete="off" placeholder="예: 김하늘">
+        </div>
+        <div class="spellrow">
+          <label>반</label>
+          <input type="text" id="gateClass" autocomplete="off" placeholder="예: 중등부, A반">
+        </div>
+        <div class="spellbtns">
+          <button class="btn primary" style="flex:1" onclick="saveStudent()">시작하기</button>
+        </div>
+        <div class="feedback" id="gateFeedback"></div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="topbar" id="topbar">
+    <button class="backbtn" onclick="goHome()">← 처음으로</button>
+    <div class="progresswrap"><div class="progressbar" id="progressbar"></div></div>
+    <div class="counter" id="counter"></div>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen active" id="screen-home">
+    <div class="section-label">01 · 범위 선택</div>
+    <div class="chiprow" id="setChips"></div>
+
+    <div class="section-label">02 · 학습 모드</div>
+    <div class="modegrid">
+      <div class="modecard" onclick="startMode('flash')">
+        <span class="icon">✦</span>
+        <h3>플래시카드</h3>
+        <p>뜻을 보고 변화를 떠올린 뒤, 카드를 넘겨 별자리(현재·과거·과거분사)를 확인하고 발음을 들어요.</p>
+      </div>
+      <div class="modecard" onclick="startMode('quiz')">
+        <span class="icon">◆</span>
+        <h3>객관식 퀴즈</h3>
+        <p>현재형을 보고 과거형·과거분사형을 4지선다로 맞혀요. 연속 정답 스트릭에 도전!</p>
+      </div>
+      <div class="modecard" onclick="startMode('spell')">
+        <span class="icon">✎</span>
+        <h3>스펠링 연습</h3>
+        <p>과거형과 과거분사형을 직접 입력해서 완성해요. 손으로 써야 오래 남아요.</p>
+      </div>
+      <div class="modecard" onclick="startMode('list')">
+        <span class="icon">☰</span>
+        <h3>전체 목록</h3>
+        <p>40개 전체를 한눈에 보고, 검색하고, 하나씩 눌러서 발음을 들어요.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLASHCARD -->
+  <div class="screen" id="screen-flash">
+    <div class="stage">
+      <div class="card" id="flashCard" onclick="flipCard()">
+        <div class="no" id="flashNo">01 / 10</div>
+        <div class="cardfront" id="flashFront">
+          <div class="meaning" id="flashMeaning">뜻</div>
+          <div class="baseword" id="flashBase">base</div>
+          <div class="hint">탭해서 변화 확인하기</div>
+        </div>
+      </div>
+      <div class="cardctrl">
+        <button class="btn bad" id="btnDontKnow" onclick="markKnown(false)">헷갈려요</button>
+        <button class="btn good" id="btnKnow" onclick="markKnown(true)">알아요</button>
+      </div>
+      <div class="navrow">
+        <button onclick="prevCard()">← 이전</button>
+        <button onclick="speakAll()">🔊 전체 듣기</button>
+        <button onclick="nextCard()">다음 →</button>
+      </div>
+      <div class="submitrow">
+        <button class="submitbtn" id="flashSubmitBtn" onclick="submitFlashProgress()">🌟 학습 완료 제출하기</button>
+      </div>
+      <div class="submitmsg" id="flashSubmitMsg"></div>
+    </div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="screen" id="screen-quiz">
+    <div class="scorebar">
+      <span>점수 <b id="quizScore">0</b></span>
+      <span>연속 정답 <b id="quizStreak">0</b></span>
+      <span>남은 문제 <b id="quizLeft">0</b></span>
+    </div>
+    <div class="quizcard">
+      <div class="quizq" id="quizQuestion">현재형 → 과거형은?</div>
+      <div class="quizmeaning" id="quizMeaning">뜻</div>
+      <div class="quizbase" id="quizBase">base <button class="speakbtn" style="vertical-align:middle;margin-left:8px" onclick="speak(currentQuizVerb.base)">🔊</button></div>
+      <div class="options" id="quizOptions"></div>
+      <div class="feedback" id="quizFeedback"></div>
+      <button class="btn primary nextbtn" id="quizNextBtn" onclick="nextQuiz()">다음 문제 →</button>
+      <div class="submitrow">
+        <button class="submitbtn" id="quizSubmitBtn" onclick="submitQuizProgress()">🌟 여기까지 제출하기</button>
+      </div>
+      <div class="submitmsg" id="quizSubmitMsg"></div>
+    </div>
+  </div>
+
+  <!-- SPELL -->
+  <div class="screen" id="screen-spell">
+    <div class="stage">
+      <div class="quizq" style="margin-bottom:14px" id="spellCounter">1 / 10</div>
+      <div class="spellcard">
+        <div style="text-align:center; margin-bottom:20px;">
+          <div class="meaning" id="spellMeaning">뜻</div>
+          <div class="baseword" style="font-size:26px" id="spellBase">base <button class="speakbtn" style="vertical-align:middle;margin-left:6px" onclick="speak(currentSpellVerb.base)">🔊</button></div>
+        </div>
+        <div class="spellrow">
+          <label>과거형</label>
+          <input type="text" id="spellPast" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="과거형 입력">
+        </div>
+        <div class="spellanswer" id="spellPastAns"></div>
+        <div class="spellrow">
+          <label>과거분사</label>
+          <input type="text" id="spellPP" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="과거분사 입력">
+        </div>
+        <div class="spellanswer" id="spellPPAns"></div>
+        <div class="spellbtns">
+          <button class="btn primary" onclick="checkSpelling()">정답 확인</button>
+          <button class="btn" onclick="nextSpell()">다음 →</button>
+        </div>
+        <div class="submitrow">
+          <button class="submitbtn" id="spellSubmitBtn" onclick="submitSpellProgress()">🌟 여기까지 제출하기</button>
+        </div>
+        <div class="submitmsg" id="spellSubmitMsg"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST -->
+  <div class="screen" id="screen-list">
+    <input class="searchbox" id="listSearch" placeholder="뜻 또는 단어로 검색... (예: 먹다, eat)" oninput="renderList()">
+    <table class="listtable">
+      <thead><tr><th>#</th><th>뜻</th><th>현재</th><th>과거</th><th>과거분사</th><th></th></tr></thead>
+      <tbody id="listBody"></tbody>
+    </table>
+  </div>
+
+  <footer>English Eye Stella Academy · 별을 잇듯, 동사를 잇다</footer>
+</div>
+
+<script>
+/* ---------- DATA ---------- */
+const VERBS = [
+ {no:1, meaning:"이다, 있다", base:"be", past:"was/were", pp:"been", speakPast:"was, were"},
+ {no:2, meaning:"가지다", base:"have", past:"had", pp:"had"},
+ {no:3, meaning:"하다", base:"do", past:"did", pp:"done"},
+ {no:4, meaning:"가다", base:"go", past:"went", pp:"gone"},
+ {no:5, meaning:"오다", base:"come", past:"came", pp:"come"},
+ {no:6, meaning:"보다", base:"see", past:"saw", pp:"seen"},
+ {no:7, meaning:"먹다", base:"eat", past:"ate", pp:"eaten"},
+ {no:8, meaning:"만들다", base:"make", past:"made", pp:"made"},
+ {no:9, meaning:"주다", base:"give", past:"gave", pp:"given"},
+ {no:10, meaning:"가져가다", base:"take", past:"took", pp:"taken"},
+ {no:11, meaning:"얻다", base:"get", past:"got", pp:"got"},
+ {no:12, meaning:"말하다", base:"say", past:"said", pp:"said"},
+ {no:13, meaning:"달리다", base:"run", past:"ran", pp:"run"},
+ {no:14, meaning:"쓰다", base:"write", past:"wrote", pp:"written"},
+ {no:15, meaning:"읽다", base:"read", past:"read", pp:"read", speakPast:"red", speakPP:"red"},
+ {no:16, meaning:"마시다", base:"drink", past:"drank", pp:"drunk"},
+ {no:17, meaning:"찾다", base:"find", past:"found", pp:"found"},
+ {no:18, meaning:"사다", base:"buy", past:"bought", pp:"bought"},
+ {no:19, meaning:"노래하다", base:"sing", past:"sang", pp:"sung"},
+ {no:20, meaning:"날다", base:"fly", past:"flew", pp:"flown"},
+ {no:21, meaning:"시작하다", base:"begin", past:"began", pp:"begun"},
+ {no:22, meaning:"부수다", base:"break", past:"broke", pp:"broken"},
+ {no:23, meaning:"가져오다", base:"bring", past:"brought", pp:"brought"},
+ {no:24, meaning:"짓다", base:"build", past:"built", pp:"built"},
+ {no:25, meaning:"잡다", base:"catch", past:"caught", pp:"caught"},
+ {no:26, meaning:"고르다", base:"choose", past:"chose", pp:"chosen"},
+ {no:27, meaning:"그리다", base:"draw", past:"drew", pp:"drawn"},
+ {no:28, meaning:"떨어지다", base:"fall", past:"fell", pp:"fallen"},
+ {no:29, meaning:"느끼다", base:"feel", past:"felt", pp:"felt"},
+ {no:30, meaning:"잊다", base:"forget", past:"forgot", pp:"forgotten"},
+ {no:31, meaning:"듣다", base:"hear", past:"heard", pp:"heard"},
+ {no:32, meaning:"잡다", base:"hold", past:"held", pp:"held"},
+ {no:33, meaning:"유지하다", base:"keep", past:"kept", pp:"kept"},
+ {no:34, meaning:"떠나다", base:"leave", past:"left", pp:"left"},
+ {no:35, meaning:"만나다", base:"meet", past:"met", pp:"met"},
+ {no:36, meaning:"지불하다", base:"pay", past:"paid", pp:"paid"},
+ {no:37, meaning:"(편지를)보내다", base:"send", past:"sent", pp:"sent"},
+ {no:38, meaning:"가르치다", base:"teach", past:"taught", pp:"taught"},
+ {no:39, meaning:"이해하다", base:"understand", past:"understood", pp:"understood"},
+ {no:40, meaning:"말하다", base:"speak", past:"spoke", pp:"spoken"},
+];
+
+const SETS = [
+  {id:"all", label:"전체 40"},
+  {id:"1-10", label:"1~10"},
+  {id:"11-20", label:"11~20"},
+  {id:"21-30", label:"21~30"},
+  {id:"31-40", label:"31~40"},
+];
+let currentSetId = "all";
+
+function getSetVerbs(id){
+  if(id==="all") return VERBS;
+  const [a,b] = id.split("-").map(Number);
+  return VERBS.filter(v=>v.no>=a && v.no<=b);
+}
+
+/* ---------- TTS ---------- */
+let voices = [];
+function loadVoices(){ voices = speechSynthesis.getVoices(); }
+loadVoices();
+if(speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices;
+
+function speak(text, rate){
+  if(!text) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text.replace("/", " or "));
+  u.lang = "en-US";
+  u.rate = rate || 0.95;
+  const v = voices.find(v=>v.lang==="en-US") || voices.find(v=>v.lang && v.lang.startsWith("en"));
+  if(v) u.voice = v;
+  speechSynthesis.speak(u);
+}
+function speakVerbField(verb, field){
+  const map = {present: verb.speakBase||verb.base, past: verb.speakPast||verb.past, pp: verb.speakPP||verb.pp};
+  speak(map[field]);
+}
+
+/* ---------- STARFIELD ---------- */
+(function makeStars(){
+  const box = document.getElementById("stars");
+  for(let i=0;i<70;i++){
+    const s = document.createElement("div");
+    s.className = "star";
+    s.style.left = Math.random()*100+"%";
+    s.style.top = Math.random()*100+"%";
+    s.style.animationDelay = (Math.random()*3.5)+"s";
+    s.style.width = s.style.height = (Math.random()<0.15 ? "3px":"2px");
+    box.appendChild(s);
+  }
+})();
+
+/* ---------- KNOWN STORAGE ---------- */
+const KNOWN_KEY = "stella_irregular_known";
+function getKnown(){ try{ return JSON.parse(localStorage.getItem(KNOWN_KEY))||{}; }catch(e){ return {}; } }
+function setKnown(no, val){ const k=getKnown(); k[no]=val; localStorage.setItem(KNOWN_KEY, JSON.stringify(k)); }
+
+/* ---------- STUDENT INFO & NOTION 제출 ---------- */
+// ⚠️ 학원에서 쓰던 Google Apps Script 배포 URL로 교체하세요.
+const GAS_URL = "https://script.google.com/macros/s/AKfycbyiLo7WKRYBEuufsN01HrcHkRGzTtF0wkc4MUmEiO_VaMLjv-7rQ1jDdPd0ZV9DKjbwFw/exec";
+const STUDENT_KEY = "stella_student_info";
+
+function getStudent(){ try{ return JSON.parse(localStorage.getItem(STUDENT_KEY)); }catch(e){ return null; } }
+function renderWhoami(){
+  const s = getStudent();
+  const box = document.getElementById("whoami");
+  if(!box) return;
+  box.innerHTML = s
+    ? `${s.name} · ${s.cls || "반 미입력"} <button onclick="showScreen('gate')">정보 변경</button>`
+    : "";
+}
+function saveStudent(){
+  const name = document.getElementById("gateName").value.trim();
+  const cls = document.getElementById("gateClass").value.trim();
+  if(!name){
+    document.getElementById("gateFeedback").textContent = "이름을 입력해주세요.";
+    document.getElementById("gateFeedback").className = "feedback";
+    return;
+  }
+  localStorage.setItem(STUDENT_KEY, JSON.stringify({name, cls}));
+  renderWhoami();
+  goHome();
+}
+
+// 결과를 Google Apps Script(→ Notion "단어학습시스템" DB)로 전송.
+// no-cors를 쓰지 않고 text/plain으로 보내 프리플라이트를 피하면서 실제 성공/실패를 확인합니다.
+function submitRecord(unitLabel, score, btnEl, msgEl){
+  const s = getStudent();
+  if(!s || !s.name){ showScreen("gate"); return; }
+  if(GAS_URL.includes("여기에_배포_ID를_넣어주세요")){
+    msgEl.textContent = "⚠️ 아직 연동 주소가 설정되지 않았어요. (선생님께 문의)";
+    msgEl.className = "submitmsg err";
+    return;
+  }
+  if(btnEl){ btnEl.disabled = true; btnEl.textContent = "제출 중..."; }
+  msgEl.textContent = "";
+  fetch(GAS_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" }, // 프리플라이트 방지
+    body: JSON.stringify({
+      이름: s.name,
+      반: s.cls || "",
+      Unit: unitLabel,
+      점수: score,
+      날짜시간: new Date().toLocaleString("ko-KR")
+    })
+  })
+  .then(res => res.text())
+  .then(text => {
+    let data;
+    try{ data = JSON.parse(text); }catch(e){ data = null; }
+    if(data && data.ok === true){
+      msgEl.textContent = "✓ 제출 완료! 선생님이 확인할 수 있어요.";
+      msgEl.className = "submitmsg ok";
+    } else {
+      const detail = data && data.error ? String(data.error).slice(0,120) : text.slice(0,120);
+      msgEl.textContent = "제출 실패: " + detail;
+      msgEl.className = "submitmsg err";
+    }
+  })
+  .catch(() => {
+    msgEl.textContent = "전송에 실패했어요. 인터넷 연결을 확인하고 다시 시도해주세요.";
+    msgEl.className = "submitmsg err";
+  })
+  .finally(() => {
+    if(btnEl){ btnEl.disabled = false; btnEl.textContent = "🌟 다시 제출하기"; }
+  });
+}
+function setLabelFor(id){
+  const found = SETS.find(s=>s.id===id);
+  return "불규칙동사 " + (found ? found.label : id);
+}
+function submitFlashProgress(){
+  const known = getKnown();
+  const total = flashList.length;
+  const knownCount = flashList.filter(v=>known[v.no]===true).length;
+  const score = total ? Math.round(knownCount/total*100) : 0;
+  submitRecord(setLabelFor(currentSetId) + " (플래시카드)", score, document.getElementById("flashSubmitBtn"), document.getElementById("flashSubmitMsg"));
+}
+function submitQuizProgress(){
+  submitRecord(setLabelFor(currentSetId) + " (퀴즈)", quizScore, document.getElementById("quizSubmitBtn"), document.getElementById("quizSubmitMsg"));
+}
+function submitSpellProgress(){
+  const total = spellCorrect + spellWrong;
+  const score = total ? Math.round(spellCorrect/total*100) : 0;
+  submitRecord(setLabelFor(currentSetId) + " (스펠링)", score, document.getElementById("spellSubmitBtn"), document.getElementById("spellSubmitMsg"));
+}
+
+/* ---------- NAV ---------- */
+function showScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById("screen-"+id).classList.add("active");
+  document.getElementById("topbar").classList.toggle("show", id!=="home" && id!=="gate");
+  document.getElementById("mainHeader").style.display = (id==="home" || id==="gate") ? "block":"none";
+}
+function goHome(){ speechSynthesis.cancel(); showScreen("home"); }
+function setProgress(current, total){
+  document.getElementById("progressbar").style.width = (total? (current/total*100):0)+"%";
+  document.getElementById("counter").textContent = current+" / "+total;
+}
+
+/* set chips */
+function renderChips(){
+  const box = document.getElementById("setChips");
+  box.innerHTML = "";
+  SETS.forEach(s=>{
+    const c = document.createElement("div");
+    c.className = "chip" + (s.id===currentSetId ? " active":"");
+    c.textContent = s.label;
+    c.onclick = ()=>{ currentSetId = s.id; renderChips(); };
+    box.appendChild(c);
+  });
+}
+renderChips();
+
+function startMode(mode){
+  if(mode==="flash") initFlash();
+  if(mode==="quiz") initQuiz();
+  if(mode==="spell") initSpell();
+  if(mode==="list") initList();
+  showScreen(mode);
+}
+
+/* ---------- FLASHCARD ---------- */
+let flashList = [], flashIndex = 0, flashFlipped = false;
+function initFlash(){
+  flashList = getSetVerbs(currentSetId);
+  flashIndex = 0; flashFlipped = false;
+  renderFlash();
+}
+function goToCard(newIndex){
+  if(newIndex < 0 || newIndex >= flashList.length) return;
+  speechSynthesis.cancel();
+  flashIndex = newIndex;
+  renderFlash();
+}
+function renderFlash(){
+  const v = flashList[flashIndex];
+  setProgress(flashIndex+1, flashList.length);
+  flashFlipped = false;
+  const card = document.getElementById("flashCard");
+  card.innerHTML = `<div class="no">${String(v.no).padStart(2,"0")} / ${flashList.length}</div>
+    <div class="cardfront">
+      <div class="meaning">${v.meaning}</div>
+      <div class="baseword">${v.base}</div>
+      <div class="hint">탭해서 변화 확인하기</div>
+    </div>`;
+  const known = getKnown();
+  document.getElementById("btnKnow").classList.toggle("active", known[v.no]===true);
+  document.getElementById("btnDontKnow").classList.toggle("active", known[v.no]===false);
+}
+function flipCard(){
+  const v = flashList[flashIndex];
+  const card = document.getElementById("flashCard");
+  if(!flashFlipped){
+    flashFlipped = true;
+    card.innerHTML = `<div class="no">${String(v.no).padStart(2,"0")} / ${flashList.length}</div>
+      <div class="constellation">
+        <div class="node present" data-field="present">
+          <div class="dot"></div><div class="tag">현재</div><div class="word">${v.base}</div>
+          <button class="speakbtn" type="button" data-field="present">🔊</button>
+        </div>
+        <div class="connector"></div>
+        <div class="node past" data-field="past">
+          <div class="dot"></div><div class="tag">과거</div><div class="word">${v.past}</div>
+          <button class="speakbtn" type="button" data-field="past">🔊</button>
+        </div>
+        <div class="connector"></div>
+        <div class="node pp" data-field="pp">
+          <div class="dot"></div><div class="tag">P.P.</div><div class="word">${v.pp}</div>
+          <button class="speakbtn" type="button" data-field="pp">🔊</button>
+        </div>
+      </div>`;
+    card.querySelectorAll(".speakbtn").forEach(btn=>{
+      btn.addEventListener("click", (e)=>{
+        e.stopPropagation();
+        speakVerbField(flashList[flashIndex], btn.dataset.field);
+      });
+    });
+  } else {
+    renderFlash();
+  }
+}
+function speakAll(){
+  const v = flashList[flashIndex];
+  if(!flashFlipped) flipCard();
+  const seq = [v.speakBase||v.base, v.speakPast||v.past, v.speakPP||v.pp];
+  let i=0;
+  function playNext(){
+    if(i>=seq.length) return;
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(seq[i]);
+    u.lang="en-US"; u.rate=0.9;
+    const vc = voices.find(v=>v.lang==="en-US");
+    if(vc) u.voice = vc;
+    u.onend = ()=>{ i++; setTimeout(playNext, 250); };
+    speechSynthesis.speak(u);
+  }
+  playNext();
+}
+function markKnown(val){
+  setKnown(flashList[flashIndex].no, val);
+  document.getElementById("btnKnow").classList.toggle("active", val===true);
+  document.getElementById("btnDontKnow").classList.toggle("active", val===false);
+}
+function nextCard(){ goToCard(flashIndex+1); }
+function prevCard(){ goToCard(flashIndex-1); }
+
+/* ---------- QUIZ ---------- */
+let quizPool = [], quizScore=0, quizStreak=0, currentQuizVerb=null, currentQuizField=null, quizAnswered=false;
+function initQuiz(){
+  quizPool = shuffle(getSetVerbs(currentSetId).slice());
+  quizScore=0; quizStreak=0;
+  document.getElementById("quizScore").textContent = 0;
+  document.getElementById("quizStreak").textContent = 0;
+  nextQuiz();
+}
+function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; } return arr; }
+function nextQuiz(){
+  quizAnswered = false;
+  document.getElementById("quizNextBtn").style.display = "none";
+  document.getElementById("quizFeedback").textContent = "";
+  if(quizPool.length===0){ quizPool = shuffle(getSetVerbs(currentSetId).slice()); }
+  currentQuizVerb = quizPool.pop();
+  currentQuizField = Math.random()<0.5 ? "past" : "pp";
+  document.getElementById("quizLeft").textContent = quizPool.length;
+  document.getElementById("quizQuestion").textContent = currentQuizField==="past" ? "현재형 → 과거형은?" : "현재형 → 과거분사형은?";
+  document.getElementById("quizMeaning").textContent = currentQuizVerb.meaning;
+  document.getElementById("flashBase") // noop guard
+  document.querySelector(".quizbase").innerHTML = currentQuizVerb.base + ` <button class="speakbtn" style="vertical-align:middle;margin-left:8px" onclick="speak(currentQuizVerb.speakBase||currentQuizVerb.base)">🔊</button>`;
+
+  const correct = currentQuizField==="past" ? currentQuizVerb.past : currentQuizVerb.pp;
+  let distractors = shuffle(VERBS.filter(v=>v.no!==currentQuizVerb.no)).slice(0,3).map(v=> currentQuizField==="past" ? v.past : v.pp);
+  distractors = [...new Set(distractors)];
+  while(distractors.length<3){
+    const extra = VERBS[Math.floor(Math.random()*VERBS.length)];
+    const val = currentQuizField==="past"?extra.past:extra.pp;
+    if(val!==correct && !distractors.includes(val)) distractors.push(val);
+  }
+  const options = shuffle([correct, ...distractors.slice(0,3)]);
+  const optBox = document.getElementById("quizOptions");
+  optBox.innerHTML = "";
+  options.forEach(opt=>{
+    const b = document.createElement("div");
+    b.className = "option";
+    b.textContent = opt;
+    b.onclick = ()=>answerQuiz(opt, correct, b);
+    optBox.appendChild(b);
+  });
+}
+function answerQuiz(selected, correct, el){
+  if(quizAnswered) return;
+  quizAnswered = true;
+  document.querySelectorAll(".option").forEach(o=>o.classList.add("disabled"));
+  if(selected===correct){
+    el.classList.add("correct");
+    quizScore += 10; quizStreak += 1;
+    document.getElementById("quizFeedback").textContent = "정답이에요! 🌟";
+    speak(correct);
+  } else {
+    el.classList.add("wrong");
+    quizStreak = 0;
+    document.querySelectorAll(".option").forEach(o=>{ if(o.textContent===correct) o.classList.add("correct"); });
+    document.getElementById("quizFeedback").textContent = `아쉬워요. 정답은 ${correct} 입니다.`;
+    speak(correct);
+  }
+  document.getElementById("quizScore").textContent = quizScore;
+  document.getElementById("quizStreak").textContent = quizStreak;
+  document.getElementById("quizNextBtn").style.display = "block";
+}
+
+/* ---------- SPELL ---------- */
+let spellList = [], spellIndex = 0, spellCorrect = 0, spellWrong = 0, spellChecked = false;
+function initSpell(){
+  spellList = shuffle(getSetVerbs(currentSetId).slice());
+  spellIndex = 0; spellCorrect = 0; spellWrong = 0;
+  renderSpell();
+}
+function renderSpell(){
+  const v = spellList[spellIndex];
+  spellChecked = false;
+  document.getElementById("spellCounter").textContent = (spellIndex+1)+" / "+spellList.length;
+  document.getElementById("spellMeaning").textContent = v.meaning;
+  document.querySelector("#spellBase").innerHTML = v.base + ` <button class="speakbtn" style="vertical-align:middle;margin-left:6px" onclick="speak(currentSpellVerb.speakBase||currentSpellVerb.base)">🔊</button>`;
+  const p1 = document.getElementById("spellPast"), p2 = document.getElementById("spellPP");
+  p1.value = ""; p2.value = "";
+  p1.className = ""; p2.className = "";
+  document.getElementById("spellPastAns").style.display="none";
+  document.getElementById("spellPPAns").style.display="none";
+}
+Object.defineProperty(window, "currentSpellVerb", { get(){ return spellList[spellIndex]; } });
+function checkSpelling(){
+  const v = spellList[spellIndex];
+  const p1 = document.getElementById("spellPast"), p2 = document.getElementById("spellPP");
+  const okPast = p1.value.trim().toLowerCase() === v.past.toLowerCase();
+  const okPP = p2.value.trim().toLowerCase() === v.pp.toLowerCase();
+  p1.className = okPast ? "correct" : "wrong";
+  p2.className = okPP ? "correct" : "wrong";
+  if(!okPast){ const a=document.getElementById("spellPastAns"); a.textContent="정답: "+v.past; a.style.display="block"; }
+  if(!okPP){ const a=document.getElementById("spellPPAns"); a.textContent="정답: "+v.pp; a.style.display="block"; }
+  speak((okPast?v.past:v.past)+", "+v.pp);
+  if(!spellChecked){
+    spellChecked = true;
+    if(okPast && okPP) spellCorrect++; else spellWrong++;
+  }
+}
+function nextSpell(){
+  if(spellIndex < spellList.length-1){ spellIndex++; } else { spellIndex = 0; }
+  renderSpell();
+}
+Object.defineProperty(window, "currentQuizVerb", { get(){ return currentQuizVerb; }, set(v){ currentQuizVerb = v; } });
+
+/* ---------- LIST ---------- */
+function initList(){
+  document.getElementById("listSearch").value = "";
+  renderList();
+}
+function renderList(){
+  const q = document.getElementById("listSearch").value.trim().toLowerCase();
+  const known = getKnown();
+  const list = getSetVerbs(currentSetId).filter(v=>{
+    if(!q) return true;
+    return v.meaning.includes(q) || v.base.toLowerCase().includes(q) || v.past.toLowerCase().includes(q) || v.pp.toLowerCase().includes(q);
+  });
+  const body = document.getElementById("listBody");
+  if(list.length===0){
+    body.innerHTML = `<tr><td colspan="6" class="norow">검색 결과가 없어요.</td></tr>`;
+    return;
+  }
+  body.innerHTML = list.map(v=>`
+    <tr>
+      <td class="norow">${String(v.no).padStart(2,"0")}</td>
+      <td>${v.meaning} ${known[v.no]===true?'<span class="knownmark">●</span>':''}</td>
+      <td><div class="wordcell present">${v.base}<button class="minispeak" onclick="speak('${v.speakBase||v.base}')">🔊</button></div></td>
+      <td><div class="wordcell past">${v.past}<button class="minispeak" onclick="speak('${(v.speakPast||v.past).replace("/"," or ")}')">🔊</button></div></td>
+      <td><div class="wordcell pp">${v.pp}<button class="minispeak" onclick="speak('${v.speakPP||v.pp}')">🔊</button></div></td>
+      <td></td>
+    </tr>
+  `).join("");
+}
+
+/* init */
+renderWhoami();
+showScreen(getStudent() ? "home" : "gate");
+</script>
+</body>
+</html>
