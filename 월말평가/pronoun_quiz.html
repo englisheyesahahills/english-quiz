@@ -313,7 +313,7 @@ const OPT = ["①","②","③","④"];
       "결과 저장하기" 버튼이 노션 DB에 자동으로 기록됩니다.
    -- 비워두면 결과 텍스트를 복사하는 방식으로 대체됩니다.
    ========================================================= */
-const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbzSq0UHSuWkwUEodAUZv2BIeZK8rCm7wKPXGZW-xxQQ8srZiLtBjKH88-W3RLBzS0qPkQ/exec";
+const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbzxYmQ2qGjX4o3RV9utdsXHlcDTRopcjfT5Ju01wQ1LAFECIWCzYjDwZC2SyoS-OjBCWw/exec";
 
 /* ========================================================= */
 
@@ -485,16 +485,31 @@ $("btn-submit").addEventListener("click", async () => {
   btn.textContent = "저장 중...";
   statusEl.textContent = "";
   try{
-    await fetch(SUBMIT_URL, {
+    const res = await fetch(SUBMIT_URL, {
       method: "POST",
       headers: {"Content-Type":"text/plain"},
       body: JSON.stringify(data)
     });
-    statusEl.textContent = "✅ 노션에 결과가 저장되었습니다!";
-    statusEl.className = "status ok";
-    btn.textContent = "저장 완료";
+    const raw = await res.text();
+    let parsed = null;
+    try{ parsed = JSON.parse(raw); }catch(e){ /* not JSON */ }
+
+    const isSuccess = parsed && (parsed.object === "page" || (parsed.id && !parsed.error && parsed.object !== "error"));
+
+    if(isSuccess){
+      statusEl.textContent = "✅ 노션에 결과가 저장되었습니다!";
+      statusEl.className = "status ok";
+      btn.textContent = "저장 완료";
+    } else {
+      const msg = (parsed && (parsed.message || parsed.error)) || raw || "알 수 없는 오류";
+      console.error("Notion 저장 실패 응답:", raw);
+      statusEl.textContent = "⚠ 저장 실패: " + msg;
+      statusEl.className = "status err";
+      btn.disabled = false;
+      btn.textContent = "📤 다시 시도하기";
+    }
   }catch(err){
-    statusEl.textContent = "저장에 실패했어요. 네트워크를 확인하고 다시 시도해 주세요.";
+    statusEl.textContent = "저장에 실패했어요. 네트워크를 확인하고 다시 시도해 주세요. (" + err.message + ")";
     statusEl.className = "status err";
     btn.disabled = false;
     btn.textContent = "📤 다시 시도하기";
