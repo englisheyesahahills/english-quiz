@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>조동사 must & 명령문 퀴즈 | 잉글리시아이스텔라영어학원</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#22314a;
+    --ink-soft:#5b6b85;
+    --paper:#fff8ec;
+    --card:#ffffff;
+    --accent:#ff7a45;
+    --accent-deep:#e8632f;
+    --accent-pale:#ffe3d1;
+    --good:#2e9e5b;
+    --good-pale:#e3f7ea;
+    --bad:#e04b4b;
+    --bad-pale:#fdeaea;
+    --line:#eee1cf;
+    --navy:#1f3a5f;
+    shape-rendering: geometricPrecision;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(circle at 8% 0%, #fff2df 0%, transparent 45%),
+      radial-gradient(circle at 100% 100%, #ffe9da 0%, transparent 40%),
+      var(--paper);
+    min-height:100vh;
+    font-family:'Noto Sans KR', sans-serif;
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+    padding:20px 14px 60px;
+  }
+  .app{ width:100%; max-width:560px; }
+
+  .brand{
+    text-align:center;
+    margin-bottom:14px;
+  }
+  .brand .name{
+    font-size:13px; font-weight:700; letter-spacing:.04em;
+    color:var(--accent-deep); text-transform:uppercase;
+  }
+  .brand h1{
+    font-family:'Gaegu', 'Noto Sans KR', sans-serif;
+    font-size:30px; margin:4px 0 0; color:var(--navy); line-height:1.25;
+  }
+  .brand .sub{ font-size:13px; color:var(--ink-soft); margin-top:6px; }
+
+  .card{
+    background:var(--card);
+    border:2px solid var(--line);
+    border-radius:22px;
+    padding:26px 22px;
+    box-shadow: 0 10px 0 var(--line);
+    position:relative;
+    overflow:hidden;
+  }
+  .card::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:8px;
+    background:repeating-linear-gradient(90deg,var(--accent) 0 18px, var(--accent-pale) 18px 36px);
+  }
+
+  /* ---------- screen: start ---------- */
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-weight:700; font-size:14px; margin-bottom:6px; color:var(--navy); }
+  .field select, .field input{
+    width:100%; padding:13px 14px; border-radius:12px; border:2px solid var(--line);
+    font-size:16px; font-family:inherit; background:#fffdf9; color:var(--ink);
+  }
+  .field select:focus, .field input:focus{ outline:none; border-color:var(--accent); }
+
+  .meta-line{
+    display:flex; justify-content:space-between; font-size:12.5px; color:var(--ink-soft);
+    background:var(--accent-pale); border-radius:12px; padding:10px 14px; margin-bottom:18px;
+  }
+
+  button.primary{
+    width:100%; border:none; cursor:pointer;
+    background:var(--accent); color:#fff; font-weight:900; font-size:17px;
+    padding:15px; border-radius:14px; font-family:inherit;
+    box-shadow:0 5px 0 var(--accent-deep);
+    transition:transform .05s ease;
+  }
+  button.primary:active{ transform:translateY(3px); box-shadow:0 2px 0 var(--accent-deep); }
+  button.primary:disabled{ background:#d8cfc2; box-shadow:0 5px 0 #c3baae; cursor:not-allowed; }
+
+  button.ghost{
+    width:100%; border:2px solid var(--line); cursor:pointer; background:#fff;
+    color:var(--navy); font-weight:700; font-size:15px; padding:12px; border-radius:14px;
+    font-family:inherit; margin-top:10px;
+  }
+
+  /* ---------- screen: quiz ---------- */
+  .progress-wrap{ margin-bottom:18px; }
+  .progress-top{ display:flex; justify-content:space-between; font-size:13px; font-weight:700; color:var(--navy); margin-bottom:6px;}
+  .progress-bar{ height:10px; border-radius:99px; background:var(--accent-pale); overflow:hidden; }
+  .progress-fill{ height:100%; background:var(--accent); border-radius:99px; transition:width .3s ease; }
+
+  .tag-row{ display:flex; gap:6px; margin-bottom:12px; }
+  .tag{
+    font-size:11.5px; font-weight:700; padding:4px 10px; border-radius:99px;
+  }
+  .tag.하{ background:#e3f7ea; color:var(--good); }
+  .tag.중{ background:#fff3d9; color:#b9790a; }
+  .tag.상{ background:var(--bad-pale); color:var(--bad); }
+  .tag.pt{ background:#eef1fb; color:var(--navy); }
+
+  .q-text{ font-size:16.5px; font-weight:700; line-height:1.55; margin-bottom:10px; }
+  .q-context{
+    background:#f6f2ea; border-left:4px solid var(--accent); border-radius:8px;
+    padding:12px 14px; font-size:16px; font-style:italic; margin-bottom:18px; color:#3b3226;
+  }
+  .options{ display:grid; gap:10px; }
+  .opt{
+    display:flex; align-items:center; gap:10px;
+    text-align:left; width:100%; padding:14px 14px; border-radius:14px;
+    border:2px solid var(--line); background:#fffdf9; cursor:pointer;
+    font-family:inherit; font-size:15.5px; color:var(--ink);
+  }
+  .opt .num{
+    flex:0 0 auto; width:26px; height:26px; border-radius:50%; background:var(--accent-pale);
+    color:var(--accent-deep); font-weight:900; font-size:13px; display:flex; align-items:center; justify-content:center;
+  }
+  .opt.selected{ border-color:var(--accent); background:#fff3ea; }
+  .opt:active{ transform:scale(.99); }
+
+  .nav-row{ display:flex; gap:10px; margin-top:22px; }
+  .nav-row button.secondary{
+    flex:0 0 84px; border:2px solid var(--line); background:#fff; border-radius:14px;
+    font-family:inherit; font-weight:700; color:var(--navy); cursor:pointer;
+  }
+  .nav-row .primary{ flex:1; }
+
+  /* ---------- screen: result ---------- */
+  .score-hero{ text-align:center; margin-bottom:6px; }
+  .score-ring{
+    width:150px; height:150px; margin:0 auto 12px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; flex-direction:column;
+    background:conic-gradient(var(--accent) calc(var(--pct) * 1%), var(--accent-pale) 0);
+    position:relative;
+  }
+  .score-ring::before{
+    content:""; position:absolute; inset:10px; background:#fff; border-radius:50%;
+  }
+  .score-ring .num{ position:relative; font-size:34px; font-weight:900; color:var(--navy); font-family:'Gaegu',sans-serif;}
+  .score-ring .lbl{ position:relative; font-size:12px; color:var(--ink-soft); font-weight:700; }
+  .grade-badge{
+    display:inline-block; margin:6px auto 4px; padding:5px 16px; border-radius:99px;
+    background:var(--navy); color:#fff; font-weight:900; font-size:14px; letter-spacing:.03em;
+  }
+  .score-sub{ text-align:center; color:var(--ink-soft); font-size:13.5px; margin-bottom:20px; }
+
+  .level-grid{ display:flex; gap:8px; margin-bottom:20px; }
+  .level-box{ flex:1; text-align:center; border:2px solid var(--line); border-radius:14px; padding:10px 6px; }
+  .level-box .lv{ font-weight:900; font-size:13px; margin-bottom:4px; }
+  .level-box .fr{ font-size:15px; font-weight:700; color:var(--navy); }
+  .level-box.하 .lv{ color:var(--good); }
+  .level-box.중 .lv{ color:#b9790a; }
+  .level-box.상 .lv{ color:var(--bad); }
+
+  .wrong-title{ font-weight:900; color:var(--navy); font-size:15px; margin:6px 0 10px; }
+  .wrong-item{
+    border:2px solid var(--bad-pale); background:var(--bad-pale); border-radius:14px;
+    padding:13px 14px; margin-bottom:10px; font-size:13.8px; line-height:1.55;
+  }
+  .wrong-item .num{ font-weight:900; color:var(--bad); margin-right:4px; }
+  .wrong-item .ans-line{ margin-top:6px; }
+  .wrong-item .ans-line b{ color:var(--good); }
+  .wrong-item .explain{ margin-top:6px; color:#5c4b45; }
+  .all-correct{
+    text-align:center; padding:18px; background:var(--good-pale); border-radius:14px;
+    color:var(--good); font-weight:700; margin-bottom:16px;
+  }
+
+  .submit-box{
+    margin-top:18px; padding:16px; border-radius:14px; background:#eef1fb; text-align:center;
+  }
+  .submit-box .status{ font-size:13px; margin-top:10px; color:var(--ink-soft); }
+  .submit-box .status.ok{ color:var(--good); font-weight:700; }
+  .submit-box .status.err{ color:var(--bad); font-weight:700; }
+
+  .hidden{ display:none !important; }
+  .footer-note{ text-align:center; font-size:11.5px; color:#b9ac9a; margin-top:16px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="brand">
+    <div class="name">잉글리시아이스텔라영어학원</div>
+    <h1>조동사 must & 명령문 퀴즈</h1>
+    <div class="sub">Grammar 3 · Lesson 07·08·09 · 객관식 25문항</div>
+  </div>
+
+  <!-- ===== SCREEN 1: START ===== -->
+  <div class="card" id="screen-start">
+    <div class="field">
+      <label>반을 선택하세요</label>
+      <select id="input-class">
+        <option value="A반">A반</option>
+        <option value="B반">B반</option>
+        <option value="C반">C반</option>
+        <option value="D반">D반</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>이름을 입력하세요</label>
+      <input id="input-name" type="text" placeholder="예: 김나연" maxlength="20">
+    </div>
+    <div class="meta-line">
+      <span>📝 총 25문항</span>
+      <span>💯 100점 만점</span>
+      <span>⏱ 제한시간 없음</span>
+    </div>
+    <button class="primary" id="btn-start">시작하기</button>
+  </div>
+
+  <!-- ===== SCREEN 2: QUIZ ===== -->
+  <div class="card hidden" id="screen-quiz">
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span id="q-index">문항 1 / 25</span>
+        <span id="q-score-live">0점 / 100점</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:4%"></div></div>
+    </div>
+    <div class="tag-row">
+      <span class="tag" id="tag-level">하</span>
+      <span class="tag pt" id="tag-points">3점</span>
+    </div>
+    <div class="q-text" id="q-text"></div>
+    <div class="q-context hidden" id="q-context"></div>
+    <div class="options" id="q-options"></div>
+    <div class="nav-row">
+      <button class="secondary" id="btn-prev">이전</button>
+      <button class="primary" id="btn-next" disabled>다음</button>
+    </div>
+  </div>
+
+  <!-- ===== SCREEN 3: RESULT ===== -->
+  <div class="card hidden" id="screen-result">
+    <div class="score-hero">
+      <div class="score-ring" id="score-ring" style="--pct:0">
+        <div class="num" id="score-num">0</div>
+        <div class="lbl">/ 100점</div>
+      </div>
+      <div class="grade-badge" id="grade-badge">-</div>
+    </div>
+    <div class="score-sub" id="score-sub"></div>
+
+    <div class="level-grid">
+      <div class="level-box 하"><div class="lv">하</div><div class="fr" id="lv-하">0/8</div></div>
+      <div class="level-box 중"><div class="lv">중</div><div class="fr" id="lv-중">0/9</div></div>
+      <div class="level-box 상"><div class="lv">상</div><div class="fr" id="lv-상">0/8</div></div>
+    </div>
+
+    <div id="wrong-wrap"></div>
+
+    <div class="submit-box">
+      <button class="primary" id="btn-submit">📤 노션에 결과 저장하기</button>
+      <div class="status" id="submit-status">선생님이 결과를 확인할 수 있도록 저장해 주세요.</div>
+    </div>
+    <button class="ghost" id="btn-retry">다시 풀기</button>
+  </div>
+
+  <div class="footer-note">© 잉글리시아이스텔라영어학원</div>
+</div>
+
+<script>
+/* =========================================================
+   1) 문제 데이터 (25문항 / 100점)
+   ========================================================= */
+const QUESTIONS = [
+  {level:"하",points:3,q:"1. 빈칸에 알맞은 것은? (그들은 제시간에 와야 한다.)",context:"They ___ be on time.",options:["must","musts","are must","must to"],answer:0,explain:"조동사 must는 주어에 관계없이 형태가 변하지 않는다."},
+  {level:"하",points:3,q:"2. 빈칸에 알맞은 것은? (그녀는 줄을 서야 한다.)",context:"She must ___ in line.",options:["stand","stands","standing","to stand"],answer:0,explain:"must 뒤에는 동사원형이 온다."},
+  {level:"하",points:3,q:"3. 다음 중 어법상 올바른 문장은?",context:"",options:["You answer must the question.","You must answer the question.","You must answers the question.","You must to answer the question."],answer:1,explain:"주어+must+동사원형 순서로 쓴다."},
+  {level:"하",points:3,q:"4. 다음 문장을 명령문으로 바르게 바꾼 것은?",context:"You bend your knees.",options:["Bend your knees.","You bend knees.","Bends your knees.","Bending your knees."],answer:0,explain:"명령문은 주어 You를 생략하고 동사원형으로 시작한다."},
+  {level:"하",points:3,q:"5. 다음 문장을 명령문으로 바르게 바꾼 것은?",context:"You are careful with fire.",options:["Be careful with fire.","Are careful with fire.","You be careful with fire.","Being careful with fire."],answer:0,explain:"동사가 be동사일 경우 명령문은 Be로 시작한다."},
+  {level:"하",points:3,q:"6. 빈칸에 알맞은 것은? (그 편지를 열어서는 안 된다.)",context:"You ___ open the letter.",options:["must not","not must","don't must","must no"],answer:0,explain:"금지를 나타낼 때는 must not을 쓴다."},
+  {level:"하",points:3,q:"7. 다음 중 명령문으로 알맞은 것은? (숙제를 해라.)",context:"",options:["Do your homework.","You do your homework.","Doing your homework.","Does your homework."],answer:0,explain:"명령문은 동사원형으로 문장을 시작한다."},
+  {level:"하",points:3,q:"8. 다음 중 공손한 명령문으로 알맞은 것은? (이곳에서는 조용히 해 주세요.)",context:"",options:["Please be quiet here.","Please quiet here.","You please be quiet here.","Being quiet here please."],answer:0,explain:"명령문 앞에 please를 붙이면 더 공손한 표현이 된다."},
+  {level:"중",points:4,q:"9. 빈칸에 알맞은 것은? (그는 기차를 타야 한다.)",context:"He ___ take a train.",options:["must","must to","musts","is must"],answer:0,explain:"조동사 must는 3인칭 단수 주어와도 형태가 같다."},
+  {level:"중",points:4,q:"10. 다음 문장을 같은 뜻으로 바꾼 것은?",context:"I must go home now.",options:["I have to go home now.","I has to go home now.","I having to go home now.","I have go home now."],answer:0,explain:"must는 have to로 바꿔 쓸 수 있다."},
+  {level:"중",points:4,q:"11. 다음 문장을 같은 뜻으로 바꾼 것은? (3인칭 단수 주어)",context:"She must wear her shoe.",options:["She has to wear her shoe.","She have to wear her shoe.","She must to wear her shoe.","She musts wear her shoe."],answer:0,explain:"주어가 3인칭 단수일 때 must는 has to로 바꿔 쓴다."},
+  {level:"중",points:4,q:"12. 빈칸에 알맞은 것은? (너는 그 개를 만져서는 안 돼.)",context:"You ___ touch the dog.",options:["must not","don't have to","must","not must"],answer:0,explain:"금지의 의미이므로 must not을 쓴다."},
+  {level:"중",points:4,q:"13. 빈칸에 알맞은 것은? (너는 겁낼 필요가 없어.)",context:"You ___ be afraid.",options:["don't have to","must not","mustn't","not have to"],answer:0,explain:"'~할 필요가 없다'는 don't have to로 나타낸다."},
+  {level:"중",points:4,q:"14. 다음 중 '~할 필요가 없다'라는 의미를 나타내는 것은?",context:"",options:["must not","mustn't","don't have to","must"],answer:2,explain:"don't have to는 불필요를, must not은 금지를 나타낸다."},
+  {level:"중",points:4,q:"15. 다음 문장에서 어법상 틀린 부분을 바르게 고친 것은? (종이를 재활용해라.)",context:"Recycles paper.",options:["Recycle paper.","Recycling paper.","Recycled paper.","You recycle paper."],answer:0,explain:"명령문은 동사원형으로 시작해야 하므로 Recycles가 아니라 Recycle로 써야 한다."},
+  {level:"중",points:4,q:"16. 빈칸에 알맞은 것은? (금붕어들에게 먹이를 줘서는 안 된다.)",context:"You ___ feed the goldfish.",options:["must not","don't have to","must","mustn't to"],answer:0,explain:"금지의 의미이므로 must not을 쓴다."},
+  {level:"중",points:4,q:"17. 대화의 빈칸에 알맞은 것은?",context:"A: Becky, we have enough time.   B: You ___ hurry.",options:["don't have to","must not","mustn't","doesn't have to"],answer:0,explain:"시간이 충분하다는 상황이므로 '서두를 필요가 없다'는 don't have to가 알맞다."},
+  {level:"상",points:5,q:"18. 어법상 <u>틀린</u> 문장은?",context:"",options:["You must not walk on the grass.","We don't have to go to school on Sunday.","He must not plays the piano at night.","I don't have to take an umbrella today."],answer:2,explain:"must not 뒤에도 동사원형이 와야 하므로 plays가 아니라 play로 써야 한다."},
+  {level:"상",points:5,q:"19. 다음 중 의미가 <u>다른</u> 하나는?",context:"",options:["You must not touch the dog.","You mustn't touch the dog.","Don't touch the dog.","You don't have to touch the dog."],answer:3,explain:"앞의 세 문장은 '만지면 안 된다'는 금지의 의미이지만, don't have to는 '만질 필요가 없다'는 불필요의 의미이다."},
+  {level:"상",points:5,q:"20. 다음 명령문 중 어법상 <u>틀린</u> 것은?",context:"",options:["Stand up, please.","Stands up, please.","Please sit down.","Wash your hands."],answer:1,explain:"명령문은 동사원형으로 시작해야 하므로 Stands가 아니라 Stand로 써야 한다."},
+  {level:"상",points:5,q:"21. 다음 문장에서 어법상 틀린 부분을 바르게 고친 것은? (수업 시간에 소음을 내지 마라.)",context:"He must not makes noise in class.",options:["He must not make noise in class.","He must not making noise in class.","He not must make noise in class.","He must makes not noise in class."],answer:0,explain:"must not 뒤에는 동사원형이 와야 하므로 makes가 아니라 make로 써야 한다."},
+  {level:"상",points:5,q:"22. 다음 대화 중 어법상 옳은 것은?",context:"",options:["A: This letter is for your sister. B: You must not open the letter.","A: This letter is for your sister. B: You must not opens the letter.","A: This letter is for your sister. B: You not must open the letter.","A: This letter is for your sister. B: You must open not the letter."],answer:0,explain:"must not 뒤에 동사원형 open이 오는 것이 올바른 어순이다."},
+  {level:"상",points:5,q:"23. 우리말을 영어로 바르게 옮긴 것은? (너희들은 연못에 있는 금붕어들에게 먹이를 줘서는 안 된다.)",context:"",options:["You must not feed the goldfish in the pond.","You don't have to feed the goldfish in the pond.","You must feed not the goldfish in the pond.","You mustn't fed the goldfish in the pond."],answer:0,explain:"금지의 의미이므로 must not 뒤에 동사원형 feed를 쓴다."},
+  {level:"상",points:5,q:"24. 다음 중 명령문의 형태가 <u>올바르지 않은</u> 것은?",context:"",options:["Open the door.","Close the window.","Bends your knees.","Take out the trash."],answer:2,explain:"명령문은 동사원형으로 시작해야 하므로 Bends가 아니라 Bend로 써야 한다."},
+  {level:"상",points:5,q:"25. 밑줄 친 부분과 바꿔 쓸 수 있는 것은?",context:"You need to wear swimming goggles. = You ___ wear swimming goggles.",options:["must","mustn't","don't have to","doesn't have to"],answer:0,explain:"'~해야 한다'는 의무의 의미이므로 must로 바꿔 쓸 수 있다."}
+];
+const TOTAL_POINTS = QUESTIONS.reduce((s,q)=>s+q.points,0); // 100
+const OPT = ["①","②","③","④"];
+
+/* =========================================================
+   2) 노션 자동 저장용 엔드포인트
+   -- 학원 담당자가 Google Apps Script 배포 후 아래 URL만 교체하면
+      "결과 저장하기" 버튼이 노션 DB에 자동으로 기록됩니다.
+   -- 비워두면 결과 텍스트를 복사하는 방식으로 대체됩니다.
+   ========================================================= */
+const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbzxYmQ2qGjX4o3RV9utdsXHlcDTRopcjfT5Ju01wQ1LAFECIWCzYjDwZC2SyoS-OjBCWw/exec";
+
+/* ========================================================= */
+
+let current = 0;
+let studentAnswers = new Array(QUESTIONS.length).fill(null);
+let studentName = "";
+let studentClass = "";
+
+const $ = (id) => document.getElementById(id);
+
+$("btn-start").addEventListener("click", () => {
+  studentName = $("input-name").value.trim();
+  studentClass = $("input-class").value;
+  if(!studentName){
+    alert("이름을 입력해 주세요!");
+    return;
+  }
+  $("screen-start").classList.add("hidden");
+  $("screen-quiz").classList.remove("hidden");
+  renderQuestion();
+});
+
+function renderQuestion(){
+  const item = QUESTIONS[current];
+  $("q-index").textContent = `문항 ${current+1} / ${QUESTIONS.length}`;
+  $("progress-fill").style.width = `${((current+1)/QUESTIONS.length)*100}%`;
+  $("tag-level").textContent = item.level;
+  $("tag-level").className = `tag ${item.level}`;
+  $("tag-points").textContent = `${item.points}점`;
+  $("q-text").textContent = item.q;
+
+  const ctx = $("q-context");
+  if(item.context){
+    ctx.textContent = item.context;
+    ctx.classList.remove("hidden");
+  } else {
+    ctx.classList.add("hidden");
+  }
+
+  const liveScore = studentAnswers.reduce((s,a,i)=> s + (a===QUESTIONS[i].answer ? QUESTIONS[i].points : 0), 0);
+  $("q-score-live").textContent = `${liveScore}점 / ${TOTAL_POINTS}점`;
+
+  const optWrap = $("q-options");
+  optWrap.innerHTML = "";
+  item.options.forEach((optText, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "opt" + (studentAnswers[current]===idx ? " selected" : "");
+    btn.innerHTML = `<span class="num">${OPT[idx]}</span><span>${optText}</span>`;
+    btn.addEventListener("click", () => {
+      studentAnswers[current] = idx;
+      renderQuestion();
+    });
+    optWrap.appendChild(btn);
+  });
+
+  $("btn-prev").style.visibility = current === 0 ? "hidden" : "visible";
+  $("btn-next").disabled = studentAnswers[current] === null;
+  $("btn-next").textContent = current === QUESTIONS.length - 1 ? "제출하기" : "다음";
+}
+
+$("btn-prev").addEventListener("click", () => {
+  if(current > 0){ current--; renderQuestion(); }
+});
+
+$("btn-next").addEventListener("click", () => {
+  if(current < QUESTIONS.length - 1){
+    current++;
+    renderQuestion();
+  } else {
+    showResult();
+  }
+});
+
+function showResult(){
+  $("screen-quiz").classList.add("hidden");
+  $("screen-result").classList.remove("hidden");
+
+  let earned = 0, correctCount = 0;
+  const wrongList = [];
+  const levelStats = {"하":{c:0,t:0},"중":{c:0,t:0},"상":{c:0,t:0}};
+
+  QUESTIONS.forEach((item, i) => {
+    levelStats[item.level].t++;
+    const isCorrect = studentAnswers[i] === item.answer;
+    if(isCorrect){
+      earned += item.points;
+      correctCount++;
+      levelStats[item.level].c++;
+    } else {
+      wrongList.push({num:i+1, item, your: studentAnswers[i]});
+    }
+  });
+
+  const pct = Math.round((earned/TOTAL_POINTS)*100);
+  $("score-ring").style.setProperty("--pct", pct);
+  $("score-num").textContent = earned;
+
+  let grade = "D", gradeColor="var(--bad)";
+  if(pct>=95){grade="A+";} else if(pct>=90){grade="A";} else if(pct>=80){grade="B+";}
+  else if(pct>=70){grade="B";} else if(pct>=60){grade="C";}
+  $("grade-badge").textContent = `${grade} 등급`;
+
+  $("score-sub").textContent = `${studentClass} · ${studentName} 학생 · 정답 ${correctCount} / ${QUESTIONS.length}문항`;
+
+  ["하","중","상"].forEach(lv => {
+    $(`lv-${lv}`).textContent = `${levelStats[lv].c}/${levelStats[lv].t}`;
+  });
+
+  const wrongWrap = $("wrong-wrap");
+  wrongWrap.innerHTML = "";
+  if(wrongList.length === 0){
+    wrongWrap.innerHTML = `<div class="all-correct">🎉 전 문항 정답입니다! 완벽해요!</div>`;
+  } else {
+    const title = document.createElement("div");
+    title.className = "wrong-title";
+    title.textContent = `오답 노트 (${wrongList.length}문항)`;
+    wrongWrap.appendChild(title);
+
+    wrongList.forEach(w => {
+      const div = document.createElement("div");
+      div.className = "wrong-item";
+      const yourText = w.your === null ? "선택 안 함" : `${OPT[w.your]} ${w.item.options[w.your]}`;
+      div.innerHTML = `
+        <span class="num">${w.num}.</span>${w.item.q.replace(/^\d+\.\s*/,"")}
+        <div class="ans-line">내 답: ${yourText} → 정답: <b>${OPT[w.item.answer]} ${w.item.options[w.item.answer]}</b></div>
+        <div class="explain">💡 ${w.item.explain}</div>
+      `;
+      wrongWrap.appendChild(div);
+    });
+  }
+
+  // store for submit
+  window.__quizResult = {
+    이름: studentName,
+    반: studentClass,
+    단원: "must·명령문",
+    "맞은 개수": correctCount,
+    "총 문제수": QUESTIONS.length,
+    점수: earned,
+    오답문항: wrongList.map(w=>w.num).join(", ") || "없음",
+    제출시간: new Date().toISOString()
+  };
+  $("submit-status").textContent = "선생님이 결과를 확인할 수 있도록 저장해 주세요.";
+  $("submit-status").className = "status";
+  $("btn-submit").disabled = false;
+  $("btn-submit").textContent = "📤 노션에 결과 저장하기";
+}
+
+$("btn-submit").addEventListener("click", async () => {
+  const data = window.__quizResult;
+  const statusEl = $("submit-status");
+  const btn = $("btn-submit");
+
+  if(!SUBMIT_URL){
+    // fallback: 복사 가능한 텍스트 제공
+    const text = `[문법퀴즈결과]\n이름: ${data.이름}\n반: ${data.반}\n단원: ${data.단원}\n점수: ${data.점수}/100\n맞은개수: ${data["맞은 개수"]}/${data["총 문제수"]}\n오답문항: ${data.오답문항}`;
+    try{
+      await navigator.clipboard.writeText(text);
+      statusEl.textContent = "저장 링크가 아직 설정되지 않아, 결과를 클립보드에 복사했어요. 선생님께 붙여넣어 전달해 주세요!";
+      statusEl.className = "status ok";
+    }catch(e){
+      statusEl.textContent = text;
+      statusEl.className = "status";
+    }
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = "저장 중...";
+  statusEl.textContent = "";
+  try{
+    const res = await fetch(SUBMIT_URL, {
+      method: "POST",
+      headers: {"Content-Type":"text/plain"},
+      body: JSON.stringify(data)
+    });
+    const raw = await res.text();
+    let parsed = null;
+    try{ parsed = JSON.parse(raw); }catch(e){ /* not JSON */ }
+
+    const isSuccess = parsed && (parsed.object === "page" || (parsed.id && !parsed.error && parsed.object !== "error"));
+
+    if(isSuccess){
+      statusEl.textContent = "✅ 노션에 결과가 저장되었습니다!";
+      statusEl.className = "status ok";
+      btn.textContent = "저장 완료";
+    } else {
+      const msg = (parsed && (parsed.message || parsed.error)) || raw || "알 수 없는 오류";
+      console.error("Notion 저장 실패 응답:", raw);
+      statusEl.textContent = "⚠ 저장 실패: " + msg;
+      statusEl.className = "status err";
+      btn.disabled = false;
+      btn.textContent = "📤 다시 시도하기";
+    }
+  }catch(err){
+    statusEl.textContent = "저장에 실패했어요. 네트워크를 확인하고 다시 시도해 주세요. (" + err.message + ")";
+    statusEl.className = "status err";
+    btn.disabled = false;
+    btn.textContent = "📤 다시 시도하기";
+  }
+});
+
+$("btn-retry").addEventListener("click", () => {
+  current = 0;
+  studentAnswers = new Array(QUESTIONS.length).fill(null);
+  $("screen-result").classList.add("hidden");
+  $("screen-start").classList.remove("hidden");
+});
+</script>
+</body>
+</html>
