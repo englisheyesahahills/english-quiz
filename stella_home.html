@@ -71,15 +71,16 @@
   }
   .brand h1{
     font-family:'Gaegu', sans-serif;
-    font-size:22px;
+    font-size:28px;
     margin:0;
     font-weight:700;
     letter-spacing:0.2px;
   }
   header .branch{
-    font-size:12.5px;
+    font-size:14.5px;
     color:#B9C2D9;
-    margin:2px 0 0 28px;
+    margin:4px 0 0 28px;
+    line-height:1.5;
   }
 
   /* ---- Bottom nav ---- */
@@ -99,7 +100,7 @@
     display:flex; flex-direction:column; align-items:center; gap:3px;
     padding:6px 2px;
     color:var(--text-muted);
-    font-family:inherit; font-size:10.5px;
+    font-family:inherit; font-size:11.5px;
     cursor:pointer;
   }
   nav.tabbar button svg{ width:20px; height:20px; }
@@ -139,7 +140,7 @@
   /* ---- Chips ---- */
   .chip{
     display:inline-flex; align-items:center;
-    font-size:11.5px; font-weight:600;
+    font-size:12.5px; font-weight:600;
     padding:3px 9px; border-radius:999px;
     margin-right:5px;
   }
@@ -153,7 +154,7 @@
   .filter-btn{
     border:1px solid var(--line); background:#fff;
     border-radius:999px; padding:6px 13px;
-    font-size:12.5px; font-family:inherit; color:var(--text-muted);
+    font-size:13.5px; font-family:inherit; color:var(--text-muted);
     cursor:pointer;
   }
   .filter-btn.active{
@@ -168,39 +169,43 @@
     position:relative; overflow:hidden;
   }
   .pin-banner .eyebrow{
-    font-size:11px; color:var(--gold); font-weight:700;
+    font-size:12px; color:var(--gold); font-weight:700;
     display:flex; align-items:center; gap:4px; margin-bottom:6px;
   }
-  .pin-banner .title{ font-size:15px; font-weight:600; line-height:1.4; }
+  .pin-banner .title{ font-size:16px; font-weight:600; line-height:1.4; }
 
   .notice-row{
     display:flex; justify-content:space-between; align-items:flex-start;
     gap:10px; padding:11px 0; border-bottom:1px dashed var(--line);
   }
   .notice-row:last-child{ border-bottom:none; }
-  .notice-row .t{ font-size:13.5px; font-weight:600; line-height:1.4; }
-  .notice-row .d{ font-size:11px; color:var(--text-muted); white-space:nowrap; padding-top:1px; }
-  .notice-body{ font-size:12.5px; color:var(--text-muted); margin-top:4px; line-height:1.5; }
+  .notice-row .t{ font-size:14.5px; font-weight:600; line-height:1.4; }
+  .notice-row .d{ font-size:12px; color:var(--text-muted); white-space:nowrap; padding-top:1px; }
+  .notice-body{ font-size:13.5px; color:var(--text-muted); margin-top:4px; line-height:1.5; }
 
   /* ---- Curriculum ---- */
   .level-group-title{
-    font-size:13px; font-weight:700; color:var(--navy-deep);
+    font-size:14px; font-weight:700; color:var(--navy-deep);
     margin:18px 0 8px; padding-left:2px;
   }
   .level-group-title:first-child{ margin-top:0; }
-  .class-name{ font-size:14.5px; font-weight:700; margin-bottom:6px; }
-  .subject-line{ font-size:12.5px; margin:3px 0; color:#3C3A33; }
+  .class-name{ font-size:15.5px; font-weight:700; margin-bottom:6px; }
+  .subject-line{ font-size:13.5px; margin:3px 0; color:#3C3A33; }
   .subject-line b{ color:var(--navy-deep); font-weight:700; margin-right:4px; }
   .progress-line{
-    font-size:12px; color:var(--text-muted); margin-top:6px;
+    font-size:13px; color:var(--text-muted); margin-top:6px;
     background:#F4F2EC; padding:7px 10px; border-radius:9px;
   }
   .speaking-badge{
     display:inline-flex; align-items:center; gap:4px;
-    font-size:11px; color:#8A6A10; margin-top:8px;
+    font-size:12px; color:#8A6A10; margin-top:8px;
   }
   .speaking-badge svg{ width:12px; height:12px; }
   .curriculum-img{
+    display:block; width:100%; border-radius:10px; margin-top:10px;
+    border:1px solid var(--line);
+  }
+  .notice-img{
     display:block; width:100%; border-radius:10px; margin-top:10px;
     border:1px solid var(--line);
   }
@@ -209,10 +214,10 @@
   .yt-btn{
     display:inline-flex; align-items:center; gap:6px;
     background:var(--coral); color:#fff; text-decoration:none;
-    font-size:12.5px; font-weight:600; padding:7px 12px;
+    font-size:13.5px; font-weight:600; padding:7px 12px;
     border-radius:9px; margin-top:8px;
   }
-  .criteria-note{ font-size:11.5px; color:var(--text-muted); margin-top:8px; line-height:1.5; }
+  .criteria-note{ font-size:12.5px; color:var(--text-muted); margin-top:8px; line-height:1.5; }
 
   /* ---- Calendar / D-day ---- */
   .cal-card{ display:flex; align-items:center; gap:12px; }
@@ -221,26 +226,26 @@
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     font-weight:700; color:#fff;
   }
-  .cal-dday .num{ font-size:14px; line-height:1.1; }
+  .cal-dday .num{ font-size:15px; line-height:1.1; }
   .cal-dday .lbl{ font-size:8.5px; opacity:.85; }
   .cal-dday.red{ background:var(--coral); }
   .cal-dday.purple{ background:var(--plum); }
   .cal-dday.orange{ background:#C97C2C; }
   .cal-dday.green{ background:var(--sage); }
-  .cal-body .name{ font-size:13.5px; font-weight:700; }
-  .cal-body .range{ font-size:11.5px; color:var(--text-muted); margin-top:2px; }
+  .cal-body .name{ font-size:14.5px; font-weight:700; }
+  .cal-body .range{ font-size:12.5px; color:var(--text-muted); margin-top:2px; }
 
   /* ---- Empty / loading states ---- */
   .empty-state{
     text-align:center; padding:34px 18px; color:var(--text-muted);
   }
   .empty-state .star-big{ width:30px; height:30px; margin-bottom:10px; opacity:.5; }
-  .empty-state p{ font-size:13px; line-height:1.6; margin:4px 0; }
-  .loading-text{ font-size:12.5px; color:var(--text-muted); padding:20px 0; text-align:center; }
+  .empty-state p{ font-size:14px; line-height:1.6; margin:4px 0; }
+  .loading-text{ font-size:13.5px; color:var(--text-muted); padding:20px 0; text-align:center; }
 
   /* ---- Album ---- */
   .album-group-title{
-    font-size:13px; font-weight:700; color:var(--navy-deep);
+    font-size:14px; font-weight:700; color:var(--navy-deep);
     margin:18px 0 8px; padding-left:2px;
   }
   .album-group-title:first-child{ margin-top:0; }
@@ -248,7 +253,7 @@
   .album-tile{
     display:flex; flex-direction:column; align-items:center; justify-content:center;
     aspect-ratio:1; border-radius:12px; text-decoration:none;
-    font-weight:700; font-size:14px; gap:4px;
+    font-weight:700; font-size:15px; gap:4px;
     border:1px solid var(--line);
   }
   .album-tile .sub{ font-size:9px; font-weight:500; opacity:.75; }
@@ -261,12 +266,12 @@
   .album-tile.empty{ background:#F1EFE8; color:#B4AF9F; cursor:default; }
 
   /* ---- Location ---- */
-  .info-row{ display:flex; gap:10px; padding:9px 0; font-size:13px; align-items:flex-start; }
+  .info-row{ display:flex; gap:10px; padding:9px 0; font-size:14px; align-items:flex-start; }
   .info-row svg{ width:16px; height:16px; margin-top:1px; flex-shrink:0; color:var(--navy-deep); }
   .kakao-btn{
     display:block; text-align:center; text-decoration:none;
     background:#FEE500; color:#3C1E1E; font-weight:700;
-    padding:12px; border-radius:12px; margin-top:14px; font-size:14px;
+    padding:12px; border-radius:12px; margin-top:14px; font-size:15px;
   }
 </style>
 </head>
@@ -279,7 +284,7 @@
       <svg class="star" viewBox="0 0 24 24" fill="var(--gold)"><path d="M12 2l2.6 6.9L22 10l-5.6 4.9L18 22l-6-4-6 4 1.6-7.1L2 10l7.4-1.1z"/></svg>
       <h1>잉글리시아이 스텔라</h1>
     </div>
-    <div class="branch">사하힐스점</div>
+    <div class="branch">말하기, 쓰기, 표현이 자연스레 성장하는 실전형 영어교육</div>
   </header>
 
   <!-- ============ 홈 ============ -->
@@ -331,12 +336,17 @@
     <div class="card">
       <div class="info-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        <span>부산 사하구 (상세 주소는 노션/사업자 정보로 교체해주세요)</span>
+        <span>부산시 사하구 괴정로 166 사하힐스테이트역 상가 302동 201,202호</span>
       </div>
       <div class="info-row">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.9.32 1.78.6 2.63a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.45-1.17a2 2 0 012.11-.45c.85.28 1.73.48 2.63.6A2 2 0 0122 16.92z"/></svg>
-        <span>전화번호 입력 예정</span>
+        <span><a href="tel:01058579621" style="color:inherit; text-decoration:none;">010-5857-9621</a></span>
       </div>
+    </div>
+    <div class="card" style="padding:0; overflow:hidden;">
+      <iframe
+        src="https://www.google.com/maps?q=%EB%B6%80%EC%82%B0%EC%8B%9C%20%EC%82%AC%ED%95%98%EA%B5%AC%20%EA%B4%B4%EC%A0%95%EB%A1%9C%20166&output=embed"
+        width="100%" height="180" style="border:0; display:block;" loading="lazy"></iframe>
     </div>
     <a class="kakao-btn" href="#" id="kakao-link">💬 카카오톡 채널로 문의하기</a>
   </section>
@@ -532,6 +542,7 @@ async function renderNoticeTab(){
       '<div class="card">' +
       '<div class="notice-row" style="border-bottom:none;padding-bottom:0;"><div class="t">'+n.제목+'</div><div class="d">'+fmtDate(n.날짜)+'</div></div>' +
       (n.내용 ? '<div class="notice-body">'+n.내용+'</div>' : '') +
+      (n.이미지 ? '<a href="'+n.이미지+'" target="_blank"><img class="notice-img" src="'+n.이미지+'" alt="'+n.제목+'" loading="lazy"></a>' : '') +
       (n.대상&&n.대상.length ? n.대상.map(t=>'<span class="chip blue" style="margin-top:8px;">'+t+'</span>').join('') : '') +
       '</div>'
     ).join('');
