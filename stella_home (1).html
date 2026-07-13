@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>잉글리시아이 스텔라 · 사하힐스점</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --navy-deep:#16213E;
+    --navy-ink:#101826;
+    --paper:#F6F5F1;
+    --paper-raised:#FFFFFF;
+    --gold:#E7B740;
+    --gold-soft:#FBEBC2;
+    --coral:#E2604B;
+    --coral-soft:#FBE2DD;
+    --sage:#4F8367;
+    --sage-soft:#E3EEE7;
+    --blue:#3B6FA0;
+    --blue-soft:#DEE9F2;
+    --plum:#7A5C89;
+    --plum-soft:#EAE1EE;
+    --pink:#C15B82;
+    --pink-soft:#F6E1EA;
+    --line:#E4E1D8;
+    --text-muted:#7B7768;
+    --radius:16px;
+    --shell-max:480px;
+  }
+
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    background:#E9E7DF;
+    font-family:'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+    color:var(--navy-ink);
+    -webkit-font-smoothing:antialiased;
+  }
+
+  #app{
+    max-width:var(--shell-max);
+    margin:0 auto;
+    min-height:100vh;
+    background:var(--paper);
+    position:relative;
+    padding-bottom:76px;
+    box-shadow:0 0 40px rgba(0,0,0,0.06);
+  }
+
+  /* ---- Header ---- */
+  header{
+    background:var(--navy-deep);
+    color:#fff;
+    padding:18px 20px 22px;
+    position:sticky; top:0; z-index:20;
+    border-bottom:3px solid var(--gold);
+  }
+  .brand{
+    display:flex; align-items:center; gap:8px;
+  }
+  .brand .star{
+    width:20px; height:20px; flex-shrink:0;
+    animation:twinkle 3s ease-in-out infinite;
+  }
+  @keyframes twinkle{
+    0%,100%{ opacity:1; transform:scale(1); }
+    50%{ opacity:.6; transform:scale(0.85); }
+  }
+  .brand h1{
+    font-family:'Gaegu', sans-serif;
+    font-size:22px;
+    margin:0;
+    font-weight:700;
+    letter-spacing:0.2px;
+  }
+  header .branch{
+    font-size:12.5px;
+    color:#B9C2D9;
+    margin:2px 0 0 28px;
+  }
+
+  /* ---- Bottom nav ---- */
+  nav.tabbar{
+    position:fixed;
+    bottom:0; left:50%; transform:translateX(-50%);
+    width:100%; max-width:var(--shell-max);
+    background:var(--paper-raised);
+    border-top:1px solid var(--line);
+    display:flex;
+    z-index:30;
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+  }
+  nav.tabbar button{
+    flex:1;
+    background:none; border:none;
+    display:flex; flex-direction:column; align-items:center; gap:3px;
+    padding:6px 2px;
+    color:var(--text-muted);
+    font-family:inherit; font-size:10.5px;
+    cursor:pointer;
+  }
+  nav.tabbar button svg{ width:20px; height:20px; }
+  nav.tabbar button.active{ color:var(--navy-deep); font-weight:700; }
+  nav.tabbar button.active svg{ stroke:var(--navy-deep); }
+  nav.tabbar button.active .star-fill{ fill:var(--gold); }
+
+  /* ---- Sections ---- */
+  section.page{ display:none; padding:18px 18px 8px; }
+  section.page.active{ display:block; }
+
+  .section-title{
+    font-family:'Gaegu', sans-serif;
+    font-size:19px;
+    font-weight:700;
+    margin:22px 0 10px;
+    display:flex; align-items:center; gap:6px;
+  }
+  .section-title:first-child{ margin-top:4px; }
+  .section-title .tag-star{ width:15px; height:15px; }
+
+  .card{
+    background:var(--paper-raised);
+    border-radius:var(--radius);
+    padding:14px 16px;
+    margin-bottom:10px;
+    border:1px solid var(--line);
+  }
+  .card + .card{ margin-top:8px; }
+
+  .divider-dash{
+    border:none;
+    border-top:1.5px dashed var(--line);
+    margin:16px 0;
+  }
+
+  /* ---- Chips ---- */
+  .chip{
+    display:inline-flex; align-items:center;
+    font-size:11.5px; font-weight:600;
+    padding:3px 9px; border-radius:999px;
+    margin-right:5px;
+  }
+  .chip.coral{ background:var(--coral-soft); color:var(--coral); }
+  .chip.sage{ background:var(--sage-soft); color:var(--sage); }
+  .chip.blue{ background:var(--blue-soft); color:var(--blue); }
+  .chip.plum{ background:var(--plum-soft); color:var(--plum); }
+  .chip.gold{ background:var(--gold-soft); color:#8A6A10; }
+
+  .filter-row{ display:flex; gap:6px; margin-bottom:14px; flex-wrap:wrap; }
+  .filter-btn{
+    border:1px solid var(--line); background:#fff;
+    border-radius:999px; padding:6px 13px;
+    font-size:12.5px; font-family:inherit; color:var(--text-muted);
+    cursor:pointer;
+  }
+  .filter-btn.active{
+    background:var(--navy-deep); color:#fff; border-color:var(--navy-deep);
+  }
+
+  /* ---- Home banner ---- */
+  .pin-banner{
+    background:linear-gradient(135deg, var(--navy-deep), #223258);
+    color:#fff; border-radius:var(--radius);
+    padding:16px; margin-bottom:16px;
+    position:relative; overflow:hidden;
+  }
+  .pin-banner .eyebrow{
+    font-size:11px; color:var(--gold); font-weight:700;
+    display:flex; align-items:center; gap:4px; margin-bottom:6px;
+  }
+  .pin-banner .title{ font-size:15px; font-weight:600; line-height:1.4; }
+
+  .notice-row{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:10px; padding:11px 0; border-bottom:1px dashed var(--line);
+  }
+  .notice-row:last-child{ border-bottom:none; }
+  .notice-row .t{ font-size:13.5px; font-weight:600; line-height:1.4; }
+  .notice-row .d{ font-size:11px; color:var(--text-muted); white-space:nowrap; padding-top:1px; }
+  .notice-body{ font-size:12.5px; color:var(--text-muted); margin-top:4px; line-height:1.5; }
+
+  /* ---- Curriculum ---- */
+  .level-group-title{
+    font-size:13px; font-weight:700; color:var(--navy-deep);
+    margin:18px 0 8px; padding-left:2px;
+  }
+  .level-group-title:first-child{ margin-top:0; }
+  .class-name{ font-size:14.5px; font-weight:700; margin-bottom:6px; }
+  .subject-line{ font-size:12.5px; margin:3px 0; color:#3C3A33; }
+  .subject-line b{ color:var(--navy-deep); font-weight:700; margin-right:4px; }
+  .progress-line{
+    font-size:12px; color:var(--text-muted); margin-top:6px;
+    background:#F4F2EC; padding:7px 10px; border-radius:9px;
+  }
+  .speaking-badge{
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:11px; color:#8A6A10; margin-top:8px;
+  }
+  .speaking-badge svg{ width:12px; height:12px; }
+  .curriculum-img{
+    display:block; width:100%; border-radius:10px; margin-top:10px;
+    border:1px solid var(--line);
+  }
+
+  /* ---- Speaking topics ---- */
+  .yt-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--coral); color:#fff; text-decoration:none;
+    font-size:12.5px; font-weight:600; padding:7px 12px;
+    border-radius:9px; margin-top:8px;
+  }
+  .criteria-note{ font-size:11.5px; color:var(--text-muted); margin-top:8px; line-height:1.5; }
+
+  /* ---- Calendar / D-day ---- */
+  .cal-card{ display:flex; align-items:center; gap:12px; }
+  .cal-dday{
+    flex-shrink:0; width:52px; height:52px; border-radius:12px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-weight:700; color:#fff;
+  }
+  .cal-dday .num{ font-size:14px; line-height:1.1; }
+  .cal-dday .lbl{ font-size:8.5px; opacity:.85; }
+  .cal-dday.red{ background:var(--coral); }
+  .cal-dday.purple{ background:var(--plum); }
+  .cal-dday.orange{ background:#C97C2C; }
+  .cal-dday.green{ background:var(--sage); }
+  .cal-body .name{ font-size:13.5px; font-weight:700; }
+  .cal-body .range{ font-size:11.5px; color:var(--text-muted); margin-top:2px; }
+
+  /* ---- Empty / loading states ---- */
+  .empty-state{
+    text-align:center; padding:34px 18px; color:var(--text-muted);
+  }
+  .empty-state .star-big{ width:30px; height:30px; margin-bottom:10px; opacity:.5; }
+  .empty-state p{ font-size:13px; line-height:1.6; margin:4px 0; }
+  .loading-text{ font-size:12.5px; color:var(--text-muted); padding:20px 0; text-align:center; }
+
+  /* ---- Album ---- */
+  .album-group-title{
+    font-size:13px; font-weight:700; color:var(--navy-deep);
+    margin:18px 0 8px; padding-left:2px;
+  }
+  .album-group-title:first-child{ margin-top:0; }
+  .album-tiles{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .album-tile{
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    aspect-ratio:1; border-radius:12px; text-decoration:none;
+    font-weight:700; font-size:14px; gap:4px;
+    border:1px solid var(--line);
+  }
+  .album-tile .sub{ font-size:9px; font-weight:500; opacity:.75; }
+  .album-tile.linked.col1{ background:var(--blue-soft); color:var(--blue); }
+  .album-tile.linked.col2{ background:var(--sage-soft); color:var(--sage); }
+  .album-tile.linked.col3{ background:var(--plum-soft); color:var(--plum); }
+  .album-tile.linked.col4{ background:var(--gold-soft); color:#8A6A10; }
+  .album-tile.linked.col5{ background:var(--pink-soft); color:var(--pink); }
+  .album-tile.linked.col6{ background:var(--coral-soft); color:var(--coral); }
+  .album-tile.empty{ background:#F1EFE8; color:#B4AF9F; cursor:default; }
+
+  /* ---- Location ---- */
+  .info-row{ display:flex; gap:10px; padding:9px 0; font-size:13px; align-items:flex-start; }
+  .info-row svg{ width:16px; height:16px; margin-top:1px; flex-shrink:0; color:var(--navy-deep); }
+  .kakao-btn{
+    display:block; text-align:center; text-decoration:none;
+    background:#FEE500; color:#3C1E1E; font-weight:700;
+    padding:12px; border-radius:12px; margin-top:14px; font-size:14px;
+  }
+</style>
+</head>
+<body>
+
+<div id="app">
+
+  <header>
+    <div class="brand">
+      <svg class="star" viewBox="0 0 24 24" fill="var(--gold)"><path d="M12 2l2.6 6.9L22 10l-5.6 4.9L18 22l-6-4-6 4 1.6-7.1L2 10l7.4-1.1z"/></svg>
+      <h1>잉글리시아이 스텔라</h1>
+    </div>
+    <div class="branch">사하힐스점</div>
+  </header>
+
+  <!-- ============ 홈 ============ -->
+  <section class="page active" id="page-home">
+    <div id="home-pin"></div>
+
+    <div class="section-title">
+      <svg class="tag-star" viewBox="0 0 24 24" fill="var(--gold)"><path d="M12 2l2.6 6.9L22 10l-5.6 4.9L18 22l-6-4-6 4 1.6-7.1L2 10l7.4-1.1z"/></svg>
+      최근 공지
+    </div>
+    <div class="card" id="home-notices"><div class="loading-text">불러오는 중…</div></div>
+
+    <div class="section-title">
+      <svg class="tag-star" viewBox="0 0 24 24" fill="var(--plum)"><path d="M12 2l2.6 6.9L22 10l-5.6 4.9L18 22l-6-4-6 4 1.6-7.1L2 10l7.4-1.1z"/></svg>
+      다가오는 일정
+    </div>
+    <div id="home-calendar"><div class="loading-text">불러오는 중…</div></div>
+
+    <div class="section-title">
+      <svg class="tag-star" viewBox="0 0 24 24" fill="var(--coral)"><path d="M12 2l2.6 6.9L22 10l-5.6 4.9L18 22l-6-4-6 4 1.6-7.1L2 10l7.4-1.1z"/></svg>
+      이달의 스피킹 주제
+    </div>
+    <div id="home-speaking"><div class="loading-text">불러오는 중…</div></div>
+  </section>
+
+  <!-- ============ 공지/소식지/스피킹 ============ -->
+  <section class="page" id="page-notice">
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="공지">공지</button>
+      <button class="filter-btn" data-filter="소식지">소식지</button>
+      <button class="filter-btn" data-filter="speaking">스피킹 주제</button>
+    </div>
+    <div id="notice-list"><div class="loading-text">불러오는 중…</div></div>
+  </section>
+
+  <!-- ============ 커리큘럼 ============ -->
+  <section class="page" id="page-curriculum">
+    <div id="curriculum-list"><div class="loading-text">불러오는 중…</div></div>
+  </section>
+
+  <!-- ============ 앨범 ============ -->
+  <section class="page" id="page-album">
+    <div id="album-list"><div class="loading-text">불러오는 중…</div></div>
+  </section>
+
+  <!-- ============ 오시는 길 ============ -->
+  <section class="page" id="page-location">
+    <div class="section-title">오시는 길</div>
+    <div class="card">
+      <div class="info-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>부산 사하구 (상세 주소는 노션/사업자 정보로 교체해주세요)</span>
+      </div>
+      <div class="info-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.9.32 1.78.6 2.63a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.45-1.17a2 2 0 012.11-.45c.85.28 1.73.48 2.63.6A2 2 0 0122 16.92z"/></svg>
+        <span>전화번호 입력 예정</span>
+      </div>
+    </div>
+    <a class="kakao-btn" href="#" id="kakao-link">💬 카카오톡 채널로 문의하기</a>
+  </section>
+
+</div>
+
+<nav class="tabbar">
+  <button class="tab-btn active" data-page="home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#7B7768" stroke-width="2"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+    홈
+  </button>
+  <button class="tab-btn" data-page="notice">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#7B7768" stroke-width="2"><path d="M3 11l18-5v12L3 14v-3z"/><path d="M11.6 16.9A5 5 0 0110 20"/></svg>
+    공지
+  </button>
+  <button class="tab-btn" data-page="curriculum">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#7B7768" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+    커리큘럼
+  </button>
+  <button class="tab-btn" data-page="album">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#7B7768" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+    앨범
+  </button>
+  <button class="tab-btn" data-page="location">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#7B7768" stroke-width="2"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+    오시는길
+  </button>
+</nav>
+
+<script>
+/* ==============================================================
+   설정: Apps Script 웹앱 배포 후 발급받는 URL을 아래에 붙여넣으세요.
+   예) https://script.google.com/macros/s/AKfycb.../exec
+   ============================================================== */
+const API_BASE = 'https://script.google.com/macros/s/AKfycbw8cz4qfT_RLSdgCPP_MXdlLniAXL9Nl7DaQz9TUTijmeh75ermrLbiEROW4yFOJS8DGQ/exec';
+const KAKAO_CHANNEL_URL = 'https://pf.kakao.com/_your_channel'; // 카카오 채널 링크로 교체
+
+const LEVEL_ORDER = ['유치부','초등부','초등 저학년','초등 고학년','예비중1','중등부','중1','중2','중3'];
+const STAGE_CHIP = {
+  '파닉스(개별맞춤)': 'coral',
+  '베이직리딩(정규시작)': 'sage',
+  '라이팅+문법전환': 'blue',
+  '정규 문법·독해·라이팅': 'plum'
+};
+const CAL_COLOR = { '휴원':'red', '시험':'purple', '특강·캠프':'orange', '행사':'green' };
+
+function ddayLabel(startISO){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const start = new Date(startISO); start.setHours(0,0,0,0);
+  const diff = Math.round((start - today) / 86400000);
+  if (diff === 0) return 'D-DAY';
+  if (diff > 0) return 'D-' + diff;
+  return '진행중';
+}
+
+const starSVG = '<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;vertical-align:-1px"><path d="M12 2l2.6 6.9L22 10l-5.6 4.9L18 22l-6-4-6 4 1.6-7.1L2 10l7.4-1.1z"/></svg>';
+
+const cache = {};
+async function fetchType(type){
+  if (cache[type]) return cache[type];
+  if (!API_BASE || API_BASE.indexOf('YOUR_') === 0){
+    throw new Error('API_BASE 미설정');
+  }
+  const res = await fetch(API_BASE + '?type=' + type);
+  const data = await res.json();
+  if (data.error) throw new Error(data.error);
+  cache[type] = data;
+  return data;
+}
+
+function fmtDate(iso){
+  if(!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return (d.getMonth()+1) + '월 ' + d.getDate() + '일';
+}
+function fmtMonth(iso){
+  if(!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return iso;
+  return d.getFullYear() + '년 ' + (d.getMonth()+1) + '월';
+}
+
+function emptyState(msg){
+  return '<div class="empty-state">' + starSVG.replace('width:12px;height:12px','width:28px;height:28px') +
+    '<p>' + msg + '</p></div>';
+}
+
+/* ---------------- 홈 ---------------- */
+async function renderHome(){
+  try{
+    const notices = await fetchType('notices');
+    const pinned = notices.filter(n => n.상단고정).sort((a,b)=> (b.날짜||'').localeCompare(a.날짜||''))[0];
+    const pinEl = document.getElementById('home-pin');
+    if (pinned){
+      pinEl.innerHTML = '<div class="pin-banner"><div class="eyebrow">'+starSVG+' 중요 공지</div><div class="title">'+pinned.제목+'</div></div>';
+    } else {
+      pinEl.innerHTML = '';
+    }
+
+    const recent = notices.filter(n=>n.구분!=='소식지').sort((a,b)=> (b.날짜||'').localeCompare(a.날짜||'')).slice(0,3);
+    const listEl = document.getElementById('home-notices');
+    listEl.innerHTML = recent.length ? recent.map(n =>
+      '<div class="notice-row"><div class="t">'+n.제목+'</div><div class="d">'+fmtDate(n.날짜)+'</div></div>'
+    ).join('') : emptyState('아직 등록된 공지가 없습니다.');
+  } catch(err){
+    document.getElementById('home-notices').innerHTML = emptyState('공지사항을 불러오지 못했습니다. (API 연결 확인 필요)');
+  }
+
+  try{
+    const events = await fetchType('calendar');
+    const today = new Date(); today.setHours(0,0,0,0);
+    const upcoming = events
+      .filter(ev => ev.홈피노출 && ((ev.종료일 && new Date(ev.종료일) >= today) || (!ev.종료일 && ev.시작일 && new Date(ev.시작일) >= today)))
+      .sort((a,b)=> (a.시작일||'').localeCompare(b.시작일||''))
+      .slice(0,3);
+    const calEl = document.getElementById('home-calendar');
+    if (!upcoming.length){ calEl.innerHTML = emptyState('예정된 일정이 없습니다.'); }
+    else {
+      calEl.innerHTML = upcoming.map(ev => {
+        const color = CAL_COLOR[ev.유형] || 'purple';
+        const dday = ddayLabel(ev.시작일);
+        const range = ev.종료일 && ev.종료일 !== ev.시작일 ? fmtDate(ev.시작일)+' ~ '+fmtDate(ev.종료일) : fmtDate(ev.시작일);
+        return '<div class="card cal-card">' +
+          '<div class="cal-dday '+color+'"><div class="num">'+dday+'</div><div class="lbl">'+ev.유형+'</div></div>' +
+          '<div class="cal-body"><div class="name">'+ev.일정명+'</div><div class="range">'+range+'</div></div>' +
+          '</div>';
+      }).join('');
+    }
+  } catch(err){
+    document.getElementById('home-calendar').innerHTML = emptyState('일정을 불러오지 못했습니다.');
+  }
+
+  try{
+    const speaking = await fetchType('speaking');
+    const sorted = speaking.sort((a,b)=> (b.월||'').localeCompare(a.월||''));
+    const latestMonth = sorted[0] ? sorted[0].월 : null;
+    const thisMonthTopics = sorted.filter(s => s.월 === latestMonth);
+    const el = document.getElementById('home-speaking');
+    if (!thisMonthTopics.length){
+      el.innerHTML = emptyState('이번 달 스피킹 주제가 아직 등록되지 않았습니다.');
+      return;
+    }
+    const first = thisMonthTopics[0];
+    el.innerHTML = '<div class="card">' +
+      '<div class="class-name">'+first.주제명+'</div>' +
+      (first.대상레벨||[]).map(l=>'<span class="chip coral">'+l+'</span>').join('') +
+      (thisMonthTopics.length > 1 ? '<div class="criteria-note">외 '+(thisMonthTopics.length-1)+'개 주제 · 공지 탭에서 전체 보기</div>' : '') +
+      (first.유튜브링크 ? '<a class="yt-btn" href="'+first.유튜브링크+'" target="_blank">▶ 연습 영상 보기</a>' : '') +
+      '</div>';
+  } catch(err){
+    document.getElementById('home-speaking').innerHTML = emptyState('스피킹 주제를 불러오지 못했습니다.');
+  }
+}
+
+/* ---------------- 공지 / 소식지 / 스피킹 ---------------- */
+let currentFilter = '공지';
+async function renderNoticeTab(){
+  const el = document.getElementById('notice-list');
+  el.innerHTML = '<div class="loading-text">불러오는 중…</div>';
+
+  if (currentFilter === 'speaking'){
+    try{
+      const speaking = await fetchType('speaking');
+      const sorted = speaking.sort((a,b)=> (b.월||'').localeCompare(a.월||''));
+      if (!sorted.length){ el.innerHTML = emptyState('등록된 스피킹 주제가 없습니다.'); return; }
+      let lastMonth = null, html = '';
+      sorted.forEach(s => {
+        if (s.월 !== lastMonth){
+          html += '<div class="level-group-title">'+fmtMonth(s.월)+'</div>';
+          lastMonth = s.월;
+        }
+        html += '<div class="card">' +
+          '<div class="class-name">'+s.주제명+'</div>' +
+          (s.대상레벨||[]).map(l=>'<span class="chip plum">'+l+'</span>').join('') +
+          (s.평가기준 ? '<div class="criteria-note">'+s.평가기준+'</div>' : '') +
+          (s.유튜브링크 ? '<a class="yt-btn" href="'+s.유튜브링크+'" target="_blank">▶ 연습 영상 보기</a>' : '') +
+          '</div>';
+      });
+      el.innerHTML = html;
+    } catch(err){
+      el.innerHTML = emptyState('스피킹 주제를 불러오지 못했습니다.');
+    }
+    return;
+  }
+
+  try{
+    const notices = await fetchType('notices');
+    const filtered = notices.filter(n => n.구분 === currentFilter)
+      .sort((a,b)=> (b.날짜||'').localeCompare(a.날짜||''));
+    if (!filtered.length){ el.innerHTML = emptyState('등록된 '+currentFilter+'가 없습니다.'); return; }
+    el.innerHTML = filtered.map(n =>
+      '<div class="card">' +
+      '<div class="notice-row" style="border-bottom:none;padding-bottom:0;"><div class="t">'+n.제목+'</div><div class="d">'+fmtDate(n.날짜)+'</div></div>' +
+      (n.내용 ? '<div class="notice-body">'+n.내용+'</div>' : '') +
+      (n.대상&&n.대상.length ? n.대상.map(t=>'<span class="chip blue" style="margin-top:8px;">'+t+'</span>').join('') : '') +
+      '</div>'
+    ).join('');
+  } catch(err){
+    el.innerHTML = emptyState('공지사항을 불러오지 못했습니다. (API 연결 확인 필요)');
+  }
+}
+
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    currentFilter = btn.dataset.filter;
+    renderNoticeTab();
+  });
+});
+
+/* ---------------- 커리큘럼 ---------------- */
+async function renderCurriculum(){
+  const el = document.getElementById('curriculum-list');
+  try{
+    const rows = await fetchType('curriculum');
+    const visible = rows.filter(r => r.홈피노출);
+    if (!visible.length){ el.innerHTML = emptyState('공개 설정된 반이 없습니다.'); return; }
+
+    let html = '';
+    LEVEL_ORDER.forEach(level=>{
+      const group = visible.filter(r=>r.레벨===level);
+      if (!group.length) return;
+      html += '<div class="level-group-title">'+level+'</div>';
+      group.forEach(r=>{
+        const chipColor = STAGE_CHIP[r.학습단계] || 'blue';
+        html += '<div class="card">';
+        html += '<div class="class-name">'+r.반이름+'</div>';
+        if (r.학습단계) html += '<span class="chip '+chipColor+'">'+r.학습단계+'</span>';
+        if (r.문법교재) html += '<div class="subject-line"><b>문법</b>'+r.문법교재+'</div>';
+        if (r.독해교재) html += '<div class="subject-line"><b>독해</b>'+r.독해교재+'</div>';
+        if (r.라이팅교재) html += '<div class="subject-line"><b>라이팅</b>'+r.라이팅교재+'</div>';
+        if (r.이번주진도) html += '<div class="progress-line">이번 주 진도 · '+r.이번주진도+'</div>';
+        if (r.스피킹기반) html += '<div class="speaking-badge">'+starSVG+' 스피킹 기반 수업 포함</div>';
+        if (r.커리큘럼이미지) html += '<a href="'+r.커리큘럼이미지+'" target="_blank"><img class="curriculum-img" src="'+r.커리큘럼이미지+'" alt="'+r.반이름+' 커리큘럼" loading="lazy"></a>';
+        html += '</div>';
+      });
+    });
+    el.innerHTML = html || emptyState('등록된 커리큘럼이 없습니다.');
+  } catch(err){
+    el.innerHTML = emptyState('커리큘럼을 불러오지 못했습니다. (API 연결 확인 필요)');
+  }
+}
+
+/* ---------------- 앨범 ---------------- */
+const ALBUM_GROUP_ORDER = ['A반','B반','C반','D반','유치부','행사'];
+const ALBUM_COLOR = { 'A반':'col1', 'B반':'col2', 'C반':'col3', 'D반':'col4', '유치부':'col5', '행사':'col6' };
+
+async function renderAlbum(){
+  const el = document.getElementById('album-list');
+  try{
+    const rows = await fetchType('album');
+    let html = '';
+    ALBUM_GROUP_ORDER.forEach(group=>{
+      const items = rows.filter(r=>r.그룹===group).sort((a,b)=>(a.표시순서||0)-(b.표시순서||0));
+      if (!items.length) return;
+      const colorClass = ALBUM_COLOR[group];
+      html += '<div class="album-group-title">'+group+'</div><div class="album-tiles">';
+      items.forEach(it=>{
+        if (it.앨범링크){
+          html += '<a class="album-tile linked '+colorClass+'" href="'+it.앨범링크+'" target="_blank">'+it.항목이름+'</a>';
+        } else {
+          html += '<div class="album-tile empty">'+it.항목이름+'<span class="sub">준비중</span></div>';
+        }
+      });
+      html += '</div>';
+    });
+    el.innerHTML = html || emptyState('등록된 앨범이 없습니다.');
+  } catch(err){
+    el.innerHTML = emptyState('앨범을 불러오지 못했습니다. (API 연결 확인 필요)');
+  }
+}
+
+/* ---------------- 탭 전환 ---------------- */
+const loaded = {};
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('section.page').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    const page = btn.dataset.page;
+    document.getElementById('page-'+page).classList.add('active');
+
+    if (!loaded[page]){
+      loaded[page] = true;
+      if (page === 'notice') renderNoticeTab();
+      if (page === 'curriculum') renderCurriculum();
+      if (page === 'album') renderAlbum();
+    }
+  });
+});
+
+document.getElementById('kakao-link').href = KAKAO_CHANNEL_URL;
+
+renderHome();
+</script>
+</body>
+</html>
