@@ -570,7 +570,8 @@ async function renderCurriculum(){
 
     let html = '';
     LEVEL_ORDER.forEach(level=>{
-      const group = visible.filter(r=>r.레벨===level);
+      const group = visible.filter(r=>r.레벨===level)
+        .sort((a,b)=> (a.반이름||'').localeCompare(b.반이름||'', undefined, {numeric:true, sensitivity:'base'}));
       if (!group.length) return;
       html += '<div class="level-group-title">'+level+'</div>';
       group.forEach(r=>{
