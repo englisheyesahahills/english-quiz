@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STELLA VOICE · Unit 8 — Question Quest</title>
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --gold: #C9A227;
+    --maroon: #7A2333;
+    --ink: #2B2B2B;
+    --soft: #F1EFEA;
+    --line: #D8D3C8;
+    --muted: #8A8A8A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: #FFFFFF;
+    font-family: Georgia, 'Nanum Myeongjo', serif;
+    color: var(--ink);
+    display: flex;
+    justify-content: center;
+    padding: 24px 16px 60px;
+  }
+  .page { width: 100%; max-width: 960px; }
+
+  .header {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background: linear-gradient(120deg, var(--navy), #26395F);
+    margin-bottom: 20px;
+  }
+  .header .banner {
+    display: block;
+    width: 100%;
+    height: 70px;
+    object-fit: cover;
+    object-position: center;
+  }
+  .header .header-body {
+    padding: 18px 22px;
+  }
+  .unit-badge {
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--navy);
+    background: var(--gold);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+  .header h1 {
+    margin: 0 0 4px;
+    font-size: 26px;
+    color: #FFFFFF;
+  }
+  .header .kor {
+    font-family: Arial, sans-serif;
+    font-size: 13px;
+    color: #C7CCD8;
+    margin-bottom: 10px;
+  }
+  .header .goal {
+    font-family: Arial, sans-serif;
+    font-size: 12.5px;
+    color: #E7E9EF;
+    line-height: 1.5;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    padding-top: 8px;
+  }
+  .header .goal b { color: var(--gold); }
+
+  .tabs {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    flex: 1 1 160px;
+    min-width: 140px;
+    padding: 14px 10px;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: var(--soft);
+    color: var(--muted);
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+  }
+  .tab:hover { border-color: var(--gold); color: var(--ink); }
+  .tab.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--navy);
+  }
+
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  @media (max-width: 720px) {
+    .cards { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: var(--soft);
+    border-radius: 8px;
+    padding: 20px 22px;
+    border-left: 5px solid var(--maroon);
+    min-height: 190px;
+  }
+  .card .label {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: var(--maroon);
+    margin-bottom: 12px;
+  }
+
+  .vocab-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 7px 14px;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .chip .icon { font-size: 20px; }
+
+  .target-quote {
+    font-size: 22px;
+    line-height: 1.55;
+    font-style: italic;
+    color: var(--ink);
+  }
+
+  .mission-text {
+    font-family: Arial, sans-serif;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .footer-note {
+    margin-top: 28px;
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #AAAAAA;
+  }
+
+  .fade { animation: fadeIn 0.25s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <div class="header">
+      <img class="banner" src="header.png" alt="" onerror="this.style.display='none'">
+      <div class="header-body">
+        <span class="unit-badge">UNIT 8 / 17</span>
+        <h1>Question Quest</h1>
+        <div class="kor">질문-답 카드 짝 맞추기</div>
+        <div class="goal"><b>SPEAKING GOAL ·</b> 학생은 다양한 WH- 질문과 대답을 매칭하며 여러 친구와 자신 있게 대화할 수 있다.</div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active" data-level="starter">Starter</div>
+      <div class="tab" data-level="elementary">Elementary</div>
+      <div class="tab" data-level="advanced">Advanced</div>
+    </div>
+
+    <div class="cards" id="cards"></div>
+
+    <div class="footer-note">STELLA VOICE Standard · Unit 8 of 17</div>
+  </div>
+
+<script>
+const CONTENT = {"starter": {"vocab": [{"icon": "🔤", "word": "color"}, {"icon": "🐾", "word": "animal"}, {"icon": "🍽️", "word": "food"}], "target": "\"What is your favorite color?\" \"Blue.\"", "mission": "단답형 매칭"}, "elementary": {"vocab": [{"icon": "⭐", "word": "favorite"}, {"icon": "📚", "word": "subject"}, {"icon": "⚽", "word": "sport"}], "target": "\"What is your favorite color?\" \"My favorite color is blue.\"", "mission": "원안 그대로: 완전한 문장으로 매칭"}, "advanced": {"vocab": [{"icon": "❓", "word": "and why"}, {"icon": "❤️", "word": "because i love"}], "target": "\"What is your favorite subject, and why do you like it?\" \"My favorite subject is Science because I love learning about space.\"", "mission": "이유를 묻는 추가 질문으로 확장"}};
+
+const cardsEl = document.getElementById('cards');
+const tabs = document.querySelectorAll('.tab');
+
+function render(level) {
+  const d = CONTENT[level];
+  const chips = d.vocab.map(v => `<span class="chip"><span class="icon">${v.icon}</span>${v.word}</span>`).join('');
+  cardsEl.innerHTML = `
+    <div class="card fade">
+      <div class="label">VOCABULARY</div>
+      <div class="vocab-chips">${chips}</div>
+    </div>
+    <div class="card fade">
+      <div class="label">TARGET LANGUAGE</div>
+      <div class="target-quote">${d.target}</div>
+    </div>
+    <div class="card fade">
+      <div class="label">SPEAKING MISSION</div>
+      <div class="mission-text">${d.mission}</div>
+    </div>
+  `;
+}
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    render(tab.dataset.level);
+  });
+});
+
+render('starter');
+</script>
+</body>
+</html>
