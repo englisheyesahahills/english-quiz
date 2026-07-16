@@ -17,21 +17,33 @@
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: #FFFFFF;
+    background: linear-gradient(180deg, #F6F4EF 0%, #FFFFFF 240px);
     font-family: Georgia, 'Nanum Myeongjo', serif;
     color: var(--ink);
     display: flex;
     justify-content: center;
-    padding: 24px 16px 60px;
+    padding: 24px 16px 40px;
+    min-height: 100vh;
   }
-  .page { width: 100%; max-width: 960px; }
+  .page { width: 100%; max-width: 1100px; }
 
   .header {
     width: 100%;
-    border-radius: 10px;
+    border-radius: 12px;
     overflow: hidden;
     background: linear-gradient(120deg, var(--navy), #26395F);
-    margin-bottom: 20px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+  .header .theme-icon {
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 96px;
+    opacity: 0.16;
+    line-height: 1;
+    pointer-events: none;
   }
   .header .banner {
     display: block;
@@ -41,59 +53,59 @@
     object-position: center;
   }
   .header .header-body {
-    padding: 18px 22px;
+    padding: 26px 32px;
   }
   .unit-badge {
     display: inline-block;
     font-family: Arial, sans-serif;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: 1px;
     color: var(--navy);
     background: var(--gold);
-    padding: 3px 10px;
+    padding: 4px 12px;
     border-radius: 20px;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
   .header h1 {
-    margin: 0 0 4px;
-    font-size: 26px;
+    margin: 0 0 6px;
+    font-size: 32px;
     color: #FFFFFF;
   }
   .header .kor {
     font-family: Arial, sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     color: #C7CCD8;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
   }
   .header .goal {
     font-family: Arial, sans-serif;
-    font-size: 12.5px;
+    font-size: 14px;
     color: #E7E9EF;
-    line-height: 1.5;
+    line-height: 1.6;
     border-top: 1px solid rgba(255,255,255,0.15);
-    padding-top: 8px;
+    padding-top: 12px;
   }
   .header .goal b { color: var(--gold); }
 
   .tabs {
     display: flex;
-    gap: 14px;
-    margin-bottom: 24px;
+    gap: 18px;
+    margin-bottom: 32px;
     flex-wrap: wrap;
   }
   .tab {
     flex: 1 1 160px;
     min-width: 140px;
-    padding: 14px 10px;
+    padding: 20px 12px;
     text-align: center;
-    border-radius: 10px;
+    border-radius: 12px;
     border: 1px solid var(--line);
     background: var(--soft);
     color: var(--muted);
     font-family: Arial, sans-serif;
     font-weight: 700;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
     transition: all 0.2s ease;
     user-select: none;
@@ -107,74 +119,97 @@
 
   .cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: stretch;
   }
   @media (max-width: 720px) {
     .cards { grid-template-columns: 1fr; }
   }
   .card {
     background: var(--soft);
-    border-radius: 8px;
-    padding: 20px 22px;
-    border-left: 5px solid var(--maroon);
-    min-height: 190px;
+    border-radius: 10px;
+    padding: 34px 32px 36px;
+    border-left: 6px solid var(--maroon);
+    box-shadow: 0 1px 4px rgba(27,42,74,0.07);
+    display: flex;
+    flex-direction: column;
   }
   .card .label {
     font-family: Arial, sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
     color: var(--maroon);
-    margin-bottom: 12px;
+    margin-bottom: 22px;
+  }
+  .quote-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
   }
 
-  .vocab-chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+  .showtime-card {
+    margin-top: 28px;
+    background: linear-gradient(135deg, #FBF8F1, var(--soft));
+    border-radius: 10px;
+    padding: 30px 34px 34px;
+    border-left: 6px solid var(--gold);
+    box-shadow: 0 1px 4px rgba(27,42,74,0.07);
   }
-  .chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+  .showtime-card .label {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: #A8821C;
+    margin-bottom: 16px;
+  }
+  .showtime-card .script {
+    font-size: 21px;
+    line-height: 1.8;
+    color: var(--ink);
+  }
+
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .vocab-tile {
     background: #FFFFFF;
     border: 1px solid var(--line);
-    border-radius: 20px;
-    padding: 7px 14px;
+    border-radius: 14px;
+    padding: 28px 12px 22px;
+    text-align: center;
+  }
+  .vocab-tile .icon {
+    font-size: 68px;
+    line-height: 1;
+    margin-bottom: 14px;
+  }
+  .vocab-tile .word {
     font-family: Arial, sans-serif;
     font-size: 18px;
     font-weight: 700;
     color: var(--ink);
   }
-  .chip .icon { font-size: 20px; }
 
   .target-quote {
-    font-size: 22px;
-    line-height: 1.55;
+    font-size: 30px;
+    line-height: 1.65;
     font-style: italic;
     color: var(--ink);
   }
 
-  .mission-text {
-    font-family: Arial, sans-serif;
-    font-size: 14.5px;
-    line-height: 1.6;
-    color: var(--ink);
-  }
 
   .footer-note {
-    margin-top: 28px;
+    margin-top: 20px;
     font-family: Arial, sans-serif;
     font-size: 11px;
     color: #AAAAAA;
   }
 
-  .fade { animation: fadeIn 0.25s ease; }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(4px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
 </style>
 </head>
 <body>
@@ -187,6 +222,7 @@
         <div class="kor">책갈피 소개하기</div>
         <div class="goal"><b>SPEAKING GOAL ·</b> 학생은 자신이 만든 책갈피의 색깔·그림·이유를 간단한 문장으로 설명할 수 있다.</div>
       </div>
+      <div class="theme-icon">🔖</div>
     </div>
 
     <div class="tabs">
@@ -196,33 +232,41 @@
     </div>
 
     <div class="cards" id="cards"></div>
+    <div id="showtime"></div>
 
     <div class="footer-note">STELLA VOICE Standard · Unit 1 of 17</div>
   </div>
 
 <script>
-const CONTENT = {"starter": {"vocab": [{"icon": "🔵", "word": "blue"}, {"icon": "🔴", "word": "red"}, {"icon": "⭐", "word": "star"}, {"icon": "❤️", "word": "heart"}], "target": "\"This is my bookmark.\" \"I like blue.\"", "mission": "색깔 단어만으로 짧게 소개"}, "elementary": {"vocab": [{"icon": "✏️", "word": "draw"}, {"icon": "🖌️", "word": "design"}, {"icon": "🏷️", "word": "sticker"}, {"icon": "🎨", "word": "colors"}], "target": "\"This is my bookmark.\" \"I used ___ colors and I drew ___.\" \"I like it because ___.\"", "mission": "원안 그대로: 3줄 스크립트로 짝과 대화"}, "advanced": {"vocab": [{"icon": "💡", "word": "bright"}, {"icon": "😊", "word": "cheerful"}, {"icon": "🔷", "word": "pattern"}, {"icon": "🔗", "word": "combination"}], "target": "\"I designed my bookmark with blue and yellow colors, and I added a small star because I think it looks bright and cheerful.\"", "mission": "이유를 두 가지 이상 연결해 한 문장으로 확장"}};
+const CONTENT = {"starter": {"vocab": [{"icon": "🔖", "word": "bookmark"}, {"icon": "🖌️", "word": "design"}, {"icon": "✏️", "word": "draw"}, {"icon": "⭐", "word": "star"}, {"icon": "🏷️", "word": "sticker"}], "target": "\"This is my bookmark.\" \"I like blue.\"", "mission": "색깔 단어만으로 짧게 소개", "showtime": "This is my bookmark. It's blue. I drew a star. I like it because it's pretty."}, "elementary": {"vocab": [{"icon": "🔖", "word": "bookmark"}, {"icon": "🌈", "word": "colorful"}, {"icon": "🔷", "word": "pattern"}, {"icon": "🎀", "word": "decorate"}, {"icon": "⭐", "word": "favorite"}, {"icon": "😍", "word": "beautiful"}], "target": "\"This is my bookmark.\" \"I used ___ colors and I drew ___.\" \"I like it because ___.\"", "mission": "원안 그대로: 3줄 스크립트로 짝과 대화", "showtime": "This is my bookmark. It's blue and yellow. I decorated it with stars and stickers. My favorite part is the flower. I like it because it's beautiful."}, "advanced": {"vocab": [{"icon": "🔖", "word": "bookmark"}, {"icon": "💡", "word": "creative"}, {"icon": "🌟", "word": "unique"}, {"icon": "🌈", "word": "colorful"}, {"icon": "🔷", "word": "pattern"}, {"icon": "🎀", "word": "decoration"}, {"icon": "🖌️", "word": "design"}, {"icon": "🔗", "word": "combination"}], "target": "\"I designed my bookmark with blue and yellow colors, and I added a small star because I think it looks bright and cheerful.\"", "mission": "이유를 두 가지 이상 연결해 한 문장으로 확장", "showtime": "This is the bookmark that I designed. I used blue and pink because they match well. I decorated it with flowers and stars. My favorite part is the pattern because it looks elegant. I think my bookmark is unique and creative."}};
 
 const cardsEl = document.getElementById('cards');
+const showtimeEl = document.getElementById('showtime');
 const tabs = document.querySelectorAll('.tab');
 
 function render(level) {
   const d = CONTENT[level];
-  const chips = d.vocab.map(v => `<span class="chip"><span class="icon">${v.icon}</span>${v.word}</span>`).join('');
+  const tiles = d.vocab.map(v => `<div class="vocab-tile"><div class="icon">${v.icon}</div><div class="word">${v.word}</div></div>`).join('');
   cardsEl.innerHTML = `
-    <div class="card fade">
+    <div class="card">
       <div class="label">VOCABULARY</div>
-      <div class="vocab-chips">${chips}</div>
+      <div class="vocab-grid">${tiles}</div>
     </div>
-    <div class="card fade">
+    <div class="card">
       <div class="label">TARGET LANGUAGE</div>
-      <div class="target-quote">${d.target}</div>
-    </div>
-    <div class="card fade">
-      <div class="label">SPEAKING MISSION</div>
-      <div class="mission-text">${d.mission}</div>
+      <div class="quote-wrap"><div class="target-quote">${d.target}</div></div>
     </div>
   `;
+  if (d.showtime) {
+    showtimeEl.innerHTML = `
+      <div class="showtime-card">
+        <div class="label">🎤 SHOW TIME</div>
+        <div class="script">${d.showtime}</div>
+      </div>
+    `;
+  } else {
+    showtimeEl.innerHTML = '';
+  }
 }
 
 tabs.forEach(tab => {
