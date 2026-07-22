@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>고1 6월 모의고사 지문분석 학습 | 잉글리시아이스텔라영어학원</title>
+<style>
+:root{
+  --navy:#1d2b4f;
+  --navy-light:#2e4070;
+  --cream:#faf7f0;
+  --gold:#c9952c;
+  --gold-light:#f3e2b8;
+  --ink:#23262b;
+  --line:#e3ddcf;
+  --green:#2f7d5e;
+  --red:#c0453a;
+  --card:#ffffff;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  font-family:'Pretendard','Noto Sans KR',-apple-system,sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+.topbar{
+  background:var(--navy);
+  color:#fff;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:30;
+  box-shadow:0 2px 10px rgba(0,0,0,0.15);
+}
+.topbar .brand{
+  font-size:14px;
+  letter-spacing:0.5px;
+  opacity:0.85;
+}
+.topbar .titlewrap{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.topbar h1{
+  font-size:17px;
+  margin:0;
+  font-weight:700;
+}
+.progress-pill{
+  background:var(--gold);
+  color:var(--navy);
+  font-size:12px;
+  font-weight:700;
+  padding:5px 12px;
+  border-radius:999px;
+  white-space:nowrap;
+}
+.layout{
+  display:flex;
+  max-width:1180px;
+  margin:0 auto;
+}
+.sidebar{
+  width:230px;
+  flex-shrink:0;
+  border-right:1px solid var(--line);
+  min-height:calc(100vh - 60px);
+  padding:14px 10px;
+  position:sticky;
+  top:60px;
+  align-self:flex-start;
+  max-height:calc(100vh - 60px);
+  overflow-y:auto;
+}
+.sb-section-label{
+  font-size:11px;
+  color:#9a8f72;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  padding:10px 8px 4px;
+}
+.qitem{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:9px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:13.5px;
+  margin-bottom:2px;
+  color:#4a4738;
+}
+.qitem:hover{background:var(--gold-light);}
+.qitem.active{background:var(--navy);color:#fff;font-weight:700;}
+.qnum{
+  font-weight:800;
+  font-size:12px;
+  background:var(--line);
+  border-radius:5px;
+  padding:2px 6px;
+  min-width:30px;
+  text-align:center;
+}
+.qitem.active .qnum{background:var(--gold);color:var(--navy);}
+.qitem.done::after{
+  content:'✓';
+  margin-left:auto;
+  color:var(--green);
+  font-weight:800;
+}
+.qitem.active.done::after{color:var(--gold-light);}
+
+.main{
+  flex:1;
+  padding:22px 26px 60px;
+  min-width:0;
+}
+.passage-head{
+  margin-bottom:16px;
+}
+.passage-head .tag{
+  display:inline-block;
+  background:var(--navy);
+  color:#fff;
+  font-size:12px;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:999px;
+  margin-bottom:8px;
+}
+.passage-head h2{
+  margin:0 0 4px;
+  font-size:21px;
+  color:var(--navy);
+  font-weight:800;
+  line-height:1.35;
+}
+.passage-head .titleko{
+  font-size:13.5px;
+  color:#766f5a;
+}
+
+.tabs{
+  display:flex;
+  gap:6px;
+  border-bottom:2px solid var(--line);
+  margin-bottom:20px;
+  overflow-x:auto;
+}
+.tab-btn{
+  padding:10px 16px;
+  font-size:14px;
+  font-weight:700;
+  color:#8a8268;
+  background:none;
+  border:none;
+  cursor:pointer;
+  border-bottom:3px solid transparent;
+  white-space:nowrap;
+}
+.tab-btn.active{
+  color:var(--navy);
+  border-bottom:3px solid var(--gold);
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:20px;
+  margin-bottom:16px;
+}
+
+/* 직독직해 모드 */
+.sent-row{
+  border-bottom:1px solid var(--line);
+  padding:14px 0;
+}
+.sent-row:last-child{border-bottom:none;}
+.sent-en{
+  font-size:15.5px;
+  line-height:1.65;
+  margin-bottom:6px;
+}
+.sent-ko{
+  font-size:14px;
+  color:#5b5544;
+  background:var(--cream);
+  border-left:3px solid var(--gold);
+  padding:8px 12px;
+  border-radius:4px;
+  display:none;
+}
+.sent-ko.show{display:block;}
+.sent-toggle{
+  font-size:12px;
+  color:var(--navy-light);
+  font-weight:700;
+  cursor:pointer;
+  background:var(--gold-light);
+  border:none;
+  padding:3px 9px;
+  border-radius:6px;
+}
+.mode-toolbar{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-bottom:10px;
+}
+.toolbtn{
+  font-size:12.5px;
+  font-weight:700;
+  background:var(--navy);
+  color:#fff;
+  border:none;
+  padding:7px 14px;
+  border-radius:8px;
+  cursor:pointer;
+}
+.toolbtn.secondary{
+  background:#fff;
+  color:var(--navy);
+  border:1px solid var(--navy);
+}
+
+/* 단어장 모드 */
+.vocab-controls{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.vocab-mode-btn{
+  font-size:13px;font-weight:700;padding:7px 14px;border-radius:999px;
+  border:1px solid var(--line);background:#fff;cursor:pointer;color:#6b6450;
+}
+.vocab-mode-btn.active{background:var(--navy);color:#fff;border-color:var(--navy);}
+.flash-card{
+  background:linear-gradient(135deg,var(--navy),var(--navy-light));
+  color:#fff;
+  border-radius:16px;
+  padding:48px 24px;
+  text-align:center;
+  font-size:26px;
+  font-weight:800;
+  min-height:140px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  margin-bottom:14px;
+  user-select:none;
+}
+.flash-card .ko{font-size:19px;color:var(--gold-light);font-weight:700;}
+.flash-nav{display:flex;justify-content:space-between;align-items:center;margin-top:8px;}
+.flash-nav button{
+  background:var(--gold);color:var(--navy);border:none;font-weight:800;
+  padding:9px 18px;border-radius:8px;cursor:pointer;font-size:13.5px;
+}
+.flash-progress{font-size:13px;color:#897f60;font-weight:700;}
+.vocab-list-table{width:100%;border-collapse:collapse;}
+.vocab-list-table td{padding:9px 6px;border-bottom:1px solid var(--line);font-size:14px;}
+.vocab-list-table td:first-child{font-weight:700;color:var(--navy);width:46%;}
+.quiz-row{
+  display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);
+}
+.quiz-row .word{font-weight:800;color:var(--navy);min-width:160px;}
+.quiz-row select{
+  flex:1;padding:7px 10px;border-radius:7px;border:1px solid var(--line);font-size:13.5px;
+}
+.quiz-row.correct select{border-color:var(--green);background:#eef8f1;}
+.quiz-row.wrong select{border-color:var(--red);background:#fdeeec;}
+
+/* 구문분석 모드 */
+.grammar-item{
+  display:flex;gap:10px;padding:11px 0;border-bottom:1px dashed var(--line);
+  font-size:14px;line-height:1.6;
+}
+.grammar-item:last-child{border-bottom:none;}
+.grammar-num{
+  flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--gold);
+  color:var(--navy);font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center;margin-top:2px;
+}
+.grammar-passage{
+  font-size:15px;line-height:1.85;background:var(--cream);padding:16px;border-radius:10px;margin-bottom:16px;
+}
+.section-title{
+  font-size:13px;font-weight:800;color:var(--navy);text-transform:uppercase;letter-spacing:0.5px;
+  margin:0 0 12px;padding-bottom:8px;border-bottom:2px solid var(--gold-light);
+}
+
+/* 오답해설 모드 */
+.q-text{font-size:15.5px;font-weight:700;margin-bottom:14px;line-height:1.5;}
+.opt-row{
+  display:flex;gap:10px;align-items:flex-start;padding:11px 14px;border:1px solid var(--line);
+  border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:14.5px;line-height:1.5;
+}
+.opt-row:hover{background:var(--cream);}
+.opt-num{font-weight:800;color:var(--navy);flex-shrink:0;}
+.opt-row.selected{border-color:var(--navy);background:var(--gold-light);}
+.opt-row.correct{border-color:var(--green);background:#eaf7ee;}
+.opt-row.wrong{border-color:var(--red);background:#fbeae8;}
+.result-box{
+  margin-top:14px;padding:16px;border-radius:10px;font-size:14px;line-height:1.7;display:none;
+}
+.result-box.show{display:block;}
+.result-box.correct-bg{background:#eaf7ee;border:1px solid var(--green);}
+.result-box.wrong-bg{background:#fbeae8;border:1px solid var(--red);}
+.result-box b{display:block;margin-bottom:6px;font-size:15px;}
+.passage-readonly{
+  font-size:14.5px;line-height:1.8;color:#3c3a32;background:var(--cream);padding:16px;border-radius:10px;margin-bottom:16px;
+}
+
+@media (max-width: 800px){
+  .layout{flex-direction:column;}
+  .sidebar{
+    width:100%;position:static;max-height:200px;border-right:none;border-bottom:1px solid var(--line);
+    display:flex;overflow-x:auto;white-space:nowrap;
+  }
+  .sb-section-label{display:none;}
+  .qitem{flex-shrink:0;}
+  .main{padding:16px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="titlewrap">
+    <span class="brand">잉글리시아이스텔라영어학원 · 고1 준비반</span>
+    <h1>2026년 6월 부산 학력평가 지문분석</h1>
+  </div>
+  <div class="progress-pill" id="progressPill">0 / 25 완료</div>
+</div>
+
+<div class="layout">
+  <div class="sidebar" id="sidebar"></div>
+  <div class="main" id="main"></div>
+</div>
+
+<script src="data.js"></script>
+<script>
+let currentId = PASSAGES[0].id;
+let currentTab = 'read'; // read | vocab | grammar | quiz
+let flashIdx = 0;
+let flashFlipped = false;
+let vocabMode = 'flash'; // flash | quiz | list
+let selectedOpt = null;
+let answered = false;
+
+const DONE_KEY = 'stella_done_passages';
+function getDone(){ try{ return JSON.parse(localStorage.getItem(DONE_KEY)||'[]'); }catch(e){ return []; } }
+function setDone(arr){ localStorage.setItem(DONE_KEY, JSON.stringify(arr)); }
+function markDone(id){
+  let d = getDone();
+  if(!d.includes(id)){ d.push(id); setDone(d); }
+  renderSidebar(); updateProgressPill();
+}
+function isDone(id){ return getDone().includes(id); }
+
+function updateProgressPill(){
+  document.getElementById('progressPill').textContent = `${getDone().length} / ${PASSAGES.length} 완료`;
+}
+
+function renderSidebar(){
+  const sb = document.getElementById('sidebar');
+  let html = '<div class="sb-section-label">문항 목록 (18~45번)</div>';
+  PASSAGES.forEach(p=>{
+    const active = p.id === currentId ? 'active' : '';
+    const done = isDone(p.id) ? 'done' : '';
+    const label = String(p.id).length > 2 ? p.type : `${p.id}번`;
+    html += `<div class="qitem ${active} ${done}" onclick="selectPassage(${p.id})">
+      <span class="qnum">${label.replace(/[^0-9~]/g,'').slice(0,5) || p.id}</span>
+      <span>${p.type}</span>
+    </div>`;
+  });
+  sb.innerHTML = html;
+}
+
+function selectPassage(id){
+  currentId = id;
+  currentTab = 'read';
+  flashIdx = 0; flashFlipped = false; vocabMode='flash';
+  selectedOpt = null; answered = false;
+  renderSidebar();
+  renderMain();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function getCurrent(){ return PASSAGES.find(p=>p.id===currentId); }
+
+function renderMain(){
+  const p = getCurrent();
+  const main = document.getElementById('main');
+  let html = `
+    <div class="passage-head">
+      <span class="tag">${p.id.toString().length>2 ? p.type : p.id+'번 · '+p.type}</span>
+      <h2>${p.titleEn}</h2>
+      <div class="titleko">${p.titleKo}</div>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn ${currentTab==='read'?'active':''}" onclick="switchTab('read')">📖 직독직해</button>
+      <button class="tab-btn ${currentTab==='vocab'?'active':''}" onclick="switchTab('vocab')">🃏 단어장</button>
+      <button class="tab-btn ${currentTab==='grammar'?'active':''}" onclick="switchTab('grammar')">🔍 구문분석</button>
+      <button class="tab-btn ${currentTab==='quiz'?'active':''}" onclick="switchTab('quiz')">✏️ 오답해설</button>
+    </div>
+    <div id="tabContent"></div>
+  `;
+  main.innerHTML = html;
+  renderTabContent();
+}
+
+function switchTab(tab){
+  currentTab = tab;
+  flashIdx = 0; flashFlipped=false;
+  renderMain();
+}
+
+function renderTabContent(){
+  const p = getCurrent();
+  const el = document.getElementById('tabContent');
+  if(currentTab === 'read') el.innerHTML = renderRead(p);
+  if(currentTab === 'vocab') el.innerHTML = renderVocab(p);
+  if(currentTab === 'grammar') el.innerHTML = renderGrammar(p);
+  if(currentTab === 'quiz') el.innerHTML = renderQuiz(p);
+}
+
+/* ---------- 직독직해 ---------- */
+function renderRead(p){
+  let rows = p.sentences.map((s,i)=>`
+    <div class="sent-row">
+      <div class="sent-en">${i+1}. ${s.en}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div></div>
+        <button class="sent-toggle" onclick="toggleKo(${i})">해석 보기</button>
+      </div>
+      <div class="sent-ko" id="ko-${i}">${s.ko}</div>
+    </div>`).join('');
+  return `
+    <div class="mode-toolbar">
+      <button class="toolbtn secondary" onclick="toggleAllKo(false)">해석 숨기기</button>
+      <button class="toolbtn" onclick="toggleAllKo(true)">전체 해석 보기</button>
+    </div>
+    <div class="card">${rows}</div>
+    <div style="text-align:center;margin-top:10px;">
+      <button class="toolbtn" onclick="markDone(${p.id})">✓ 이 지문 학습 완료로 표시</button>
+    </div>
+  `;
+}
+function toggleKo(i){
+  document.getElementById('ko-'+i).classList.toggle('show');
+}
+function toggleAllKo(show){
+  document.querySelectorAll('.sent-ko').forEach(el=>{
+    if(show) el.classList.add('show'); else el.classList.remove('show');
+  });
+}
+
+/* ---------- 단어장 ---------- */
+function renderVocab(p){
+  let html = `<div class="vocab-controls">
+    <button class="vocab-mode-btn ${vocabMode==='flash'?'active':''}" onclick="setVocabMode('flash')">🃏 플래시카드</button>
+    <button class="vocab-mode-btn ${vocabMode==='quiz'?'active':''}" onclick="setVocabMode('quiz')">✏️ 뜻 매칭 퀴즈</button>
+    <button class="vocab-mode-btn ${vocabMode==='list'?'active':''}" onclick="setVocabMode('list')">📋 전체 단어 목록</button>
+  </div>`;
+  if(vocabMode==='flash') html += renderFlash(p);
+  if(vocabMode==='quiz') html += renderVocabQuiz(p);
+  if(vocabMode==='list') html += renderVocabList(p);
+  return html;
+}
+function setVocabMode(m){ vocabMode=m; flashIdx=0; flashFlipped=false; renderTabContent(); }
+
+function renderFlash(p){
+  const v = p.vocab[flashIdx];
+  return `
+  <div class="card">
+    <div class="flash-card" onclick="flipFlash()">
+      ${flashFlipped ? `<span class="ko">${v[1]}</span>` : `<span>${v[0]}</span>`}
+    </div>
+    <div class="flash-nav">
+      <button onclick="prevFlash()">◀ 이전</button>
+      <span class="flash-progress">${flashIdx+1} / ${p.vocab.length}  (클릭하여 뜻 확인)</span>
+      <button onclick="nextFlash()">다음 ▶</button>
+    </div>
+  </div>`;
+}
+function flipFlash(){ flashFlipped = !flashFlipped; renderTabContent(); }
+function nextFlash(){
+  const p = getCurrent();
+  flashIdx = (flashIdx+1) % p.vocab.length; flashFlipped=false; renderTabContent();
+}
+function prevFlash(){
+  const p = getCurrent();
+  flashIdx = (flashIdx-1+p.vocab.length) % p.vocab.length; flashFlipped=false; renderTabContent();
+}
+
+function renderVocabQuiz(p){
+  const rows = p.vocab.map((v,i)=>{
+    let opts = [v[1]];
+    let pool = p.vocab.filter((x,j)=>j!==i).map(x=>x[1]);
+    pool = pool.sort(()=>Math.random()-0.5).slice(0,3);
+    opts = opts.concat(pool).sort(()=>Math.random()-0.5);
+    const optHtml = opts.map(o=>`<option value="${o.replace(/"/g,'&quot;')}">${o}</option>`).join('');
+    return `<div class="quiz-row" id="qr-${i}">
+      <span class="word">${v[0]}</span>
+      <select onchange="checkVocabAnswer(${i},this.value,'${v[1].replace(/'/g,"\\'")}')">
+        <option value="">뜻을 선택하세요</option>
+        ${optHtml}
+      </select>
+    </div>`;
+  }).join('');
+  return `<div class="card">${rows}</div>`;
+}
+function checkVocabAnswer(i, val, correct){
+  const row = document.getElementById('qr-'+i);
+  row.classList.remove('correct','wrong');
+  if(val === correct) row.classList.add('correct');
+  else row.classList.add('wrong');
+}
+
+function renderVocabList(p){
+  const rows = p.vocab.map(v=>`<tr><td>${v[0]}</td><td>${v[1]}</td></tr>`).join('');
+  return `<div class="card"><table class="vocab-list-table">${rows}</table></div>`;
+}
+
+/* ---------- 구문분석 ---------- */
+function renderGrammar(p){
+  const passageHtml = p.sentences.map((s,i)=>`<span>${i+1}. ${s.en}</span>`).join(' ');
+  const gitems = p.grammar.map((g,i)=>`
+    <div class="grammar-item">
+      <div class="grammar-num">${i+1}</div>
+      <div>${g}</div>
+    </div>`).join('');
+  return `
+    <div class="card">
+      <div class="section-title">지문 원문</div>
+      <div class="grammar-passage">${passageHtml}</div>
+      <div class="section-title">핵심 구문 &amp; 어법 포인트</div>
+      ${gitems}
+    </div>
+  `;
+}
+
+/* ---------- 오답해설 (실전 문제) ---------- */
+function renderQuiz(p){
+  const passageText = p.sentences.map(s=>s.en).join(' ');
+  const opts = p.options.map((o,i)=>`
+    <div class="opt-row" id="opt-${i}" onclick="selectOption(${i})">
+      <span class="opt-num">${i+1}</span><span>${o}</span>
+    </div>`).join('');
+  return `
+    <div class="card">
+      <div class="passage-readonly">${passageText}</div>
+      <div class="q-text">${p.question}</div>
+      ${opts}
+      <div class="result-box" id="resultBox"></div>
+    </div>
+  `;
+}
+function selectOption(i){
+  if(answered) return;
+  const p = getCurrent();
+  answered = true;
+  selectedOpt = i;
+  const correctIdx = p.answer - 1;
+  document.querySelectorAll('.opt-row').forEach((el,idx)=>{
+    if(idx===correctIdx) el.classList.add('correct');
+    else if(idx===i) el.classList.add('wrong');
+  });
+  const box = document.getElementById('resultBox');
+  const isCorrect = i===correctIdx;
+  box.classList.add('show', isCorrect?'correct-bg':'wrong-bg');
+  box.innerHTML = `<b>${isCorrect ? '✅ 정답입니다!' : '❌ 오답입니다. 정답은 '+p.options[correctIdx]+' 입니다.'}</b>${p.explanation}`;
+  markDone(p.id);
+}
+
+/* init */
+renderSidebar();
+updateProgressPill();
+renderMain();
+</script>
+</body>
+</html>
