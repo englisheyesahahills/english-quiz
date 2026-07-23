@@ -225,17 +225,41 @@
    - answerKey를 비워두면(:[]) 채점 없이 답안만 기록/표시됩니다.
    - submitUrl에 Apps Script 배포 URL을 넣으면 Notion으로 자동 저장됩니다.
    ===================================================================== */
+/* =====================================================================
+   시험명/문항수/정답키는 이제 Notion "OMR 시험 설정" DB에서 실시간으로 불러옵니다.
+   시험이 바뀔 때마다 이 파일을 다시 올릴 필요 없이, Notion에서 새 행을 만들고
+   "활성" 체크박스만 켜주면 됩니다 (이전 시험은 활성 체크 해제).
+   ===================================================================== */
 const CONFIG = {
-  examName: "샘플 시험 (문항 수·정답 준비 전 테스트용)",
   studentPlaceholder: "이름을 입력하세요",
-  totalQuestions: 30,     // 시험마다 문항 수만 바꾸면 됩니다 (예: 20문항 시험 -> 20)
-  numChoices: 4,          // 4지선다 or 5지선다
-  answerKey: [],          // 문항 수만큼 정답을 넣으면 됩니다. 예: 20문항이면 숫자 20개, 30문항이면 30개
-  submitUrl: "https://script.google.com/macros/s/AKfycbyHtQYr3kVeHV-vuBs1mNACcWDQveRHXehuohfcwEH0x2Zcnewnimv8XNOXHURpwFaE/exec"  // OMR 시험 결과 전용 Apps Script
+  configUrl: "https://script.google.com/macros/s/AKfycbyHtQYr3kVeHV-vuBs1mNACcWDQveRHXehuohfcwEH0x2Zcnewnimv8XNOXHURpwFaE/exec?action=getConfig",
+  submitUrl: "https://script.google.com/macros/s/AKfycbyHtQYr3kVeHV-vuBs1mNACcWDQveRHXehuohfcwEH0x2Zcnewnimv8XNOXHURpwFaE/exec",
+  // 아래는 Notion 설정을 못 불러올 때 쓰이는 예비값입니다.
+  examName: "시험 준비 중",
+  totalQuestions: 5,
+  numChoices: 4,
+  answerKey: []
 };
 /* ===================================================================== */
 
 const state = { answers: {}, studentName: "" };
+
+async function loadConfigAndInit(){
+  document.getElementById('startTitle').textContent = "불러오는 중...";
+  try{
+    const res = await fetch(CONFIG.configUrl);
+    const data = await res.json();
+    if(data && !data.error){
+      CONFIG.examName = data.examName;
+      CONFIG.totalQuestions = data.totalQuestions;
+      CONFIG.numChoices = data.numChoices || 4;
+      CONFIG.answerKey = data.answerKey || [];
+    }
+  }catch(err){
+    console.error('시험 설정을 불러오지 못했습니다:', err);
+  }
+  init();
+}
 
 function init(){
   document.getElementById('startTitle').textContent = CONFIG.examName;
@@ -418,7 +442,7 @@ function submitExam(){
   }
 }
 
-init();
+loadConfigAndInit();
 </script>
 </body>
 </html>
