@@ -166,7 +166,36 @@
   <div class="start-title" id="startTitle">시험 이름</div>
   <div class="start-sub" id="startSub">이름을 입력하고 시작하세요</div>
   <input type="text" id="nameInput" placeholder="이름을 입력하세요" maxlength="20">
-  <div class="start-warn" id="startWarn">이름을 입력해야 시작할 수 있어요</div>
+  <select id="classInput" style="margin-top:10px; width:100%; max-width:280px; padding:12px 14px; font-size:15px; border:1.5px solid var(--ink); border-radius:4px; background:#fff; color:var(--ink); font-family:'Pretendard',sans-serif; text-align:center;">
+    <option value="">반을 선택하세요</option>
+    <option value="A-1">A-1</option>
+    <option value="A-2">A-2</option>
+    <option value="A-3">A-3</option>
+    <option value="A-4">A-4</option>
+    <option value="A-5">A-5</option>
+    <option value="B-1">B-1</option>
+    <option value="B-2">B-2</option>
+    <option value="B-3">B-3</option>
+    <option value="B-4">B-4</option>
+    <option value="B-5">B-5</option>
+    <option value="C-1">C-1</option>
+    <option value="C-2">C-2</option>
+    <option value="C-3">C-3</option>
+    <option value="C-4">C-4</option>
+    <option value="C-5">C-5</option>
+    <option value="D-1">D-1</option>
+    <option value="D-2">D-2</option>
+    <option value="D-3">D-3</option>
+    <option value="D-4">D-4</option>
+    <option value="D-5">D-5</option>
+    <option value="유치부">유치부</option>
+    <option value="중등부1">중등부1</option>
+    <option value="중등부2">중등부2</option>
+    <option value="중등부3">중등부3</option>
+    <option value="중등부4">중등부4</option>
+    <option value="중등부5">중등부5</option>
+  </select>
+  <div class="start-warn" id="startWarn">이름과 반을 모두 선택해야 시작할 수 있어요</div>
   <button class="start-btn" id="startBtn">시작하기</button>
 </div>
 
@@ -242,7 +271,7 @@ const CONFIG = {
 };
 /* ===================================================================== */
 
-const state = { answers: {}, studentName: "" };
+const state = { answers: {}, studentName: "", studentClass: "" };
 
 async function loadConfigAndInit(){
   document.getElementById('startTitle').textContent = "불러오는 중...";
@@ -277,11 +306,13 @@ function init(){
 
 document.getElementById('startBtn').onclick = () => {
   const name = document.getElementById('nameInput').value.trim();
-  if(!name){
+  const cls = document.getElementById('classInput').value;
+  if(!name || !cls){
     document.getElementById('startWarn').classList.add('show');
     return;
   }
   state.studentName = name;
+  state.studentClass = cls;
   document.getElementById('startScreen').style.display = 'none';
   document.getElementById('examContainer').style.display = 'block';
 };
@@ -431,6 +462,7 @@ function submitExam(){
       body: JSON.stringify({
         type: 'omr_exam',
         studentName: state.studentName,
+        studentClass: state.studentClass,
         examName: CONFIG.examName,
         answers: state.answers,
         answerKey: answerKeyObj,
