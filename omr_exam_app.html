@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>스텔라영어학원 · 디지털 OMR</title>
+<style>
+  :root{
+    --paper: #F1F2EC;
+    --paper-line: #D8DACE;
+    --ink: #1C2438;
+    --ink-soft: #5A6072;
+    --stamp: #B23A2E;
+    --stamp-soft: #B23A2E22;
+    --done: #3E6259;
+    --done-soft: #3E625918;
+    --warn: #C97A2B;
+    --white: #FFFFFF;
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{margin:0; padding:0; background:var(--paper); color:var(--ink);
+    font-family: 'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    min-height:100vh;}
+  .mono{font-family:'IBM Plex Mono','Roboto Mono',monospace;}
+
+  /* ---------- header ---------- */
+  header{
+    position: sticky; top:0; z-index:20;
+    background: var(--paper);
+    border-bottom: 1px solid var(--paper-line);
+    padding: 14px 18px 10px;
+  }
+  .exam-title{ font-size: 15px; font-weight:700; letter-spacing:.02em; }
+  .exam-sub{ font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .progress-track{
+    margin-top:10px; height:5px; background:var(--paper-line); border-radius:3px; overflow:hidden;
+  }
+  .progress-fill{ height:100%; background:var(--stamp); width:0%; transition:width .25s ease; }
+
+  .navgrid{
+    margin-top:12px; display:flex; flex-wrap:wrap; gap:6px;
+  }
+  .navdot{
+    width:26px; height:26px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-family:'IBM Plex Mono',monospace;
+    border:1.5px solid var(--paper-line); background:var(--white); color:var(--ink-soft);
+    cursor:pointer; transition: all .15s ease; flex-shrink:0;
+  }
+  .navdot.answered{ background:var(--stamp); border-color:var(--stamp); color:#fff; }
+  .navdot.current{ box-shadow: 0 0 0 2px var(--ink); }
+
+  /* ---------- question list ---------- */
+  main{ max-width: 480px; margin: 0 auto; padding: 6px 16px 120px; }
+  .qcard{
+    padding: 18px 2px 20px;
+    border-bottom: 1px dashed var(--paper-line);
+    scroll-margin-top: 150px;
+  }
+  .qhead{ display:flex; align-items:baseline; gap:10px; margin-bottom:12px; }
+  .qnum{ font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:700; color:var(--ink); min-width:34px; }
+  .qflag{ font-size:11px; color:var(--stamp); font-weight:600; visibility:hidden; }
+  .qflag.show{ visibility:visible; }
+
+  .choices{ display:flex; gap:10px; flex-wrap:wrap; }
+  .choice{
+    position:relative;
+    width:44px; height:44px; border-radius:50%;
+    border: 2px solid var(--ink); background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; color:var(--ink);
+    cursor:pointer; transition: transform .1s ease;
+  }
+  .choice:active{ transform: scale(.92); }
+  .choice.selected{
+    color: transparent;
+    border-color: var(--stamp);
+  }
+  .choice.selected::before{
+    content:''; position:absolute; inset:3px; border-radius:50%;
+    background: var(--stamp);
+    clip-path: polygon(8% 22%, 92% 10%, 96% 88%, 4% 96%); /* irregular ink-stamp edge */
+    opacity:.92;
+  }
+  .choice.selected::after{
+    content: attr(data-label);
+    position:absolute; color:#fff; font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:700;
+  }
+
+  /* ---------- footer / submit ---------- */
+  footer{
+    position: fixed; bottom:0; left:0; right:0; z-index:20;
+    background: var(--white); border-top:1px solid var(--paper-line);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex; align-items:center; gap:12px;
+  }
+  .fill-status{ font-size:12px; color:var(--ink-soft); flex:1; }
+  .fill-status b{ color:var(--ink); }
+  .submit-btn{
+    background:var(--ink); color:#fff; border:none; border-radius: var(--radius);
+    padding: 12px 22px; font-size:14px; font-weight:700; cursor:pointer;
+    letter-spacing:.02em;
+  }
+  .submit-btn:active{ transform: translateY(1px); }
+
+  /* ---------- modal ---------- */
+  .overlay{
+    position:fixed; inset:0; background: rgba(28,36,56,.55); z-index:50;
+    display:none; align-items:center; justify-content:center; padding:24px;
+  }
+  .overlay.show{ display:flex; }
+  .modal{
+    background:#fff; border-radius:6px; padding:22px 20px; max-width:360px; width:100%;
+    box-shadow: 0 12px 30px rgba(0,0,0,.2);
+  }
+  .modal h3{ margin:0 0 8px; font-size:16px; }
+  .modal p{ margin:0 0 16px; font-size:13px; color:var(--ink-soft); line-height:1.55; }
+  .modal .missing{ color:var(--warn); font-weight:700; }
+  .modal-actions{ display:flex; gap:8px; justify-content:flex-end; }
+  .btn-ghost{ background:none; border:1px solid var(--paper-line); border-radius:4px; padding:9px 14px; font-size:13px; cursor:pointer; color:var(--ink-soft);}
+  .btn-primary{ background:var(--stamp); color:#fff; border:none; border-radius:4px; padding:9px 16px; font-size:13px; font-weight:700; cursor:pointer;}
+
+  /* ---------- start screen ---------- */
+  #startScreen{
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding: 24px; text-align:center;
+  }
+  #startScreen .start-title{ font-size:18px; font-weight:700; margin-bottom:6px; }
+  #startScreen .start-sub{ font-size:13px; color:var(--ink-soft); margin-bottom:28px; }
+  #startScreen input{
+    width:100%; max-width:280px; padding:13px 14px; font-size:15px;
+    border:1.5px solid var(--ink); border-radius:4px; background:#fff; color:var(--ink);
+    font-family:'Pretendard',sans-serif; text-align:center;
+  }
+  #startScreen input:focus{ outline:none; border-color:var(--stamp); }
+  #startScreen .start-btn{
+    margin-top:16px; background:var(--ink); color:#fff; border:none; border-radius:4px;
+    padding:13px 32px; font-size:14px; font-weight:700; cursor:pointer; letter-spacing:.02em;
+  }
+  #startScreen .start-warn{ color:var(--stamp); font-size:12px; margin-top:10px; visibility:hidden; }
+  #startScreen .start-warn.show{ visibility:visible; }
+  #examContainer{ display:none; }
+
+  /* ---------- result screen ---------- */
+  #resultScreen{ display:none; max-width:480px; margin:0 auto; padding:28px 18px 60px; }
+  .score-block{ text-align:center; padding: 26px 0 20px; border-bottom:1px solid var(--paper-line); margin-bottom:18px;}
+  .score-num{ font-family:'IBM Plex Mono',monospace; font-size:44px; font-weight:700; color:var(--ink); }
+  .score-label{ font-size:12px; color:var(--ink-soft); margin-top:4px;}
+  .review-row{
+    display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--paper-line);
+    font-size:13px;
+  }
+  .review-row .rq{ font-family:'IBM Plex Mono',monospace; font-weight:700; width:28px;}
+  .tag-correct{ color:var(--done); font-weight:700; }
+  .tag-wrong{ color:var(--stamp); font-weight:700; }
+  .pending-note{
+    background: var(--done-soft); border:1px solid var(--done); color:var(--done);
+    border-radius:6px; padding:14px 16px; font-size:13px; line-height:1.6; margin-top:6px;
+  }
+</style>
+</head>
+<body>
+
+<div id="startScreen">
+  <div class="start-title" id="startTitle">시험 이름</div>
+  <div class="start-sub" id="startSub">이름을 입력하고 시작하세요</div>
+  <input type="text" id="nameInput" placeholder="이름을 입력하세요" maxlength="20">
+  <div class="start-warn" id="startWarn">이름을 입력해야 시작할 수 있어요</div>
+  <button class="start-btn" id="startBtn">시작하기</button>
+</div>
+
+<div id="examContainer">
+  <header>
+    <div class="exam-title" id="examTitle">시험 이름</div>
+    <div class="exam-sub" id="examSub">총 0문항 · 아래에서 답을 선택하세요</div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="navgrid" id="navGrid"></div>
+  </header>
+
+  <main id="qList"></main>
+
+  <footer id="footerBar">
+    <div class="fill-status"><b id="answeredCount">0</b> / <span id="totalCount">0</span> 문항 완료</div>
+    <button class="submit-btn" id="submitBtn">제출하기</button>
+  </footer>
+</div>
+
+<div class="overlay" id="warnOverlay">
+  <div class="modal">
+    <h3>아직 안 푼 문항이 있어요</h3>
+    <p><span class="missing" id="missingList"></span> 번 문항이 비어있습니다. 계속 진행할까요?</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="warnBack">돌아가서 마저 풀기</button>
+      <button class="btn-primary" id="warnProceed">그래도 제출</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="confirmOverlay">
+  <div class="modal">
+    <h3>제출하시겠어요?</h3>
+    <p>제출 후에는 답안을 수정할 수 없습니다.</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="confirmCancel">취소</button>
+      <button class="btn-primary" id="confirmOk">제출 확정</button>
+    </div>
+  </div>
+</div>
+
+<div id="resultScreen">
+  <div class="score-block">
+    <div class="score-num" id="scoreNum">-</div>
+    <div class="score-label" id="scoreLabel">채점 결과</div>
+  </div>
+  <div id="reviewList"></div>
+  <div id="pendingNote" class="pending-note" style="display:none;">
+    정답키가 아직 등록되지 않아 자동채점 결과를 보여드릴 수 없어요. 학생 답안은 정상적으로 기록되었으니, 선생님이 정답을 등록하면 다시 확인할 수 있습니다.
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   시험마다 이 부분만 수정해서 재사용하세요.
+   - answerKey를 비워두면(:[]) 채점 없이 답안만 기록/표시됩니다.
+   - submitUrl에 Apps Script 배포 URL을 넣으면 Notion으로 자동 저장됩니다.
+   ===================================================================== */
+const CONFIG = {
+  examName: "샘플 시험 (문항 수·정답 준비 전 테스트용)",
+  studentPlaceholder: "이름을 입력하세요",
+  totalQuestions: 30,     // 시험마다 문항 수만 바꾸면 됩니다 (예: 20문항 시험 -> 20)
+  numChoices: 4,          // 4지선다 or 5지선다
+  answerKey: [],          // 문항 수만큼 정답을 넣으면 됩니다. 예: 20문항이면 숫자 20개, 30문항이면 30개
+  submitUrl: "https://script.google.com/macros/s/AKfycbyHtQYr3kVeHV-vuBs1mNACcWDQveRHXehuohfcwEH0x2Zcnewnimv8XNOXHURpwFaE/exec"  // OMR 시험 결과 전용 Apps Script
+};
+/* ===================================================================== */
+
+const state = { answers: {}, studentName: "" };
+
+function init(){
+  document.getElementById('startTitle').textContent = CONFIG.examName;
+  document.getElementById('startSub').textContent = `총 ${CONFIG.totalQuestions}문항 · 이름을 입력하고 시작하세요`;
+  document.getElementById('nameInput').placeholder = CONFIG.studentPlaceholder;
+
+  document.getElementById('examTitle').textContent = CONFIG.examName;
+  document.getElementById('examSub').textContent = `총 ${CONFIG.totalQuestions}문항 · 자유롭게 이동하며 답을 고르고 마지막에 제출하세요`;
+  document.getElementById('totalCount').textContent = CONFIG.totalQuestions;
+
+  renderNav();
+  renderQuestions();
+  updateProgress();
+}
+
+document.getElementById('startBtn').onclick = () => {
+  const name = document.getElementById('nameInput').value.trim();
+  if(!name){
+    document.getElementById('startWarn').classList.add('show');
+    return;
+  }
+  state.studentName = name;
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('examContainer').style.display = 'block';
+};
+document.getElementById('nameInput').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') document.getElementById('startBtn').click();
+});
+
+function renderNav(){
+  const nav = document.getElementById('navGrid');
+  nav.innerHTML = '';
+  for(let i=1;i<=CONFIG.totalQuestions;i++){
+    const d = document.createElement('div');
+    d.className = 'navdot';
+    d.id = `nav-${i}`;
+    d.textContent = i;
+    d.onclick = () => document.getElementById(`q-${i}`).scrollIntoView({behavior:'smooth', block:'center'});
+    nav.appendChild(d);
+  }
+}
+
+function renderQuestions(){
+  const list = document.getElementById('qList');
+  list.innerHTML = '';
+  for(let i=1;i<=CONFIG.totalQuestions;i++){
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    card.id = `q-${i}`;
+
+    const head = document.createElement('div');
+    head.className = 'qhead';
+    head.innerHTML = `<span class="qnum">${String(i).padStart(2,'0')}</span><span class="qflag" id="flag-${i}">미응답</span>`;
+    card.appendChild(head);
+
+    const choices = document.createElement('div');
+    choices.className = 'choices';
+    for(let c=1;c<=CONFIG.numChoices;c++){
+      const btn = document.createElement('button');
+      btn.className = 'choice';
+      btn.dataset.label = c;
+      btn.textContent = c;
+      btn.onclick = () => selectAnswer(i, c);
+      btn.id = `choice-${i}-${c}`;
+      choices.appendChild(btn);
+    }
+    card.appendChild(choices);
+    list.appendChild(card);
+  }
+}
+
+function selectAnswer(qNum, choice){
+  state.answers[qNum] = choice;
+  for(let c=1;c<=CONFIG.numChoices;c++){
+    document.getElementById(`choice-${qNum}-${c}`).classList.toggle('selected', c===choice);
+  }
+  document.getElementById(`nav-${qNum}`).classList.add('answered');
+  document.getElementById(`flag-${qNum}`).classList.remove('show');
+  updateProgress();
+}
+
+function updateProgress(){
+  const answered = Object.keys(state.answers).length;
+  const pct = (answered / CONFIG.totalQuestions) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('answeredCount').textContent = answered;
+}
+
+function getMissing(){
+  const missing = [];
+  for(let i=1;i<=CONFIG.totalQuestions;i++){
+    if(!state.answers[i]) missing.push(i);
+  }
+  return missing;
+}
+
+document.getElementById('submitBtn').onclick = () => {
+  const missing = getMissing();
+  if(missing.length > 0){
+    document.getElementById('missingList').textContent = missing.join(', ');
+    missing.forEach(n => document.getElementById(`flag-${n}`).classList.add('show'));
+    document.getElementById('warnOverlay').classList.add('show');
+  } else {
+    document.getElementById('confirmOverlay').classList.add('show');
+  }
+};
+
+document.getElementById('warnBack').onclick = () => {
+  document.getElementById('warnOverlay').classList.remove('show');
+  const missing = getMissing();
+  if(missing.length) document.getElementById(`q-${missing[0]}`).scrollIntoView({behavior:'smooth', block:'center'});
+};
+document.getElementById('warnProceed').onclick = () => {
+  document.getElementById('warnOverlay').classList.remove('show');
+  document.getElementById('confirmOverlay').classList.add('show');
+};
+document.getElementById('confirmCancel').onclick = () => {
+  document.getElementById('confirmOverlay').classList.remove('show');
+};
+document.getElementById('confirmOk').onclick = () => {
+  document.getElementById('confirmOverlay').classList.remove('show');
+  submitExam();
+};
+
+function submitExam(){
+  const hasKey = CONFIG.answerKey && CONFIG.answerKey.length === CONFIG.totalQuestions;
+  let correctCount = 0;
+  const reviewList = document.getElementById('reviewList');
+  reviewList.innerHTML = '';
+
+  for(let i=1;i<=CONFIG.totalQuestions;i++){
+    const my = state.answers[i] || null;
+    if(hasKey){
+      const correct = CONFIG.answerKey[i-1];
+      const isRight = my === correct;
+      if(isRight) correctCount++;
+      const row = document.createElement('div');
+      row.className = 'review-row';
+      row.innerHTML = `<span class="rq">${i}</span>
+        <span>내 답: ${my ?? '-'}</span>
+        <span>${isRight ? '<span class="tag-correct">정답</span>' : `<span class="tag-wrong">오답</span> (정답 ${correct})`}</span>`;
+      reviewList.appendChild(row);
+    }
+  }
+
+  document.getElementById('qList').style.display = 'none';
+  document.getElementById('footerBar').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'block';
+
+  if(hasKey){
+    document.getElementById('scoreNum').textContent = `${correctCount} / ${CONFIG.totalQuestions}`;
+    document.getElementById('scoreLabel').textContent = '채점 결과';
+    document.getElementById('pendingNote').style.display = 'none';
+  } else {
+    document.getElementById('scoreNum').textContent = '-';
+    document.getElementById('scoreLabel').textContent = '답안 제출 완료';
+    document.getElementById('pendingNote').style.display = 'block';
+  }
+
+  // Notion/Apps Script 연동 지점: submitUrl이 설정되면 결과를 전송합니다.
+  if(CONFIG.submitUrl){
+    const answerKeyObj = {};
+    if(hasKey){
+      for(let i=1;i<=CONFIG.totalQuestions;i++) answerKeyObj[i] = CONFIG.answerKey[i-1];
+    }
+    fetch(CONFIG.submitUrl, {
+      method: 'POST',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify({
+        type: 'omr_exam',
+        studentName: state.studentName,
+        examName: CONFIG.examName,
+        answers: state.answers,
+        answerKey: answerKeyObj,
+        score: hasKey ? correctCount : null,
+        total: CONFIG.totalQuestions,
+        submittedAt: new Date().toISOString()
+      })
+    }).catch(err => console.error('제출 전송 실패:', err));
+  }
+}
+
+init();
+</script>
+</body>
+</html>
