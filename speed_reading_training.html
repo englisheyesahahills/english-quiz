@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>속독속해 트레이닝</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F7F4EC; --card:#FFFFFF; --ink:#1B2A41; --ink-soft:#4C5A6E;
+    --rule:#C7402F; --gold:#B8862E; --gold-bg:#FBF0DA;
+    --ok:#3B6D11; --ok-bg:#EAF3DE; --border:#E3DDCB;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--paper);font-family:'Noto Sans KR', sans-serif;color:var(--ink);padding:32px 16px 80px;}
+  .wrap{max-width:720px;margin:0 auto;}
+  .top-rule{height:4px;background:var(--rule);border-radius:2px;margin-bottom:6px;}
+  .title{font-family:'Noto Serif KR', serif;font-size:22px;font-weight:700;margin:0 0 4px;}
+  .eyebrow{font-size:13px;color:var(--ink-soft);margin-bottom:20px;}
+  .setup-bar{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:20px;}
+  .setup-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px;}
+  .setup-row input, .setup-row select{font-family:'Noto Sans KR', sans-serif;font-size:14px;border:1.5px solid var(--border);border-radius:6px;padding:8px 10px;flex:1;min-width:90px;}
+  .setup-row label{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:4px;}
+  #startBtn{width:100%;padding:12px;}
+  .progress{display:flex;gap:4px;margin-bottom:28px;flex-wrap:wrap;}
+  .progress-dot{width:16px;height:4px;border-radius:2px;background:var(--border);}
+  .progress-dot.done{background:var(--rule);}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:28px 28px 24px;margin-bottom:24px;}
+  .qnum{display:inline-block;font-family:'Noto Serif KR', serif;font-weight:700;font-size:15px;color:var(--rule);border:1.5px solid var(--rule);border-radius:50%;width:28px;height:28px;text-align:center;line-height:25px;margin-bottom:16px;}
+  .passage{font-family:'Noto Serif KR', serif;font-size:16px;line-height:1.9;color:var(--ink);background:var(--paper);border-radius:8px;padding:18px 20px;margin-bottom:14px;}
+  .audio-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .choices{display:flex;flex-direction:column;gap:10px;margin-bottom:8px;}
+  .choice{display:flex;align-items:center;gap:12px;border:1.5px solid var(--border);border-radius:8px;padding:12px 16px;cursor:pointer;font-size:15px;background:var(--card);}
+  .choice:hover{border-color:var(--ink-soft);}
+  .choice.selected{border-color:var(--ink);}
+  .choice.correct{border-color:var(--ok);background:var(--ok-bg);color:var(--ok);font-weight:700;}
+  .choice.wrong{border-color:var(--rule);background:#FBEAE7;color:var(--rule);font-weight:700;}
+  .choice-num{font-family:'Noto Serif KR', serif;font-weight:700;width:22px;height:22px;border-radius:50%;border:1.5px solid currentColor;text-align:center;line-height:19px;font-size:13px;flex-shrink:0;}
+  .actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;}
+  button{font-family:'Noto Sans KR', sans-serif;font-size:13px;font-weight:700;border:1.5px solid var(--ink);background:var(--ink);color:#fff;border-radius:8px;padding:9px 16px;cursor:pointer;}
+  button.ghost{background:transparent;color:var(--ink);}
+  button.gold{background:var(--gold);border-color:var(--gold);}
+  button:disabled{opacity:0.35;cursor:not-allowed;}
+  .hint-box, .explain-box{margin-top:16px;border-radius:8px;padding:16px 18px;font-size:14px;line-height:1.7;display:none;}
+  .hint-box{background:var(--gold-bg);color:#5A4110;}
+  .explain-box{background:#FBEAE7;color:#5A1D14;}
+  .explain-box .ans-line{font-weight:700;margin-bottom:6px;color:var(--rule);}
+  .result-tag{display:inline-block;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:12px;}
+  .result-tag.ok{background:var(--ok-bg);color:var(--ok);}
+  .result-tag.no{background:#FBEAE7;color:var(--rule);}
+  .shadow-box{margin-top:18px;border-top:1px dashed var(--border);padding-top:16px;}
+  .shadow-label{font-size:13px;font-weight:700;color:var(--ink-soft);margin-bottom:10px;}
+  .shadow-status{font-size:13px;color:var(--gold);margin-left:4px;}
+  .vocab-section{margin-top:18px;border-top:1px dashed var(--border);padding-top:16px;}
+  .vocab-section h4{font-size:13px;font-weight:700;color:var(--ink-soft);margin:0 0 10px;}
+  .vocab-list{display:flex;flex-wrap:wrap;gap:8px;}
+  .vocab-chip{display:flex;align-items:center;gap:6px;font-size:13px;border:1px solid var(--border);border-radius:20px;padding:6px 10px 6px 12px;color:var(--ink-soft);}
+  .vocab-chip.marked{border-color:var(--gold);background:var(--gold-bg);color:var(--gold);font-weight:700;}
+  .vocab-chip .mark-btn, .vocab-chip .say-btn{background:none;border:none;padding:2px 4px;font-size:12px;color:inherit;cursor:pointer;}
+  .submit-panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:22px 24px;text-align:center;}
+  .submit-panel p{font-size:13px;color:var(--ink-soft);margin:0 0 14px;}
+  #submitStatus{font-size:13px;margin-top:10px;}
+  #app-area{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top-rule"></div>
+  <p class="title">속독속해 트레이닝</p>
+  <div class="eyebrow">수능형 중등 독해 · 듣기 + 쉐도잉 + 단어 정리</div>
+
+  <div class="setup-bar" id="setupBar">
+    <div class="setup-row">
+      <div style="flex:1;"><label>이름</label><input id="stuName" placeholder="이름"></div>
+      <div style="flex:1;">
+        <label>반</label>
+        <select id="stuClass">
+          <option value="">반 선택</option>
+          <option>A-1</option><option>A-2</option><option>A-3</option><option>A-4</option><option>A-5</option>
+          <option>B-1</option><option>B-2</option><option>B-3</option><option>B-4</option><option>B-5</option>
+          <option>C-1</option><option>C-2</option><option>C-3</option><option>C-4</option><option>C-5</option>
+          <option>D-1</option><option>D-2</option><option>D-3</option><option>D-4</option><option>D-5</option>
+          <option>유치부</option>
+          <option>중등부1</option><option>중등부2</option><option>중등부3</option><option>중등부4</option><option>중등부5</option>
+        </select>
+      </div>
+    </div>
+    <div class="setup-row">
+      <div style="flex:1;"><label>시작 번호 (1~100)</label><input id="rangeStart" type="number" min="1" max="100" value="1"></div>
+      <div style="flex:1;"><label>끝 번호 (1~100)</label><input id="rangeEnd" type="number" min="1" max="100" value="10"></div>
+    </div>
+    <button id="startBtn">이 범위로 시작하기</button>
+    <p id="setupStatus" style="font-size:13px;color:var(--ink-soft);margin:10px 0 0;"></p>
+  </div>
+
+  <div id="app-area">
+    <div class="progress" id="progress"></div>
+    <div id="questions"></div>
+    <div class="submit-panel">
+      <p>다 풀었으면 결과를 선생님 노션에 저장하세요.</p>
+      <button id="finalSubmit" class="gold">결과 저장하기</button>
+      <div id="submitStatus"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// 학원 Apps Script 웹앱 URL로 교체하세요
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyJVrx5jkD4LOnmBQghAy5epyqllMS-MMn4Os_aICKMhkfrVrx5HSXvhA7uzu2el0n2/exec";
+
+let ALL_DATA = [];
+let DATA = [];
+let state = [];
+let mediaRecorder = null, audioChunks = [];
+const nums = ['①','②','③','④','⑤'];
+
+fetch('./reading_data.json').then(r => r.json()).then(d => {
+  ALL_DATA = d;
+  document.getElementById('setupStatus').textContent = `전체 ${ALL_DATA.length}문항 로드 완료`;
+}).catch(() => {
+  document.getElementById('setupStatus').textContent = '문항 데이터를 불러오지 못했어요. reading_data.json 파일이 같은 폴더에 있는지 확인하세요.';
+});
+
+function speak(text, rate){
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = rate || 1;
+  speechSynthesis.cancel(); speechSynthesis.speak(u);
+}
+
+async function toggleRecord(btn, statusEl){
+  if (mediaRecorder && mediaRecorder.state === 'recording'){
+    mediaRecorder.stop(); btn.textContent = '내 목소리 녹음'; return;
+  }
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({ audio:true });
+    audioChunks = [];
+    mediaRecorder = new MediaRecorder(stream);
+    mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+    mediaRecorder.onstop = () => {
+      const blob = new Blob(audioChunks, { type:'audio/webm' });
+      const url = URL.createObjectURL(blob);
+      statusEl.innerHTML = `<audio controls src="${url}" style="height:32px;vertical-align:middle;"></audio>`;
+      stream.getTracks().forEach(t => t.stop());
+    };
+    mediaRecorder.start(); btn.textContent = '녹음 중지';
+  }catch(err){ statusEl.textContent = '마이크 권한이 필요해요.'; }
+}
+
+document.getElementById('startBtn').onclick = () => {
+  const name = document.getElementById('stuName').value.trim();
+  const cls = document.getElementById('stuClass').value;
+  const start = parseInt(document.getElementById('rangeStart').value, 10);
+  const end = parseInt(document.getElementById('rangeEnd').value, 10);
+  const statusEl = document.getElementById('setupStatus');
+  if (!name || !cls){ statusEl.textContent = '이름과 반을 입력해 주세요.'; return; }
+  if (!ALL_DATA.length){ statusEl.textContent = '문항 데이터를 아직 불러오는 중이에요.'; return; }
+  if (!start || !end || start < 1 || end > ALL_DATA.length || start > end){
+    statusEl.textContent = '올바른 번호 범위를 입력해 주세요.'; return;
+  }
+  DATA = ALL_DATA.slice(start-1, end);
+  buildApp();
+  document.getElementById('setupBar').style.display = 'none';
+  document.getElementById('app-area').style.display = 'block';
+};
+
+function buildApp(){
+  state = DATA.map(() => ({ selected:null, correct:null, shadowDone:false, marked:{} }));
+  const qEl = document.getElementById('questions');
+  const progEl = document.getElementById('progress');
+  qEl.innerHTML = ''; progEl.innerHTML = '';
+  DATA.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'progress-dot'; d.id = 'dot'+i;
+    progEl.appendChild(d);
+  });
+
+  DATA.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="qnum">${i+1}</div>
+      <p class="qtitle" style="font-size:15px;font-weight:700;margin:0 0 16px;">빈칸에 들어갈 말로 가장 적절한 것을 고르시오.</p>
+      <div class="passage">${q.passage}</div>
+      <div class="audio-row">
+        <button class="ghost" id="listenBtn${i}">지문 듣기</button>
+        <button class="ghost" id="slowBtn${i}">천천히 듣기</button>
+        <button class="ghost" id="repeat3Btn${i}">3회 반복</button>
+      </div>
+      <div class="choices" id="choices${i}"></div>
+      <div class="actions">
+        <button id="hintBtn${i}" class="ghost">힌트 보기</button>
+        <button id="submitBtn${i}" disabled>채점하기</button>
+      </div>
+      <div class="hint-box" id="hintBox${i}">${q.hint}</div>
+      <div class="explain-box" id="explainBox${i}"></div>
+      <div class="shadow-box">
+        <div class="shadow-label">쉐도잉 연습<span class="shadow-status" id="shadowStatus${i}"></span></div>
+        <div class="audio-row">
+          <button class="ghost" id="shadowListenBtn${i}">모범 발음 듣기</button>
+          <button class="ghost" id="recordBtn${i}">내 목소리 녹음</button>
+          <button id="doneShadowBtn${i}">쉐도잉 완료 체크</button>
+        </div>
+        <div id="recordStatus${i}"></div>
+      </div>
+      <div class="vocab-section">
+        <h4>주요 단어</h4>
+        <div class="vocab-list" id="vocabList${i}"></div>
+      </div>
+    `;
+    qEl.appendChild(card);
+
+    document.getElementById(`listenBtn${i}`).onclick = () => speak(q.passage, 1);
+    document.getElementById(`slowBtn${i}`).onclick = () => speak(q.passage, 0.6);
+    document.getElementById(`repeat3Btn${i}`).onclick = () => {
+      let count = 0;
+      const run = () => { speak(q.passage, 0.85); count++; };
+      run();
+      const iv = setInterval(() => { if (count >= 3){ clearInterval(iv); return; } run(); }, 6000);
+    };
+    document.getElementById(`shadowListenBtn${i}`).onclick = () => speak(q.passage, 0.8);
+    document.getElementById(`recordBtn${i}`).onclick = (e) => toggleRecord(e.target, document.getElementById(`recordStatus${i}`));
+    document.getElementById(`doneShadowBtn${i}`).onclick = () => {
+      state[i].shadowDone = true;
+      document.getElementById(`shadowStatus${i}`).textContent = '✓ 완료';
+    };
+
+    const choicesEl = card.querySelector(`#choices${i}`);
+    q.choices.forEach((c, ci) => {
+      const el = document.createElement('div');
+      el.className = 'choice';
+      el.innerHTML = `<span class="choice-num">${ci+1}</span><span>${c}</span>`;
+      el.onclick = () => {
+        if (el.classList.contains('correct') || el.classList.contains('wrong')) return;
+        state[i].selected = ci;
+        [...choicesEl.children].forEach(c2 => c2.classList.remove('selected'));
+        el.classList.add('selected');
+        document.getElementById(`submitBtn${i}`).disabled = false;
+      };
+      choicesEl.appendChild(el);
+    });
+
+    document.getElementById(`hintBtn${i}`).onclick = () => { document.getElementById(`hintBox${i}`).style.display = 'block'; };
+
+    document.getElementById(`submitBtn${i}`).onclick = () => {
+      const correct = state[i].selected === q.answer;
+      state[i].correct = correct;
+      [...choicesEl.children].forEach((c2, ci) => {
+        c2.style.cursor = 'default';
+        if (ci === q.answer) c2.classList.add('correct');
+        else if (ci === state[i].selected) c2.classList.add('wrong');
+      });
+      const box = document.getElementById(`explainBox${i}`);
+      box.style.display = 'block';
+      box.innerHTML = `<span class="result-tag ${correct?'ok':'no'}">${correct ? '정답' : '오답'}</span>
+        <div class="ans-line">정답: ${nums[q.answer]} ${q.choices[q.answer]}</div>
+        <div>${q.explain}</div>`;
+      document.getElementById(`submitBtn${i}`).disabled = true;
+      document.getElementById(`hintBtn${i}`).disabled = true;
+      document.getElementById('dot'+i).classList.add('done');
+    };
+
+    const vocabListEl = document.getElementById(`vocabList${i}`);
+    function renderVocab(){
+      vocabListEl.innerHTML = '';
+      (q.vocab || []).forEach(v => {
+        const marked = !!state[i].marked[v.w];
+        const chip = document.createElement('div');
+        chip.className = 'vocab-chip' + (marked ? ' marked' : '');
+        chip.innerHTML = `<button class="say-btn" title="발음듣기">🔊</button><span>${v.w} - ${v.m}</span><button class="mark-btn">${marked ? '✓' : '＋'}</button>`;
+        chip.querySelector('.say-btn').onclick = () => speak(v.w, 0.9);
+        chip.querySelector('.mark-btn').onclick = () => { state[i].marked[v.w] = !marked; renderVocab(); };
+        vocabListEl.appendChild(chip);
+      });
+      if (!(q.vocab || []).length){
+        vocabListEl.innerHTML = '<span style="font-size:13px;color:var(--ink-soft);">이 지문에는 별도 표시된 단어가 없어요.</span>';
+      }
+    }
+    renderVocab();
+  });
+}
+
+document.getElementById('finalSubmit').onclick = async () => {
+  const statusEl = document.getElementById('submitStatus');
+  const name = document.getElementById('stuName').value.trim();
+  const cls = document.getElementById('stuClass').value;
+  const start = document.getElementById('rangeStart').value;
+  const end = document.getElementById('rangeEnd').value;
+
+  const correctCount = state.filter(s => s.correct === true).length;
+  const shadowCount = state.filter(s => s.shadowDone).length;
+  const markedWords = DATA.flatMap((q,i) => (q.vocab||[]).filter(v => state[i].marked[v.w]).map(v => v.w));
+
+  const payload = {
+    이름: name, 반: cls,
+    지문세트명: `속독속해 트레이닝 ${start}~${end}번`,
+    맞은개수: correctCount, 총문항수: DATA.length,
+    학생답안: JSON.stringify(state.map(s => s.selected)),
+    복습필요단어: JSON.stringify(markedWords),
+    쉐도잉완료문항수: shadowCount,
+    제출시간: new Date().toISOString()
+  };
+
+  statusEl.textContent = '저장 중...'; statusEl.style.color = 'var(--ink-soft)';
+  try{
+    await fetch(APPS_SCRIPT_URL, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload)
+    });
+    statusEl.textContent = '노션에 저장되었습니다. 수고했어요!'; statusEl.style.color = 'var(--ok)';
+  }catch(err){
+    statusEl.textContent = '저장에 실패했어요. 선생님께 알려주세요.'; statusEl.style.color = 'var(--rule)';
+  }
+};
+</script>
+</body>
+</html>
