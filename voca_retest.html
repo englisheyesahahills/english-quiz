@@ -126,7 +126,7 @@ const BANKS = { book1: BANK1, book2: BANK2, book3: BANK3 };
 
 let currentUnit = '', currentWords = [], quizItems = [], quizIdx = 0, quizScore = 0, attemptNo = 1;
 
-const GROUP_SIZE = 6;
+const GROUP_SIZES = { book1: 6, book2: 12, book3: 12 };
 
 function onBookChange() {
   const book = document.getElementById('bookSelect').value;
@@ -148,9 +148,10 @@ function onDayChange() {
   const rangeSel = document.getElementById('rangeSelect');
   if (!book || !day) { rangeSel.disabled = true; rangeSel.innerHTML = '<option value="">DAY를 먼저 선택하세요</option>'; return; }
   const words = BANKS[book][day];
+  const groupSize = GROUP_SIZES[book] || 6;
   const groups = [];
-  for (let i = 0; i < words.length; i += GROUP_SIZE) {
-    groups.push({ start: i + 1, end: Math.min(i + GROUP_SIZE, words.length) });
+  for (let i = 0; i < words.length; i += groupSize) {
+    groups.push({ start: i + 1, end: Math.min(i + groupSize, words.length) });
   }
   rangeSel.innerHTML = '<option value="">번호 묶음 선택</option>' + groups.map((g, idx) => `<option value="${idx}">${g.start}~${g.end}번</option>`).join('');
   rangeSel.disabled = false;
@@ -176,9 +177,10 @@ async function checkEligibility() {
 
   const allWords = BANKS[book][day];
   if (!allWords || allWords.length === 0) { showToast('해당 DAY의 단어 데이터가 없습니다'); return; }
-  const groupStart = Number(rangeIdx) * GROUP_SIZE;
-  const words = allWords.slice(groupStart, groupStart + GROUP_SIZE);
-  const rangeLabel = `${groupStart + 1}~${Math.min(groupStart + GROUP_SIZE, allWords.length)}번`;
+  const groupSize = GROUP_SIZES[book] || 6;
+  const groupStart = Number(rangeIdx) * groupSize;
+  const words = allWords.slice(groupStart, groupStart + groupSize);
+  const rangeLabel = `${groupStart + 1}~${Math.min(groupStart + groupSize, allWords.length)}번`;
   currentUnit = `${BOOK_LABELS[book]} DAY${String(day).padStart(2,'0')} (${rangeLabel})`;
 
   box.className = 'status-box show info';
