@@ -276,7 +276,12 @@ const state = { answers: {}, studentName: "", studentClass: "" };
 async function loadConfigAndInit(){
   document.getElementById('startTitle').textContent = "불러오는 중...";
   try{
-    const res = await fetch(CONFIG.configUrl);
+    const params = new URLSearchParams(window.location.search);
+    const examParam = params.get('exam'); // 링크에 ?exam=시험명 이 있으면 그 시험을 지정 조회
+    let url = CONFIG.configUrl;
+    if(examParam) url += '&examName=' + encodeURIComponent(examParam);
+
+    const res = await fetch(url);
     const data = await res.json();
     if(data && !data.error){
       CONFIG.examName = data.examName;
