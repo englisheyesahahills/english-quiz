@@ -79,7 +79,9 @@
       <option value="book3">보카클리어실력 (중등)</option>
     </select>
     <label>DAY (선생님이 알려주신 재시 단원)</label>
-    <select id="daySelect" disabled><option value="">교재를 먼저 선택하세요</option></select>
+    <select id="daySelect" disabled onchange="onDayChange()"><option value="">교재를 먼저 선택하세요</option></select>
+    <label>출제 범위 (선생님이 알려주신 번호 묶음)</label>
+    <select id="rangeSelect" disabled><option value="">DAY를 먼저 선택하세요</option></select>
     <button class="btn" id="checkBtn" onclick="checkEligibility()">재시 확인</button>
     <div class="status-box" id="statusBox"></div>
   </div>
@@ -124,15 +126,34 @@ const BANKS = { book1: BANK1, book2: BANK2, book3: BANK3 };
 
 let currentUnit = '', currentWords = [], quizItems = [], quizIdx = 0, quizScore = 0, attemptNo = 1;
 
+const GROUP_SIZE = 6;
+
 function onBookChange() {
   const book = document.getElementById('bookSelect').value;
   const daySel = document.getElementById('daySelect');
+  const rangeSel = document.getElementById('rangeSelect');
   daySel.innerHTML = '';
+  rangeSel.innerHTML = '<option value="">DAY를 먼저 선택하세요</option>';
+  rangeSel.disabled = true;
   if (!book) { daySel.disabled = true; daySel.innerHTML = '<option value="">교재를 먼저 선택하세요</option>'; return; }
   const bank = BANKS[book];
   const days = Object.keys(bank).map(Number).sort((a,b)=>a-b);
   daySel.innerHTML = '<option value="">DAY 선택</option>' + days.map(d => `<option value="${d}">DAY ${String(d).padStart(2,'0')}</option>`).join('');
   daySel.disabled = false;
+}
+
+function onDayChange() {
+  const book = document.getElementById('bookSelect').value;
+  const day = document.getElementById('daySelect').value;
+  const rangeSel = document.getElementById('rangeSelect');
+  if (!book || !day) { rangeSel.disabled = true; rangeSel.innerHTML = '<option value="">DAY를 먼저 선택하세요</option>'; return; }
+  const words = BANKS[book][day];
+  const groups = [];
+  for (let i = 0; i < words.length; i += GROUP_SIZE) {
+    groups.push({ start: i + 1, end: Math.min(i + GROUP_SIZE, words.length) });
+  }
+  rangeSel.innerHTML = '<option value="">번호 묶음 선택</option>' + groups.map((g, idx) => `<option value="${idx}">${g.start}~${g.end}번</option>`).join('');
+  rangeSel.disabled = false;
 }
 
 function showToast(msg) {
@@ -146,14 +167,19 @@ async function checkEligibility() {
   const cls = document.getElementById('studentClass').value;
   const book = document.getElementById('bookSelect').value;
   const day = document.getElementById('daySelect').value;
+  const rangeIdx = document.getElementById('rangeSelect').value;
   const box = document.getElementById('statusBox');
 
   if (!name) { showToast('이름을 입력해 주세요'); return; }
   if (!book || !day) { showToast('교재와 DAY를 선택해 주세요'); return; }
+  if (rangeIdx === '') { showToast('출제 범위(번호 묶음)를 선택해 주세요'); return; }
 
-  currentUnit = `${BOOK_LABELS[book]} DAY${String(day).padStart(2,'0')}`;
-  const words = BANKS[book][day];
-  if (!words || words.length === 0) { showToast('해당 DAY의 단어 데이터가 없습니다'); return; }
+  const allWords = BANKS[book][day];
+  if (!allWords || allWords.length === 0) { showToast('해당 DAY의 단어 데이터가 없습니다'); return; }
+  const groupStart = Number(rangeIdx) * GROUP_SIZE;
+  const words = allWords.slice(groupStart, groupStart + GROUP_SIZE);
+  const rangeLabel = `${groupStart + 1}~${Math.min(groupStart + GROUP_SIZE, allWords.length)}번`;
+  currentUnit = `${BOOK_LABELS[book]} DAY${String(day).padStart(2,'0')} (${rangeLabel})`;
 
   box.className = 'status-box show info';
   box.textContent = '재시 기록을 확인하는 중...';
@@ -184,7 +210,7 @@ function shuffle(arr){ return arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0
 
 function startQuiz(words) {
   const pool = shuffle(words);
-  const n = Math.min(10, pool.length);
+  const n = pool.length;
   const chosen = pool.slice(0, n);
   quizItems = chosen.map((w, i) => {
     const isWritten = i % 2 === 1; // 절반은 객관식, 절반은 주관식
