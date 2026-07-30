@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사이트워드 발음 듣기</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', sans-serif;
+    background: #F4F1E8;
+    margin: 0;
+    padding: 20px 14px 60px;
+    color: #2A2A2E;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; }
+  .brand {
+    text-align: center;
+    color: #B8860B;
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  h1 {
+    text-align: center;
+    color: #1B2A4A;
+    font-size: 22px;
+    margin: 0 0 2px;
+  }
+  .sub { text-align: center; color: #8A8A93; font-size: 12px; margin-bottom: 16px; }
+  .level-pill {
+    display: inline-block;
+    background: var(--accent, #1B2A4A);
+    color: white;
+    font-weight: bold;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin: 0 auto 16px;
+    display: block;
+    width: fit-content;
+  }
+  .playall {
+    width: 100%;
+    background: #1B2A4A;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 14px;
+  }
+  .playall:active { opacity: 0.8; }
+  .word-list { display: flex; flex-direction: column; gap: 8px; }
+  .word-item {
+    background: white;
+    border-radius: 10px;
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid #EDE7D6;
+  }
+  .word-item.active { background: #FFF7DE; border-color: #C9A227; }
+  .word-text { font-size: 17px; font-weight: bold; color: #1B2A4A; }
+  .idx { color: #B7B7BE; font-size: 11px; margin-right: 8px; }
+  .play-btn {
+    background: #EFF4FF;
+    border: none;
+    border-radius: 8px;
+    width: 36px; height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2563EB;
+  }
+  select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 14px;
+    font-size: 14px;
+  }
+  #nameInput {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1.5px solid #C9A227;
+    margin-bottom: 12px;
+    font-size: 14px;
+    text-align: center;
+  }
+  .savebtn {
+    width: 100%;
+    background: #C9A227;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: bold;
+    margin-top: 16px;
+  }
+  .savebtn:active { opacity: 0.8; }
+  .save-status {
+    text-align: center;
+    font-size: 12.5px;
+    margin-top: 14px;
+    color: #8A8A93;
+    min-height: 16px;
+    padding: 0 10px;
+  }
+  .footer {
+    text-align: center;
+    margin-top: 20px;
+    color: #8A8A93;
+    font-size: 11px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">잉글리시아이스텔라 영어전문 · 학원용</div>
+  <h1>사이트워드 발음 듣기</h1>
+  <div class="sub">이름을 입력하고 단어를 눌러 학습하세요 (자동 저장)</div>
+
+  <input type="text" id="nameInput" placeholder="이름을 입력하세요" />
+
+  <div id="levelPill" class="level-pill">LEVEL 1</div>
+
+  <select id="levelSelect"></select>
+
+  <button class="playall" id="playAllBtn">▶ 전체 순서대로 듣기</button>
+
+  <div class="word-list" id="wordList"></div>
+
+  <div class="save-status" id="saveStatus">단어를 누르면 학습 기록이 자동으로 저장돼요</div>
+
+  <div class="footer">englisheye_hillstatesaha · 잉글리시아이스텔라 영어전문</div>
+</div>
+
+<script>
+const LEVELS = {
+  1: {name:"1~20", color:"#16A34A", words:["the", "of", "and", "a", "to", "in", "is", "you", "that", "it", "he", "was", "for", "on", "are", "as", "with", "his", "they", "I"]},
+  2: {name:"21~40", color:"#2563EB", words:["at", "be", "this", "have", "from", "or", "one", "had", "by", "word", "but", "not", "what", "all", "were", "we", "when", "your", "can", "said"]},
+  3: {name:"41~60", color:"#7C3AED", words:["there", "use", "an", "each", "which", "she", "do", "how", "their", "if", "will", "up", "other", "about", "out", "many", "then", "them", "these", "so"]},
+  4: {name:"61~80", color:"#EA580C", words:["some", "her", "would", "make", "like", "him", "into", "time", "has", "look", "two", "more", "write", "go", "see", "number", "no", "way", "could", "people"]},
+  5: {name:"81~100", color:"#DC2626", words:["my", "than", "first", "water", "been", "call", "who", "oil", "its", "now", "find", "long", "down", "day", "did", "get", "come", "made", "may", "part"]},
+  6: {name:"101~120", color:"#0D9488", words:["over", "new", "sound", "take", "only", "little", "work", "know", "place", "year", "live", "me", "back", "give", "most", "very", "after", "thing", "our", "just"]},
+  7: {name:"121~140", color:"#DB2777", words:["name", "good", "sentence", "man", "think", "say", "great", "where", "help", "through", "much", "before", "line", "right", "too", "mean", "old", "any", "same", "tell"]},
+  8: {name:"141~160", color:"#4F46E5", words:["boy", "follow", "came", "want", "show", "also", "around", "form", "three", "small", "set", "put", "end", "does", "another", "well", "large", "must", "big", "even"]},
+  9: {name:"161~180", color:"#B45309", words:["such", "because", "turn", "here", "why", "ask", "went", "men", "read", "need", "land", "different", "home", "us", "move", "try", "kind", "hand", "picture", "again"]},
+  10: {name:"181~200", color:"#334155", words:["change", "off", "play", "spell", "air", "away", "animal", "house", "point", "page", "letter", "mother", "answer", "found", "study", "still", "learn", "should", "America", "world"]},
+};
+
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxadnSYvS9l03-nYS9br-m7P8_HEa0Y8RCv0LFEIb_9yNBJ2fgVvDQJoURiks-61Dy4/exec";
+
+function getParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+let currentLevel = parseInt(getParam('level')) || 1;
+if (!LEVELS[currentLevel]) currentLevel = 1;
+
+let studiedWords = new Set();
+let lastMethod = "개별클릭";
+let alreadySavedThisSession = false;
+
+const levelSelect = document.getElementById('levelSelect');
+Object.keys(LEVELS).forEach(k => {
+  const opt = document.createElement('option');
+  opt.value = k;
+  opt.textContent = `LEVEL ${k} · ${LEVELS[k].name}`;
+  if (parseInt(k) === currentLevel) opt.selected = true;
+  levelSelect.appendChild(opt);
+});
+
+function speak(text, onEnd) {
+  window.speechSynthesis.cancel();
+  setTimeout(() => {
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.rate = 0.85;
+    if (onEnd) utter.onend = onEnd;
+    window.speechSynthesis.speak(utter);
+  }, 60);
+}
+
+function getName() {
+  return document.getElementById('nameInput').value.trim();
+}
+
+let saveTimer = null;
+function scheduleAutoSave() {
+  const statusEl = document.getElementById('saveStatus');
+  if (!getName()) {
+    statusEl.textContent = '⚠️ 이름을 입력하면 학습 기록이 자동으로 저장돼요';
+    statusEl.style.color = '#DC2626';
+    return;
+  }
+  statusEl.textContent = '저장 중...';
+  statusEl.style.color = '#8A8A93';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => autoSave('progress'), 900);
+}
+
+function autoSave(reason) {
+  const statusEl = document.getElementById('saveStatus');
+  const name = getName();
+
+  if (studiedWords.size === 0) return; // nothing to save yet
+
+  if (!name) {
+    statusEl.textContent = '⚠️ 이름을 입력해야 학습 기록이 저장돼요';
+    statusEl.style.color = '#DC2626';
+    return;
+  }
+
+  const level = LEVELS[currentLevel];
+  const payload = {
+    name: name,
+    level: currentLevel,
+    studied: studiedWords.size,
+    total: level.words.length,
+    completed: studiedWords.size >= level.words.length,
+    method: lastMethod,
+    timestamp: new Date().toISOString()
+  };
+
+  // Use sendBeacon when leaving the page (more reliable on unload), fetch otherwise
+  if (reason === 'unload' && navigator.sendBeacon) {
+    const blob = new Blob([JSON.stringify(payload)], { type: 'text/plain' });
+    navigator.sendBeacon(APPS_SCRIPT_URL, blob);
+    return;
+  }
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload)
+  }).then(() => {
+    alreadySavedThisSession = true;
+    statusEl.textContent = `✅ ${name}님 LEVEL ${currentLevel} 자동저장됨 (${studiedWords.size}/${level.words.length}단어)`;
+    statusEl.style.color = '#16A34A';
+  }).catch(() => {
+    statusEl.textContent = '⚠️ 저장에 실패했어요. 인터넷 연결을 확인해주세요';
+    statusEl.style.color = '#DC2626';
+  });
+}
+
+function render() {
+  const level = LEVELS[currentLevel];
+  document.getElementById('levelPill').textContent = `LEVEL ${currentLevel} · ${level.name}`;
+  document.getElementById('levelPill').style.setProperty('--accent', level.color);
+  document.documentElement.style.setProperty('--accent', level.color);
+
+  studiedWords = new Set();
+  document.getElementById('saveStatus').textContent = '단어를 누르면 학습 기록이 자동으로 저장돼요';
+  document.getElementById('saveStatus').style.color = '#8A8A93';
+
+  const list = document.getElementById('wordList');
+  list.innerHTML = '';
+  level.words.forEach((w, i) => {
+    const item = document.createElement('div');
+    item.className = 'word-item';
+    item.id = 'word-' + i;
+    item.innerHTML = `
+      <div><span class="idx">${String(i+1).padStart(2,'0')}</span><span class="word-text">${w}</span></div>
+      <button class="play-btn"><svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3z"/><path d="M16.5 12c0-1.77-.77-3.29-2-4.24v8.48c1.23-.95 2-2.47 2-4.24z" opacity="0.9"/><path d="M14.5 4.5v2.09c2.89 1.04 5 3.77 5 7.01s-2.11 5.97-5 7.01v2.09c4-1.09 7-4.75 7-9.1s-3-8.01-7-9.1z" opacity="0.75"/></svg></button>
+    `;
+    item.onclick = () => {
+      document.querySelectorAll('.word-item').forEach(e => e.classList.remove('active'));
+      item.classList.add('active');
+      studiedWords.add(i);
+      lastMethod = "개별클릭";
+      speak(w);
+      scheduleAutoSave();
+    };
+    list.appendChild(item);
+  });
+}
+
+levelSelect.onchange = (e) => {
+  autoSave('level-change'); // save progress on the level being left, if any
+  currentLevel = parseInt(e.target.value);
+  render();
+};
+
+document.getElementById('playAllBtn').onclick = () => {
+  const level = LEVELS[currentLevel];
+  let i = 0;
+  lastMethod = "전체듣기";
+  document.querySelectorAll('.word-item').forEach(el => el.classList.remove('active'));
+  function next() {
+    if (i >= level.words.length) {
+      autoSave('complete'); // finished listening to the whole level
+      return;
+    }
+    const el = document.getElementById('word-' + i);
+    document.querySelectorAll('.word-item').forEach(e => e.classList.remove('active'));
+    el.classList.add('active');
+    el.scrollIntoView({behavior:'smooth', block:'center'});
+    studiedWords.add(i);
+    speak(level.words[i], () => { i++; setTimeout(next, 200); });
+  }
+  next();
+};
+
+window.addEventListener('beforeunload', () => autoSave('unload'));
+
+render();
+</script>
+</body>
+</html>
