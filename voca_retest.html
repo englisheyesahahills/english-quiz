@@ -278,6 +278,38 @@ function nextQuestion() {
   renderQuestion();
 }
 
+// ══════════════════════════════════════════════════
+// 노션 재시 대상자 DB 자동 업데이트
+// 통과 시 → 합격 / 미통과 시 → 대기중 유지 / 3회 소진 시 → 3회 소진
+// ══════════════════════════════════════════════════
+const NOTION_RETAKE_DB = "9277ab4b-4a05-412f-9047-e9f406b621c3";
+const NOTION_MCP_URL   = "https://mcp.notion.com/mcp";
+
+async function updateNotionRetakeStatus(name, cls, passed, attemptNo) {
+  const newStatus = passed ? "합격" : (attemptNo >= 3 ? "3회 소진" : "대기중");
+  try {
+    const res = await fetch("https://api.anthropic.com/v1/messages", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: "claude-sonnet-4-6",
+        max_tokens: 500,
+        system: `You manage a Notion database. 
+Database ID: ${NOTION_RETAKE_DB}
+Task: Find the page where 학생 이름 = "${name}" AND 상태 = "대기중", then update 상태 to "${newStatus}".
+If status is already "합격" or "3회 소진", do nothing.
+Return ONLY valid JSON: {"success": true, "updated": true} or {"success": true, "updated": false}`,
+        messages: [{ role: "user", content: `Update ${name} status to ${newStatus} in Notion retake DB` }],
+        mcp_servers: [{ type: "url", url: NOTION_MCP_URL, name: "notion" }]
+      })
+    });
+    const data = await res.json();
+    console.log("✅ 노션 자동 저장:", name, "→", newStatus);
+  } catch(e) {
+    console.warn("⚠️ 노션 저장 실패 (결과 화면은 정상 표시):", e);
+  }
+}
+
 async function finishQuiz() {
   document.getElementById('quizCard').classList.add('hidden');
   document.getElementById('resultCard').classList.remove('hidden');
@@ -299,8 +331,9 @@ async function finishQuiz() {
     (passed ? '' : (attemptNo >= 3 ? ' · 선생님과 상담이 필요합니다' : ` · 남은 재시 ${3-attemptNo}회`));
 
   const name = document.getElementById('studentName').value.trim();
-  const cls = document.getElementById('studentClass').value;
+  const cls  = document.getElementById('studentClass').value;
 
+  // ① 기존 Apps Script 저장 (유지)
   try {
     await fetch(RETEST_URL, {
       method: 'POST', mode: 'no-cors',
@@ -311,6 +344,11 @@ async function finishQuiz() {
       }).toString()
     });
   } catch(e) { /* 저장 실패해도 학생 화면은 결과를 보여줌 */ }
+
+  // ② 노션 재시 대상자 DB 자동 업데이트 (통과/미통과/3회소진)
+  if (name) {
+    updateNotionRetakeStatus(name, cls, passed, attemptNo);
+  }
 }
 </script>
 </body>
