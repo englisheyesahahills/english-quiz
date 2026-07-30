@@ -138,11 +138,14 @@ Object.keys(LEVELS).forEach(k => {
 });
 
 function speak(text, onEnd) {
-  const utter = new SpeechSynthesisUtterance(text);
-  utter.lang = 'en-US';
-  utter.rate = 0.85;
-  if (onEnd) utter.onend = onEnd;
-  window.speechSynthesis.speak(utter);
+  window.speechSynthesis.cancel();
+  setTimeout(() => {
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = 'en-US';
+    utter.rate = 0.85;
+    if (onEnd) utter.onend = onEnd;
+    window.speechSynthesis.speak(utter);
+  }, 60);
 }
 
 function render() {
@@ -161,7 +164,11 @@ function render() {
       <div><span class="idx">${String(i+1).padStart(2,'0')}</span><span class="word-text">${w}</span></div>
       <button class="play-btn">🔊</button>
     `;
-    item.querySelector('.play-btn').onclick = () => speak(w);
+    item.onclick = () => {
+      document.querySelectorAll('.word-item').forEach(e => e.classList.remove('active'));
+      item.classList.add('active');
+      speak(w);
+    };
     list.appendChild(item);
   });
 }
