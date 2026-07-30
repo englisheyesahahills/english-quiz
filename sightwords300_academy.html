@@ -191,6 +191,20 @@ function getName() {
   return document.getElementById('nameInput').value.trim();
 }
 
+let saveTimer = null;
+function scheduleAutoSave() {
+  const statusEl = document.getElementById('saveStatus');
+  if (!getName()) {
+    statusEl.textContent = '⚠️ 이름을 입력하면 학습 기록이 자동으로 저장돼요';
+    statusEl.style.color = '#DC2626';
+    return;
+  }
+  statusEl.textContent = '저장 중...';
+  statusEl.style.color = '#8A8A93';
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(() => autoSave('progress'), 900);
+}
+
 function autoSave(reason) {
   const statusEl = document.getElementById('saveStatus');
   const name = getName();
@@ -262,10 +276,7 @@ function render() {
       studiedWords.add(i);
       lastMethod = "개별클릭";
       speak(w);
-      // Auto-save once the whole level has been played through
-      if (studiedWords.size >= level.words.length) {
-        autoSave('complete');
-      }
+      scheduleAutoSave();
     };
     list.appendChild(item);
   });
