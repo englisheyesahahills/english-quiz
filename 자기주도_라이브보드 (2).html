@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>중등부 자기주도 학습 라이브 보드</title>
+<style>
+  :root{
+    --navy:#16233f;
+    --navy-deep:#0c1729;
+    --burgundy:#8a2942;
+    --burgundy-light:#b8455f;
+    --cream:#f6f2ea;
+    --paper:#ffffff;
+    --ink:#1c1c1c;
+    --muted:#6b6f7a;
+    --green:#2f8f5b;
+    --green-bg:#e7f5ec;
+    --yellow:#c9821a;
+    --yellow-bg:#fbf1de;
+    --red:#c23b3b;
+    --red-bg:#fbe9e9;
+    --blue:#2b5aa0;
+    --blue-bg:#e9f0fa;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    min-height:100vh;
+  }
+  header{
+    background:linear-gradient(135deg,var(--navy) 0%,var(--navy-deep) 100%);
+    color:#fff;
+    padding:22px 20px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"";
+    position:absolute;
+    right:-40px; top:-40px;
+    width:180px; height:180px;
+    border-radius:50%;
+    background:var(--burgundy);
+    opacity:0.25;
+  }
+  .header-inner{position:relative; z-index:1; max-width:1000px; margin:0 auto;}
+  .eyebrow{
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--burgundy-light); font-weight:700; margin-bottom:6px;
+  }
+  h1{margin:0; font-size:22px; font-weight:800; letter-spacing:-0.01em;}
+  .sub{margin-top:6px; font-size:13px; color:#c7cede;}
+  .summary-row{
+    display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;
+  }
+  .summary-chip{
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:10px;
+    padding:8px 14px;
+    font-size:13px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .dot{width:8px; height:8px; border-radius:50%;}
+  .dot.green{background:var(--green);}
+  .dot.yellow{background:var(--yellow);}
+  .dot.red{background:var(--red);}
+
+  main{max-width:1000px; margin:-22px auto 0; padding:0 16px 40px; position:relative; z-index:2;}
+
+  .toolbar{
+    background:var(--paper);
+    border-radius:14px;
+    padding:12px 16px;
+    display:flex; justify-content:space-between; align-items:center;
+    box-shadow:0 8px 24px rgba(22,35,63,0.08);
+    margin-bottom:18px;
+    gap:10px; flex-wrap:wrap;
+  }
+  .toolbar .status{font-size:12px; color:var(--muted);}
+  .toolbar button{
+    background:var(--navy); color:#fff; border:none; border-radius:8px;
+    padding:9px 14px; font-size:13px; font-weight:600; cursor:pointer;
+  }
+  .toolbar button.secondary{background:transparent; color:var(--navy); border:1px solid #d8d3c6;}
+
+  .class-tabs{
+    display:flex; gap:6px; flex-wrap:wrap; margin-bottom:16px;
+  }
+  .class-tab{
+    background:var(--paper);
+    border:1px solid #e2dcc9;
+    color:var(--navy);
+    padding:7px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .class-tab.active{
+    background:var(--navy);
+    color:#fff;
+    border-color:var(--navy);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+    gap:14px;
+  }
+  .card{
+    background:var(--paper);
+    border-radius:14px;
+    padding:16px;
+    box-shadow:0 6px 18px rgba(22,35,63,0.07);
+    border-left:5px solid var(--muted);
+    position:relative;
+  }
+  .card.state-정상{border-left-color:var(--green);}
+  .card.state-지연{border-left-color:var(--yellow);}
+  .card.state-위험{border-left-color:var(--red);}
+  .card.state-완료{border-left-color:var(--blue);}
+
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start;}
+  .name{font-size:16px; font-weight:800;}
+  .class-tag{font-size:11px; color:var(--muted); margin-top:2px;}
+  .badge{
+    font-size:11px; font-weight:700; padding:4px 9px; border-radius:999px;
+  }
+  .badge.state-정상{background:var(--green-bg); color:var(--green);}
+  .badge.state-지연{background:var(--yellow-bg); color:var(--yellow);}
+  .badge.state-위험{background:var(--red-bg); color:var(--red);}
+  .badge.state-완료{background:var(--blue-bg); color:var(--blue);}
+
+  .speed-warning{
+    margin-top:10px;
+    background:var(--yellow-bg);
+    color:var(--yellow);
+    border:1px dashed var(--yellow);
+    border-radius:8px;
+    padding:6px 10px;
+    font-size:11.5px;
+    font-weight:700;
+    display:flex; align-items:center; gap:6px;
+  }
+
+  .progress-label{
+    display:flex; justify-content:space-between;
+    font-size:12px; color:var(--muted); margin-top:14px; margin-bottom:5px;
+  }
+  .progress-track{
+    height:8px; border-radius:999px; background:#eee6d6; overflow:hidden;
+  }
+  .progress-fill{height:100%; border-radius:999px; background:var(--navy);}
+
+  .meta-row{
+    display:flex; justify-content:space-between; margin-top:12px;
+    font-size:12px; color:var(--muted);
+  }
+  .meta-row .accuracy{font-weight:700; color:var(--ink);}
+
+  .last-submit{
+    margin-top:10px; font-size:11.5px; color:var(--muted);
+    padding-top:10px; border-top:1px dashed #e4ddc9;
+  }
+
+  footer{
+    max-width:1000px; margin:24px auto 0; padding:0 16px;
+    font-size:12px; color:var(--muted); line-height:1.6;
+  }
+  footer code{background:#eee6d6; padding:1px 5px; border-radius:4px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="eyebrow">중등부 · 자기주도 학습 시간</div>
+    <h1>실시간 진행 보드</h1>
+    <div class="sub">9단계 워크북 루틴 진행상황 (단계별 미니테스트 15~20문항) — 정상 진행은 초록, 15분 이상 정지는 노랑, 30분 이상은 빨강</div>
+    <div class="summary-row" id="summaryRow"></div>
+  </div>
+</header>
+
+<main>
+  <div class="toolbar">
+    <div class="status" id="statusText">데이터 불러오는 중...</div>
+    <div style="display:flex; gap:8px;">
+      <button class="secondary" onclick="loadDemoData()">테스트 데이터로 보기</button>
+      <button onclick="refreshData()">지금 새로고침</button>
+    </div>
+  </div>
+
+  <div class="class-tabs" id="classTabs"></div>
+
+  <div class="grid" id="cardGrid"></div>
+</main>
+
+<footer>
+  실제 연동 방법: 노션 DB <code>자기주도 학습 체크포인트</code>(이 페이지 전용으로 새로 생성됨)를 기존 OMR 시스템과 같은 방식으로 Apps Script에 연결해, 학생이 미니테스트를 제출할 때마다 이 DB에 행이 자동 갱신되도록 만들면 됩니다.
+  이 화면의 <code>APPS_SCRIPT_URL</code> 값에 해당 Apps Script 웹앱 URL을 넣으면 30초마다 자동으로 최신 상태를 불러옵니다.
+</footer>
+
+<script>
+// ⚙️ 실연동 시 여기에 Apps Script 웹앱 URL을 넣으세요 (기존 OMR 시스템과 동일한 패턴)
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyy8eswlEDkU5ocboIGSuJESCp7XLrTlSxvSpI9sC4VVGFmsP3a5vhGjFlB1u6aFgsK/exec";
+const TOTAL_STAGES = 9;
+const CLASS_SIZE = 9;
+
+const demoNames = ["오승준","신시윤","한예원","채은후","좌현우","허지현","배여진","전시영","전유성","신민준","문서우","양지수","강지윤","정재인","임아린","박주하","박예빈"];
+const demoClasses = ["중등부1","중등부1","중등부1","중등부1","중등부1","중등부1","중등부1","중등부1","중등부2","중등부2","중등부2","중등부2","중등부3","중등부3","중등부3","중등부3","중등부3"];
+
+function loadDemoData(){
+  const now = Date.now();
+  const data = demoNames.map((name, i) => {
+    const stage = Math.min(TOTAL_STAGES, Math.floor(Math.random()*TOTAL_STAGES)+1);
+    const minutesAgo = Math.floor(Math.random()*45);
+    const accuracy = Math.floor(Math.random()*61)+40;
+    return {
+      학생이름:name,
+      반:demoClasses[i],
+      현재단계:stage,
+      정답률:accuracy,
+      마지막제출시각: new Date(now - minutesAgo*60000).toISOString(),
+      상태: stage>=TOTAL_STAGES ? "완료" : minutesAgo<15 ? "정상" : minutesAgo<30 ? "지연" : "위험"
+    };
+  });
+  render(data);
+  document.getElementById('statusText').textContent = "테스트 데이터 표시 중 (실제 데이터 아님)";
+}
+
+async function refreshData(){
+  if(!APPS_SCRIPT_URL){
+    document.getElementById('statusText').textContent = "⚠️ Apps Script 연동 전입니다 — 우측 '테스트 데이터로 보기'로 화면을 미리 확인하세요";
+    return;
+  }
+  try{
+    document.getElementById('statusText').textContent = "불러오는 중...";
+    const res = await fetch(APPS_SCRIPT_URL);
+    const data = await res.json();
+    render(data);
+    document.getElementById('statusText').textContent = "마지막 갱신: " + new Date().toLocaleTimeString('ko-KR');
+  }catch(e){
+    document.getElementById('statusText').textContent = "불러오기 실패: " + e.message;
+  }
+}
+
+function computeState(row){
+  if(row.현재단계 >= TOTAL_STAGES) return "완료";
+  const mins = (Date.now() - new Date(row.마지막제출시각).getTime())/60000;
+  if(mins < 15) return "정상";
+  if(mins < 30) return "지연";
+  return "위험";
+}
+
+function timeAgo(iso){
+  const mins = Math.round((Date.now() - new Date(iso).getTime())/60000);
+  if(mins < 1) return "방금 전";
+  if(mins < 60) return mins + "분 전";
+  return Math.round(mins/60) + "시간 전";
+}
+
+// 상태 전환 추적용 (이전 렌더의 상태를 기억해뒀다가 '위험'으로 새로 바뀐 순간만 알림)
+const prevStateMap = {};
+
+// 반 필터 상태
+let lastData = [];
+let currentClassFilter = "전체";
+
+// ⚙️ 강사 알림 훅 — 카카오톡 발송은 기존 성적표 발송 인프라(Apps Script)와 동일하게 붙이면 됩니다.
+// 여기서는 훅만 만들어두고, 실제 발송 로직은 Apps Script 쪽 엔드포인트를 호출하도록 연결하세요.
+function notifyTeacher(row){
+  console.log(`[알림] ${row.학생이름} (${row.반}) 이(가) '위험' 상태로 전환됨 — ${row.현재단계}단계, 정답률 ${row.정답률}%`);
+  // 예시: fetch(APPS_SCRIPT_NOTIFY_URL, {method:"POST", body: JSON.stringify(row)});
+}
+
+function renderTabs(data){
+  const classes = [...new Set(data.map(r => r.반).filter(Boolean))].sort();
+  const tabsEl = document.getElementById('classTabs');
+  const options = ["전체", ...classes];
+  tabsEl.innerHTML = options.map(cls => `
+    <button class="class-tab ${cls === currentClassFilter ? 'active' : ''}" onclick="selectClass('${cls}')">${cls}</button>
+  `).join("");
+}
+
+function selectClass(cls){
+  currentClassFilter = cls;
+  renderTabs(lastData);
+  renderCards(currentClassFilter === "전체" ? lastData : lastData.filter(r => r.반 === currentClassFilter));
+}
+
+function render(data){
+  // 퇴원 처리된 학생은 화면에서 자동 제외 (노션 DB에서 '퇴원'으로 표시만 하면 됨)
+  lastData = data.filter(row => row.재학상태 !== "퇴원");
+  renderTabs(lastData);
+  const filtered = currentClassFilter === "전체" ? lastData : lastData.filter(r => r.반 === currentClassFilter);
+  renderCards(filtered);
+}
+
+function renderCards(data){
+  const grid = document.getElementById('cardGrid');
+  grid.innerHTML = "";
+  let counts = {정상:0, 지연:0, 위험:0, 완료:0};
+
+  // 반 전체 평균 진행 단계 (속도전 경고 기준선, 필터된 범위 기준)
+  const avgStage = data.reduce((sum,r)=>sum+r.현재단계,0) / (data.length || 1);
+
+  data.forEach(row=>{
+    const state = row.상태 || computeState(row);
+    counts[state] = (counts[state]||0)+1;
+
+    // 위험 상태로 새로 전환된 경우에만 알림
+    if(state === "위험" && prevStateMap[row.학생이름] !== "위험"){
+      notifyTeacher(row);
+    }
+    prevStateMap[row.학생이름] = state;
+
+    // 속도전 경고: 진도는 반 평균 이상으로 빠른데 정답률이 낮은 경우
+    const isSpeedRunning = row.현재단계 >= avgStage && row.정답률 < 70;
+
+    const card = document.createElement('div');
+    card.className = "card state-" + state;
+    card.innerHTML = `
+      <div class="card-top">
+        <div>
+          <div class="name">${row.학생이름}</div>
+          <div class="class-tag">${row.반 || ""}</div>
+        </div>
+        <div class="badge state-${state}">${state}</div>
+      </div>
+      <div class="progress-label">
+        <span>진행 단계</span>
+        <span>${row.현재단계} / ${TOTAL_STAGES}</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" style="width:${(row.현재단계/TOTAL_STAGES*100)}%"></div>
+      </div>
+      <div class="meta-row">
+        <span>최근 미니테스트 정답률</span>
+        <span class="accuracy">${row.정답률}%</span>
+      </div>
+      ${isSpeedRunning ? `<div class="speed-warning">⚡ 진도는 빠른데 정답률이 낮아요 — 이해 확인 필요</div>` : ""}
+      <div class="last-submit">마지막 제출: ${timeAgo(row.마지막제출시각)}</div>
+    `;
+    grid.appendChild(card);
+  });
+
+  const summaryRow = document.getElementById('summaryRow');
+  summaryRow.innerHTML = `
+    <div class="summary-chip"><span class="dot green"></span> 정상 ${counts.정상||0}</div>
+    <div class="summary-chip"><span class="dot yellow"></span> 지연 ${counts.지연||0}</div>
+    <div class="summary-chip"><span class="dot red"></span> 위험 ${counts.위험||0}</div>
+    <div class="summary-chip">완료 ${counts.완료||0} / ${data.length}</div>
+  `;
+}
+
+// 초기 로드
+if(APPS_SCRIPT_URL){
+  refreshData();
+  setInterval(refreshData, 30000);
+} else {
+  loadDemoData();
+}
+</script>
+
+</body>
+</html>
