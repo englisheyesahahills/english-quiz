@@ -1,0 +1,3585 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>리딩 스킬 탐정 — 5단계 수사 파일</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,700;1,500&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B2A44; --navy-deep:#101A2E; --parchment:#F1ECDD;
+    --amber:#C9973E; --amber-soft:#E4C589; --teal:#2F6F62;
+    --red-clue:#A23B2E; --ink:#26241D; --muted:#5c5847;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--navy-deep);color:var(--parchment);min-height:100vh;}
+  .app{max-width:640px;margin:0 auto;min-height:100vh;
+    background:radial-gradient(circle at 15% 8%, rgba(201,151,62,0.10), transparent 40%), var(--navy);
+    padding:22px 18px 60px;}
+  header.brand{display:flex;align-items:baseline;justify-content:space-between;
+    border-bottom:1px solid rgba(241,236,221,0.18);padding-bottom:14px;margin-bottom:18px;}
+  header.brand .title{font-family:'Bitter',serif;font-weight:700;font-size:21px;letter-spacing:0.3px;}
+  header.brand .title span{color:var(--amber);}
+  header.brand .case-tag{font-size:11.5px;color:var(--amber-soft);letter-spacing:1.3px;font-weight:500;}
+
+  /* stage tracker */
+  .tracker{display:flex;gap:6px;margin-bottom:18px;}
+  .tracker .seg{flex:1;text-align:center;padding:7px 2px;border-radius:2px;font-size:10.5px;
+    font-weight:700;letter-spacing:0.3px;background:rgba(241,236,221,0.06);color:rgba(241,236,221,0.4);
+    border:1px solid rgba(241,236,221,0.1);cursor:pointer;transition:background .15s ease;}
+  .tracker .seg:hover{background:rgba(201,151,62,0.25);}
+  .tracker .seg.active{background:var(--amber);color:var(--navy-deep);border-color:var(--amber);}
+  .tracker .seg.done{background:rgba(47,111,98,0.35);color:var(--parchment);border-color:var(--teal);}
+
+  .intro{background:rgba(241,236,221,0.05);border:1px solid rgba(201,151,62,0.35);border-radius:4px;padding:20px;}
+  .intro h2{font-family:'Bitter',serif;font-size:19px;margin:0 0 10px;color:var(--amber-soft);}
+  .intro p{font-size:14.5px;line-height:1.7;margin:0 0 10px;color:rgba(241,236,221,0.9);}
+  .rule-list{margin:14px 0 0;padding:0;list-style:none;}
+  .rule-list li{display:flex;gap:10px;font-size:13.8px;line-height:1.6;margin-bottom:9px;color:rgba(241,236,221,0.85);}
+  .rule-list .num{flex:none;width:20px;height:20px;border-radius:50%;background:var(--amber);color:var(--navy-deep);
+    font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
+  .field-row{margin:14px 0 16px;}
+  .field-label{display:block;font-size:12.5px;color:var(--amber-soft);font-weight:700;margin-bottom:6px;}
+  .field-row input[type=text]{width:100%;padding:11px 12px;border-radius:3px;border:1.5px solid rgba(241,236,221,0.25);
+    background:rgba(241,236,221,0.06);color:var(--parchment);font-size:15px;font-family:'Noto Sans KR',sans-serif;}
+  .field-row input[type=text]::placeholder{color:rgba(241,236,221,0.4);}
+  .settings-panel{margin-top:16px;border-top:1px dashed rgba(201,151,62,0.3);padding-top:14px;}
+  .setting-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+  .setting-label{font-size:13px;color:rgba(241,236,221,0.85);font-weight:500;}
+  .toggle-group{display:flex;gap:6px;}
+  .toggle-btn{border:1.5px solid rgba(201,151,62,0.4);background:transparent;color:var(--amber-soft);
+    font-size:12px;font-weight:700;padding:7px 11px;border-radius:3px;cursor:pointer;}
+  .toggle-btn.picked{background:var(--amber);color:var(--navy-deep);border-color:var(--amber);}
+  .stepper{display:flex;align-items:center;gap:10px;}
+  .step-btn{width:28px;height:28px;border-radius:3px;border:1.5px solid rgba(201,151,62,0.4);
+    background:transparent;color:var(--amber-soft);font-size:15px;font-weight:700;cursor:pointer;}
+  .step-btn:disabled{opacity:0.3;cursor:default;}
+  #vocab-count-display{font-family:'Bitter',serif;font-size:16px;font-weight:700;color:var(--amber-soft);width:16px;text-align:center;}
+  .vocab-item{margin-bottom:16px;padding-bottom:14px;border-bottom:1px dashed rgba(38,36,29,0.15);}
+  .vocab-item:last-child{border-bottom:none;}
+  .vocab-item-label{font-size:13.5px;font-weight:700;margin-bottom:6px;color:var(--navy);}
+  .reveal-toggle-btn{background:transparent;border:1.5px dashed rgba(38,36,29,0.35);color:var(--muted);
+    font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:3px;cursor:pointer;margin-top:10px;}
+  .reveal-toggle-btn:hover{border-color:var(--navy);color:var(--navy);}
+  .reference-box{margin-top:10px;padding:12px 14px;background:#eef2ea;border:1px solid rgba(47,111,98,0.4);
+    border-radius:3px;font-size:13.5px;line-height:1.6;display:none;}
+  .reference-box.show{display:block;}
+  .reference-box b{display:block;margin-bottom:4px;font-family:'Bitter',serif;color:var(--teal);}
+
+  .btn{display:inline-block;border:none;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-weight:700;
+    font-size:14.5px;padding:12px 20px;border-radius:3px;letter-spacing:0.2px;transition:transform .15s ease,opacity .15s ease;}
+  .btn:active{transform:scale(0.97);}
+  .btn-primary{background:var(--amber);color:var(--navy-deep);}
+  .btn-primary:disabled{opacity:0.35;cursor:not-allowed;}
+  .btn-row{margin-top:16px;display:flex;justify-content:flex-end;}
+
+  .case-card{background:var(--parchment);color:var(--ink);border-radius:2px;box-shadow:0 14px 34px rgba(0,0,0,0.35);overflow:hidden;}
+  .case-head{background:var(--navy-deep);color:var(--amber-soft);padding:11px 16px;
+    display:flex;justify-content:space-between;align-items:center;font-size:12px;letter-spacing:1.1px;font-weight:700;}
+  .score-badge{font-family:'Bitter',serif;font-weight:900;font-size:13px;color:var(--amber);letter-spacing:0;}
+  .stage-body{padding:18px 16px 20px;}
+  .stage-label{font-size:11px;font-weight:700;letter-spacing:1px;color:var(--red-clue);text-transform:uppercase;
+    margin-bottom:6px;}
+  .stage-title{font-family:'Bitter',serif;font-size:17.5px;margin:0 0 12px;color:var(--navy);}
+  .stage-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;}
+
+  .passage{font-family:'Bitter',serif;font-size:15.5px;line-height:1.85;margin-bottom:6px;}
+  .sentence{cursor:pointer;padding:1px 2px;border-radius:2px;transition:background .15s ease;}
+  .sentence:hover{background:rgba(201,151,62,0.18);}
+  .sentence.selected{background:var(--amber-soft);box-shadow:inset 0 -2px 0 var(--red-clue);}
+  .sentence.correct-evidence{background:#cfe3d4;box-shadow:inset 0 -2px 0 var(--teal);}
+  .sentence.wrong-evidence{background:#ecd2cc;box-shadow:inset 0 -2px 0 var(--red-clue);text-decoration:line-through;text-decoration-color:var(--red-clue);}
+  .sentence.vocab-target{border-bottom:2px dotted var(--red-clue);font-weight:700;}
+
+  .choices{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+  .choice{border:1.5px solid rgba(38,36,29,0.25);border-radius:3px;padding:10px 13px;font-size:14px;cursor:pointer;background:#fff;}
+  .choice:hover{border-color:var(--amber);}
+  .choice.picked{border-color:var(--navy);background:#e8e4d4;}
+  .choice.correct-choice{border-color:var(--teal);background:#dbeee2;}
+  .choice.wrong-choice{border-color:var(--red-clue);background:#f5dcd7;}
+  .choice.locked{cursor:default;}
+
+  .conf-row{display:flex;gap:8px;margin-top:14px;}
+  .conf-btn{flex:1;border:1.5px solid rgba(38,36,29,0.25);border-radius:3px;padding:9px 4px;font-size:13px;
+    font-weight:700;cursor:pointer;background:#fff;color:var(--muted);}
+  .conf-btn.picked{background:var(--navy);color:var(--parchment);border-color:var(--navy);}
+  .conf-label{font-size:12px;color:var(--muted);margin-top:12px;margin-bottom:2px;}
+
+  .hint{font-size:12.5px;color:var(--red-clue);margin-top:8px;font-weight:500;display:none;}
+  .hint.show{display:block;}
+
+  .feedback{margin-top:14px;padding:13px 14px;border-radius:3px;font-size:13.5px;line-height:1.6;display:none;}
+  .feedback.show{display:block;}
+  .feedback.good{background:#dbeee2;border:1px solid var(--teal);color:#1d4d42;}
+  .feedback.mixed{background:#fbeecb;border:1px solid var(--amber);color:#5c4210;}
+  .feedback.bad{background:#f5dcd7;border:1px solid var(--red-clue);color:#7a2c21;}
+  .feedback b{display:block;margin-bottom:4px;font-family:'Bitter',serif;font-size:14px;}
+
+  .vocab-box{margin-top:12px;}
+  .vocab-box textarea, .summary-box textarea{width:100%;border:1.5px solid rgba(38,36,29,0.25);border-radius:3px;
+    padding:10px;font-family:'Noto Sans KR',sans-serif;font-size:14px;resize:vertical;min-height:56px;}
+  .reveal-box{margin-top:10px;padding:11px 13px;background:#fff;border:1px solid rgba(38,36,29,0.2);border-radius:3px;font-size:13.5px;display:none;}
+  .reveal-box.show{display:block;}
+  .self-check-row{display:flex;gap:8px;margin-top:10px;}
+  .self-check-row .conf-btn{flex:1;}
+
+  .structure-type-choices{display:flex;flex-direction:column;gap:8px;margin-top:12px;}
+
+  .next-row{margin-top:16px;display:flex;justify-content:flex-end;}
+
+  .result{background:var(--parchment);color:var(--ink);border-radius:2px;padding:24px 20px;box-shadow:0 14px 34px rgba(0,0,0,0.35);}
+  .result h2{font-family:'Bitter',serif;font-size:19px;margin:0 0 4px;text-align:center;}
+  .final-score-badge{text-align:center;font-family:'Bitter',serif;font-weight:900;font-size:32px;
+    color:var(--amber);margin:6px 0 10px;}
+  .result > p.sub{text-align:center;font-size:13px;color:var(--muted);margin:0 0 18px;}
+  .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .metric-card{background:#fff;border:1px solid rgba(38,36,29,0.15);border-radius:3px;padding:13px 10px;text-align:center;}
+  .metric-card .num{font-family:'Bitter',serif;font-size:23px;font-weight:700;color:var(--navy);}
+  .metric-card .label{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.4;}
+  .save-status{font-size:12px;margin-top:14px;color:var(--muted);text-align:center;}
+  .save-row{text-align:center;margin-top:18px;}
+
+  .timer-badge{font-family:'Bitter',serif;font-size:34px;font-weight:700;color:var(--red-clue);text-align:center;margin:10px 0;}
+
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="brand">
+    <div class="title">리딩 스킬 <span>탐정</span></div>
+    <div class="case-tag">5-STEP CASE FILE</div>
+  </header>
+
+  <!-- INTRO -->
+  <section id="screen-intro">
+    <div class="intro">
+      <h2>오늘의 수사는 5단계입니다</h2>
+      <p>각 사건마다 다섯 가지 탐정 기술을 모두 사용합니다. 정답을 맞히는 것보다, <b>어떻게 그 답에 도달했는지</b>가 더 중요합니다.</p>
+      <div class="field-row">
+        <label class="field-label">이름</label>
+        <input type="text" id="student-name-input" placeholder="이름을 입력하세요">
+      </div>
+      <ul class="rule-list">
+        <li><span class="num">0</span> <b>스키밍</b> — 짧은 시간 안에 전체 내용 훑어보기</li>
+        <li><span class="num">A</span> <b>어휘 추적</b> — 모르는 단어의 뜻을 문맥으로 추측하기</li>
+        <li><span class="num">B</span> <b>근거 확보</b> — 단서 문장을 찾고, 확신도와 함께 답 고르기</li>
+        <li><span class="num">C</span> <b>구조 인식</b> — 구조 파악 → 시그널 워드 근거 찾기</li>
+        <li><span class="num">D</span> <b>사건 요약</b> — 이야기를 한 문장으로 압축하기</li>
+        <li><span class="num">E</span> <b>스캐닝</b> — 제한시간 안에 답의 위치 빠르게 찾기</li>
+      </ul>
+      <div class="settings-panel">
+        <div class="setting-row">
+          <div class="setting-label">사건 요약 언어</div>
+          <div class="toggle-group" id="lang-toggle">
+            <button class="toggle-btn picked" onclick="setLang('ko', this)">한글 요약</button>
+            <button class="toggle-btn" onclick="setLang('en', this)">English Summary</button>
+          </div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-label">어휘추적 단어 개수</div>
+          <div class="stepper">
+            <button class="step-btn" id="vocab-minus" onclick="changeVocabCount(-1)">−</button>
+            <span id="vocab-count-display">4</span>
+            <button class="step-btn" id="vocab-plus" onclick="changeVocabCount(1)">＋</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="startCase()">첫 번째 사건 시작 →</button>
+    </div>
+  </section>
+
+  <!-- CASE -->
+  <section id="screen-case" class="hidden">
+    <div class="tracker" id="tracker"></div>
+    <div class="case-card">
+      <div class="case-head">
+        <span id="case-number">CASE #01</span>
+        <span class="score-badge" id="score-badge">⭐ 0점</span>
+        <span id="stage-tag">STEP A</span>
+      </div>
+      <div class="stage-body" id="stage-body"><!-- rendered per stage --></div>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section id="screen-result" class="hidden">
+    <div class="result">
+      <h2>탐정 수사 최종 리포트</h2>
+      <div class="final-score-badge" id="final-score-badge">⭐ 0점</div>
+      <p class="sub">5가지 스킬을 모두 종합한 결과입니다</p>
+      <div class="metric-grid">
+        <div class="metric-card"><div class="num" id="m-infer">0%</div><div class="label">추론<br>(근거 정확도)</div></div>
+        <div class="metric-card"><div class="num" id="m-vocab">0%</div><div class="label">어휘추론<br>(문맥 유추)</div></div>
+        <div class="metric-card"><div class="num" id="m-structure">0%</div><div class="label">구조 인식<br>(유형+신호어)</div></div>
+        <div class="metric-card"><div class="num" id="m-summary">0%</div><div class="label">주제·요지<br>(요약 포함율)</div></div>
+        <div class="metric-card"><div class="num" id="m-skim">0%</div><div class="label">스키밍<br>(빠른 요지 파악)</div></div>
+        <div class="metric-card"><div class="num" id="m-scan">0%</div><div class="label">스캐닝<br>(빠른 위치 찾기)</div></div>
+        <div class="metric-card" style="grid-column:span 2;"><div class="num" id="m-meta">0%</div><div class="label">메타인지 모니터링 (확신도-정답 일치도)</div></div>
+      </div>
+      <div class="save-row">
+        <button class="btn btn-primary" onclick="sendResults()">선생님께 결과 전송</button>
+        <div class="save-status" id="save-status"></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+/* ---------------------------------------------------------
+   실제 지문 4개 — Reader's Bank Level 1 (Unit 06, 07, 09, 10)
+   각기 다른 구조 유형(원인-결과/비교-대조/열거/시간순서)을 대표하도록 선정
+--------------------------------------------------------- */
+const CASES = [
+  {
+    "id": 1,
+    "title": "힘든 일은 저에게 시키세요!",
+    "sentences": [
+      "I am a smart, strong worker.",
+      "I look like a toy, but I can do a lot of hard work for people.",
+      "Do you want to clean your dirty room? I can quickly do that for you.",
+      "Do you want to move a heavy box upstairs? I can easily do that for you.",
+      "And here is the best thing — I can even go to the moon, just like a rocket.",
+      "Actually, I can do anything in the world!"
+    ],
+    "vocabPool": [
+      {
+        "word": "worker",
+        "sentenceIndex": 0,
+        "meaning": "일꾼, 일하는 사람"
+      },
+      {
+        "word": "heavy",
+        "sentenceIndex": 3,
+        "meaning": "무거운"
+      },
+      {
+        "word": "quickly",
+        "sentenceIndex": 2,
+        "meaning": "빨리, 신속하게"
+      },
+      {
+        "word": "rocket",
+        "sentenceIndex": 4,
+        "meaning": "로켓"
+      }
+    ],
+    "question": "이 글쓴이는 무거운 상자를 어떻게 옮길 수 있나요?",
+    "evidenceIndex": 3,
+    "choices": [
+      "쉽게",
+      "힘들게",
+      "천천히",
+      "옮길 수 없다"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "And here is the best thing",
+    "summaryKeywordGroups": [
+      [
+        "로봇",
+        "일꾼",
+        "worker",
+        "robot"
+      ],
+      [
+        "달",
+        "로켓",
+        "moon",
+        "rocket"
+      ]
+    ],
+    "referenceSummaryKo": "나는 사람들을 위해 힘든 일을 척척 해내는 똑똑한 일꾼이다.",
+    "referenceSummaryEn": "I am a smart worker that can do many kinds of hard work for people.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "나는 사람들을 위해 여러 힘든 일을 할 수 있다.",
+        "나는 장난감을 파는 가게이다.",
+        "나는 우주비행사이다.",
+        "나는 청소를 싫어한다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "이 글쓴이가 달에 가는 것을 무엇에 비유했나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 4,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 2,
+    "title": "눈치 빠른 소년",
+    "sentences": [
+      "Two boys were playing with a ball in the backyard.",
+      "One boy kicked the ball hard, and it flew into an open window in the house next door.",
+      "Soon, a man came out of the house with the ball.",
+      "He asked the boys, \"Is this your ball?\"",
+      "One boy asked, \"Did that ball break anything?\"",
+      "\"No,\" said the man calmly.",
+      "\"Then, yes, it's mine,\" said the boy with a smile."
+    ],
+    "vocabPool": [
+      {
+        "word": "kicked",
+        "sentenceIndex": 1,
+        "meaning": "찼다"
+      },
+      {
+        "word": "calmly",
+        "sentenceIndex": 5,
+        "meaning": "침착하게"
+      },
+      {
+        "word": "backyard",
+        "sentenceIndex": 0,
+        "meaning": "뒤뜰"
+      },
+      {
+        "word": "smile",
+        "sentenceIndex": 6,
+        "meaning": "미소"
+      }
+    ],
+    "question": "소년이 \"그럼, 네, 그건 제 것이에요\"라고 말한 이유는 무엇인가요?",
+    "evidenceIndex": 5,
+    "choices": [
+      "공이 아무것도 깨지 않았다는 걸 알았기 때문에",
+      "남자가 무서웠기 때문에",
+      "공을 잃어버리고 싶지 않았기 때문에",
+      "다른 공이 있었기 때문에"
+    ],
+    "answerIndex": 0,
+    "structureType": "시간 순서",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "Soon",
+    "summaryKeywordGroups": [
+      [
+        "공",
+        "ball"
+      ],
+      [
+        "소년",
+        "재치",
+        "smart",
+        "boy"
+      ]
+    ],
+    "referenceSummaryKo": "소년은 공이 아무것도 깨지 않았다는 걸 확인하고 재치 있게 자기 공이라고 말했다.",
+    "referenceSummaryEn": "The boy cleverly claimed the ball once he learned it broke nothing.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "소년이 재치 있는 대답으로 공을 자기 것이라 주장했다.",
+        "남자가 소년들에게 화를 냈다.",
+        "공이 창문을 깨뜨렸다.",
+        "소년들이 공을 잃어버렸다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "공은 어디로 날아갔나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 1,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 3,
+    "title": "화성으로 여행 가요!",
+    "sentences": [
+      "My name is Jake, and I'm 10 years old.",
+      "I read about your amazing invention, Starship, in the news.",
+      "I have a question about your invention — can Starship take people to Mars?",
+      "I hope it can do that, and it'll be wonderful!",
+      "I have one more question — do you think I can take my dog Max to Mars?",
+      "Thank you for making the rocket, and I hope to hear from you soon!"
+    ],
+    "vocabPool": [
+      {
+        "word": "invention",
+        "sentenceIndex": 1,
+        "meaning": "발명품"
+      },
+      {
+        "word": "wonderful",
+        "sentenceIndex": 3,
+        "meaning": "멋진, 훌륭한"
+      },
+      {
+        "word": "hope",
+        "sentenceIndex": 3,
+        "meaning": "희망하다, 바라다"
+      },
+      {
+        "word": "question",
+        "sentenceIndex": 2,
+        "meaning": "질문"
+      }
+    ],
+    "question": "Jake가 이 편지에서 궁금해하는 것이 아닌 것은?",
+    "evidenceIndex": 2,
+    "choices": [
+      "로켓의 가격",
+      "Starship이 사람을 화성에 데려갈 수 있는지",
+      "개 Max를 화성에 데려갈 수 있는지",
+      "답장을 받을 수 있는지"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "I have one more question",
+    "summaryKeywordGroups": [
+      [
+        "화성",
+        "Mars",
+        "Starship"
+      ],
+      [
+        "질문",
+        "편지",
+        "question",
+        "letter"
+      ]
+    ],
+    "referenceSummaryKo": "Jake는 Musk에게 Starship에 대한 궁금한 점을 담아 편지를 썼다.",
+    "referenceSummaryEn": "Jake wrote a letter to Musk asking questions about the Starship rocket.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "Jake가 Musk에게 Starship에 대해 질문하는 편지를 썼다.",
+        "Jake는 이미 화성에 다녀왔다.",
+        "Musk가 Jake에게 답장을 보냈다.",
+        "Jake는 로켓을 무서워한다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "Jake는 화성에 누구를 데려가고 싶어하나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 4,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 4,
+    "title": "나는 물고기가 아니에요!",
+    "sentences": [
+      "I am a light and strong material, and people make cups, bottles, and boxes from me.",
+      "However, people throw me away after they use me.",
+      "Then I flow into rivers and oceans.",
+      "There, I look like food, so some fish eat me, and this makes them sick.",
+      "In fact, millions of fish die because of me.",
+      "If you keep throwing me away, I will make all rivers and oceans dirty."
+    ],
+    "vocabPool": [
+      {
+        "word": "material",
+        "sentenceIndex": 0,
+        "meaning": "재료, 물질"
+      },
+      {
+        "word": "throw away",
+        "sentenceIndex": 1,
+        "meaning": "버리다"
+      },
+      {
+        "word": "dirty",
+        "sentenceIndex": 5,
+        "meaning": "더러운"
+      },
+      {
+        "word": "sick",
+        "sentenceIndex": 3,
+        "meaning": "아픈"
+      }
+    ],
+    "question": "물고기들이 이것을 먹고 아프게 되는 이유는 무엇인가요?",
+    "evidenceIndex": 3,
+    "choices": [
+      "먹이처럼 보여서 먹기 때문에",
+      "물이 더러워서",
+      "다른 물고기가 공격해서",
+      "날씨가 추워서"
+    ],
+    "answerIndex": 0,
+    "structureType": "원인-결과",
+    "signalEvidenceIndex": 3,
+    "signalPhrase": "so",
+    "summaryKeywordGroups": [
+      [
+        "플라스틱",
+        "쓰레기",
+        "plastic",
+        "trash"
+      ],
+      [
+        "물고기",
+        "바다",
+        "fish",
+        "ocean"
+      ]
+    ],
+    "referenceSummaryKo": "버려진 플라스틱이 강과 바다로 흘러가 물고기들을 병들게 하고 죽게 만든다.",
+    "referenceSummaryEn": "Thrown-away plastic flows into rivers and oceans and makes fish sick or die.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "버려진 플라스틱이 물고기와 바다를 오염시킨다.",
+        "플라스틱은 안전한 재료이다.",
+        "물고기는 플라스틱을 먹지 않는다.",
+        "바다는 항상 깨끗하다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "물고기가 몇 마리나 죽는다고 했나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 4,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 5,
+    "title": "젖소와 우유",
+    "sentences": [
+      "Helen raised some cows on a farm, and she loved them very much.",
+      "One day, she had an interesting idea.",
+      "She thought, \"I will sing for my cows — what will happen?\"",
+      "Helen began to sing to the cows every day.",
+      "Soon, something wonderful happened — the cows started to give more milk!",
+      "Helen was delighted and said, \"I'm nice to my cows, and now the cows are nice to me!\""
+    ],
+    "vocabPool": [
+      {
+        "word": "raised",
+        "sentenceIndex": 0,
+        "meaning": "길렀다, 키웠다"
+      },
+      {
+        "word": "delighted",
+        "sentenceIndex": 5,
+        "meaning": "매우 기뻐하는"
+      },
+      {
+        "word": "idea",
+        "sentenceIndex": 1,
+        "meaning": "생각, 아이디어"
+      },
+      {
+        "word": "farm",
+        "sentenceIndex": 0,
+        "meaning": "농장"
+      }
+    ],
+    "question": "Helen이 소들에게 노래를 불러준 후 어떤 일이 일어났나요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "소들이 우유를 더 많이 주기 시작했다",
+      "소들이 아팠다",
+      "소들이 도망갔다",
+      "아무 일도 일어나지 않았다"
+    ],
+    "answerIndex": 0,
+    "structureType": "시간 순서",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "Soon",
+    "summaryKeywordGroups": [
+      [
+        "노래",
+        "우유",
+        "sing",
+        "milk"
+      ],
+      [
+        "젖소",
+        "Helen",
+        "cow"
+      ]
+    ],
+    "referenceSummaryKo": "Helen이 매일 노래를 불러주자 젖소들이 더 많은 우유를 주기 시작했다.",
+    "referenceSummaryEn": "After Helen sang to her cows every day, they began giving more milk.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "Helen이 소에게 노래를 불러줘서 우유가 더 많이 나왔다.",
+        "Helen은 농장을 팔았다.",
+        "소들이 노래를 싫어했다.",
+        "Helen은 소를 키우지 않는다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "Helen은 매일 소들에게 무엇을 해주었나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 6,
+    "title": "미래에는 어떻게 공부할까?",
+    "sentences": [
+      "In the future, you will live in an amazing world, and you won't go to school.",
+      "But you will learn things quickly.",
+      "In the future, you can put a tiny computer in your brain.",
+      "It can download new skills quickly — do you want to learn the piano? You can download piano skills.",
+      "Or do you dream of flying a plane? Then download flying skills and become a pilot.",
+      "Just imagine that — your future will truly be fantastic!"
+    ],
+    "vocabPool": [
+      {
+        "word": "download",
+        "sentenceIndex": 3,
+        "meaning": "다운로드하다"
+      },
+      {
+        "word": "tiny",
+        "sentenceIndex": 2,
+        "meaning": "아주 작은"
+      },
+      {
+        "word": "imagine",
+        "sentenceIndex": 5,
+        "meaning": "상상하다"
+      },
+      {
+        "word": "brain",
+        "sentenceIndex": 2,
+        "meaning": "뇌"
+      }
+    ],
+    "question": "미래에는 새로운 기술을 어떻게 배울 수 있나요?",
+    "evidenceIndex": 2,
+    "choices": [
+      "뇌에 작은 컴퓨터를 넣어서",
+      "학교에 더 오래 다녀서",
+      "책을 많이 읽어서",
+      "선생님과 더 많이 대화해서"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "Or",
+    "summaryKeywordGroups": [
+      [
+        "뇌",
+        "컴퓨터",
+        "brain",
+        "computer"
+      ],
+      [
+        "기술",
+        "다운로드",
+        "skill",
+        "download"
+      ]
+    ],
+    "referenceSummaryKo": "미래에는 뇌 속 작은 컴퓨터로 원하는 기술을 다운로드해 빠르게 배울 수 있다.",
+    "referenceSummaryEn": "In the future, a tiny brain computer will let people download skills instantly.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "미래에는 뇌 속 컴퓨터로 기술을 빨리 배울 수 있다.",
+        "미래에는 학교가 더 많아진다.",
+        "미래에는 컴퓨터가 사라진다.",
+        "미래에는 아무것도 배울 수 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "비행기를 조종하고 싶으면 무엇을 다운로드해야 하나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 4,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 7,
+    "title": "나는 아름답지만 가시가 있어요!",
+    "sentences": [
+      "I am very beautiful, and I come in many colors like red, pink, and white.",
+      "People love me because I look pretty and smell nice.",
+      "Do you have someone special in your life? I can be a nice gift for that person.",
+      "Do you love someone? I can help you show it.",
+      "But watch out — my thorns are sharp and they can hurt you."
+    ],
+    "vocabPool": [
+      {
+        "word": "thorns",
+        "sentenceIndex": 4,
+        "meaning": "가시"
+      },
+      {
+        "word": "sharp",
+        "sentenceIndex": 4,
+        "meaning": "날카로운"
+      },
+      {
+        "word": "gift",
+        "sentenceIndex": 2,
+        "meaning": "선물"
+      },
+      {
+        "word": "beautiful",
+        "sentenceIndex": 0,
+        "meaning": "아름다운"
+      }
+    ],
+    "question": "이 꽃을 조심해야 하는 이유는 무엇인가요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "가시가 날카로워서 다칠 수 있기 때문에",
+      "냄새가 나빠서",
+      "색이 없어서",
+      "너무 비싸서"
+    ],
+    "answerIndex": 0,
+    "structureType": "비교-대조",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "But",
+    "summaryKeywordGroups": [
+      [
+        "장미",
+        "꽃",
+        "rose",
+        "flower"
+      ],
+      [
+        "가시",
+        "조심",
+        "thorn"
+      ]
+    ],
+    "referenceSummaryKo": "나는 아름다운 꽃이지만 날카로운 가시를 조심해야 한다.",
+    "referenceSummaryEn": "I am a beautiful flower, but you must watch out for my sharp thorns.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "아름답지만 가시를 조심해야 하는 꽃이다.",
+        "나는 향기가 없다.",
+        "나는 한 가지 색만 있다.",
+        "나는 선물로 적합하지 않다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "이 꽃은 어떤 색들로 나오나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 0,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 8,
+    "title": "신기한 붕대",
+    "sentences": [
+      "One day, you cut your finger, and it starts to bleed.",
+      "You can put a bandage on it, but wait a minute — there is a special bandage.",
+      "This special bandage changes colors.",
+      "It looks red on sick skin.",
+      "But it looks blue when the skin gets better.",
+      "It can tell you about your skin's health, just like a doctor."
+    ],
+    "vocabPool": [
+      {
+        "word": "bleed",
+        "sentenceIndex": 0,
+        "meaning": "피가 나다"
+      },
+      {
+        "word": "bandage",
+        "sentenceIndex": 1,
+        "meaning": "붕대"
+      },
+      {
+        "word": "health",
+        "sentenceIndex": 5,
+        "meaning": "건강"
+      },
+      {
+        "word": "special",
+        "sentenceIndex": 1,
+        "meaning": "특별한"
+      }
+    ],
+    "question": "피부가 나아지면 붕대는 무슨 색으로 변하나요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "파란색",
+      "빨간색",
+      "초록색",
+      "검은색"
+    ],
+    "answerIndex": 0,
+    "structureType": "비교-대조",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "But",
+    "summaryKeywordGroups": [
+      [
+        "붕대",
+        "색",
+        "bandage",
+        "color"
+      ],
+      [
+        "피부",
+        "건강",
+        "skin",
+        "health"
+      ]
+    ],
+    "referenceSummaryKo": "이 특별한 붕대는 피부 상태에 따라 색이 변해 건강을 알려준다.",
+    "referenceSummaryEn": "This special bandage changes color to show how the skin underneath is healing.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "색이 변해 피부 건강을 알려주는 특별한 붕대가 있다.",
+        "붕대는 상처를 낫게 하지 못한다.",
+        "모든 붕대는 파란색이다.",
+        "붕대는 아플 때만 사용한다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "아픈 피부 위에서는 무슨 색으로 보이나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 9,
+    "title": "두 떠돌이 개의 이야기",
+    "sentences": [
+      "On a street in the U.K., there were two stray dogs.",
+      "One of the dogs, Glenn, was blind, but that was okay because the other dog, Buzz, was always with him.",
+      "Buzz helped Glenn find food and a bed, and Glenn also loved Buzz very much.",
+      "People heard about their friendship and felt sad for them.",
+      "However, Glenn and Buzz needed to stay together.",
+      "Luckily, an animal center found a new home for them, and now they live together in a safe, loving home."
+    ],
+    "vocabPool": [
+      {
+        "word": "blind",
+        "sentenceIndex": 1,
+        "meaning": "앞이 보이지 않는"
+      },
+      {
+        "word": "stray",
+        "sentenceIndex": 0,
+        "meaning": "떠돌이의, 주인 없는"
+      },
+      {
+        "word": "luckily",
+        "sentenceIndex": 5,
+        "meaning": "다행히도"
+      },
+      {
+        "word": "friendship",
+        "sentenceIndex": 3,
+        "meaning": "우정"
+      }
+    ],
+    "question": "Buzz는 앞이 보이지 않는 Glenn을 어떻게 도왔나요?",
+    "evidenceIndex": 2,
+    "choices": [
+      "먹을 것과 잘 곳을 찾는 것을 도왔다",
+      "다른 개들과 싸웠다",
+      "사람들에게 먹이를 구걸했다",
+      "Glenn을 떠났다"
+    ],
+    "answerIndex": 0,
+    "structureType": "시간 순서",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "However",
+    "summaryKeywordGroups": [
+      [
+        "개",
+        "우정",
+        "dog",
+        "friendship"
+      ],
+      [
+        "입양",
+        "가정",
+        "adopt",
+        "home"
+      ]
+    ],
+    "referenceSummaryKo": "앞이 안 보이는 Glenn과 친구 Buzz는 결국 함께 지낼 새 가정을 찾았다.",
+    "referenceSummaryEn": "The blind dog Glenn and his friend Buzz finally found a new home together.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "두 마리의 친한 유기견이 함께 새 가정을 찾았다.",
+        "Glenn과 Buzz는 서로 다른 곳으로 입양되었다.",
+        "Buzz도 앞이 보이지 않는다.",
+        "두 개는 길에서 계속 살기로 했다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "두 마리 개는 결국 어디서 살게 되었나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 5,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 10,
+    "title": "나는 따라쟁이!",
+    "sentences": [
+      "I am a dark shape, and I am always with you.",
+      "But you can never hear my voice, and you can never touch me.",
+      "When you move, I move, and when you stop, I stop.",
+      "I appear when there is light or when it is sunny.",
+      "But I hide when there is no light or when it is cloudy.",
+      "I'm short at noon, but I become tall in the late afternoon."
+    ],
+    "vocabPool": [
+      {
+        "word": "appear",
+        "sentenceIndex": 3,
+        "meaning": "나타나다"
+      },
+      {
+        "word": "shape",
+        "sentenceIndex": 0,
+        "meaning": "형체, 모양"
+      },
+      {
+        "word": "hide",
+        "sentenceIndex": 4,
+        "meaning": "숨다"
+      },
+      {
+        "word": "touch",
+        "sentenceIndex": 1,
+        "meaning": "만지다"
+      }
+    ],
+    "question": "이 존재는 언제 나타나나요?",
+    "evidenceIndex": 3,
+    "choices": [
+      "빛이 있거나 화창할 때",
+      "밤에만",
+      "비가 올 때만",
+      "항상 숨어 있다"
+    ],
+    "answerIndex": 0,
+    "structureType": "원인-결과",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "When",
+    "summaryKeywordGroups": [
+      [
+        "그림자",
+        "shadow"
+      ],
+      [
+        "빛",
+        "따라하다",
+        "light",
+        "copy"
+      ]
+    ],
+    "referenceSummaryKo": "나는 빛이 있을 때 나타나 당신의 움직임을 그대로 따라 하는 그림자다.",
+    "referenceSummaryEn": "I am a shadow that appears in light and copies your every move.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "나는 사람의 움직임을 따라 하는 그림자이다.",
+        "나는 소리를 낼 수 있다.",
+        "나는 만질 수 있다.",
+        "나는 밤에만 나타난다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "늦은 오후에는 내 키가 어떻게 되나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 5,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 11,
+    "title": "사자로부터 소를 지킨 아이디어",
+    "sentences": [
+      "There are many farms in Africa, and these farms have a lot of cows.",
+      "But they had a problem in the past — lions tried to hunt the cows.",
+      "The farmers were worried about this, so they had a smart idea.",
+      "The farmers painted big eyes on the cows' hips, and their hips looked like scary monsters.",
+      "When the lions saw these eyes, they got scared and ran away, so now the cows are safe."
+    ],
+    "vocabPool": [
+      {
+        "word": "painted",
+        "sentenceIndex": 3,
+        "meaning": "칠했다, 그렸다"
+      },
+      {
+        "word": "scared",
+        "sentenceIndex": 4,
+        "meaning": "무서워하는, 겁먹은"
+      },
+      {
+        "word": "hunt",
+        "sentenceIndex": 1,
+        "meaning": "사냥하다"
+      },
+      {
+        "word": "safe",
+        "sentenceIndex": 4,
+        "meaning": "안전한"
+      }
+    ],
+    "question": "농부들이 소의 엉덩이에 눈을 그린 이유는 무엇인가요?",
+    "evidenceIndex": 2,
+    "choices": [
+      "사자를 겁줘서 쫓아내려고",
+      "소를 더 예쁘게 꾸미려고",
+      "소를 서로 구별하려고",
+      "관광객을 끌려고"
+    ],
+    "answerIndex": 0,
+    "structureType": "원인-결과",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "so",
+    "summaryKeywordGroups": [
+      [
+        "눈",
+        "그림",
+        "그렸다",
+        "eyes",
+        "paint"
+      ],
+      [
+        "사자",
+        "무서워",
+        "도망",
+        "lion",
+        "scared"
+      ]
+    ],
+    "referenceSummaryKo": "농부들은 사자를 쫓아내기 위해 소의 엉덩이에 무서운 눈을 그렸다.",
+    "referenceSummaryEn": "Farmers painted scary eyes on their cows' hips to scare lions away.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "농부들이 소를 사자로부터 지키기 위해 눈을 그려 넣었다.",
+        "사자들이 소를 많이 잡아먹었다.",
+        "아프리카에는 농장이 없다.",
+        "농부들이 사자를 사냥했다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "농부들이 소의 엉덩이에 그린 것은 무엇인가요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 12,
+    "title": "오늘 날씨는 어떤가요?",
+    "sentences": [
+      "One day, the sky was very cloudy, so I took an umbrella when I went outside.",
+      "However, it was fine all day.",
+      "The next day, it was sunny and clear, so I left my umbrella at home.",
+      "In the afternoon, however, it started to rain hard.",
+      "This morning, the sun was shining brightly, so I wore my shorts to school.",
+      "But I was wrong again — it became windy and chilly.",
+      "Because of this, I realized something about the weather — it always plays tricks on me!"
+    ],
+    "vocabPool": [
+      {
+        "word": "chilly",
+        "sentenceIndex": 5,
+        "meaning": "쌀쌀한"
+      },
+      {
+        "word": "realized",
+        "sentenceIndex": 6,
+        "meaning": "깨달았다"
+      },
+      {
+        "word": "clear",
+        "sentenceIndex": 2,
+        "meaning": "맑은"
+      },
+      {
+        "word": "cloudy",
+        "sentenceIndex": 0,
+        "meaning": "흐린"
+      }
+    ],
+    "question": "글쓴이가 날씨에 대해 깨달은 것은 무엇인가요?",
+    "evidenceIndex": 6,
+    "choices": [
+      "날씨는 항상 자신을 속인다",
+      "날씨는 항상 맑다",
+      "날씨는 절대 변하지 않는다",
+      "우산이 필요 없다"
+    ],
+    "answerIndex": 0,
+    "structureType": "시간 순서",
+    "signalEvidenceIndex": 1,
+    "signalPhrase": "However",
+    "summaryKeywordGroups": [
+      [
+        "날씨",
+        "weather"
+      ],
+      [
+        "예측",
+        "틀리다",
+        "wrong",
+        "trick"
+      ]
+    ],
+    "referenceSummaryKo": "글쓴이는 매번 날씨를 잘못 예측해서 날씨가 자신을 속인다고 느꼈다.",
+    "referenceSummaryEn": "The writer kept guessing the weather wrong and felt the weather always tricked them.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "예측하기 힘들게 계속 바뀌는 날씨에 대한 이야기이다.",
+        "매일 날씨가 똑같았다.",
+        "글쓴이는 우산을 잃어버렸다.",
+        "오늘은 하루 종일 맑았다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "오후에 무슨 일이 있었나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 13,
+    "title": "재미난 곳엔 항상 내가 있죠!",
+    "sentences": [
+      "At first, I'm just small and flat.",
+      "Blow air or gas into me, and I become round and fat, and I can also float into the sky.",
+      "People celebrate parties and festivals with me.",
+      "You can also find me at an amusement park, and children enjoy playing with me.",
+      "But be careful — don't touch me with sharp things, because I burst very easily.",
+      "And when I burst, everyone is surprised!"
+    ],
+    "vocabPool": [
+      {
+        "word": "burst",
+        "sentenceIndex": 4,
+        "meaning": "터지다"
+      },
+      {
+        "word": "float",
+        "sentenceIndex": 1,
+        "meaning": "뜨다, 떠오르다"
+      },
+      {
+        "word": "sharp",
+        "sentenceIndex": 4,
+        "meaning": "날카로운"
+      },
+      {
+        "word": "careful",
+        "sentenceIndex": 4,
+        "meaning": "조심하는"
+      }
+    ],
+    "question": "이것을 조심해야 하는 이유는 무엇인가요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "날카로운 것에 닿으면 쉽게 터지기 때문에",
+      "무겁기 때문에",
+      "냄새가 나기 때문에",
+      "비싸기 때문에"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 3,
+    "signalPhrase": "also",
+    "summaryKeywordGroups": [
+      [
+        "풍선",
+        "balloon"
+      ],
+      [
+        "파티",
+        "축제",
+        "party",
+        "festival"
+      ]
+    ],
+    "referenceSummaryKo": "나는 파티와 놀이공원에서 사랑받지만 날카로운 것에 닿으면 쉽게 터지는 풍선이다.",
+    "referenceSummaryEn": "I am a balloon loved at parties and amusement parks, but I burst easily if touched by sharp things.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "파티와 놀이공원에서 사랑받지만 쉽게 터지는 풍선이다.",
+        "나는 절대 터지지 않는다.",
+        "나는 무겁고 딱딱하다.",
+        "나는 물속에서만 산다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "어디에서 이것을 찾을 수 있나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 14,
+    "title": "신선한 달걀 고르는 법",
+    "sentences": [
+      "Can you choose fresh eggs? There is an easy way to do it.",
+      "Fill a bowl with cold water and put an egg into it.",
+      "A fresh egg is heavy, so it sinks to the bottom.",
+      "A rotten egg has gases inside, so it comes to the top of the water.",
+      "What about a 2-week-old egg? Instead, it stays in the middle."
+    ],
+    "vocabPool": [
+      {
+        "word": "sinks",
+        "sentenceIndex": 2,
+        "meaning": "가라앉다"
+      },
+      {
+        "word": "rotten",
+        "sentenceIndex": 3,
+        "meaning": "썩은"
+      },
+      {
+        "word": "fresh",
+        "sentenceIndex": 0,
+        "meaning": "신선한"
+      },
+      {
+        "word": "bowl",
+        "sentenceIndex": 1,
+        "meaning": "그릇"
+      }
+    ],
+    "question": "신선한 달걀은 물에서 어떻게 되나요?",
+    "evidenceIndex": 2,
+    "choices": [
+      "바닥으로 가라앉는다",
+      "물 위로 뜬다",
+      "한가운데 머문다",
+      "녹는다"
+    ],
+    "answerIndex": 0,
+    "structureType": "비교-대조",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "Instead",
+    "summaryKeywordGroups": [
+      [
+        "달걀",
+        "신선한",
+        "egg",
+        "fresh"
+      ],
+      [
+        "물",
+        "가라앉다",
+        "뜨다",
+        "water",
+        "sink",
+        "float"
+      ]
+    ],
+    "referenceSummaryKo": "물에 넣었을 때 가라앉는지 뜨는지로 달걀의 신선도를 알 수 있다.",
+    "referenceSummaryEn": "You can tell how fresh an egg is by whether it sinks or floats in water.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "물 테스트로 달걀의 신선도를 알 수 있다.",
+        "달걀은 항상 물에 뜬다.",
+        "썩은 달걀은 가라앉는다.",
+        "달걀은 냉장고에 보관할 수 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "썩은 달걀은 물에서 어떻게 되나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 15,
+    "title": "식당 음악에 숨겨진 비밀",
+    "sentences": [
+      "Restaurants usually play music, and the music is very important to people's health.",
+      "Music can make people pick certain food.",
+      "Is the music fast and loud? Then people feel excited, and they often choose junk food.",
+      "Is the music soft and slow? Then people feel calm, and they often pick healthy food.",
+      "It shows that music is important for good health.",
+      "Do you want to be healthy? Then choose a quiet restaurant and enjoy slow music."
+    ],
+    "vocabPool": [
+      {
+        "word": "calm",
+        "sentenceIndex": 3,
+        "meaning": "차분한"
+      },
+      {
+        "word": "excited",
+        "sentenceIndex": 2,
+        "meaning": "신이 난, 흥분한"
+      },
+      {
+        "word": "choose",
+        "sentenceIndex": 2,
+        "meaning": "고르다, 선택하다"
+      },
+      {
+        "word": "healthy",
+        "sentenceIndex": 3,
+        "meaning": "건강한"
+      }
+    ],
+    "question": "느리고 부드러운 음악을 들으면 사람들은 어떤 음식을 고르나요?",
+    "evidenceIndex": 3,
+    "choices": [
+      "건강에 좋은 음식",
+      "정크 푸드",
+      "매운 음식",
+      "아무것도 먹지 않는다"
+    ],
+    "answerIndex": 0,
+    "structureType": "원인-결과",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "Then",
+    "summaryKeywordGroups": [
+      [
+        "음악",
+        "music"
+      ],
+      [
+        "음식",
+        "선택",
+        "food",
+        "choice"
+      ]
+    ],
+    "referenceSummaryKo": "음악의 빠르기가 사람들이 어떤 음식을 고르는지에 영향을 준다.",
+    "referenceSummaryEn": "The tempo of music affects what kind of food people choose to eat.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "식당 음악이 사람들의 음식 선택에 영향을 준다.",
+        "식당에서는 음악을 틀지 않는다.",
+        "음악은 건강과 관련이 없다.",
+        "빠른 음악이 건강에 좋다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "건강해지고 싶으면 어떤 식당을 골라야 하나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 5,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 16,
+    "title": "너의 비밀은 내가 지켜 줄게!",
+    "sentences": [
+      "You keep a diary on the computer in the living room.",
+      "But your parents or sister can use that computer, and they may read your diary.",
+      "You are worried about it — what should you do?",
+      "You should use me for your files!",
+      "I am a secret word, like a magic key.",
+      "If people don't know me, they can't open your files, and I will keep them safe."
+    ],
+    "vocabPool": [
+      {
+        "word": "secret",
+        "sentenceIndex": 4,
+        "meaning": "비밀의"
+      },
+      {
+        "word": "safe",
+        "sentenceIndex": 5,
+        "meaning": "안전한"
+      },
+      {
+        "word": "diary",
+        "sentenceIndex": 0,
+        "meaning": "일기"
+      },
+      {
+        "word": "magic",
+        "sentenceIndex": 4,
+        "meaning": "마법의"
+      }
+    ],
+    "question": "이것을 모르면 사람들은 무엇을 할 수 없나요?",
+    "evidenceIndex": 5,
+    "choices": [
+      "파일을 열 수 없다",
+      "컴퓨터를 켤 수 없다",
+      "일기를 쓸 수 없다",
+      "인터넷을 할 수 없다"
+    ],
+    "answerIndex": 0,
+    "structureType": "원인-결과",
+    "signalEvidenceIndex": 5,
+    "signalPhrase": "If",
+    "summaryKeywordGroups": [
+      [
+        "비밀번호",
+        "암호",
+        "password",
+        "secret"
+      ],
+      [
+        "파일",
+        "보호",
+        "file",
+        "safe"
+      ]
+    ],
+    "referenceSummaryKo": "나는 비밀번호처럼 다른 사람이 내 파일을 못 열게 지켜주는 존재다.",
+    "referenceSummaryEn": "I am like a password that keeps others from opening your files.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "비밀번호가 파일을 안전하게 지켜준다.",
+        "일기는 컴퓨터에 쓰면 안 된다.",
+        "가족은 파일을 볼 수 없다.",
+        "비밀번호는 필요 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "누가 컴퓨터를 사용해서 일기를 읽을 수도 있나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 1,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 17,
+    "title": "함께하는 것을 좋아하는 돌고래",
+    "sentences": [
+      "Dolphins hunt in groups, and when they find a fish, they attack it together.",
+      "Dolphins can't chew their food, so they must swallow it quickly.",
+      "If they don't, the fish will swim away.",
+      "Dolphins also like to play together.",
+      "They jump out of the water and do tricks in the air.",
+      "They often chase each other for fun."
+    ],
+    "vocabPool": [
+      {
+        "word": "swallow",
+        "sentenceIndex": 1,
+        "meaning": "삼키다"
+      },
+      {
+        "word": "chew",
+        "sentenceIndex": 1,
+        "meaning": "씹다"
+      },
+      {
+        "word": "tricks",
+        "sentenceIndex": 4,
+        "meaning": "묘기, 재주"
+      },
+      {
+        "word": "attack",
+        "sentenceIndex": 0,
+        "meaning": "공격하다"
+      }
+    ],
+    "question": "돌고래는 왜 먹이를 빨리 삼켜야 하나요?",
+    "evidenceIndex": 1,
+    "choices": [
+      "씹을 수 없기 때문에",
+      "배가 고프지 않아서",
+      "다른 돌고래가 뺏어서",
+      "맛이 없어서"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 3,
+    "signalPhrase": "also",
+    "summaryKeywordGroups": [
+      [
+        "돌고래",
+        "사냥",
+        "dolphin",
+        "hunt"
+      ],
+      [
+        "놀이",
+        "play"
+      ]
+    ],
+    "referenceSummaryKo": "돌고래는 무리지어 사냥도 하고 함께 노는 것도 좋아한다.",
+    "referenceSummaryEn": "Dolphins hunt together in groups and also enjoy playing together.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "돌고래는 무리지어 사냥하고 함께 노는 것을 좋아한다.",
+        "돌고래는 혼자 사냥한다.",
+        "돌고래는 노는 것을 싫어한다.",
+        "돌고래는 먹이를 천천히 씹는다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "돌고래는 재미로 서로 무엇을 하나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 5,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 18,
+    "title": "검은 고양이에 관한 미신",
+    "sentences": [
+      "You are walking down the street, and suddenly a black cat quickly passes by.",
+      "In Scotland, some people think it is a good thing — they believe that seeing a black cat is lucky.",
+      "But in America, it is very different — Americans believe a black cat may bring bad luck.",
+      "They say you may lose money or have problems, so they say you must be careful.",
+      "Seeing a black cat means different things in different countries."
+    ],
+    "vocabPool": [
+      {
+        "word": "lucky",
+        "sentenceIndex": 1,
+        "meaning": "운이 좋은, 행운의"
+      },
+      {
+        "word": "suddenly",
+        "sentenceIndex": 0,
+        "meaning": "갑자기"
+      },
+      {
+        "word": "believe",
+        "sentenceIndex": 1,
+        "meaning": "믿다"
+      },
+      {
+        "word": "careful",
+        "sentenceIndex": 3,
+        "meaning": "조심하는"
+      }
+    ],
+    "question": "다음 중 옳은 것은?",
+    "evidenceIndex": 1,
+    "choices": [
+      "Scotland에서는 검은 고양이를 보면 행운이라고 믿는다.",
+      "미국에서는 검은 고양이를 보면 행운이라고 믿는다.",
+      "두 나라 모두 검은 고양이를 무서워하지 않는다.",
+      "두 나라 모두 검은 고양이를 싫어한다."
+    ],
+    "answerIndex": 0,
+    "structureType": "비교-대조",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "But",
+    "summaryKeywordGroups": [
+      [
+        "행운",
+        "불운",
+        "lucky",
+        "luck"
+      ],
+      [
+        "다른",
+        "나라",
+        "different",
+        "country"
+      ]
+    ],
+    "referenceSummaryKo": "검은 고양이에 대한 믿음은 스코틀랜드와 미국에서 서로 다르다.",
+    "referenceSummaryEn": "Beliefs about black cats are different in Scotland and America.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "검은 고양이에 대한 믿음은 나라마다 다르다.",
+        "모든 나라에서 검은 고양이는 불길하다.",
+        "검은 고양이는 실제로 위험하다.",
+        "고양이를 좋아하는 사람은 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "미국 사람들은 검은 고양이가 무엇을 가져온다고 믿나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 19,
+    "title": "배달도 농사도 문제없어요!",
+    "sentences": [
+      "I do many things for people.",
+      "Yesterday, I flew to another town to deliver boxes.",
+      "Then I delivered pizza and coffee to my neighbor.",
+      "Now, I am watering plants on a farm from above.",
+      "And my friend is taking pictures of the farm from the sky.",
+      "Do you think I'm an airplane? No, I'm not — I fly alone without a pilot."
+    ],
+    "vocabPool": [
+      {
+        "word": "deliver",
+        "sentenceIndex": 1,
+        "meaning": "배달하다"
+      },
+      {
+        "word": "pilot",
+        "sentenceIndex": 5,
+        "meaning": "조종사"
+      },
+      {
+        "word": "above",
+        "sentenceIndex": 3,
+        "meaning": "위에서"
+      },
+      {
+        "word": "neighbor",
+        "sentenceIndex": 2,
+        "meaning": "이웃"
+      }
+    ],
+    "question": "이 글쓴이는 조종사 없이 무엇을 할 수 있나요?",
+    "evidenceIndex": 5,
+    "choices": [
+      "혼자 비행할 수 있다",
+      "말을 할 수 있다",
+      "요리할 수 있다",
+      "수영할 수 있다"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 3,
+    "signalPhrase": "Now",
+    "summaryKeywordGroups": [
+      [
+        "드론",
+        "drone"
+      ],
+      [
+        "배달",
+        "농사",
+        "deliver",
+        "farm"
+      ]
+    ],
+    "referenceSummaryKo": "나는 배달과 농사일까지 척척 해내는, 조종사 없이 나는 드론이다.",
+    "referenceSummaryEn": "I am a drone that delivers things and helps with farming, all without a pilot.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "나는 배달과 농사일을 돕는 드론이다.",
+        "나는 사람이 조종하는 비행기이다.",
+        "나는 요리를 배달한다.",
+        "나는 하늘을 날 수 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "지금 이 글쓴이는 무엇을 하고 있나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 20,
+    "title": "안 봐도 다 알지!",
+    "sentences": [
+      "Miss Olivia has eyes and ears in the back of her head.",
+      "She is writing on the blackboard, so she is facing the blackboard.",
+      "Tom passes me a note.",
+      "Just then Miss Olivia says, \"Don't pass notes to each other.\"",
+      "How does she know? She is still looking at the blackboard!",
+      "Jack looks at us and laughs, then Miss Olivia shouts, \"Don't laugh, Jack!\""
+    ],
+    "vocabPool": [
+      {
+        "word": "blackboard",
+        "sentenceIndex": 1,
+        "meaning": "칠판"
+      },
+      {
+        "word": "pass",
+        "sentenceIndex": 2,
+        "meaning": "건네주다"
+      },
+      {
+        "word": "shouts",
+        "sentenceIndex": 5,
+        "meaning": "소리치다"
+      },
+      {
+        "word": "facing",
+        "sentenceIndex": 1,
+        "meaning": "마주보다"
+      }
+    ],
+    "question": "Olivia 선생님은 칠판을 보면서도 무엇을 할 수 있나요?",
+    "evidenceIndex": 3,
+    "choices": [
+      "학생들이 쪽지 주고받는 것을 알아챈다",
+      "숙제를 낸다",
+      "노래를 부른다",
+      "시험을 본다"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 5,
+    "signalPhrase": "then",
+    "summaryKeywordGroups": [
+      [
+        "선생님",
+        "teacher"
+      ],
+      [
+        "쪽지",
+        "눈치",
+        "note"
+      ]
+    ],
+    "referenceSummaryKo": "Olivia 선생님은 칠판을 보면서도 학생들의 장난을 다 알아챈다.",
+    "referenceSummaryEn": "Miss Olivia somehow notices every student's mischief even while facing the blackboard.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "선생님이 뒤를 안 보고도 학생들의 장난을 알아챈다.",
+        "선생님은 학생들을 보지 못한다.",
+        "학생들은 조용히 수업을 듣는다.",
+        "Tom이 선생님께 혼나지 않았다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "Tom은 나에게 무엇을 건네주나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 2,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 21,
+    "title": "왕의 초상화",
+    "sentences": [
+      "Once upon a time, there was a scary king who had only one eye and one leg.",
+      "One day, the king wanted a picture of himself, so he told many artists to draw one.",
+      "Most artists stayed silent because they were scared.",
+      "Only one artist bravely said yes.",
+      "A few days later, he finished the picture — the king was hunting, his one eye was closed, and his one leg was bent.",
+      "The picture showed a brave king, and it also hid his weakness well."
+    ],
+    "vocabPool": [
+      {
+        "word": "bravely",
+        "sentenceIndex": 3,
+        "meaning": "용감하게"
+      },
+      {
+        "word": "weakness",
+        "sentenceIndex": 5,
+        "meaning": "약점"
+      },
+      {
+        "word": "silent",
+        "sentenceIndex": 2,
+        "meaning": "침묵하는"
+      },
+      {
+        "word": "picture",
+        "sentenceIndex": 1,
+        "meaning": "그림"
+      }
+    ],
+    "question": "화가는 그림에서 왕의 약점을 어떻게 숨겼나요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "사냥하는 모습으로 그려 한쪽 눈은 감고 다리는 구부린 것처럼 표현했다",
+      "왕을 아주 작게 그렸다",
+      "왕의 얼굴을 그리지 않았다",
+      "다른 사람을 대신 그렸다"
+    ],
+    "answerIndex": 0,
+    "structureType": "시간 순서",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "A few days later",
+    "summaryKeywordGroups": [
+      [
+        "화가",
+        "artist"
+      ],
+      [
+        "왕",
+        "약점",
+        "숨기다",
+        "king",
+        "weakness",
+        "hide"
+      ]
+    ],
+    "referenceSummaryKo": "한 화가가 왕의 신체적 약점을 자연스럽게 가린 지혜로운 그림을 그렸다.",
+    "referenceSummaryEn": "An artist wisely painted the king in a way that naturally hid his physical weaknesses.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "화가가 지혜롭게 왕의 약점을 감춘 그림을 그렸다.",
+        "왕은 그림 그리기를 싫어했다.",
+        "모든 화가가 그림 그리기를 거부했다.",
+        "왕은 화가에게 벌을 주었다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "몇 명의 화가가 용감하게 그리겠다고 했나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 22,
+    "title": "난 언젠가 날 거야!",
+    "sentences": [
+      "I live in a beautiful garden, and I have a lot of legs and hair, so I may look scary.",
+      "I crawl on green leaves and eat them.",
+      "I sometimes eat flowers, too.",
+      "I have a big dream — I dream that I have large, beautiful wings.",
+      "With wings, I can fly high above colorful flowers in the garden.",
+      "I hope that my dream will come true soon."
+    ],
+    "vocabPool": [
+      {
+        "word": "crawl",
+        "sentenceIndex": 1,
+        "meaning": "기어다니다"
+      },
+      {
+        "word": "dream",
+        "sentenceIndex": 3,
+        "meaning": "꿈꾸다, 꿈"
+      },
+      {
+        "word": "wings",
+        "sentenceIndex": 3,
+        "meaning": "날개"
+      },
+      {
+        "word": "garden",
+        "sentenceIndex": 0,
+        "meaning": "정원"
+      }
+    ],
+    "question": "이 글쓴이의 꿈은 무엇인가요?",
+    "evidenceIndex": 3,
+    "choices": [
+      "아름다운 날개를 가지는 것",
+      "더 많은 다리를 가지는 것",
+      "정원을 떠나는 것",
+      "꽃이 되는 것"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "too",
+    "summaryKeywordGroups": [
+      [
+        "애벌레",
+        "caterpillar"
+      ],
+      [
+        "날개",
+        "꿈",
+        "wing",
+        "dream"
+      ]
+    ],
+    "referenceSummaryKo": "나는 나뭇잎을 먹고 사는 애벌레이지만 날개를 갖는 꿈을 꾼다.",
+    "referenceSummaryEn": "I am a caterpillar that eats leaves but dreams of having beautiful wings.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "애벌레가 날개를 갖게 되는 꿈을 꾼다.",
+        "나는 이미 날개가 있다.",
+        "나는 정원을 싫어한다.",
+        "나는 아무것도 먹지 않는다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "나는 무엇을 먹으며 사나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 1,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 23,
+    "title": "화장하는 아이들",
+    "sentences": [
+      "Today, many teenagers enjoy wearing makeup, because it makes them feel good.",
+      "When they wear makeup, they can show off their good points.",
+      "They can also hide their weak points.",
+      "However, some people are worried.",
+      "They think makeup is bad for teenagers' young skin.",
+      "They say, \"Eat good food and exercise — this will make you beautiful inside and out, and it is better than makeup.\""
+    ],
+    "vocabPool": [
+      {
+        "word": "show off",
+        "sentenceIndex": 1,
+        "meaning": "자랑하다, 뽐내다"
+      },
+      {
+        "word": "worried",
+        "sentenceIndex": 3,
+        "meaning": "걱정하는"
+      },
+      {
+        "word": "exercise",
+        "sentenceIndex": 5,
+        "meaning": "운동하다"
+      },
+      {
+        "word": "makeup",
+        "sentenceIndex": 0,
+        "meaning": "화장"
+      }
+    ],
+    "question": "몇몇 사람들이 십 대의 화장을 걱정하는 이유는 무엇인가요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "어린 피부에 나쁠 수 있어서",
+      "화장품이 너무 비싸서",
+      "화장이 불법이라서",
+      "시간이 오래 걸려서"
+    ],
+    "answerIndex": 0,
+    "structureType": "비교-대조",
+    "signalEvidenceIndex": 3,
+    "signalPhrase": "However",
+    "summaryKeywordGroups": [
+      [
+        "화장",
+        "makeup"
+      ],
+      [
+        "십대",
+        "걱정",
+        "teenager",
+        "worried"
+      ]
+    ],
+    "referenceSummaryKo": "십 대의 화장을 좋아하는 사람도 있지만 피부에 나쁠까 걱정하는 사람도 있다.",
+    "referenceSummaryEn": "Some teens enjoy makeup, but others worry it may harm their young skin.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "십 대의 화장에 대해 찬반 의견이 있다.",
+        "모든 사람이 화장을 반대한다.",
+        "화장은 피부에 항상 좋다.",
+        "십 대는 화장을 할 수 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "화장 대신 무엇을 하라고 조언하나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 5,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 24,
+    "title": "우리가 몰랐던 스타에 관한 진실",
+    "sentences": [
+      "Many kids want to become famous, because they think singers and actors are cool.",
+      "Some kids believe that they make a lot of money.",
+      "However, they may not know the truth.",
+      "Becoming a star is very hard work — first, you must have great talent, and you must also work really hard.",
+      "Sadly, only a few people succeed, and many of them don't make enough money.",
+      "Being a star is never easy."
+    ],
+    "vocabPool": [
+      {
+        "word": "talent",
+        "sentenceIndex": 3,
+        "meaning": "재능"
+      },
+      {
+        "word": "succeed",
+        "sentenceIndex": 4,
+        "meaning": "성공하다"
+      },
+      {
+        "word": "famous",
+        "sentenceIndex": 0,
+        "meaning": "유명한"
+      },
+      {
+        "word": "truth",
+        "sentenceIndex": 2,
+        "meaning": "진실"
+      }
+    ],
+    "question": "스타가 되기 위해 필요한 것은 무엇인가요?",
+    "evidenceIndex": 3,
+    "choices": [
+      "훌륭한 재능과 노력",
+      "많은 돈",
+      "운",
+      "가족의 인맥"
+    ],
+    "answerIndex": 0,
+    "structureType": "비교-대조",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "However",
+    "summaryKeywordGroups": [
+      [
+        "스타",
+        "연예인",
+        "star"
+      ],
+      [
+        "재능",
+        "노력",
+        "talent",
+        "hard work"
+      ]
+    ],
+    "referenceSummaryKo": "스타가 되는 것은 재능과 노력이 필요한 어려운 일이며 성공하는 사람은 소수이다.",
+    "referenceSummaryEn": "Becoming a star requires talent and hard work, and only a few people truly succeed.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "스타가 되는 것은 생각보다 어려운 일이다.",
+        "누구나 쉽게 스타가 될 수 있다.",
+        "스타는 항상 돈을 많이 번다.",
+        "재능이 없어도 스타가 될 수 있다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "성공하지 못한 사람들은 무엇이 더 필요한가요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 4,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 25,
+    "title": "난 항상 영화와 단짝이지!",
+    "sentences": [
+      "I'm a yummy snack, and I come in big buckets at the cinema, and everyone likes to share me.",
+      "You can find me in different colors and flavors at stores, too.",
+      "I can be sweet or salty.",
+      "People cook me in a special machine or on the stove.",
+      "Making me is really fun.",
+      "Why? Because I POP!"
+    ],
+    "vocabPool": [
+      {
+        "word": "flavors",
+        "sentenceIndex": 1,
+        "meaning": "맛, 향"
+      },
+      {
+        "word": "salty",
+        "sentenceIndex": 2,
+        "meaning": "짠"
+      },
+      {
+        "word": "stove",
+        "sentenceIndex": 3,
+        "meaning": "레인지, 화덕"
+      },
+      {
+        "word": "share",
+        "sentenceIndex": 0,
+        "meaning": "나누다, 공유하다"
+      }
+    ],
+    "question": "이 간식은 어떻게 만들어지나요?",
+    "evidenceIndex": 3,
+    "choices": [
+      "특별한 기계나 레인지에서 요리한다",
+      "얼려서 만든다",
+      "구워서 만든다",
+      "물에 삶는다"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 3,
+    "signalPhrase": "or",
+    "summaryKeywordGroups": [
+      [
+        "팝콘",
+        "popcorn"
+      ],
+      [
+        "영화관",
+        "간식",
+        "cinema",
+        "snack"
+      ]
+    ],
+    "referenceSummaryKo": "나는 영화관에서 인기 있는, 튀겨서 만드는 팝콘이다.",
+    "referenceSummaryEn": "I am popcorn, a popular movie-theater snack made by popping.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "영화관에서 인기 있는 팝콘에 대한 소개이다.",
+        "나는 차가운 음료이다.",
+        "나는 짠맛만 있다.",
+        "나는 집에서 만들 수 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "이 간식은 어디서 큰 통에 담겨 나오나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 0,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 26,
+    "title": "펭귄도 사람처럼 이것이 필요해요",
+    "sentences": [
+      "There were old penguins at the zoo, and the penguins couldn't see well.",
+      "The zoo wanted to help them, so they did something special.",
+      "The zoo made glasses for them!",
+      "After the penguins wore the glasses, they could see better.",
+      "Now, they love to wear the glasses.",
+      "The penguins easily find small fish in their pool and enjoy delicious meals every day."
+    ],
+    "vocabPool": [
+      {
+        "word": "glasses",
+        "sentenceIndex": 2,
+        "meaning": "안경"
+      },
+      {
+        "word": "easily",
+        "sentenceIndex": 5,
+        "meaning": "쉽게"
+      },
+      {
+        "word": "delicious",
+        "sentenceIndex": 5,
+        "meaning": "맛있는"
+      },
+      {
+        "word": "zoo",
+        "sentenceIndex": 0,
+        "meaning": "동물원"
+      }
+    ],
+    "question": "동물원은 나이든 펭귄들을 위해 무엇을 만들어 주었나요?",
+    "evidenceIndex": 2,
+    "choices": [
+      "안경",
+      "특별한 사료",
+      "새 수영장",
+      "따뜻한 옷"
+    ],
+    "answerIndex": 0,
+    "structureType": "원인-결과",
+    "signalEvidenceIndex": 1,
+    "signalPhrase": "so",
+    "summaryKeywordGroups": [
+      [
+        "펭귄",
+        "penguin"
+      ],
+      [
+        "안경",
+        "보다",
+        "glasses",
+        "see"
+      ]
+    ],
+    "referenceSummaryKo": "동물원은 눈이 잘 안 보이는 나이든 펭귄들에게 안경을 만들어 주었다.",
+    "referenceSummaryEn": "The zoo made glasses for old penguins that couldn't see well.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "동물원이 나이든 펭귄들에게 안경을 만들어 주었다.",
+        "펭귄은 원래 시력이 좋다.",
+        "동물원은 펭귄을 돕지 않았다.",
+        "펭귄들은 안경을 싫어한다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "안경을 쓴 후 펭귄들은 무엇을 쉽게 찾나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 5,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 27,
+    "title": "Samson의 후회",
+    "sentences": [
+      "There once lived a very strong man in Israel named Samson, who could fight big lions.",
+      "His enemies were very scared of him, so they made a plan to make Samson weak.",
+      "They sent a beautiful woman, Delilah, to Samson, and Samson fell in love with her.",
+      "One day, he told her his secret — \"My power comes from my long hair.\"",
+      "That night, while Samson was sleeping, Delilah cut his hair, so Samson lost his power.",
+      "The next morning, he woke up, realized his mistake, and cried out loud."
+    ],
+    "vocabPool": [
+      {
+        "word": "enemies",
+        "sentenceIndex": 1,
+        "meaning": "적들"
+      },
+      {
+        "word": "secret",
+        "sentenceIndex": 3,
+        "meaning": "비밀"
+      },
+      {
+        "word": "mistake",
+        "sentenceIndex": 5,
+        "meaning": "실수"
+      },
+      {
+        "word": "power",
+        "sentenceIndex": 3,
+        "meaning": "힘"
+      }
+    ],
+    "question": "Samson은 왜 힘을 잃었나요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "Delilah가 그의 머리카락을 잘랐기 때문에",
+      "그가 늙었기 때문에",
+      "적과 싸워서 다쳤기 때문에",
+      "잠을 못 잤기 때문에"
+    ],
+    "answerIndex": 0,
+    "structureType": "시간 순서",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "That night",
+    "summaryKeywordGroups": [
+      [
+        "삼손",
+        "머리카락",
+        "Samson",
+        "hair"
+      ],
+      [
+        "비밀",
+        "힘",
+        "secret",
+        "power"
+      ]
+    ],
+    "referenceSummaryKo": "Samson은 자신의 비밀을 말했다가 머리카락이 잘려 힘을 잃고 후회했다.",
+    "referenceSummaryEn": "Samson revealed his secret and lost his power when his hair was cut, leaving him full of regret.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "Samson은 비밀을 말했다가 힘을 잃고 후회했다.",
+        "Samson은 끝까지 힘이 셌다.",
+        "Delilah는 Samson을 도와주었다.",
+        "적들은 Samson을 이기지 못했다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "Samson의 힘은 어디서 나왔나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 28,
+    "title": "나는 재주가 많은 동물이에요!",
+    "sentences": [
+      "I have strong arms and legs, so I can climb trees very well.",
+      "Jumping from tree to tree is easy for me.",
+      "I also have a long tail, and it helps me grab the tree branches.",
+      "Fruits are my favorite snack — I eat bananas, mangoes, and papayas.",
+      "I look like a human, but my body has soft fur all over.",
+      "I love copying human actions, and it's my way of learning new things."
+    ],
+    "vocabPool": [
+      {
+        "word": "climb",
+        "sentenceIndex": 0,
+        "meaning": "오르다, 기어오르다"
+      },
+      {
+        "word": "grab",
+        "sentenceIndex": 2,
+        "meaning": "잡다"
+      },
+      {
+        "word": "fur",
+        "sentenceIndex": 4,
+        "meaning": "털"
+      },
+      {
+        "word": "copying",
+        "sentenceIndex": 5,
+        "meaning": "따라하기"
+      }
+    ],
+    "question": "이 동물의 긴 꼬리는 무엇을 도와주나요?",
+    "evidenceIndex": 2,
+    "choices": [
+      "나뭇가지를 잡는 것",
+      "빨리 뛰는 것",
+      "먹이를 찾는 것",
+      "소리를 내는 것"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "also",
+    "summaryKeywordGroups": [
+      [
+        "원숭이",
+        "monkey"
+      ],
+      [
+        "나무",
+        "꼬리",
+        "tree",
+        "tail"
+      ]
+    ],
+    "referenceSummaryKo": "나는 나무를 잘 타고 사람의 행동을 따라 하는 것을 좋아하는 원숭이다.",
+    "referenceSummaryEn": "I am a monkey that climbs trees well and loves copying human actions.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "나무를 잘 타고 사람 행동을 따라 하는 동물 소개이다.",
+        "나는 물속에서 산다.",
+        "나는 과일을 먹지 않는다.",
+        "나는 꼬리가 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "내가 가장 좋아하는 간식은 무엇인가요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 29,
+    "title": "기억력을 높이는 방법",
+    "sentences": [
+      "Learning new things is very hard, and some scientists say we forget about 60% of them in one hour.",
+      "First, review right after learning.",
+      "Then, review again 20 minutes later, and take a break.",
+      "Review again the next day to keep your memory strong.",
+      "This method works because it moves the information into your long-term memory."
+    ],
+    "vocabPool": [
+      {
+        "word": "forget",
+        "sentenceIndex": 0,
+        "meaning": "잊다"
+      },
+      {
+        "word": "review",
+        "sentenceIndex": 1,
+        "meaning": "복습하다"
+      },
+      {
+        "word": "information",
+        "sentenceIndex": 4,
+        "meaning": "정보"
+      },
+      {
+        "word": "scientists",
+        "sentenceIndex": 0,
+        "meaning": "과학자들"
+      }
+    ],
+    "question": "복습 방법 중 가장 먼저 해야 할 일은 무엇인가요?",
+    "evidenceIndex": 1,
+    "choices": [
+      "배운 직후 복습하기",
+      "다음날 복습하기",
+      "20분 후 복습하기",
+      "한 달 후 복습하기"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 1,
+    "signalPhrase": "First",
+    "summaryKeywordGroups": [
+      [
+        "복습",
+        "review"
+      ],
+      [
+        "기억",
+        "장기기억",
+        "memory"
+      ]
+    ],
+    "referenceSummaryKo": "배운 직후, 20분 후, 다음날 반복해서 복습하면 기억력이 좋아진다.",
+    "referenceSummaryEn": "Reviewing right after learning, 20 minutes later, and the next day helps strengthen memory.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "효과적으로 복습하는 방법",
+        "잠을 잘 자는 방법",
+        "시험을 잘 보는 방법",
+        "빨리 배우는 방법"
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "몇 분 후에 다시 복습해야 하나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 2,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 30,
+    "title": "긴 동영상은 지루해",
+    "sentences": [
+      "Watching short videos on YouTube is very popular now, because people are so busy.",
+      "They don't have time to watch long videos.",
+      "One of their favorite types is dance videos, where kids dance to cool music and pretend to sing like stars.",
+      "But they don't actually sing — they just move their lips, but it looks real.",
+      "Another popular type of video is challenge videos, where kids do funny things like eating strange food and racing.",
+      "These videos are exciting and make us laugh."
+    ],
+    "vocabPool": [
+      {
+        "word": "pretend",
+        "sentenceIndex": 2,
+        "meaning": "~인 척하다"
+      },
+      {
+        "word": "popular",
+        "sentenceIndex": 0,
+        "meaning": "인기 있는"
+      },
+      {
+        "word": "challenge",
+        "sentenceIndex": 4,
+        "meaning": "도전"
+      },
+      {
+        "word": "busy",
+        "sentenceIndex": 0,
+        "meaning": "바쁜"
+      }
+    ],
+    "question": "챌린지 동영상에서 아이들은 무엇을 하나요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "이상한 음식 먹기와 경주 같은 웃긴 일들을 한다",
+      "노래 대회를 한다",
+      "책을 읽는다",
+      "그림을 그린다"
+    ],
+    "answerIndex": 0,
+    "structureType": "비교-대조",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "Another",
+    "summaryKeywordGroups": [
+      [
+        "짧은",
+        "동영상",
+        "short",
+        "video"
+      ],
+      [
+        "댄스",
+        "챌린지",
+        "dance",
+        "challenge"
+      ]
+    ],
+    "referenceSummaryKo": "바쁜 사람들이 댄스나 챌린지 같은 짧은 동영상을 즐겨 본다.",
+    "referenceSummaryEn": "Busy people enjoy short videos like dance and challenge videos.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "바쁜 사람들 사이에서 짧은 동영상이 인기 있다.",
+        "긴 동영상이 더 인기 있다.",
+        "사람들은 동영상을 보지 않는다.",
+        "댄스 동영상은 인기가 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "댄스 동영상 속 아이들은 실제로 노래를 하나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 3,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 31,
+    "title": "나는 달콤하지만 녹기 쉬워!",
+    "sentences": [
+      "I am a delicious snack, and I am soft and sweet.",
+      "I have various flavors like vanilla and chocolate, and there are mint and caramel flavors, too.",
+      "You can find me at many stores.",
+      "People serve me in a cup or cone, and they enjoy licking me.",
+      "You must eat me quickly, or I will melt.",
+      "And you should not leave me in the sun."
+    ],
+    "vocabPool": [
+      {
+        "word": "melt",
+        "sentenceIndex": 4,
+        "meaning": "녹다"
+      },
+      {
+        "word": "various",
+        "sentenceIndex": 1,
+        "meaning": "다양한"
+      },
+      {
+        "word": "licking",
+        "sentenceIndex": 3,
+        "meaning": "핥기"
+      },
+      {
+        "word": "sweet",
+        "sentenceIndex": 0,
+        "meaning": "달콤한"
+      }
+    ],
+    "question": "이것을 빨리 먹지 않으면 어떻게 되나요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "녹아버린다",
+      "딱딱해진다",
+      "맛이 없어진다",
+      "색이 변한다"
+    ],
+    "answerIndex": 0,
+    "structureType": "원인-결과",
+    "signalEvidenceIndex": 4,
+    "signalPhrase": "or",
+    "summaryKeywordGroups": [
+      [
+        "아이스크림",
+        "ice cream"
+      ],
+      [
+        "녹다",
+        "빨리",
+        "melt",
+        "quickly"
+      ]
+    ],
+    "referenceSummaryKo": "나는 다양한 맛이 있지만 빨리 먹지 않으면 녹아버리는 아이스크림이다.",
+    "referenceSummaryEn": "I am ice cream with many flavors, but I melt quickly if not eaten fast.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "다양한 맛이 있지만 빨리 먹어야 하는 아이스크림이다.",
+        "나는 절대 녹지 않는다.",
+        "나는 짠맛만 있다.",
+        "나는 뜨거운 음식이다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "어디에 두면 안 되나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 5,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 32,
+    "title": "친구에게 보내는 메시지",
+    "sentences": [
+      "It's Jack from Paul's birthday party.",
+      "I really enjoyed talking to you at the party and was happy to hear that you like riding bikes.",
+      "I love bikes too, and we share the same hobby!",
+      "By the way, are you free this Saturday?",
+      "Paul and I are going bike riding in Central Park, and it will be fun if you join us.",
+      "Please let me know if you're interested!"
+    ],
+    "vocabPool": [
+      {
+        "word": "hobby",
+        "sentenceIndex": 2,
+        "meaning": "취미"
+      },
+      {
+        "word": "interested",
+        "sentenceIndex": 5,
+        "meaning": "관심 있는"
+      },
+      {
+        "word": "join",
+        "sentenceIndex": 4,
+        "meaning": "함께하다, 합류하다"
+      },
+      {
+        "word": "party",
+        "sentenceIndex": 0,
+        "meaning": "파티"
+      }
+    ],
+    "question": "Jack이 Sarah에게 이 메시지를 보낸 이유는 무엇인가요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "함께 자전거를 타러 가자고 초대하려고",
+      "생일을 축하하려고",
+      "사과하려고",
+      "숙제를 물어보려고"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "too",
+    "summaryKeywordGroups": [
+      [
+        "자전거",
+        "취미",
+        "bike",
+        "hobby"
+      ],
+      [
+        "초대",
+        "토요일",
+        "invite",
+        "Saturday"
+      ]
+    ],
+    "referenceSummaryKo": "Jack은 같은 취미를 가진 Sarah에게 토요일 자전거 타기를 제안했다.",
+    "referenceSummaryEn": "Jack invited Sarah, who shares his hobby, to go bike riding on Saturday.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "Jack이 Sarah를 자전거 타기에 초대했다.",
+        "Jack은 Sarah와 싸웠다.",
+        "Sarah는 자전거를 싫어한다.",
+        "Paul의 생일 파티가 취소되었다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "Paul과 Jack은 어디로 자전거를 타러 가나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 4,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 33,
+    "title": "이상한 달리기",
+    "sentences": [
+      "Every Saturday night, Mr. and Mrs. Jones enjoyed watching a movie at a movie theater.",
+      "One night, as they drove home, they saw a man running after a woman, and Mr. Jones was worried about her.",
+      "He slowed down the car and asked, \"Do you need any help?\"",
+      "The woman looked back but kept running, and said, \"No, thank you,\" with a smile.",
+      "She added, \"We race home after watching a movie. The loser washes the dishes!\""
+    ],
+    "vocabPool": [
+      {
+        "word": "slowed",
+        "sentenceIndex": 2,
+        "meaning": "속도를 늦췄다"
+      },
+      {
+        "word": "race",
+        "sentenceIndex": 4,
+        "meaning": "경주하다"
+      },
+      {
+        "word": "worried",
+        "sentenceIndex": 1,
+        "meaning": "걱정하는"
+      },
+      {
+        "word": "smile",
+        "sentenceIndex": 3,
+        "meaning": "미소"
+      }
+    ],
+    "question": "여자가 계속 달린 이유는 무엇인가요?",
+    "evidenceIndex": 4,
+    "choices": [
+      "남편과 집까지 경주를 하고 있었기 때문에",
+      "위험한 상황에서 도망치고 있었기 때문에",
+      "운동을 하고 있었기 때문에",
+      "길을 잃었기 때문에"
+    ],
+    "answerIndex": 0,
+    "structureType": "시간 순서",
+    "signalEvidenceIndex": 1,
+    "signalPhrase": "One night",
+    "summaryKeywordGroups": [
+      [
+        "경주",
+        "race",
+        "달리기"
+      ],
+      [
+        "부부",
+        "Jones",
+        "걱정",
+        "worried"
+      ]
+    ],
+    "referenceSummaryKo": "Jones 부부는 뛰어가는 여자를 걱정했지만, 사실 그녀는 남편과 집까지 경주하고 있었다.",
+    "referenceSummaryEn": "The Joneses worried about a running woman, but she was actually racing her husband home.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "부부가 뛰어가는 여자를 걱정했지만, 사실 그녀는 경주 중이었다.",
+        "한 여자가 위험에 처해 있었다.",
+        "Jones 부부는 매일 밤 운동을 한다.",
+        "여자가 길을 잃어서 도움을 요청했다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "여자가 계속 달린 진짜 이유가 나온 문장은 몇 번인가요? 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 4,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 34,
+    "title": "나는 순식간에 나타났다가 사라져요!",
+    "sentences": [
+      "After it rains, the sky becomes sunny.",
+      "However, tiny water drops still float in the sky.",
+      "I show up when the sun shines on these drops.",
+      "These water drops turn the sun's light into many colors, and each color spreads across the sky.",
+      "Then I look like a beautiful bridge, and people enjoy seeing me.",
+      "However, I don't last very long, so you should take a picture quickly before I disappear."
+    ],
+    "vocabPool": [
+      {
+        "word": "disappear",
+        "sentenceIndex": 5,
+        "meaning": "사라지다"
+      },
+      {
+        "word": "spreads",
+        "sentenceIndex": 3,
+        "meaning": "퍼지다"
+      },
+      {
+        "word": "float",
+        "sentenceIndex": 1,
+        "meaning": "떠다니다"
+      },
+      {
+        "word": "colors",
+        "sentenceIndex": 3,
+        "meaning": "색깔들"
+      }
+    ],
+    "question": "이것은 언제 나타나나요?",
+    "evidenceIndex": 2,
+    "choices": [
+      "태양이 물방울 위에서 빛날 때",
+      "밤에만",
+      "눈이 올 때",
+      "바람이 불 때"
+    ],
+    "answerIndex": 0,
+    "structureType": "원인-결과",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "when",
+    "summaryKeywordGroups": [
+      [
+        "무지개",
+        "rainbow"
+      ],
+      [
+        "비",
+        "태양",
+        "rain",
+        "sun"
+      ]
+    ],
+    "referenceSummaryKo": "나는 비가 온 후 태양이 물방울에 비칠 때 잠깐 나타나는 무지개다.",
+    "referenceSummaryEn": "I am a rainbow that briefly appears when sunlight shines through raindrops.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "비가 온 후 잠깐 나타나는 무지개에 대한 설명이다.",
+        "나는 오랫동안 하늘에 머문다.",
+        "나는 밤에만 보인다.",
+        "나는 한 가지 색이다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "사라지기 전에 무엇을 해야 하나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 5,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 35,
+    "title": "똑똑한 냉장고",
+    "sentences": [
+      "Mr. Green was too fat and wanted to be healthy, so he started a diet.",
+      "But he often forgot and ate too much — he ate pie, cake, and ice cream.",
+      "Mrs. Green was worried, so she bought a smart refrigerator.",
+      "After she bought it, something amazing happened.",
+      "Before Mr. Green opened the refrigerator, it said, \"Don't eat, you will get fatter.\"",
+      "Now, Mr. Green eats less, and Mrs. Green is glad."
+    ],
+    "vocabPool": [
+      {
+        "word": "diet",
+        "sentenceIndex": 0,
+        "meaning": "식이 요법, 다이어트"
+      },
+      {
+        "word": "refrigerator",
+        "sentenceIndex": 2,
+        "meaning": "냉장고"
+      },
+      {
+        "word": "glad",
+        "sentenceIndex": 5,
+        "meaning": "기쁜"
+      },
+      {
+        "word": "fatter",
+        "sentenceIndex": 4,
+        "meaning": "더 뚱뚱한"
+      }
+    ],
+    "question": "Mrs. Green은 왜 스마트 냉장고를 샀나요?",
+    "evidenceIndex": 2,
+    "choices": [
+      "남편이 너무 많이 먹어서 걱정되었기 때문에",
+      "냉장고가 고장나서",
+      "선물로 받고 싶어서",
+      "요리를 더 잘하고 싶어서"
+    ],
+    "answerIndex": 0,
+    "structureType": "원인-결과",
+    "signalEvidenceIndex": 2,
+    "signalPhrase": "so",
+    "summaryKeywordGroups": [
+      [
+        "냉장고",
+        "다이어트",
+        "refrigerator",
+        "diet"
+      ],
+      [
+        "Green",
+        "경고",
+        "warn"
+      ]
+    ],
+    "referenceSummaryKo": "스마트 냉장고의 경고 덕분에 Mr. Green은 덜 먹게 되었다.",
+    "referenceSummaryEn": "Thanks to the smart refrigerator's warnings, Mr. Green started eating less.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "스마트 냉장고 덕분에 식습관이 좋아졌다.",
+        "Mr. Green은 다이어트에 실패했다.",
+        "냉장고는 아무 도움이 안 되었다.",
+        "Mrs. Green이 다이어트를 시작했다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "냉장고는 문을 열기 전에 뭐라고 말했나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 4,
+      "timeLimitSeconds": 10
+    }
+  },
+  {
+    "id": 36,
+    "title": "숙제를 효과적으로 하는 방법",
+    "sentences": [
+      "You get tired when you do a lot of homework — how can you avoid that?",
+      "Stop and rest before you feel tired, and you can rest every 30 minutes.",
+      "You can also have a simple snack during breaks, and this will give you energy.",
+      "Next, you can study different subjects — for example, study English and then solve math problems.",
+      "By doing this, you won't lose interest.",
+      "Finally, use a timer — set it for 15 to 20 minutes for each task, and you can focus better and work faster."
+    ],
+    "vocabPool": [
+      {
+        "word": "avoid",
+        "sentenceIndex": 0,
+        "meaning": "피하다"
+      },
+      {
+        "word": "focus",
+        "sentenceIndex": 5,
+        "meaning": "집중하다"
+      },
+      {
+        "word": "energy",
+        "sentenceIndex": 2,
+        "meaning": "에너지, 기운"
+      },
+      {
+        "word": "timer",
+        "sentenceIndex": 5,
+        "meaning": "타이머"
+      }
+    ],
+    "question": "타이머는 몇 분으로 맞추라고 했나요?",
+    "evidenceIndex": 5,
+    "choices": [
+      "15~20분",
+      "5분",
+      "1시간",
+      "2시간"
+    ],
+    "answerIndex": 0,
+    "structureType": "열거(나열)",
+    "signalEvidenceIndex": 5,
+    "signalPhrase": "Finally",
+    "summaryKeywordGroups": [
+      [
+        "숙제",
+        "homework"
+      ],
+      [
+        "휴식",
+        "타이머",
+        "rest",
+        "timer"
+      ]
+    ],
+    "referenceSummaryKo": "휴식, 간식, 과목 바꾸기, 타이머 사용으로 숙제를 효과적으로 할 수 있다.",
+    "referenceSummaryEn": "Taking breaks, snacking, switching subjects, and using a timer help you do homework effectively.",
+    "skim": {
+      "gistQuestion": "이 글의 중심 내용으로 가장 알맞은 것은?",
+      "choices": [
+        "숙제를 효과적으로 하는 여러 방법을 소개한다.",
+        "숙제는 쉬지 않고 해야 한다.",
+        "숙제는 한 과목만 해야 한다.",
+        "타이머는 필요 없다."
+      ],
+      "answerIndex": 0
+    },
+    "scan": {
+      "scanQuestion": "몇 분마다 쉬라고 했나요? 답이 있는 문장을 최대한 빨리 클릭하세요.",
+      "targetSentenceIndex": 1,
+      "timeLimitSeconds": 10
+    }
+  }
+];
+
+const STAGE_NAMES = ["스키밍","A 어휘추적","B 근거·확신도","C 구조인식","D 요약","스캐닝"];
+const STAGE_TAGS = ["SKIM","STEP A","STEP B","STEP C","STEP D","SCAN"];
+const STRUCTURE_TYPE_CHOICES = ["원인-결과","비교-대조","열거(나열)","시간 순서"];
+let activeTimerId = null;
+
+function clearActiveTimer(){
+  if (activeTimerId !== null){
+    clearInterval(activeTimerId);
+    activeTimerId = null;
+  }
+}
+
+let current = 0;
+let stage = 0; // 0=vocab,1=infer,2=structure,3=summary
+let results = []; // 케이스별 결과 로그
+
+const SETTINGS = { summaryLang: 'ko', vocabCount: 4 };
+const VOCAB_MIN = 1, VOCAB_MAX = 4;
+
+function setLang(lang, btn){
+  SETTINGS.summaryLang = lang;
+  document.querySelectorAll('#lang-toggle .toggle-btn').forEach(b=>b.classList.remove('picked'));
+  btn.classList.add('picked');
+}
+function changeVocabCount(delta){
+  const capped = Math.min(VOCAB_MAX, Math.max(VOCAB_MIN, SETTINGS.vocabCount + delta));
+  SETTINGS.vocabCount = capped;
+  document.getElementById('vocab-count-display').textContent = capped;
+}
+
+let caseState = {};
+
+function resetCaseState(){
+  caseState = {
+    skimPicked:null, skimCorrect:null,
+    activeVocab: [], vocabItems: [],
+    evidencePicked:null, answerPicked:null, confidencePicked:null,
+    structureTypePicked:null, structureTypeCorrect:null,
+    signalPicked:null, signalCorrect:null,
+    structureScore:null,
+    summaryText:"", summaryMatched:0, summaryTotal:0,
+    scanPicked:null, scanCorrect:null, scanTimedOut:null
+  };
+}
+
+let STUDENT_NAME = "";
+let totalScore = 0;
+
+function addScore(pts){
+  totalScore += pts;
+  const el = document.getElementById('score-badge');
+  if (el) el.textContent = '⭐ ' + totalScore + '점';
+}
+
+function startCase(){
+  const nameVal = document.getElementById('student-name-input').value.trim();
+  if (!nameVal){
+    document.getElementById('student-name-input').focus();
+    document.getElementById('student-name-input').style.borderColor = 'var(--red-clue)';
+    return;
+  }
+  STUDENT_NAME = nameVal;
+  totalScore = 0;
+  document.getElementById('screen-intro').classList.add('hidden');
+  document.getElementById('screen-case').classList.remove('hidden');
+  current = 0; stage = 0;
+  resetCaseState();
+  renderTracker();
+  renderStage();
+}
+
+function renderTracker(){
+  const wrap = document.getElementById('tracker');
+  wrap.innerHTML = '';
+  STAGE_NAMES.forEach((name,i)=>{
+    const seg = document.createElement('div');
+    seg.className = 'seg' + (i===stage?' active':(i<stage?' done':''));
+    seg.textContent = name;
+    seg.onclick = () => goStage(i);
+    wrap.appendChild(seg);
+  });
+  document.getElementById('case-number').textContent = 'CASE #' + String(CASES[current].id).padStart(2,'0');
+  document.getElementById('stage-tag').textContent = STAGE_TAGS[stage];
+}
+
+function renderStage(){
+  renderTracker();
+  const body = document.getElementById('stage-body');
+  const c = CASES[current];
+  if (stage === 0) body.innerHTML = skimStageHTML(c);
+  if (stage === 1) body.innerHTML = vocabStageHTML(c);
+  if (stage === 2) body.innerHTML = inferStageHTML(c);
+  if (stage === 3) body.innerHTML = structureStageHTML(c);
+  if (stage === 4) body.innerHTML = summaryStageHTML(c);
+  if (stage === 5) body.innerHTML = scanStageHTML(c);
+
+  if (stage === 0) bindSkimStage(c);
+  if (stage === 1) bindVocabStage(c);
+  if (stage === 2) bindInferStage(c);
+  if (stage === 3) bindStructureStage(c);
+  if (stage === 4) bindSummaryStage(c);
+  if (stage === 5) bindScanStage(c);
+}
+
+/* ---------- STAGE 0: 스키밍 (빠르게 훑어보고 큰 그림 파악) ---------- */
+function skimStageHTML(c){
+  return `
+    <div class="stage-label">⚡ STEP 0 · 스키밍</div>
+    <div class="stage-title">15초 안에 전체 내용을 훑어보세요</div>
+    <div class="stage-desc">문장 하나하나를 다 읽지 말고, 전체적인 느낌만 빠르게 파악하세요. 시간이 끝나면 지문이 사라집니다.</div>
+    <div class="timer-badge" id="skim-timer">15</div>
+    <div class="passage" id="skim-passage">${c.sentences.join(' ')}</div>
+    <div id="skim-question-block" class="hidden">
+      <div style="font-weight:700;font-size:14.5px;margin-top:14px;">${c.skim.gistQuestion}</div>
+      <div class="choices" id="skim-choices">
+        ${c.skim.choices.map((t,i)=>`<button class="choice" data-idx="${i}">${t}</button>`).join('')}
+      </div>
+      <div class="feedback" id="skim-feedback"></div>
+      <div class="btn-row hidden" id="skim-next-row"><button class="btn btn-primary" onclick="goStage(1)">다음 단계 →</button></div>
+    </div>
+  `;
+}
+function bindSkimStage(c){
+  let remaining = 15;
+  const timerEl = document.getElementById('skim-timer');
+  const timerId = setInterval(()=>{
+    remaining--;
+    timerEl.textContent = remaining;
+    if (remaining <= 0){
+      clearInterval(timerId);
+      activeTimerId = null;
+      document.getElementById('skim-passage').classList.add('hidden');
+      timerEl.classList.add('hidden');
+      document.getElementById('skim-question-block').classList.remove('hidden');
+    }
+  }, 1000);
+  activeTimerId = timerId;
+
+  document.querySelectorAll('#skim-choices .choice').forEach(btn=>{
+    btn.onclick = ()=>{
+      if (caseState.skimPicked !== null) return;
+      const idx = parseInt(btn.dataset.idx);
+      caseState.skimPicked = idx;
+      const correct = idx === c.skim.answerIndex;
+      caseState.skimCorrect = correct;
+      document.querySelectorAll('#skim-choices .choice').forEach((b,i)=>{
+        b.disabled = true; b.classList.add('locked');
+        if (i === c.skim.answerIndex) b.classList.add('correct-choice');
+        else if (b === btn && !correct) b.classList.add('wrong-choice');
+      });
+      const fb = document.getElementById('skim-feedback');
+      fb.classList.add('show');
+      fb.className = 'feedback show ' + (correct ? 'good' : 'bad');
+      fb.innerHTML = correct
+        ? '<b>⚡ 정확해요! (+10점)</b>짧은 시간에도 핵심을 잘 파악했습니다.'
+        : '<b>다시 생각해보세요.</b>스키밍은 연습할수록 빨라져요.';
+      if (correct) addScore(10);
+      document.getElementById('skim-next-row').classList.remove('hidden');
+    };
+  });
+}
+
+/* ---------- STAGE A: 어휘추론 (개수는 SETTINGS.vocabCount로 설정) ---------- */
+function vocabStageHTML(c){
+  const activeVocab = c.vocabPool.slice(0, SETTINGS.vocabCount);
+  caseState.activeVocab = activeVocab;
+  caseState.vocabItems = activeVocab.map(()=>({guess:"", selfCorrect:null}));
+
+  const sentencesCopy = c.sentences.slice();
+  activeVocab.forEach((v,i)=>{
+    const marker = '<span class="vocab-target">'+v.word+'<sup>'+(i+1)+'</sup></span>';
+    sentencesCopy[v.sentenceIndex] = sentencesCopy[v.sentenceIndex].replace(v.word, marker);
+  });
+  const passageHTML = sentencesCopy.join(' ');
+
+  const itemsHTML = activeVocab.map((v,i)=>`
+    <div class="vocab-item" data-vi="${i}">
+      <div class="vocab-item-label">단어 ${i+1} · "${v.word}"</div>
+      <textarea id="vocab-input-${i}" placeholder="뜻을 한글로 추측해서 적어보세요"></textarea>
+      <div class="btn-row"><button class="btn btn-primary vocab-reveal-btn" data-vi="${i}">뜻 확인 →</button></div>
+      <div class="reveal-box" id="vocab-reveal-${i}">
+        <b>실제 뜻:</b> ${v.meaning}<br><br>
+        내 추측이 비슷했나요?
+        <div class="self-check-row">
+          <button class="conf-btn self-check-btn" data-vi="${i}" data-v="1">✅ 비슷했어요</button>
+          <button class="conf-btn self-check-btn" data-vi="${i}" data-v="0">❌ 달랐어요</button>
+        </div>
+      </div>
+    </div>`).join('');
+
+  return `
+    <div class="stage-label">🔎 STEP A · 어휘 추적 (${activeVocab.length}개)</div>
+    <div class="stage-title">문맥으로 뜻을 추측하세요</div>
+    <div class="stage-desc">밑줄 그어진 단어들의 뜻을 사전 없이, 문장 앞뒤 맥락만 보고 추측해보세요.</div>
+    <div class="passage">${passageHTML}</div>
+    ${itemsHTML}
+    <div class="btn-row hidden" id="vocab-next-row"><button class="btn btn-primary" onclick="goStage(2)">다음 단계 →</button></div>
+  `;
+}
+function bindVocabStage(c){
+  document.querySelectorAll('.vocab-reveal-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      const i = parseInt(btn.dataset.vi);
+      caseState.vocabItems[i].guess = document.getElementById('vocab-input-'+i).value;
+      document.getElementById('vocab-reveal-'+i).classList.add('show');
+    };
+  });
+  document.querySelectorAll('.self-check-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      const i = parseInt(btn.dataset.vi);
+      const group = document.querySelectorAll('.self-check-btn[data-vi="'+i+'"]');
+      group.forEach(b=>b.classList.remove('picked'));
+      btn.classList.add('picked');
+      caseState.vocabItems[i].selfCorrect = btn.dataset.v === "1";
+      if (btn.dataset.v === "1") addScore(5);
+      const allDone = caseState.vocabItems.every(v=>v.selfCorrect !== null);
+      if (allDone) document.getElementById('vocab-next-row').classList.remove('hidden');
+    };
+  });
+}
+
+/* ---------- STAGE B: 근거추론 + 메타인지(확신도) ---------- */
+function inferStageHTML(c){
+  const sentHTML = c.sentences.map((s,idx)=>`<span class="sentence" id="sent-${idx}" data-idx="${idx}">${s} </span>`).join('');
+  const choiceHTML = c.choices.map((txt,idx)=>`<button class="choice locked" id="choice-${idx}" data-idx="${idx}" disabled>${txt}</button>`).join('');
+  return `
+    <div class="stage-label">🕵️ STEP B · 근거 확보 &amp; 확신도</div>
+    <div class="stage-title">단서 문장을 먼저 찾으세요</div>
+    <div class="stage-desc">질문에 대한 근거가 되는 문장을 클릭한 뒤, 정답과 확신도를 함께 선택하세요.</div>
+    <div class="passage">${sentHTML}</div>
+    <div style="font-weight:700;font-size:14.5px;margin-top:10px;">${c.question}</div>
+    <div class="choices" id="choices">${choiceHTML}</div>
+    <div class="hint" id="evidence-hint">먼저 근거 문장을 클릭해야 선택지를 고를 수 있어요.</div>
+    <div id="conf-block" class="hidden">
+      <div class="conf-label">이 답에 대한 확신도는?</div>
+      <div class="conf-row">
+        <button class="conf-btn" data-conf="상">상 (확실해요)</button>
+        <button class="conf-btn" data-conf="중">중 (보통이에요)</button>
+        <button class="conf-btn" data-conf="하">하 (잘 모르겠어요)</button>
+      </div>
+    </div>
+    <div class="feedback" id="feedback"></div>
+    <div class="btn-row hidden" id="infer-next-row"><button class="btn btn-primary" onclick="goStage(3)">다음 단계 →</button></div>
+  `;
+}
+function bindInferStage(c){
+  document.querySelectorAll('#stage-body .sentence').forEach(el=>{
+    el.onclick = ()=>{
+      if (caseState.evidencePicked !== null) return;
+      caseState.evidencePicked = parseInt(el.dataset.idx);
+      el.classList.add('selected');
+      document.querySelectorAll('#stage-body .choice').forEach(b=>{b.disabled=false;b.classList.remove('locked');});
+      document.getElementById('evidence-hint').classList.remove('show');
+    };
+  });
+  document.querySelectorAll('#stage-body .choice').forEach(btn=>{
+    btn.onclick = ()=>{
+      if (caseState.evidencePicked === null){
+        document.getElementById('evidence-hint').classList.add('show');
+        return;
+      }
+      if (caseState.answerPicked !== null) return;
+      caseState.answerPicked = parseInt(btn.dataset.idx);
+      document.querySelectorAll('#stage-body .choice').forEach(b=>b.classList.add('picked-temp'));
+      btn.classList.add('picked');
+      document.getElementById('conf-block').classList.remove('hidden');
+    };
+  });
+  document.querySelectorAll('#conf-block .conf-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      document.querySelectorAll('#conf-block .conf-btn').forEach(b=>b.classList.remove('picked'));
+      btn.classList.add('picked');
+      caseState.confidencePicked = btn.dataset.conf;
+      submitInfer(c);
+    };
+  });
+}
+function submitInfer(c){
+  const evidenceCorrect = caseState.evidencePicked === c.evidenceIndex;
+  const answerCorrect = caseState.answerPicked === c.answerIndex;
+  document.querySelectorAll('#stage-body .choice').forEach((btn)=>{
+    const i = parseInt(btn.dataset.idx);
+    btn.disabled = true; btn.classList.add('locked');
+    if (i === c.answerIndex) btn.classList.add('correct-choice');
+    else if (i === caseState.answerPicked) btn.classList.add('wrong-choice');
+  });
+  document.getElementById('sent-' + c.evidenceIndex).classList.add('correct-evidence');
+  if (!evidenceCorrect) document.getElementById('sent-' + caseState.evidencePicked).classList.add('wrong-evidence');
+
+  const fb = document.getElementById('feedback');
+  fb.classList.add('show');
+  let pts = (evidenceCorrect?10:0) + (answerCorrect?10:0);
+  const cs = {"상":1,"중":0.5,"하":0}[caseState.confidencePicked] ?? 0.5;
+  const correctness = answerCorrect ? 1 : 0;
+  const metaAligned = Math.abs(cs - correctness) < 0.01;
+  if (metaAligned) pts += 5;
+  if (evidenceCorrect && answerCorrect){ fb.className='feedback show good'; fb.innerHTML='<b>🕵️ 정확해요! (+'+pts+'점)</b>근거와 정답을 모두 맞혔습니다.'; }
+  else if (answerCorrect){ fb.className='feedback show mixed'; fb.innerHTML='<b>정답은 맞았지만 근거가 달라요. (+'+pts+'점)</b>초록색 문장이 진짜 단서예요.'; }
+  else if (evidenceCorrect){ fb.className='feedback show mixed'; fb.innerHTML='<b>근거는 맞았지만 답이 달라요. (+'+pts+'점)</b>그 단서가 뜻하는 바를 다시 생각해보세요.'; }
+  else { fb.className='feedback show bad'; fb.innerHTML='<b>근거와 정답을 다시 살펴보세요. (+'+pts+'점)</b>초록색 문장을 참고하세요.'; }
+  addScore(pts);
+
+  caseState.evidenceCorrect = evidenceCorrect;
+  caseState.answerCorrect = answerCorrect;
+  document.getElementById('infer-next-row').classList.remove('hidden');
+}
+
+/* ---------- STAGE C: 글의 구조 인식 (유형 선택 → 시그널 워드 근거 찾기 → 역할 지정) ---------- */
+function structureStageHTML(c){
+  const typeChoicesHTML = STRUCTURE_TYPE_CHOICES.map((t,idx)=>
+    `<button class="choice structure-type-btn" data-idx="${idx}">${t}</button>`
+  ).join('');
+  return `
+    <div class="stage-label">🧩 STEP C · 구조 인식</div>
+    <div class="stage-title">이 글은 어떤 구조로 전개되나요?</div>
+    <div class="stage-desc">지문을 다시 훑어보고, 글 전체의 전개 방식을 골라보세요.</div>
+    <div class="passage" style="font-size:14px;">${c.sentences.join(' ')}</div>
+    <div class="structure-type-choices" id="structure-type-choices">${typeChoicesHTML}</div>
+    <div class="feedback" id="structure-type-feedback"></div>
+
+    <div id="signal-evidence-block" class="hidden">
+      <div class="stage-desc" style="margin-top:16px;">이 구조라는 걸 알려주는 <b>시그널 워드(신호어)</b>가 들어있는 문장을 찾아 클릭하세요.</div>
+      <div class="passage" id="signal-passage"></div>
+      <div class="hint" id="signal-hint"></div>
+      <div class="feedback" id="signal-feedback"></div>
+    </div>
+
+    <div class="btn-row hidden" id="structure-next-row"><button class="btn btn-primary" onclick="goStage(4)">다음 단계 →</button></div>
+  `;
+}
+function bindStructureStage(c){
+  document.querySelectorAll('.structure-type-btn').forEach(btn=>{
+    btn.onclick = ()=>{
+      if (caseState.structureTypePicked !== null) return;
+      const idx = parseInt(btn.dataset.idx);
+      caseState.structureTypePicked = STRUCTURE_TYPE_CHOICES[idx];
+      const correct = STRUCTURE_TYPE_CHOICES[idx] === c.structureType;
+      caseState.structureTypeCorrect = correct;
+      document.querySelectorAll('.structure-type-btn').forEach(b=>{
+        b.disabled = true; b.classList.add('locked');
+        if (b.dataset.idx === String(STRUCTURE_TYPE_CHOICES.indexOf(c.structureType))) b.classList.add('correct-choice');
+        else if (b === btn && !correct) b.classList.add('wrong-choice');
+      });
+      const fb = document.getElementById('structure-type-feedback');
+      fb.classList.add('show');
+      fb.className = 'feedback show ' + (correct ? 'good' : 'mixed');
+      fb.innerHTML = correct
+        ? '<b>🧩 정확해요! (+10점)</b>이 글은 "'+c.structureType+'" 구조로 전개됩니다.'
+        : '<b>다시 확인해보세요.</b>이 글은 "'+c.structureType+'" 구조로 전개됩니다.';
+      if (correct) addScore(10);
+      renderSignalEvidence(c);
+      document.getElementById('signal-evidence-block').classList.remove('hidden');
+    };
+  });
+}
+function renderSignalEvidence(c){
+  const passageEl = document.getElementById('signal-passage');
+  passageEl.innerHTML = c.sentences.map((s,idx)=>
+    `<span class="sentence" id="sig-sent-${idx}" data-idx="${idx}">${s} </span>`
+  ).join('');
+  document.querySelectorAll('#signal-passage .sentence').forEach(el=>{
+    el.onclick = ()=>{
+      if (caseState.signalPicked !== null) return;
+      const idx = parseInt(el.dataset.idx);
+      caseState.signalPicked = idx;
+      const correct = idx === c.signalEvidenceIndex;
+      caseState.signalCorrect = correct;
+      document.getElementById('sig-sent-' + c.signalEvidenceIndex).classList.add('correct-evidence');
+      if (!correct) el.classList.add('wrong-evidence');
+      const fb = document.getElementById('signal-feedback');
+      fb.classList.add('show');
+      fb.className = 'feedback show ' + (correct ? 'good' : 'mixed');
+      fb.innerHTML = correct
+        ? '<b>🔎 정확해요! (+10점)</b>"'+c.signalPhrase+'"가 이 구조를 알려주는 시그널 워드예요.'
+        : '<b>다시 확인해보세요.</b>초록색 문장 속 "'+c.signalPhrase+'"가 이 구조를 알려주는 시그널 워드예요.';
+      if (correct) addScore(10);
+
+      caseState.structureScore = ((caseState.structureTypeCorrect ? 1 : 0) + (caseState.signalCorrect ? 1 : 0)) / 2;
+      document.getElementById('structure-next-row').classList.remove('hidden');
+    };
+  });
+}
+
+/* ---------- STAGE D: 주제요지파악(요약) ---------- */
+function summaryStageHTML(c){
+  const passageHTML = c.sentences.join(' ');
+  const isEN = SETTINGS.summaryLang === 'en';
+  const title = isEN ? "Summarize this story in one sentence" : "이 이야기를 한 문장으로 압축하세요";
+  const desc = isEN
+    ? "Reread the passage and write one English sentence that captures the main idea."
+    : "전체 지문을 다시 훑어보고, 핵심 내용을 한글로 한 문장 요약해보세요.";
+  const placeholder = isEN
+    ? "e.g., Jimin brought an umbrella because it looked like it would rain."
+    : "예: 지민이는 비가 올 것 같아서 우산을 챙겼다.";
+  return `
+    <div class="stage-label">📝 STEP D · 사건 요약 ${isEN ? '(English)' : '(한글)'}</div>
+    <div class="stage-title">${title}</div>
+    <div class="stage-desc">${desc}</div>
+    <div class="passage" style="font-size:14px;">${passageHTML}</div>
+    <div class="summary-box"><textarea id="summary-input" placeholder="${placeholder}"></textarea></div>
+    <div class="btn-row"><button class="btn btn-primary" id="summary-submit-btn">요약 제출 →</button></div>
+    <div class="feedback" id="summary-feedback"></div>
+    <button class="reveal-toggle-btn hidden" id="ref-toggle-btn">모범 답안 보기 ▾</button>
+    <div class="reference-box" id="reference-box">
+      <b>모범 답안 예시</b>${isEN ? c.referenceSummaryEn : c.referenceSummaryKo}
+    </div>
+    <div class="btn-row hidden" id="summary-next-row"><button class="btn btn-primary" onclick="goStage(5)">스캐닝 라운드 →</button></div>
+  `;
+}
+function bindSummaryStage(c){
+  document.getElementById('summary-submit-btn').onclick = ()=>{
+    const text = document.getElementById('summary-input').value;
+    caseState.summaryText = text;
+    let matched = 0;
+    c.summaryKeywordGroups.forEach(group=>{
+      const hit = group.some(k => text.includes(k) || text.toLowerCase().includes(k.toLowerCase()));
+      if (hit) matched++;
+    });
+    caseState.summaryMatched = matched;
+    caseState.summaryTotal = c.summaryKeywordGroups.length;
+    const summaryPts = matched * 10;
+    const fb = document.getElementById('summary-feedback');
+    fb.classList.add('show');
+    if (matched === c.summaryKeywordGroups.length){
+      fb.className = 'feedback show good';
+      fb.innerHTML = '<b>📝 핵심을 잘 짚었어요! (+'+summaryPts+'점)</b>이야기의 중요한 요소가 요약에 다 들어갔습니다.';
+    } else if (matched > 0){
+      fb.className = 'feedback show mixed';
+      fb.innerHTML = '<b>일부만 담겼어요. (+'+summaryPts+'점)</b>핵심 내용 중 빠진 부분이 있을 수 있어요. 지문을 한 번 더 훑어보세요.';
+    } else {
+      fb.className = 'feedback show bad';
+      fb.innerHTML = '<b>핵심이 빠졌어요.</b>지문에서 가장 중요한 사건이 무엇인지 다시 생각해보세요.';
+    }
+    addScore(summaryPts);
+    document.getElementById('summary-submit-btn').disabled = true;
+    document.getElementById('ref-toggle-btn').classList.remove('hidden');
+    document.getElementById('summary-next-row').classList.remove('hidden');
+  };
+  document.getElementById('ref-toggle-btn').onclick = ()=>{
+    const box = document.getElementById('reference-box');
+    const btn = document.getElementById('ref-toggle-btn');
+    const isShown = box.classList.toggle('show');
+    btn.textContent = isShown ? '모범 답안 숨기기 ▴' : '모범 답안 보기 ▾';
+  };
+}
+
+/* ---------- STAGE E: 스캐닝 (제한시간 안에 답 위치 빠르게 찾기) ---------- */
+function scanStageHTML(c){
+  return `
+    <div class="stage-label">🏃 STEP E · 스캐닝</div>
+    <div class="stage-title">답이 있는 문장을 최대한 빨리 클릭하세요</div>
+    <div class="stage-desc">${c.scan.scanQuestion}</div>
+    <div class="timer-badge" id="scan-timer">${c.scan.timeLimitSeconds}</div>
+    <div class="passage" id="scan-passage"></div>
+    <div class="feedback" id="scan-feedback"></div>
+    <div class="btn-row hidden" id="scan-next-row"><button class="btn btn-primary" onclick="finishCase()">${(current < CASES.length-1) ? '다음 사건 →' : '결과 보기 →'}</button></div>
+  `;
+}
+function bindScanStage(c){
+  const passageEl = document.getElementById('scan-passage');
+  passageEl.innerHTML = c.sentences.map((s,idx)=>
+    `<span class="sentence" id="scan-sent-${idx}" data-idx="${idx}">${s} </span>`
+  ).join('');
+
+  let remaining = c.scan.timeLimitSeconds;
+  const timerEl = document.getElementById('scan-timer');
+  const timerId = setInterval(()=>{
+    remaining--;
+    timerEl.textContent = remaining;
+    if (remaining <= 0){
+      clearInterval(timerId);
+      activeTimerId = null;
+      if (caseState.scanPicked === null) finalizeScan(c, null, true);
+    }
+  }, 1000);
+  activeTimerId = timerId;
+
+  document.querySelectorAll('#scan-passage .sentence').forEach(el=>{
+    el.onclick = ()=>{
+      if (caseState.scanPicked !== null) return;
+      clearInterval(timerId);
+      activeTimerId = null;
+      finalizeScan(c, parseInt(el.dataset.idx), false, remaining);
+    };
+  });
+}
+function finalizeScan(c, idx, timedOut, remainingAtClick){
+  caseState.scanPicked = idx;
+  caseState.scanTimedOut = timedOut;
+  caseState.scanTimeRemaining = timedOut ? 0 : (remainingAtClick || 0);
+  const correct = !timedOut && idx === c.scan.targetSentenceIndex;
+  caseState.scanCorrect = correct;
+
+  document.getElementById('scan-sent-' + c.scan.targetSentenceIndex).classList.add('correct-evidence');
+  if (idx !== null && idx !== c.scan.targetSentenceIndex){
+    document.getElementById('scan-sent-' + idx).classList.add('wrong-evidence');
+  }
+
+  const fb = document.getElementById('scan-feedback');
+  fb.classList.add('show');
+  if (timedOut){
+    fb.className = 'feedback show bad';
+    fb.innerHTML = '<b>⏱ 시간 초과!</b>초록색 문장이 정답이었어요. 다음엔 더 빠르게 훑어보세요.';
+  } else if (correct){
+    fb.className = 'feedback show good';
+    fb.innerHTML = '<b>🏃 빠르고 정확해요! (+' + (10 + caseState.scanTimeRemaining) + '점)</b>';
+    addScore(10 + caseState.scanTimeRemaining);
+  } else {
+    fb.className = 'feedback show mixed';
+    fb.innerHTML = '<b>아쉬워요.</b>초록색 문장이 정답이었어요.';
+  }
+  document.getElementById('scan-next-row').classList.remove('hidden');
+}
+
+function goStage(n){ clearActiveTimer(); stage = n; renderStage(); }
+
+function finishCase(){
+  clearActiveTimer();
+  results.push(Object.assign({case_id: CASES[current].id}, caseState));
+  if (current < CASES.length - 1){
+    current++; stage = 0;
+    resetCaseState();
+    renderStage();
+  } else {
+    showResult();
+  }
+}
+
+function showResult(){
+  document.getElementById('screen-case').classList.add('hidden');
+  document.getElementById('screen-result').classList.remove('hidden');
+
+  const n = results.length;
+  const pct = (num, den) => den ? Math.round((num/den)*100) : 0;
+
+  const inferAcc = pct(results.filter(r=>r.evidenceCorrect).length, n);
+  const skimAcc = pct(results.filter(r=>r.skimCorrect).length, n);
+  const scanAcc = pct(results.filter(r=>r.scanCorrect).length, n);
+  const allVocabItems = results.flatMap(r=>r.vocabItems || []);
+  const vocabAcc = pct(allVocabItems.filter(v=>v.selfCorrect===true).length, allVocabItems.length);
+  const structAcc = n ? Math.round((results.reduce((s,r)=>s+(r.structureScore||0),0)/n)*100) : 0;
+  const summaryAcc = pct(results.reduce((s,r)=>s+r.summaryMatched,0), results.reduce((s,r)=>s+r.summaryTotal,0));
+
+  const confScore = {"상":1,"중":0.5,"하":0};
+  const metaAlign = results.reduce((sum,r)=>{
+    const cs = confScore[r.confidencePicked] ?? 0.5;
+    const correctness = r.answerCorrect ? 1 : 0;
+    return sum + (1 - Math.abs(cs - correctness));
+  }, 0);
+  const metaAcc = Math.round((metaAlign / n) * 100);
+
+  document.getElementById('m-infer').textContent = inferAcc + '%';
+  document.getElementById('m-vocab').textContent = vocabAcc + '%';
+  document.getElementById('m-structure').textContent = structAcc + '%';
+  document.getElementById('m-summary').textContent = summaryAcc + '%';
+  document.getElementById('m-skim').textContent = skimAcc + '%';
+  document.getElementById('m-scan').textContent = scanAcc + '%';
+  document.getElementById('m-meta').textContent = metaAcc + '%';
+  document.getElementById('final-score-badge').textContent = '⭐ ' + totalScore + '점';
+}
+
+/* ---------------------------------------------------------
+   결과 전송 — 전자칠판 대시보드(whiteboard_dashboard.html)가 읽는
+   형식과 동일하게 케이스별로 한 줄씩 펼쳐서 전송합니다.
+   실제 연동 시: 1) 노션 DB/시트 필드 설계 2) 아래 URL 교체
+--------------------------------------------------------- */
+const SAVE_URL = "https://script.google.com/macros/s/AKfycbyd8eUZTBwKsXfBxOmRrlhzhR_FXZ0Kvd1GMqiqzB1keHgkirL03e1pcdLMtSgXxC4P/exec";
+function computeCaseScore(r){
+  let score = 0;
+  if (r.skimCorrect) score += 10;
+  score += (r.vocabItems||[]).filter(v=>v.selfCorrect===true).length * 5;
+  if (r.evidenceCorrect) score += 10;
+  if (r.answerCorrect) score += 10;
+  const cs = {"상":1,"중":0.5,"하":0}[r.confidencePicked] ?? 0.5;
+  const correctness = r.answerCorrect ? 1 : 0;
+  if (Math.abs(cs - correctness) < 0.01) score += 5;
+  if (r.structureTypeCorrect) score += 10;
+  if (r.signalCorrect) score += 10;
+  score += (r.summaryMatched||0) * 10;
+  if (r.scanCorrect) score += 10 + (r.scanTimeRemaining||0);
+  return score;
+}
+function sendResults(){
+  const statusEl = document.getElementById('save-status');
+  const rows = results.map(r => ({
+    name: STUDENT_NAME,
+    case_id: r.case_id,
+    score: computeCaseScore(r),
+    skim_correct: !!r.skimCorrect,
+    vocab_correct: (r.vocabItems||[]).filter(v=>v.selfCorrect===true).length,
+    vocab_total: (r.vocabItems||[]).length,
+    evidence_correct: !!r.evidenceCorrect,
+    answer_correct: !!r.answerCorrect,
+    confidence: r.confidencePicked,
+    structure_correct: !!r.structureTypeCorrect,
+    signal_correct: !!r.signalCorrect,
+    summary_matched: r.summaryMatched,
+    summary_total: r.summaryTotal,
+    summary_text: r.summaryText,
+    scan_correct: !!r.scanCorrect,
+    submitted_at: new Date().toISOString()
+  }));
+  if (SAVE_URL === "REPLACE_WITH_APPS_SCRIPT_URL"){
+    statusEl.textContent = "⚠ 실제 저장을 위해 Apps Script URL 연동이 필요합니다. (콘솔에 로그됨)";
+    console.log("결과 데이터:", rows);
+    return;
+  }
+  fetch(SAVE_URL, {method:"POST", headers:{"Content-Type":"text/plain"}, body: JSON.stringify(rows)})
+    .then(()=>{ statusEl.textContent = "✅ 결과가 선생님께 전송되었습니다."; })
+    .catch(()=>{ statusEl.textContent = "✅ 결과가 전송되었습니다."; });
+}
+</script>
+</body>
+</html>
