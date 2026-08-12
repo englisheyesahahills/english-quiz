@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Lumi's Wonder Journal — Sample Layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B3B6E;
+    --navy-deep:#122a52;
+    --sky:#4F8FE8;
+    --yellow:#FBD75B;
+    --yellow-deep:#F3B93A;
+    --kraft:#EFE3C9;
+    --kraft-edge:#D9C7A0;
+    --mint:#7FCBA4;
+    --coral:#F1876B;
+    --cream:#FBF6EC;
+    --ink:#233252;
+    --ink-soft:#5B6784;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:#DCE3EC;
+    font-family:'Noto Sans KR', sans-serif;
+    color:var(--ink);
+    padding:32px 0 60px;
+  }
+  .intro{
+    max-width:900px;
+    margin:0 auto 28px;
+    padding:0 20px;
+    color:#33415e;
+  }
+  .intro h1{
+    font-family:'Noto Sans KR', sans-serif; font-weight:900;
+    color:var(--navy-deep);
+    font-size:33px;
+    margin-bottom:6px;
+  }
+  .intro p{ font-size:18.5px; line-height:1.7; color:#4a5773;}
+  .intro .tag{
+    display:inline-block; background:var(--navy); color:#fff; font-family:'Noto Sans KR'; font-weight:900;
+    font-size:16px; padding:4px 12px; border-radius:20px; margin-right:6px; margin-bottom:10px;
+  }
+
+  .sheet-wrap{
+    max-width:900px;
+    margin:0 auto 44px;
+    background:#fff;
+    border-radius:18px;
+    box-shadow:0 18px 40px -14px rgba(20,40,80,.35);
+    overflow:hidden;
+    position:relative;
+  }
+  .page{
+    width:900px;
+    height:1350px;
+    box-sizing:border-box;
+    background:
+      radial-gradient(circle at 92% 6%, rgba(251,215,91,.18), transparent 40%),
+      var(--cream);
+    padding:24px 34px 30px;
+    position:relative;
+    overflow:hidden;
+  }
+  .page + .page{ border-top:3px dashed #d8cba3; }
+
+  /* header */
+  .head{
+    background:var(--navy);
+    border-radius:999px;
+    padding:12px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 6px 0 var(--navy-deep);
+    margin-bottom:16px;
+  }
+  .head .lt{ display:flex; align-items:center; gap:12px;}
+  .head .unit{
+    background:var(--yellow); color:var(--navy-deep); font-family:'Noto Sans KR'; font-weight:900;
+    font-size:17.5px; padding:5px 12px; border-radius:999px;
+  }
+  .head .title{
+    font-family:'Noto Sans KR'; font-weight:900; color:#fff; font-size:21px; letter-spacing:.2px;
+  }
+  .head .title small{ display:block; font-family:'Noto Sans KR'; font-size:14.5px; color:#c9d7f2; font-weight:400;}
+  .stamprow{ display:flex; gap:6px; }
+  .stamp{
+    width:26px;height:26px;border-radius:50%;
+    border:2px solid #ffffff88;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16.5px; color:#ffffff55;
+  }
+  .stamp.on{ background:var(--yellow); border-color:var(--yellow); color:var(--navy-deep); }
+
+  /* section card */
+  .sec{ margin-bottom:18px; }
+  .sec-label{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--navy); color:#fff; font-family:'Noto Sans KR'; font-weight:900;
+    font-size:16.5px; padding:5px 14px 5px 11px; border-radius:10px 10px 0 0;
+  }
+  .sec-label .ico{
+    width:24px;height:24px;background:var(--yellow); border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:16.5px;
+  }
+  .sec-body{
+    background:#fff; border:2px solid var(--navy); border-top:none;
+    border-radius:0 12px 12px 12px;
+    padding:16px 18px;
+  }
+  .sub-en{ font-family:'Quicksand'; color:var(--sky); font-weight:700; font-size:14.5px; margin-left:4px;}
+
+  /* Vocabulary strip */
+  .vocab-strip{ display:flex; gap:10px; margin-bottom:6px;}
+  .vocab-card{ flex:1; text-align:center; }
+  .vocab-img{
+    height:64px; border-radius:10px; border:2.5px dashed var(--kraft-edge); background:#FBF8F1;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-size:25.5px; color:#c9bd9c; gap:2px;
+  }
+  .vocab-img span{ font-size:12px; font-family:'Noto Sans KR'; color:#b9ac89;}
+  .vocab-en{ font-family:'Quicksand'; font-weight:700; color:var(--navy-deep); font-size:17.5px; margin-top:6px;}
+  .vocab-kr{ font-size:14.5px; color:var(--ink-soft); margin-bottom:4px;}
+  .vocab-lines{ display:flex; flex-direction:column; gap:6px; }
+  .vocab-trace{
+    font-family:'Quicksand'; font-weight:700; font-size:19px; color:#d3dcee;
+    border-bottom:2px dotted var(--sky); padding-bottom:6px; height:30px; display:flex; align-items:flex-end;
+  }
+  .vocab-line{
+    border-bottom:2px dotted var(--sky); height:36px;
+  }
+  .instr{ font-size:15px; color:var(--ink-soft); margin:0 0 10px; line-height:1.6;}
+  .instr b{ color:var(--navy);}
+  .instr-tag{
+    font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:13px;
+    background:#EAF2FF; border:1px solid var(--sky); border-radius:999px; padding:1px 9px; margin-left:5px;
+    white-space:nowrap;
+  }
+
+  /* detective Q */
+  .qrow{ display:flex; gap:16px; }
+  .qbox{ flex:1; background:var(--kraft); border-radius:12px; padding:12px 14px; border:1.5px solid var(--kraft-edge);}
+  .qbox .qhead{ display:flex; gap:8px; align-items:flex-start; font-size:17px; margin-bottom:8px;}
+  .qbox .qhead i{ font-style:normal; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:16px; display:inline-block; margin-top:3px;}
+  .qbox .qn{
+    flex:none; width:20px;height:20px;background:var(--coral); color:#fff; border-radius:50%;
+    font-family:'Quicksand'; font-size:14.5px; display:flex;align-items:center;justify-content:center; font-weight:700;
+  }
+  .qbox .opts{ display:flex; gap:10px; padding-left:28px;}
+  .circleopt{
+    font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy);
+    border:2px solid var(--navy); border-radius:999px; padding:3px 12px;
+  }
+
+  /* speaking */
+  .wordbank{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 14px;}
+  .chip{
+    font-family:'Quicksand'; font-weight:700; font-size:16px; color:var(--navy-deep);
+    background:var(--yellow); border-radius:999px; padding:5px 13px; border:2px solid var(--yellow-deep);
+  }
+  .bubble-row{ display:flex; gap:12px; }
+  .bubble{
+    flex:1; background:#EAF2FF; border:2px solid var(--sky); border-radius:16px 16px 16px 4px;
+    padding:12px 14px; font-family:'Quicksand'; font-size:19px; color:var(--navy-deep); font-weight:700;
+  }
+  .bubble .fill{ display:inline-block; border-bottom:2.5px dotted var(--sky); min-width:70px; }
+  .mic-box{
+    margin-top:12px; display:flex; align-items:center; gap:12px;
+    background:var(--navy); border-radius:12px; padding:10px 14px; color:#fff;
+  }
+  .mic-box .qr{ width:44px;height:44px;background:#fff; border-radius:6px; flex:none;
+    background-image:
+      repeating-linear-gradient(0deg,#1B3B6E,#1B3B6E 3px,#fff 3px,#fff 6px),
+      repeating-linear-gradient(90deg,#1B3B6E,#1B3B6E 3px,#fff 3px,#fff 6px);
+    background-blend-mode:multiply;
+  }
+  .mic-box .txt{ font-size:16px; line-height:1.5; }
+  .mic-box .txt b{ font-family:'Noto Sans KR'; font-weight:900; font-size:17.5px; display:block;}
+
+  /* footer */
+  .pfoot{ text-align:right; margin-top:14px; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:15.5px;}
+  .pfoot .star{ color:var(--yellow-deep); }
+
+  /* Page B specifics */
+  .cutcards{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .cutcard{
+    font-family:'Quicksand'; font-weight:700; font-size:17.5px; color:var(--navy-deep);
+    border:2px solid var(--coral); border-radius:999px; padding:6px 14px; background:#FFF6F3;
+  }
+  .buildline{ display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+  .buildline .num{
+    width:22px;height:22px;border-radius:50%;background:var(--navy); color:#fff;
+    font-family:'Quicksand'; font-size:15.5px; display:flex;align-items:center;justify-content:center; flex:none;
+  }
+  .buildline .slot{ flex:1; border-bottom:2.5px solid var(--kraft-edge); height:38px; }
+
+  .diary{
+    display:flex; gap:16px;
+  }
+  .diary .draw{
+    flex:1.1; background:repeating-linear-gradient(#fff,#fff 27px,#eef1f6 28px);
+    border:2.5px solid var(--navy); border-radius:12px; min-height:190px; position:relative;
+  }
+  .diary .draw .cap{
+    position:absolute; bottom:6px; left:0; right:0; text-align:center; font-size:15px; color:#9aa5bd;
+  }
+  .diary .lines{ flex:1; display:flex; flex-direction:column; gap:14px; padding-top:4px;}
+  .diary .lines .ln{ border-bottom:2px dotted #c3cbdd; height:26px; }
+  .diary .starter{ font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:17.5px; margin-bottom:4px;}
+
+  .badgebar{ display:flex; gap:14px; align-items:center; flex-wrap:wrap;}
+  .check{ display:flex; align-items:center; gap:8px; font-size:16.5px; color:var(--ink);}
+  .check .box{ width:20px;height:20px;border:2.5px solid var(--mint); border-radius:6px; flex:none;}
+  .teacherstamp{
+    margin-left:auto; width:64px;height:64px;border-radius:50%; border:3px dashed var(--coral);
+    display:flex;align-items:center;justify-content:center; text-align:center; font-size:13px; color:var(--coral);
+    font-family:'Noto Sans KR'; font-weight:900;
+  }
+
+  /* power pattern practice */
+  .trace-row{ display:flex; flex-direction:column; gap:8px; margin-bottom:16px;}
+  .trace-line{
+    font-family:'Quicksand'; font-weight:800; font-size:27px; letter-spacing:.5px;
+    color:#c7d3ea; border-bottom:2.5px dotted var(--kraft-edge); padding-bottom:6px;
+  }
+  .trace-line.blank{ color:transparent; border-bottom:2.5px dotted var(--sky); }
+  .chant-box{
+    background:var(--navy); color:#fff; border-radius:12px; padding:10px 16px; margin-bottom:16px;
+    font-family:'Quicksand'; font-weight:700; font-size:17.5px; display:flex; align-items:center; gap:10px;
+  }
+  .chant-box .clap{ font-size:25.5px; }
+  .drill-row{ display:flex; gap:12px; }
+  .drill-card{ flex:1; text-align:center; }
+  .drill-card .pic{
+    width:100%; height:96px; border-radius:10px; background:#FBF8F1; border:2px dashed var(--kraft-edge);
+    display:flex; align-items:center; justify-content:center; font-size:31px; margin-bottom:6px;
+  }
+  .drill-card .dline{ border-bottom:2.5px dotted var(--kraft-edge); height:22px; }
+
+  /* Rhythm & Stress */
+  .rhythm-ex{ margin-bottom:16px; }
+  .rhythm-ex:last-child{ margin-bottom:0; }
+  .rhythm-sent{ font-family:'Quicksand'; letter-spacing:.2px; margin-bottom:8px; }
+  .rhythm-sent .w{ font-weight:500; color:#8b96b3; font-size:19px; }
+  .rhythm-sent .w.stress{ font-weight:800; color:var(--navy); font-size:25.5px; margin:0 1px; }
+  .rhythm-sent .linkmark{ color:var(--coral); font-weight:700; font-size:19px; margin:0 -1px; position:relative; top:2px; }
+  .beat-row{ display:flex; gap:14px; align-items:flex-end; height:20px; margin-bottom:4px;}
+  .beat{ width:9px;height:9px;border-radius:50%; background:#d7deee; }
+  .beat.big{ width:17px;height:17px; background:var(--coral); }
+  .rhythm-legend{
+    font-size:13px; color:var(--ink-soft); margin-top:10px; display:flex; gap:16px; flex-wrap:wrap;
+    border-top:1.5px dashed var(--kraft-edge); padding-top:8px;
+  }
+  .rhythm-legend b{ color:var(--navy); }
+
+  .miniguide{
+    background:#EAF2FF; border:1.5px solid var(--sky); border-radius:12px;
+    padding:10px 14px; margin-bottom:14px;
+  }
+  .mg-title{ font-family:'Noto Sans KR'; font-weight:900; color:var(--navy-deep); font-size:16px; margin-bottom:6px;}
+  .mg-row{ font-size:14.5px; color:var(--ink); line-height:1.6; margin-bottom:4px; }
+  .mg-row:last-child{ margin-bottom:0; }
+  .mg-row b{ color:var(--navy); font-weight:700; margin-right:6px; white-space:nowrap; }
+  .mg-row b span{ font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:12.5px; margin-left:2px; }
+  .mg-row b.hl{ color:var(--coral); font-weight:700; margin:0 1px; white-space:normal; }
+
+  /* narration / dialogue copy (Page 3) */
+  .copyset{ display:flex; flex-direction:column; gap:12px; }
+  .copy-item{ display:flex; align-items:center; gap:14px; }
+  .copy-item .num{
+    flex:none; width:24px;height:24px;border-radius:50%;background:var(--navy); color:#fff;
+    font-family:'Quicksand'; font-size:15.5px; display:flex;align-items:center;justify-content:center;
+  }
+  .narr-target{
+    flex:none; width:350px; background:var(--kraft); border:1.5px solid var(--kraft-edge);
+    border-radius:8px; padding:8px 12px; font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy-deep);
+  }
+  .dlg-target{
+    flex:none; width:350px; background:#EAF2FF; border:1.5px solid var(--sky);
+    border-radius:14px 14px 14px 3px; padding:8px 12px; font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy-deep);
+  }
+  .copy-line{ flex:1; border-bottom:2.5px dotted var(--kraft-edge); height:26px; }
+
+  .myline-box{
+    display:flex; gap:16px; align-items:center; background:var(--kraft); border:1.5px solid var(--kraft-edge);
+    border-radius:14px; padding:14px 18px;
+  }
+  .myline-box .thumb{ flex:none; width:96px; height:72px; border-radius:10px; overflow:hidden; border:2px solid var(--kraft-edge);}
+  .myline-box .thumb img{ width:100%; height:100%; object-fit:cover; display:block;}
+  .myline-box .qtext{ flex:none; width:230px; font-size:16.5px; color:var(--ink); line-height:1.5; }
+  .myline-bubble{
+    flex:1; background:#fff; border:2px solid var(--coral); border-radius:14px 14px 14px 3px;
+    padding:10px 14px; font-family:'Quicksand'; font-weight:700; font-size:17.5px; color:var(--navy-deep);
+  }
+  .myline-bubble .mlb-line{
+    margin-top:10px; border-bottom:2.5px dotted var(--coral); height:38px;
+  }
+
+  /* Page 4: Reading Power */
+  .elem-row{ display:flex; gap:12px; margin-bottom:12px; }
+  .elem-card{
+    flex:1; background:var(--kraft); border:1.5px solid var(--kraft-edge); border-radius:12px; padding:10px 14px;
+  }
+  .elem-q{ font-size:16.5px; color:var(--navy-deep); font-weight:600; margin-bottom:8px; }
+  .elem-opts{ display:flex; gap:10px; flex-wrap:wrap; }
+  .picopt{
+    width:34px;height:34px;border-radius:50%; background:#fff; border:2px solid var(--navy);
+    display:flex;align-items:center;justify-content:center; font-size:21.5px;
+  }
+  .picopt.dim{ opacity:.4; border-style:dashed; }
+  .wordopt{
+    font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy);
+    border:2px solid var(--navy); border-radius:999px; padding:5px 14px; background:#fff;
+  }
+  .elem-check{ background:#EAF2FF; border:1.5px solid var(--sky); border-radius:12px; padding:10px 14px; }
+  .checklist{ display:flex; gap:14px; flex-wrap:wrap; }
+  .checklist .check{ display:flex; align-items:center; gap:6px; font-family:'Quicksand'; font-weight:700; font-size:16px; color:var(--navy-deep);}
+  .checklist .box{ width:17px;height:17px;border:2px solid var(--sky); border-radius:5px; background:#fff; }
+
+  .evidence-item{ margin-bottom:12px; }
+  .ev-q{ font-size:17px; color:var(--ink); margin-bottom:7px; display:flex; gap:8px; align-items:flex-start;}
+  .ev-q i{ font-style:normal; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:15.5px; }
+  .ev-q .qn{
+    flex:none; width:20px;height:20px;background:var(--coral); color:#fff; border-radius:50%;
+    font-family:'Quicksand'; font-size:14.5px; display:flex;align-items:center;justify-content:center; font-weight:700;
+  }
+  .ev-opts{ display:flex; gap:10px; margin-left:28px; }
+  .evopt{
+    font-family:'Quicksand'; font-weight:700; font-size:17px; color:var(--navy-deep);
+    border:2px solid var(--navy); border-radius:999px; padding:6px 16px; background:#fff;
+  }
+
+  .predict-wrap{ display:flex; gap:16px; align-items:center; }
+  .predict-draw{
+    flex:1; background:repeating-linear-gradient(#fff,#fff 27px,#eef1f6 28px);
+    border:2.5px solid var(--navy); border-radius:12px; min-height:110px;
+  }
+  .predict-write{ flex:1; display:flex; flex-direction:column; gap:12px; padding-top:4px;}
+  .predict-write .starter{ font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:17.5px;}
+  .predict-write .ln{ border-bottom:2px dotted #c3cbdd; height:26px; }
+
+  /* Wonder Science */
+  .sci-box{
+    display:flex; gap:14px; align-items:center; background:var(--kraft); border:1.5px solid var(--kraft-edge);
+    border-radius:14px; padding:12px 16px; margin-bottom:12px;
+  }
+  .sci-box .thumb{ flex:none; width:130px; height:92px; border-radius:10px; overflow:hidden; border:2px solid var(--kraft-edge);}
+  .sci-box .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .sci-box .txt{ flex:1; font-size:15.5px; color:var(--ink); line-height:1.6; }
+  .sci-box .txt .en{ display:block; margin-top:6px; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:14.5px; line-height:1.5; }
+  .sci-q{ display:flex; align-items:center; gap:8px; font-size:16.5px; color:var(--ink); margin-bottom:8px; }
+  .sci-model{
+    margin-top:10px; background:#EAF2FF; border:1.5px solid var(--sky); border-radius:12px; padding:10px 14px;
+    font-family:'Quicksand'; font-weight:700; color:var(--navy-deep); font-size:16.5px;
+  }
+</style>
+
+<body>
+
+<div class="intro">
+  <span class="tag">UNIT 4 · Lesson 4</span><span class="tag" style="background:var(--coral)">Lumi's Wonder Journal</span>
+  <h1>A New Friend — 4페이지 워크북</h1>
+</div>
+
+<div class="sheet-wrap">
+
+  <div class="page" data-document-role="page" data-label="U4L4-p1">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">A New Friend <small>Lesson 4 · Wonder Journal — Page 1</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp on">★</div>
+        <div class="stamp on">★</div>
+        <div class="stamp on">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔤</span>이번 유닛 단어 <span class="sub-en">Unit Vocabulary</span></div>
+      <div class="sec-body">
+        <p class="instr">그림을 붙이고, 단어를 소리내어 읽은 후 따라 써보세요.<span class="instr-tag">Read &amp; Write!</span></p>
+        <div class="vocab-strip">
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">sloth</div>
+            <div class="vocab-kr">나무늘보</div>
+            <div class="vocab-lines"><div class="vocab-trace">sloth</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">jungle</div>
+            <div class="vocab-kr">정글</div>
+            <div class="vocab-lines"><div class="vocab-trace">jungle</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">slow</div>
+            <div class="vocab-kr">느린</div>
+            <div class="vocab-lines"><div class="vocab-trace">slow</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">vine</div>
+            <div class="vocab-kr">덩굴</div>
+            <div class="vocab-lines"><div class="vocab-trace">vine</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">welcome</div>
+            <div class="vocab-kr">환영하다</div>
+            <div class="vocab-lines"><div class="vocab-trace">welcome</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔍</span>원더 디텍티브 <span class="sub-en">Reading Check</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기를 떠올리며 알맞은 답에 동그라미 하세요.<span class="instr-tag">Circle it!</span></p>
+        <div class="qrow">
+          <div class="qbox">
+            <div class="qhead"><span class="qn">1</span><span>나무늘보는 어디에 있었나요?<br><i>Where was the sloth?</i></span></div>
+            <div class="opts">
+              <span class="circleopt">on a vine</span>
+              <span class="circleopt">in the water</span>
+            </div>
+          </div>
+          <div class="qbox">
+            <div class="qhead"><span class="qn">2</span><span>나무늘보는 어떻게 숨나요?<br><i>How does the sloth hide?</i></span></div>
+            <div class="opts">
+              <span class="circleopt">in the leaves</span>
+              <span class="circleopt">underground</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🗣️</span>루미처럼 말해보기 <span class="sub-en">Speak Like Lumi</span></div>
+      <div class="sec-body">
+        <p class="instr">단어은행에서 골라 짝과 함께 문장을 말해보세요.<span class="instr-tag">Speak!</span></p>
+        <div class="wordbank">
+          <span class="chip">excited</span><span class="chip">so slow</span><span class="chip">curious</span><span class="chip">my friend</span>
+        </div>
+        <div class="bubble-row">
+          <div class="bubble">🦊 You are <span class="fill">&nbsp;</span>!</div>
+          <div class="bubble">🐤 Thank you!</div>
+        </div>
+        <div class="mic-box">
+          <div class="qr"></div>
+          <div class="txt"><b>Wonder Voice 녹음하기</b>QR을 스캔해서 내 목소리로 문장 3개를 녹음해보세요. 선생님이 들어볼 거예요!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🏅</span>오늘의 원더 배지 <span class="sub-en">Self-Check</span></div>
+      <div class="sec-body">
+        <div class="badgebar">
+          <div class="check"><div class="box"></div>"You are..." 문장을 3번 말했어요</div>
+          <div class="check"><div class="box"></div>문장 2개 이상 썼어요</div>
+          <div class="check"><div class="box"></div>이야기를 소리내어 읽었어요</div>
+          <div class="teacherstamp">TEACHER<br>STAMP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 1 / 4</div>
+  </div>
+
+  <div class="page" data-document-role="page" data-label="U4L4-p2">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">A New Friend <small>Lesson 4 · Wonder Journal — Page 2</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp on">★</div>
+        <div class="stamp on">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">✏️</span>문장 만들기 <span class="sub-en">Sentence Builder</span></div>
+      <div class="sec-body">
+        <p class="instr">아래 카드에서 단어를 골라 조합하여, 나만의 문장 3개를 완성해보세요.<span class="instr-tag">Make it!</span></p>
+        <div class="cutcards">
+          <span class="cutcard">You are</span>
+          <span class="cutcard">excited</span>
+          <span class="cutcard">so slow</span>
+          <span class="cutcard">curious</span>
+          <span class="cutcard">my friend</span>
+        </div>
+        <div class="buildline"><div class="num">1</div><div class="slot"></div></div>
+        <div class="buildline"><div class="num">2</div><div class="slot"></div></div>
+        <div class="buildline"><div class="num">3</div><div class="slot"></div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🌟</span>나의 원더 일기 <span class="sub-en">My Wonder Diary</span></div>
+      <div class="sec-body">
+        <p class="instr">내가 정글에서 새 친구를 만난다면 어떤 말을 해줄까요? <b>그리고 써보세요.</b><span class="instr-tag">Draw &amp; Write!</span></p>
+        <div class="diary">
+          <div class="draw"><div class="cap">✏️ Draw YOUR new jungle friend</div></div>
+          <div class="lines">
+            <div class="starter">You are...</div>
+            <div class="ln"></div>
+            <div class="ln"></div>
+            <div class="ln"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">⭐</span>파워패턴 연습하기 <span class="sub-en">Power Pattern Practice</span></div>
+      <div class="sec-body">
+        <p class="instr">흐린 글씨를 따라 쓰고, 마지막 줄은 스스로 써보세요.<span class="instr-tag">Trace &amp; Write!</span></p>
+        <div class="trace-row">
+          <div class="trace-line">You are...</div>
+          <div class="trace-line">You are...</div>
+          <div class="trace-line blank">You are...</div>
+        </div>
+        <div class="chant-box"><span class="clap">👏</span> 다 같이 리듬으로! "You are, you are, you are my friend!"</div>
+        <div class="drill-row">
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 2 / 4</div>
+  </div>
+
+  <div class="page" data-document-role="page" data-label="U4L4-p3">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">A New Friend <small>Lesson 4 · Wonder Journal — Page 3</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🎵</span>리듬으로 읽어요 <span class="sub-en">Rhythm &amp; Stress</span></div>
+      <div class="sec-body">
+        <p class="instr">진하고 큰 글씨는 <b>강하게</b>, <span style="color:var(--coral); font-weight:700;">‿</span> 표시는 <b>부드럽게 이어서</b> 읽어요. 문장 아래 동그라미를 보며 손뼉을 쳐보세요.<span class="instr-tag">Listen &amp; Clap!</span></p>
+
+        <div class="miniguide">
+          <div class="mg-title">📘 소리 규칙 알아보기</div>
+          <div class="mg-row"><b>강세 <span>Stress</span></b>뜻을 담은 <b class="hl">내용어</b>(명사·동사·형용사)는 강하고 크게, 문법 역할만 하는 <b class="hl">기능어</b>(관사·전치사·대명사·be동사)는 약하고 짧게 읽어요.</div>
+          <div class="mg-row"><b>리듬 <span>Rhythm</span></b>영어는 강세와 강세 사이의 간격이 일정하게 느껴지는 <b class="hl">강세박자언어</b>예요. 그래서 노래하듯 리듬감 있게 들려요.</div>
+          <div class="mg-row"><b>연음 <span>Linking</span></b>앞 단어 끝의 <b class="hl">자음</b>과 뒷 단어 처음의 <b class="hl">모음</b>이 만나면 자연스럽게 이어져 한 소리처럼 들려요.</div>
+        </div>
+
+        <div class="rhythm-ex">
+          <div class="rhythm-sent"><span class="w">You</span> <span class="w">are</span><span class="linkmark">‿</span><span class="w stress">SO</span> <span class="w stress">SLOW</span>!</div>
+          <div class="beat-row">
+            <div class="beat"></div>
+            <div class="beat"></div>
+            <div class="beat big"></div>
+            <div class="beat big"></div>
+          </div>
+        </div>
+
+        <div class="rhythm-ex">
+          <div class="rhythm-sent"><span class="w">You</span> <span class="w">are</span><span class="linkmark">‿</span><span class="w">my</span> <span class="w stress">FRIEND</span>.</div>
+          <div class="beat-row">
+            <div class="beat"></div>
+            <div class="beat"></div>
+            <div class="beat"></div>
+            <div class="beat big"></div>
+          </div>
+        </div>
+
+        <div class="rhythm-legend">
+          <span><b>●</b> 큰 원 = 강하게(stress)</span>
+          <span><b>•</b> 작은 원 = 약하게(weak)</span>
+          <span><b>‿</b> = 이어 읽기(linking)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">📜</span>이야기 따라쓰기 <span class="sub-en">Narration Copy</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기 속 문장을 소리내어 읽고, 빈 줄에 <b>똑같이 따라 써보세요.</b><span class="instr-tag">Copy it!</span></p>
+        <div class="copyset">
+          <div class="copy-item"><div class="num">1</div><div class="narr-target">They see a jungle.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">2</div><div class="narr-target">They see a sloth.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">3</div><div class="narr-target">The sloth is slow.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">4</div><div class="narr-target">Lumi is happy.</div><div class="copy-line"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">💬</span>대화 따라쓰기 <span class="sub-en">Dialogue Copy</span></div>
+      <div class="sec-body">
+        <p class="instr">루미가 한 말이에요. 짝과 함께 읽고 나서 따라 써보세요.<span class="instr-tag">Read &amp; Copy!</span></p>
+        <div class="copyset">
+          <div class="copy-item"><div class="num">1</div><div class="dlg-target">🦊 Let's look around!</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">2</div><div class="dlg-target">🦊 You are so slow!</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">3</div><div class="dlg-target">🦊 I am slow and safe.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">4</div><div class="dlg-target">🦊 Welcome, friends!</div><div class="copy-line"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🎭</span>내가 만드는 대사 <span class="sub-en">My Own Line</span></div>
+      <div class="sec-body">
+        <p class="instr">정글에서 <b>또 다른 신비한 동물</b>을 만났어요! 무엇일지 그림을 보고 루미의 대사를 완성해보세요.<span class="instr-tag">Imagine!</span></p>
+        <div class="myline-box">
+          <div class="thumb"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAWgBaAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAB9APADASIAAhEBAxEB/8QAHAAAAQQDAQAAAAAAAAAAAAAABQADBAYCBwgB/8QASxAAAgEDAwEFBQMGCAwHAAAAAQIDAAQRBRIhMQYTQVFhFCJxgbEyodEWI0JzkfAHFTQ1UrLB4SQmM0ZjZHJ0gpKi8UNTVGKElNL/xAAbAQACAwEBAQAAAAAAAAAAAAAEBQACAwEGB//EADQRAAICAQIEBAUDAwQDAAAAAAECAAMRBCEFEjFBEyJRsWFxgZHwBjKhFMHhFRYjM0PR8f/aAAwDAQACEQMRAD8A3/SpUqkkauZTDayygAlEZgD44Ga5/ve1OlarcNdXXY7TmmkOWaO4kj3H124rf16AbC4B6d230Nc+2mgXhkZTFsGFO5uijFB6rVtpsFWxmDXq5ICxJqWhscHsdZ/H22f8aze/0FBn8kLMg9MXs/407Zacl1pTurRrNAW71iftAZxihkIVZZGmJxt448aCHFNSSfOdpxdO5UsMfYSV/Geh7iPyOs8Dx9tn/GvRqeg457H2Q/8Amz/jUEATEknDY4Wpw0+dYGkdMBDjdjjPl611+K6hdi5+8oKXxv7T1dR0JnC/kdZ8/wCuz/jWT6hoC5/xQs8jzvZx/bTqabvuribG1EQFjjAUnkj+6hhT/CQ0inYeOnIFVXiupY7OekhrKjJ9hJo1HQDnPZCzGOv+Gz/jTwu9AOP8UbPnx9tn/GmJ9KljbDKTnoR0PjkVO0rTFupVilBO77JzgelZvxfU4yrmWWs5wR/AmKS9n3/zSs//ALk/41OitdBk/wA07bGccXc3406dEfT7j2mZC8EOVlC9Qp6EDx5o7otjIESXCNDImW5zz4fOuV67iFjgCwgH+Jr4ajOQMyDY6D2au8huzdujL9pfaps/1qfvezvZSzs5Jz2ehO0cKbmXk+A+1R6bbbwyTMoAVST0GarsrXeprFfCELDARheoc55+QpuNXbTXys5ZvXeYsuTsJ5b9n+zUlwIZOzMKsIlZiLmUhWP6P2vKpUvZjsnDE0j6BFtA/wDUy/8A6opbWQt2kkMju8uGct5+gprUZGhgVUjDMxz7y5AA8a0s1tlVJdmP50kWsk4xKy2m9mh07MW+PW7m4/6qhyQ9nQ2I+ylsyjqxu5sfLmicge9ky5JXoT03enwr026jC7cALjFec/1nWA/9hIhBpBGwECSHQE4HZKzJ/wB8m/Gm7Z9CublIV7IWmT9oi8n4Hn1p+8s4YLuWJpHlZMj3BwD6nxqBBbzM2YZO635XIzkij14lqihJsOYGQQ2Me0mTns/byTxP2StA6EFR7bN7ynx60z3+g8n8kbTHOD7ZPzj50rhXba8pHfRssQQDgjzB8Tn60d0a0sp5lt9oaUDfhhgqf01x+yqjiGt5RhyT85qqBycYH0gS3l0CeCaX8kbUCJdzH2ybA++sWuNAWIP+SNpkgHHtk/j868SM2V9f6cP/AB37gE+Hv8H9mR86K6ppUcccphBdIoS/eSHHT/tXTxLVL/5Dv8ZpZRg4X2ECDVtBgkV17HWJI5Ae6mYfsJwa3roc63WhWFwkEcCy26OIoxhUyM4HpWh7e1ivYLhw4CwR7nJ4/fx/ZW9OzfHZnS8dPZY8f8oo3Tauy8kOScStKOrENClKlSoyExUqVKpJI9+M6fcjzib6GtQWFyl5otuZG/y0PduR1DAYJ+6tw3X8km/2G+hrQNhcmzmngYnYpLxjw5pXxOjxgMdRMbLfDI9DJerWP8VSxyW7FYZk2OPMjrn48H5UNt4RITuPXmn76aSW32yMWbJbJPQ0xbTNFw6j4gffSwoypgnJEL09gUAkeU7/AChnR9LSW5WQx52DcxPQeQ+lGppLWyJimjOEAYKEyFz0z5E+FBrTWWhtnjtbeY3MrAbsZG0eB9T51nML7Vbu9ku0aN4I13RoRywHu7vMgfhQh0wcl7TsJ2+8McV7zHTomvLho5/zcErmXbjAkYeGfGp19oizN3tuv5xnywJ8/L0FEI7R9StBuHcvAm8ELyrDjp5HyqRFeLPItvdILa9xyjEBXPmD6+VZsLM+InX0lSqleR+naOrpaXNrHDEiq0OFyeu3FM6VpRLsRmPuXB6eOeR8as8D28bbe9j70KC2CM48zUOfWFNzLaWcHtE3G0oQVJ8cnwxRaaZAVZt8fzLlR1MH6vJPNN/F0EAkDqHc7se6DyPnxUK9sRDfgWUNzBtUSSdw3HPHA6cUTtbG7tNYzIxl76LdLJjgn08scCixwilmIAHUmjmfn6mYCo75gSXs+k6t315cTO2MGRuB8hRSOERRqi52qABmoM13skLRXDNj9FhgV77cZpPdk7pPhk11b1XOBJyLmT+75oLre7vo49xClM/PPWj0eHjBVg//ALh4140MbOrsil14BI5FV1BN9ZTOMzRa8HMr9np0qzwuEIjAViTx8hU6DSokAMmZGDbvIfsovHEHbB4FeyQBMbMn0rlFFNYxjPznCjHea41QxLJJFBGwbvSveN9pjnk+QHPSsrCCGWdbRlwWGyNj+i3gf386k67aS/lAYlUtv/ORqo659Pjmjlpo8cc0WoXR2SCNdyHAAceJ/DzrhXmfJ6QJayWIgC70u5GgTTNagTK2Ru6oi89PiKkXGnWkmmw3VyzRThO9e4ichiTzz61Yr5hdWM0Vu4kdkIKqeSCMVW7G3kutLXTJGZbiN3hk8duOR8f7qyvYgBK9htvCFrCtk77So3J33LuZJJkY7g8gwWGcD6VYr5tvZ6TY5kQwgKxPJBxUnWdESPRQbcFjaNuz4tn7X41X5dS26JNZuSX3DYR5ZyR+/nQr5sZeX1hKV8qczdRBa28ndmOJ2Msp2tGv9DGSTW/uzxLdnNMLHLG1jyf+EVpHQ1lGoxTbSVZu6b0BGetbw0N1k0GwdQApt0IA8sU60DHnZfhBF3YvCFKlSprNIqVKlUkjN3/I5/1bfQ1zvM5N2snde7GAHwfAmuh70lbG4I6iNj9xrQ9q8V7ayTNtB7v85GPE9AfhQOsbkwxguoXmZVEjXDK8oCgbSRg+BFTILXvmUePGMetBw5VwjEYHIPpVi064tYnR5Z1Gzkn18qR6kMBtvmMqLVBPNtgCHrjT47LbeQsvs1qnKZwZD+JyKx0XvreC5ivIV/PR98W5z7/6JPpxQi5vZLzuZmhYWCyjCvwZD5/CrCLhpQUPQHOcUOAVTB6zFGV7MiEdMiWK3aSVwsRIGPFseHwqXHp0DkGWGOWORBvVgDzQlJQEXngeGKn2tzKZUUye5nGD0xWIsAIyIXkE4MGRaRYx6jFaSsneZLMgDbeuVXr5ZqzRRw2sRWGNIk8kXFNd1bG6ZiqGRiCeM8joadY7riKPwzuNG1FmbEiVhckSQRIqAkCmJYlnXa493OcDjNUq81u/sO2OoXluZJrWN1jmh6rtGFyPI5zg+PSrfJeRyWcV3akPDMoZH8MU04jw+3SIth/aQDBdNrK7yy9wfwwfdRCRpdiKscIOcDrTcNuYI4pWXdG/UEVKmuFmtDHgBpHAIHxp26vUiPdFA4xk88elJw+TmEGtQOYyVDDHDu7vIB6jPFOjGeRmgi6hOXLF/Hp4UWilWZNyMD548KsLCOkshVukf74KuTwPE14s6uMqQR6HNCbieSUlGXaAc48fnTMUqtnu2br4VY3lccxxmQEsTyjOIYZIy4cIN4GM45x8aH6itqzD2i5MZA4Ucj44rK6u5u6Ps4w+ON3nQK6t+7gaSacNIx6AZOfHNXFh7zG1gNgJjPKsLgwzK4Hiv99Dr69a31e21GNSzvw6AeIH2v2V40W9jsDYHUmol3FcbUkQ+5H+c3eJI8KgxnaAsxhSTtBZvCFecmOQkP6ZHOfpVIu/5QUiJKEnaSPDwNW+WwXUYYpIO52uQTIEAbH/AHoPqoNzcCUMjiBREZB+mR148utYUMAxx19oSC7EITsf5mOmP7LpeodCUjypPmeP7a3P2eXZ2b0xc5xaxj/pFaMLFmEfAEhAYeYzW+NG/mSx/UJ9Ka8L/c3xlrl5bPhJ1KlSp1M4qVKlUkke9/kFx+qb6Guc7GZ4zImDgryCOtdG3ozY3A/0bfQ1zgQ0CbScu2OM+AoHWnK8vrMmX/lVz0Eejt/aLngAqoxVg0+3s7G1ee4gjZiQq+6Dn0x/bQiwjAQZPLcVnNePMvcjJ2MdpHgvj9KTKhts5AfKJvqXFVPMw8zGGbvVjI5ijijZEIwGGcGiOlyz3AMsuwMTxsGMigmmWxmYdxKEK/b65A+PjVltS6zgFf0hisbvDUipRB9PzuedjDCaLOyb9yZPIBPSvHsLm394qQB+kORVe7bahqun6jY3FhfTQRyQfZU+6WB5yPHgivNH/hBubciHXYD3fANzGhGM9Ny/Dyp3/tt7NMuor3B+O/2/9Tp4jQt5ofYj7SyQsVxk+8Opqt3nbZre8kjigRnil2iQvvVkz148atri2uYpbglYrYIWZ/DbjJP7K1HLFFe38zWkQtrbd+aA+1tHT4Z60Z+neF122Obl5sfaYcW1NunRRU2CfvLpaavpaXWoXsGoyD21juiNoWMeTyNwOTx6+NEtBa1tdKnsPbRLEzl4N0ZTbnkg8kdRn51T7SBY4wrEsfMiidtDI8ipbDMrnai5wCfWvRavhldlbIXOD8uwwO3YRdptY6sG5Rn69+veGpC8UhDgjHNR5LraV5BOenmKIy6deWlkiXjROvQPHnEbfPwqv3MMyuQQxx1b1r5vqdGdLZy82VPQx8bSyjbB9ISs5O8JDMWJ5OBwvpRKCZlt/wA1hQeGPjVfsmww3NjAx5VPjm2cg4O7kjx+IoK65qMMBkQrSVi4EZwZKuZyAsYJDufebxxTvex2sSszxxpnBLHH7PWoN42yWKXPB934UzfIdRt5bRJJIHlhaNJ0+1GzY94fsx8CaDNg1GoyxwvtGVdJrqwoyYZluI1tWlaRREBuLdRjzGKE3MJuLlDG2UZc7h0oQ9jKmk2/ZWTv5o5LcQvdKwU+ZbPUdKP2qLbWqQhWxEu1QT4Djk0TTclSnJz6fLsYPqdM1gBAngtkEM0ajG88H6VGs0D280U3DRynBHh++KylucT5RgWAwVHnUGe6WFZneQJGzZJJ8aOZW2+MWqVwx9I01lZK2wXMkbOcOiNhWNMzRRppc9kuGeAbmIHhnp5nGag3eo2MygAuWXo+37qaW8MUc8rOWj2ncR1IxwPpVvCcrkwZbkVwRA9zOITkcnGcnwrfvZt2l7M6XI32mtYyf+UVznPIHuCFOVPvc/SuiuzHPZbSf90i/qinuipWsbdZxdQ11zZ6DpC1KlSo+bxUqVKpJI99/ILj9U30Nc4WkatOoeTccDn1ro++/kFx+qb6GuaE7y22PKuQcdDQGtJwAJQgZ+PaG1XukZg2AgJI8RUawSQuJFIXnG5hkCsluYiokQkg8EHqB61k1wI444EJ7tRkjP6RNLqgUBAHWB32tbjnPSExO5DJAmxCc8AjPyqTZahPbyr3haRDwyjnHwqFZwySRllbO04Jz0ovBcFeqe903DxoO91Ty4zNKVZjnOIe1rTzrvZ3ZCM3UB7yNfFh4r8/7BVYbV4tfOkaM1mqLHJmTDE4VBxz4+6MHPTwqw2Go9w2Q+SD0rCXTrKbXotWgXup8MHC9HJBGfjT/hnFUOn8KzquSvwJHsZrfpDbYLayN8Bh6gGLtZfG37KvEvBuJVhJB8OWP0xVW0HTZtVuxa25CMRlpGGQi+J/CjXbMM3Z6Jh0julLHyyrCmv4PLqNdSuYWIDyRDZnxwckV6Dhlpp4Q9tf7hn+3sIt4ggt4oldnQ4/vLE/ZXToolt4751uiPdMjKdx/wBnj7qr0UkulasgnXDwSgsPgfwqu9uNH1ycWeo2MXtE5LLcHGXjmLEZ46YG3b4YGfjd77RdUv8AQxcRzW8WuG2iRmnGVVgPeLD+kfXgUNp+ItUmdS3MrD65/OvpCrtErvy0LylT/H594FGu6rL/AAmXujT+0NbyFjGc4iaDAxgePic+YHrRm6j7vfFcBlmQe+GP7DmpvYyMvoVtLeXEF9fRh45LuNeB7x9xWxzionaC5jN9hXJCRhM9c9TXnNc9VtRUDpjB+P8Ake0YMj1jmYyFtDSAsuGH3jzryeaOJcHdu6dOPnTcF6oQRgF3JOcnxp67sjJESiqZB0yeD8aRujunJL6V0SzmP/yeQCaXMchXZ5VNjtp0/wAnIMfGoMUVwkwh2EqEBMpPBPkMVMVZxwZgB6cmlbaO7mxiOf6uoLnMbmkuI7lU+0SvJUfdmnGl2pukwfSlNlYiUOXXwJ+tBZZ5yjfaKBuSfA0w02iQEMT0ivU69yCqiTHmO9wOM9CBUZwk6CFkDZHU+Hz86YacRQmSV8D9I5+6hF1rhXMVuqmMjk85Py8KMrW2wnlgHioinm7iNajBFC7RjcSOrAAZHpQpbpraR1cCSN1Ksngw/Gp/8eKVKTwxlh9l8Z2eZIPWo09sk8imS5hjikG4SeA8uMU0rBRcWD+/tFrYY5QyBGR77Ejgfs9a6O7LHd2U0hvOziP/AEitFHRrRLYqtzI5dSBIMEZ863t2YjMXZbSYzjKWkS8eiiitHelrNywrS1NWTmFqVKlR8NipUqVSSR77jT7kj/ym+hrnBJ0uLUI4xKFGQRjafOuj77+b7n9U30Nc86XFaTQye0gCX7IDMMnjOQD9aX68hVDEdJk1bWuEU4PxhdNOs/4vYrt3Ngl0kBywXoGPr4UDhUrMRKGUgDB8KctkkSSOHEqwu5Yb+np6Vaba2syscrxGUd0dyvwPXFLvECE5O00NP9awFahSBADX26xihQAYJDBf0qmW1zesylcBOgXb7uPLNRb3SbixuU7p0zICwCk8Dyp+zmfJjnk3J1xn3lPwrO9V5fKAYIqOlnK+xEJJhlIViCDyCTz86L2okZQGOARjOaFpOsTPDGA8bkHkdDWN+t3LEk9jOY5oxgjdhXHz4/bQVA5rlR2Cj1PT646ekMY+EOZfMR2H5vH9cmisezM9tdTpJJLhYYx4cg5+XWhnYu40231hZLogOFPdM54Df9s1U9W1TUbh2iubl3KnBUEbfu4qFEbgRgknnrwK+jcM0PgaJtKT+7uDn3xEGt1vj6pdQB+3sZ0Ql1ACXyoJ8fOg+u2VjqcQZnZXB94oxAceTDPIrUdnqWpRjZFqMyr/AERLt+tHtKjfWbl11C/lmRVYNAzsQeOvGBxSHX8L/pKWutfyD0Bz+fWOtJxcX2iupPOfiMfn0lr03V7CytBo2lvv7hSWdfsgk5Iz581AmjeYO0ZLPnxH30LtbaPSdWeJVkEKrsV3UDd54x4USJeOQup3KRjFKeKac0cllWTWwBBP5tJXqX1BZbtmBOw/N5EiiYTFQCWPHpRS2uDbZTuxuPHJ6VGaaOSNQnuyDGWNNyIqMWEivg8EeOaFqPOPMMTrJyDmXeHJtske6JhnPBXkU08ns9u0m0yMPAfWlpcqtGVZ1Lfogr0qPq9tdSLuEuEXqPM1iD5/DY7QgpmvxVG8FXN4ZZcxoQWPKg9TTsEyLGwV968FgRgA/GoEcRyVKEvuwDnpU0x7YAijuzuK8n3R49avqiuAgO0x0lFtuXUZ/OkF6tGsrrvuFzyzLtzyf7KgNaSJDlI9zZ+1nAA9M9afDezGW4nCyMh2JnnJ86EXks147OzbuCceXwHlR+nRsBc7DvF1xGSSN561v314LZ2VOffcnoOp5o+LiwWMWkMkBAXAj65oNotlF3tzJdkFY1AwTxn9xRV+6JLwJGBjGQgBPzrDWsrPyb7fbM006lU5vWRWCRRlIx3KnkKvIPwFb27NnPZnSzz/ACWPr/sitCzzLDJD3i8SHZu/o+Vb77PDHZzTB/qsf9UUfw7OST3mtH7jCdKlSptCoqVKlUkka/ONPuT/AKJ/oa5whuobhY+/UhkA3FR9oV0jegGxuAendt9DWg9KsbSHXLVZbeS5hfOIl5Ocff50v1xXYHrvBrlJZcSNLfxy22yBCiA4APh5Gp9jq1wi26TKJVQDauPqfE9KtVxplhNp8mlsPZLVZe9MjAZXnzPHp8KpQltba5mjSRpdjsEcKdrDPB+dKEZOQ+GJuy3aZgebGY9eEvePMyPGWbO3w+Ro5oWnWt5cRCcFiWxt3AZ9c0DNxJdqAzAKDkQj9H5+NWvso0AjLsimRH5Yj9hrLz2MFJwZbTqhsJcZz7yw3dtpOk2JmntYlhGBnuy33iqTqeqaBfS+zbXWFj9rkBT5jxFWDtD2lszBc6YYJHkK7WJIAHiCPOtaSQi4vY4gwTvHC7jwBk4zXs+HcDptoN16lT1BBx8iMd4s4jxApYKqsEdDt/EkappNna36Q2krynbubcQQM9OR6VmEt7SElwvHUmrBddkLqwDXFmhuICMgA5dePEeNUyWZru6Jb7Cnha9Bwt6zplVLOc9yeufiO0T6yp67SXTl9B2+knQWsFy+4xAA8gVtyw7PWdtZW8AQARxgEDxPiT861Xat3W1gBwQa3HbXcdxbxzRsGSRQwPxpR+qM8lakeXJ++2I1/TwGXPfb7SpdvoIrOxs54UCbGK8dP35NAdEuZNSu4rSEjc55DdAPEmrJ2quIb2+tbFkWQIjSyKRnAPAzQnStGisdQN1bCQbkKlT0GfI0sHGtLp9GNJqFySuRkZG5OAfeE2aC67WG2s7ZAPr2zDWo9nBBB3yOJAMb/dwR61Bt9PV+ACp64KnFFoHuUR1mk3hvE8nHlUe7uUt4Ze7aMSKM4P8AdXi7nXnxUdo/GmRRzPPUt4YSA23fjIGeflQfVZpGR+6QFlYhcN1HlTU+sCUjvF+z4jw+NMd8GIDEbQxbd5j9zXEVkYFoNdejqVTpA8s15bShpSMnqPQeVOSavGqrLGi4CEOj8+9x/fUm+E0ybkKwxY8epFQ7LTVGZpNrrnKA5xnzNMi1JrD2Dp2EX1W31MUqPWRIzFewiOWQQ++WAIwD4DmpHsdogkgkDxsyZEiN1GegqczCRXTOQvDccH0FRZFB3RggkYDAfo+lVOoZjgZAmfhBRk7yFplgqX1wkh3CIe6PA+p9fT1qdqLNDYTSjhwoCnyyaHG8ewuTKVEiNkHHXPrWMb32vTC3Xakf2iF6AeZPjWrVWW2i1z5Rj/MrX08JB5j0krV4w2mNIQAyhXUnzre3Ztg/ZnS2Bzm0jOf+EVzz2gsZrNkWS4eZGXKls9R1/f1roHsnx2Q0Yf6lF/VFMuH1BE2OZsqsl7I4wRDNKlSpjN4qVKlUkke//m+5/VN9DXO9nJewWtve2s6tNGNykDBxjBHrXQ+ofzbdfqX/AKprnDRZM2ORkbjyM8dKC1uyhvSCagkMsLW/aXVXhu4twuPaVHeF1ztyMcY6cfSs9MWN4fz0Z9wgklunmCOtQ3mNrbSyIFJHvYI4JzUOOY4aVss2Q5yeppUwznbAlqL+SwNZ5sesPzW8MUhKlUZjkqBjaeevpRPSz3cveROhDcNggZqu21+8qu7opfjDePOf29KL2N4kq71tkUqfHmgLFsViw6iM6LKrXyNge0D6/LeDVZGuwOPdR1TaGXwoJI5Y5rYJv98BEsEciMMFW5FK2tdOmcsNNtlbOc7Aa9Xpf1aKqBXbVuB2Ix/iK9R+nGstNiWdT36yvWWp9ptZt1sra4ZYQCrzYxweu5vh5c0Gu7ZLG+lto5C4iwu5lwTwK2gCPZyqqFXb0AwBVb1PQYL+ZZhI0UowCyjO4eoqcJ/UCNqGYoET0Hr6mTX8Hs8AAMXb4+noIGsJFZQMDpR2HWbzTLPubO37/e+1E590nyA8zVWhBtr2SIHOxyuemcHFXPQdNa6j9tE+wwtu27M5x65r1nEnpbSGywZGMjOevaIuHi0XciHB6H5d5O0jT5oonuL5t97cHdK3GB5L8qIExwgnGMdTWbcgj0qFeRhD0DMR9oivjmovs1FzWWdT+YHwHafQ6alpqCJ0EaudRI9yL3jkHcPAVX9UullmaeKWNGzggeJ+Ip25kkYN7wCjgBVx40KmtVO0FnIZsHmt9OgU5MWatrGBEwh1C6RQmQytn3GPWl7SqtnoM9F5x8PSo7RrNO8IAUrjL4yTk/dinpVJLROQzxe4HxyRkUz5ayQcRTzONsx2bZcJv7yZvdZirJyABx8s0Pu570bYVkO5QCQjfZPXPFPGZoradlLErJ3fLE5XxFYx3JhldoUVA3JA6UzdKFrXA/PaVJVupx6xy21WK1skiaKV5ACWI881Hs9R33rhozm4lXBzwo6c/dRLT1U2pJAyFYhgOckgdfnQm9tkhupY4sqkZBGTk5+NCpTSWfbc9feEXUWVU13E5Hp+fWE7js/OvetFMJd5LFGGDn0qT2eRYLOaQqQ7Pg+YwOlEbSZp7OOQ8MVBJ9awKiOVygA70qzD16E0G9rFSjT0tHD6K7k1NOwx0+Y6wZ2oRXgtEJGQ7H5YrdXZjH5LaTjGPZIsY6fZFajW2ivL6ae4USCBhGiHp5k/fW5NGwNFscAAdwnA8OKYcNtBzX3A94s1tTG5tR2bYfTaTqVKlTaCT//Z" alt=""></div>
+          <div class="qtext">덩굴 사이로 눈이 반짝여요.<br>루미는 뭐라고 말할까요?</div>
+          <div class="myline-bubble">🦊 You are...<div class="mlb-line"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 3 / 4</div>
+  </div>
+
+  <div class="page" data-document-role="page" data-label="U4L4-p4">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">A New Friend <small>Lesson 4 · Wonder Journal — Page 4</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🧭</span>이야기 속으로 <span class="sub-en">Story Elements</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기를 떠올리며 답을 <b>찾아 동그라미/체크</b> 하세요.<span class="instr-tag">Circle it!</span></p>
+        <div class="elem-row">
+          <div class="elem-card">
+            <div class="elem-q">누가 나왔나요? <span class="sub-en">Who?</span></div>
+            <div class="elem-opts"><span class="wordopt">Lumi</span><span class="wordopt">Chick</span><span class="wordopt">Bird</span><span class="wordopt" style="opacity:.4; border-style:dashed;">Sloth</span></div>
+          </div>
+          <div class="elem-card">
+            <div class="elem-q">어디였나요? <span class="sub-en">Where?</span></div>
+            <div class="elem-opts"><span class="wordopt">jungle</span><span class="wordopt">desert</span></div>
+          </div>
+        </div>
+        <div class="elem-check">
+          <div class="elem-q" style="margin-bottom:6px;">이야기에 나온 것에 모두 체크하세요 <span class="sub-en">What was in the story?</span></div>
+          <div class="checklist">
+            <span class="check"><span class="box"></span>sloth</span>
+            <span class="check"><span class="box"></span>jungle</span>
+            <span class="check"><span class="box"></span>vine</span>
+            <span class="check"><span class="box"></span>slow</span>
+            <span class="check"><span class="box"></span>car</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔎</span>근거 찾기 <span class="sub-en">Find the Text Evidence</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기 속 진짜 문장은 어느 것일까요? <b>맞는 문장에 동그라미</b> 하세요.<span class="instr-tag">Circle it!</span></p>
+        <div class="evidence-item">
+          <div class="ev-q"><span class="qn">1</span>정글은 어땠나요? <i>What was the jungle like?</i></div>
+          <div class="ev-opts">
+            <span class="evopt">It is warm and quiet.</span>
+            <span class="evopt">It is cold and loud.</span>
+          </div>
+        </div>
+        <div class="evidence-item">
+          <div class="ev-q"><span class="qn">2</span>나무늘보는 어떻게 숨나요? <i>How does the sloth hide?</i></div>
+          <div class="ev-opts">
+            <span class="evopt">He can hide in the leaves.</span>
+            <span class="evopt">He can hide underground.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔬</span>원더 사이언스 <span class="sub-en">Wonder Science</span></div>
+      <div class="sec-body">
+        <p class="instr">그림과 글을 읽고, 왜 그런지 생각해보세요.<span class="instr-tag">Wonder Why?</span></p>
+        <div class="sci-box">
+          <div class="thumb"><img src="data:image/jpeg;base64,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" alt=""></div>
+          <div class="txt">나무늘보는 정말 천천히 움직이는 동물이에요. 나뭇잎 사이에 가만히 있으면 몸 색깔이 잎과 비슷해서 잘 안 보여요. 느리게 움직이면 힘도 아끼고, 적에게 들키지 않고 숨을 수 있어요.
+            <span class="en">Sloths move very slowly. Staying still among the leaves helps them blend in and hide from danger while saving energy.</span>
+          </div>
+        </div>
+        <div class="ev-q"><span class="qn">?</span>나무늘보는 왜 천천히 움직일까요? <i>Why do sloths move so slowly?</i></div>
+        <div class="ev-opts">
+          <span class="evopt">힘을 아끼고 안전하게 숨으려고</span>
+          <span class="evopt">더 빨리 배고파지려고</span>
+        </div>
+        <div class="sci-model">🦊 This is a sloth. It moves slowly and hides safely in the leaves.</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔮</span>다음엔 무슨 일이? <span class="sub-en">Predict What's Next</span></div>
+      <div class="sec-body">
+        <p class="instr">루미가 새로운 친구를 많이 만났어요! Book 2에서는 어떤 친구를 만나게 될까요? 예측해서 그려보세요.<span class="instr-tag">Guess &amp; Draw!</span></p>
+        <div class="predict-wrap">
+          <div class="predict-draw"></div>
+          <div class="predict-write">
+            <div class="bubble" style="width:100%;">🦊 I think Lumi will meet<span class="fill" style="min-width:100px;">&nbsp;</span>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 4 / 4</div>
+  </div>
+
+</div>
+</body>
+</html>

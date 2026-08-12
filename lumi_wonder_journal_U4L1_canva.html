@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Lumi's Wonder Journal — Sample Layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B3B6E;
+    --navy-deep:#122a52;
+    --sky:#4F8FE8;
+    --yellow:#FBD75B;
+    --yellow-deep:#F3B93A;
+    --kraft:#EFE3C9;
+    --kraft-edge:#D9C7A0;
+    --mint:#7FCBA4;
+    --coral:#F1876B;
+    --cream:#FBF6EC;
+    --ink:#233252;
+    --ink-soft:#5B6784;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:#DCE3EC;
+    font-family:'Noto Sans KR', sans-serif;
+    color:var(--ink);
+    padding:32px 0 60px;
+  }
+  .intro{
+    max-width:900px;
+    margin:0 auto 28px;
+    padding:0 20px;
+    color:#33415e;
+  }
+  .intro h1{
+    font-family:'Noto Sans KR', sans-serif; font-weight:900;
+    color:var(--navy-deep);
+    font-size:33px;
+    margin-bottom:6px;
+  }
+  .intro p{ font-size:18.5px; line-height:1.7; color:#4a5773;}
+  .intro .tag{
+    display:inline-block; background:var(--navy); color:#fff; font-family:'Noto Sans KR'; font-weight:900;
+    font-size:16px; padding:4px 12px; border-radius:20px; margin-right:6px; margin-bottom:10px;
+  }
+
+  .sheet-wrap{
+    max-width:900px;
+    margin:0 auto 44px;
+    background:#fff;
+    border-radius:18px;
+    box-shadow:0 18px 40px -14px rgba(20,40,80,.35);
+    overflow:hidden;
+    position:relative;
+  }
+  .page{
+    width:900px;
+    height:1350px;
+    box-sizing:border-box;
+    background:
+      radial-gradient(circle at 92% 6%, rgba(251,215,91,.18), transparent 40%),
+      var(--cream);
+    padding:24px 34px 30px;
+    position:relative;
+    overflow:hidden;
+  }
+  .page + .page{ border-top:3px dashed #d8cba3; }
+
+  /* header */
+  .head{
+    background:var(--navy);
+    border-radius:999px;
+    padding:12px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 6px 0 var(--navy-deep);
+    margin-bottom:16px;
+  }
+  .head .lt{ display:flex; align-items:center; gap:12px;}
+  .head .unit{
+    background:var(--yellow); color:var(--navy-deep); font-family:'Noto Sans KR'; font-weight:900;
+    font-size:17.5px; padding:5px 12px; border-radius:999px;
+  }
+  .head .title{
+    font-family:'Noto Sans KR'; font-weight:900; color:#fff; font-size:21px; letter-spacing:.2px;
+  }
+  .head .title small{ display:block; font-family:'Noto Sans KR'; font-size:14.5px; color:#c9d7f2; font-weight:400;}
+  .stamprow{ display:flex; gap:6px; }
+  .stamp{
+    width:26px;height:26px;border-radius:50%;
+    border:2px solid #ffffff88;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16.5px; color:#ffffff55;
+  }
+  .stamp.on{ background:var(--yellow); border-color:var(--yellow); color:var(--navy-deep); }
+
+  /* section card */
+  .sec{ margin-bottom:18px; }
+  .sec-label{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--navy); color:#fff; font-family:'Noto Sans KR'; font-weight:900;
+    font-size:16.5px; padding:5px 14px 5px 11px; border-radius:10px 10px 0 0;
+  }
+  .sec-label .ico{
+    width:24px;height:24px;background:var(--yellow); border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:16.5px;
+  }
+  .sec-body{
+    background:#fff; border:2px solid var(--navy); border-top:none;
+    border-radius:0 12px 12px 12px;
+    padding:16px 18px;
+  }
+  .sub-en{ font-family:'Quicksand'; color:var(--sky); font-weight:700; font-size:14.5px; margin-left:4px;}
+
+  /* Vocabulary strip */
+  .vocab-strip{ display:flex; gap:10px; margin-bottom:6px;}
+  .vocab-card{ flex:1; text-align:center; }
+  .vocab-img{
+    height:64px; border-radius:10px; border:2.5px dashed var(--kraft-edge); background:#FBF8F1;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-size:25.5px; color:#c9bd9c; gap:2px;
+  }
+  .vocab-img span{ font-size:12px; font-family:'Noto Sans KR'; color:#b9ac89;}
+  .vocab-en{ font-family:'Quicksand'; font-weight:700; color:var(--navy-deep); font-size:17.5px; margin-top:6px;}
+  .vocab-kr{ font-size:14.5px; color:var(--ink-soft); margin-bottom:4px;}
+  .vocab-lines{ display:flex; flex-direction:column; gap:6px; }
+  .vocab-trace{
+    font-family:'Quicksand'; font-weight:700; font-size:19px; color:#d3dcee;
+    border-bottom:2px dotted var(--sky); padding-bottom:6px; height:30px; display:flex; align-items:flex-end;
+  }
+  .vocab-line{
+    border-bottom:2px dotted var(--sky); height:36px;
+  }
+  .instr{ font-size:15px; color:var(--ink-soft); margin:0 0 10px; line-height:1.6;}
+  .instr b{ color:var(--navy);}
+  .instr-tag{
+    font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:13px;
+    background:#EAF2FF; border:1px solid var(--sky); border-radius:999px; padding:1px 9px; margin-left:5px;
+    white-space:nowrap;
+  }
+
+  /* detective Q */
+  .qrow{ display:flex; gap:16px; }
+  .qbox{ flex:1; background:var(--kraft); border-radius:12px; padding:12px 14px; border:1.5px solid var(--kraft-edge);}
+  .qbox .qhead{ display:flex; gap:8px; align-items:flex-start; font-size:17px; margin-bottom:8px;}
+  .qbox .qhead i{ font-style:normal; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:16px; display:inline-block; margin-top:3px;}
+  .qbox .qn{
+    flex:none; width:20px;height:20px;background:var(--coral); color:#fff; border-radius:50%;
+    font-family:'Quicksand'; font-size:14.5px; display:flex;align-items:center;justify-content:center; font-weight:700;
+  }
+  .qbox .opts{ display:flex; gap:10px; padding-left:28px;}
+  .circleopt{
+    font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy);
+    border:2px solid var(--navy); border-radius:999px; padding:3px 12px;
+  }
+
+  /* speaking */
+  .wordbank{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 14px;}
+  .chip{
+    font-family:'Quicksand'; font-weight:700; font-size:16px; color:var(--navy-deep);
+    background:var(--yellow); border-radius:999px; padding:5px 13px; border:2px solid var(--yellow-deep);
+  }
+  .bubble-row{ display:flex; gap:12px; }
+  .bubble{
+    flex:1; background:#EAF2FF; border:2px solid var(--sky); border-radius:16px 16px 16px 4px;
+    padding:12px 14px; font-family:'Quicksand'; font-size:19px; color:var(--navy-deep); font-weight:700;
+  }
+  .bubble .fill{ display:inline-block; border-bottom:2.5px dotted var(--sky); min-width:70px; }
+  .mic-box{
+    margin-top:12px; display:flex; align-items:center; gap:12px;
+    background:var(--navy); border-radius:12px; padding:10px 14px; color:#fff;
+  }
+  .mic-box .qr{ width:44px;height:44px;background:#fff; border-radius:6px; flex:none;
+    background-image:
+      repeating-linear-gradient(0deg,#1B3B6E,#1B3B6E 3px,#fff 3px,#fff 6px),
+      repeating-linear-gradient(90deg,#1B3B6E,#1B3B6E 3px,#fff 3px,#fff 6px);
+    background-blend-mode:multiply;
+  }
+  .mic-box .txt{ font-size:16px; line-height:1.5; }
+  .mic-box .txt b{ font-family:'Noto Sans KR'; font-weight:900; font-size:17.5px; display:block;}
+
+  /* footer */
+  .pfoot{ text-align:right; margin-top:14px; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:15.5px;}
+  .pfoot .star{ color:var(--yellow-deep); }
+
+  /* Page B specifics */
+  .cutcards{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .cutcard{
+    font-family:'Quicksand'; font-weight:700; font-size:17.5px; color:var(--navy-deep);
+    border:2px solid var(--coral); border-radius:999px; padding:6px 14px; background:#FFF6F3;
+  }
+  .buildline{ display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+  .buildline .num{
+    width:22px;height:22px;border-radius:50%;background:var(--navy); color:#fff;
+    font-family:'Quicksand'; font-size:15.5px; display:flex;align-items:center;justify-content:center; flex:none;
+  }
+  .buildline .slot{ flex:1; border-bottom:2.5px solid var(--kraft-edge); height:38px; }
+
+  .diary{
+    display:flex; gap:16px;
+  }
+  .diary .draw{
+    flex:1.1; background:repeating-linear-gradient(#fff,#fff 27px,#eef1f6 28px);
+    border:2.5px solid var(--navy); border-radius:12px; min-height:190px; position:relative;
+  }
+  .diary .draw .cap{
+    position:absolute; bottom:6px; left:0; right:0; text-align:center; font-size:15px; color:#9aa5bd;
+  }
+  .diary .lines{ flex:1; display:flex; flex-direction:column; gap:14px; padding-top:4px;}
+  .diary .lines .ln{ border-bottom:2px dotted #c3cbdd; height:26px; }
+  .diary .starter{ font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:17.5px; margin-bottom:4px;}
+
+  .badgebar{ display:flex; gap:14px; align-items:center; flex-wrap:wrap;}
+  .check{ display:flex; align-items:center; gap:8px; font-size:16.5px; color:var(--ink);}
+  .check .box{ width:20px;height:20px;border:2.5px solid var(--mint); border-radius:6px; flex:none;}
+  .teacherstamp{
+    margin-left:auto; width:64px;height:64px;border-radius:50%; border:3px dashed var(--coral);
+    display:flex;align-items:center;justify-content:center; text-align:center; font-size:13px; color:var(--coral);
+    font-family:'Noto Sans KR'; font-weight:900;
+  }
+
+  /* power pattern practice */
+  .trace-row{ display:flex; flex-direction:column; gap:8px; margin-bottom:16px;}
+  .trace-line{
+    font-family:'Quicksand'; font-weight:800; font-size:27px; letter-spacing:.5px;
+    color:#c7d3ea; border-bottom:2.5px dotted var(--kraft-edge); padding-bottom:6px;
+  }
+  .trace-line.blank{ color:transparent; border-bottom:2.5px dotted var(--sky); }
+  .chant-box{
+    background:var(--navy); color:#fff; border-radius:12px; padding:10px 16px; margin-bottom:16px;
+    font-family:'Quicksand'; font-weight:700; font-size:17.5px; display:flex; align-items:center; gap:10px;
+  }
+  .chant-box .clap{ font-size:25.5px; }
+  .drill-row{ display:flex; gap:12px; }
+  .drill-card{ flex:1; text-align:center; }
+  .drill-card .pic{
+    width:100%; height:96px; border-radius:10px; background:#FBF8F1; border:2px dashed var(--kraft-edge);
+    display:flex; align-items:center; justify-content:center; font-size:31px; margin-bottom:6px;
+  }
+  .drill-card .dline{ border-bottom:2.5px dotted var(--kraft-edge); height:22px; }
+
+  /* Rhythm & Stress */
+  .rhythm-ex{ margin-bottom:16px; }
+  .rhythm-ex:last-child{ margin-bottom:0; }
+  .rhythm-sent{ font-family:'Quicksand'; letter-spacing:.2px; margin-bottom:8px; }
+  .rhythm-sent .w{ font-weight:500; color:#8b96b3; font-size:19px; }
+  .rhythm-sent .w.stress{ font-weight:800; color:var(--navy); font-size:25.5px; margin:0 1px; }
+  .rhythm-sent .linkmark{ color:var(--coral); font-weight:700; font-size:19px; margin:0 -1px; position:relative; top:2px; }
+  .beat-row{ display:flex; gap:14px; align-items:flex-end; height:20px; margin-bottom:4px;}
+  .beat{ width:9px;height:9px;border-radius:50%; background:#d7deee; }
+  .beat.big{ width:17px;height:17px; background:var(--coral); }
+  .rhythm-legend{
+    font-size:13px; color:var(--ink-soft); margin-top:10px; display:flex; gap:16px; flex-wrap:wrap;
+    border-top:1.5px dashed var(--kraft-edge); padding-top:8px;
+  }
+  .rhythm-legend b{ color:var(--navy); }
+
+  .miniguide{
+    background:#EAF2FF; border:1.5px solid var(--sky); border-radius:12px;
+    padding:10px 14px; margin-bottom:14px;
+  }
+  .mg-title{ font-family:'Noto Sans KR'; font-weight:900; color:var(--navy-deep); font-size:16px; margin-bottom:6px;}
+  .mg-row{ font-size:14.5px; color:var(--ink); line-height:1.6; margin-bottom:4px; }
+  .mg-row:last-child{ margin-bottom:0; }
+  .mg-row b{ color:var(--navy); font-weight:700; margin-right:6px; white-space:nowrap; }
+  .mg-row b span{ font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:12.5px; margin-left:2px; }
+  .mg-row b.hl{ color:var(--coral); font-weight:700; margin:0 1px; white-space:normal; }
+
+  /* narration / dialogue copy (Page 3) */
+  .copyset{ display:flex; flex-direction:column; gap:12px; }
+  .copy-item{ display:flex; align-items:center; gap:14px; }
+  .copy-item .num{
+    flex:none; width:24px;height:24px;border-radius:50%;background:var(--navy); color:#fff;
+    font-family:'Quicksand'; font-size:15.5px; display:flex;align-items:center;justify-content:center;
+  }
+  .narr-target{
+    flex:none; width:350px; background:var(--kraft); border:1.5px solid var(--kraft-edge);
+    border-radius:8px; padding:8px 12px; font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy-deep);
+  }
+  .dlg-target{
+    flex:none; width:350px; background:#EAF2FF; border:1.5px solid var(--sky);
+    border-radius:14px 14px 14px 3px; padding:8px 12px; font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy-deep);
+  }
+  .copy-line{ flex:1; border-bottom:2.5px dotted var(--kraft-edge); height:26px; }
+
+  .myline-box{
+    display:flex; gap:16px; align-items:center; background:var(--kraft); border:1.5px solid var(--kraft-edge);
+    border-radius:14px; padding:14px 18px;
+  }
+  .myline-box .thumb{ flex:none; width:96px; height:72px; border-radius:10px; overflow:hidden; border:2px solid var(--kraft-edge);}
+  .myline-box .thumb img{ width:100%; height:100%; object-fit:cover; display:block;}
+  .myline-box .qtext{ flex:none; width:230px; font-size:16.5px; color:var(--ink); line-height:1.5; }
+  .myline-bubble{
+    flex:1; background:#fff; border:2px solid var(--coral); border-radius:14px 14px 14px 3px;
+    padding:10px 14px; font-family:'Quicksand'; font-weight:700; font-size:17.5px; color:var(--navy-deep);
+  }
+  .myline-bubble .mlb-line{
+    margin-top:10px; border-bottom:2.5px dotted var(--coral); height:38px;
+  }
+
+  /* Page 4: Reading Power */
+  .elem-row{ display:flex; gap:12px; margin-bottom:12px; }
+  .elem-card{
+    flex:1; background:var(--kraft); border:1.5px solid var(--kraft-edge); border-radius:12px; padding:10px 14px;
+  }
+  .elem-q{ font-size:16.5px; color:var(--navy-deep); font-weight:600; margin-bottom:8px; }
+  .elem-opts{ display:flex; gap:10px; flex-wrap:wrap; }
+  .picopt{
+    width:34px;height:34px;border-radius:50%; background:#fff; border:2px solid var(--navy);
+    display:flex;align-items:center;justify-content:center; font-size:21.5px;
+  }
+  .picopt.dim{ opacity:.4; border-style:dashed; }
+  .wordopt{
+    font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy);
+    border:2px solid var(--navy); border-radius:999px; padding:5px 14px; background:#fff;
+  }
+  .elem-check{ background:#EAF2FF; border:1.5px solid var(--sky); border-radius:12px; padding:10px 14px; }
+  .checklist{ display:flex; gap:14px; flex-wrap:wrap; }
+  .checklist .check{ display:flex; align-items:center; gap:6px; font-family:'Quicksand'; font-weight:700; font-size:16px; color:var(--navy-deep);}
+  .checklist .box{ width:17px;height:17px;border:2px solid var(--sky); border-radius:5px; background:#fff; }
+
+  .evidence-item{ margin-bottom:12px; }
+  .ev-q{ font-size:17px; color:var(--ink); margin-bottom:7px; display:flex; gap:8px; align-items:flex-start;}
+  .ev-q i{ font-style:normal; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:15.5px; }
+  .ev-q .qn{
+    flex:none; width:20px;height:20px;background:var(--coral); color:#fff; border-radius:50%;
+    font-family:'Quicksand'; font-size:14.5px; display:flex;align-items:center;justify-content:center; font-weight:700;
+  }
+  .ev-opts{ display:flex; gap:10px; margin-left:28px; }
+  .evopt{
+    font-family:'Quicksand'; font-weight:700; font-size:17px; color:var(--navy-deep);
+    border:2px solid var(--navy); border-radius:999px; padding:6px 16px; background:#fff;
+  }
+
+  .predict-wrap{ display:flex; gap:16px; align-items:center; }
+  .predict-draw{
+    flex:1; background:repeating-linear-gradient(#fff,#fff 27px,#eef1f6 28px);
+    border:2.5px solid var(--navy); border-radius:12px; min-height:110px;
+  }
+  .predict-write{ flex:1; display:flex; flex-direction:column; gap:12px; padding-top:4px;}
+  .predict-write .starter{ font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:17.5px;}
+  .predict-write .ln{ border-bottom:2px dotted #c3cbdd; height:26px; }
+
+  /* Wonder Science */
+  .sci-box{
+    display:flex; gap:14px; align-items:center; background:var(--kraft); border:1.5px solid var(--kraft-edge);
+    border-radius:14px; padding:12px 16px; margin-bottom:12px;
+  }
+  .sci-box .thumb{ flex:none; width:130px; height:92px; border-radius:10px; overflow:hidden; border:2px solid var(--kraft-edge);}
+  .sci-box .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .sci-box .txt{ flex:1; font-size:15.5px; color:var(--ink); line-height:1.6; }
+  .sci-box .txt .en{ display:block; margin-top:6px; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:14.5px; line-height:1.5; }
+  .sci-q{ display:flex; align-items:center; gap:8px; font-size:16.5px; color:var(--ink); margin-bottom:8px; }
+  .sci-model{
+    margin-top:10px; background:#EAF2FF; border:1.5px solid var(--sky); border-radius:12px; padding:10px 14px;
+    font-family:'Quicksand'; font-weight:700; color:var(--navy-deep); font-size:16.5px;
+  }
+</style>
+
+<body>
+
+<div class="intro">
+  <span class="tag">UNIT 4 · Lesson 1</span><span class="tag" style="background:var(--coral)">Lumi's Wonder Journal</span>
+  <h1>Meet the Nest — 4페이지 워크북</h1>
+</div>
+
+<div class="sheet-wrap">
+
+  <div class="page" data-document-role="page" data-label="U4L1-p1">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">Meet the Nest <small>Lesson 1 · Wonder Journal — Page 1</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp on">★</div>
+        <div class="stamp on">★</div>
+        <div class="stamp on">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔤</span>이번 유닛 단어 <span class="sub-en">Unit Vocabulary</span></div>
+      <div class="sec-body">
+        <p class="instr">그림을 붙이고, 단어를 소리내어 읽은 후 따라 써보세요.<span class="instr-tag">Read &amp; Write!</span></p>
+        <div class="vocab-strip">
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">nest</div>
+            <div class="vocab-kr">둥지</div>
+            <div class="vocab-lines"><div class="vocab-trace">nest</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">egg</div>
+            <div class="vocab-kr">알</div>
+            <div class="vocab-lines"><div class="vocab-trace">egg</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">hatch</div>
+            <div class="vocab-kr">부화하다</div>
+            <div class="vocab-lines"><div class="vocab-trace">hatch</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">baby</div>
+            <div class="vocab-kr">아기</div>
+            <div class="vocab-lines"><div class="vocab-trace">baby</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">wing</div>
+            <div class="vocab-kr">날개</div>
+            <div class="vocab-lines"><div class="vocab-trace">wing</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔍</span>원더 디텍티브 <span class="sub-en">Reading Check</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기를 떠올리며 알맞은 답에 동그라미 하세요.<span class="instr-tag">Circle it!</span></p>
+        <div class="qrow">
+          <div class="qbox">
+            <div class="qhead"><span class="qn">1</span><span>둥지는 어디에 있었나요?<br><i>Where was the nest?</i></span></div>
+            <div class="opts">
+              <span class="circleopt">in a tree</span>
+              <span class="circleopt">on the ground</span>
+            </div>
+          </div>
+          <div class="qbox">
+            <div class="qhead"><span class="qn">2</span><span>알에서 무엇이 나왔나요?<br><i>What came out of the egg?</i></span></div>
+            <div class="opts">
+              <span class="circleopt">a baby bird</span>
+              <span class="circleopt">a butterfly</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🗣️</span>루미처럼 말해보기 <span class="sub-en">Speak Like Lumi</span></div>
+      <div class="sec-body">
+        <p class="instr">단어은행에서 골라 짝과 함께 문장을 말해보세요.<span class="instr-tag">Speak!</span></p>
+        <div class="wordbank">
+          <span class="chip">a nest</span><span class="chip">an egg</span><span class="chip">a baby bird</span><span class="chip">the wings</span>
+        </div>
+        <div class="bubble-row">
+          <div class="bubble">🦊 Here is <span class="fill">&nbsp;</span>!</div>
+          <div class="bubble">🐤 I see it, too!</div>
+        </div>
+        <div class="mic-box">
+          <div class="qr"></div>
+          <div class="txt"><b>Wonder Voice 녹음하기</b>QR을 스캔해서 내 목소리로 문장 3개를 녹음해보세요. 선생님이 들어볼 거예요!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🏅</span>오늘의 원더 배지 <span class="sub-en">Self-Check</span></div>
+      <div class="sec-body">
+        <div class="badgebar">
+          <div class="check"><div class="box"></div>"Here is..." 문장을 3번 말했어요</div>
+          <div class="check"><div class="box"></div>문장 2개 이상 썼어요</div>
+          <div class="check"><div class="box"></div>이야기를 소리내어 읽었어요</div>
+          <div class="teacherstamp">TEACHER<br>STAMP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 1 / 4</div>
+  </div>
+
+  <div class="page" data-document-role="page" data-label="U4L1-p2">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">Meet the Nest <small>Lesson 1 · Wonder Journal — Page 2</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp on">★</div>
+        <div class="stamp on">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">✏️</span>문장 만들기 <span class="sub-en">Sentence Builder</span></div>
+      <div class="sec-body">
+        <p class="instr">아래 카드에서 단어를 골라 조합하여, 나만의 문장 3개를 완성해보세요.<span class="instr-tag">Make it!</span></p>
+        <div class="cutcards">
+          <span class="cutcard">Here is</span>
+          <span class="cutcard">a</span>
+          <span class="cutcard">the</span>
+          <span class="cutcard">nest</span>
+          <span class="cutcard">egg</span>
+          <span class="cutcard">baby bird</span>
+          <span class="cutcard">wing</span>
+        </div>
+        <div class="buildline"><div class="num">1</div><div class="slot"></div></div>
+        <div class="buildline"><div class="num">2</div><div class="slot"></div></div>
+        <div class="buildline"><div class="num">3</div><div class="slot"></div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🌟</span>나의 원더 일기 <span class="sub-en">My Wonder Diary</span></div>
+      <div class="sec-body">
+        <p class="instr">내가 둥지를 발견한다면 무엇이 있을까요? <b>그리고 써보세요.</b><span class="instr-tag">Draw &amp; Write!</span></p>
+        <div class="diary">
+          <div class="draw"><div class="cap">✏️ Draw what's inside YOUR nest</div></div>
+          <div class="lines">
+            <div class="starter">Here is...</div>
+            <div class="ln"></div>
+            <div class="ln"></div>
+            <div class="ln"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">⭐</span>파워패턴 연습하기 <span class="sub-en">Power Pattern Practice</span></div>
+      <div class="sec-body">
+        <p class="instr">흐린 글씨를 따라 쓰고, 마지막 줄은 스스로 써보세요.<span class="instr-tag">Trace &amp; Write!</span></p>
+        <div class="trace-row">
+          <div class="trace-line">Here is...</div>
+          <div class="trace-line">Here is...</div>
+          <div class="trace-line blank">Here is...</div>
+        </div>
+        <div class="chant-box"><span class="clap">👏</span> 다 같이 리듬으로! "Here is, here is, here is a nest!"</div>
+        <div class="drill-row">
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 2 / 4</div>
+  </div>
+
+  <div class="page" data-document-role="page" data-label="U4L1-p3">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">Meet the Nest <small>Lesson 1 · Wonder Journal — Page 3</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🎵</span>리듬으로 읽어요 <span class="sub-en">Rhythm &amp; Stress</span></div>
+      <div class="sec-body">
+        <p class="instr">진하고 큰 글씨는 <b>강하게</b>, <span style="color:var(--coral); font-weight:700;">‿</span> 표시는 <b>부드럽게 이어서</b> 읽어요. 문장 아래 동그라미를 보며 손뼉을 쳐보세요.<span class="instr-tag">Listen &amp; Clap!</span></p>
+
+        <div class="miniguide">
+          <div class="mg-title">📘 소리 규칙 알아보기</div>
+          <div class="mg-row"><b>강세 <span>Stress</span></b>뜻을 담은 <b class="hl">내용어</b>(명사·동사·형용사)는 강하고 크게, 문법 역할만 하는 <b class="hl">기능어</b>(관사·전치사·대명사·be동사)는 약하고 짧게 읽어요.</div>
+          <div class="mg-row"><b>리듬 <span>Rhythm</span></b>영어는 강세와 강세 사이의 간격이 일정하게 느껴지는 <b class="hl">강세박자언어</b>예요. 그래서 노래하듯 리듬감 있게 들려요.</div>
+          <div class="mg-row"><b>연음 <span>Linking</span></b>앞 단어 끝의 <b class="hl">자음</b>과 뒷 단어 처음의 <b class="hl">모음</b>이 만나면 자연스럽게 이어져 한 소리처럼 들려요.</div>
+        </div>
+
+        <div class="rhythm-ex">
+          <div class="rhythm-sent"><span class="w">Here</span><span class="linkmark">‿</span><span class="w">is</span><span class="linkmark">‿</span><span class="w">a</span> <span class="w stress">NEST</span>!</div>
+          <div class="beat-row">
+            <div class="beat"></div>
+            <div class="beat"></div>
+            <div class="beat"></div>
+            <div class="beat big"></div>
+          </div>
+        </div>
+
+        <div class="rhythm-ex">
+          <div class="rhythm-sent"><span class="w">It</span><span class="linkmark">‿</span><span class="w">is</span> <span class="w stress">SO</span> <span class="w stress">SMALL</span>.</div>
+          <div class="beat-row">
+            <div class="beat"></div>
+            <div class="beat"></div>
+            <div class="beat big"></div>
+            <div class="beat big"></div>
+          </div>
+        </div>
+
+        <div class="rhythm-legend">
+          <span><b>●</b> 큰 원 = 강하게(stress)</span>
+          <span><b>•</b> 작은 원 = 약하게(weak)</span>
+          <span><b>‿</b> = 이어 읽기(linking)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">📜</span>이야기 따라쓰기 <span class="sub-en">Narration Copy</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기 속 문장을 소리내어 읽고, 빈 줄에 <b>똑같이 따라 써보세요.</b><span class="instr-tag">Copy it!</span></p>
+        <div class="copyset">
+          <div class="copy-item"><div class="num">1</div><div class="narr-target">They see a nest.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">2</div><div class="narr-target">The egg has a small crack.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">3</div><div class="narr-target">The egg is open.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">4</div><div class="narr-target">The baby bird has small wings.</div><div class="copy-line"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">💬</span>대화 따라쓰기 <span class="sub-en">Dialogue Copy</span></div>
+      <div class="sec-body">
+        <p class="instr">루미가 한 말이에요. 짝과 함께 읽고 나서 따라 써보세요.<span class="instr-tag">Read &amp; Copy!</span></p>
+        <div class="copyset">
+          <div class="copy-item"><div class="num">1</div><div class="dlg-target">🦊 Here is a nest!</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">2</div><div class="dlg-target">🦊 It is starting to hatch!</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">3</div><div class="dlg-target">🦊 Here is a baby bird!</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">4</div><div class="dlg-target">🦊 I see the wings!</div><div class="copy-line"></div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 3 / 4</div>
+  </div>
+
+  <div class="page" data-document-role="page" data-label="U4L1-p4">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">Meet the Nest <small>Lesson 1 · Wonder Journal — Page 4</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🎭</span>내가 만드는 대사 <span class="sub-en">My Own Line</span></div>
+      <div class="sec-body">
+        <p class="instr">둥지에서 <b>또 다른 아기 새</b>가 나왔어요! 무엇일지 그림을 보고 루미의 대사를 완성해보세요.<span class="instr-tag">Imagine!</span></p>
+        <div class="myline-box">
+          <div class="thumb"><img src="data:image/jpeg;base64,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" alt=""></div>
+          <div class="qtext">알이 하나 더 깨지고 있어요.<br>루미는 뭐라고 말할까요?</div>
+          <div class="myline-bubble">🦊 Here is...<div class="mlb-line"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🧭</span>이야기 속으로 <span class="sub-en">Story Elements</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기를 떠올리며 답을 <b>찾아 동그라미/체크</b> 하세요.<span class="instr-tag">Circle it!</span></p>
+        <div class="elem-row">
+          <div class="elem-card">
+            <div class="elem-q">누가 나왔나요? <span class="sub-en">Who?</span></div>
+            <div class="elem-opts"><span class="wordopt">Lumi</span><span class="wordopt">Chick</span><span class="wordopt">Bird</span><span class="wordopt" style="opacity:.4; border-style:dashed;">Owl</span></div>
+          </div>
+          <div class="elem-card">
+            <div class="elem-q">어디였나요? <span class="sub-en">Where?</span></div>
+            <div class="elem-opts"><span class="wordopt">tree</span><span class="wordopt">cave</span></div>
+          </div>
+        </div>
+        <div class="elem-check">
+          <div class="elem-q" style="margin-bottom:6px;">이야기에 나온 것에 모두 체크하세요 <span class="sub-en">What was in the story?</span></div>
+          <div class="checklist">
+            <span class="check"><span class="box"></span>nest</span>
+            <span class="check"><span class="box"></span>egg</span>
+            <span class="check"><span class="box"></span>baby</span>
+            <span class="check"><span class="box"></span>wing</span>
+            <span class="check"><span class="box"></span>car</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔎</span>근거 찾기 <span class="sub-en">Find the Text Evidence</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기 속 진짜 문장은 어느 것일까요? <b>맞는 문장에 동그라미</b> 하세요.<span class="instr-tag">Circle it!</span></p>
+        <div class="evidence-item">
+          <div class="ev-q"><span class="qn">1</span>알은 어땠나요? <i>What was the egg like?</i></div>
+          <div class="ev-opts">
+            <span class="evopt">It is warm.</span>
+            <span class="evopt">It is cold.</span>
+          </div>
+        </div>
+        <div class="evidence-item">
+          <div class="ev-q"><span class="qn">2</span>아기 새는 어땠나요? <i>What was the baby bird like?</i></div>
+          <div class="ev-opts">
+            <span class="evopt">It is so small.</span>
+            <span class="evopt">It is very big.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔮</span>다음엔 무슨 일이? <span class="sub-en">Predict What's Next</span></div>
+      <div class="sec-body">
+        <p class="instr">아기 새의 날개가 자라고 있어요! 다음엔 무엇을 할 수 있을까요? 예측해서 그려보세요.<span class="instr-tag">Guess &amp; Draw!</span></p>
+        <div class="predict-wrap">
+          <div class="predict-draw"></div>
+          <div class="predict-write">
+            <div class="bubble" style="width:100%;">🦊 I think the baby bird will<span class="fill" style="min-width:100px;">&nbsp;</span>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 4 / 4</div>
+  </div>
+
+</div>
+</body>
+</html>

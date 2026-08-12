@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Lumi's Wonder Journal — Sample Layout</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1B3B6E;
+    --navy-deep:#122a52;
+    --sky:#4F8FE8;
+    --yellow:#FBD75B;
+    --yellow-deep:#F3B93A;
+    --kraft:#EFE3C9;
+    --kraft-edge:#D9C7A0;
+    --mint:#7FCBA4;
+    --coral:#F1876B;
+    --cream:#FBF6EC;
+    --ink:#233252;
+    --ink-soft:#5B6784;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:#DCE3EC;
+    font-family:'Noto Sans KR', sans-serif;
+    color:var(--ink);
+    padding:32px 0 60px;
+  }
+  .intro{
+    max-width:900px;
+    margin:0 auto 28px;
+    padding:0 20px;
+    color:#33415e;
+  }
+  .intro h1{
+    font-family:'Noto Sans KR', sans-serif; font-weight:900;
+    color:var(--navy-deep);
+    font-size:33px;
+    margin-bottom:6px;
+  }
+  .intro p{ font-size:18.5px; line-height:1.7; color:#4a5773;}
+  .intro .tag{
+    display:inline-block; background:var(--navy); color:#fff; font-family:'Noto Sans KR'; font-weight:900;
+    font-size:16px; padding:4px 12px; border-radius:20px; margin-right:6px; margin-bottom:10px;
+  }
+
+  .sheet-wrap{
+    max-width:900px;
+    margin:0 auto 44px;
+    background:#fff;
+    border-radius:18px;
+    box-shadow:0 18px 40px -14px rgba(20,40,80,.35);
+    overflow:hidden;
+    position:relative;
+  }
+  .page{
+    width:900px;
+    height:1350px;
+    box-sizing:border-box;
+    background:
+      radial-gradient(circle at 92% 6%, rgba(251,215,91,.18), transparent 40%),
+      var(--cream);
+    padding:24px 34px 30px;
+    position:relative;
+    overflow:hidden;
+  }
+  .page + .page{ border-top:3px dashed #d8cba3; }
+
+  /* header */
+  .head{
+    background:var(--navy);
+    border-radius:999px;
+    padding:12px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 6px 0 var(--navy-deep);
+    margin-bottom:16px;
+  }
+  .head .lt{ display:flex; align-items:center; gap:12px;}
+  .head .unit{
+    background:var(--yellow); color:var(--navy-deep); font-family:'Noto Sans KR'; font-weight:900;
+    font-size:17.5px; padding:5px 12px; border-radius:999px;
+  }
+  .head .title{
+    font-family:'Noto Sans KR'; font-weight:900; color:#fff; font-size:21px; letter-spacing:.2px;
+  }
+  .head .title small{ display:block; font-family:'Noto Sans KR'; font-size:14.5px; color:#c9d7f2; font-weight:400;}
+  .stamprow{ display:flex; gap:6px; }
+  .stamp{
+    width:26px;height:26px;border-radius:50%;
+    border:2px solid #ffffff88;
+    display:flex;align-items:center;justify-content:center;
+    font-size:16.5px; color:#ffffff55;
+  }
+  .stamp.on{ background:var(--yellow); border-color:var(--yellow); color:var(--navy-deep); }
+
+  /* section card */
+  .sec{ margin-bottom:18px; }
+  .sec-label{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--navy); color:#fff; font-family:'Noto Sans KR'; font-weight:900;
+    font-size:16.5px; padding:5px 14px 5px 11px; border-radius:10px 10px 0 0;
+  }
+  .sec-label .ico{
+    width:24px;height:24px;background:var(--yellow); border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:16.5px;
+  }
+  .sec-body{
+    background:#fff; border:2px solid var(--navy); border-top:none;
+    border-radius:0 12px 12px 12px;
+    padding:16px 18px;
+  }
+  .sub-en{ font-family:'Quicksand'; color:var(--sky); font-weight:700; font-size:14.5px; margin-left:4px;}
+
+  /* Vocabulary strip */
+  .vocab-strip{ display:flex; gap:10px; margin-bottom:6px;}
+  .vocab-card{ flex:1; text-align:center; }
+  .vocab-img{
+    height:64px; border-radius:10px; border:2.5px dashed var(--kraft-edge); background:#FBF8F1;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    font-size:25.5px; color:#c9bd9c; gap:2px;
+  }
+  .vocab-img span{ font-size:12px; font-family:'Noto Sans KR'; color:#b9ac89;}
+  .vocab-en{ font-family:'Quicksand'; font-weight:700; color:var(--navy-deep); font-size:17.5px; margin-top:6px;}
+  .vocab-kr{ font-size:14.5px; color:var(--ink-soft); margin-bottom:4px;}
+  .vocab-lines{ display:flex; flex-direction:column; gap:6px; }
+  .vocab-trace{
+    font-family:'Quicksand'; font-weight:700; font-size:19px; color:#d3dcee;
+    border-bottom:2px dotted var(--sky); padding-bottom:6px; height:30px; display:flex; align-items:flex-end;
+  }
+  .vocab-line{
+    border-bottom:2px dotted var(--sky); height:36px;
+  }
+  .instr{ font-size:15px; color:var(--ink-soft); margin:0 0 10px; line-height:1.6;}
+  .instr b{ color:var(--navy);}
+  .instr-tag{
+    font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:13px;
+    background:#EAF2FF; border:1px solid var(--sky); border-radius:999px; padding:1px 9px; margin-left:5px;
+    white-space:nowrap;
+  }
+
+  /* detective Q */
+  .qrow{ display:flex; gap:16px; }
+  .qbox{ flex:1; background:var(--kraft); border-radius:12px; padding:12px 14px; border:1.5px solid var(--kraft-edge);}
+  .qbox .qhead{ display:flex; gap:8px; align-items:flex-start; font-size:17px; margin-bottom:8px;}
+  .qbox .qhead i{ font-style:normal; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:16px; display:inline-block; margin-top:3px;}
+  .qbox .qn{
+    flex:none; width:20px;height:20px;background:var(--coral); color:#fff; border-radius:50%;
+    font-family:'Quicksand'; font-size:14.5px; display:flex;align-items:center;justify-content:center; font-weight:700;
+  }
+  .qbox .opts{ display:flex; gap:10px; padding-left:28px;}
+  .circleopt{
+    font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy);
+    border:2px solid var(--navy); border-radius:999px; padding:3px 12px;
+  }
+
+  /* speaking */
+  .wordbank{ display:flex; flex-wrap:wrap; gap:8px; margin:6px 0 14px;}
+  .chip{
+    font-family:'Quicksand'; font-weight:700; font-size:16px; color:var(--navy-deep);
+    background:var(--yellow); border-radius:999px; padding:5px 13px; border:2px solid var(--yellow-deep);
+  }
+  .bubble-row{ display:flex; gap:12px; }
+  .bubble{
+    flex:1; background:#EAF2FF; border:2px solid var(--sky); border-radius:16px 16px 16px 4px;
+    padding:12px 14px; font-family:'Quicksand'; font-size:19px; color:var(--navy-deep); font-weight:700;
+  }
+  .bubble .fill{ display:inline-block; border-bottom:2.5px dotted var(--sky); min-width:70px; }
+  .mic-box{
+    margin-top:12px; display:flex; align-items:center; gap:12px;
+    background:var(--navy); border-radius:12px; padding:10px 14px; color:#fff;
+  }
+  .mic-box .qr{ width:44px;height:44px;background:#fff; border-radius:6px; flex:none;
+    background-image:
+      repeating-linear-gradient(0deg,#1B3B6E,#1B3B6E 3px,#fff 3px,#fff 6px),
+      repeating-linear-gradient(90deg,#1B3B6E,#1B3B6E 3px,#fff 3px,#fff 6px);
+    background-blend-mode:multiply;
+  }
+  .mic-box .txt{ font-size:16px; line-height:1.5; }
+  .mic-box .txt b{ font-family:'Noto Sans KR'; font-weight:900; font-size:17.5px; display:block;}
+
+  /* footer */
+  .pfoot{ text-align:right; margin-top:14px; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:15.5px;}
+  .pfoot .star{ color:var(--yellow-deep); }
+
+  /* Page B specifics */
+  .cutcards{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .cutcard{
+    font-family:'Quicksand'; font-weight:700; font-size:17.5px; color:var(--navy-deep);
+    border:2px solid var(--coral); border-radius:999px; padding:6px 14px; background:#FFF6F3;
+  }
+  .buildline{ display:flex; align-items:center; gap:8px; margin-bottom:14px; }
+  .buildline .num{
+    width:22px;height:22px;border-radius:50%;background:var(--navy); color:#fff;
+    font-family:'Quicksand'; font-size:15.5px; display:flex;align-items:center;justify-content:center; flex:none;
+  }
+  .buildline .slot{ flex:1; border-bottom:2.5px solid var(--kraft-edge); height:38px; }
+
+  .diary{
+    display:flex; gap:16px;
+  }
+  .diary .draw{
+    flex:1.1; background:repeating-linear-gradient(#fff,#fff 27px,#eef1f6 28px);
+    border:2.5px solid var(--navy); border-radius:12px; min-height:190px; position:relative;
+  }
+  .diary .draw .cap{
+    position:absolute; bottom:6px; left:0; right:0; text-align:center; font-size:15px; color:#9aa5bd;
+  }
+  .diary .lines{ flex:1; display:flex; flex-direction:column; gap:14px; padding-top:4px;}
+  .diary .lines .ln{ border-bottom:2px dotted #c3cbdd; height:26px; }
+  .diary .starter{ font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:17.5px; margin-bottom:4px;}
+
+  .badgebar{ display:flex; gap:14px; align-items:center; flex-wrap:wrap;}
+  .check{ display:flex; align-items:center; gap:8px; font-size:16.5px; color:var(--ink);}
+  .check .box{ width:20px;height:20px;border:2.5px solid var(--mint); border-radius:6px; flex:none;}
+  .teacherstamp{
+    margin-left:auto; width:64px;height:64px;border-radius:50%; border:3px dashed var(--coral);
+    display:flex;align-items:center;justify-content:center; text-align:center; font-size:13px; color:var(--coral);
+    font-family:'Noto Sans KR'; font-weight:900;
+  }
+
+  /* power pattern practice */
+  .trace-row{ display:flex; flex-direction:column; gap:8px; margin-bottom:16px;}
+  .trace-line{
+    font-family:'Quicksand'; font-weight:800; font-size:27px; letter-spacing:.5px;
+    color:#c7d3ea; border-bottom:2.5px dotted var(--kraft-edge); padding-bottom:6px;
+  }
+  .trace-line.blank{ color:transparent; border-bottom:2.5px dotted var(--sky); }
+  .chant-box{
+    background:var(--navy); color:#fff; border-radius:12px; padding:10px 16px; margin-bottom:16px;
+    font-family:'Quicksand'; font-weight:700; font-size:17.5px; display:flex; align-items:center; gap:10px;
+  }
+  .chant-box .clap{ font-size:25.5px; }
+  .drill-row{ display:flex; gap:12px; }
+  .drill-card{ flex:1; text-align:center; }
+  .drill-card .pic{
+    width:100%; height:96px; border-radius:10px; background:#FBF8F1; border:2px dashed var(--kraft-edge);
+    display:flex; align-items:center; justify-content:center; font-size:31px; margin-bottom:6px;
+  }
+  .drill-card .dline{ border-bottom:2.5px dotted var(--kraft-edge); height:22px; }
+
+  /* Rhythm & Stress */
+  .rhythm-ex{ margin-bottom:16px; }
+  .rhythm-ex:last-child{ margin-bottom:0; }
+  .rhythm-sent{ font-family:'Quicksand'; letter-spacing:.2px; margin-bottom:8px; }
+  .rhythm-sent .w{ font-weight:500; color:#8b96b3; font-size:19px; }
+  .rhythm-sent .w.stress{ font-weight:800; color:var(--navy); font-size:25.5px; margin:0 1px; }
+  .rhythm-sent .linkmark{ color:var(--coral); font-weight:700; font-size:19px; margin:0 -1px; position:relative; top:2px; }
+  .beat-row{ display:flex; gap:14px; align-items:flex-end; height:20px; margin-bottom:4px;}
+  .beat{ width:9px;height:9px;border-radius:50%; background:#d7deee; }
+  .beat.big{ width:17px;height:17px; background:var(--coral); }
+  .rhythm-legend{
+    font-size:13px; color:var(--ink-soft); margin-top:10px; display:flex; gap:16px; flex-wrap:wrap;
+    border-top:1.5px dashed var(--kraft-edge); padding-top:8px;
+  }
+  .rhythm-legend b{ color:var(--navy); }
+
+  .miniguide{
+    background:#EAF2FF; border:1.5px solid var(--sky); border-radius:12px;
+    padding:10px 14px; margin-bottom:14px;
+  }
+  .mg-title{ font-family:'Noto Sans KR'; font-weight:900; color:var(--navy-deep); font-size:16px; margin-bottom:6px;}
+  .mg-row{ font-size:14.5px; color:var(--ink); line-height:1.6; margin-bottom:4px; }
+  .mg-row:last-child{ margin-bottom:0; }
+  .mg-row b{ color:var(--navy); font-weight:700; margin-right:6px; white-space:nowrap; }
+  .mg-row b span{ font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:12.5px; margin-left:2px; }
+  .mg-row b.hl{ color:var(--coral); font-weight:700; margin:0 1px; white-space:normal; }
+
+  /* narration / dialogue copy (Page 3) */
+  .copyset{ display:flex; flex-direction:column; gap:12px; }
+  .copy-item{ display:flex; align-items:center; gap:14px; }
+  .copy-item .num{
+    flex:none; width:24px;height:24px;border-radius:50%;background:var(--navy); color:#fff;
+    font-family:'Quicksand'; font-size:15.5px; display:flex;align-items:center;justify-content:center;
+  }
+  .narr-target{
+    flex:none; width:350px; background:var(--kraft); border:1.5px solid var(--kraft-edge);
+    border-radius:8px; padding:8px 12px; font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy-deep);
+  }
+  .dlg-target{
+    flex:none; width:350px; background:#EAF2FF; border:1.5px solid var(--sky);
+    border-radius:14px 14px 14px 3px; padding:8px 12px; font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy-deep);
+  }
+  .copy-line{ flex:1; border-bottom:2.5px dotted var(--kraft-edge); height:26px; }
+
+  .myline-box{
+    display:flex; gap:16px; align-items:center; background:var(--kraft); border:1.5px solid var(--kraft-edge);
+    border-radius:14px; padding:14px 18px;
+  }
+  .myline-box .thumb{ flex:none; width:96px; height:72px; border-radius:10px; overflow:hidden; border:2px solid var(--kraft-edge);}
+  .myline-box .thumb img{ width:100%; height:100%; object-fit:cover; display:block;}
+  .myline-box .qtext{ flex:none; width:230px; font-size:16.5px; color:var(--ink); line-height:1.5; }
+  .myline-bubble{
+    flex:1; background:#fff; border:2px solid var(--coral); border-radius:14px 14px 14px 3px;
+    padding:10px 14px; font-family:'Quicksand'; font-weight:700; font-size:17.5px; color:var(--navy-deep);
+  }
+  .myline-bubble .mlb-line{
+    margin-top:10px; border-bottom:2.5px dotted var(--coral); height:38px;
+  }
+
+  /* Page 4: Reading Power */
+  .elem-row{ display:flex; gap:12px; margin-bottom:12px; }
+  .elem-card{
+    flex:1; background:var(--kraft); border:1.5px solid var(--kraft-edge); border-radius:12px; padding:10px 14px;
+  }
+  .elem-q{ font-size:16.5px; color:var(--navy-deep); font-weight:600; margin-bottom:8px; }
+  .elem-opts{ display:flex; gap:10px; flex-wrap:wrap; }
+  .picopt{
+    width:34px;height:34px;border-radius:50%; background:#fff; border:2px solid var(--navy);
+    display:flex;align-items:center;justify-content:center; font-size:21.5px;
+  }
+  .picopt.dim{ opacity:.4; border-style:dashed; }
+  .wordopt{
+    font-family:'Quicksand'; font-weight:700; font-size:16.5px; color:var(--navy);
+    border:2px solid var(--navy); border-radius:999px; padding:5px 14px; background:#fff;
+  }
+  .elem-check{ background:#EAF2FF; border:1.5px solid var(--sky); border-radius:12px; padding:10px 14px; }
+  .checklist{ display:flex; gap:14px; flex-wrap:wrap; }
+  .checklist .check{ display:flex; align-items:center; gap:6px; font-family:'Quicksand'; font-weight:700; font-size:16px; color:var(--navy-deep);}
+  .checklist .box{ width:17px;height:17px;border:2px solid var(--sky); border-radius:5px; background:#fff; }
+
+  .evidence-item{ margin-bottom:12px; }
+  .ev-q{ font-size:17px; color:var(--ink); margin-bottom:7px; display:flex; gap:8px; align-items:flex-start;}
+  .ev-q i{ font-style:normal; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:15.5px; }
+  .ev-q .qn{
+    flex:none; width:20px;height:20px;background:var(--coral); color:#fff; border-radius:50%;
+    font-family:'Quicksand'; font-size:14.5px; display:flex;align-items:center;justify-content:center; font-weight:700;
+  }
+  .ev-opts{ display:flex; gap:10px; margin-left:28px; }
+  .evopt{
+    font-family:'Quicksand'; font-weight:700; font-size:17px; color:var(--navy-deep);
+    border:2px solid var(--navy); border-radius:999px; padding:6px 16px; background:#fff;
+  }
+
+  .predict-wrap{ display:flex; gap:16px; align-items:center; }
+  .predict-draw{
+    flex:1; background:repeating-linear-gradient(#fff,#fff 27px,#eef1f6 28px);
+    border:2.5px solid var(--navy); border-radius:12px; min-height:110px;
+  }
+  .predict-write{ flex:1; display:flex; flex-direction:column; gap:12px; padding-top:4px;}
+  .predict-write .starter{ font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:17.5px;}
+  .predict-write .ln{ border-bottom:2px dotted #c3cbdd; height:26px; }
+
+  /* Wonder Science */
+  .sci-box{
+    display:flex; gap:14px; align-items:center; background:var(--kraft); border:1.5px solid var(--kraft-edge);
+    border-radius:14px; padding:12px 16px; margin-bottom:12px;
+  }
+  .sci-box .thumb{ flex:none; width:130px; height:92px; border-radius:10px; overflow:hidden; border:2px solid var(--kraft-edge);}
+  .sci-box .thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .sci-box .txt{ flex:1; font-size:15.5px; color:var(--ink); line-height:1.6; }
+  .sci-box .txt .en{ display:block; margin-top:6px; font-family:'Quicksand'; font-weight:700; color:var(--sky); font-size:14.5px; line-height:1.5; }
+  .sci-q{ display:flex; align-items:center; gap:8px; font-size:16.5px; color:var(--ink); margin-bottom:8px; }
+  .sci-model{
+    margin-top:10px; background:#EAF2FF; border:1.5px solid var(--sky); border-radius:12px; padding:10px 14px;
+    font-family:'Quicksand'; font-weight:700; color:var(--navy-deep); font-size:16.5px;
+  }
+</style>
+
+<body>
+
+<div class="intro">
+  <span class="tag">UNIT 4 · Lesson 2</span><span class="tag" style="background:var(--coral)">Lumi's Wonder Journal</span>
+  <h1>A Sky Full of Colors — 4페이지 워크북</h1>
+</div>
+
+<div class="sheet-wrap">
+
+  <div class="page" data-document-role="page" data-label="U4L2-p1">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">A Sky Full of Colors <small>Lesson 2 · Wonder Journal — Page 1</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp on">★</div>
+        <div class="stamp on">★</div>
+        <div class="stamp on">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔤</span>이번 유닛 단어 <span class="sub-en">Unit Vocabulary</span></div>
+      <div class="sec-body">
+        <p class="instr">그림을 붙이고, 단어를 소리내어 읽은 후 따라 써보세요.<span class="instr-tag">Read &amp; Write!</span></p>
+        <div class="vocab-strip">
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">day</div>
+            <div class="vocab-kr">낮</div>
+            <div class="vocab-lines"><div class="vocab-trace">day</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">night</div>
+            <div class="vocab-kr">밤</div>
+            <div class="vocab-lines"><div class="vocab-trace">night</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">sunrise</div>
+            <div class="vocab-kr">일출</div>
+            <div class="vocab-lines"><div class="vocab-trace">sunrise</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">sunset</div>
+            <div class="vocab-kr">일몰</div>
+            <div class="vocab-lines"><div class="vocab-trace">sunset</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+          <div class="vocab-card">
+            <div class="vocab-img">🖼️<span>이미지</span></div>
+            <div class="vocab-en">sky</div>
+            <div class="vocab-kr">하늘</div>
+            <div class="vocab-lines"><div class="vocab-trace">sky</div><div class="vocab-line"></div><div class="vocab-line"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔍</span>원더 디텍티브 <span class="sub-en">Reading Check</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기를 떠올리며 알맞은 답에 동그라미 하세요.<span class="instr-tag">Circle it!</span></p>
+        <div class="qrow">
+          <div class="qbox">
+            <div class="qhead"><span class="qn">1</span><span>하늘이 주황색일 때는 언제인가요?<br><i>When is the sky orange?</i></span></div>
+            <div class="opts">
+              <span class="circleopt">sunset</span>
+              <span class="circleopt">noon</span>
+            </div>
+          </div>
+          <div class="qbox">
+            <div class="qhead"><span class="qn">2</span><span>밤하늘에서 무엇을 보았나요?<br><i>What did they see in the night sky?</i></span></div>
+            <div class="opts">
+              <span class="circleopt">stars</span>
+              <span class="circleopt">clouds</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🗣️</span>루미처럼 말해보기 <span class="sub-en">Speak Like Lumi</span></div>
+      <div class="sec-body">
+        <p class="instr">단어은행에서 골라 짝과 함께 문장을 말해보세요.<span class="instr-tag">Speak!</span></p>
+        <div class="wordbank">
+          <span class="chip">the blue sky</span><span class="chip">the orange sky</span><span class="chip">the dark sky</span><span class="chip">the sunrise</span>
+        </div>
+        <div class="bubble-row">
+          <div class="bubble">🦊 I like <span class="fill">&nbsp;</span>.</div>
+          <div class="bubble">🐤 Me, too!</div>
+        </div>
+        <div class="mic-box">
+          <div class="qr"></div>
+          <div class="txt"><b>Wonder Voice 녹음하기</b>QR을 스캔해서 내 목소리로 문장 3개를 녹음해보세요. 선생님이 들어볼 거예요!</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🏅</span>오늘의 원더 배지 <span class="sub-en">Self-Check</span></div>
+      <div class="sec-body">
+        <div class="badgebar">
+          <div class="check"><div class="box"></div>"I like..." 문장을 3번 말했어요</div>
+          <div class="check"><div class="box"></div>문장 2개 이상 썼어요</div>
+          <div class="check"><div class="box"></div>이야기를 소리내어 읽었어요</div>
+          <div class="teacherstamp">TEACHER<br>STAMP</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 1 / 4</div>
+  </div>
+
+  <div class="page" data-document-role="page" data-label="U4L2-p2">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">A Sky Full of Colors <small>Lesson 2 · Wonder Journal — Page 2</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp on">★</div>
+        <div class="stamp on">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">✏️</span>문장 만들기 <span class="sub-en">Sentence Builder</span></div>
+      <div class="sec-body">
+        <p class="instr">아래 카드에서 단어를 골라 조합하여, 나만의 문장 3개를 완성해보세요.<span class="instr-tag">Make it!</span></p>
+        <div class="cutcards">
+          <span class="cutcard">I like</span>
+          <span class="cutcard">the</span>
+          <span class="cutcard">blue sky</span>
+          <span class="cutcard">orange sky</span>
+          <span class="cutcard">dark sky</span>
+          <span class="cutcard">sunrise</span>
+        </div>
+        <div class="buildline"><div class="num">1</div><div class="slot"></div></div>
+        <div class="buildline"><div class="num">2</div><div class="slot"></div></div>
+        <div class="buildline"><div class="num">3</div><div class="slot"></div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🌟</span>나의 원더 일기 <span class="sub-en">My Wonder Diary</span></div>
+      <div class="sec-body">
+        <p class="instr">내가 제일 좋아하는 하늘 색깔은 무엇일까요? <b>그리고 써보세요.</b><span class="instr-tag">Draw &amp; Write!</span></p>
+        <div class="diary">
+          <div class="draw"><div class="cap">✏️ Draw YOUR favorite color of sky</div></div>
+          <div class="lines">
+            <div class="starter">I like...</div>
+            <div class="ln"></div>
+            <div class="ln"></div>
+            <div class="ln"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">⭐</span>파워패턴 연습하기 <span class="sub-en">Power Pattern Practice</span></div>
+      <div class="sec-body">
+        <p class="instr">흐린 글씨를 따라 쓰고, 마지막 줄은 스스로 써보세요.<span class="instr-tag">Trace &amp; Write!</span></p>
+        <div class="trace-row">
+          <div class="trace-line">I like...</div>
+          <div class="trace-line">I like...</div>
+          <div class="trace-line blank">I like...</div>
+        </div>
+        <div class="chant-box"><span class="clap">👏</span> 다 같이 리듬으로! "I like, I like, I like the blue sky!"</div>
+        <div class="drill-row">
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+          <div class="drill-card"><div class="pic"></div><div class="dline"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 2 / 4</div>
+  </div>
+
+  <div class="page" data-document-role="page" data-label="U4L2-p3">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">A Sky Full of Colors <small>Lesson 2 · Wonder Journal — Page 3</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🎵</span>리듬으로 읽어요 <span class="sub-en">Rhythm &amp; Stress</span></div>
+      <div class="sec-body">
+        <p class="instr">진하고 큰 글씨는 <b>강하게</b>, <span style="color:var(--coral); font-weight:700;">‿</span> 표시는 <b>부드럽게 이어서</b> 읽어요. 문장 아래 동그라미를 보며 손뼉을 쳐보세요.<span class="instr-tag">Listen &amp; Clap!</span></p>
+
+        <div class="miniguide">
+          <div class="mg-title">📘 소리 규칙 알아보기</div>
+          <div class="mg-row"><b>강세 <span>Stress</span></b>뜻을 담은 <b class="hl">내용어</b>(명사·동사·형용사)는 강하고 크게, 문법 역할만 하는 <b class="hl">기능어</b>(관사·전치사·대명사·be동사)는 약하고 짧게 읽어요.</div>
+          <div class="mg-row"><b>리듬 <span>Rhythm</span></b>영어는 강세와 강세 사이의 간격이 일정하게 느껴지는 <b class="hl">강세박자언어</b>예요. 그래서 노래하듯 리듬감 있게 들려요.</div>
+          <div class="mg-row"><b>연음 <span>Linking</span></b>앞 단어 끝의 <b class="hl">자음</b>과 뒷 단어 처음의 <b class="hl">모음</b>이 만나면 자연스럽게 이어져 한 소리처럼 들려요.</div>
+        </div>
+
+        <div class="rhythm-ex">
+          <div class="rhythm-sent"><span class="w">I</span> <span class="w stress">LIKE</span> <span class="w">the</span> <span class="w stress">BLUE</span> <span class="w stress">SKY</span>.</div>
+          <div class="beat-row">
+            <div class="beat"></div>
+            <div class="beat big"></div>
+            <div class="beat"></div>
+            <div class="beat big"></div>
+            <div class="beat big"></div>
+          </div>
+        </div>
+
+        <div class="rhythm-ex">
+          <div class="rhythm-sent"><span class="w">We</span> <span class="w">are</span><span class="linkmark">‿</span><span class="w stress">READY</span>.</div>
+          <div class="beat-row">
+            <div class="beat"></div>
+            <div class="beat"></div>
+            <div class="beat big"></div>
+          </div>
+        </div>
+
+        <div class="rhythm-legend">
+          <span><b>●</b> 큰 원 = 강하게(stress)</span>
+          <span><b>•</b> 작은 원 = 약하게(weak)</span>
+          <span><b>‿</b> = 이어 읽기(linking)</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">📜</span>이야기 따라쓰기 <span class="sub-en">Narration Copy</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기 속 문장을 소리내어 읽고, 빈 줄에 <b>똑같이 따라 써보세요.</b><span class="instr-tag">Copy it!</span></p>
+        <div class="copyset">
+          <div class="copy-item"><div class="num">1</div><div class="narr-target">They look up.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">2</div><div class="narr-target">The sky is orange now.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">3</div><div class="narr-target">The sky is dark now.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">4</div><div class="narr-target">The sky is bright again.</div><div class="copy-line"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">💬</span>대화 따라쓰기 <span class="sub-en">Dialogue Copy</span></div>
+      <div class="sec-body">
+        <p class="instr">루미가 한 말이에요. 짝과 함께 읽고 나서 따라 써보세요.<span class="instr-tag">Read &amp; Copy!</span></p>
+        <div class="copyset">
+          <div class="copy-item"><div class="num">1</div><div class="dlg-target">🦊 I like the blue sky.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">2</div><div class="dlg-target">🦊 I like the orange sky.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">3</div><div class="dlg-target">🦊 I like the dark sky.</div><div class="copy-line"></div></div>
+          <div class="copy-item"><div class="num">4</div><div class="dlg-target">🦊 I like the sunrise.</div><div class="copy-line"></div></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 3 / 4</div>
+  </div>
+
+  <div class="page" data-document-role="page" data-label="U4L2-p4">
+    <div class="head">
+      <div class="lt">
+        <span class="unit">UNIT 4</span>
+        <div class="title">A Sky Full of Colors <small>Lesson 2 · Wonder Journal — Page 4</small></div>
+      </div>
+      <div class="stamprow">
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+        <div class="stamp">★</div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🎭</span>내가 만드는 대사 <span class="sub-en">My Own Line</span></div>
+      <div class="sec-body">
+        <p class="instr">하늘 색깔이 또 바뀌었어요! 무슨 색일지 그림을 보고 루미의 대사를 완성해보세요.<span class="instr-tag">Imagine!</span></p>
+        <div class="myline-box">
+          <div class="thumb"><img src="data:image/jpeg;base64,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" alt=""></div>
+          <div class="qtext">하늘이 분홍빛으로 물들었어요.<br>루미는 뭐라고 말할까요?</div>
+          <div class="myline-bubble">🦊 I like...<div class="mlb-line"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🧭</span>이야기 속으로 <span class="sub-en">Story Elements</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기를 떠올리며 답을 <b>찾아 동그라미/체크</b> 하세요.<span class="instr-tag">Circle it!</span></p>
+        <div class="elem-row">
+          <div class="elem-card">
+            <div class="elem-q">누가 나왔나요? <span class="sub-en">Who?</span></div>
+            <div class="elem-opts"><span class="wordopt">Lumi</span><span class="wordopt">Chick</span><span class="wordopt">Bird</span><span class="wordopt" style="opacity:.4; border-style:dashed;">Owl</span></div>
+          </div>
+          <div class="elem-card">
+            <div class="elem-q">어디였나요? <span class="sub-en">Where?</span></div>
+            <div class="elem-opts"><span class="wordopt">sky</span><span class="wordopt">cave</span></div>
+          </div>
+        </div>
+        <div class="elem-check">
+          <div class="elem-q" style="margin-bottom:6px;">이야기에 나온 것에 모두 체크하세요 <span class="sub-en">What was in the story?</span></div>
+          <div class="checklist">
+            <span class="check"><span class="box"></span>day</span>
+            <span class="check"><span class="box"></span>night</span>
+            <span class="check"><span class="box"></span>sunrise</span>
+            <span class="check"><span class="box"></span>sunset</span>
+            <span class="check"><span class="box"></span>car</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔎</span>근거 찾기 <span class="sub-en">Find the Text Evidence</span></div>
+      <div class="sec-body">
+        <p class="instr">이야기 속 진짜 문장은 어느 것일까요? <b>맞는 문장에 동그라미</b> 하세요.<span class="instr-tag">Circle it!</span></p>
+        <div class="evidence-item">
+          <div class="ev-q"><span class="qn">1</span>일몰 때 하늘은 어땠나요? <i>What was the sky like at sunset?</i></div>
+          <div class="ev-opts">
+            <span class="evopt">The sky is orange.</span>
+            <span class="evopt">The sky is green.</span>
+          </div>
+        </div>
+        <div class="evidence-item">
+          <div class="ev-q"><span class="qn">2</span>밤하늘에서 무엇을 보았나요? <i>What did they see at night?</i></div>
+          <div class="ev-opts">
+            <span class="evopt">I see the stars!</span>
+            <span class="evopt">I see the sun.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="sec">
+      <div class="sec-label"><span class="ico">🔮</span>다음엔 무슨 일이? <span class="sub-en">Predict What's Next</span></div>
+      <div class="sec-body">
+        <p class="instr">하늘이 다시 밝아졌어요! 새로운 하루엔 무엇을 하게 될까요? 예측해서 그려보세요.<span class="instr-tag">Guess &amp; Draw!</span></p>
+        <div class="predict-wrap">
+          <div class="predict-draw"></div>
+          <div class="predict-write">
+            <div class="bubble" style="width:100%;">🦊 I think they will<span class="fill" style="min-width:100px;">&nbsp;</span>.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pfoot">Wonder Journal <span class="star">★</span> 4 / 4</div>
+  </div>
+
+</div>
+</body>
+</html>
