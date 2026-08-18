@@ -36,6 +36,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 #answer-sheet h3{font-size:14px;font-weight:700;color:#1a5c3a;margin-bottom:14px;}
 .progress-bar{background:#e5e7eb;border-radius:10px;height:6px;margin-bottom:14px;}
 .progress-fill{background:#1a5c3a;height:6px;border-radius:10px;transition:width 0.3s;}
+.progress-text{font-size:11px;color:#6b7280;text-align:right;margin-top:4px;margin-bottom:10px;}
 .omr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
 .omr-row{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:8px;background:#f9fafb;}
 .omr-row.answered{background:#f0faf4;}
@@ -68,6 +69,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 .wrong-item{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;background:#fef2f2;border-radius:6px;margin-bottom:4px;}
 .wrong-item .wq{color:#dc2626;font-weight:700;width:60px;}
 .saving-msg{text-align:center;font-size:12px;color:#6b7280;margin-top:8px;}
+.error-box{text-align:center;padding:40px 20px;color:#6b7280;font-size:14px;line-height:1.8;}
 </style>
 </head>
 <body>
@@ -116,6 +118,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
   <div id="answer-sheet">
     <h3>📝 답안 마킹</h3>
     <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+    <div class="progress-text" id="progress-text">0 / 0 문제 완료</div>
     <div class="omr-grid" id="omr-grid"></div>
   </div>
   <button class="submit-btn" id="submit-btn" onclick="submitExam()">제출하기</button>
@@ -143,60 +146,93 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 </div>
 
 <script>
+// ── 앱스크립트 URL (노션과 직접 연동) ──
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyYuOSK7-ZB7aefdcx_JC3YRqB0AqMeGcT-m0qiZpz44LZmR9unRZ0vIizuX5O_LAgkJQ/exec';
+
 let currentExam = null;
 let answers = [];
 let timerInterval = null;
 
-// 시험 데이터 (노션에서 업데이트 후 여기도 함께 업데이트)
+// ── 노션에서 활성화된 시험 목록 가져오기 (앱스크립트 doGet 활용) ──
 async function loadExams() {
-  return [
-    {
-      name: '토셀평가 스타터5회',
-      total: 40, choices: 4, time: 40,
-      key: '1,2,2,3,2,1,3,2,3,3,1,3,1,2,2,2,1,3,1,3,2,1,1,2,3,1,3,1,1,1,1,2,4,4,3,2,2,4,1,2',
-      active: true
-    },
-    {
-      name: '토셀평가 베이직5회',
-      total: 60, choices: 4, time: 60,
-      key: '3,1,1,1,4,4,3,4,1,2,1,3,4,2,2,3,1,4,4,1,2,4,2,2,3,1,1,3,2,3,2,1,2,3,3,4,3,1,4,1,3,1,3,2,1,4,3,2,3,4,4,1,3,4,2,3,3,1,4,2',
-      active: true
-    }
-  ];
+  try {
+    // 활성화된 시험 목록 조회
+    const res = await fetch(GAS_URL + '?action=list', { method: 'GET' });
+    const data = await res.json();
+    if (data && Array.isArray(data)) return data;
+    // 단일 시험 결과인 경우
+    if (data && data.examName) return [data];
+    return [];
+  } catch(e) {
+    console.error('시험 목록 로드 실패:', e);
+    return [];
+  }
 }
 
+// ── 특정 시험 데이터 가져오기 ──
+async function loadExamByName(examName) {
+  try {
+    const res = await fetch(GAS_URL + '?examName=' + encodeURIComponent(examName), { method: 'GET' });
+    const data = await res.json();
+    if (data && data.examName) return data;
+    return null;
+  } catch(e) {
+    return null;
+  }
+}
+
+// ── 초기화 ──
 async function init() {
   const params = new URLSearchParams(location.search);
   const examName = params.get('exam');
-  const exams = await loadExams();
 
-  document.getElementById('loading').style.display = 'none';
+  document.getElementById('loading').querySelector('.loading-text').textContent = '노션에서 시험 정보를 가져오는 중...';
 
-  if (exams.length === 0) {
-    document.getElementById('exam-select').style.display = 'block';
-    document.getElementById('exam-list').innerHTML =
-      '<div style="text-align:center;padding:40px;color:#6b7280;font-size:14px;">활성화된 시험이 없습니다.<br>노션에서 시험을 활성화 후 exams.json을 업데이트해 주세요.</div>';
+  if (examName) {
+    // 특정 시험 직접 로드
+    const exam = await loadExamByName(examName);
+    document.getElementById('loading').style.display = 'none';
+    if (exam) {
+      startExam({
+        name: exam.examName,
+        total: exam.totalQuestions,
+        choices: exam.numChoices || 4,
+        time: exam.time || 40,
+        keyArr: exam.answerKey
+      });
+    } else {
+      showError('시험을 찾을 수 없습니다. 시험명을 확인해 주세요.');
+    }
     return;
   }
 
-  if (examName) {
-    const exam = exams.find(e => e.name === examName);
-    if (exam) { startExam(exam); return; }
+  // 활성화된 시험 전체 로드
+  const raw = await loadExamByName('');
+  document.getElementById('loading').style.display = 'none';
+
+  if (raw && raw.examName) {
+    // 단일 시험
+    startExam({
+      name: raw.examName,
+      total: raw.totalQuestions,
+      choices: raw.numChoices || 4,
+      time: raw.time || 40,
+      keyArr: raw.answerKey
+    });
+  } else {
+    // 시험 없음
+    document.getElementById('exam-select').style.display = 'block';
+    document.getElementById('exam-list').innerHTML =
+      '<div class="error-box">활성화된 시험이 없습니다.<br>노션 OMR 시험 설정에서<br>시험을 활성화해 주세요.</div>';
   }
-
-  if (exams.length === 1) { startExam(exams[0]); return; }
-
-  document.getElementById('exam-select').style.display = 'block';
-  const list = document.getElementById('exam-list');
-  exams.forEach(exam => {
-    const card = document.createElement('div');
-    card.className = 'exam-card';
-    card.innerHTML = `<h3>${exam.name}</h3><div class="meta"><span>📝 ${exam.total}문항</span><span>⏱️ ${exam.time}분</span><span>🔢 ${exam.choices}지선다</span></div>`;
-    card.onclick = () => startExam(exam);
-    list.appendChild(card);
-  });
 }
 
+function showError(msg) {
+  document.getElementById('exam-select').style.display = 'block';
+  document.getElementById('exam-list').innerHTML = `<div class="error-box">⚠️ ${msg}</div>`;
+}
+
+// ── 시험 시작 ──
 function startExam(exam) {
   currentExam = exam;
   answers = new Array(exam.total).fill(0);
@@ -204,10 +240,12 @@ function startExam(exam) {
   document.getElementById('exam-screen').style.display = 'block';
   document.getElementById('exam-title-display').textContent = exam.name;
   document.getElementById('exam-meta').textContent = `총 ${exam.total}문항 · ${exam.choices}지선다`;
+  document.getElementById('progress-text').textContent = `0 / ${exam.total} 문제 완료`;
   buildOMR(exam.total, exam.choices);
-  startTimer(exam.time);
+  startTimer(exam.time || 40);
 }
 
+// ── OMR 답안지 생성 ──
 function buildOMR(total, choices) {
   const grid = document.getElementById('omr-grid');
   grid.innerHTML = '';
@@ -224,21 +262,21 @@ function buildOMR(total, choices) {
   }
 }
 
+// ── 답안 선택 ──
 function selectAnswer(q, choice) {
   answers[q-1] = choice;
-  const choices = currentExam.choices;
-  for (let c = 1; c <= choices; c++) {
+  for (let c = 1; c <= currentExam.choices; c++) {
     const b = document.getElementById(`b${q}_${c}`);
     if (b) b.classList.toggle('selected', c === choice);
   }
   document.getElementById('row' + q).classList.add('answered');
-
-  // 진행률 업데이트
   const answered = answers.filter(a => a > 0).length;
   const pct = Math.round(answered / currentExam.total * 100);
   document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-text').textContent = `${answered} / ${currentExam.total} 문제 완료`;
 }
 
+// ── 타이머 ──
 function startTimer(minutes) {
   let timeLeft = minutes * 60;
   const display = document.getElementById('timer-display');
@@ -252,20 +290,20 @@ function startTimer(minutes) {
   }, 1000);
 }
 
+// ── 제출 ──
 async function submitExam() {
   clearInterval(timerInterval);
   const name = document.getElementById('student-name').value.trim();
   const cls = document.getElementById('student-class').value;
   if (!name) { alert('이름을 입력해 주세요!'); return; }
   if (!cls) { alert('반을 선택해 주세요!'); return; }
-
   const unanswered = answers.filter(a => a === 0).length;
   if (unanswered > 0 && !confirm(`${unanswered}문제를 마킹하지 않았어요. 제출할까요?`)) return;
 
   document.getElementById('submit-btn').disabled = true;
   document.getElementById('submit-btn').textContent = '채점 중...';
 
-  const keyArr = currentExam.key.split(',').map(Number);
+  const keyArr = currentExam.keyArr;
   let correct = 0;
   const wrongList = [];
   answers.forEach((ans, i) => {
@@ -277,9 +315,10 @@ async function submitExam() {
   const pass = pct >= 50;
 
   showResult(name, cls, correct, total, pct, pass, wrongList);
-  saveToNotion(name, cls, correct, total, pct);
+  saveResult(name, cls, correct, total, pct, keyArr);
 }
 
+// ── 결과 화면 ──
 function showResult(name, cls, correct, total, pct, pass, wrongList) {
   document.getElementById('exam-screen').style.display = 'none';
   document.getElementById('result-screen').style.display = 'block';
@@ -295,7 +334,7 @@ function showResult(name, cls, correct, total, pct, pass, wrongList) {
   document.getElementById('res-wrong').textContent = (total - correct) + '개';
   document.getElementById('result-msg-box').innerHTML = pass
     ? `<div class="result-msg">🎊 합격! 정말 잘했어요! 앞으로도 화이팅!</div>`
-    : `<div class="result-msg fail-msg">📚 조금 더 연습이 필요해요! 틀린 문제를 다시 확인해 보세요.</div>`;
+    : `<div class="result-msg fail-msg">📚 조금 더 연습이 필요해요! 틀린 문제를 확인해 보세요.</div>`;
   if (wrongList.length > 0) {
     const wl = document.getElementById('wrong-list');
     wl.innerHTML = `<div class="wrong-title">❌ 틀린 문제 (${wrongList.length}개)</div>`;
@@ -308,19 +347,25 @@ function showResult(name, cls, correct, total, pct, pass, wrongList) {
   }
 }
 
-async function saveToNotion(name, cls, correct, total, pct) {
+// ── 노션에 결과 저장 (앱스크립트 doPost 활용) ──
+async function saveResult(name, cls, correct, total, pct, keyArr) {
   document.getElementById('saving-msg').textContent = '⏳ 노션에 저장 중...';
   try {
-    const today = new Date().toISOString().split('T')[0];
-    await fetch('https://api.anthropic.com/v1/messages', {
+    const payload = {
+      studentName: name,
+      studentClass: cls,
+      examName: currentExam.name,
+      score: correct,
+      total: total,
+      answers: answers,
+      answerKey: keyArr,
+      submittedAt: new Date().toISOString()
+    };
+    await fetch(GAS_URL, {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6', max_tokens: 300,
-        system: `Create page in Notion DB collection://309f4df0-1d56-81a9-accb-000b5b9c4faa with: 학생 이름="${name}", 평가이름="${currentExam.name}", 맞춘 문제 수=${correct}, 전체 문제 수=${total}, date:평가 날짜:start="${today}". Return {"success":true}`,
-        messages: [{role:'user', content:`저장: ${name}(${cls}반) ${correct}/${total}`}],
-        mcp_servers: [{type:'url', url:'https://mcp.notion.com/mcp', name:'notion'}]
-      })
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
     document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
   } catch(e) {
