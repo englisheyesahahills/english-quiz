@@ -147,7 +147,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 
 <script>
 // ── 앱스크립트 URL (노션과 직접 연동) ──
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyYuOSK7-ZB7aefdcx_JC3YRqB0AqMeGcT-m0qiZpz44LZmR9unRZ0vIizuX5O_LAgkJQ/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyHtQYr3kVeHV-vuBs1mNACcWDQveRHXehuohfcwEH0x2Zcnewnimv8XNOXHURpwFaE/exec';
 
 let currentExam = null;
 let answers = [];
@@ -351,21 +351,21 @@ function showResult(name, cls, correct, total, pct, pass, wrongList) {
 async function saveResult(name, cls, correct, total, pct, keyArr) {
   document.getElementById('saving-msg').textContent = '⏳ 노션에 저장 중...';
   try {
-    const payload = {
+    // GET 방식으로 전송 (CORS 우회)
+    const params = new URLSearchParams({
+      action: 'save',
       studentName: name,
       studentClass: cls,
       examName: currentExam.name,
       score: correct,
       total: total,
-      answers: answers,
-      answerKey: keyArr,
+      answers: JSON.stringify(answers),
+      answerKey: JSON.stringify(keyArr),
       submittedAt: new Date().toISOString()
-    };
-    await fetch(GAS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    });
+    await fetch(GAS_URL + '?' + params.toString(), {
+      method: 'GET',
+      mode: 'no-cors'
     });
     document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
   } catch(e) {
