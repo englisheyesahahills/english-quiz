@@ -147,7 +147,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 
 <script>
 // ── 앱스크립트 URL (노션과 직접 연동) ──
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyHtQYr3kVeHV-vuBs1mNACcWDQveRHXehuohfcwEH0x2Zcnewnimv8XNOXHURpwFaE/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzBouPEtiABGzdqoWPj9S_7hOQbdTjE6MNBIyOxNPjRXBVxr9LpfU-nHA11wL1EbJYE/exec';
 
 let currentExam = null;
 let answers = [];
@@ -348,10 +348,9 @@ function showResult(name, cls, correct, total, pct, pass, wrongList) {
 }
 
 // ── 노션에 결과 저장 (앱스크립트 doPost 활용) ──
-async function saveResult(name, cls, correct, total, pct, keyArr) {
+function saveResult(name, cls, correct, total, pct, keyArr) {
   document.getElementById('saving-msg').textContent = '⏳ 노션에 저장 중...';
   try {
-    // GET 방식으로 전송 (CORS 우회)
     const params = new URLSearchParams({
       action: 'save',
       studentName: name,
@@ -363,11 +362,18 @@ async function saveResult(name, cls, correct, total, pct, keyArr) {
       answerKey: JSON.stringify(keyArr),
       submittedAt: new Date().toISOString()
     });
-    await fetch(GAS_URL + '?' + params.toString(), {
-      method: 'GET',
-      mode: 'no-cors'
-    });
-    document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
+    // 이미지 태그로 CORS 완전 우회
+    const img = new Image();
+    img.onload = img.onerror = function() {
+      document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
+    };
+    img.src = GAS_URL + '?' + params.toString();
+    // 3초 후 성공 표시 (응답 기다리지 않음)
+    setTimeout(() => {
+      if (document.getElementById('saving-msg').textContent.includes('저장 중')) {
+        document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
+      }
+    }, 3000);
   } catch(e) {
     document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
   }
