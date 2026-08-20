@@ -16,7 +16,7 @@
   html{font-size:16px;}
   body{margin:0;font-family:'Noto Sans KR',sans-serif;background:var(--navy-deep);color:var(--parchment);
     min-height:100vh;padding:clamp(16px,2.5vw,36px);}
-  header{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px;margin-bottom:22px;}
+  header{display:flex;flex-wrap:wrap;justify-content:space-between;aliagn-items:center;gap:14px;margin-bottom:22px;}
   header .title{font-family:'Bitter',serif;font-weight:900;font-size:clamp(24px,3.4vw,42px);}
   header .title span{color:var(--amber);}
   .controls{display:flex;flex-wrap:wrap;align-items:center;gap:14px;}
@@ -60,6 +60,11 @@
   .leaderboard-row .lb-bar{height:100%;background:var(--teal);border-radius:8px;}
   .leaderboard-row .lb-score{font-family:'Bitter',serif;font-weight:900;font-size:clamp(17px,1.9vw,26px);width:100px;text-align:right;color:var(--navy);}
   .leaderboard-row .lb-cases{font-size:11.5px;color:var(--muted);width:70px;text-align:right;}
+  .delete-btn{padding:10px 16px;border-radius:6px;border:1.5px solid var(--red-clue);background:rgba(162,59,46,0.12);color:var(--red-clue);font-weight:700;font-size:clamp(13px,1.2vw,16px);cursor:pointer;min-height:48px;}
+  .delete-btn:disabled{opacity:0.4;cursor:not-allowed;}
+  .delete-btn:not(:disabled):hover{background:rgba(162,59,46,0.22);}
+  .row-check{width:34px;text-align:center;}
+  .row-check input{width:18px;height:18px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -80,6 +85,7 @@
         <!-- CASE options are populated by JS based on selected level -->
       </select>
     </div>
+    <button class="delete-btn" id="delete-selected-btn" onclick="deleteSelected()" disabled>🗑 선택 삭제 (<span id="selected-count">0</span>)</button>
     <button class="refresh-btn" onclick="loadData()">🔄 새로고침</button>
   </div>
 </header>
@@ -98,16 +104,17 @@ const LOAD_URL = "https://script.google.com/macros/s/AKfycbzDVe9GfKGSDqruTampK2j
 
 /* 연동 전 미리보기용 샘플 데이터 — 실제 연동되면 사용되지 않습니다 */
 const SAMPLE_DATA = [
-  { name:"김나연", level:"1", case_id:1, score:75, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:true, confidence:"상", structure_correct:true, signal_correct:true, summary_matched:2, summary_total:2, summary_text:"지민이는 비가 올까봐 우산을 챙겼다.", scan_correct:true, submitted_at:new Date().toISOString() },
-  { name:"남우진", level:"1", case_id:1, score:40, skim_correct:true, vocab_correct:1, vocab_total:2, evidence_correct:false, answer_correct:true, confidence:"하", structure_correct:true, signal_correct:false, summary_matched:1, summary_total:2, summary_text:"날씨가 안좋아서 준비했다.", scan_correct:false, submitted_at:new Date().toISOString() },
-  { name:"박서연", level:"1", case_id:2, score:78, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:true, confidence:"상", structure_correct:true, signal_correct:true, summary_matched:2, summary_total:2, summary_text:"민호는 늦게까지 공부해서 피곤했다.", scan_correct:true, submitted_at:new Date().toISOString() },
-  { name:"김나연", level:"2", case_id:201, score:68, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:false, confidence:"중", structure_correct:true, signal_correct:true, summary_matched:1, summary_total:2, summary_text:"민호는 피곤했다.", scan_correct:true, submitted_at:new Date().toISOString() }
+  { _row:2, name:"김나연", level:"1", case_id:1, score:75, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:true, confidence:"상", structure_correct:true, signal_correct:true, summary_matched:2, summary_total:2, summary_text:"지민이는 비가 올까봐 우산을 챙겼다.", scan_correct:true, submitted_at:new Date().toISOString() },
+  { _row:3, name:"남우진", level:"1", case_id:1, score:40, skim_correct:true, vocab_correct:1, vocab_total:2, evidence_correct:false, answer_correct:true, confidence:"하", structure_correct:true, signal_correct:false, summary_matched:1, summary_total:2, summary_text:"날씨가 안좋아서 준비했다.", scan_correct:false, submitted_at:new Date().toISOString() },
+  { _row:4, name:"박서연", level:"1", case_id:2, score:78, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:true, confidence:"상", structure_correct:true, signal_correct:true, summary_matched:2, summary_total:2, summary_text:"민호는 늦게까지 공부해서 피곤했다.", scan_correct:true, submitted_at:new Date().toISOString() },
+  { _row:5, name:"김나연", level:"2", case_id:201, score:68, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:false, confidence:"중", structure_correct:true, signal_correct:true, summary_matched:1, summary_total:2, summary_text:"민호는 피곤했다.", scan_correct:true, submitted_at:new Date().toISOString() }
 ];
 
 let currentLevelFilter = 'all';
 let currentFilter = 'all';
 let currentView = 'detail';
 let allData = [];
+let selectedRows = new Set();
 
 document.querySelectorAll('#view-toggle button').forEach(btn=>{
   btn.onclick = ()=>{
@@ -155,6 +162,8 @@ document.getElementById('case-select-dropdown').onchange = ()=>{
 
 function loadData(){
   const metaRow = document.getElementById('meta-row');
+  selectedRows.clear();
+  updateDeleteButton();
   if (LOAD_URL === "REPLACE_WITH_APPS_SCRIPT_URL"){
     allData = SAMPLE_DATA;
     metaRow.textContent = "⚠ 샘플 데이터 표시 중 — 실제 연동 필요 (마지막 새로고침: " + new Date().toLocaleTimeString('ko-KR') + ")";
@@ -171,6 +180,60 @@ function loadData(){
     })
     .catch(()=>{
       metaRow.textContent = "⚠ 불러오기 실패. 다시 시도해주세요.";
+    });
+}
+
+function updateDeleteButton(){
+  const btn = document.getElementById('delete-selected-btn');
+  const countEl = document.getElementById('selected-count');
+  countEl.textContent = selectedRows.size;
+  btn.disabled = selectedRows.size === 0;
+}
+
+function toggleRowSelect(rowId, checked){
+  if (checked) selectedRows.add(rowId);
+  else selectedRows.delete(rowId);
+  updateDeleteButton();
+  const allCheck = document.getElementById('select-all-check');
+  if (allCheck) allCheck.checked = filteredRows().every(r => selectedRows.has(r._row));
+}
+
+function toggleSelectAll(checked){
+  filteredRows().forEach(r => {
+    if (checked) selectedRows.add(r._row);
+    else selectedRows.delete(r._row);
+  });
+  updateDeleteButton();
+  renderTable();
+}
+
+function deleteSelected(){
+  if (selectedRows.size === 0) return;
+  const count = selectedRows.size;
+  if (!confirm(count + "건의 데이터를 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.")) return;
+
+  const metaRow = document.getElementById('meta-row');
+  if (LOAD_URL === "REPLACE_WITH_APPS_SCRIPT_URL"){
+    allData = allData.filter(r => !selectedRows.has(r._row));
+    selectedRows.clear();
+    updateDeleteButton();
+    metaRow.textContent = "⚠ 샘플 데이터 모드 — 실제로 저장되지 않습니다.";
+    render();
+    return;
+  }
+
+  metaRow.textContent = "삭제 중...";
+  fetch(LOAD_URL, {
+    method: "POST",
+    headers: {"Content-Type":"text/plain"},
+    body: JSON.stringify({ action: "delete", rows: Array.from(selectedRows) })
+  })
+    .then(res => res.json())
+    .then(()=>{
+      loadData();
+    })
+    .catch(()=>{
+      metaRow.textContent = "⚠ 삭제 요청 전송 실패. 다시 시도해주세요.";
     });
 }
 
@@ -237,6 +300,7 @@ function renderTable(){
     <table>
       <thead>
         <tr>
+          <th class="row-check"><input type="checkbox" id="select-all-check" onchange="toggleSelectAll(this.checked)"></th>
           <th class="name-col">이름</th>
           <th>레벨</th>
           <th>CASE</th>
@@ -255,6 +319,7 @@ function renderTable(){
       <tbody>
         ${sorted.map(r => `
           <tr>
+            <td class="row-check"><input type="checkbox" ${selectedRows.has(r._row) ? 'checked' : ''} onchange="toggleRowSelect(${r._row}, this.checked)"></td>
             <td class="name-col">${r.name}</td>
             <td>Lv.${r.level || 1}</td>
             <td>#${String(r.case_id).slice(-2).padStart(2,'0')}</td>
