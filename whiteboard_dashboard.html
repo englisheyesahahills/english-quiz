@@ -71,9 +71,13 @@
       <button data-view="rank">순위 보기</button>
     </div>
     <div class="case-filter" id="case-filter">
+      <select id="level-select-dropdown" style="padding:12px 18px;border-radius:6px;border:1.5px solid rgba(201,151,62,0.4);background:var(--navy-deep);color:var(--amber-soft);font-weight:700;font-size:clamp(14px,1.3vw,18px);min-height:48px;">
+        <option value="all">전체 레벨</option>
+        <!-- Level options are populated by JS -->
+      </select>
       <select id="case-select-dropdown" style="padding:12px 18px;border-radius:6px;border:1.5px solid rgba(201,151,62,0.4);background:var(--navy-deep);color:var(--amber-soft);font-weight:700;font-size:clamp(14px,1.3vw,18px);min-height:48px;">
-        <option value="all">전체</option>
-        <!-- CASE 01~36 options are populated by JS -->
+        <option value="all">전체 CASE</option>
+        <!-- CASE options are populated by JS based on selected level -->
       </select>
     </div>
     <button class="refresh-btn" onclick="loadData()">🔄 새로고침</button>
@@ -94,12 +98,13 @@ const LOAD_URL = "https://script.google.com/macros/s/AKfycbzDVe9GfKGSDqruTampK2j
 
 /* 연동 전 미리보기용 샘플 데이터 — 실제 연동되면 사용되지 않습니다 */
 const SAMPLE_DATA = [
-  { name:"김나연", case_id:1, score:75, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:true, confidence:"상", structure_correct:true, signal_correct:true, summary_matched:2, summary_total:2, summary_text:"지민이는 비가 올까봐 우산을 챙겼다.", scan_correct:true, submitted_at:new Date().toISOString() },
-  { name:"남우진", case_id:1, score:40, skim_correct:true, vocab_correct:1, vocab_total:2, evidence_correct:false, answer_correct:true, confidence:"하", structure_correct:true, signal_correct:false, summary_matched:1, summary_total:2, summary_text:"날씨가 안좋아서 준비했다.", scan_correct:false, submitted_at:new Date().toISOString() },
-  { name:"박서연", case_id:2, score:78, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:true, confidence:"상", structure_correct:true, signal_correct:true, summary_matched:2, summary_total:2, summary_text:"민호는 늦게까지 공부해서 피곤했다.", scan_correct:true, submitted_at:new Date().toISOString() },
-  { name:"김나연", case_id:2, score:68, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:false, confidence:"중", structure_correct:true, signal_correct:true, summary_matched:1, summary_total:2, summary_text:"민호는 피곤했다.", scan_correct:true, submitted_at:new Date().toISOString() }
+  { name:"김나연", level:"1", case_id:1, score:75, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:true, confidence:"상", structure_correct:true, signal_correct:true, summary_matched:2, summary_total:2, summary_text:"지민이는 비가 올까봐 우산을 챙겼다.", scan_correct:true, submitted_at:new Date().toISOString() },
+  { name:"남우진", level:"1", case_id:1, score:40, skim_correct:true, vocab_correct:1, vocab_total:2, evidence_correct:false, answer_correct:true, confidence:"하", structure_correct:true, signal_correct:false, summary_matched:1, summary_total:2, summary_text:"날씨가 안좋아서 준비했다.", scan_correct:false, submitted_at:new Date().toISOString() },
+  { name:"박서연", level:"1", case_id:2, score:78, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:true, confidence:"상", structure_correct:true, signal_correct:true, summary_matched:2, summary_total:2, summary_text:"민호는 늦게까지 공부해서 피곤했다.", scan_correct:true, submitted_at:new Date().toISOString() },
+  { name:"김나연", level:"2", case_id:201, score:68, skim_correct:true, vocab_correct:2, vocab_total:2, evidence_correct:true, answer_correct:false, confidence:"중", structure_correct:true, signal_correct:true, summary_matched:1, summary_total:2, summary_text:"민호는 피곤했다.", scan_correct:true, submitted_at:new Date().toISOString() }
 ];
 
+let currentLevelFilter = 'all';
 let currentFilter = 'all';
 let currentView = 'detail';
 let allData = [];
@@ -113,16 +118,38 @@ document.querySelectorAll('#view-toggle button').forEach(btn=>{
   };
 });
 
-// CASE #01~36 드롭다운 옵션 채우기
-const caseDropdown = document.getElementById('case-select-dropdown');
-for (let i=1; i<=36; i++){
+/* 레벨 드롭다운: 1~6 (필요에 따라 확장) */
+const levelDropdown = document.getElementById('level-select-dropdown');
+for (let lv=1; lv<=6; lv++){
   const opt = document.createElement('option');
-  opt.value = String(i);
-  opt.textContent = 'CASE #' + String(i).padStart(2,'0');
-  caseDropdown.appendChild(opt);
+  opt.value = String(lv);
+  opt.textContent = 'Level ' + lv;
+  levelDropdown.appendChild(opt);
 }
-caseDropdown.onchange = ()=>{
-  currentFilter = caseDropdown.value;
+levelDropdown.onchange = ()=>{
+  currentLevelFilter = levelDropdown.value;
+  populateCaseDropdown();
+  currentFilter = 'all';
+  render();
+};
+
+// CASE 드롭다운: 선택된 레벨에 맞는 36개 CASE 번호로 채우기
+function populateCaseDropdown(){
+  const caseDropdown = document.getElementById('case-select-dropdown');
+  caseDropdown.innerHTML = '<option value="all">전체 CASE</option>';
+  if (currentLevelFilter === 'all') return;
+  const lv = parseInt(currentLevelFilter);
+  const base = lv === 1 ? 0 : lv * 100; // Level 1: 1~36, Level N(2+): N*100+1 ~ N*100+36
+  for (let i=1; i<=36; i++){
+    const id = base + i;
+    const opt = document.createElement('option');
+    opt.value = String(id);
+    opt.textContent = 'CASE #' + String(i).padStart(2,'0');
+    caseDropdown.appendChild(opt);
+  }
+}
+document.getElementById('case-select-dropdown').onchange = ()=>{
+  currentFilter = document.getElementById('case-select-dropdown').value;
   render();
 };
 
@@ -151,6 +178,14 @@ function mark(ok){
   return `<span class="mark ${ok ? 'ok' : 'no'}">${ok ? '✓' : '✕'}</span>`;
 }
 
+function filteredRows(){
+  return allData.filter(r=>{
+    if (currentLevelFilter !== 'all' && String(r.level || '1') !== currentLevelFilter) return false;
+    if (currentFilter !== 'all' && String(r.case_id) !== currentFilter) return false;
+    return true;
+  });
+}
+
 function render(){
   if (currentView === 'rank') renderLeaderboard();
   else renderTable();
@@ -158,7 +193,7 @@ function render(){
 
 function renderLeaderboard(){
   const wrap = document.getElementById('table-wrap');
-  const rows = currentFilter === 'all' ? allData : allData.filter(r => String(r.case_id) === currentFilter);
+  const rows = filteredRows();
 
   if (rows.length === 0){
     wrap.innerHTML = '<div class="empty-state">표시할 제출 데이터가 없습니다.</div>';
@@ -189,7 +224,7 @@ function renderLeaderboard(){
 
 function renderTable(){
   const wrap = document.getElementById('table-wrap');
-  const rows = currentFilter === 'all' ? allData : allData.filter(r => String(r.case_id) === currentFilter);
+  const rows = filteredRows();
 
   if (rows.length === 0){
     wrap.innerHTML = '<div class="empty-state">표시할 제출 데이터가 없습니다.</div>';
@@ -203,6 +238,8 @@ function renderTable(){
       <thead>
         <tr>
           <th class="name-col">이름</th>
+          <th>레벨</th>
+          <th>CASE</th>
           <th>점수</th>
           <th>스키밍</th>
           <th>어휘추적</th>
@@ -219,6 +256,8 @@ function renderTable(){
         ${sorted.map(r => `
           <tr>
             <td class="name-col">${r.name}</td>
+            <td>Lv.${r.level || 1}</td>
+            <td>#${String(r.case_id).slice(-2).padStart(2,'0')}</td>
             <td style="font-weight:900;color:var(--navy);">${r.score||0}점</td>
             <td>${mark(r.skim_correct)}</td>
             <td>${r.vocab_correct}/${r.vocab_total}</td>
@@ -236,6 +275,7 @@ function renderTable(){
   `;
 }
 
+populateCaseDropdown();
 loadData();
 setInterval(loadData, 15000); // 15초마다 자동으로 새로고침 (수동 버튼도 그대로 사용 가능)
 </script>
