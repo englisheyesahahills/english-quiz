@@ -366,27 +366,26 @@ function showResult(name, cls, correct, total, pct, pass, wrongList) {
 async function saveResult(name, cls, correct, total, pct, keyArr) {
   document.getElementById('saving-msg').textContent = '⏳ 노션에 저장 중...';
   try {
-    // 앱스크립트를 CORS 릴레이로 사용 (POST 방식)
-    const body = {
+    const params = new URLSearchParams({
+      action: 'save',
       studentName: name,
       studentClass: cls,
       examName: currentExam.name,
-      score: correct,
-      total: total,
-      answers: answers,
-      answerKey: keyArr,
+      score: String(correct),
+      total: String(total),
+      answers: JSON.stringify(answers),
+      answerKey: JSON.stringify(keyArr),
       submittedAt: new Date().toISOString()
-    };
-    fetch(GAS_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
     });
-    // no-cors 모드에서는 응답을 못 받으므로 3초 후 성공 표시
+    // iframe으로 GAS 호출 (CORS 완전 우회)
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = GAS_URL + '?' + params.toString();
+    document.body.appendChild(iframe);
     setTimeout(() => {
+      document.body.removeChild(iframe);
       document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
-    }, 3000);
+    }, 5000);
   } catch(e) {
     document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
   }
