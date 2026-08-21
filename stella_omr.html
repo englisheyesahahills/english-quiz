@@ -150,6 +150,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz0x6MWxmvoVkOSt_zcaKJWwG1gt2FqHoLzZ2Le_09wppcG8TemwCDPSrnTIAX2qm_2/exec';
 
 let currentExam = null;
+let submitLock = false; // 중복 제출 방지
 let answers = [];
 let timerInterval = null;
 
@@ -185,19 +186,11 @@ const BUILT_IN_EXAMS = {
   }
 };
 
-// ── 특정 시험 데이터 가져오기 ──
+// 특정 시험 데이터: 내장 데이터만 사용 (GAS 호출 없음)
 async function loadExamByName(examName) {
-  // 내장 데이터 먼저 확인
   if (BUILT_IN_EXAMS[examName]) return BUILT_IN_EXAMS[examName];
-  // GAS에서 시도
-  try {
-    const res = await fetch(GAS_URL + '?examName=' + encodeURIComponent(examName), { method: 'GET' });
-    const data = await res.json();
-    if (data && data.examName) return data;
-    return null;
-  } catch(e) {
-    return null;
-  }
+  // 내장 데이터에 없으면 null (GAS 호출 안 함)
+  return null;
 }
 
 // ── 초기화 ──
@@ -366,8 +359,12 @@ function showResult(name, cls, correct, total, pct, pass, wrongList) {
   }
 }
 
-// ── 노션에 결과 저장 (앱스크립트 doPost 활용) ──
-async function saveResult(name, cls, correct, total, pct, keyArr) {
+/async function saveResult(name, cls, correct, total, pct, keyArr) {
+  // 중복 제출 방지
+  if (submitLock) return;
+  submitLock = true;
+  document.getElementById('submit-btn').disabled = true;
+
   document.getElementById('saving-msg').textContent = '⏳ 노션에 저장 중...';
   try {
     const params = new URLSearchParams({
@@ -381,29 +378,14 @@ async function saveResult(name, cls, correct, total, pct, keyArr) {
       answerKey: JSON.stringify(keyArr),
       submittedAt: new Date().toISOString()
     });
-    // 방법1: fetch no-cors
     await fetch(GAS_URL + '?' + params.toString(), {
-      method: 'GET',
-      mode: 'no-cors'
+      method: 'GET', mode: 'no-cors'
     });
     document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
   } catch(e) {
-    // 방법2: 이미지 태그 폴백
-    try {
-      const params2 = new URLSearchParams({
-        action: 'save',
-        studentName: name,
-        studentClass: cls,
-        examName: currentExam.name,
-        score: String(correct),
-        total: String(total),
-        submittedAt: new Date().toISOString()
-      });
-      const img = new Image();
-      img.src = GAS_URL + '?' + params2.toString();
-      document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
-    } catch(e2) {
-      document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
+    document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
+  }
+}t = '⚠️ 저장 실패 (결과는 정상)';
     }
   }
 }
