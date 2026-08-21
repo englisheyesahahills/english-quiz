@@ -377,17 +377,30 @@ async function saveResult(name, cls, correct, total, pct, keyArr) {
       answerKey: JSON.stringify(keyArr),
       submittedAt: new Date().toISOString()
     });
-    // iframe으로 GAS 호출 (CORS 완전 우회)
-    const iframe = document.createElement('iframe');
-    iframe.style.display = 'none';
-    iframe.src = GAS_URL + '?' + params.toString();
-    document.body.appendChild(iframe);
-    setTimeout(() => {
-      document.body.removeChild(iframe);
-      document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
-    }, 5000);
+    // 방법1: fetch no-cors
+    await fetch(GAS_URL + '?' + params.toString(), {
+      method: 'GET',
+      mode: 'no-cors'
+    });
+    document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
   } catch(e) {
-    document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
+    // 방법2: 이미지 태그 폴백
+    try {
+      const params2 = new URLSearchParams({
+        action: 'save',
+        studentName: name,
+        studentClass: cls,
+        examName: currentExam.name,
+        score: String(correct),
+        total: String(total),
+        submittedAt: new Date().toISOString()
+      });
+      const img = new Image();
+      img.src = GAS_URL + '?' + params2.toString();
+      document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
+    } catch(e2) {
+      document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
+    }
   }
 }
 
