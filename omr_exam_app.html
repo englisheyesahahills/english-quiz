@@ -363,7 +363,7 @@ function showResult(name, cls, correct, total, pct, pass, wrongList) {
 }
 
 // ── 노션에 결과 저장 (앱스크립트 doPost 활용) ──
-function saveResult(name, cls, correct, total, pct, keyArr) {
+async function saveResult(name, cls, correct, total, pct, keyArr) {
   document.getElementById('saving-msg').textContent = '⏳ 노션에 저장 중...';
   try {
     const params = new URLSearchParams({
@@ -377,18 +377,11 @@ function saveResult(name, cls, correct, total, pct, keyArr) {
       answerKey: JSON.stringify(keyArr),
       submittedAt: new Date().toISOString()
     });
-    // 이미지 태그로 CORS 완전 우회
-    const img = new Image();
-    img.onload = img.onerror = function() {
-      document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
-    };
-    img.src = GAS_URL + '?' + params.toString();
-    // 3초 후 성공 표시 (응답 기다리지 않음)
-    setTimeout(() => {
-      if (document.getElementById('saving-msg').textContent.includes('저장 중')) {
-        document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
-      }
-    }, 3000);
+    await fetch(GAS_URL + '?' + params.toString(), {
+      method: 'GET',
+      mode: 'no-cors'
+    });
+    document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
   } catch(e) {
     document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
   }
