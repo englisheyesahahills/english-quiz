@@ -206,7 +206,7 @@ async function init() {
   const params = new URLSearchParams(location.search);
   const examName = params.get('exam');
 
-  document.getElementById('loading').querySelector('.loading-text').textContent = '노션에서 시험 정보를 가져오는 중...';
+  // 시험 로딩 시작
 
   if (examName) {
     // 특정 시험 직접 로드
