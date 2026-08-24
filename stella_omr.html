@@ -11,29 +11,28 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 #loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;}
 .spinner{width:48px;height:48px;border:4px solid #e0e0e0;border-top-color:#1a5c3a;border-radius:50%;animation:spin 0.8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-size:15px;color:#6b7280;}
 #exam-select{display:none;max-width:520px;margin:0 auto;padding:24px 16px;}
 .select-header{text-align:center;margin-bottom:28px;}
 .select-header .logo{font-size:11px;color:#9ca3af;letter-spacing:1px;margin-bottom:8px;}
 .select-header h1{font-size:22px;font-weight:900;color:#1a5c3a;}
-.select-header p{font-size:13px;color:#6b7280;margin-top:4px;}
 .exam-card{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:12px;cursor:pointer;border:2px solid transparent;transition:all 0.15s;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
-.exam-card:hover{border-color:#1a5c3a;box-shadow:0 4px 16px rgba(26,92,58,0.12);}
+.exam-card:hover{border-color:#1a5c3a;}
 .exam-card h3{font-size:16px;font-weight:700;color:#111;margin-bottom:4px;}
 .exam-card .meta{font-size:12px;color:#6b7280;display:flex;gap:12px;}
 #exam-screen{display:none;max-width:600px;margin:0 auto;padding:16px;}
 .exam-top{background:linear-gradient(135deg,#1a5c3a,#2d8a5a);border-radius:16px;padding:18px 20px;margin-bottom:16px;color:#fff;}
 .exam-top .exam-title{font-size:16px;font-weight:700;margin-bottom:8px;}
-.exam-top .exam-info{display:flex;justify-content:space-between;align-items:center;font-size:13px;opacity:0.85;}
+.exam-top .exam-info{display:flex;justify-content:space-between;font-size:13px;opacity:0.85;}
 .timer{font-size:18px;font-weight:900;color:#ffd700;}
 #student-form{background:#fff;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
 #student-form h3{font-size:14px;font-weight:700;color:#1a5c3a;margin-bottom:12px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-.form-group label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px;font-weight:500;}
-.form-group input,.form-group select{width:100%;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color 0.15s;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.form-group{margin-bottom:10px;}
+.form-group label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px;}
+.form-group input,.form-group select{width:100%;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:'Noto Sans KR',sans-serif;outline:none;}
 .form-group input:focus,.form-group select:focus{border-color:#1a5c3a;}
 #answer-sheet{background:#fff;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
-#answer-sheet h3{font-size:14px;font-weight:700;color:#1a5c3a;margin-bottom:14px;}
+#answer-sheet h3{font-size:14px;font-weight:700;color:#1a5c3a;margin-bottom:8px;}
 .progress-bar{background:#e5e7eb;border-radius:10px;height:6px;margin-bottom:14px;}
 .progress-fill{background:#1a5c3a;height:6px;border-radius:10px;transition:width 0.3s;}
 .progress-text{font-size:11px;color:#6b7280;text-align:right;margin-top:4px;margin-bottom:10px;}
@@ -42,12 +41,11 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 .omr-row.answered{background:#f0faf4;}
 .q-num{font-size:12px;font-weight:700;color:#374151;width:22px;text-align:right;flex-shrink:0;}
 .bubbles{display:flex;gap:4px;}
-.bubble{width:26px;height:26px;border-radius:50%;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#6b7280;cursor:pointer;transition:all 0.12s;flex-shrink:0;}
+.bubble{width:26px;height:26px;border-radius:50%;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#6b7280;cursor:pointer;transition:all 0.12s;}
 .bubble:hover{border-color:#1a5c3a;color:#1a5c3a;}
 .bubble.selected{background:#1a5c3a;border-color:#1a5c3a;color:#fff;}
-.submit-btn{width:100%;padding:14px;background:#1a5c3a;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:background 0.15s;margin-bottom:20px;}
-.submit-btn:hover{background:#145030;}
-.submit-btn:disabled{background:#9ca3af;cursor:not-allowed;}
+.submit-btn{width:100%;padding:14px;background:#1a5c3a;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-bottom:20px;}
+.submit-btn:disabled{background:#9ca3af;}
 #result-screen{display:none;max-width:480px;margin:0 auto;padding:24px 16px;}
 .result-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
 .result-header{padding:28px 24px;text-align:center;}
@@ -58,32 +56,30 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 .result-pct{font-size:16px;color:rgba(255,255,255,0.8);margin-top:4px;}
 .result-body{padding:20px 24px;}
 .result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px;}
-.result-row:last-child{border-bottom:none;}
 .result-row .label{color:#6b7280;}
-.result-row .value{font-weight:600;color:#111;}
+.result-row .value{font-weight:600;}
 .result-msg{background:#f0faf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;margin-top:14px;font-size:13px;color:#166534;text-align:center;line-height:1.6;}
 .result-msg.fail-msg{background:#fef2f2;border-color:#fecaca;color:#991b1b;}
-.retry-btn{width:100%;padding:12px;background:#f3f4f6;color:#374151;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-top:14px;}
 .wrong-list{margin-top:14px;}
 .wrong-title{font-size:13px;font-weight:700;color:#374151;margin-bottom:8px;}
-.wrong-item{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;background:#fef2f2;border-radius:6px;margin-bottom:4px;}
+.wrong-item{display:flex;gap:8px;font-size:13px;padding:6px 10px;background:#fef2f2;border-radius:6px;margin-bottom:4px;}
 .wrong-item .wq{color:#dc2626;font-weight:700;width:60px;}
 .saving-msg{text-align:center;font-size:12px;color:#6b7280;margin-top:8px;}
-.error-box{text-align:center;padding:40px 20px;color:#6b7280;font-size:14px;line-height:1.8;}
+.retry-btn{width:100%;padding:12px;background:#f3f4f6;color:#374151;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-top:14px;}
 </style>
 </head>
 <body>
 
 <div id="loading">
   <div class="spinner"></div>
-  <div class="loading-text">시험 정보를 불러오는 중...</div>
+  <div style="font-size:15px;color:#6b7280;">시험 정보를 불러오는 중...</div>
 </div>
 
 <div id="exam-select">
   <div class="select-header">
     <div class="logo">ENGLISHEYE STELLA 영어학원</div>
     <h1>📋 시험 선택</h1>
-    <p>응시할 시험을 선택해 주세요</p>
+    <p style="font-size:13px;color:#6b7280;margin-top:4px;">응시할 시험을 선택해 주세요</p>
   </div>
   <div id="exam-list"></div>
 </div>
@@ -146,113 +142,51 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 </div>
 
 <script>
-// ── 앱스크립트 URL (노션과 직접 연동) ──
-const GAS_URL = 'https://stella-omr.sodcowhrqkf1.workers.dev';
+// ── 설정 ──
+const WORKER_URL = 'https://stella-omr.sodcowhrqkf1.workers.dev';
 
-let currentExam = null;
-let submitLock = false; // 중복 제출 방지
-let answers = [];
-let timerInterval = null;
-
-// ── 노션에서 활성화된 시험 목록 가져오기 (앱스크립트 doGet 활용) ──
-async function loadExams() {
-  // 내장 데이터 직접 반환 (가장 안정적)
-  return Object.values(BUILT_IN_EXAMS).map(e => ({
-    name: e.examName, total: e.totalQuestions,
-    choices: e.numChoices, time: e.time, keyArr: e.answerKey
-  }));
-  try {
-    const _unused = true; // 아래 코드는 사용 안 함
-    const res = await fetch(GAS_URL + '?action=list', { method: 'GET' });
-    const data = await res.json();
-    if (data && Array.isArray(data)) return data;
-    if (data && data.examName) return [data];
-    return [];
-  } catch(e) {
-    console.error('시험 목록 로드 실패:', e);
-    return [];
-  }
-}
-
-// 내장 시험 데이터
-const BUILT_IN_EXAMS = {
+// ── 내장 시험 데이터 ──
+const EXAMS = {
   '토셀평가 스타터5회': {
-    examName: '토셀평가 스타터5회', totalQuestions: 40, numChoices: 4, time: 40,
-    answerKey: [1,2,2,3,2,1,3,2,3,3,1,3,1,2,2,2,1,3,1,3,2,1,1,2,3,1,3,1,1,1,1,2,4,4,3,2,2,4,1,2]
+    name:'토셀평가 스타터5회', total:40, choices:4, time:40,
+    key:[1,2,2,3,2,1,3,2,3,3,1,3,1,2,2,2,1,3,1,3,2,1,1,2,3,1,3,1,1,1,1,2,4,4,3,2,2,4,1,2]
   },
   '토셀평가 베이직5회': {
-    examName: '토셀평가 베이직5회', totalQuestions: 60, numChoices: 4, time: 60,
-    answerKey: [3,1,1,1,4,4,3,4,1,2,1,3,4,2,2,3,1,4,4,1,2,4,2,2,3,1,1,3,2,3,2,1,2,3,3,4,3,1,4,1,3,1,3,2,1,4,3,2,3,4,4,1,3,4,2,3,3,1,4,2]
+    name:'토셀평가 베이직5회', total:60, choices:4, time:60,
+    key:[3,1,1,1,4,4,3,4,1,2,1,3,4,2,2,3,1,4,4,1,2,4,2,2,3,1,1,3,2,3,2,1,2,3,3,4,3,1,4,1,3,1,3,2,1,4,3,2,3,4,4,1,3,4,2,3,3,1,4,2]
   }
 };
 
-// 특정 시험 데이터: 내장 데이터만 사용 (GAS 호출 없음)
-async function loadExamByName(examName) {
-  if (!examName) return null;
-  // URL 디코딩 처리
-  const decoded = decodeURIComponent(examName);
-  if (BUILT_IN_EXAMS[decoded]) return BUILT_IN_EXAMS[decoded];
-  if (BUILT_IN_EXAMS[examName]) return BUILT_IN_EXAMS[examName];
-  // 부분 매칭 시도
-  const keys = Object.keys(BUILT_IN_EXAMS);
-  for (const key of keys) {
-    if (key.includes(decoded) || decoded.includes(key)) return BUILT_IN_EXAMS[key];
-  }
-  return null;
-}
+let currentExam = null;
+let answers = [];
+let timerInterval = null;
+let submitLock = false;
 
 // ── 초기화 ──
-async function init() {
+function init() {
   const params = new URLSearchParams(location.search);
-  const examName = params.get('exam');
+  const examParam = decodeURIComponent(params.get('exam') || '');
 
-  // 시험 로딩 시작
+  // 로딩 숨기기
+  document.getElementById('loading').style.display = 'none';
 
-  if (examName) {
-    // 특정 시험 직접 로드
-    const exam = await loadExamByName(examName);
-    document.getElementById('loading').style.display = 'none';
-    if (exam) {
-      startExam({
-        name: exam.examName,
-        total: exam.totalQuestions,
-        choices: exam.numChoices || 4,
-        time: exam.time || 40,
-        keyArr: exam.answerKey
-      });
-    } else {
-      showError('시험을 찾을 수 없습니다. 시험명을 확인해 주세요.');
-    }
+  if (examParam && EXAMS[examParam]) {
+    startExam(EXAMS[examParam]);
     return;
   }
 
-  // 활성화된 시험 전체 로드
-  const raw = await loadExamByName('');
-  document.getElementById('loading').style.display = 'none';
-
-  if (raw && raw.examName) {
-    // 단일 시험
-    startExam({
-      name: raw.examName,
-      total: raw.totalQuestions,
-      choices: raw.numChoices || 4,
-      time: raw.time || 40,
-      keyArr: raw.answerKey
-    });
-  } else {
-    // 시험 없음
-    document.getElementById('exam-select').style.display = 'block';
-    document.getElementById('exam-list').innerHTML =
-      '<div class="error-box">활성화된 시험이 없습니다.<br>노션 OMR 시험 설정에서<br>시험을 활성화해 주세요.</div>';
-  }
-}
-
-function showError(msg) {
+  // 시험 선택 화면
   document.getElementById('exam-select').style.display = 'block';
-  document.getElementById('exam-list').innerHTML = `<div class="error-box">⚠️ ${msg}</div>`;
+  const list = document.getElementById('exam-list');
+  Object.values(EXAMS).forEach(exam => {
+    const card = document.createElement('div');
+    card.className = 'exam-card';
+    card.innerHTML = `<h3>${exam.name}</h3><div class="meta"><span>📝 ${exam.total}문항</span><span>⏱️ ${exam.time}분</span><span>🔢 ${exam.choices}지선다</span></div>`;
+    card.onclick = () => startExam(exam);
+    list.appendChild(card);
+  });
 }
 
-// ── 시험 시작 ──
 function startExam(exam) {
   currentExam = exam;
   answers = new Array(exam.total).fill(0);
@@ -262,10 +196,9 @@ function startExam(exam) {
   document.getElementById('exam-meta').textContent = `총 ${exam.total}문항 · ${exam.choices}지선다`;
   document.getElementById('progress-text').textContent = `0 / ${exam.total} 문제 완료`;
   buildOMR(exam.total, exam.choices);
-  startTimer(exam.time || 40);
+  startTimer(exam.time);
 }
 
-// ── OMR 답안지 생성 ──
 function buildOMR(total, choices) {
   const grid = document.getElementById('omr-grid');
   grid.innerHTML = '';
@@ -273,30 +206,28 @@ function buildOMR(total, choices) {
     const row = document.createElement('div');
     row.className = 'omr-row';
     row.id = 'row' + i;
-    let bubblesHtml = '';
+    let html = `<span class="q-num">${i}</span><div class="bubbles">`;
     for (let c = 1; c <= choices; c++) {
-      bubblesHtml += `<div class="bubble" id="b${i}_${c}" onclick="selectAnswer(${i},${c})">${c}</div>`;
+      html += `<div class="bubble" id="b${i}_${c}" onclick="selectAnswer(${i},${c})">${c}</div>`;
     }
-    row.innerHTML = `<span class="q-num">${i}</span><div class="bubbles">${bubblesHtml}</div>`;
+    html += '</div>';
+    row.innerHTML = html;
     grid.appendChild(row);
   }
 }
 
-// ── 답안 선택 ──
 function selectAnswer(q, choice) {
   answers[q-1] = choice;
   for (let c = 1; c <= currentExam.choices; c++) {
     const b = document.getElementById(`b${q}_${c}`);
     if (b) b.classList.toggle('selected', c === choice);
   }
-  document.getElementById('row' + q).classList.add('answered');
+  document.getElementById('row'+q).classList.add('answered');
   const answered = answers.filter(a => a > 0).length;
-  const pct = Math.round(answered / currentExam.total * 100);
-  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-fill').style.width = Math.round(answered/currentExam.total*100)+'%';
   document.getElementById('progress-text').textContent = `${answered} / ${currentExam.total} 문제 완료`;
 }
 
-// ── 타이머 ──
 function startTimer(minutes) {
   let timeLeft = minutes * 60;
   const display = document.getElementById('timer-display');
@@ -310,8 +241,8 @@ function startTimer(minutes) {
   }, 1000);
 }
 
-// ── 제출 ──
-async function submitExam() {
+function submitExam() {
+  if (submitLock) return;
   clearInterval(timerInterval);
   const name = document.getElementById('student-name').value.trim();
   const cls = document.getElementById('student-class').value;
@@ -320,41 +251,40 @@ async function submitExam() {
   const unanswered = answers.filter(a => a === 0).length;
   if (unanswered > 0 && !confirm(`${unanswered}문제를 마킹하지 않았어요. 제출할까요?`)) return;
 
+  submitLock = true;
   document.getElementById('submit-btn').disabled = true;
-  document.getElementById('submit-btn').textContent = '채점 중...';
 
-  const keyArr = currentExam.keyArr;
+  const key = currentExam.key;
   let correct = 0;
   const wrongList = [];
   answers.forEach((ans, i) => {
-    if (ans === keyArr[i]) correct++;
-    else wrongList.push({q:i+1, myAns:ans, correct:keyArr[i]});
+    if (ans === key[i]) correct++;
+    else wrongList.push({q:i+1, myAns:ans, correct:key[i]});
   });
   const total = currentExam.total;
   const pct = Math.round(correct/total*100);
   const pass = pct >= 50;
 
   showResult(name, cls, correct, total, pct, pass, wrongList);
-  saveResult(name, cls, correct, total, pct, keyArr);
+  saveResult(name, cls, correct, total, pct, key);
 }
 
-// ── 결과 화면 ──
 function showResult(name, cls, correct, total, pct, pass, wrongList) {
   document.getElementById('exam-screen').style.display = 'none';
   document.getElementById('result-screen').style.display = 'block';
   const header = document.getElementById('result-header');
-  header.className = `result-header ${pass ? 'pass' : 'fail'}`;
+  header.className = `result-header ${pass?'pass':'fail'}`;
   document.getElementById('result-emoji').textContent = pass ? '🎉' : '😅';
   document.getElementById('result-score').textContent = `${correct} / ${total}`;
   document.getElementById('result-pct').textContent = `정답률 ${pct}%`;
   document.getElementById('res-name').textContent = name;
-  document.getElementById('res-class').textContent = cls + '반';
+  document.getElementById('res-class').textContent = cls+'반';
   document.getElementById('res-exam').textContent = currentExam.name;
-  document.getElementById('res-correct').textContent = correct + '개';
-  document.getElementById('res-wrong').textContent = (total - correct) + '개';
+  document.getElementById('res-correct').textContent = correct+'개';
+  document.getElementById('res-wrong').textContent = (total-correct)+'개';
   document.getElementById('result-msg-box').innerHTML = pass
-    ? `<div class="result-msg">🎊 합격! 정말 잘했어요! 앞으로도 화이팅!</div>`
-    : `<div class="result-msg fail-msg">📚 조금 더 연습이 필요해요! 틀린 문제를 확인해 보세요.</div>`;
+    ? `<div class="result-msg">🎊 합격! 정말 잘했어요!</div>`
+    : `<div class="result-msg fail-msg">📚 조금 더 연습이 필요해요!</div>`;
   if (wrongList.length > 0) {
     const wl = document.getElementById('wrong-list');
     wl.innerHTML = `<div class="wrong-title">❌ 틀린 문제 (${wrongList.length}개)</div>`;
@@ -367,12 +297,7 @@ function showResult(name, cls, correct, total, pct, pass, wrongList) {
   }
 }
 
-/async function saveResult(name, cls, correct, total, pct, keyArr) {
-  // 중복 제출 방지
-  if (submitLock) return;
-  submitLock = true;
-  document.getElementById('submit-btn').disabled = true;
-
+async function saveResult(name, cls, correct, total, pct, key) {
   document.getElementById('saving-msg').textContent = '⏳ 노션에 저장 중...';
   try {
     const params = new URLSearchParams({
@@ -383,21 +308,22 @@ function showResult(name, cls, correct, total, pct, pass, wrongList) {
       score: String(correct),
       total: String(total),
       answers: JSON.stringify(answers),
-      answerKey: JSON.stringify(keyArr),
+      answerKey: JSON.stringify(key),
       submittedAt: new Date().toISOString()
     });
-    await fetch(GAS_URL + '?' + params.toString(), {
-      method: 'GET', mode: 'no-cors'
-    });
-    document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
+    const res = await fetch(WORKER_URL + '?' + params.toString());
+    const data = await res.json();
+    if (data.status === 'ok') {
+      document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
+    } else {
+      document.getElementById('saving-msg').textContent = '⚠️ 저장 실패: ' + (data.message || '');
+    }
   } catch(e) {
     document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
   }
-}t = '⚠️ 저장 실패 (결과는 정상)';
-    }
-  }
 }
 
+// 시작!
 init();
 </script>
 </body>
