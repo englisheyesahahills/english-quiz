@@ -188,8 +188,16 @@ const BUILT_IN_EXAMS = {
 
 // 특정 시험 데이터: 내장 데이터만 사용 (GAS 호출 없음)
 async function loadExamByName(examName) {
+  if (!examName) return null;
+  // URL 디코딩 처리
+  const decoded = decodeURIComponent(examName);
+  if (BUILT_IN_EXAMS[decoded]) return BUILT_IN_EXAMS[decoded];
   if (BUILT_IN_EXAMS[examName]) return BUILT_IN_EXAMS[examName];
-  // 내장 데이터에 없으면 null (GAS 호출 안 함)
+  // 부분 매칭 시도
+  const keys = Object.keys(BUILT_IN_EXAMS);
+  for (const key of keys) {
+    if (key.includes(decoded) || decoded.includes(key)) return BUILT_IN_EXAMS[key];
+  }
   return null;
 }
 
