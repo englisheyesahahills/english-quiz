@@ -312,8 +312,13 @@ async function saveResult(name, cls, correct, total, pct, key) {
       answerKey: JSON.stringify(key),
       submittedAt: new Date().toISOString()
     });
-    await fetch(WORKER_URL + '?' + params.toString(), { mode: 'no-cors' });
-    document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
+    const res = await fetch(WORKER_URL + '?' + params.toString());
+    const data = await res.json();
+    if (data.status === 'ok') {
+      document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
+    } else {
+      document.getElementById('saving-msg').textContent = '⚠️ 오류: ' + (data.message || '저장 실패');
+    }
   } catch(e) {
     document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
   }
