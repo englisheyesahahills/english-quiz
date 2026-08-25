@@ -145,59 +145,47 @@ body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
 // ── 설정 ──
 const WORKER_URL = 'https://stella-omr.sodcowhrqkf1.workers.dev';
 
+// ── 내장 시험 데이터 (노션 정답키 변경시 업데이트 요청) ──
+const EXAMS = {
+  '토셀평가 스타터5회': {
+    name:'토셀평가 스타터5회', total:40, choices:4, time:40,
+    key:[1,2,2,3,2,1,3,2,3,3,1,3,1,2,2,2,1,3,1,3,2,1,1,2,3,1,3,1,1,1,1,2,4,4,3,2,2,4,1,2]
+  },
+  '토셀평가 베이직5회': {
+    name:'토셀평가 베이직5회', total:60, choices:4, time:60,
+    key:[3,1,1,1,4,4,3,4,1,2,1,3,4,2,2,3,1,4,4,1,2,4,2,2,3,1,1,3,2,3,2,1,2,3,3,4,3,1,4,1,3,1,3,2,1,4,3,2,3,4,4,1,3,4,2,3,3,1,4,2]
+  },
+  '월말평가5문제': {
+    name:'월말평가5문제', total:5, choices:4, time:40,
+    key:[2,3,3,3,1]
+  }
+};
+
 let currentExam = null;
 let answers = [];
 let timerInterval = null;
 let submitLock = false;
 
-// ── 초기화 (Cloudflare Workers에서 시험 데이터 가져오기) ──
-async function init() {
+// ── 초기화 ──
+function init() {
   const params = new URLSearchParams(location.search);
   const examParam = decodeURIComponent(params.get('exam') || '');
+  document.getElementById('loading').style.display = 'none';
 
-  try {
-    if (examParam) {
-      // 특정 시험 바로 로드
-      const res = await fetch(WORKER_URL + '?action=get&name=' + encodeURIComponent(examParam));
-      const exam = await res.json();
-      document.getElementById('loading').style.display = 'none';
-      if (exam && exam.name) {
-        startExam(exam);
-      } else {
-        showError('시험을 찾을 수 없습니다: ' + examParam);
-      }
-    } else {
-      // 전체 활성화 시험 목록 로드
-      const res = await fetch(WORKER_URL + '?action=list');
-      const exams = await res.json();
-      document.getElementById('loading').style.display = 'none';
-      if (!exams || exams.length === 0) {
-        showError('활성화된 시험이 없습니다. 노션에서 시험을 활성화해 주세요.');
-        return;
-      }
-      if (exams.length === 1) {
-        startExam(exams[0]);
-        return;
-      }
-      document.getElementById('exam-select').style.display = 'block';
-      const list = document.getElementById('exam-list');
-      exams.forEach(exam => {
-        const card = document.createElement('div');
-        card.className = 'exam-card';
-        card.innerHTML = `<h3>${exam.name}</h3><div class="meta"><span>📝 ${exam.total}문항</span><span>⏱️ ${exam.time||40}분</span><span>🔢 ${exam.choices}지선다</span></div>`;
-        card.onclick = () => startExam(exam);
-        list.appendChild(card);
-      });
-    }
-  } catch(e) {
-    document.getElementById('loading').style.display = 'none';
-    showError('시험 정보를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.');
+  if (examParam && EXAMS[examParam]) {
+    startExam(EXAMS[examParam]);
+    return;
   }
-}
 
-function showError(msg) {
   document.getElementById('exam-select').style.display = 'block';
-  document.getElementById('exam-list').innerHTML = `<div style="text-align:center;padding:40px;color:#6b7280;font-size:14px;">⚠️ ${msg}</div>`;
+  const list = document.getElementById('exam-list');
+  Object.values(EXAMS).forEach(exam => {
+    const card = document.createElement('div');
+    card.className = 'exam-card';
+    card.innerHTML = `<h3>${exam.name}</h3><div class="meta"><span>📝 ${exam.total}문항</span><span>⏱️ ${exam.time}분</span><span>🔢 ${exam.choices}지선다</span></div>`;
+    card.onclick = () => startExam(exam);
+    list.appendChild(card);
+  });
 }
 
 function startExam(exam) {
