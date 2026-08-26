@@ -10,8 +10,7 @@
     --navy-800:#151f38;
     --navy-700:#1e2b4d;
     --navy-600:#2a3a63;
-    --gold:#d4af37;
-    --gold-soft:#e9cd7a;
+    --gold:#d4af37;    --gold-soft:#e9cd7a;a
     --cream:#f5f1e6;
     --muted:#a9b3cc;
     --green:#4caf7d;
@@ -53,11 +52,14 @@
   .login-card{padding:22px 20px;}
   .field{margin-bottom:14px;}
   .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;}
-  .field input{
+  .field input, .field select{
     width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--navy-600);
     background:var(--navy-800);color:var(--cream);font-size:15px;
   }
-  .field input:focus{outline:2px solid var(--gold);}
+  .field input:focus, .field select:focus{outline:2px solid var(--gold);}
+  .field select{-webkit-appearance:none;appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'><path d='M1 1l6 6 6-6' stroke='%23d4af37' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+    background-repeat:no-repeat;background-position:right 14px center;padding-right:36px;}
   .btn{
     display:inline-block;border:none;border-radius:10px;padding:12px 18px;
     font-size:15px;font-weight:700;cursor:pointer;
@@ -429,7 +431,12 @@ function renderLogin(){
       </div>
       <div class="field">
         <label>반</label>
-        <input id="inputClass" type="text" placeholder="예: 중등부1" autocomplete="off">
+        <select id="inputClass">
+          <option value="" disabled selected>반을 선택하세요</option>
+          <option value="중등부1">중등부1</option>
+          <option value="중등부2">중등부2</option>
+          <option value="중등부3">중등부3</option>
+        </select>
       </div>
       <button class="btn btn-primary" onclick="handleLogin()">시작하기</button>
     </div>
