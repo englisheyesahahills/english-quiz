@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 5 워크북 확인학습 · English Eye Stella</title>
+<style>
+  :root{
+    --navy:#1b2540; --navy2:#232f52; --gold:#d4af6a; --burgundy:#7a2e3a;
+    --cream:#f7f3ea; --green:#2e7d4f; --red:#b23b3b; --gray:#8a8f9c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--cream); color:#20263a; line-height:1.55;
+  }
+  header.top{
+    background:var(--navy); color:#fff; padding:18px 16px 14px;
+    position:sticky; top:0; z-index:10;
+  }
+  header.top .brand{font-size:12px; letter-spacing:2px; color:var(--gold); font-weight:700;}
+  header.top h1{margin:4px 0 12px; font-size:19px;}
+  .progress-wrap{display:flex; gap:4px;}
+  .progress-seg{flex:1; height:6px; border-radius:4px; background:rgba(255,255,255,.18);}
+  .progress-seg.done{background:var(--gold);}
+  .progress-seg.current{background:#fff;}
+  main{max-width:720px; margin:0 auto; padding:18px 16px 80px;}
+  .card{
+    background:#fff; border-radius:14px; padding:18px 16px; margin-bottom:14px;
+    box-shadow:0 1px 4px rgba(0,0,0,.06); border:1px solid #eee2c8;
+  }
+  .stage{display:none;}
+  .stage.active{display:block;}
+  .stage-title{
+    font-size:17px; font-weight:800; color:var(--navy); margin-bottom:4px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .stage-title .badge{
+    background:var(--burgundy); color:#fff; font-size:11px; padding:3px 8px;
+    border-radius:20px; font-weight:700;
+  }
+  .stage-desc{font-size:13.5px; color:#555; margin-bottom:14px;}
+  .q{margin-bottom:16px; padding-bottom:14px; border-bottom:1px dashed #e6ddc4;}
+  .q:last-child{border-bottom:none;}
+  .q-num{font-weight:800; color:var(--burgundy); font-size:13px; margin-bottom:4px;}
+  .q-text{font-size:15px; font-weight:600; margin-bottom:8px;}
+  .choices{display:flex; flex-direction:column; gap:6px;}
+  .choice{
+    display:flex; align-items:center; gap:8px; padding:9px 10px; border:1.5px solid #ddd;
+    border-radius:9px; cursor:pointer; font-size:14.5px; background:#fcfcfa;
+    transition:.15s;
+  }
+  .choice:hover{border-color:var(--gold);}
+  .choice.selected{border-color:var(--navy); background:#eef0f7;}
+  .choice.correct{border-color:var(--green); background:#e9f7ee; font-weight:700;}
+  .choice.wrong{border-color:var(--red); background:#fbeaea;}
+  .choice input{margin:0;}
+  .tf-row{display:flex; gap:8px;}
+  .tf-btn{
+    flex:1; text-align:center; padding:9px 0; border:1.5px solid #ddd; border-radius:9px;
+    cursor:pointer; font-weight:700; font-size:14px; background:#fcfcfa;
+  }
+  .tf-btn.selected{border-color:var(--navy); background:#eef0f7;}
+  .tf-btn.correct{border-color:var(--green); background:#e9f7ee; color:var(--green);}
+  .tf-btn.wrong{border-color:var(--red); background:#fbeaea; color:var(--red);}
+  input[type=text].short-input{
+    width:100%; padding:10px; border:1.5px solid #ddd; border-radius:9px; font-size:14.5px;
+  }
+  .feedback{font-size:13px; margin-top:6px; font-weight:700;}
+  .feedback.ok{color:var(--green);}
+  .feedback.no{color:var(--red);}
+  .answer-hint{font-size:12.5px; color:#777; margin-top:4px;}
+  .sent-row{
+    display:flex; align-items:flex-start; gap:10px; padding:10px 0; border-bottom:1px solid #f0ead4;
+  }
+  .sent-num{font-weight:800; color:var(--gold); background:var(--navy); border-radius:50%; width:24px; height:24px;
+    display:flex; align-items:center; justify-content:center; font-size:12px; flex:none; margin-top:2px;}
+  .sent-text{flex:1; font-size:14.5px;}
+  .sent-ko{font-size:12.5px; color:#777; margin-top:2px;}
+  .speak-btn{
+    flex:none; border:none; background:var(--navy); color:#fff; border-radius:8px; padding:6px 10px;
+    font-size:12px; cursor:pointer; font-weight:700;
+  }
+  .speak-btn:active{opacity:.7;}
+  .chk-label{flex:none; display:flex; align-items:center; gap:4px; font-size:12px; color:#555;}
+  .btn-row{display:flex; gap:10px; margin-top:16px;}
+  .btn{
+    flex:1; padding:13px 0; border:none; border-radius:11px; font-size:15px; font-weight:800;
+    cursor:pointer;
+  }
+  .btn.primary{background:var(--navy); color:#fff;}
+  .btn.primary:disabled{background:#b7bdd0; cursor:not-allowed;}
+  .btn.ghost{background:#fff; color:var(--navy); border:1.5px solid var(--navy);}
+  .stu-row{display:flex; gap:8px; margin-bottom:6px;}
+  .stu-row input, .stu-row select{
+    flex:1; padding:11px; border-radius:9px; border:1.5px solid #ccc; font-size:14.5px;
+  }
+  .score-box{
+    text-align:center; padding:22px 10px; background:var(--navy); color:#fff; border-radius:14px;
+  }
+  .score-box .num{font-size:40px; font-weight:900; color:var(--gold);}
+  .summary-row{display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee;
+    font-size:14px;}
+  .save-status{font-size:12.5px; margin-top:10px; text-align:center; color:#666;}
+  .toast{
+    position:fixed; bottom:18px; left:50%; transform:translateX(-50%); background:var(--navy); color:#fff;
+    padding:10px 18px; border-radius:30px; font-size:13.5px; box-shadow:0 4px 14px rgba(0,0,0,.25);
+    display:none; z-index:99;
+  }
+  .config-note{font-size:11.5px; color:#999; text-align:center; margin-top:24px;}
+  .home-welcome{font-size:13.5px; color:#555; margin-bottom:14px;}
+  .home-card{
+    border:1.5px solid #e6ddc4; border-radius:12px; padding:14px 14px; margin-bottom:10px;
+    background:#fcfcfa; cursor:default; transition:.15s;
+  }
+  .home-card.done{border-color:var(--green); background:#eef8f1;}
+  .home-card.next{border-color:var(--gold); background:#fff9ec; cursor:pointer;}
+  .home-card.next:hover{box-shadow:0 2px 8px rgba(212,175,106,.35);}
+  .home-card.locked{opacity:.55;}
+  .home-card-title{font-weight:800; color:var(--navy); font-size:15px; margin-bottom:3px;}
+  .home-card-desc{font-size:12.5px; color:#666; margin-bottom:6px;}
+  .home-card-status{font-size:12.5px; font-weight:700;}
+  .home-card.done .home-card-status{color:var(--green);}
+  .home-card.next .home-card-status{color:var(--burgundy);}
+  .home-card.locked .home-card-status{color:var(--gray);}
+  .reset-link{
+    display:block; text-align:center; font-size:12px; color:#999; margin-top:14px;
+    text-decoration:underline; cursor:pointer; background:none; border:none;
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">ENGLISH EYE STELLA · SELF-DIRECTED CHECK</div>
+  <h1 id="headerTitle">Lesson 5 워크북 확인학습</h1>
+  <div class="progress-wrap" id="progressWrap"></div>
+</header>
+
+<main>
+
+  <!-- 0. 학생 정보 -->
+  <section class="stage active" id="stage-info">
+    <div class="card">
+      <div class="stage-title">먼저 내 정보를 입력해요 ✏️</div>
+      <div class="stage-desc">워크북(Lesson 5)을 다 푼 후에 진행해주세요. 완료할 때마다 선생님 대시보드에 자동으로 표시됩니다.</div>
+      <div class="stu-row">
+        <input type="text" id="stuName" placeholder="이름 (예: 홍길동)">
+        <select id="stuClass">
+          <option value="">반 선택</option>
+          <option value="중등부1">중등부1</option>
+          <option value="중등부2">중등부2</option>
+          <option value="중등부3">중등부3</option>
+          <option value="기타">기타</option>
+        </select>
+      </div>
+      <div class="btn-row">
+        <button class="btn primary" id="startBtn">시작하기</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 0-1. 홈 (진행상황) -->
+  <section class="stage" id="stage-home">
+    <div class="card">
+      <div class="stage-title">📋 내 학습 진행상황</div>
+      <div class="home-welcome" id="homeWelcome"></div>
+      <div id="homeArea"></div>
+      <div class="btn-row" id="goFinalRow" style="display:none;">
+        <button class="btn primary" id="goFinalBtn">전체 결과 보기 →</button>
+      </div>
+      <button class="reset-link" id="resetProgressBtn">이 학생의 진행상황 초기화</button>
+    </div>
+  </section>
+
+  <!-- 1. 단어 -->
+  <section class="stage" id="stage-vocab">
+    <div class="card">
+      <div class="stage-title"><span class="badge">STEP 1</span>단어 확인</div>
+      <div class="stage-desc">Lesson 5 단어를 객관식과 주관식으로 확인합니다.</div>
+      <div id="vocabMcArea"></div>
+      <div id="vocabShortArea"></div>
+      <div class="btn-row">
+        <button class="btn primary" id="submitVocab">채점하기</button>
+      </div>
+    </div>
+    <div class="btn-row" id="nextFromVocabRow" style="display:none;">
+      <button class="btn primary" id="nextFromVocab">다음 단계로 →</button>
+    </div>
+  </section>
+
+  <!-- 2. 대화문 -->
+  <section class="stage" id="stage-dialogue">
+    <div class="card">
+      <div class="stage-title"><span class="badge">STEP 2</span>대화문 확인</div>
+      <div class="stage-desc">박물관 대화문(허락 구하기·금지하기)의 내용을 한글/영어로, 그리고 빈칸 채우기로 확인합니다.</div>
+      <div id="dialogueKoArea"></div>
+      <div id="dialogueEnArea"></div>
+      <div id="dialogueBlankArea"></div>
+      <div class="btn-row">
+        <button class="btn primary" id="submitDialogue">채점하기</button>
+      </div>
+    </div>
+    <div class="btn-row" id="nextFromDialogueRow" style="display:none;">
+      <button class="btn primary" id="nextFromDialogue">다음 단계로 →</button>
+    </div>
+  </section>
+
+  <!-- 3. 쉐도잉 -->
+  <section class="stage" id="stage-shadow">
+    <div class="card">
+      <div class="stage-title"><span class="badge">STEP 3</span>본문 쉐도잉 읽기</div>
+      <div class="stage-desc">🔊 버튼을 눌러 문장을 듣고, 소리 내어 따라 읽은 후 체크하세요. 모든 문장을 체크하면 다음으로 넘어갈 수 있어요.</div>
+      <div id="shadowArea"></div>
+      <div class="btn-row">
+        <button class="btn ghost" id="playAllBtn">전체 이어서 듣기</button>
+      </div>
+      <div class="btn-row">
+        <button class="btn primary" id="nextFromShadow" disabled>쉐도잉 완료 (0/0)</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 본문 일치불일치 -->
+  <section class="stage" id="stage-comp">
+    <div class="card">
+      <div class="stage-title"><span class="badge">STEP 4</span>본문 내용 확인 (일치·불일치)</div>
+      <div class="stage-desc">Botero 박물관 사건(모나리자 케이크 사건) 본문 내용을 한글/영어로 확인합니다.</div>
+      <div id="compKoArea"></div>
+      <div id="compEnArea"></div>
+      <div class="btn-row">
+        <button class="btn primary" id="submitComp">채점하기</button>
+      </div>
+    </div>
+    <div class="btn-row" id="nextFromCompRow" style="display:none;">
+      <button class="btn primary" id="nextFromComp">다음 단계로 →</button>
+    </div>
+  </section>
+
+  <!-- 5. 서술형 -->
+  <section class="stage" id="stage-short">
+    <div class="card">
+      <div class="stage-title"><span class="badge">STEP 5</span>본문 서술형</div>
+      <div class="stage-desc">본문 내용을 바탕으로 짧게 답을 적어보세요. (영어 또는 한글 모두 가능)</div>
+      <div id="shortArea"></div>
+      <div class="btn-row">
+        <button class="btn primary" id="submitShort">채점하기</button>
+      </div>
+    </div>
+    <div class="btn-row" id="nextFromShortRow" style="display:none;">
+      <button class="btn primary" id="nextFromShort">다음 단계로 →</button>
+    </div>
+  </section>
+
+  <!-- 6. 어법 -->
+  <section class="stage" id="stage-grammar">
+    <div class="card">
+      <div class="stage-title"><span class="badge">STEP 6</span>본문 속 어법 문제</div>
+      <div class="stage-desc">비교급·최상급 / There is·are / to부정사 목적어 / 비인칭 주어 it — 워크북과는 다른 새로운 문제입니다.</div>
+      <div id="grammarArea"></div>
+      <div class="btn-row">
+        <button class="btn primary" id="submitGrammar">채점하기</button>
+      </div>
+    </div>
+    <div class="btn-row" id="nextFromGrammarRow" style="display:none;">
+      <button class="btn primary" id="nextFromGrammar">결과 보기 →</button>
+    </div>
+  </section>
+
+  <!-- 7. 결과 -->
+  <section class="stage" id="stage-final">
+    <div class="card">
+      <div class="score-box">
+        <div style="font-size:13px; letter-spacing:1px; color:var(--gold); font-weight:700;">TOTAL SCORE</div>
+        <div class="num" id="finalScore">0%</div>
+        <div style="font-size:13px; opacity:.85;">Lesson 5 워크북 확인학습 완료!</div>
+      </div>
+      <div style="margin-top:16px;" id="summaryList"></div>
+      <div class="save-status" id="saveStatus">체크포인트에 저장 중...</div>
+    </div>
+    <div class="config-note">
+      ✅ 자기주도 학습 체크포인트(라이브보드)에 연결되어 있습니다. 각 단계를 완료할 때마다
+      학생이름/반/현재단계(1~9)/정답률/제출시각이 자동으로 전송됩니다.
+      (상태의 정상·지연·위험 표시는 라이브보드가 마지막 제출시각을 기준으로 자동 계산합니다.)
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   0) 자기주도_라이브보드.html과 동일한 Apps Script 웹앱 URL로 연결되어 있습니다.
+   (노션 DB "자기주도 학습 체크포인트" : 학생이름 / 반 / 현재단계(1~9) / 정답률 / 마지막제출시각)
+   ========================================================= */
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyy8eswlEDkU5ocboIGSuJESCp7XLrTlSxvSpI9sC4VVGFmsP3a5vhGjFlB1u6aFgsK/exec";
+
+const STAGE_ORDER = ["info","home","vocab","dialogue","shadow","comp","short","grammar","final"];
+const STAGE_LABELS = {
+  vocab:"단어 확인", dialogue:"대화문 확인", shadow:"본문 쉐도잉 읽기",
+  comp:"본문 내용 확인", short:"본문 서술형", grammar:"본문 속 어법", final:"Lesson5 워크북 확인 완료"
+};
+const QUIZ_STAGES = ["vocab","dialogue","shadow","comp","short","grammar"];
+const STAGE_META = {
+  vocab:{title:"1단계 · 단어 확인", desc:"객관식 40문항 + 주관식 26문항"},
+  dialogue:{title:"2단계 · 대화문 확인", desc:"일치·불일치(한글/영어) + 빈칸 채우기"},
+  shadow:{title:"3단계 · 본문 쉐도잉 읽기", desc:"본문 19문장 듣고 따라 읽기"},
+  comp:{title:"4단계 · 본문 내용 확인", desc:"일치·불일치(한글/영어) 20문항"},
+  short:{title:"5단계 · 본문 서술형", desc:"짧은 답 쓰기 6문항"},
+  grammar:{title:"6단계 · 본문 속 어법", desc:"객관식 8문항 (워크북과 다른 문제)"}
+};
+let currentStageIndex = 0;
+let student = { name:"", cls:"" };
+const scores = {}; // stage -> {correct, total}
+
+/* ---------- 진행 바 ---------- */
+function renderProgress(){
+  const wrap = document.getElementById("progressWrap");
+  wrap.innerHTML = "";
+  const steps = STAGE_ORDER.filter(s => s!=="info" && s!=="home");
+  steps.forEach((s, i) => {
+    const seg = document.createElement("div");
+    seg.className = "progress-seg";
+    if (i < currentStepIndexInSteps()) seg.classList.add("done");
+    else if (i === currentStepIndexInSteps()) seg.classList.add("current");
+    wrap.appendChild(seg);
+  });
+}
+function currentStepIndexInSteps(){
+  const steps = STAGE_ORDER.filter(s => s!=="info" && s!=="home");
+  const cur = STAGE_ORDER[currentStageIndex];
+  return steps.indexOf(cur);
+}
+
+/* ---------- 진행상황 저장/불러오기 (같은 기기·브라우저 기준) ---------- */
+function storageKey(){ return "l5progress_"+student.cls+"_"+student.name; }
+function saveProgress(){
+  try{ localStorage.setItem(storageKey(), JSON.stringify({scores})); }catch(e){}
+}
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(storageKey());
+    if (raw){
+      const data = JSON.parse(raw);
+      Object.assign(scores, data.scores || {});
+    }
+  }catch(e){}
+}
+function renderHome(){
+  const doneCount = QUIZ_STAGES.filter(k=>scores[k]).length;
+  document.getElementById("homeWelcome").textContent =
+    `${student.name}님 (${student.cls}) · 지금까지 ${doneCount}/${QUIZ_STAGES.length}단계 완료했어요. 원하는 단계를 자유롭게 골라서 진행하세요.`;
+  const wrap = document.getElementById("homeArea");
+  wrap.innerHTML = "";
+  QUIZ_STAGES.forEach(key => {
+    const done = !!scores[key];
+    const card = document.createElement("div");
+    card.className = "home-card" + (done ? " done" : " next");
+    const statusText = done
+      ? "✅ 완료 · 정답률 " + Math.round(scores[key].correct/scores[key].total*100) + "% (다시 풀면 갱신돼요)"
+      : "▶ 진행하기";
+    card.innerHTML = `<div class="home-card-title">${STAGE_META[key].title}</div>
+      <div class="home-card-desc">${STAGE_META[key].desc}</div>
+      <div class="home-card-status">${statusText}</div>`;
+    card.addEventListener("click", () => goStage(key));
+    wrap.appendChild(card);
+  });
+  document.getElementById("goFinalRow").style.display =
+    QUIZ_STAGES.every(k=>scores[k]) ? "flex" : "none";
+}
+document.getElementById("goFinalBtn").addEventListener("click", () => {
+  goStage("final");
+  renderFinal();
+});
+document.getElementById("resetProgressBtn").addEventListener("click", () => {
+  if (!confirm(student.name+" 학생의 진행상황을 초기화할까요?")) return;
+  try{ localStorage.removeItem(storageKey()); }catch(e){}
+  Object.keys(scores).forEach(k => delete scores[k]);
+  renderHome();
+});
+/* 각 단계를 마친 뒤 공통으로 호출: 저장하고 홈 또는 최종결과로 이동 */
+async function finishStageNav(){
+  saveProgress();
+  const allDone = QUIZ_STAGES.every(k=>scores[k]);
+  if (allDone){
+    let totalCorrect=0, totalAll=0;
+    QUIZ_STAGES.forEach(k=>{ totalCorrect+=scores[k].correct; totalAll+=scores[k].total; });
+    goStage("final");
+    renderFinal();
+    await updateCheckpoint("final", totalCorrect, totalAll);
+    document.getElementById("saveStatus").textContent = "체크포인트 저장 완료! (Lesson5 워크북 확인학습 종료)";
+  } else {
+    goStage("home");
+    renderHome();
+    toast("완료! 홈 화면에서 다른 단계도 자유롭게 진행할 수 있어요 🎉");
+  }
+}
+function goStage(name){
+  document.querySelectorAll(".stage").forEach(el => el.classList.remove("active"));
+  document.getElementById("stage-"+name).classList.add("active");
+  currentStageIndex = STAGE_ORDER.indexOf(name);
+  renderProgress();
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+
+/* ---------- 노션 체크포인트 업데이트 ---------- */
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  setTimeout(()=> t.style.display="none", 2200);
+}
+// 라이브보드는 현재단계를 "1~9 숫자"(원래 9단계 워크북 루틴 번호)로 계산해서 진행바를 그리고,
+// 상태(정상/지연/위험/완료)도 마지막제출시각 기준으로 자동 계산합니다. 그래서 이 웹 확인학습의
+// 6단계를 워크북 9단계 중 가장 가까운 단계 번호에 대응시켜 보냅니다.
+// ① 단어학습 ② 단어셀프시험 ③ 대화문학습 ④ 본문강의 ⑤ 필기 ⑥ 순서배열·빈칸·영작 ⑦ 문법강의 ⑧ 문제풀이 ⑨ 오답노트
+const STAGE_STEP_NUMBER = {
+  vocab: 2,     // 단어 확인 → ② 단어 셀프 시험
+  dialogue: 3,  // 대화문 확인 → ③ 대화문 학습
+  shadow: 4,    // 본문 쉐도잉 읽기 → ④ 본문 강의(내용 익히기)
+  comp: 6,      // 본문 내용 확인 → ⑥ 본문 이해 확인
+  short: 7,     // 본문 서술형 → 문법 강의 직전 마무리 확인
+  grammar: 8,   // 본문 속 어법 → ⑧ 문제 풀이
+  final: 9      // 전체 완료 → ⑨ 오답노트 제출(=워크북 루틴 종료)
+};
+async function updateCheckpoint(stageKey, correct, total){
+  const pct = total ? Math.round((correct/total)*100) : 100;
+  const payload = {
+    학생이름: student.name,
+    반: student.cls,
+    현재단계: STAGE_STEP_NUMBER[stageKey] || 1,
+    정답률: pct,
+    마지막제출시각: new Date().toISOString()
+    // 상태는 일부러 보내지 않습니다 — 라이브보드가 마지막제출시각 기준으로
+    // 정상/지연/위험/완료를 자동 계산하도록 맡겨둡니다.
+  };
+  if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf("붙여넣으세요") > -1){
+    console.log("[체크포인트 저장 예정 - URL 미설정]", payload);
+    toast(STAGE_LABELS[stageKey]+" 완료! (선생님: Apps Script URL 미설정)");
+    return;
+  }
+  try{
+    await fetch(APPS_SCRIPT_URL, {
+      method:"POST",
+      mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify(payload)
+    });
+    toast(STAGE_LABELS[stageKey]+" 완료! 체크포인트에 저장했어요.");
+  }catch(e){
+    console.error(e);
+    toast("저장 중 오류가 발생했어요. (네트워크 확인)");
+  }
+  return pct;
+}
+
+/* =========================================================
+   1) 학생 정보 입력
+   ========================================================= */
+document.getElementById("startBtn").addEventListener("click", () => {
+  const name = document.getElementById("stuName").value.trim();
+  const cls = document.getElementById("stuClass").value;
+  if (!name || !cls){ alert("이름과 반을 모두 입력해주세요."); return; }
+  student.name = name; student.cls = cls;
+  loadProgress();
+  document.getElementById("headerTitle").textContent = name+"님의 Lesson 5 확인학습";
+  goStage("home");
+  renderHome();
+});
+
+/* =========================================================
+   2) 단어 확인 (객관식 + 주관식)
+   ========================================================= */
+const VOCAB_POOL = [
+  {en:"must", ko:"~해야 한다"}, {en:"may", ko:"~해도 되다"}, {en:"on the phone", ko:"전화로"},
+  {en:"terribly", ko:"몹시, 대단히"}, {en:"turn off", ko:"~을 끄다"}, {en:"text", ko:"문자를 보내다"},
+  {en:"touch", ko:"만지다"}, {en:"golden", ko:"황금빛의"}, {en:"anything", ko:"아무것도"},
+  {en:"run", ko:"달리다"}, {en:"sign", ko:"표지판"}, {en:"inside", ko:"~안에; 안으로"},
+  {en:"take", ko:"가지고 가다"}, {en:"bring", ko:"가져오다"}, {en:"only", ko:"오직"},
+  {en:"bottled", ko:"병에 담은"}, {en:"sunflower", ko:"해바라기"}, {en:"favorite", ko:"가장 좋아하는"},
+  {en:"painting", ko:"그림"}, {en:"take a picture", ko:"사진을 찍다"}, {en:"flash", ko:"(카메라) 플래시"},
+  {en:"a little", ko:"조금"}, {en:"use", ko:"사용하다"}, {en:"damage", ko:"훼손하다"},
+  {en:"move on to", ko:"~로 옮기다"}, {en:"someone", ko:"누군가"}, {en:"throw", ko:"던지다"},
+  {en:"eyewitness", ko:"목격자"}, {en:"following", ko:"다음, 아래"}, {en:"find", ko:"발견하다, 찾다"},
+  {en:"criminal", ko:"범인, 범죄자"}, {en:"visitor", ko:"방문객"}, {en:"turn around", ko:"뒤돌아보다"},
+  {en:"see", ko:"보다"}, {en:"old", ko:"나이가 많은"}, {en:"stand", ko:"서 있다"},
+  {en:"in front of", ko:"~ 앞에"}, {en:"wheelchair", ko:"휠체어"}, {en:"about", ko:"대략, -쯤"},
+  {en:"tall", ko:"키가 큰"}, {en:"than", ko:"~보다"}, {en:"janitor", ko:"청소부, 관리인"},
+  {en:"gray", ko:"회색의; 회색"}, {en:"run away", ko:"도망가다"}, {en:"fall off", ko:"~에서 떨어지다"},
+  {en:"wig", ko:"가발"}, {en:"run after", ko:"~을 뒤쫓다"}, {en:"catch", ko:"(누군가를) 붙잡다"},
+  {en:"fast", ko:"빠른"}, {en:"in fact", ko:"사실은"}, {en:"young", ko:"젊은, 어린"},
+  {en:"long", ko:"(길이가) 긴"}, {en:"brown", ko:"갈색의; 갈색"}, {en:"guard", ko:"경비원"},
+  {en:"crime", ko:"범죄"}, {en:"scene", ko:"현장"}, {en:"piece", ko:"조각"},
+  {en:"all over", ko:"곳곳에"}, {en:"near", ko:"~에서 가까이"}, {en:"next to", ko:"~ 옆에"},
+  {en:"bakery", ko:"빵집"}, {en:"owner", ko:"주인"}, {en:"come in", ko:"들어오다"},
+  {en:"speak", ko:"말하다"}, {en:"Spanish", ko:"스페인어"}, {en:"understand", ko:"이해하다"},
+  {en:"a lot of", ko:"많은"}, {en:"different", ko:"다양한"}, {en:"want", ko:"원하다"},
+  {en:"small", ko:"(크기 등이) 작은"}, {en:"sell", ko:"팔다"}, {en:"remember", ko:"기억하다"},
+  {en:"clearly", ko:"명확하게"}, {en:"information", ko:"정보"}, {en:"suspect", ko:"용의자"},
+  {en:"height", ko:"키"}, {en:"language", ko:"언어"}, {en:"green", ko:"초록색"},
+  {en:"short", ko:"(길이·거리가) 짧은"}
+];
+function pickChoices(correctEn, count){
+  const pool = VOCAB_POOL.filter(v => v.en !== correctEn).map(v => v.en);
+  const shuffled = pool.sort(() => Math.random()-0.5).slice(0, count-1);
+  const all = shuffled.concat([correctEn]).sort(() => Math.random()-0.5);
+  return all;
+}
+const VOCAB_MC_WORDS = ["must","may","touch","golden","sign","bottled","damage","throw",
+  "eyewitness","criminal","visitor","wheelchair","janitor","wig","catch","guard","crime",
+  "scene","bakery","owner","suspect","height","language","understand","remember","clearly",
+  "information","favorite","flash","sell","different","want","young","brown","fast","tall",
+  "piece","near","stand","sunflower"];
+const VOCAB_MC = VOCAB_MC_WORDS.map(en => {
+  const item = VOCAB_POOL.find(v=>v.en===en);
+  return {ko:item.ko, correct:en, choices:pickChoices(en,4)};
+});
+const VOCAB_SHORT_WORDS = ["touch","throw","understand","remember","bakery","height","catch",
+  "guard","crime","scene","owner","suspect","language","clearly","information","favorite",
+  "sell","young","fast","tall","run","text","use","find","see","speak"];
+const VOCAB_SHORT = VOCAB_SHORT_WORDS.map(en => {
+  const item = VOCAB_POOL.find(v=>v.en===en);
+  return {ko:item.ko, answers:[en]};
+});
+
+function renderVocabStage(){
+  const mcWrap = document.getElementById("vocabMcArea");
+  mcWrap.innerHTML = "<div style='font-weight:800;color:var(--navy);margin-bottom:6px;'>▪ 객관식 - 우리말 뜻에 맞는 영어 단어를 고르세요.</div>";
+  VOCAB_MC.forEach((q,i) => {
+    const div = document.createElement("div");
+    div.className = "q"; div.dataset.idx=i;
+    div.innerHTML = `<div class="q-num">문항 ${i+1}</div>
+      <div class="q-text">"${q.ko}"</div>
+      <div class="choices">${q.choices.map(c=>`<label class="choice" data-val="${c}"><input type="radio" name="vmc${i}" value="${c}">${c}</label>`).join("")}</div>
+      <div class="feedback" id="vmcfb${i}"></div>`;
+    mcWrap.appendChild(div);
+  });
+  mcWrap.querySelectorAll(".choice").forEach(ch => {
+    ch.addEventListener("click", () => {
+      const group = ch.closest(".q").querySelectorAll(".choice");
+      group.forEach(g=>g.classList.remove("selected"));
+      ch.classList.add("selected");
+      ch.querySelector("input").checked = true;
+    });
+  });
+
+  const shortWrap = document.getElementById("vocabShortArea");
+  shortWrap.innerHTML = "<div style='font-weight:800;color:var(--navy);margin:14px 0 6px;'>▪ 주관식 - 우리말 뜻에 맞는 영어 단어를 직접 쓰세요.</div>";
+  VOCAB_SHORT.forEach((q,i) => {
+    const div = document.createElement("div");
+    div.className = "q";
+    div.innerHTML = `<div class="q-num">문항 ${i+1}</div>
+      <div class="q-text">"${q.ko}"</div>
+      <input type="text" class="short-input" id="vshort${i}" placeholder="영어 단어 입력">
+      <div class="feedback" id="vshortfb${i}"></div>`;
+    shortWrap.appendChild(div);
+  });
+}
+function normalize(s){ return (s||"").trim().toLowerCase().replace(/[.!?]/g,""); }
+
+document.getElementById("submitVocab").addEventListener("click", async () => {
+  let correct = 0, total = VOCAB_MC.length + VOCAB_SHORT.length;
+  VOCAB_MC.forEach((q,i) => {
+    const sel = document.querySelector(`input[name="vmc${i}"]:checked`);
+    const group = document.querySelectorAll(`#vocabMcArea .q[data-idx="${i}"] .choice`);
+    group.forEach(g => {
+      if (g.dataset.val === q.correct) g.classList.add("correct");
+      else if (sel && g.dataset.val === sel.value) g.classList.add("wrong");
+    });
+    const fb = document.getElementById(`vmcfb${i}`);
+    if (sel && sel.value === q.correct){ correct++; fb.textContent="정답이에요!"; fb.className="feedback ok"; }
+    else { fb.textContent="정답: "+q.correct; fb.className="feedback no"; }
+  });
+  VOCAB_SHORT.forEach((q,i) => {
+    const val = normalize(document.getElementById(`vshort${i}`).value);
+    const fb = document.getElementById(`vshortfb${i}`);
+    if (q.answers.includes(val)){ correct++; fb.textContent="정답이에요!"; fb.className="feedback ok"; }
+    else { fb.textContent="정답: "+q.answers[0]; fb.className="feedback no"; }
+  });
+  scores.vocab = {correct, total};
+  document.getElementById("submitVocab").disabled = true;
+  document.getElementById("nextFromVocabRow").style.display = "flex";
+  await updateCheckpoint("vocab", correct, total);
+});
+document.getElementById("nextFromVocab").addEventListener("click", finishStageNav);
+
+/* =========================================================
+   3) 대화문 확인 (T/F 한글/영어 + 빈칸)
+   ========================================================= */
+const DIALOGUE_TF_KO = [
+  {q:"여자는 남자아이에게 전화기를 반드시 꺼야 한다고 말했다.", a:false},
+  {q:"소녀는 황금 곰을 만져도 좋다는 허락을 받았다.", a:false},
+  {q:"엄마는 아이가 비디오방에 가는 것을 허락했다.", a:true},
+  {q:"박물관 안에서는 뛰어도 된다.", a:false},
+  {q:"박물관에는 병에 든 물만 가지고 들어갈 수 있다.", a:true},
+  {q:"소녀는 반 고흐의 그림 사진을 찍어도 된다는 허락을 받았다.", a:true}
+];
+const DIALOGUE_TF_EN = [
+  {q:"The boy has to turn off his phone in the museum.", a:false},
+  {q:"The girl is allowed to touch the golden bear.", a:false},
+  {q:"The mom says no when the boy asks to go to the video room.", a:false},
+  {q:"Visitors must not run inside the museum.", a:true},
+  {q:"Visitors can bring any food they want into the museum.", a:false},
+  {q:"The girl can take a picture, but she must not use the flash.", a:true}
+];
+const DIALOGUE_BLANK = [
+  {q:"A: ______ I use the restroom? B: Yes, you may.", choices:["May","Must","Do","Can not"], correct:"May"},
+  {q:"You ______ run in the hallway. (금지)", choices:["may","must not","don't have to","should"], correct:"must not"},
+  {q:"Texting is fine here. You ______ turn off your phone. (~할 필요 없다)", choices:["must","may not","don't have to","can't"], correct:"don't have to"},
+  {q:"Look at the sign! We ______ touch the artwork.", choices:["may","must not","are","don't"], correct:"must not"},
+  {q:"______ we take pictures inside? — No, we may not.", choices:["May","Must","Are","Do"], correct:"May"},
+  {q:"Using flash photography ______ damage old paintings.", choices:["can","must","may not","don't"], correct:"can"}
+];
+
+function renderTFGroup(container, items, prefix){
+  items.forEach((it,i)=>{
+    const div = document.createElement("div");
+    div.className = "q";
+    div.innerHTML = `<div class="q-num">문항 ${i+1}</div>
+      <div class="q-text">${it.q}</div>
+      <div class="tf-row">
+        <div class="tf-btn" data-val="true">O (일치)</div>
+        <div class="tf-btn" data-val="false">X (불일치)</div>
+      </div>
+      <div class="feedback" id="${prefix}fb${i}"></div>`;
+    container.appendChild(div);
+  });
+  container.querySelectorAll(".tf-btn").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      const row = btn.closest(".tf-row");
+      row.querySelectorAll(".tf-btn").forEach(b=>b.classList.remove("selected"));
+      btn.classList.add("selected");
+    });
+  });
+}
+function renderDialogueStage(){
+  const koWrap = document.getElementById("dialogueKoArea");
+  koWrap.innerHTML = "<div style='font-weight:800;color:var(--navy);margin-bottom:6px;'>▪ 일치·불일치 (한글)</div>";
+  renderTFGroup(koWrap, DIALOGUE_TF_KO, "dko");
+
+  const enWrap = document.getElementById("dialogueEnArea");
+  enWrap.innerHTML = "<div style='font-weight:800;color:var(--navy);margin:14px 0 6px;'>▪ True or False (English)</div>";
+  renderTFGroup(enWrap, DIALOGUE_TF_EN, "den");
+
+  const blankWrap = document.getElementById("dialogueBlankArea");
+  blankWrap.innerHTML = "<div style='font-weight:800;color:var(--navy);margin:14px 0 6px;'>▪ 빈칸 채우기</div>";
+  DIALOGUE_BLANK.forEach((q,i)=>{
+    const div = document.createElement("div");
+    div.className = "q"; div.dataset.idx=i;
+    div.innerHTML = `<div class="q-num">문항 ${i+1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">${q.choices.map(c=>`<label class="choice" data-val="${c}"><input type="radio" name="dbk${i}" value="${c}">${c}</label>`).join("")}</div>
+      <div class="feedback" id="dbkfb${i}"></div>`;
+    blankWrap.appendChild(div);
+  });
+  blankWrap.querySelectorAll(".choice").forEach(ch=>{
+    ch.addEventListener("click", ()=>{
+      const group = ch.closest(".q").querySelectorAll(".choice");
+      group.forEach(g=>g.classList.remove("selected"));
+      ch.classList.add("selected");
+      ch.querySelector("input").checked = true;
+    });
+  });
+}
+function gradeTFGroup(container, items, prefix){
+  let correct = 0;
+  items.forEach((it,i)=>{
+    const row = container.querySelectorAll(".q")[i].querySelector(".tf-row");
+    const selected = row.querySelector(".selected");
+    const correctVal = it.a ? "true" : "false";
+    row.querySelectorAll(".tf-btn").forEach(b=>{
+      if (b.dataset.val === correctVal) b.classList.add("correct");
+      else if (selected===b) b.classList.add("wrong");
+    });
+    const fb = document.getElementById(`${prefix}fb${i}`);
+    if (selected && selected.dataset.val === correctVal){ correct++; fb.textContent="정답이에요!"; fb.className="feedback ok"; }
+    else { fb.textContent = "정답: " + (it.a? "O (일치)":"X (불일치)"); fb.className="feedback no"; }
+  });
+  return correct;
+}
+document.getElementById("submitDialogue").addEventListener("click", async () => {
+  let correct = 0;
+  correct += gradeTFGroup(document.getElementById("dialogueKoArea"), DIALOGUE_TF_KO, "dko");
+  correct += gradeTFGroup(document.getElementById("dialogueEnArea"), DIALOGUE_TF_EN, "den");
+  DIALOGUE_BLANK.forEach((q,i)=>{
+    const sel = document.querySelector(`input[name="dbk${i}"]:checked`);
+    const group = document.querySelectorAll(`#dialogueBlankArea .q[data-idx="${i}"] .choice`);
+    group.forEach(g=>{
+      if (g.dataset.val === q.correct) g.classList.add("correct");
+      else if (sel && g.dataset.val === sel.value) g.classList.add("wrong");
+    });
+    const fb = document.getElementById(`dbkfb${i}`);
+    if (sel && sel.value === q.correct){ correct++; fb.textContent="정답이에요!"; fb.className="feedback ok"; }
+    else { fb.textContent="정답: "+q.correct; fb.className="feedback no"; }
+  });
+  const total = DIALOGUE_TF_KO.length + DIALOGUE_TF_EN.length + DIALOGUE_BLANK.length;
+  scores.dialogue = {correct, total};
+  document.getElementById("submitDialogue").disabled = true;
+  document.getElementById("nextFromDialogueRow").style.display = "flex";
+  await updateCheckpoint("dialogue", correct, total);
+});
+document.getElementById("nextFromDialogue").addEventListener("click", finishStageNav);
+
+/* =========================================================
+   4) 본문 쉐도잉 읽기
+   ========================================================= */
+const READING_SENTENCES = [
+  {en:"Last Saturday, someone threw a cake at the Monalisa in the Botero Museum in Bogota, Colombia.", ko:"지난 토요일, 누군가 콜롬비아 보고타의 보테로 박물관에 있는 '모나리자'에 케이크를 던졌다."},
+  {en:"There were four eyewitnesses. What did they say?", ko:"네 명의 목격자가 있었다. 그들은 뭐라고 말했을까?"},
+  {en:"Ann Jones, a visitor: I was looking at the Monalisa, and someone threw a cake at the painting.", ko:"Ann Jones, 방문객: 저는 '모나리자'를 보고 있었는데, 누군가 그 그림을 향해 케이크를 던졌어요."},
+  {en:"I turned around and saw an old man.", ko:"저는 뒤로 돌았고 한 노인을 봤어요."},
+  {en:"He was standing in front of a wheelchair.", ko:"그는 휠체어 앞에 서 있었어요."},
+  {en:"I'm about 170 cm tall, and he was a little taller than me.", ko:"저는 키가 170cm 정도인데, 그는 저보다 조금 더 컸어요."},
+  {en:"Carlos Diaz, a janitor: An old man with gray hair was running away, and something fell off his head.", ko:"Carlos Diaz, 청소부: 회색 머리의 한 노인이 도망가고 있었는데, 그의 머리에서 무언가 떨어졌어요."},
+  {en:"It was his wig. I ran after him, but I couldn't catch him.", ko:"그것은 그의 가발이었어요. 저는 그를 뒤쫓았지만, 잡을 수 없었어요."},
+  {en:"He was faster than me.", ko:"그는 저보다 더 빨랐거든요."},
+  {en:"In fact, the old man was not old.", ko:"사실, 그 노인은 나이 든 사람이 아니었어요."},
+  {en:"He was a young man with long brown hair.", ko:"그는 긴 갈색 머리의 젊은 남자였어요."},
+  {en:"Diego Perez, a guard: I went to the crime scene, and there were pieces of cake all over the painting.", ko:"Diego Perez, 경비원: 저는 범죄 현장에 갔는데, 그림 곳곳에 케이크 조각들이 있었어요."},
+  {en:"There was also a wheelchair near the painting, and I found a cake box next to the wheelchair.", ko:"그림 근처에 휠체어도 있었는데, 저는 휠체어 옆에서 케이크 상자를 발견했어요."},
+  {en:"The box was from Camila's Bakery.", ko:"그 상자는 Camila 빵집의 것이었어요."},
+  {en:"Camila Santos, the owner of Camila's Bakery: Last Friday, a young man came in.", ko:"Camila Santos, 빵집 주인: 지난 금요일, 한 젊은 남자가 들어왔어요."},
+  {en:"I spoke to him in Spanish, but he didn't understand me. He spoke only English.", ko:"저는 그에게 스페인어로 말했지만, 그는 제 말을 이해하지 못했어요. 그는 영어로만 말했어요."},
+  {en:"We had a lot of different cakes, but he just wanted the smallest one.", ko:"우리 가게에는 다양한 케이크가 많이 있었지만, 그는 단지 가장 작은 것을 원했어요."},
+  {en:"We sold only one cake that day, so I remember him clearly. Oh, he had blue eyes.", ko:"우리는 그날 케이크를 한 개만 팔아서, 저는 그를 똑똑히 기억해요. 아, 그는 파란색 눈을 가지고 있었어요."},
+  {en:"Now, look at the information about the suspects. Who threw the cake at the Monalisa?", ko:"이제, 용의자들에 대한 정보를 보자. 누가 '모나리자'에 케이크를 던졌을까?"}
+];
+function speak(text){
+  if (!("speechSynthesis" in window)){ alert("이 브라우저는 음성 재생을 지원하지 않아요."); return; }
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  utter.lang = "en-US"; utter.rate = 0.88;
+  window.speechSynthesis.speak(utter);
+}
+function updateShadowProgress(){
+  const total = READING_SENTENCES.length;
+  const done = document.querySelectorAll("#shadowArea input[type=checkbox]:checked").length;
+  const btn = document.getElementById("nextFromShadow");
+  btn.textContent = `쉐도잉 완료 (${done}/${total})`;
+  btn.disabled = done < total;
+}
+function renderShadowStage(){
+  const wrap = document.getElementById("shadowArea");
+  wrap.innerHTML = "";
+  READING_SENTENCES.forEach((s,i)=>{
+    const row = document.createElement("div");
+    row.className = "sent-row";
+    row.innerHTML = `
+      <div class="sent-num">${i+1}</div>
+      <div class="sent-text">${s.en}<div class="sent-ko">${s.ko}</div></div>
+      <button class="speak-btn" data-i="${i}">🔊 듣기</button>
+      <label class="chk-label"><input type="checkbox" data-i="${i}"> 완료</label>
+    `;
+    wrap.appendChild(row);
+  });
+  wrap.querySelectorAll(".speak-btn").forEach(b=>{
+    b.addEventListener("click", ()=> speak(READING_SENTENCES[+b.dataset.i].en));
+  });
+  wrap.querySelectorAll("input[type=checkbox]").forEach(c=>{
+    c.addEventListener("change", updateShadowProgress);
+  });
+  updateShadowProgress();
+}
+document.getElementById("playAllBtn").addEventListener("click", () => {
+  if (!("speechSynthesis" in window)){ alert("이 브라우저는 음성 재생을 지원하지 않아요."); return; }
+  window.speechSynthesis.cancel();
+  READING_SENTENCES.forEach(s=>{
+    const utter = new SpeechSynthesisUtterance(s.en);
+    utter.lang = "en-US"; utter.rate = 0.88;
+    window.speechSynthesis.speak(utter);
+  });
+});
+document.getElementById("nextFromShadow").addEventListener("click", async () => {
+  scores.shadow = {correct: READING_SENTENCES.length, total: READING_SENTENCES.length};
+  await updateCheckpoint("shadow", READING_SENTENCES.length, READING_SENTENCES.length);
+  finishStageNav();
+});
+
+/* =========================================================
+   5) 본문 일치불일치 (한글/영어, 다수)
+   ========================================================= */
+const COMP_TF_KO = [
+  {q:"Ann Jones는 박물관 방문객이다.", a:true},
+  {q:"목격자는 모두 네 명이다.", a:true},
+  {q:"Carlos Diaz의 직업은 경비원이다.", a:false},
+  {q:"Carlos Diaz는 도망가는 노인의 머리에서 무언가 떨어지는 것을 보았다.", a:true},
+  {q:"그 노인은 사실 나이가 많은 사람이었다.", a:false},
+  {q:"범인은 긴 갈색 머리를 가진 젊은 남자였다.", a:true},
+  {q:"Diego Perez는 범죄 현장에서 가발을 발견했다.", a:false},
+  {q:"케이크 상자는 Camila's Bakery에서 온 것이다.", a:true},
+  {q:"그 가게는 그날 여러 개의 케이크를 팔았다.", a:false},
+  {q:"용의자는 파란색 눈을 가지고 있었다.", a:true}
+];
+const COMP_TF_EN = [
+  {q:"Ann Jones was a visitor to the museum.", a:true},
+  {q:"There were only three eyewitnesses.", a:false},
+  {q:"Carlos Diaz works as a guard.", a:false},
+  {q:"Something fell off the old man's head while he was running away.", a:true},
+  {q:"The old man was actually young.", a:true},
+  {q:"The suspect had short black hair.", a:false},
+  {q:"Diego Perez found a wig at the crime scene.", a:false},
+  {q:"The cake box was from Camila's Bakery.", a:true},
+  {q:"The bakery sold many cakes that day.", a:false},
+  {q:"The suspect had blue eyes.", a:true}
+];
+function renderCompStage(){
+  const koWrap = document.getElementById("compKoArea");
+  koWrap.innerHTML = "<div style='font-weight:800;color:var(--navy);margin-bottom:6px;'>▪ 일치·불일치 (한글)</div>";
+  renderTFGroup(koWrap, COMP_TF_KO, "cko");
+  const enWrap = document.getElementById("compEnArea");
+  enWrap.innerHTML = "<div style='font-weight:800;color:var(--navy);margin:14px 0 6px;'>▪ True or False (English)</div>";
+  renderTFGroup(enWrap, COMP_TF_EN, "cen");
+}
+document.getElementById("submitComp").addEventListener("click", async () => {
+  let correct = 0;
+  correct += gradeTFGroup(document.getElementById("compKoArea"), COMP_TF_KO, "cko");
+  correct += gradeTFGroup(document.getElementById("compEnArea"), COMP_TF_EN, "cen");
+  const total = COMP_TF_KO.length + COMP_TF_EN.length;
+  scores.comp = {correct, total};
+  document.getElementById("submitComp").disabled = true;
+  document.getElementById("nextFromCompRow").style.display = "flex";
+  await updateCheckpoint("comp", correct, total);
+});
+document.getElementById("nextFromComp").addEventListener("click", finishStageNav);
+
+/* =========================================================
+   6) 서술형 (정해진 정답)
+   ========================================================= */
+const SHORT_Q = [
+  {q:"How many eyewitnesses were there?", answers:["4","four","네","네명","네 명","4명"]},
+  {q:"What is Carlos Diaz's job? (그의 직업은?)", answers:["janitor","청소부"]},
+  {q:"What fell off the old man's head while he was running away?", answers:["wig","가발","his wig","a wig"]},
+  {q:"Where was the cake box found? (어디서 발견되었나요?)", answers:["next to the wheelchair","휠체어 옆","near the wheelchair"]},
+  {q:"Who is the owner of the bakery?", answers:["camila santos","camila","카밀라","카밀라 산토스"]},
+  {q:"What color were the suspect's eyes?", answers:["blue","파란색","파란"]}
+];
+function renderShortStage(){
+  const wrap = document.getElementById("shortArea");
+  wrap.innerHTML = "";
+  SHORT_Q.forEach((q,i)=>{
+    const div = document.createElement("div");
+    div.className = "q";
+    div.innerHTML = `<div class="q-num">문항 ${i+1}</div>
+      <div class="q-text">${q.q}</div>
+      <input type="text" class="short-input" id="short${i}" placeholder="답 입력 (영어/한글 모두 가능)">
+      <div class="feedback" id="shortfb${i}"></div>`;
+    wrap.appendChild(div);
+  });
+}
+document.getElementById("submitShort").addEventListener("click", async () => {
+  let correct = 0;
+  SHORT_Q.forEach((q,i)=>{
+    const val = normalize(document.getElementById(`short${i}`).value);
+    const fb = document.getElementById(`shortfb${i}`);
+    const ok = q.answers.some(a => val.includes(normalize(a)) || normalize(a).includes(val) && val.length>1);
+    if (ok){ correct++; fb.textContent="정답이에요!"; fb.className="feedback ok"; }
+    else { fb.textContent="정답 예시: "+q.answers[0]; fb.className="feedback no"; }
+  });
+  scores.short = {correct, total: SHORT_Q.length};
+  document.getElementById("submitShort").disabled = true;
+  document.getElementById("nextFromShortRow").style.display = "flex";
+  await updateCheckpoint("short", correct, SHORT_Q.length);
+});
+document.getElementById("nextFromShort").addEventListener("click", finishStageNav);
+
+/* =========================================================
+   7) 본문 속 어법 (워크북과 다른 새 문제)
+   ========================================================= */
+const GRAMMAR_Q = [
+  {q:"The young man was _____ than Ann Jones. (tall)", choices:["tall","taller","tallest","more tall"], correct:"taller"},
+  {q:"Of all four witnesses, Diego Perez arrived at the scene _____. (fast)", choices:["fast","faster","the fastest","most fast"], correct:"the fastest"},
+  {q:"_____ a cake box next to the wheelchair.", choices:["There is","There was","There were","There are"], correct:"There was"},
+  {q:"_____ there any other clues at the crime scene?", choices:["Is","Was","Were","Are"], correct:"Were"},
+  {q:"Camila Santos hopes _____ the real thief someday. (catch)", choices:["catch","catching","to catch","caught"], correct:"to catch"},
+  {q:"The detective decided _____ the bakery again. (visit)", choices:["visit","visiting","to visit","visited"], correct:"to visit"},
+  {q:"_____ was already dark when the man ran away.", choices:["It","This","There","He"], correct:"It"},
+  {q:"_____ was Friday, the day the suspect visited the bakery.", choices:["It","This","That","There"], correct:"It"}
+];
+function renderGrammarStage(){
+  const wrap = document.getElementById("grammarArea");
+  wrap.innerHTML = "";
+  GRAMMAR_Q.forEach((q,i)=>{
+    const div = document.createElement("div");
+    div.className = "q"; div.dataset.idx = i;
+    div.innerHTML = `<div class="q-num">문항 ${i+1}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="choices">${q.choices.map(c=>`<label class="choice" data-val="${c}"><input type="radio" name="gm${i}" value="${c}">${c}</label>`).join("")}</div>
+      <div class="feedback" id="gmfb${i}"></div>`;
+    wrap.appendChild(div);
+  });
+  wrap.querySelectorAll(".choice").forEach(ch=>{
+    ch.addEventListener("click", ()=>{
+      const group = ch.closest(".q").querySelectorAll(".choice");
+      group.forEach(g=>g.classList.remove("selected"));
+      ch.classList.add("selected");
+      ch.querySelector("input").checked = true;
+    });
+  });
+}
+document.getElementById("submitGrammar").addEventListener("click", async () => {
+  let correct = 0;
+  GRAMMAR_Q.forEach((q,i)=>{
+    const sel = document.querySelector(`input[name="gm${i}"]:checked`);
+    const group = document.querySelectorAll(`#grammarArea .q[data-idx="${i}"] .choice`);
+    group.forEach(g=>{
+      if (g.dataset.val === q.correct) g.classList.add("correct");
+      else if (sel && g.dataset.val === sel.value) g.classList.add("wrong");
+    });
+    const fb = document.getElementById(`gmfb${i}`);
+    if (sel && sel.value === q.correct){ correct++; fb.textContent="정답이에요!"; fb.className="feedback ok"; }
+    else { fb.textContent="정답: "+q.correct; fb.className="feedback no"; }
+  });
+  scores.grammar = {correct, total: GRAMMAR_Q.length};
+  document.getElementById("submitGrammar").disabled = true;
+  document.getElementById("nextFromGrammarRow").style.display = "flex";
+  await updateCheckpoint("grammar", correct, GRAMMAR_Q.length);
+});
+document.getElementById("nextFromGrammar").addEventListener("click", finishStageNav);
+
+/* =========================================================
+   8) 최종 결과
+   ========================================================= */
+function renderFinal(){
+  let totalCorrect=0, totalAll=0;
+  const list = document.getElementById("summaryList");
+  list.innerHTML = "";
+  const labels = {vocab:"단어 확인", dialogue:"대화문 확인", shadow:"본문 쉐도잉 읽기",
+    comp:"본문 내용 확인", short:"본문 서술형", grammar:"본문 속 어법"};
+  Object.keys(labels).forEach(k=>{
+    const s = scores[k];
+    if (!s) return;
+    totalCorrect += s.correct; totalAll += s.total;
+    const row = document.createElement("div");
+    row.className = "summary-row";
+    row.innerHTML = `<span>${labels[k]}</span><span>${s.correct} / ${s.total}</span>`;
+    list.appendChild(row);
+  });
+  const pct = totalAll ? Math.round((totalCorrect/totalAll)*100) : 0;
+  document.getElementById("finalScore").textContent = pct + "%";
+}
+
+/* =========================================================
+   초기 렌더링 (stage 진입 시 1회씩 콘텐츠 생성)
+   ========================================================= */
+renderVocabStage();
+renderDialogueStage();
+renderShadowStage();
+renderCompStage();
+renderShortStage();
+renderGrammarStage();
+renderProgress();
+</script>
+</body>
+</html>
