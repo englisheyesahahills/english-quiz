@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Lesson 5 확인학습 | English Eye Stella</title>
+<style>
+  :root{
+    --navy-900:#0d1526;
+    --navy-800:#151f38;
+    --navy-700:#1e2b4d;
+    --navy-600:#2a3a63;
+    --gold:#d4af37;
+    --gold-soft:#e9cd7a;
+    --cream:#f5f1e6;
+    --muted:#a9b3cc;
+    --green:#4caf7d;
+    --red:#e0654f;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--navy-900);
+    color:var(--cream);
+    line-height:1.55;
+    -webkit-tap-highlight-color:transparent;
+  }
+  #app{max-width:720px;margin:0 auto;padding:20px 16px 60px;}
+  .topbar{
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:18px;
+  }
+  .brand{font-size:12px;letter-spacing:.12em;color:var(--gold-soft);text-transform:uppercase;}
+  .brand b{color:var(--gold);}
+  .user-pill{
+    font-size:12px;color:var(--muted);background:var(--navy-700);
+    border:1px solid var(--navy-600);border-radius:999px;padding:5px 12px;
+    display:flex;gap:8px;align-items:center;
+  }
+  .user-pill a{color:var(--gold-soft);text-decoration:none;font-weight:600;}
+  h1{font-size:22px;margin:4px 0 2px;color:var(--cream);}
+  h2{font-size:18px;margin:0 0 14px;color:var(--gold-soft);}
+  .subtitle{color:var(--muted);font-size:13px;margin-bottom:22px;}
+  .card{
+    background:var(--navy-700);
+    border:1px solid var(--navy-600);
+    border-radius:var(--radius);
+    padding:16px 18px;
+    margin-bottom:14px;
+  }
+  .login-card{padding:22px 20px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px;}
+  .field input{
+    width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--navy-600);
+    background:var(--navy-800);color:var(--cream);font-size:15px;
+  }
+  .field input:focus{outline:2px solid var(--gold);}
+  .btn{
+    display:inline-block;border:none;border-radius:10px;padding:12px 18px;
+    font-size:15px;font-weight:700;cursor:pointer;
+  }
+  .btn-primary{background:var(--gold);color:var(--navy-900);width:100%;}
+  .btn-primary:active{transform:scale(.98);}
+  .btn-ghost{background:transparent;color:var(--gold-soft);border:1px solid var(--navy-600);}
+  .btn-block{width:100%;margin-top:10px;}
+  .stage-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media (max-width:420px){.stage-grid{grid-template-columns:1fr;}}
+  .stage-card{
+    background:var(--navy-700);border:1px solid var(--navy-600);border-radius:var(--radius);
+    padding:16px;cursor:pointer;position:relative;transition:border-color .15s;
+  }
+  .stage-card:active{border-color:var(--gold);}
+  .stage-icon{font-size:26px;margin-bottom:8px;display:block;}
+  .stage-title{font-weight:700;font-size:15px;margin-bottom:4px;color:var(--cream);}
+  .stage-desc{font-size:12px;color:var(--muted);}
+  .stage-badge{
+    position:absolute;top:12px;right:12px;font-size:11px;font-weight:700;
+    padding:3px 8px;border-radius:999px;
+  }
+  .badge-done{background:rgba(76,175,125,.18);color:var(--green);}
+  .badge-todo{background:rgba(169,179,204,.12);color:var(--muted);}
+  .backrow{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+  .backbtn{
+    background:var(--navy-700);border:1px solid var(--navy-600);color:var(--gold-soft);
+    border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer;
+  }
+  .q{margin-bottom:20px;}
+  .q-index{font-size:12px;color:var(--gold-soft);font-weight:700;margin-bottom:6px;}
+  .q-text{font-size:15px;margin-bottom:10px;}
+  .opt{
+    display:block;width:100%;text-align:left;background:var(--navy-800);
+    border:1px solid var(--navy-600);color:var(--cream);border-radius:10px;
+    padding:11px 14px;margin-bottom:8px;font-size:14px;cursor:pointer;
+  }
+  .opt.selected{border-color:var(--gold);background:rgba(212,175,55,.12);}
+  .tf-row{display:flex;gap:10px;margin-bottom:6px;}
+  .tf-btn{flex:1;padding:10px;border-radius:10px;border:1px solid var(--navy-600);
+    background:var(--navy-800);color:var(--cream);cursor:pointer;font-weight:700;font-size:14px;}
+  .tf-btn.selected{border-color:var(--gold);background:rgba(212,175,55,.15);}
+  .text-input{
+    width:100%;padding:10px 12px;border-radius:8px;border:1px solid var(--navy-600);
+    background:var(--navy-800);color:var(--cream);font-size:14px;
+  }
+  .sent-row{
+    display:flex;align-items:center;gap:10px;background:var(--navy-800);
+    border:1px solid var(--navy-600);border-radius:10px;padding:10px 12px;margin-bottom:8px;
+  }
+  .sent-text{flex:1;font-size:14px;}
+  .sent-num{color:var(--gold-soft);font-size:12px;font-weight:700;min-width:22px;}
+  .speak-btn{
+    background:var(--navy-600);border:none;color:var(--cream);border-radius:8px;
+    width:34px;height:34px;font-size:16px;cursor:pointer;flex-shrink:0;
+  }
+  .check-wrap{display:flex;align-items:center;gap:6px;flex-shrink:0;font-size:12px;color:var(--muted);}
+  .progress-bar{height:8px;background:var(--navy-800);border-radius:999px;overflow:hidden;margin-bottom:14px;}
+  .progress-fill{height:100%;background:var(--gold);transition:width .2s;}
+  .result-box{
+    text-align:center;padding:26px 18px;border-radius:var(--radius);
+    background:var(--navy-700);border:1px solid var(--gold);margin-top:10px;
+  }
+  .result-score{font-size:38px;font-weight:800;color:var(--gold);margin-bottom:6px;}
+  .result-sub{color:var(--muted);font-size:13px;margin-bottom:14px;}
+  .divider{height:1px;background:var(--navy-600);margin:22px 0;}
+  .section-label{
+    font-size:13px;font-weight:800;color:var(--gold-soft);text-transform:uppercase;
+    letter-spacing:.05em;margin:26px 0 12px;
+  }
+  .hint{font-size:12px;color:var(--muted);margin-bottom:14px;}
+  .sync-note{font-size:11px;color:var(--muted);text-align:center;margin-top:8px;}
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+/* ---------------------------------------------------------
+   기본 설정
+--------------------------------------------------------- */
+const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyy8eswlEDkU5ocboIGSuJESCp7XLrTlSxvSpI9sC4VVGFmsP3a5vhGjFlB1u6aFgsK/exec";
+const STORAGE_PREFIX = "stella_lesson5_v1__";
+const CURRENT_KEY = "stella_lesson5_current";
+
+const STAGES = [
+  {key:"word",        title:"① 단어 확인",        desc:"워크북 단어 전체 객관식·주관식",   icon:"📖", step:2},
+  {key:"dialogue",     title:"② 대화문 확인",       desc:"일치·불일치 + 빈칸 채우기",         icon:"💬", step:3},
+  {key:"shadowing",    title:"③ 본문 쉐도잉",       desc:"듣고 따라 읽기 체크",               icon:"🎧", step:4},
+  {key:"truefalse",    title:"④ 본문 일치·불일치",  desc:"한글판 · 영어판",                    icon:"✅", step:5},
+  {key:"shortanswer",  title:"⑤ 본문 서술형",       desc:"짧은 답 자동 채점",                  icon:"✏️", step:6},
+  {key:"grammar",      title:"⑥ 본문 속 어법",      desc:"to부정사 · 비인칭 주어 it",          icon:"📐", step:8},
+];
+
+/* ---------------------------------------------------------
+   데이터
+--------------------------------------------------------- */
+const VOCAB = [
+["after","~후에"],["walk","(동물을) 산책시키다"],["ride","타다"],["bike","자전거"],["watch","보다"],
+["movie","영화"],["weekend","주말"],["skateboard","스케이트보드를 타다"],["visit","방문하다"],
+["go hiking","등산하러 가다"],["hike","등산하다, 하이킹하다"],["read","읽다"],["train","기차"],
+["ticket","표"],["plan","계획"],["trip","여행"],["try","시도하다"],["street food","길거리 음식"],
+["amusement park","놀이공원"],["sunny","화창한"],["warm","따뜻한"],["from","~출신의"],["last","지난"],
+["week","주"],["travel","여행하다"],["diary","일기"],["Friday","금요일"],["September","9월"],
+["see","보다"],["rock","바위"],["push","밀다"],["shake","흔들리다"],["a little","약간, 조금"],
+["scary","무서운"],["have fun","즐거운 시간을 보내다"],["a lot of","많은"],["next","다음에"],
+["beach","해변, 바닷가"],["put up","(텐트 등을) 치다"],["tent","텐트"],["near","~의 근처에"],
+["have","먹다"],["beef","소고기"],["dinner","저녁 식사"],["delicious","맛있는"],["hear","듣다"],
+["wave","파도, 물결"],["talk","이야기하다"],["laugh","(소리를 내어) 웃다"],["a lot","많이"],
+["want","원하다"],["sunrise","해돋이, 일출"],["tomorrow","내일"],["wake up","(잠에서) 깨다"],
+["early","일찍"],["dark","어두운"],["outside","바깥에"],["run","달리다, 뛰다"],["slowly","천천히, 느리게"],
+["turn","(…한 상태로) 변하다"],["rise","(해·달이) 뜨다"],["wish","소원"],["make a wish","소원을 빌다"],
+["close","(눈을) 감다, (문을) 닫다"],["lunch","점심 식사"],["like","~와 같은"],["pancake","팬케이크"],
+["lighthouse","등대"],["observatory","전망대"],["walk up","~을 걸어 올라가다"],["steep","가파른"],
+["tired","피곤한, 지친"],["top","꼭대기"],["view","경치"],["city","도시"],["ocean","대양, 바다"],
+["mountain","산"],["say","말하다"],["about","대략"],["still","여전히"],["shine","비추다"],
+["light","빛"],["ship","배"],["amazing","놀라운"],["moment","순간"],["wonderful","훌륭한"],
+["take a picture","사진을 찍다"],["remember","기억하다"]
+];
+
+const DIALOGUES = [
+{
+  title:"대화문 1 · Free Time",
+  lines:[
+    "Seoa: Minjun, what are you going to do after school today?",
+    "Minjun: I'm going to walk my dog. How about you?",
+    "Seoa: I'm going to read some books.",
+    "Minjun: That sounds nice. Have a good time."
+  ]
+},
+{
+  title:"대화문 2 · This Weekend",
+  lines:[
+    "Doyoon: Yerin, what are you going to do this Saturday?",
+    "Yerin: I'm going to go camping with my family.",
+    "Doyoon: That's exciting! What are you going to do on Sunday?",
+    "Yerin: I'm going to watch a movie.",
+    "Doyoon: Great. Have a nice weekend!"
+  ]
+},
+{
+  title:"대화문 3 · Our Trip to Jeju",
+  lines:[
+    "Yujin: Look! Here are our plane tickets to Jeju!",
+    "Tae-o: Oh, wow! What are the plans for our trip?",
+    "Yujin: On Saturday, we're going to go to Hallasan.",
+    "Tae-o: I can't wait! What are we going to do on Sunday?",
+    "Yujin: We're going to try some black pork street food.",
+    "Tae-o: Great! It's going to be sunny and warm this weekend."
+  ]
+}
+];
+
+const DIALOGUE_TF_KR = [
+  ["민준이는 오늘 방과 후에 개를 산책시킬 것이다.", true],
+  ["서아는 오늘 방과 후에 자전거를 탈 것이다.", false],
+  ["도윤이와 예린이는 이번 주말 계획에 대해 이야기하고 있다.", true],
+  ["예린이는 토요일에 캠핑을 갈 것이다.", true],
+  ["예린이는 일요일에 영화를 볼 것이다.", true],
+  ["유진이와 태오는 이번 주말에 서울로 여행을 갈 계획이다.", false]
+];
+const DIALOGUE_TF_EN = [
+  ["Minjun is going to walk his dog after school.", true],
+  ["Seoa is going to ride her bike.", false],
+  ["Yerin is going to go camping on Saturday.", true],
+  ["Yerin is going to watch a movie on Sunday.", true],
+  ["Yujin and Tae-o are going to visit Hallasan on Saturday.", true],
+  ["It's going to be rainy this weekend according to Tae-o.", false]
+];
+const DIALOGUE_BLANKS = [
+  {q:"Minjun: I'm _______ to walk my dog.", a:["going"]},
+  {q:"Seoa: I'm going to _______ some books.", a:["read"]},
+  {q:"Yerin: I'm going to go _______ with my family.", a:["camping"]},
+  {q:"Doyoon: Have a nice _______!", a:["weekend"]},
+  {q:"Yujin: We're going to try some black pork street _______.", a:["food"]}
+];
+
+const READING = [
+"Amelia is from London.",
+"Last week, she went to Sokcho with Subin's family.",
+"Here is Amelia's travel diary.",
+"Friday, September 5th. It was sunny today.",
+"Subin's family and I hiked Seoraksan and saw a very big rock.",
+"It was Heundeulbawi. Subin and I pushed it.",
+"The rock shook a little. It was scary, but I had a lot of fun!",
+"Next, we went to Sokcho Beach.",
+"We put up two tents near the beach.",
+"We had Korean beef for dinner. It was delicious!",
+"In our tent, Subin and I heard the waves.",
+"We talked and laughed a lot.",
+"I really want to see the sunrise tomorrow.",
+"Saturday, September 6th. We woke up very early.",
+"It was dark outside. Subin and I ran to the beach.",
+"Slowly, the sky turned red.",
+"Subin said, \"The sun is rising. Make a wish!\"",
+"I closed my eyes and made a wish.",
+"For lunch, we ate gamjajeon.",
+"It was like a pancake. I loved it.",
+"After lunch, we visited Sokcho Lighthouse Observatory.",
+"We walked up many steep stairs.",
+"Our legs were tired. But at the top, the view was beautiful.",
+"We saw the city, the ocean, and the mountains.",
+"Subin said, \"This lighthouse is about 70 years old. It still shines its light for ships at night.\"",
+"I said, \"Wow, that's amazing!\"",
+"Every moment of this trip was wonderful.",
+"I took many pictures. I will always remember Korea."
+];
+
+const TF_READING_KR = [
+  ["Amelia는 런던 출신이다.", true],
+  ["Amelia는 수빈이네 가족과 함께 부산으로 여행을 갔다.", false],
+  ["첫째 날 날씨는 화창했다.", true],
+  ["설악산에서 본 큰 바위의 이름은 흔들바위였다.", true],
+  ["Amelia는 바위가 흔들려서 무섭기만 했고 재미는 전혀 없었다.", false],
+  ["저녁으로 한우를 먹었고 맛있었다.", true],
+  ["둘째 날 아침 Amelia와 수빈이는 늦잠을 잤다.", false],
+  ["점심으로 감자전을 먹었다.", true]
+];
+const TF_READING_EN = [
+  ["Amelia went to Sokcho with Subin's family.", true],
+  ["They hiked Sobaeksan and saw a big rock.", false],
+  ["The rock they pushed was called Heundeulbawi.", true],
+  ["They had chicken for dinner.", false],
+  ["They woke up early to see the sunrise.", true],
+  ["They ate pizza for lunch.", false],
+  ["The lighthouse is about 70 years old.", true],
+  ["Amelia didn't take any pictures.", false]
+];
+
+const SHORT_ANSWER = [
+  {q:"Where did Amelia go last week?", a:["sokcho"]},
+  {q:"What is the name of the big rock they saw?", a:["heundeulbawi"]},
+  {q:"What did they have for dinner?", a:["beef","korean beef"]},
+  {q:"What did Subin say to do when the sun was rising?", a:["make a wish","makeawish"]},
+  {q:"What did they eat for lunch?", a:["gamjajeon"]},
+  {q:"Where did they visit after lunch?", a:["lighthouse","observatory","sokcho lighthouse observatory"]},
+  {q:"About how old is the lighthouse?", a:["70","seventy","about 70"]},
+  {q:"What will Amelia always remember?", a:["korea"]}
+];
+
+const GRAMMAR = [
+  {q:"I hope __________ a new bike.", opts:["buy","to buy","buying","bought"], a:1},
+  {q:"He decided __________ English hard.", opts:["study","to study","studying","studies"], a:1},
+  {q:"They plan __________ to Jeju this summer.", opts:["go","to go","going","went"], a:1},
+  {q:"__________ is Wednesday today.", opts:["It","This","That","She"], a:0},
+  {q:"__________ is 3 o'clock now.", opts:["It","This","That","He"], a:0},
+  {q:"How far is it from here to the station? It is __________ two kilometers.", opts:["about","very","so","too"], a:0},
+  {q:"다음 중 밑줄 친 It의 쓰임이 나머지와 다른 것은?", opts:["It is Monday.","It is my bag.","It is snowing.","It is cold outside."], a:1},
+  {q:"다음 빈칸에 공통으로 들어갈 말은? __________ was rainy yesterday. / __________ is 9 o'clock now.", opts:["It","This","There","That"], a:0},
+  {q:"My dream is __________ a pilot.", opts:["be","to be","being","been"], a:1},
+  {q:"I want __________ soccer after school.", opts:["play","to play","playing","played"], a:1}
+];
+
+/* ---------------------------------------------------------
+   상태 관리
+--------------------------------------------------------- */
+let state = null;
+let view = "home";
+let sessionData = {}; // 현재 화면의 임시 답안 저장용
+
+function stateKey(name, cls){ return STORAGE_PREFIX + name + "__" + cls; }
+
+function loadCurrentUser(){
+  const raw = localStorage.getItem(CURRENT_KEY);
+  if(!raw) return null;
+  try{ return JSON.parse(raw); }catch(e){ return null; }
+}
+
+function loadState(name, cls){
+  const raw = localStorage.getItem(stateKey(name, cls));
+  if(raw){
+    try{ return JSON.parse(raw); }catch(e){ /* fallthrough */ }
+  }
+  return {name, classroom:cls, stages:{}};
+}
+
+function saveState(){
+  localStorage.setItem(stateKey(state.name, state.classroom), JSON.stringify(state));
+  localStorage.setItem(CURRENT_KEY, JSON.stringify({name:state.name, classroom:state.classroom}));
+}
+
+function switchUser(){
+  localStorage.removeItem(CURRENT_KEY);
+  state = null;
+  view = "home";
+  render();
+}
+
+/* ---------------------------------------------------------
+   체크포인트 전송
+--------------------------------------------------------- */
+function submitCheckpoint(stepNumber, scorePercent){
+  const payload = {
+    학생이름: state.name,
+    반: state.classroom,
+    현재단계: stepNumber,
+    정답률: scorePercent,
+    마지막제출시각: new Date().toISOString()
+  };
+  fetch(APPS_SCRIPT_URL, {
+    method:"POST",
+    mode:"no-cors",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body: JSON.stringify(payload)
+  }).catch(function(e){ console.error("checkpoint 전송 실패", e); });
+}
+
+function completeStage(key, scorePercent){
+  const stageInfo = STAGES.find(function(s){ return s.key===key; });
+  state.stages[key] = {
+    done:true,
+    score:scorePercent,
+    date: new Date().toISOString().slice(0,10)
+  };
+  saveState();
+  submitCheckpoint(stageInfo.step, scorePercent);
+}
+
+/* ---------------------------------------------------------
+   유틸
+--------------------------------------------------------- */
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    const t=a[i]; a[i]=a[j]; a[j]=t;
+  }
+  return a;
+}
+function sample(arr, n){ return shuffle(arr).slice(0, Math.min(n, arr.length)); }
+function normalize(s){ return (s||"").toLowerCase().trim().replace(/[.!?'"]/g,"").replace(/\s+/g," "); }
+function isCorrectShort(input, accepted){
+  const n = normalize(input);
+  if(!n) return false;
+  return accepted.some(function(a){
+    const na = normalize(a);
+    return n===na || n.includes(na) || na.includes(n);
+  });
+}
+function speak(text){
+  if(!("speechSynthesis" in window)){
+    alert("이 브라우저는 음성 재생을 지원하지 않아요.");
+    return;
+  }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-US";
+  u.rate = 0.92;
+  window.speechSynthesis.speak(u);
+}
+function esc(s){
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+
+/* ---------------------------------------------------------
+   렌더 : 로그인 / 홈
+--------------------------------------------------------- */
+function renderLogin(){
+  return `
+    <div class="topbar">
+      <div class="brand">잉글리시아이 <b>스텔라</b>영어학원</div>
+    </div>
+    <h1>Lesson 5 확인학습</h1>
+    <div class="subtitle">Have a Special Day! · 중1 동아(이병민)</div>
+    <div class="card login-card">
+      <div class="field">
+        <label>이름</label>
+        <input id="inputName" type="text" placeholder="이름을 입력하세요" autocomplete="off">
+      </div>
+      <div class="field">
+        <label>반</label>
+        <input id="inputClass" type="text" placeholder="예: 중등부1" autocomplete="off">
+      </div>
+      <button class="btn btn-primary" onclick="handleLogin()">시작하기</button>
+    </div>
+  `;
+}
+
+function handleLogin(){
+  const name = document.getElementById("inputName").value.trim();
+  const cls = document.getElementById("inputClass").value.trim();
+  if(!name || !cls){
+    alert("이름과 반을 모두 입력해 주세요.");
+    return;
+  }
+  state = loadState(name, cls);
+  saveState();
+  view = "home";
+  render();
+}
+
+function renderHome(){
+  let cards = STAGES.map(function(s){
+    const st = state.stages[s.key];
+    const badge = st && st.done
+      ? `<span class="stage-badge badge-done">완료 ${st.score}%</span>`
+      : `<span class="stage-badge badge-todo">진행전</span>`;
+    return `
+      <div class="stage-card" onclick="goStage('${s.key}')">
+        ${badge}
+        <span class="stage-icon">${s.icon}</span>
+        <div class="stage-title">${s.title}</div>
+        <div class="stage-desc">${s.desc}</div>
+      </div>
+    `;
+  }).join("");
+
+  return `
+    <div class="topbar">
+      <div class="brand">잉글리시아이 <b>스텔라</b>영어학원</div>
+      <div class="user-pill">${esc(state.name)} · ${esc(state.classroom)} <a href="#" onclick="switchUser();return false;">변경</a></div>
+    </div>
+    <h1>Lesson 5 확인학습</h1>
+    <div class="subtitle">Have a Special Day! · 원하는 단계를 자유롭게 선택해 진행하세요.</div>
+    <div class="stage-grid">${cards}</div>
+  `;
+}
+
+function goStage(key){
+  view = key;
+  sessionData = {};
+  render();
+}
+function goHome(){
+  view = "home";
+  render();
+}
+
+/* ---------------------------------------------------------
+   ① 단어 확인
+--------------------------------------------------------- */
+function buildWordQuiz(){
+  const pool = shuffle(VOCAB);
+  const mcWords = pool.slice(0, 12);
+  const saWords = pool.slice(12, 22);
+  const mcQuestions = mcWords.map(function(w){
+    const wrongPool = VOCAB.filter(function(v){ return v[0]!==w[0]; });
+    const wrongs = sample(wrongPool, 3).map(function(v){ return v[1]; });
+    const opts = shuffle([w[1]].concat(wrongs));
+    return {en:w[0], correct:w[1], opts:opts};
+  });
+  return {mc:mcQuestions, sa:saWords.map(function(w){ return {en:w[0], kr:w[1]}; })};
+}
+
+function renderWordStage(){
+  if(!sessionData.quiz) sessionData.quiz = buildWordQuiz();
+  if(!sessionData.answers) sessionData.answers = {mc:{}, sa:{}};
+  const quiz = sessionData.quiz;
+
+  let mcHtml = quiz.mc.map(function(q, i){
+    const optsHtml = q.opts.map(function(opt){
+      const sel = sessionData.answers.mc[i]===opt ? "selected":"";
+      return `<button type="button" class="opt ${sel}" onclick="selectMC(${i}, '${esc(opt).replace(/'/g,"\\'")}')">${esc(opt)}</button>`;
+    }).join("");
+    return `
+      <div class="q">
+        <div class="q-index">객관식 ${i+1} / ${quiz.mc.length}</div>
+        <div class="q-text">"<b>${esc(q.en)}</b>"의 알맞은 뜻은?</div>
+        ${optsHtml}
+      </div>
+    `;
+  }).join("");
+
+  let saHtml = quiz.sa.map(function(q, i){
+    return `
+      <div class="q">
+        <div class="q-index">주관식 ${i+1} / ${quiz.sa.length}</div>
+        <div class="q-text">뜻을 보고 영어 단어를 쓰세요: <b>${esc(q.kr)}</b></div>
+        <input class="text-input" id="sa_${i}" type="text" placeholder="영어로 입력" value="${esc(sessionData.answers.sa[i]||'')}" oninput="sessionData.answers.sa[${i}]=this.value">
+      </div>
+    `;
+  }).join("");
+
+  return `
+    ${backRow("① 단어 확인")}
+    <div class="hint">워크북 전체 단어 중 무작위로 문제를 출제해요. 다시 들어오면 새로운 문제가 나와요.</div>
+    <div class="section-label">객관식</div>
+    ${mcHtml}
+    <div class="section-label">주관식</div>
+    ${saHtml}
+    <button class="btn btn-primary btn-block" onclick="submitWordStage()">채점하기</button>
+    <div id="wordResult"></div>
+  `;
+}
+function selectMC(i, val){
+  sessionData.answers.mc[i] = val;
+  render();
+}
+function submitWordStage(){
+  const quiz = sessionData.quiz;
+  let correct = 0, total = quiz.mc.length + quiz.sa.length;
+  quiz.mc.forEach(function(q, i){
+    if(sessionData.answers.mc[i]===q.correct) correct++;
+  });
+  quiz.sa.forEach(function(q, i){
+    if(isCorrectShort(sessionData.answers.sa[i], [q.en])) correct++;
+  });
+  const score = Math.round(correct/total*100);
+  completeStage("word", score);
+  document.getElementById("wordResult").innerHTML = resultBox(score, correct, total);
+}
+
+/* ---------------------------------------------------------
+   ② 대화문 확인
+--------------------------------------------------------- */
+function renderDialogueStage(){
+  if(!sessionData.answers) sessionData.answers = {tfKr:{}, tfEn:{}, blanks:{}};
+
+  let dialogueHtml = DIALOGUES.map(function(d){
+    return `<div class="card"><b>${esc(d.title)}</b><br><br>${d.lines.map(esc).join("<br>")}</div>`;
+  }).join("");
+
+  let tfKrHtml = DIALOGUE_TF_KR.map(function(item, i){
+    return tfRow("tfKr", i, item[0]);
+  }).join("");
+  let tfEnHtml = DIALOGUE_TF_EN.map(function(item, i){
+    return tfRow("tfEn", i, item[0]);
+  }).join("");
+  let blankHtml = DIALOGUE_BLANKS.map(function(item, i){
+    return `
+      <div class="q">
+        <div class="q-index">빈칸 ${i+1}</div>
+        <div class="q-text">${esc(item.q)}</div>
+        <input class="text-input" id="blank_${i}" type="text" placeholder="영어 단어 입력" value="${esc(sessionData.answers.blanks[i]||'')}" oninput="sessionData.answers.blanks[${i}]=this.value">
+      </div>
+    `;
+  }).join("");
+
+  return `
+    ${backRow("② 대화문 확인")}
+    <div class="section-label">대화문</div>
+    ${dialogueHtml}
+    <div class="section-label">일치·불일치 (한글판)</div>
+    ${tfKrHtml}
+    <div class="section-label">일치·불일치 (영어판)</div>
+    ${tfEnHtml}
+    <div class="section-label">빈칸 채우기</div>
+    ${blankHtml}
+    <button class="btn btn-primary btn-block" onclick="submitDialogueStage()">채점하기</button>
+    <div id="dialogueResult"></div>
+  `;
+}
+function tfRow(group, i, text){
+  const sel = sessionData.answers[group][i];
+  return `
+    <div class="q">
+      <div class="q-text">${esc(text)}</div>
+      <div class="tf-row">
+        <button type="button" class="tf-btn ${sel===true?'selected':''}" onclick="setTF('${group}',${i},true)">O (맞음)</button>
+        <button type="button" class="tf-btn ${sel===false?'selected':''}" onclick="setTF('${group}',${i},false)">X (틀림)</button>
+      </div>
+    </div>
+  `;
+}
+function setTF(group, i, val){
+  sessionData.answers[group][i] = val;
+  render();
+}
+function submitDialogueStage(){
+  let correct=0, total=0;
+  DIALOGUE_TF_KR.forEach(function(item, i){
+    total++;
+    if(sessionData.answers.tfKr[i]===item[1]) correct++;
+  });
+  DIALOGUE_TF_EN.forEach(function(item, i){
+    total++;
+    if(sessionData.answers.tfEn[i]===item[1]) correct++;
+  });
+  DIALOGUE_BLANKS.forEach(function(item, i){
+    total++;
+    if(isCorrectShort(sessionData.answers.blanks[i], item.a)) correct++;
+  });
+  const score = Math.round(correct/total*100);
+  completeStage("dialogue", score);
+  document.getElementById("dialogueResult").innerHTML = resultBox(score, correct, total);
+}
+
+/* ---------------------------------------------------------
+   ③ 본문 쉐도잉
+--------------------------------------------------------- */
+function renderShadowingStage(){
+  if(!sessionData.checked) sessionData.checked = {};
+  const total = READING.length;
+  const checkedCount = Object.keys(sessionData.checked).filter(function(k){ return sessionData.checked[k]; }).length;
+  const pct = Math.round(checkedCount/total*100);
+
+  let rows = READING.map(function(sent, i){
+    const checked = sessionData.checked[i] ? "checked" : "";
+    return `
+      <div class="sent-row">
+        <div class="sent-num">${i+1}</div>
+        <div class="sent-text">${esc(sent)}</div>
+        <button class="speak-btn" onclick="speak('${esc(sent).replace(/'/g,"\\'")}')">🔊</button>
+        <label class="check-wrap">
+          <input type="checkbox" ${checked} onchange="toggleShadow(${i}, this.checked)"> 완료
+        </label>
+      </div>
+    `;
+  }).join("");
+
+  return `
+    ${backRow("③ 본문 쉐도잉 읽기")}
+    <div class="hint">문장을 듣고 따라 읽은 뒤 완료 체크를 해주세요.</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="subtitle">${checkedCount} / ${total} 문장 완료 (${pct}%)</div>
+    ${rows}
+    <button class="btn btn-primary btn-block" onclick="submitShadowingStage()">완료하기</button>
+    <div id="shadowResult"></div>
+  `;
+}
+function toggleShadow(i, val){
+  sessionData.checked[i] = val;
+  render();
+}
+function submitShadowingStage(){
+  const total = READING.length;
+  const checkedCount = Object.keys(sessionData.checked).filter(function(k){ return sessionData.checked[k]; }).length;
+  const score = Math.round(checkedCount/total*100);
+  completeStage("shadowing", score);
+  document.getElementById("shadowResult").innerHTML = resultBox(score, checkedCount, total, "문장 완료");
+}
+
+/* ---------------------------------------------------------
+   ④ 본문 일치·불일치
+--------------------------------------------------------- */
+function renderTrueFalseStage(){
+  if(!sessionData.answers) sessionData.answers = {kr:{}, en:{}};
+
+  let readingHtml = `<div class="card">${READING.map(esc).join("<br>")}</div>`;
+  let krHtml = TF_READING_KR.map(function(item, i){
+    return tfRow2("kr", i, item[0]);
+  }).join("");
+  let enHtml = TF_READING_EN.map(function(item, i){
+    return tfRow2("en", i, item[0]);
+  }).join("");
+
+  return `
+    ${backRow("④ 본문 일치·불일치")}
+    <div class="section-label">본문</div>
+    ${readingHtml}
+    <div class="section-label">일치·불일치 (한글판)</div>
+    ${krHtml}
+    <div class="section-label">일치·불일치 (영어판)</div>
+    ${enHtml}
+    <button class="btn btn-primary btn-block" onclick="submitTrueFalseStage()">채점하기</button>
+    <div id="tfResult"></div>
+  `;
+}
+function tfRow2(group, i, text){
+  const sel = sessionData.answers[group][i];
+  return `
+    <div class="q">
+      <div class="q-text">${esc(text)}</div>
+      <div class="tf-row">
+        <button type="button" class="tf-btn ${sel===true?'selected':''}" onclick="setTF2('${group}',${i},true)">O (맞음)</button>
+        <button type="button" class="tf-btn ${sel===false?'selected':''}" onclick="setTF2('${group}',${i},false)">X (틀림)</button>
+      </div>
+    </div>
+  `;
+}
+function setTF2(group, i, val){
+  sessionData.answers[group][i] = val;
+  render();
+}
+function submitTrueFalseStage(){
+  let correct=0, total=0;
+  TF_READING_KR.forEach(function(item, i){
+    total++;
+    if(sessionData.answers.kr[i]===item[1]) correct++;
+  });
+  TF_READING_EN.forEach(function(item, i){
+    total++;
+    if(sessionData.answers.en[i]===item[1]) correct++;
+  });
+  const score = Math.round(correct/total*100);
+  completeStage("truefalse", score);
+  document.getElementById("tfResult").innerHTML = resultBox(score, correct, total);
+}
+
+/* ---------------------------------------------------------
+   ⑤ 본문 서술형
+--------------------------------------------------------- */
+function renderShortAnswerStage(){
+  if(!sessionData.answers) sessionData.answers = {};
+  let readingHtml = `<div class="card">${READING.map(esc).join("<br>")}</div>`;
+  let qHtml = SHORT_ANSWER.map(function(item, i){
+    return `
+      <div class="q">
+        <div class="q-index">${i+1}</div>
+        <div class="q-text">${esc(item.q)}</div>
+        <input class="text-input" id="short_${i}" type="text" placeholder="짧게 답해보세요" value="${esc(sessionData.answers[i]||'')}" oninput="sessionData.answers[${i}]=this.value">
+      </div>
+    `;
+  }).join("");
+
+  return `
+    ${backRow("⑤ 본문 서술형")}
+    <div class="section-label">본문</div>
+    ${readingHtml}
+    <div class="section-label">질문</div>
+    ${qHtml}
+    <button class="btn btn-primary btn-block" onclick="submitShortAnswerStage()">채점하기</button>
+    <div id="shortResult"></div>
+  `;
+}
+function submitShortAnswerStage(){
+  let correct=0, total=SHORT_ANSWER.length;
+  SHORT_ANSWER.forEach(function(item, i){
+    if(isCorrectShort(sessionData.answers[i], item.a)) correct++;
+  });
+  const score = Math.round(correct/total*100);
+  completeStage("shortanswer", score);
+  document.getElementById("shortResult").innerHTML = resultBox(score, correct, total);
+}
+
+/* ---------------------------------------------------------
+   ⑥ 본문 속 어법
+--------------------------------------------------------- */
+function renderGrammarStage(){
+  if(!sessionData.answers) sessionData.answers = {};
+  let qHtml = GRAMMAR.map(function(item, i){
+    const optsHtml = item.opts.map(function(opt, oi){
+      const sel = sessionData.answers[i]===oi ? "selected":"";
+      return `<button type="button" class="opt ${sel}" onclick="selectGrammar(${i}, ${oi})">${esc(opt)}</button>`;
+    }).join("");
+    return `
+      <div class="q">
+        <div class="q-index">${i+1} / ${GRAMMAR.length}</div>
+        <div class="q-text">${esc(item.q)}</div>
+        ${optsHtml}
+      </div>
+    `;
+  }).join("");
+
+  return `
+    ${backRow("⑥ 본문 속 어법")}
+    <div class="hint">목적어로 쓰이는 to부정사 · 비인칭 주어 it 문제입니다.</div>
+    ${qHtml}
+    <button class="btn btn-primary btn-block" onclick="submitGrammarStage()">채점하기</button>
+    <div id="grammarResult"></div>
+  `;
+}
+function selectGrammar(i, oi){
+  sessionData.answers[i] = oi;
+  render();
+}
+function submitGrammarStage(){
+  let correct=0, total=GRAMMAR.length;
+  GRAMMAR.forEach(function(item, i){
+    if(sessionData.answers[i]===item.a) correct++;
+  });
+  const score = Math.round(correct/total*100);
+  completeStage("grammar", score);
+  document.getElementById("grammarResult").innerHTML = resultBox(score, correct, total);
+}
+
+/* ---------------------------------------------------------
+   공통 컴포넌트
+--------------------------------------------------------- */
+function backRow(title){
+  return `
+    <div class="backrow">
+      <button class="backbtn" onclick="goHome()">← 홈으로</button>
+      <h2 style="margin:0;">${esc(title)}</h2>
+    </div>
+  `;
+}
+function resultBox(score, correct, total, unit){
+  unit = unit || "문항 정답";
+  return `
+    <div class="result-box">
+      <div class="result-score">${score}점</div>
+      <div class="result-sub">${correct} / ${total} ${unit}</div>
+      <div class="sync-note">노션 체크포인트에 저장되었어요 ✅</div>
+      <button class="btn btn-ghost btn-block" onclick="goHome()">홈으로 돌아가기</button>
+    </div>
+  `;
+}
+
+/* ---------------------------------------------------------
+   렌더 디스패처
+--------------------------------------------------------- */
+function render(){
+  const app = document.getElementById("app");
+  if(!state){
+    app.innerHTML = renderLogin();
+    return;
+  }
+  let html = "";
+  switch(view){
+    case "home": html = renderHome(); break;
+    case "word": html = renderWordStage(); break;
+    case "dialogue": html = renderDialogueStage(); break;
+    case "shadowing": html = renderShadowingStage(); break;
+    case "truefalse": html = renderTrueFalseStage(); break;
+    case "shortanswer": html = renderShortAnswerStage(); break;
+    case "grammar": html = renderGrammarStage(); break;
+    default: html = renderHome();
+  }
+  app.innerHTML = html;
+}
+
+/* ---------------------------------------------------------
+   초기화
+--------------------------------------------------------- */
+(function init(){
+  const cur = loadCurrentUser();
+  if(cur && cur.name && cur.classroom){
+    state = loadState(cur.name, cur.classroom);
+  }
+  render();
+})();
+</script>
+</body>
+</html>
