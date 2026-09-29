@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>STELLA 중등부 내신 관리</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  /* ▼ Apps Script 웹앱 URL을 아래 스크립트의 API_URL에 넣으세요 */
+  :root{
+    --navy:#14213E; --navy-2:#1F2F55; --burgundy:#90394A; --gold:#C49A4A;
+    --paper:#F2F4F8; --card:#FFFFFF; --line:#DCE1EA; --ink:#1A2233; --muted:#5E6878;
+    --good:#2F7D5B; --warn:#B7791F; --bad:#90394A;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *,*::before,*::after{box-sizing:inherit}
+  html,body{margin:0;height:100%}
+  body{font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--paper);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  button,input{font:inherit}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  .hidden{display:none!important}
+
+  /* ── 로그인 ── */
+  #login{min-height:100%;display:flex;align-items:center;justify-content:center;padding:32px 20px;
+    background:var(--navy)}
+  .login-box{width:100%;max-width:380px;color:#fff}
+  .brand{font-weight:800;font-size:15px;letter-spacing:.02em;color:var(--gold)}
+  .login-box h1{font-size:28px;line-height:1.3;margin:10px 0 8px;font-weight:800}
+  .login-box p.sub{margin:0 0 28px;color:#B9C2D6;font-size:15px}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:14px;color:#D5DBE8;margin-bottom:6px}
+  .field input{width:100%;padding:14px 16px;border-radius:10px;border:1px solid #33446E;
+    background:var(--navy-2);color:#fff;font-size:17px}
+  .field input::placeholder{color:#7C88A6}
+  .btn{width:100%;padding:15px;border:0;border-radius:10px;background:var(--gold);color:var(--navy);
+    font-weight:800;font-size:17px;cursor:pointer;margin-top:6px}
+  .btn:disabled{opacity:.6;cursor:wait}
+  .link{background:none;border:0;color:#B9C2D6;text-decoration:underline;cursor:pointer;margin-top:18px;font-size:14px;padding:4px}
+  .err{color:#F3B6C0;font-size:14px;min-height:22px;margin-top:10px}
+
+  /* ── 대시보드 ── */
+  .wrap{max-width:720px;margin:0 auto}
+  header.top{background:var(--navy);color:#fff;padding:18px 20px 0}
+  .topbar{display:flex;justify-content:space-between;align-items:center}
+  .logout{background:none;border:1px solid #3A4B75;color:#C9D1E3;border-radius:8px;padding:6px 12px;font-size:13px;cursor:pointer}
+  .who{margin:22px 0 4px;font-size:26px;font-weight:800;line-height:1.3}
+  .who-sub{color:#B9C2D6;font-size:15px;margin:0}
+
+  /* 다음 시험 티켓 — 페이지의 핵심 요소 */
+  .ticket{position:relative;margin:24px 0 -48px;background:var(--card);color:var(--ink);border-radius:14px;
+    display:grid;grid-template-columns:1fr auto;overflow:hidden;box-shadow:0 10px 30px rgba(20,33,62,.25)}
+  .ticket-main{padding:20px 20px 20px 22px;border-left:6px solid var(--burgundy)}
+  .ticket-kind{font-size:13px;font-weight:700;color:var(--burgundy)}
+  .ticket-title{font-size:20px;font-weight:800;margin:2px 0 6px;line-height:1.35}
+  .ticket-date{font-size:14px;color:var(--muted)}
+  .ticket-d{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:112px;
+    padding:16px;background:var(--navy);color:#fff;
+    background-image:radial-gradient(circle at 0 50%,var(--paper) 0 9px,transparent 10px)}
+  .ticket-d .num{font-size:44px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums;color:var(--gold)}
+  .ticket-d .cap{font-size:12px;color:#B9C2D6;margin-top:6px}
+  .ticket-range{grid-column:1/-1;border-top:1px dashed var(--line);padding:14px 22px;font-size:14px;background:#FAFBFD}
+  .ticket-range b{color:var(--navy)}
+  .ticket-empty{padding:22px;color:var(--muted)}
+
+  main{padding:72px 20px 40px}
+  section{margin-bottom:36px}
+  h2{font-size:19px;font-weight:800;margin:0 0 14px;color:var(--navy);display:flex;align-items:baseline;gap:8px}
+  h2 small{font-size:13px;font-weight:500;color:var(--muted)}
+
+  /* 공지 */
+  .notice{border-bottom:1px solid var(--line)}
+  .notice summary{list-style:none;cursor:pointer;padding:14px 2px;display:flex;gap:10px;align-items:flex-start}
+  .notice summary::-webkit-details-marker{display:none}
+  .tag{flex:none;font-size:12px;font-weight:700;border-radius:6px;padding:2px 8px;margin-top:3px}
+  .tag.must{background:var(--burgundy);color:#fff}
+  .tag.imp{background:#F6ECD9;color:#8A6420}
+  .tag.gen{background:#E7EBF2;color:var(--muted)}
+  .notice .t{font-weight:600;flex:1}
+  .notice .d{font-size:13px;color:var(--muted);flex:none;margin-top:2px}
+  .notice .body{padding:0 2px 16px;color:#384255;white-space:pre-line;font-size:15px}
+
+  /* 성적 */
+  .tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto}
+  .tabs button{flex:none;border:1px solid var(--line);background:var(--card);color:var(--muted);
+    border-radius:999px;padding:8px 14px;font-size:14px;font-weight:600;cursor:pointer}
+  .tabs button[aria-selected="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+  .chart-box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 10px 8px;height:240px}
+  .rows{margin-top:10px}
+  .row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 2px;border-bottom:1px solid var(--line)}
+  .row .name{font-weight:600}
+  .row .meta{font-size:13px;color:var(--muted)}
+  .row .score{font-size:20px;font-weight:800;font-variant-numeric:tabular-nums}
+  .row .goal{font-size:13px;font-weight:700;border-radius:6px;padding:3px 8px;white-space:nowrap}
+  .goal.ok{background:#E3F2EA;color:var(--good)}
+  .goal.no{background:#F7E9EC;color:var(--bad)}
+  .goal.none{color:var(--muted)}
+  .weak{grid-column:1/-1;font-size:13px;color:var(--burgundy);margin-top:-4px}
+
+  /* 일정 타임라인 */
+  .timeline{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);margin-left:6px}
+  .timeline li{position:relative;padding:0 0 18px 20px}
+  .timeline li::before{content:"";position:absolute;left:-7px;top:7px;width:12px;height:12px;border-radius:50%;
+    background:var(--card);border:2px solid var(--navy)}
+  .timeline li.past{opacity:.5}
+  .timeline li.exam::before{background:var(--burgundy);border-color:var(--burgundy)}
+  .tl-date{font-size:13px;color:var(--muted)}
+  .tl-title{font-weight:700}
+  .tl-dd{font-size:12px;font-weight:700;color:var(--burgundy);margin-left:6px}
+  .tl-note{font-size:14px;color:#384255}
+
+  /* 연간 캘린더 */
+  .legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin:-4px 0 14px;font-size:13px;color:var(--muted)}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+  .year{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .month{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 8px 8px;
+    text-align:left;cursor:pointer;color:var(--ink)}
+  .month[aria-pressed="true"]{border-color:var(--navy);box-shadow:0 0 0 2px var(--navy) inset}
+  .month.now .m-title::after{content:"이번 달";font-size:11px;font-weight:700;color:var(--burgundy);margin-left:6px}
+  .m-title{font-weight:800;font-size:15px;margin:0 0 6px 4px;display:flex;align-items:baseline}
+  .m-count{margin-left:auto;margin-right:4px;font-size:12px;font-weight:600;color:var(--muted)}
+  .days{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;font-size:11px;text-align:center;font-variant-numeric:tabular-nums}
+  .days .wd{color:#98A1B1;font-size:10px}
+  .days .c{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:5px;color:#4A5466}
+  .days .c.sun{color:#B4505F}
+  .days .c.ev{color:#fff;font-weight:700}
+  .days .c.today{outline:2px solid var(--gold);outline-offset:-1px;font-weight:800}
+  .m-detail{margin-top:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .m-detail h3{margin:0 0 10px;font-size:16px;color:var(--navy)}
+  .ev-item{display:flex;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+  .ev-item:first-of-type{border-top:0}
+  .ev-date{flex:none;width:74px;font-size:13px;color:var(--muted);padding-top:2px}
+  .ev-type{font-size:12px;font-weight:700}
+  .ev-title{font-weight:600}
+  .ev-note{font-size:14px;color:#384255}
+  @media (min-width:560px){.year{grid-template-columns:repeat(3,1fr)}}
+
+  /* 코멘트 */
+  .comment{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .comment dl{margin:0}
+  .comment dt{font-size:13px;font-weight:700;color:var(--burgundy);margin-top:12px}
+  .comment dt:first-child{margin-top:0}
+  .comment dd{margin:2px 0 0}
+
+  /* 학교 정보 */
+  .info{display:grid;grid-template-columns:max-content 1fr;gap:10px 18px;margin:0;font-size:15px}
+  .info dt{color:var(--muted)}
+  .info dd{margin:0;font-weight:600}
+
+  .empty{color:var(--muted);font-size:15px;padding:8px 2px}
+  footer{text-align:center;color:var(--muted);font-size:13px;padding:10px 20px 32px}
+  .demo-flag{background:var(--gold);color:var(--navy);text-align:center;font-size:13px;font-weight:700;padding:6px}
+
+  @media (min-width:720px){
+    .who{font-size:30px}
+    .ticket-title{font-size:22px}
+    .two{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  }
+  @media (prefers-reduced-motion:no-preference){
+    .ticket{animation:drop .5s ease-out both}
+    @keyframes drop{from{transform:translateY(-10px);opacity:0}to{transform:none;opacity:1}}
+  }
+</style>
+</head>
+<body>
+
+<!-- 로그인 -->
+<div id="login">
+  <div class="login-box">
+    <div class="brand">English Eye STELLA 중등부</div>
+    <h1>우리 아이 내신 관리,<br>한눈에 확인하세요</h1>
+    <p class="sub">시험 일정, 성적, 학원 공지를 모두 볼 수 있어요.</p>
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="name">학생 이름</label>
+        <input id="name" autocomplete="off" placeholder="예: 김서연" required>
+      </div>
+      <div class="field">
+        <label for="pin">학부모 연락처 뒤 4자리</label>
+        <input id="pin" inputmode="numeric" maxlength="4" placeholder="숫자 4자리" required>
+      </div>
+      <button class="btn" id="loginBtn" type="submit">내 관리 페이지 보기</button>
+      <div class="err" id="err" role="alert"></div>
+    </form>
+    <button class="link" id="demoBtn" type="button">예시 화면 먼저 보기</button>
+  </div>
+</div>
+
+<!-- 대시보드 -->
+<div id="app" class="hidden">
+  <div class="demo-flag hidden" id="demoFlag">예시 화면입니다. 실제 학생 정보가 아닙니다.</div>
+  <header class="top">
+    <div class="wrap">
+      <div class="topbar">
+        <span class="brand">English Eye STELLA 중등부</span>
+        <button class="logout" id="logout" type="button">나가기</button>
+      </div>
+      <p class="who" id="who"></p>
+      <p class="who-sub" id="whoSub"></p>
+      <div class="ticket" id="ticket"></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <h2>학원 공지</h2>
+      <div id="notices"></div>
+    </section>
+
+    <section>
+      <h2>연간 학사 캘린더 <small id="yearLabel"></small></h2>
+      <div class="legend" id="legend"></div>
+      <div class="year" id="year"></div>
+      <div class="m-detail" id="monthDetail" aria-live="polite"></div>
+    </section>
+
+    <section>
+      <h2>성적 변화 <small>점선은 목표 점수</small></h2>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div class="chart-box"><canvas id="chart" aria-label="성적 그래프"></canvas></div>
+      <div class="rows" id="rows"></div>
+    </section>
+
+    <div class="two">
+      <section>
+        <h2>다가오는 일정</h2>
+        <ul class="timeline" id="timeline"></ul>
+      </section>
+      <section>
+        <h2>선생님 코멘트 <small id="weekLabel"></small></h2>
+        <div id="weekly"></div>
+      </section>
+    </div>
+
+    <section>
+      <h2>우리 학교 내신 정보</h2>
+      <dl class="info" id="schoolInfo"></dl>
+    </section>
+  </main>
+  <footer>잉글리시아이 스텔라 영어전문 사하힐스점<br>궁금한 점은 학원으로 연락 주세요.</footer>
+</div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbwH8xlrw5RHxorkjUoK4KbHw_HUIWjli2U6tj_FramUwuEQcifFAzAmx98hLiw-7Qyn/exec';
+
+const TABS = [
+  { key:'exam',  label:'중간·기말고사', types:['중간고사','기말고사'] },
+  { key:'mock',  label:'모의고사',       types:['중간 모의고사','기말 모의고사'] },
+  { key:'word',  label:'단어시험',       types:['단어시험'] },
+  { key:'mini',  label:'미니테스트',     types:['오늘의 미니테스트'] },
+];
+const EXAM_TYPES = ['중간고사','기말고사','모의고사','수행평가'];
+const TYPE_COLOR = {
+  '중간고사':'#90394A', '기말고사':'#14213E', '수행평가':'#C49A4A',
+  '모의고사':'#3F6FB5', '학원 특강·보강':'#2F7D5B', '학사일정':'#8A94A6',
+};
+const TYPE_RANK = ['중간고사','기말고사','수행평가','모의고사','학원 특강·보강','학사일정']; // 같은 날 여러 일정이면 앞 순서 색
+let DATA = null, chart = null, currentTab = 'exam', selMonth = null;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const today = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
+const toDate = s => { const [y,m,d] = String(s).slice(0,10).split('-').map(Number); return new Date(y, m-1, d); };
+const dday = s => Math.round((toDate(s) - today()) / 86400000);
+const fmt = s => { if(!s) return ''; const d = toDate(s); return `${d.getMonth()+1}월 ${d.getDate()}일 (${'일월화수목금토'[d.getDay()]})`; };
+const short = s => { const d = toDate(s); return `${d.getMonth()+1}/${d.getDate()}`; };
+
+// ── 로그인 ──
+$('loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = $('name').value.trim(), pin = $('pin').value.trim();
+  if (!name || !/^\d{4}$/.test(pin)) { $('err').textContent = '이름과 숫자 4자리를 입력해 주세요.'; return; }
+  if (!API_URL) { $('err').textContent = '아직 서버 주소가 설정되지 않았습니다. 예시 화면으로 확인해 주세요.'; return; }
+  $('loginBtn').disabled = true; $('loginBtn').textContent = '불러오는 중…'; $('err').textContent = '';
+  try {
+    const res = await fetch(API_URL, { method:'POST', body: JSON.stringify({ action:'login', name, pin }) });
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error);
+    show(json.data, false);
+  } catch (err) {
+    $('err').textContent = err.message || '연결에 실패했습니다. 잠시 후 다시 시도해 주세요.';
+  } finally {
+    $('loginBtn').disabled = false; $('loginBtn').textContent = '내 관리 페이지 보기';
+  }
+});
+$('demoBtn').addEventListener('click', () => show(demoData(), true));
+$('logout').addEventListener('click', () => {
+  DATA = null; if (chart) chart.destroy();
+  $('app').classList.add('hidden'); $('login').classList.remove('hidden');
+  $('name').value = ''; $('pin').value = ''; window.scrollTo(0,0);
+});
+
+// ── 화면 그리기 ──
+function show(data, isDemo){
+  DATA = data;
+  $('demoFlag').classList.toggle('hidden', !isDemo);
+  $('login').classList.add('hidden'); $('app').classList.remove('hidden');
+  const s = data.student;
+  $('who').textContent = `${s.name} 학생`;
+  $('whoSub').textContent = `${s.school} ${s.grade}`.trim();
+  selMonth = null;
+  renderTicket(); renderNotices(); renderCalendar(); renderTabs(); renderScores(); renderTimeline(); renderWeekly(); renderSchool();
+  window.scrollTo(0,0);
+}
+
+function renderTicket(){
+  const next = DATA.schedule.find(x => EXAM_TYPES.includes(x.type) && x.date && dday(x.date) >= 0);
+  if (!next) { $('ticket').innerHTML = `<div class="ticket-empty">예정된 시험·수행평가가 아직 없어요.</div>`; return; }
+  const d = dday(next.date);
+  $('ticket').innerHTML = `
+    <div class="ticket-main">
+      <div class="ticket-kind">다음 ${esc(next.type)}</div>
+      <div class="ticket-title">${esc(next.title)}</div>
+      <div class="ticket-date">${fmt(next.date)}</div>
+    </div>
+    <div class="ticket-d"><span class="num">${d === 0 ? 'D-DAY' : 'D-' + d}</span><span class="cap">${d === 0 ? '오늘입니다' : d + '일 남았어요'}</span></div>
+    ${next.range || next.task || next.plan ? `<div class="ticket-range">
+      ${next.range ? `<div><b>시험 범위</b> ${esc(next.range)}</div>` : ''}
+      ${next.task ? `<div><b>수행평가</b> ${esc(next.task)}</div>` : ''}
+      ${next.plan ? `<div><b>학원 대비</b> ${esc(next.plan)}</div>` : ''}
+    </div>` : ''}`;
+}
+
+function renderNotices(){
+  const list = DATA.notices;
+  if (!list.length) { $('notices').innerHTML = `<p class="empty">새 공지가 없어요.</p>`; return; }
+  $('notices').innerHTML = list.map((n,i) => {
+    const cls = n.level.includes('필독') ? 'must' : n.level.includes('중요') ? 'imp' : 'gen';
+    const label = n.level.replace(/[^\uAC00-\uD7A3]/g,'') || '일반';
+    return `<details class="notice" ${i===0 && cls==='must' ? 'open' : ''}>
+      <summary><span class="tag ${cls}">${esc(label)}</span><span class="t">${esc(n.title)}</span><span class="d">${n.date ? short(n.date) : ''}</span></summary>
+      ${n.body ? `<div class="body">${esc(n.body)}</div>` : ''}
+    </details>`;
+  }).join('');
+}
+
+// ── 연간 캘린더 (학년도: 3월 ~ 다음 해 2월) ──
+const ymd = d => `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+function eventsByDay(){
+  const map = {};
+  DATA.schedule.forEach(x => {
+    if (!x.date) return;
+    const s = toDate(x.date), e = x.end ? toDate(x.end) : s;
+    for (let d = new Date(s); d <= e; d.setDate(d.getDate()+1)) (map[ymd(d)] ||= []).push(x);
+  });
+  return map;
+}
+function renderCalendar(){
+  const t = today();
+  const sy = t.getMonth() >= 2 ? t.getFullYear() : t.getFullYear() - 1;
+  $('yearLabel').textContent = `${sy}학년도`;
+  const used = [...new Set(DATA.schedule.map(x => x.type))];
+  $('legend').innerHTML = TYPE_RANK.filter(k => used.includes(k))
+    .map(k => `<span><i style="background:${TYPE_COLOR[k]}"></i>${k}</span>`).join('');
+  const byDay = eventsByDay();
+  const months = Array.from({length:12}, (_,i) => new Date(sy, 2+i, 1));
+  if (selMonth === null) selMonth = months.findIndex(m => m.getFullYear()===t.getFullYear() && m.getMonth()===t.getMonth());
+
+  $('year').innerHTML = months.map((m, idx) => {
+    const y = m.getFullYear(), mo = m.getMonth(), last = new Date(y, mo+1, 0).getDate();
+    let cells = '일월화수목금토'.split('').map(w => `<span class="wd">${w}</span>`).join('');
+    cells += '<span></span>'.repeat(m.getDay());
+    let count = 0;
+    for (let d = 1; d <= last; d++){
+      const key = ymd(new Date(y, mo, d)), evs = byDay[key] || [];
+      const top = evs.slice().sort((a,b) => TYPE_RANK.indexOf(a.type) - TYPE_RANK.indexOf(b.type))[0];
+      if (evs.length) count++;
+      const cls = ['c', new Date(y,mo,d).getDay()===0 ? 'sun':'', top ? 'ev':'', key===ymd(t) ? 'today':''].join(' ');
+      cells += `<span class="${cls}" ${top ? `style="background:${TYPE_COLOR[top.type]||'#8A94A6'}" title="${esc(evs.map(e=>e.title).join(', '))}"`:''}>${d}</span>`;
+    }
+    const isNow = y===t.getFullYear() && mo===t.getMonth();
+    return `<button type="button" class="month${isNow?' now':''}" data-i="${idx}" aria-pressed="${idx===selMonth}"
+      aria-label="${y}년 ${mo+1}월 일정 보기">
+      <div class="m-title">${mo+1}월${count ? `<span class="m-count">${count}일</span>` : ''}</div>
+      <div class="days" aria-hidden="true">${cells}</div></button>`;
+  }).join('');
+  $('year').querySelectorAll('.month').forEach(b => b.onclick = () => { selMonth = +b.dataset.i; renderCalendar(); });
+  renderMonthDetail(months[selMonth]);
+}
+function renderMonthDetail(m){
+  if (!m) { $('monthDetail').innerHTML = ''; return; }
+  const list = DATA.schedule.filter(x => x.date && toDate(x.date).getFullYear()===m.getFullYear() && toDate(x.date).getMonth()===m.getMonth());
+  $('monthDetail').innerHTML = `<h3>${m.getFullYear()}년 ${m.getMonth()+1}월 일정</h3>` + (list.length
+    ? list.map(x => `<div class="ev-item">
+        <div class="ev-date">${short(x.date)}${x.end ? '~' + short(x.end) : ''}</div>
+        <div><div class="ev-type" style="color:${TYPE_COLOR[x.type]||'#8A94A6'}">${esc(x.type)}</div>
+          <div class="ev-title">${esc(x.title)}</div>
+          ${x.range ? `<div class="ev-note">범위: ${esc(x.range)}</div>` : ''}
+          ${x.task ? `<div class="ev-note">${esc(x.task)}</div>` : ''}</div>
+      </div>`).join('')
+    : `<p class="empty" style="margin:0">이 달에는 등록된 일정이 없어요.</p>`);
+}
+
+function renderTabs(){
+  $('tabs').innerHTML = TABS.map(t =>
+    `<button role="tab" aria-selected="${t.key===currentTab}" data-k="${t.key}">${t.label}</button>`).join('');
+  $('tabs').querySelectorAll('button').forEach(b => b.onclick = () => { currentTab = b.dataset.k; renderTabs(); renderScores(); });
+}
+
+function renderScores(){
+  const tab = TABS.find(t => t.key === currentTab);
+  const list = DATA.scores.filter(s => tab.types.includes(s.type));
+  if (chart) chart.destroy();
+  if (!list.length) {
+    $('rows').innerHTML = `<p class="empty">아직 ${tab.label} 기록이 없어요.</p>`;
+    chart = null; return;
+  }
+  const labels = list.map(s => currentTab === 'exam' || currentTab === 'mock' ? `${s.term} ${s.type.replace(' 모의고사','').replace('고사','')}`.trim() : short(s.date));
+  chart = new Chart($('chart'), {
+    type:'line',
+    data:{ labels, datasets:[
+      { label:'점수', data:list.map(s=>s.score), borderColor:'#14213E', backgroundColor:'#14213E', tension:.3, pointRadius:5, pointHoverRadius:7 },
+      { label:'목표', data:list.map(s=>s.target ?? null), borderColor:'#C49A4A', borderDash:[6,5], pointRadius:0, spanGaps:true },
+    ]},
+    options:{ maintainAspectRatio:false, plugins:{ legend:{ display:false } },
+      scales:{ y:{ min:Math.max(0, Math.min(...list.map(s=>s.score)) - 20), max:100, ticks:{ stepSize:10 } }, x:{ grid:{ display:false } } } }
+  });
+  $('rows').innerHTML = list.slice().reverse().slice(0,6).map(s => {
+    const hasGoal = typeof s.target === 'number';
+    const goal = !hasGoal ? `<span class="goal none">목표 미설정</span>`
+      : s.score >= s.target ? `<span class="goal ok">목표 달성</span>`
+      : `<span class="goal no">목표까지 ${s.target - s.score}점</span>`;
+    return `<div class="row">
+      <div><div class="name">${esc(s.type)}${s.term ? ' ' + esc(s.term) : ''}</div><div class="meta">${s.date ? fmt(s.date) : ''}</div></div>
+      <div class="score">${s.score}</div>${goal}
+      ${s.weak ? `<div class="weak">보완할 단원: ${esc(s.weak)}</div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+function renderTimeline(){
+  const list = DATA.schedule.filter(x => x.date && dday(x.end || x.date) >= -7).slice(0, 6);
+  if (!list.length) { $('timeline').innerHTML = `<li class="empty">다가오는 일정이 없어요.</li>`; return; }
+  $('timeline').innerHTML = list.map(x => {
+    const d = x.date ? dday(x.date) : null;
+    const cls = [d !== null && d < 0 ? 'past' : '', EXAM_TYPES.includes(x.type) ? 'exam' : ''].join(' ');
+    return `<li class="${cls}">
+      <div class="tl-date">${fmt(x.date)}${d !== null && d >= 0 ? `<span class="tl-dd">${d===0?'오늘':'D-'+d}</span>` : ''}</div>
+      <div class="tl-title">${esc(x.title)}</div>
+      ${x.range ? `<div class="tl-note">범위: ${esc(x.range)}</div>` : ''}
+    </li>`;
+  }).join('');
+}
+
+function renderWeekly(){
+  const w = DATA.weekly;
+  if (!w) { $('weekly').innerHTML = `<p class="empty">이번 주 코멘트가 준비되면 여기에 표시돼요.</p>`; $('weekLabel').textContent=''; return; }
+  $('weekLabel').textContent = w.week ? `${fmt(w.week)} 주` : '';
+  $('weekly').innerHTML = `<div class="comment"><dl>
+    ${w.good ? `<dt>잘한 점</dt><dd>${esc(w.good)}</dd>` : ''}
+    ${w.improve ? `<dt>보완할 점</dt><dd>${esc(w.improve)}</dd>` : ''}
+    ${w.next ? `<dt>다음 주 목표</dt><dd>${esc(w.next)}</dd>` : ''}
+    ${w.attitude ? `<dt>수업 태도</dt><dd>${esc(w.attitude)}</dd>` : ''}
+  </dl></div>`;
+}
+
+function renderSchool(){
+  const i = DATA.schoolInfo || {};
+  const items = [['교과서',i.textbook],['부교재',i.subBook],['서술형 비중',i.essayRatio],['출제 경향',i.trend]].filter(x => x[1]);
+  $('schoolInfo').innerHTML = items.length
+    ? items.map(([k,v]) => `<dt>${k}</dt><dd>${esc(v)}</dd>`).join('')
+    : `<dd class="empty" style="grid-column:1/-1">학교 정보를 정리하고 있어요.</dd>`;
+}
+
+// ── 예시 데이터 ──
+function demoData(){
+  const add = n => { const d = today(); d.setDate(d.getDate()+n); return d.toISOString().slice(0,10); };
+  return {
+    student:{ name:'김서연', grade:'중2', school:'사하중학교' },
+    schoolInfo:{ textbook:'천재(정사열)', subBook:'학교 프린트, 교과서 평가문제집', essayRatio:'객관식 70 : 서술형 30', trend:'관계대명사·to부정사 서술형 영작이 매 시험 출제' },
+    schedule:[
+      { title:'입학식·개학', type:'학사일정', date:'2026-03-02' },
+      { title:'3월 전국연합 모의고사', type:'모의고사', date:'2026-03-24' },
+      { title:'영어 듣기평가', type:'수행평가', date:'2026-04-14', task:'교육청 영어듣기능력평가' },
+      { title:'1학기 중간고사', type:'중간고사', date:'2026-04-27', end:'2026-04-29', range:'교과서 1~2과, 학교 프린트' },
+      { title:'중간고사 대비 특강', type:'학원 특강·보강', date:'2026-04-18' },
+      { title:'영어 쓰기 수행평가', type:'수행평가', date:'2026-06-09', task:'나의 꿈 에세이 80단어' },
+      { title:'1학기 기말고사', type:'기말고사', date:'2026-07-01', end:'2026-07-03', range:'교과서 3~4과, 부교재 3~4과' },
+      { title:'여름방학', type:'학사일정', date:'2026-07-22', end:'2026-08-17' },
+      { title:'영어 말하기 수행평가', type:'수행평가', date:add(-5), task:'나의 롤모델 1분 발표' },
+      { title:'2학기 중간고사', type:'중간고사', date:'2026-09-22', end:'2026-09-24', range:'교과서 5과, 학교 프린트' },
+      { title:'시험 대비 주말 특강', type:'학원 특강·보강', date:add(6) },
+      { title:'영어 독후감 수행평가', type:'수행평가', date:add(16), task:'영어 원서 1권 읽고 감상문 작성' },
+      { title:'11월 전국연합 모의고사', type:'모의고사', date:'2026-11-18' },
+      { title:'2학기 기말고사', type:'기말고사', date:'2026-12-08', end:'2026-12-10', range:'교과서 6~7과, 부교재 5~7과, 학교 프린트', plan:'시험 3주 전부터 주 2회 기출 특강 + 서술형 첨삭' },
+      { title:'겨울방학', type:'학사일정', date:'2026-12-31', end:'2027-02-28' },
+    ],
+    notices:[
+      { title:'기말고사 대비 주말 특강 안내', level:'🔴 필독', date:add(-1), body:'토요일 오후 2시~5시, 학교별 기출 특강을 진행합니다.\n교과서와 학교 프린트를 꼭 챙겨 오세요.' },
+      { title:'10월 수업 일정 변경', level:'🟡 중요', date:add(-8), body:'개천절(10/3)은 휴원하며, 해당 수업은 10/10에 보강합니다.' },
+      { title:'단어 앱 업데이트', level:'⚪ 일반', date:add(-15), body:'단어 학습 앱에 쉐도잉 기능이 추가되었어요.' },
+    ],
+    scores:[
+      { type:'중간고사', term:'1학기', date:'2026-04-28', score:82, target:90, weak:'관계대명사 서술형' },
+      { type:'기말고사', term:'1학기', date:'2026-07-03', score:89, target:90, weak:'' },
+      { type:'중간고사', term:'2학기', date:'2026-09-24', score:94, target:92, weak:'' },
+      { type:'중간 모의고사', term:'2학기', date:'2026-09-05', score:78, target:85, weak:'빈칸 추론' },
+      ...[72,80,76,88,92,96].map((s,i)=>({ type:'단어시험', date:add(-30+i*5), score:s, target:90 })),
+      ...[70,85,80,90].map((s,i)=>({ type:'오늘의 미니테스트', date:add(-24+i*6), score:s, target:85 })),
+    ],
+    weekly:{ week:add(-6), good:'단어시험 3회 모두 통과! 서술형 문장 완성도가 눈에 띄게 좋아졌어요.', improve:'관계대명사 what과 that 구분을 한 번 더 정리해요.', next:'교과서 6과 본문 암기 + 서술형 10문장 영작', attitude:'매우 우수' },
+  };
+}
+</script>
+</body>
+</html>
