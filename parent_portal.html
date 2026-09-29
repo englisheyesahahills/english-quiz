@@ -247,10 +247,12 @@
 const API_URL = 'https://script.google.com/macros/s/AKfycbz7sx95x8OJD0_mXJu6qORXHUXWhnKsK_lbnGS_my23VROK69UXT8dTPXFAAfAZf1Gd7g/exec';
 
 const TABS = [
-  { key:'exam',  label:'중간·기말고사', types:['중간고사','기말고사'] },
-  { key:'mock',  label:'모의고사',       types:['중간 모의고사','기말 모의고사'] },
-  { key:'word',  label:'단어시험',       types:['단어시험'] },
-  { key:'mini',  label:'미니테스트',     types:['오늘의 미니테스트'] },
+  { key:'exam',    label:'중간·기말고사', types:['중간고사','기말고사'] },
+  { key:'mock',    label:'모의고사',       types:['중간 모의고사','기말 모의고사','모의고사'] },
+  { key:'word',    label:'단어시험',       types:['단어시험'] },
+  { key:'monthly', label:'월말평가',       types:['월말평가'] },
+  { key:'mini',    label:'미니테스트·퀴즈', types:['오늘의 미니테스트','퀴즈'] },
+  { key:'etc',     label:'수행·진단평가',  types:['수행평가','진단평가'] },
 ];
 const EXAM_TYPES = ['중간고사','기말고사','모의고사','수행평가'];
 const TYPE_COLOR = {
@@ -395,7 +397,10 @@ function renderMonthDetail(m){
 }
 
 function renderTabs(){
-  $('tabs').innerHTML = TABS.map(t =>
+  let tabs = TABS.filter(t => DATA.scores.some(s => t.types.includes(s.type)));
+  if (!tabs.length) tabs = [TABS[0]];
+  if (!tabs.some(t => t.key === currentTab)) currentTab = tabs[0].key;
+  $('tabs').innerHTML = tabs.map(t =>
     `<button role="tab" aria-selected="${t.key===currentTab}" data-k="${t.key}">${t.label}</button>`).join('');
   $('tabs').querySelectorAll('button').forEach(b => b.onclick = () => { currentTab = b.dataset.k; renderTabs(); renderScores(); });
 }
@@ -408,7 +413,9 @@ function renderScores(){
     $('rows').innerHTML = `<p class="empty">아직 ${tab.label} 기록이 없어요.</p>`;
     chart = null; return;
   }
-  const labels = list.map(s => currentTab === 'exam' || currentTab === 'mock' ? `${s.term} ${s.type.replace(' 모의고사','').replace('고사','')}`.trim() : short(s.date));
+  const labels = list.map(s => (currentTab === 'exam' || currentTab === 'mock') && s.term
+    ? `${s.term} ${s.type.replace(' 모의고사','').replace('고사','')}`.trim()
+    : short(s.date));
   chart = new Chart($('chart'), {
     type:'line',
     data:{ labels, datasets:[
@@ -420,11 +427,11 @@ function renderScores(){
   });
   $('rows').innerHTML = list.slice().reverse().slice(0,6).map(s => {
     const hasGoal = typeof s.target === 'number';
-    const goal = !hasGoal ? `<span class="goal none">목표 미설정</span>`
+    const goal = !hasGoal ? `<span></span>`
       : s.score >= s.target ? `<span class="goal ok">목표 달성</span>`
       : `<span class="goal no">목표까지 ${s.target - s.score}점</span>`;
     return `<div class="row">
-      <div><div class="name">${esc(s.type)}${s.term ? ' ' + esc(s.term) : ''}</div><div class="meta">${s.date ? fmt(s.date) : ''}</div></div>
+      <div><div class="name">${esc(s.type)}${s.term ? ' ' + esc(s.term) : ''}${s.unit ? ' · ' + esc(s.unit) : ''}</div><div class="meta">${s.date ? fmt(s.date) : ''}</div></div>
       <div class="score">${s.score}</div>${goal}
       ${s.weak ? `<div class="weak">보완할 단원: ${esc(s.weak)}</div>` : ''}
     </div>`;
