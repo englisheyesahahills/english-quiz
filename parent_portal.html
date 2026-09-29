@@ -56,6 +56,8 @@
   .ticket-kind{font-size:13px;font-weight:700;color:var(--burgundy)}
   .ticket-title{font-size:20px;font-weight:800;margin:2px 0 6px;line-height:1.35}
   .ticket-date{font-size:14px;color:var(--muted)}
+  .ticket-goal{display:inline-block;margin-top:8px;font-size:13px;font-weight:700;color:var(--navy);
+    background:#F6ECD9;border-radius:6px;padding:3px 9px}
   .ticket-d{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:112px;
     padding:16px;background:var(--navy);color:#fff;
     background-image:radial-gradient(circle at 0 50%,var(--paper) 0 9px,transparent 10px)}
@@ -316,7 +318,8 @@ function renderTicket(){
     <div class="ticket-main">
       <div class="ticket-kind">다음 ${esc(next.type)}</div>
       <div class="ticket-title">${esc(next.title)}</div>
-      <div class="ticket-date">${fmt(next.date)}</div>
+      <div class="ticket-date">${fmt(next.date)}${next.end ? ' ~ ' + fmt(next.end) : ''}</div>
+      ${DATA.student.goal && (next.type === '중간고사' || next.type === '기말고사') ? `<div class="ticket-goal">🎯 목표 ${DATA.student.goal}점</div>` : ''}
     </div>
     <div class="ticket-d"><span class="num">${d === 0 ? 'D-DAY' : 'D-' + d}</span><span class="cap">${d === 0 ? '오늘입니다' : d + '일 남았어요'}</span></div>
     ${next.range || next.task || next.plan ? `<div class="ticket-range">
