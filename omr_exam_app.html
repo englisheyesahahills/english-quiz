@@ -318,6 +318,13 @@ const CONFIG = {
 
 /* 앱 안에 내장된 시험 (Apps Script 없이도 열림) — 링크: ?exam=lee 또는 ?exam=yoon */
 const EMBEDDED = {
+  "그래머플러스 Lesson01-02": { totalQuestions: 30, numChoices: 4, answerKey: [1,2,1,3,4,2,1,2,1,3,4,3,3,1,2,1,3,2,2,3,1,3,3,4,2,4,1,4,4,3], skip: [], multi: {} },
+  "리딩 Unit02-04": { totalQuestions: 30, numChoices: 4, answerKey: [2,3,1,2,4,2,1,3,4,4,2,3,1,3,2,4,1,4,3,4,1,1,3,1,2,3,4,2,3,1], skip: [], multi: {} },
+  "Joy1A Unit1": { totalQuestions: 25, numChoices: 4, answerKey: [2,3,1,4,2,3,4,3,1,1,2,2,3,1,4,2,1,3,4,3,1,2,4,1,2], skip: [], multi: {} },
+  "리더스뱅크1 Unit1-2": { totalQuestions: 30, numChoices: 5, answerKey: [3,4,1,1,5,2,4,2,3,1,5,2,3,4,5,2,3,4,5,1,2,5,3,4,5,1,3,4,5,3], skip: [], multi: {} },
+  "토셀평가 베이직5회": { totalQuestions: 60, numChoices: 4, answerKey: [3,1,1,1,4,4,3,4,1,2,1,3,4,2,2,3,1,4,4,1,2,4,2,2,3,1,1,3,2,3,2,1,2,3,3,4,3,1,4,1,3,1,3,2,1,4,3,2,3,4,4,1,3,4,2,3,3,1,4,2], skip: [], multi: {} },
+  "토셀평가 스타터5회": { totalQuestions: 40, numChoices: 4, answerKey: [1,2,2,3,2,1,3,2,3,3,1,3,1,2,2,2,1,3,1,3,2,1,1,2,3,1,3,1,1,1,1,2,4,4,3,2,2,4,1,2], skip: [], multi: {} },
+  "토셀평가 베이직3회": { totalQuestions: 60, numChoices: 4, answerKey: [2,1,3,4,3,3,4,2,4,4,1,4,1,2,3,2,4,1,3,2,3,1,2,2,3,1,2,3,1,1,3,1,1,3,3,4,3,2,4,2,2,2,2,4,4,1,1,2,2,3,1,4,1,3,3,3,2,1,4,2], skip: [], multi: {} },
   "동아이병민 5과 중간고사 모의고사": {
     totalQuestions: 40, numChoices: 5,
     answerKey: [2,4,4,2,1,2,4,3,2,5,3,4,4,4,2,4,5,0,4,3,3,5,2,3,5,2,3,0,0,5,3,1,5,3,5,2,4,2,0,0],
@@ -329,7 +336,7 @@ const EMBEDDED = {
     skip: [18,28,29,39,40], multi: {}
   }
 };
-const EXAM_ALIAS = { lee: "동아이병민 5과 중간고사 모의고사", yoon: "동아윤정미 5과 중간고사 모의고사" };
+const EXAM_ALIAS = { readers: "리더스뱅크1 Unit1-2", lee: "동아이병민 5과 중간고사 모의고사", yoon: "동아윤정미 5과 중간고사 모의고사" };
 /* ===================================================================== */
 
 const state = { answers: {}, studentName: "", studentClass: "" };
