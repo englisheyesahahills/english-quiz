@@ -2,413 +2,599 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>OMR 시험 — 잉글리시아이 스텔라 영어학원</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>스텔라영어학원 · 디지털 OMR</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Noto Sans KR',sans-serif;background:#f0f4f8;min-height:100vh;}
-#loading{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;}
-.spinner{width:48px;height:48px;border:4px solid #e0e0e0;border-top-color:#1a5c3a;border-radius:50%;animation:spin 0.8s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-size:15px;color:#6b7280;}
-#exam-select{display:none;max-width:520px;margin:0 auto;padding:24px 16px;}
-.select-header{text-align:center;margin-bottom:28px;}
-.select-header .logo{font-size:11px;color:#9ca3af;letter-spacing:1px;margin-bottom:8px;}
-.select-header h1{font-size:22px;font-weight:900;color:#1a5c3a;}
-.select-header p{font-size:13px;color:#6b7280;margin-top:4px;}
-.exam-card{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:12px;cursor:pointer;border:2px solid transparent;transition:all 0.15s;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
-.exam-card:hover{border-color:#1a5c3a;box-shadow:0 4px 16px rgba(26,92,58,0.12);}
-.exam-card h3{font-size:16px;font-weight:700;color:#111;margin-bottom:4px;}
-.exam-card .meta{font-size:12px;color:#6b7280;display:flex;gap:12px;}
-#exam-screen{display:none;max-width:600px;margin:0 auto;padding:16px;}
-.exam-top{background:linear-gradient(135deg,#1a5c3a,#2d8a5a);border-radius:16px;padding:18px 20px;margin-bottom:16px;color:#fff;}
-.exam-top .exam-title{font-size:16px;font-weight:700;margin-bottom:8px;}
-.exam-top .exam-info{display:flex;justify-content:space-between;align-items:center;font-size:13px;opacity:0.85;}
-.timer{font-size:18px;font-weight:900;color:#ffd700;}
-#student-form{background:#fff;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
-#student-form h3{font-size:14px;font-weight:700;color:#1a5c3a;margin-bottom:12px;}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;}
-.form-group label{display:block;font-size:12px;color:#6b7280;margin-bottom:4px;font-weight:500;}
-.form-group input,.form-group select{width:100%;padding:9px 12px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:14px;font-family:'Noto Sans KR',sans-serif;outline:none;transition:border-color 0.15s;}
-.form-group input:focus,.form-group select:focus{border-color:#1a5c3a;}
-#answer-sheet{background:#fff;border-radius:14px;padding:20px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.06);}
-#answer-sheet h3{font-size:14px;font-weight:700;color:#1a5c3a;margin-bottom:14px;}
-.progress-bar{background:#e5e7eb;border-radius:10px;height:6px;margin-bottom:14px;}
-.progress-fill{background:#1a5c3a;height:6px;border-radius:10px;transition:width 0.3s;}
-.progress-text{font-size:11px;color:#6b7280;text-align:right;margin-top:4px;margin-bottom:10px;}
-.omr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;}
-.omr-row{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:8px;background:#f9fafb;}
-.omr-row.answered{background:#f0faf4;}
-.q-num{font-size:12px;font-weight:700;color:#374151;width:22px;text-align:right;flex-shrink:0;}
-.bubbles{display:flex;gap:4px;}
-.bubble{width:26px;height:26px;border-radius:50%;border:2px solid #d1d5db;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#6b7280;cursor:pointer;transition:all 0.12s;flex-shrink:0;}
-.bubble:hover{border-color:#1a5c3a;color:#1a5c3a;}
-.bubble.selected{background:#1a5c3a;border-color:#1a5c3a;color:#fff;}
-.submit-btn{width:100%;padding:14px;background:#1a5c3a;color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:background 0.15s;margin-bottom:20px;}
-.submit-btn:hover{background:#145030;}
-.submit-btn:disabled{background:#9ca3af;cursor:not-allowed;}
-#result-screen{display:none;max-width:480px;margin:0 auto;padding:24px 16px;}
-.result-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,0.1);}
-.result-header{padding:28px 24px;text-align:center;}
-.result-header.pass{background:linear-gradient(135deg,#1a5c3a,#2d8a5a);}
-.result-header.fail{background:linear-gradient(135deg,#991b1b,#dc2626);}
-.result-emoji{font-size:52px;margin-bottom:8px;}
-.result-score{font-size:48px;font-weight:900;color:#fff;}
-.result-pct{font-size:16px;color:rgba(255,255,255,0.8);margin-top:4px;}
-.result-body{padding:20px 24px;}
-.result-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f0f0;font-size:14px;}
-.result-row:last-child{border-bottom:none;}
-.result-row .label{color:#6b7280;}
-.result-row .value{font-weight:600;color:#111;}
-.result-msg{background:#f0faf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;margin-top:14px;font-size:13px;color:#166534;text-align:center;line-height:1.6;}
-.result-msg.fail-msg{background:#fef2f2;border-color:#fecaca;color:#991b1b;}
-.retry-btn{width:100%;padding:12px;background:#f3f4f6;color:#374151;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:'Noto Sans KR',sans-serif;margin-top:14px;}
-.wrong-list{margin-top:14px;}
-.wrong-title{font-size:13px;font-weight:700;color:#374151;margin-bottom:8px;}
-.wrong-item{display:flex;align-items:center;gap:8px;font-size:13px;padding:6px 10px;background:#fef2f2;border-radius:6px;margin-bottom:4px;}
-.wrong-item .wq{color:#dc2626;font-weight:700;width:60px;}
-.saving-msg{text-align:center;font-size:12px;color:#6b7280;margin-top:8px;}
-.error-box{text-align:center;padding:40px 20px;color:#6b7280;font-size:14px;line-height:1.8;}
+  :root{
+    --paper: #F1F2EC;
+    --paper-line: #D8DACE;
+    --ink: #1C2438;
+    --ink-soft: #5A6072;
+    --stamp: #B23A2E;
+    --stamp-soft: #B23A2E22;
+    --done: #3E6259;
+    --done-soft: #3E625918;
+    --warn: #C97A2B;
+    --white: #FFFFFF;
+    --radius: 4px;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+  html,body{margin:0; padding:0; background:var(--paper); color:var(--ink);
+    font-family: 'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+    min-height:100vh;}
+  .mono{font-family:'IBM Plex Mono','Roboto Mono',monospace;}
+
+  /* ---------- header ---------- */
+  header{
+    position: sticky; top:0; z-index:20;
+    background: var(--paper);
+    border-bottom: 1px solid var(--paper-line);
+    padding: 14px 18px 10px;
+  }
+  .exam-title{ font-size: 15px; font-weight:700; letter-spacing:.02em; }
+  .exam-sub{ font-size:12px; color:var(--ink-soft); margin-top:2px;}
+  .progress-track{
+    margin-top:10px; height:5px; background:var(--paper-line); border-radius:3px; overflow:hidden;
+  }
+  .progress-fill{ height:100%; background:var(--stamp); width:0%; transition:width .25s ease; }
+
+  .navgrid{
+    margin-top:12px; display:flex; flex-wrap:wrap; gap:6px;
+  }
+  .navdot{
+    width:26px; height:26px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:11px; font-family:'IBM Plex Mono',monospace;
+    border:1.5px solid var(--paper-line); background:var(--white); color:var(--ink-soft);
+    cursor:pointer; transition: all .15s ease; flex-shrink:0;
+  }
+  .navdot.answered{ background:var(--stamp); border-color:var(--stamp); color:#fff; }
+  .navdot.current{ box-shadow: 0 0 0 2px var(--ink); }
+
+  /* ---------- question list ---------- */
+  main{ max-width: 480px; margin: 0 auto; padding: 6px 16px 120px; }
+  .qcard{
+    padding: 18px 2px 20px;
+    border-bottom: 1px dashed var(--paper-line);
+    scroll-margin-top: 150px;
+  }
+  .qhead{ display:flex; align-items:baseline; gap:10px; margin-bottom:12px; }
+  .qnum{ font-family:'IBM Plex Mono',monospace; font-size:20px; font-weight:700; color:var(--ink); min-width:34px; }
+  .qflag{ font-size:11px; color:var(--stamp); font-weight:600; visibility:hidden; }
+  .qflag.show{ visibility:visible; }
+
+  .choices{ display:flex; gap:10px; flex-wrap:wrap; }
+  .choice{
+    position:relative;
+    width:44px; height:44px; border-radius:50%;
+    border: 2px solid var(--ink); background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:600; color:var(--ink);
+    cursor:pointer; transition: transform .1s ease;
+  }
+  .choice:active{ transform: scale(.92); }
+  .choice.selected{
+    color: transparent;
+    border-color: var(--stamp);
+  }
+  .choice.selected::before{
+    content:''; position:absolute; inset:3px; border-radius:50%;
+    background: var(--stamp);
+    clip-path: polygon(8% 22%, 92% 10%, 96% 88%, 4% 96%); /* irregular ink-stamp edge */
+    opacity:.92;
+  }
+  .choice.selected::after{
+    content: attr(data-label);
+    position:absolute; color:#fff; font-family:'IBM Plex Mono',monospace; font-size:15px; font-weight:700;
+  }
+
+  /* ---------- footer / submit ---------- */
+  footer{
+    position: fixed; bottom:0; left:0; right:0; z-index:20;
+    background: var(--white); border-top:1px solid var(--paper-line);
+    padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+    display:flex; align-items:center; gap:12px;
+  }
+  .fill-status{ font-size:12px; color:var(--ink-soft); flex:1; }
+  .fill-status b{ color:var(--ink); }
+  .submit-btn{
+    background:var(--ink); color:#fff; border:none; border-radius: var(--radius);
+    padding: 12px 22px; font-size:14px; font-weight:700; cursor:pointer;
+    letter-spacing:.02em;
+  }
+  .submit-btn:active{ transform: translateY(1px); }
+
+  /* ---------- modal ---------- */
+  .overlay{
+    position:fixed; inset:0; background: rgba(28,36,56,.55); z-index:50;
+    display:none; align-items:center; justify-content:center; padding:24px;
+  }
+  .overlay.show{ display:flex; }
+  .modal{
+    background:#fff; border-radius:6px; padding:22px 20px; max-width:360px; width:100%;
+    box-shadow: 0 12px 30px rgba(0,0,0,.2);
+  }
+  .modal h3{ margin:0 0 8px; font-size:16px; }
+  .modal p{ margin:0 0 16px; font-size:13px; color:var(--ink-soft); line-height:1.55; }
+  .modal .missing{ color:var(--warn); font-weight:700; }
+  .modal-actions{ display:flex; gap:8px; justify-content:flex-end; }
+  .btn-ghost{ background:none; border:1px solid var(--paper-line); border-radius:4px; padding:9px 14px; font-size:13px; cursor:pointer; color:var(--ink-soft);}
+  .btn-primary{ background:var(--stamp); color:#fff; border:none; border-radius:4px; padding:9px 16px; font-size:13px; font-weight:700; cursor:pointer;}
+
+  /* ---------- start screen ---------- */
+  #startScreen{
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    padding: 24px; text-align:center;
+  }
+  #startScreen .start-title{ font-size:18px; font-weight:700; margin-bottom:6px; }
+  #startScreen .start-sub{ font-size:13px; color:var(--ink-soft); margin-bottom:28px; }
+  #startScreen input{
+    width:100%; max-width:280px; padding:13px 14px; font-size:15px;
+    border:1.5px solid var(--ink); border-radius:4px; background:#fff; color:var(--ink);
+    font-family:'Pretendard',sans-serif; text-align:center;
+  }
+  #startScreen input:focus{ outline:none; border-color:var(--stamp); }
+  #startScreen .start-btn{
+    margin-top:16px; background:var(--ink); color:#fff; border:none; border-radius:4px;
+    padding:13px 32px; font-size:14px; font-weight:700; cursor:pointer; letter-spacing:.02em;
+  }
+  #startScreen .start-warn{ color:var(--stamp); font-size:12px; margin-top:10px; visibility:hidden; }
+  #startScreen .start-warn.show{ visibility:visible; }
+  #examContainer{ display:none; }
+
+  /* ---------- result screen ---------- */
+  #resultScreen{ display:none; max-width:480px; margin:0 auto; padding:28px 18px 60px; }
+  .score-block{ text-align:center; padding: 26px 0 20px; border-bottom:1px solid var(--paper-line); margin-bottom:18px;}
+  .score-num{ font-family:'IBM Plex Mono',monospace; font-size:44px; font-weight:700; color:var(--ink); }
+  .score-label{ font-size:12px; color:var(--ink-soft); margin-top:4px;}
+  .review-row{
+    display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--paper-line);
+    font-size:13px;
+  }
+  .review-row .rq{ font-family:'IBM Plex Mono',monospace; font-weight:700; width:28px;}
+  .tag-correct{ color:var(--done); font-weight:700; }
+  .tag-wrong{ color:var(--stamp); font-weight:700; }
+  .pending-note{
+    background: var(--done-soft); border:1px solid var(--done); color:var(--done);
+    border-radius:6px; padding:14px 16px; font-size:13px; line-height:1.6; margin-top:6px;
+  }
+
+  /* ---------- 오답노트 ---------- */
+  .note-h{ font-size:15px; font-weight:700; margin:22px 0 4px; }
+  .note-sub{ font-size:12px; color:var(--ink-soft); line-height:1.6; margin-bottom:12px; }
+  .btn-line{ background:#fff; border:1.5px solid var(--ink); color:var(--ink); border-radius:4px; padding:10px 14px; font-size:13px; font-weight:700; cursor:pointer; }
+  .btn-line:active{ transform:translateY(1px); }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin:10px 0 4px; }
+  .chip{ min-width:40px; padding:8px 10px; text-align:center; border-radius:20px; border:1.5px solid var(--stamp); color:var(--stamp); background:#fff; font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:13px; cursor:pointer; }
+  .chip.added{ background:var(--stamp); color:#fff; }
+  .add-row{ display:flex; gap:8px; margin-top:12px; }
+  .add-row input{ flex:1; padding:10px 12px; font-size:14px; border:1.5px solid var(--paper-line); border-radius:4px; background:#fff; font-family:'IBM Plex Mono',monospace; }
+  .ncard{ background:#fff; border:1px solid var(--paper-line); border-left:4px solid var(--stamp); border-radius:6px; padding:14px; margin-top:12px; }
+  .ncard-head{ display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+  .ncard-q{ font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:700; }
+  .ncard-my{ font-size:12px; color:var(--ink-soft); flex:1; }
+  .ncard-del{ background:none; border:none; color:var(--ink-soft); font-size:18px; cursor:pointer; }
+  .ncard label{ display:block; font-size:12px; color:var(--ink-soft); margin:8px 0 4px; font-weight:600; }
+  .ncard textarea{ width:100%; min-height:70px; padding:10px; font-size:14px; border:1.5px solid var(--paper-line); border-radius:4px; font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',sans-serif; resize:vertical; }
+  .retry-row{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .rbtn{ width:38px; height:38px; border-radius:50%; border:2px solid var(--ink); background:#fff; font-family:'IBM Plex Mono',monospace; font-weight:700; cursor:pointer; }
+  .rbtn.picked{ background:var(--ink); color:#fff; }
+  .reveal{ margin-top:10px; font-size:13px; padding:10px 12px; border-radius:4px; display:none; }
+  .reveal.ok{ display:block; background:var(--done-soft); color:var(--done); border:1px solid var(--done); }
+  .reveal.no{ display:block; background:var(--stamp-soft); color:var(--stamp); border:1px solid var(--stamp); }
+  .print-row{ margin-top:22px; text-align:center; }
+  .wcard{ background:#fff; border:1px solid var(--paper-line); border-left:4px solid var(--stamp); border-radius:6px; padding:12px 14px; margin-top:10px; }
+  .wcard-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  .wq{ font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:700; }
+  .wans{ font-size:13px; flex:1; }
+  .wans .mine{ color:var(--stamp); font-weight:700; } .wans .right{ color:var(--done); font-weight:700; }
+  .exp{ margin-top:8px; font-size:13px; line-height:1.65; background:var(--done-soft); border-radius:4px; padding:9px 11px; color:var(--ink); }
+  .wadd{ margin-top:8px; }
+  .wadd button{ padding:6px 12px; font-size:12px; }
+  .wsum{ font-size:13px; font-weight:700; margin:16px 0 2px; }
+  #resultScreen:not(.revealed) .ans-block{ display:none; }
+  .ans-block{ margin:0 0 8px; }
+  @media print{ .no-print{ display:none !important; } body{ background:#fff; } }
 </style>
 </head>
 <body>
 
-<div id="loading">
-  <div class="spinner"></div>
-  <div class="loading-text">시험 정보를 불러오는 중...</div>
+<div id="startScreen">
+  <div class="start-title" id="startTitle">시험 이름</div>
+  <div class="start-sub" id="startSub">이름을 입력하고 시작하세요</div>
+  <input type="text" id="nameInput" placeholder="이름을 입력하세요" maxlength="20">
+  <select id="classInput" style="margin-top:10px; width:100%; max-width:280px; padding:12px 14px; font-size:15px; border:1.5px solid var(--ink); border-radius:4px; background:#fff; color:var(--ink); font-family:'Pretendard',sans-serif; text-align:center;">
+    <option value="">반을 선택하세요</option>
+    <option value="A-1">A-1</option>
+    <option value="A-2">A-2</option>
+    <option value="A-3">A-3</option>
+    <option value="A-4">A-4</option>
+    <option value="A-5">A-5</option>
+    <option value="B-1">B-1</option>
+    <option value="B-2">B-2</option>
+    <option value="B-3">B-3</option>
+    <option value="B-4">B-4</option>
+    <option value="B-5">B-5</option>
+    <option value="C-1">C-1</option>
+    <option value="C-2">C-2</option>
+    <option value="C-3">C-3</option>
+    <option value="C-4">C-4</option>
+    <option value="C-5">C-5</option>
+    <option value="D-1">D-1</option>
+    <option value="D-2">D-2</option>
+    <option value="D-3">D-3</option>
+    <option value="D-4">D-4</option>
+    <option value="D-5">D-5</option>
+    <option value="유치부">유치부</option>
+    <option value="중등부1">중등부1</option>
+    <option value="중등부2">중등부2</option>
+    <option value="중등부3">중등부3</option>
+    <option value="중등부4">중등부4</option>
+    <option value="중등부5">중등부5</option>
+  </select>
+  <div class="start-warn" id="startWarn">이름과 반을 모두 선택해야 시작할 수 있어요</div>
+  <button class="start-btn" id="startBtn">시작하기</button>
 </div>
 
-<div id="exam-select">
-  <div class="select-header">
-    <div class="logo">ENGLISHEYE STELLA 영어학원</div>
-    <h1>📋 시험 선택</h1>
-    <p>응시할 시험을 선택해 주세요</p>
-  </div>
-  <div id="exam-list"></div>
+<div id="examContainer">
+  <header>
+    <div class="exam-title" id="examTitle">시험 이름</div>
+    <div class="exam-sub" id="examSub">총 0문항 · 아래에서 답을 선택하세요</div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="navgrid" id="navGrid"></div>
+  </header>
+
+  <main id="qList"></main>
+
+  <footer id="footerBar">
+    <div class="fill-status"><b id="answeredCount">0</b> / <span id="totalCount">0</span> 문항 완료</div>
+    <button class="submit-btn" id="submitBtn">제출하기</button>
+  </footer>
 </div>
 
-<div id="exam-screen">
-  <div class="exam-top">
-    <div class="exam-title" id="exam-title-display"></div>
-    <div class="exam-info">
-      <span id="exam-meta"></span>
-      <span class="timer" id="timer-display">--:--</span>
+<div class="overlay" id="warnOverlay">
+  <div class="modal">
+    <h3>아직 안 푼 문항이 있어요</h3>
+    <p><span class="missing" id="missingList"></span> 번 문항이 비어있습니다. 계속 진행할까요?</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="warnBack">돌아가서 마저 풀기</button>
+      <button class="btn-primary" id="warnProceed">그래도 제출</button>
     </div>
   </div>
-  <div id="student-form">
-    <h3>👤 학생 정보 입력</h3>
-    <div class="form-row">
-      <div class="form-group">
-        <label>이름</label>
-        <input type="text" id="student-name" placeholder="이름 입력">
-      </div>
-      <div class="form-group">
-        <label>반</label>
-        <select id="student-class">
-          <option value="">반 선택</option>
-          <option value="A">A반</option>
-          <option value="B">B반</option>
-          <option value="C">C반</option>
-          <option value="D">D반</option>
-        </select>
-      </div>
-    </div>
-  </div>
-  <div id="answer-sheet">
-    <h3>📝 답안 마킹</h3>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
-    <div class="progress-text" id="progress-text">0 / 0 문제 완료</div>
-    <div class="omr-grid" id="omr-grid"></div>
-  </div>
-  <button class="submit-btn" id="submit-btn" onclick="submitExam()">제출하기</button>
 </div>
 
-<div id="result-screen">
-  <div class="result-card">
-    <div class="result-header" id="result-header">
-      <div class="result-emoji" id="result-emoji">🎉</div>
-      <div class="result-score" id="result-score">-/-</div>
-      <div class="result-pct" id="result-pct"></div>
+<div class="overlay" id="confirmOverlay">
+  <div class="modal">
+    <h3>제출하시겠어요?</h3>
+    <p>제출 후에는 답안을 수정할 수 없습니다.</p>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="confirmCancel">취소</button>
+      <button class="btn-primary" id="confirmOk">제출 확정</button>
     </div>
-    <div class="result-body">
-      <div class="result-row"><span class="label">이름</span><span class="value" id="res-name">-</span></div>
-      <div class="result-row"><span class="label">반</span><span class="value" id="res-class">-</span></div>
-      <div class="result-row"><span class="label">시험명</span><span class="value" id="res-exam">-</span></div>
-      <div class="result-row"><span class="label">정답</span><span class="value" id="res-correct">-</span></div>
-      <div class="result-row"><span class="label">오답</span><span class="value" id="res-wrong">-</span></div>
-      <div id="result-msg-box"></div>
-      <div class="wrong-list" id="wrong-list"></div>
-      <div class="saving-msg" id="saving-msg"></div>
-      <button class="retry-btn" onclick="location.reload()">🔄 처음으로</button>
-    </div>
+  </div>
+</div>
+
+<div id="resultScreen">
+  <div class="score-block">
+    <div class="score-num" id="scoreNum">-</div>
+    <div class="score-label" id="scoreLabel">채점 결과</div>
+    <div class="score-label" id="wrongCountLabel" style="margin-top:8px;"></div>
+  </div>
+
+  <div id="noteArea">
+    <button class="btn-line no-print" id="showWrongBtn" style="width:100%;">내가 틀린 번호 확인하기 (정답·해설 보기)</button>
+    <div id="wrongDetail" style="display:none;"></div>
+    <div class="note-sub" id="paperHint" style="display:none; margin-top:16px;">✏️ 틀린 문제는 시험지에 직접 필기해 보세요.</div>
+  </div>
+
+  <div id="pendingNote" class="pending-note" style="display:none;">
+    정답키가 아직 등록되지 않아 자동채점 결과를 보여드릴 수 없어요. 학생 답안은 정상적으로 기록되었으니, 선생님이 정답을 등록하면 다시 확인할 수 있습니다.
   </div>
 </div>
 
 <script>
-// ── 앱스크립트 URL (노션과 직접 연동) ──
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyHtQYr3kVeHV-vuBs1mNACcWDQveRHXehuohfcwEH0x2Zcnewnimv8XNOXHURpwFaE/exec';
+/* =====================================================================
+   시험마다 이 부분만 수정해서 재사용하세요.
+   - answerKey를 비워두면(:[]) 채점 없이 답안만 기록/표시됩니다.
+   - submitUrl에 Apps Script 배포 URL을 넣으면 Notion으로 자동 저장됩니다.
+   ===================================================================== */
+/* =====================================================================
+   시험명/문항수/정답키는 이제 Notion "OMR 시험 설정" DB에서 실시간으로 불러옵니다.
+   시험이 바뀔 때마다 이 파일을 다시 올릴 필요 없이, Notion에서 새 행을 만들고
+   "활성" 체크박스만 켜주면 됩니다 (이전 시험은 활성 체크 해제).
+   ===================================================================== */
+const CONFIG = {
+  studentPlaceholder: "이름을 입력하세요",
+  configUrl: "https://script.google.com/macros/s/AKfycbyHtQYr3kVeHV-vuBs1mNACcWDQveRHXehuohfcwEH0x2Zcnewnimv8XNOXHURpwFaE/exec?action=getConfig",
+  submitUrl: "https://script.google.com/macros/s/AKfycbyHtQYr3kVeHV-vuBs1mNACcWDQveRHXehuohfcwEH0x2Zcnewnimv8XNOXHURpwFaE/exec",
+  // 아래는 Notion 설정을 못 불러올 때 쓰이는 예비값입니다.
+  examName: "시험 준비 중",
+  totalQuestions: 5,
+  numChoices: 4,
+  answerKey: [],
+  skip: [],      // 서술형 번호 (OMR에서 제외)
+  multi: {}      // 복수정답 {번호:[정답들]}
+};
 
-let currentExam = null;
-let answers = [];
-let timerInterval = null;
+/* 앱 안에 내장된 시험 (Apps Script 없이도 열림) — 링크: ?exam=lee 또는 ?exam=yoon */
+const EMBEDDED = {
+  "동아이병민 5과 중간고사 모의고사": {
+    totalQuestions: 40, numChoices: 5,
+    answerKey: [2,4,4,2,1,2,4,3,2,5,3,4,4,4,2,4,5,0,4,3,3,5,2,3,5,2,3,0,0,5,3,1,5,3,5,2,4,2,0,0],
+    skip: [18,28,29,39,40], multi: {23:[2,3]}
+  },
+  "동아윤정미 5과 중간고사 모의고사": {
+    totalQuestions: 40, numChoices: 5,
+    answerKey: [2,3,3,2,4,1,3,1,5,3,2,2,2,5,3,3,4,0,4,4,4,2,4,3,2,3,2,0,0,4,4,2,2,1,5,3,2,4,0,0],
+    skip: [18,28,29,39,40], multi: {}
+  }
+};
+const EXAM_ALIAS = { lee: "동아이병민 5과 중간고사 모의고사", yoon: "동아윤정미 5과 중간고사 모의고사" };
+/* ===================================================================== */
 
-// ── 노션에서 활성화된 시험 목록 가져오기 (앱스크립트 doGet 활용) ──
-async function loadExams() {
-  // 내장 데이터 직접 반환 (가장 안정적)
-  return Object.values(BUILT_IN_EXAMS).map(e => ({
-    name: e.examName, total: e.totalQuestions,
-    choices: e.numChoices, time: e.time, keyArr: e.answerKey
-  }));
-  try {
-    const _unused = true; // 아래 코드는 사용 안 함
-    const res = await fetch(GAS_URL + '?action=list', { method: 'GET' });
+const state = { answers: {}, studentName: "", studentClass: "" };
+const isSkip = (i) => (CONFIG.skip||[]).includes(i);
+const objCount = () => CONFIG.totalQuestions - (CONFIG.skip||[]).length;
+const isRight = (i, my) => my != null && (my === CONFIG.answerKey[i-1] || ((CONFIG.multi||{})[i]||[]).includes(my));
+const keyText = (i) => ((CONFIG.multi||{})[i] || [CONFIG.answerKey[i-1]]).join(', ');
+
+async function loadConfigAndInit(){
+  document.getElementById('startTitle').textContent = "불러오는 중...";
+  try{
+    const params = new URLSearchParams(window.location.search);
+    let examParam = params.get('exam'); // 링크에 ?exam=시험명 이 있으면 그 시험을 지정 조회
+    if(examParam && EXAM_ALIAS[examParam]) examParam = EXAM_ALIAS[examParam];
+    if(examParam && EMBEDDED[examParam]){
+      Object.assign(CONFIG, EMBEDDED[examParam], {examName: examParam});
+      init(); return;
+    }
+    let url = CONFIG.configUrl;
+    if(examParam) url += '&examName=' + encodeURIComponent(examParam);
+
+    const res = await fetch(url);
     const data = await res.json();
-    if (data && Array.isArray(data)) return data;
-    if (data && data.examName) return [data];
-    return [];
-  } catch(e) {
-    console.error('시험 목록 로드 실패:', e);
-    return [];
+    if(data && !data.error){
+      CONFIG.examName = data.examName;
+      CONFIG.totalQuestions = data.totalQuestions;
+      CONFIG.numChoices = data.numChoices || 4;
+      CONFIG.answerKey = data.answerKey || [];
+    }
+  }catch(err){
+    console.error('시험 설정을 불러오지 못했습니다:', err);
+  }
+  init();
+}
+
+function init(){
+  document.getElementById('startTitle').textContent = CONFIG.examName;
+  document.getElementById('startSub').textContent = `총 ${CONFIG.totalQuestions}문항${CONFIG.skip.length?` (OMR 객관식 ${objCount()}문항 · 서술형 ${CONFIG.skip.join(', ')}번 제외)`:''} · 이름을 입력하고 시작하세요`;
+  document.getElementById('nameInput').placeholder = CONFIG.studentPlaceholder;
+
+  document.getElementById('examTitle').textContent = CONFIG.examName;
+  document.getElementById('examSub').textContent = `총 ${CONFIG.totalQuestions}문항 · 자유롭게 이동하며 답을 고르고 마지막에 제출하세요`;
+  document.getElementById('totalCount').textContent = objCount();
+
+  renderNav();
+  renderQuestions();
+  updateProgress();
+}
+
+document.getElementById('startBtn').onclick = () => {
+  const name = document.getElementById('nameInput').value.trim();
+  const cls = document.getElementById('classInput').value;
+  if(!name || !cls){
+    document.getElementById('startWarn').classList.add('show');
+    return;
+  }
+  state.studentName = name;
+  state.studentClass = cls;
+  document.getElementById('startScreen').style.display = 'none';
+  document.getElementById('examContainer').style.display = 'block';
+};
+document.getElementById('nameInput').addEventListener('keydown', (e) => {
+  if(e.key === 'Enter') document.getElementById('startBtn').click();
+});
+
+function renderNav(){
+  const nav = document.getElementById('navGrid');
+  nav.innerHTML = '';
+  for(let i=1;i<=CONFIG.totalQuestions;i++){
+    const d = document.createElement('div');
+    d.className = 'navdot';
+    d.id = `nav-${i}`;
+    d.textContent = i;
+    if(isSkip(i)){ d.classList.add('answered'); d.style.opacity='0.35'; }
+    d.onclick = () => document.getElementById(`q-${i}`).scrollIntoView({behavior:'smooth', block:'center'});
+    nav.appendChild(d);
   }
 }
 
-// 내장 시험 데이터
-const BUILT_IN_EXAMS = {
-  '토셀평가 스타터5회': {
-    examName: '토셀평가 스타터5회', totalQuestions: 40, numChoices: 4, time: 40,
-    answerKey: [1,2,2,3,2,1,3,2,3,3,1,3,1,2,2,2,1,3,1,3,2,1,1,2,3,1,3,1,1,1,1,2,4,4,3,2,2,4,1,2]
-  },
-  '토셀평가 베이직5회': {
-    examName: '토셀평가 베이직5회', totalQuestions: 60, numChoices: 4, time: 60,
-    answerKey: [3,1,1,1,4,4,3,4,1,2,1,3,4,2,2,3,1,4,4,1,2,4,2,2,3,1,1,3,2,3,2,1,2,3,3,4,3,1,4,1,3,1,3,2,1,4,3,2,3,4,4,1,3,4,2,3,3,1,4,2]
+function renderQuestions(){
+  const list = document.getElementById('qList');
+  list.innerHTML = '';
+  for(let i=1;i<=CONFIG.totalQuestions;i++){
+    const card = document.createElement('div');
+    card.className = 'qcard';
+    card.id = `q-${i}`;
+
+    if(isSkip(i)){
+      card.innerHTML = `<div class="qhead"><span class="qnum">${String(i).padStart(2,'0')}</span></div><div style="color:#888;font-size:14px;padding:6px 0;">✏️ 서술형 문항 · 시험지에 직접 쓰세요 (OMR 입력 없음)</div>`;
+      list.appendChild(card); continue;
+    }
+    const head = document.createElement('div');
+    head.className = 'qhead';
+    head.innerHTML = `<span class="qnum">${String(i).padStart(2,'0')}</span><span class="qflag" id="flag-${i}">미응답</span>`;
+    card.appendChild(head);
+
+    const choices = document.createElement('div');
+    choices.className = 'choices';
+    for(let c=1;c<=CONFIG.numChoices;c++){
+      const btn = document.createElement('button');
+      btn.className = 'choice';
+      btn.dataset.label = c;
+      btn.textContent = c;
+      btn.onclick = () => selectAnswer(i, c);
+      btn.id = `choice-${i}-${c}`;
+      choices.appendChild(btn);
+    }
+    card.appendChild(choices);
+    list.appendChild(card);
+  }
+}
+
+function selectAnswer(qNum, choice){
+  state.answers[qNum] = choice;
+  for(let c=1;c<=CONFIG.numChoices;c++){
+    document.getElementById(`choice-${qNum}-${c}`).classList.toggle('selected', c===choice);
+  }
+  document.getElementById(`nav-${qNum}`).classList.add('answered');
+  document.getElementById(`flag-${qNum}`).classList.remove('show');
+  updateProgress();
+}
+
+function updateProgress(){
+  const answered = Object.keys(state.answers).length;
+  const pct = (answered / objCount()) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('answeredCount').textContent = answered;
+}
+
+function getMissing(){
+  const missing = [];
+  for(let i=1;i<=CONFIG.totalQuestions;i++){
+    if(!isSkip(i) && !state.answers[i]) missing.push(i);
+  }
+  return missing;
+}
+
+document.getElementById('submitBtn').onclick = () => {
+  const missing = getMissing();
+  if(missing.length > 0){
+    document.getElementById('missingList').textContent = missing.join(', ');
+    missing.forEach(n => document.getElementById(`flag-${n}`).classList.add('show'));
+    document.getElementById('warnOverlay').classList.add('show');
+  } else {
+    document.getElementById('confirmOverlay').classList.add('show');
   }
 };
 
-// ── 특정 시험 데이터 가져오기 ──
-async function loadExamByName(examName) {
-  // 내장 데이터 먼저 확인
-  if (BUILT_IN_EXAMS[examName]) return BUILT_IN_EXAMS[examName];
-  // GAS에서 시도
-  try {
-    const res = await fetch(GAS_URL + '?examName=' + encodeURIComponent(examName), { method: 'GET' });
-    const data = await res.json();
-    if (data && data.examName) return data;
-    return null;
-  } catch(e) {
-    return null;
-  }
-}
+document.getElementById('warnBack').onclick = () => {
+  document.getElementById('warnOverlay').classList.remove('show');
+  const missing = getMissing();
+  if(missing.length) document.getElementById(`q-${missing[0]}`).scrollIntoView({behavior:'smooth', block:'center'});
+};
+document.getElementById('warnProceed').onclick = () => {
+  document.getElementById('warnOverlay').classList.remove('show');
+  document.getElementById('confirmOverlay').classList.add('show');
+};
+document.getElementById('confirmCancel').onclick = () => {
+  document.getElementById('confirmOverlay').classList.remove('show');
+};
+document.getElementById('confirmOk').onclick = () => {
+  document.getElementById('confirmOverlay').classList.remove('show');
+  submitExam();
+};
 
-// ── 초기화 ──
-async function init() {
-  const params = new URLSearchParams(location.search);
-  const examName = params.get('exam');
-
-  document.getElementById('loading').querySelector('.loading-text').textContent = '노션에서 시험 정보를 가져오는 중...';
-
-  if (examName) {
-    // 특정 시험 직접 로드
-    const exam = await loadExamByName(examName);
-    document.getElementById('loading').style.display = 'none';
-    if (exam) {
-      startExam({
-        name: exam.examName,
-        total: exam.totalQuestions,
-        choices: exam.numChoices || 4,
-        time: exam.time || 40,
-        keyArr: exam.answerKey
-      });
-    } else {
-      showError('시험을 찾을 수 없습니다. 시험명을 확인해 주세요.');
-    }
-    return;
-  }
-
-  // 활성화된 시험 전체 로드
-  const raw = await loadExamByName('');
-  document.getElementById('loading').style.display = 'none';
-
-  if (raw && raw.examName) {
-    // 단일 시험
-    startExam({
-      name: raw.examName,
-      total: raw.totalQuestions,
-      choices: raw.numChoices || 4,
-      time: raw.time || 40,
-      keyArr: raw.answerKey
-    });
-  } else {
-    // 시험 없음
-    document.getElementById('exam-select').style.display = 'block';
-    document.getElementById('exam-list').innerHTML =
-      '<div class="error-box">활성화된 시험이 없습니다.<br>노션 OMR 시험 설정에서<br>시험을 활성화해 주세요.</div>';
-  }
-}
-
-function showError(msg) {
-  document.getElementById('exam-select').style.display = 'block';
-  document.getElementById('exam-list').innerHTML = `<div class="error-box">⚠️ ${msg}</div>`;
-}
-
-// ── 시험 시작 ──
-function startExam(exam) {
-  currentExam = exam;
-  answers = new Array(exam.total).fill(0);
-  document.getElementById('exam-select').style.display = 'none';
-  document.getElementById('exam-screen').style.display = 'block';
-  document.getElementById('exam-title-display').textContent = exam.name;
-  document.getElementById('exam-meta').textContent = `총 ${exam.total}문항 · ${exam.choices}지선다`;
-  document.getElementById('progress-text').textContent = `0 / ${exam.total} 문제 완료`;
-  buildOMR(exam.total, exam.choices);
-  startTimer(exam.time || 40);
-}
-
-// ── OMR 답안지 생성 ──
-function buildOMR(total, choices) {
-  const grid = document.getElementById('omr-grid');
-  grid.innerHTML = '';
-  for (let i = 1; i <= total; i++) {
-    const row = document.createElement('div');
-    row.className = 'omr-row';
-    row.id = 'row' + i;
-    let bubblesHtml = '';
-    for (let c = 1; c <= choices; c++) {
-      bubblesHtml += `<div class="bubble" id="b${i}_${c}" onclick="selectAnswer(${i},${c})">${c}</div>`;
-    }
-    row.innerHTML = `<span class="q-num">${i}</span><div class="bubbles">${bubblesHtml}</div>`;
-    grid.appendChild(row);
-  }
-}
-
-// ── 답안 선택 ──
-function selectAnswer(q, choice) {
-  answers[q-1] = choice;
-  for (let c = 1; c <= currentExam.choices; c++) {
-    const b = document.getElementById(`b${q}_${c}`);
-    if (b) b.classList.toggle('selected', c === choice);
-  }
-  document.getElementById('row' + q).classList.add('answered');
-  const answered = answers.filter(a => a > 0).length;
-  const pct = Math.round(answered / currentExam.total * 100);
-  document.getElementById('progress-fill').style.width = pct + '%';
-  document.getElementById('progress-text').textContent = `${answered} / ${currentExam.total} 문제 완료`;
-}
-
-// ── 타이머 ──
-function startTimer(minutes) {
-  let timeLeft = minutes * 60;
-  const display = document.getElementById('timer-display');
-  timerInterval = setInterval(() => {
-    timeLeft--;
-    const m = String(Math.floor(timeLeft/60)).padStart(2,'0');
-    const s = String(timeLeft%60).padStart(2,'0');
-    display.textContent = `${m}:${s}`;
-    if (timeLeft <= 60) display.style.color = '#ff4444';
-    if (timeLeft <= 0) { clearInterval(timerInterval); submitExam(); }
-  }, 1000);
-}
-
-// ── 제출 ──
-async function submitExam() {
-  clearInterval(timerInterval);
-  const name = document.getElementById('student-name').value.trim();
-  const cls = document.getElementById('student-class').value;
-  if (!name) { alert('이름을 입력해 주세요!'); return; }
-  if (!cls) { alert('반을 선택해 주세요!'); return; }
-  const unanswered = answers.filter(a => a === 0).length;
-  if (unanswered > 0 && !confirm(`${unanswered}문제를 마킹하지 않았어요. 제출할까요?`)) return;
-
-  document.getElementById('submit-btn').disabled = true;
-  document.getElementById('submit-btn').textContent = '채점 중...';
-
-  const keyArr = currentExam.keyArr;
-  let correct = 0;
+function submitExam(){
+  const hasKey = CONFIG.answerKey && CONFIG.answerKey.length === CONFIG.totalQuestions;
+  let correctCount = 0;
   const wrongList = [];
-  answers.forEach((ans, i) => {
-    if (ans === keyArr[i]) correct++;
-    else wrongList.push({q:i+1, myAns:ans, correct:keyArr[i]});
-  });
-  const total = currentExam.total;
-  const pct = Math.round(correct/total*100);
-  const pass = pct >= 50;
 
-  showResult(name, cls, correct, total, pct, pass, wrongList);
-  saveResult(name, cls, correct, total, pct, keyArr);
-}
-
-// ── 결과 화면 ──
-function showResult(name, cls, correct, total, pct, pass, wrongList) {
-  document.getElementById('exam-screen').style.display = 'none';
-  document.getElementById('result-screen').style.display = 'block';
-  const header = document.getElementById('result-header');
-  header.className = `result-header ${pass ? 'pass' : 'fail'}`;
-  document.getElementById('result-emoji').textContent = pass ? '🎉' : '😅';
-  document.getElementById('result-score').textContent = `${correct} / ${total}`;
-  document.getElementById('result-pct').textContent = `정답률 ${pct}%`;
-  document.getElementById('res-name').textContent = name;
-  document.getElementById('res-class').textContent = cls + '반';
-  document.getElementById('res-exam').textContent = currentExam.name;
-  document.getElementById('res-correct').textContent = correct + '개';
-  document.getElementById('res-wrong').textContent = (total - correct) + '개';
-  document.getElementById('result-msg-box').innerHTML = pass
-    ? `<div class="result-msg">🎊 합격! 정말 잘했어요! 앞으로도 화이팅!</div>`
-    : `<div class="result-msg fail-msg">📚 조금 더 연습이 필요해요! 틀린 문제를 확인해 보세요.</div>`;
-  if (wrongList.length > 0) {
-    const wl = document.getElementById('wrong-list');
-    wl.innerHTML = `<div class="wrong-title">❌ 틀린 문제 (${wrongList.length}개)</div>`;
-    wrongList.forEach(w => {
-      const item = document.createElement('div');
-      item.className = 'wrong-item';
-      item.innerHTML = `<span class="wq">${w.q}번</span><span>내 답: ${w.myAns||'미기재'} → 정답: ${w.correct}</span>`;
-      wl.appendChild(item);
-    });
-  }
-}
-
-// ── 노션에 결과 저장 (앱스크립트 doPost 활용) ──
-async function saveResult(name, cls, correct, total, pct, keyArr) {
-  document.getElementById('saving-msg').textContent = '⏳ 노션에 저장 중...';
-  try {
-    const params = new URLSearchParams({
-      action: 'save',
-      studentName: name,
-      studentClass: cls,
-      examName: currentExam.name,
-      score: String(correct),
-      total: String(total),
-      answers: JSON.stringify(answers),
-      answerKey: JSON.stringify(keyArr),
-      submittedAt: new Date().toISOString()
-    });
-    // 방법1: fetch no-cors
-    await fetch(GAS_URL + '?' + params.toString(), {
-      method: 'GET',
-      mode: 'no-cors'
-    });
-    document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
-  } catch(e) {
-    // 방법2: 이미지 태그 폴백
-    try {
-      const params2 = new URLSearchParams({
-        action: 'save',
-        studentName: name,
-        studentClass: cls,
-        examName: currentExam.name,
-        score: String(correct),
-        total: String(total),
-        submittedAt: new Date().toISOString()
-      });
-      const img = new Image();
-      img.src = GAS_URL + '?' + params2.toString();
-      document.getElementById('saving-msg').textContent = '✅ 노션에 저장되었습니다!';
-    } catch(e2) {
-      document.getElementById('saving-msg').textContent = '⚠️ 저장 실패 (결과는 정상)';
+  for(let i=1;i<=CONFIG.totalQuestions;i++){
+    const my = state.answers[i] || null;
+    if(isSkip(i)) continue;
+    if(hasKey){
+      if(isRight(i, my)) correctCount++;
+      else wrongList.push(i);
     }
   }
+  state.wrongList = wrongList;
+
+  document.getElementById('examContainer').style.display = 'none';
+  document.getElementById('resultScreen').style.display = 'block';
+  window.scrollTo(0,0);
+
+  if(hasKey){
+    document.getElementById('scoreNum').textContent = `${correctCount} / ${objCount()}`;
+    document.getElementById('scoreLabel').textContent = `${state.studentName} · ${CONFIG.examName}`;
+    document.getElementById('wrongCountLabel').textContent = wrongList.length === 0 ? '모두 맞혔어요! 🎉' : `틀린 문제 ${wrongList.length}개`;
+    document.getElementById('pendingNote').style.display = 'none';
+    setupNote();
+  } else {
+    document.getElementById('scoreNum').textContent = '-';
+    document.getElementById('scoreLabel').textContent = '답안 제출 완료';
+    document.getElementById('noteArea').style.display = 'none';
+    document.getElementById('pendingNote').style.display = 'block';
+  }
+
+  // Notion/Apps Script 연동 지점: submitUrl이 설정되면 결과를 전송합니다.
+  if(CONFIG.submitUrl){
+    const answerKeyObj = {};
+    if(hasKey){
+      for(let i=1;i<=CONFIG.totalQuestions;i++) if(!isSkip(i)) answerKeyObj[i] = CONFIG.answerKey[i-1];
+    }
+    fetch(CONFIG.submitUrl, {
+      method: 'POST',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify({
+        type: 'omr_exam',
+        studentName: state.studentName,
+        studentClass: state.studentClass,
+        examName: CONFIG.examName,
+        answers: state.answers,
+        answerKey: answerKeyObj,
+        score: hasKey ? correctCount : null,
+        total: objCount(),
+        submittedAt: new Date().toISOString()
+      })
+    }).then(r => r.text()).then(t => {
+      if(!t.trim().startsWith('{') || t.includes('"error"')) showBackup();
+    }).catch(err => { console.error('제출 전송 실패:', err); showBackup(); });
+  }
 }
 
-init();
+const EXPLAIN = {"동아이병민 5과 중간고사 모의고사": {"1": "lighthouse 등대", "2": "④ 유의어, 나머지는 반의어", "3": "run – ran", "4": "make a wish 소원을 빌다 / make one’s bed 잠자리를 정리하다", "5": "put up (텐트를) 치다 / walk up ~을 걸어 올라가다", "6": "turn + 형용사: ~하게 변하다", "7": "맛있어서 먹고 싶지 않았다는 것은 흐름상 어색", "8": "steep 가파른", "9": "미래 계획을 묻는 질문에 과거 경험으로 답함", "10": "Oliver는 책을 읽을 계획", "11": "Have a nice weekend.에 대한 답: 너도 즐거운 주말 보내.", "12": "계획(C) → 되물음에 답(A) → 기원(B)", "13": "What are your plans ~?는 Yes/No로 답할 수 없음", "14": "토요일: 남산서울타워 → 길거리 음식", "15": "기대를 나타내는 표현", "16": "날씨·명암을 나타내는 비인칭 주어 it", "17": "경험을 묻는 표현", "19": "enjoy는 동명사를 목적어로 취함", "20": "동사의 목적어로 쓰인 to부정사 (① 목적 ② 보어 ④ 형용사적 ⑤ 주어)", "21": "enjoy taking", "22": "① to go ② to visit ③ to go ④ reading", "23": "like는 to부정사(to take)와 동명사(taking) 모두 목적어로 쓸 수 있어요. ②, ③ 모두 정답.", "24": "③은 흔들바위를 가리키는 인칭대명사", "25": "거리를 묻는 질문 → It’s about 5 km.", "26": "(b) 거리 (d) 명암의 비인칭 주어", "27": "(a), (b), (d) 올바름. (c) to see (e) was", "30": "It was scary, but I had a lot of fun!", "31": "앞 문장의 Heundeulbawi", "32": "put up (텐트를) 치다 / for dinner 저녁 식사로", "33": "수빈이 가족의 인원수는 알 수 없음", "34": "어두움(B) → 하늘이 붉게 변함(A) → 소원 빌기(C)", "35": "make – made", "36": "It was like a pancake. I loved it.", "37": "It still shines its light for ships at night.", "38": "피곤했지만 경치는 아름다웠다 → 역접"}, "동아윤정미 5과 중간고사 모의고사": {"1": "eyewitness = 범죄나 사고를 본 사람", "2": "보호하는 사람은 guard. suspect는 범죄를 저질렀을지도 모르는 사람", "3": "③은 ‘~임에 틀림없다’(추측), 나머지는 ‘~해야 한다’(의무)", "4": "catch: (누군가를) 붙잡다 / (병에) 걸리다", "5": "④ 유의어, 나머지는 반의어", "6": "run after ~을 뒤쫓다 / fall off ~에서 떨어지다", "7": "건물을 지키는 사람은 guard. janitor는 청소부·관리인", "8": "in fact = actually 사실은", "9": "뒤에 But you must not use the flash가 오므로 허락하는 말이 와야 함", "10": "Texting is OK. → 문자는 보내도 됨", "11": "You don’t have to (turn off your phone). ~할 필요 없다", "12": "허락(B) → 이유 질문(A) → 표지판 설명(C)", "13": "Only bottled water is OK.", "14": "다음은 Monet의 그림으로 이동", "15": "명암·시간을 나타내는 비인칭 주어 it", "16": "using the flash can damage paintings", "17": "don’t have to는 불필요(~할 필요 없다)", "19": "famous – more famous – most famous", "20": "비교급 강조: much, even, far, a lot, still, a little(약간). very는 불가", "21": "heavy – heavier (자음+y → i+er)", "22": "Diego 180cm로 가장 큼. Carlos가 14세로 가장 어림", "23": "④만 ‘가장 작다’는 의미", "24": "There + be동사는 뒤 명사의 수에 일치", "25": "water는 셀 수 없는 명사 → is / cushions 복수 → are", "26": "③은 부사 ‘거기에’, 나머지는 유도부사 There", "27": "(b), (d) 올바름. (a) aren’t (c) fastest (e) is", "30": "Ann Jones는 방문객(visitor)", "31": "약 170cm인 Ann보다 조금(a little) 더 큼", "32": "It was his wig.", "33": "He was a young man with long brown hair.", "34": "near ~에서 가까이 / next to ~ 옆에", "35": "키에 대한 정보는 이 글에 없음", "36": "didn’t + 동사원형 → understand", "37": "We sold only one cake that day, so I remember him clearly.", "38": "Diego Perez는 경비원(guard)"}, "리더스뱅크1 Unit1-2": {"1": "장난감처럼 생겼지만 힘든 일을 하고 로켓처럼 달에도 갈 수 있는 'I'는 로봇(a robot)이에요.", "2": "글에는 방 청소, 무거운 상자 옮기기, 달에 가기, 힘든 일 하기가 나와요. '저녁 요리하기'는 나오지 않아요.", "3": "the best thing 바로 뒤 문장이에요. 'I can even go to the moon, just like a rocket' → 로켓처럼 달에도 갈 수 있는 것!", "4": "upstairs는 '위층으로'라는 뜻이에요. (반대말: downstairs 아래층으로)", "5": "dirty(더러운)의 반대말은 clean(깨끗한)이에요.", "6": "that은 바로 앞 문장 'Do you want to clean your dirty room?'의 내용, 즉 '더러운 방을 청소하는 것'을 가리켜요.", "7": "'I can do a lot of hard work for people' → 사람들을 위해 힘든 일을 할 수 있어요. 장난감처럼 보일 뿐 진짜 장난감은 아니에요.", "8": "'it flew into an open window in the house next door' → 옆집의 열린 창문 안으로 날아갔어요.", "9": "공이 무언가를 깨뜨렸다면 혼날 수 있어요. 그래서 혼날 일이 있는지 먼저 확인하려고 물어본 거예요.", "10": "아무것도 깨지지 않았다는 말을 듣고, 혼날 일이 없으니 '그럼 내 공이에요'라고 말한 거예요.", "11": "먼저 확인하고 나서 대답한 눈치 빠른(clever) 소년이에요. 글 제목이 '눈치 빠른 소년'이에요.", "12": "calmly는 '침착하게'라는 뜻이에요.", "13": "next door는 '옆집의, 이웃의'라는 뜻이에요. the house next door = 옆집.", "14": "일어난 순서: (B) 공을 세게 참 → (D) 열린 창문으로 날아감 → (A) 남자가 공을 들고 나옴 → (C) 소년이 질문.", "15": "break의 과거형은 broke예요. breaked는 틀린 형태예요. (불규칙 동사)", "16": "'My name is Jake ... I hope to hear from you soon.' 처럼 받는 사람에게 쓰는 편지(letter)예요.", "17": "Starship이라는 발명품에 대해 궁금한 점을 물어보려고 쓴 글이에요.", "18": "'Thank you for making the rocket' → Starship을 만든 사람에게 보내는 편지예요.", "19": "화성에 갈 수 있는지 '묻는' 중이니 이미 다녀왔다는 설명은 틀려요.", "20": "invention은 '발명품'이라는 뜻이에요.", "21": "wonderful(멋진)과 비슷한 말은 amazing(놀라운, 멋진)이에요.", "22": "hear from you는 '당신에게서 소식(답장)을 듣다'예요. 곧 답장을 받기를 바란다는 뜻이에요.", "23": "take A to B는 'A를 B로 데려가다'예요. want to take his dog Max to Mars.", "24": "가볍고 튼튼하고, 컵·병·상자를 만들고, 물고기가 먹고 아프게 되는 것은 플라스틱(plastic)이에요.", "25": "재활용에 대한 내용은 글에 나오지 않아요.", "26": "'I look like food' → 먹이처럼 보여서 물고기가 먹어요.", "27": "throw away는 '버리다'라는 뜻이에요.", "28": "However는 '그러나'라는 뜻으로 But과 바꿔 쓸 수 있어요.", "29": "them은 바로 앞 문장의 'some fish(일부 물고기)'를 가리켜요.", "30": "플라스틱을 함부로 버리면 강과 바다가 더러워지고 물고기가 죽어요. '플라스틱을 함부로 버리지 말자'가 전하는 말이에요."}, "Joy1A Unit1": {"1": "student는 '학생'이에요.", "2": "dragon은 '용'이에요.", "3": "secret은 '비밀'이에요.", "4": "mirror는 '거울'이에요.", "5": "living room은 '거실'이에요.", "6": "sister는 '언니, 누나, 여동생'(여자 형제)이에요.", "7": "brother는 '오빠, 형, 남동생'(남자 형제)이에요.", "8": "parents는 '부모님'이에요.", "9": "bag은 '가방'이에요.", "10": "pet은 '애완동물'이에요.", "11": "best friends는 '정말 좋은 친구(단짝)'예요.", "12": "mom and dad(엄마와 아빠)를 한 단어로 하면 parents예요.", "13": "'거울을 좋아해' → 거울이 여러 개일 땐 mirrors로 써요. likes 뒤에는 좋아하는 것이 와요.", "14": "'게임을 좋아해' → He likes games.", "15": "school은 '학교'예요.", "16": "'나는 ~야'는 I am ~. 순서: 주어(I) + am + 이름.", "17": "'너는 ~야'는 You are ~. → You are a dragon.", "18": "We are best friends. 순서: 주어 + are + 나머지.", "19": "She is my sister. 순서: 주어(She) + is + my sister.", "20": "It is my bag. 순서: 주어(It) + is + my bag.", "21": "They are my parents. 주어 They + are + my parents.", "22": "This is the living room. '이곳은 ~이야'는 This is ~.", "23": "'나는 ~를 가지고 있어'는 I have ~. → I have a pet dragon.", "24": "He likes games. 주어(He) + likes + 좋아하는 것.", "25": "영어에서는 '나(I)'를 뒤에 써요. → Danny and I are in the living room."}, "그래머플러스 Lesson01-02": {"1": "'나는'은 I예요.", "2": "my mom은 여자 한 명이므로 she로 바꿔요.", "3": "a bag은 사물 하나이므로 it이에요.", "4": "Danny and I처럼 '나'가 포함된 여러 명은 we예요.", "5": "dogs는 여러 마리이므로 they예요.", "6": "my brother는 남자 한 명이므로 he예요.", "7": "you and Sally는 듣는 사람(you)과 Sally이므로 you(너희들)예요. 말하는 '나'가 포함되면 we예요.", "8": "The girl(여자 한 명) → She예요.", "9": "train은 사물이므로 It이에요.", "10": "my uncle(남자 한 명) → He예요.", "11": "My parents(부모님, 여러 명) → They예요.", "12": "Ben and I(나 포함) → We예요.", "13": "The cat은 동물 한 마리이므로 It이에요.", "14": "Kelly and I(나 포함) → We예요.", "15": "I는 항상 대문자로 쓰고, 영어에서는 나(I)를 뒤에 써요. → Danny and I.", "16": "I 다음에는 am을 써요. (I am)", "17": "She(한 명) 다음에는 is를 써요.", "18": "They(여러 명) 다음에는 are를 써요.", "19": "The rabbits는 여러 마리이므로 are예요.", "20": "The dog는 한 마리이므로 is예요.", "21": "I am의 줄임말은 I'm이에요.", "22": "They are의 줄임말은 They're예요.", "23": "It is의 줄임말은 It's예요. (its는 '그것의'라는 다른 뜻)", "24": "We(우리) 다음에는 are를 써요. We – is는 틀린 짝이에요.", "25": "버스는 사물 하나이므로 It is a bus.", "26": "①②③은 is, ④ Sally and Joan은 여러 명이라 are예요. 나머지와 다른 것은 ④.", "27": "이름을 물었으니 '나는 Sally야' → I am Sally.", "28": "Who is he?(그는 누구니?)에는 He is ~로 답해요.", "29": "They(그들) 다음에는 are → They are lazy.", "30": "The pencils는 여러 개이므로 is가 아니라 are를 써야 해요."}, "리딩 Unit02-04": {"1": "new는 '새로운'이라는 뜻이에요.", "2": "chin은 '턱'이에요. (코 nose, 입술 lips, 귀 ears)", "3": "'입술'은 lip이에요.", "4": "large(큰)의 반대말은 small(작은)이에요.", "5": "He has blue eyes. 순서: 주어(He) + 동사(has) + 목적어(blue eyes).", "6": "He has a long nose. → 그는 긴 코를 가지고 있다.", "7": "Can he eat dinner with us? → 그는 우리와 저녁을 먹을 수 있나요?", "8": "글에 'small ears(작은 귀)'라고 나와요. '큰 귀'는 알맞지 않아요.", "9": "이야기는 새 친구(a new friend) Ron에 대한 내용이에요.", "10": "'Mom, Ron is right here.' → 지금 우리 집(my home)에 Ron이 있어요.", "11": "mix는 '섞다'예요.", "12": "color는 '색깔'이에요.", "13": "plum은 '자두'예요.", "14": "x, m, i를 바르게 배열하면 mix예요.", "15": "I make juice for my family. 순서: 주어 + 동사 + 목적어 + for ~.", "16": "purple은 '보라색'이에요.", "17": "yellow lemons + blue grapes → The juice has a green color. 정답은 green.", "18": "아빠 주스: blue grapes + red cherries → purple color예요.", "19": "'나'를 위한 주스는 green kiwis and red plums예요.", "20": "딸기(strawberries)는 빨간색이에요. blue strawberries는 색깔 짝이 틀려요.", "21": "dirty는 '더러운'이에요.", "22": "wipe는 '닦다'예요.", "23": "'대걸레'는 mop이에요.", "24": "spill은 '쏟다'예요.", "25": "messy는 '지저분한'이에요.", "26": "I wipe the windows. 순서: 주어 + 동사 + 목적어.", "27": "I get a mop and a bucket. → 나는 대걸레와 양동이를 가져온다.", "28": "'I get a sponge and water. I wash the dishes.' → 설거지는 스펀지와 물로 해요.", "29": "My dog spills his milk. → 강아지가 우유를 쏟아요.", "30": "'The floor is messy again!' → 다시 지저분해진 곳은 바닥(the floor)이에요."}};
+
+function showBackup(){
+  const box = document.createElement('div');
+  box.style.cssText = 'margin:16px auto;max-width:480px;padding:14px 16px;border:2px solid #d9534f;border-radius:12px;background:#fff5f5;font-size:14px;line-height:1.6;';
+  const ans = Object.keys(state.answers).sort((a,b)=>a-b).map(k=>`${k}-${state.answers[k]}`).join(' ');
+  box.innerHTML = `<b style="color:#d9534f">⚠️ 서버 저장이 안 됐어요. 이 화면을 캡처해서 선생님께 보내 주세요!</b><br>
+    ${state.studentName} (${state.studentClass}) · ${CONFIG.examName}<br>
+    틀린 번호: ${(state.wrongList||[]).join(', ') || '없음'}<br>
+    <span style="font-size:12px;color:#555">답안: ${ans}</span>`;
+  const rs = document.getElementById('resultScreen');
+  rs.insertBefore(box, rs.firstChild);
+}
+
+/* ---------------- 틀린 번호 + 정답·해설 보기 (필기는 종이로) ---------------- */
+function getExp(n){
+  const e = EXPLAIN[CONFIG.examName];
+  return (e && e[String(n)]) ? e[String(n)] : '';
+}
+
+function setupNote(){
+  document.getElementById('showWrongBtn').onclick = showWrong;
+}
+
+function showWrong(){
+  const box = document.getElementById('wrongDetail');
+  document.getElementById('showWrongBtn').style.display = 'none';
+  box.style.display = 'block';
+  if(state.wrongList.length === 0){ box.innerHTML = '<div class="wsum">틀린 문제가 없어요. 정말 잘했어요! 🎉</div>'; return; }
+  document.getElementById('paperHint').style.display = 'block';
+  box.innerHTML = `<div class="wsum">틀린 번호: ${state.wrongList.join(', ')}</div>`;
+  state.wrongList.forEach(n => {
+    const c = document.createElement('div'); c.className = 'wcard';
+    const exp = getExp(n);
+    c.innerHTML = `<div class="wcard-head"><span class="wq">Q${n}</span>
+      <span class="wans">내 답 <span class="mine">${state.answers[n] || '-'}</span> → 정답 <span class="right">${keyText(n)}</span></span></div>
+      ${exp ? `<div class="exp">💡 ${exp}</div>` : ''}`;
+    box.appendChild(c);
+  });
+}
+
+loadConfigAndInit();
 </script>
 </body>
 </html>
