@@ -113,6 +113,20 @@ body.present .wrap{height:100%;padding-block:10px}
   .search{max-width:none;order:3;flex-basis:100%}
   body.present .wrap{height:auto}
 }
+
+/* big-text mode: speaker label above, sentence auto-sized to fill the board */
+.board{overflow:hidden;gap:10px}
+.board .sit{font-size:clamp(1rem,1.8vw,1.4rem)}
+.board .sub{font-size:.8rem}
+.lines{min-height:0;overflow:hidden;justify-content:space-evenly;gap:6px}
+.ln{grid-template-columns:1fr;gap:2px;padding:4px 8px}
+.who{justify-self:start;font-size:clamp(.8rem,1.3vw,1rem);padding:3px 12px}
+.say{font-size:var(--say,48px);line-height:1.12;overflow-wrap:normal;word-break:keep-all;text-shadow:0 2px 0 rgba(0,0,0,.25)}
+.action{padding-top:8px}
+.wrap{grid-template-rows:minmax(0,1fr)}
+.stage{min-height:0}
+.board{min-height:0}
+@media (max-width:640px){.wrap{grid-template-rows:auto}.board{min-height:60vh}}
 @media (prefers-reduced-motion:reduce){.ln{transition:none}}
 </style>
 </head>
@@ -298,7 +312,20 @@ function renderBoard(){
      <span class="who">${l[0]===T?'선생님 Teacher':(it.phrase?'학생 Me':'학생들 Students')}</span><span class="say">${esc(l[1])}</span></div>`).join('')}</div>
    ${it.act?`<div class="action"><b>동작</b>${it.act}</div>`:''}
    ${st.step?`<div class="hint">화면을 터치하면 다음 줄 (${Math.min(st.shown,n)}/${n})</div>`:''}`;
+  fitText();
 }
+
+function fitText(){
+  const box=document.querySelector('.lines');if(!box)return;
+  let lo=22,hi=200;
+  const fits=px=>{box.style.setProperty('--say',px+'px');
+    if(box.scrollHeight>box.clientHeight+1)return false;
+    for(const e of box.querySelectorAll('.say'))if(e.scrollWidth>e.clientWidth+1)return false;return true};
+  while(hi-lo>1){const m=(lo+hi)>>1;if(fits(m))lo=m;else hi=m}
+  box.style.setProperty('--say',lo+'px');
+}
+let fitT;window.addEventListener('resize',()=>{clearTimeout(fitT);fitT=setTimeout(fitText,120)});
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitText);
 function select(it){st.cur=it;st.shown=st.step?1:99;stopSpeak();renderList();renderBoard();
   const el=document.querySelector('.item[aria-current="true"]');if(el)el.scrollIntoView({block:'nearest'})}
 function move(d){const v=visible();if(!v.length)return;let i=v.indexOf(st.cur);i=i<0?0:(i+d+v.length)%v.length;select(v[i])}
@@ -337,7 +364,7 @@ $('#prev').onclick=()=>move(-1);$('#next').onclick=()=>move(1);
 $('#play').onclick=play;
 $('#stepBtn').onclick=()=>{st.step=!st.step;$('#stepBtn').setAttribute('aria-pressed',st.step);st.shown=st.step?1:99;renderBoard()};
 $('#board').onclick=()=>{if(!st.step||!st.cur)return;st.shown=st.shown>=st.cur.lines.length?1:st.shown+1;renderBoard()};
-$('#present').onclick=()=>{const on=document.body.classList.toggle('present');$('#present').textContent=on?'목록 보기':'크게 보기';
+$('#present').onclick=()=>{const on=document.body.classList.toggle('present');setTimeout(fitText,60);$('#present').textContent=on?'목록 보기':'크게 보기';
   try{if(on&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});else if(!on&&document.fullscreenElement)document.exitFullscreen().catch(()=>{})}catch(e){}};
 document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;
   if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();move(1)}
