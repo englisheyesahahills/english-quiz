@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stella Classroom Chants</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600;700&family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: sticky top bar · left rail of situations · right "chalkboard" stage that shows Teacher/Students lines big for the class */
+:root{
+  --bg:#eef2ef; --panel:#ffffff; --line:#d5ddd8; --fg:#1d2a24; --muted:#5d6e66;
+  --board:#1f3d33; --board-edge:#5a3e28; --chalk:#f4f7f2; --chalk-dim:#a9c0b5;
+  --teacher:#7cc4ff; --student:#ffd45c; --accent:#1f7a5a; --accent-soft:#dcefe6;
+  --chip:#f4f7f5;
+  --f-display:"Jua","Noto Sans KR",system-ui,sans-serif;
+  --f-en:"Lexend","Noto Sans KR",system-ui,sans-serif;
+  --f-body:"Noto Sans KR",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121a17; --panel:#1a2420; --line:#2c3a34; --fg:#e6eee9; --muted:#9db0a7;
+  --board:#183129; --board-edge:#4a3322; --accent:#5cc79b; --accent-soft:#1f3a30; --chip:#202c27; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121a17; --panel:#1a2420; --line:#2c3a34; --fg:#e6eee9; --muted:#9db0a7;
+  --board:#183129; --board-edge:#4a3322; --accent:#5cc79b; --accent-soft:#1f3a30; --chip:#202c27; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--panel);border-bottom:1px solid var(--line);
+  padding-block:10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.brand{font-family:var(--f-display);font-size:1.45rem;line-height:1;display:flex;align-items:baseline;gap:8px}
+.brand small{font-family:var(--f-body);font-size:.78rem;color:var(--muted);font-weight:500}
+.seg{display:flex;background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{border:0;background:none;padding:7px 14px;border-radius:999px;font-weight:700;font-size:.92rem;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:#fff}
+.search{flex:1;min-width:160px;max-width:320px;margin-left:auto}
+.search input{width:100%;padding:9px 14px;border-radius:999px;border:1px solid var(--line);background:var(--chip);color:var(--fg);font:inherit}
+
+.wrap{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:16px;
+  padding-block:16px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  height:calc(100% - 64px)}
+.rail{min-width:0;display:flex;flex-direction:column;gap:10px;overflow:auto;padding-right:4px}
+.cats{display:flex;flex-wrap:wrap;gap:6px}
+.cats button{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:500}
+.cats button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+.daytag{font-size:.75rem;color:var(--muted);padding:0 2px}
+.list{display:flex;flex-direction:column;gap:6px}
+.item{display:grid;grid-template-columns:2.2em 1fr auto;align-items:center;gap:10px;text-align:left;border:1px solid var(--line);
+  background:var(--panel);border-radius:12px;padding:10px 12px;min-height:56px}
+.item .n{font-family:var(--f-en);font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;font-size:.85rem}
+.item .t{min-width:0}
+.item .ko{font-weight:700;font-size:.95rem;line-height:1.25}
+.item .en{font-family:var(--f-en);font-size:.8rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item .star{font-size:.7rem;font-weight:700;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 6px;white-space:nowrap}
+.item[aria-current="true"]{border-color:var(--accent);box-shadow:inset 4px 0 0 var(--accent)}
+.empty{color:var(--muted);padding:12px}
+
+.stage{min-width:0;display:flex;flex-direction:column;gap:12px}
+.board{position:relative;flex:1;min-height:420px;background:var(--board);border:12px solid var(--board-edge);border-radius:14px;
+  box-shadow:inset 0 0 60px rgba(0,0,0,.35);color:var(--chalk);padding:clamp(18px,3vw,40px);display:flex;flex-direction:column;gap:18px;overflow:auto}
+.board .sit{font-family:var(--f-display);font-size:clamp(1.3rem,2.6vw,2rem);color:var(--chalk);line-height:1.2}
+.board .sub{font-family:var(--f-en);color:var(--chalk-dim);font-size:clamp(.85rem,1.4vw,1rem);margin-top:4px}
+.lines{display:flex;flex-direction:column;gap:14px;flex:1;justify-content:center}
+.ln{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;transition:opacity .25s,transform .25s;border-radius:12px;padding:8px 10px}
+.ln.hidden{opacity:.08}
+.ln.now{background:rgba(255,255,255,.08)}
+.who{font-family:var(--f-display);font-size:clamp(.95rem,1.6vw,1.2rem);border-radius:999px;padding:6px 14px;white-space:nowrap;color:#10241c}
+.ln.T .who{background:var(--teacher)} .ln.S .who{background:var(--student)}
+.say{font-family:var(--f-en);font-weight:700;font-size:clamp(1.6rem,4.2vw,3.4rem);line-height:1.15;text-wrap:balance;min-width:0;overflow-wrap:anywhere}
+.ln.T .say{color:var(--teacher)} .ln.S .say{color:var(--student)}
+.action{border-top:2px dashed rgba(255,255,255,.25);padding-top:12px;font-size:clamp(.95rem,1.6vw,1.15rem);color:var(--chalk)}
+.action b{font-family:var(--f-display);font-weight:400;margin-right:6px;color:var(--student)}
+.hint{position:absolute;right:16px;bottom:10px;font-size:.75rem;color:var(--chalk-dim)}
+
+.controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.btn{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:11px 16px;font-weight:700;font-size:.95rem;min-height:46px}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.spacer{flex:1}
+
+.phr{display:flex;flex-direction:column;gap:10px;justify-content:center;flex:1}
+.phr .say{color:var(--student)}
+
+body.present .rail,body.present .top{display:none}
+body.present .wrap{grid-template-columns:1fr;height:100%}
+
+@media (max-width:820px){
+  .wrap{grid-template-columns:1fr;height:auto}
+  .rail{max-height:none;overflow:visible}
+  .list{max-height:300px;overflow:auto}
+  .board{min-height:360px;border-width:8px}
+  .search{max-width:none;order:3;flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){.ln{transition:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">교실 영어 챈트 <small>Stella Classroom Chants</small></div>
+  <div class="seg" role="group" aria-label="레벨">
+    <button id="lvK" aria-pressed="false">유치부</button>
+    <button id="lvB" aria-pressed="true">초등 초급</button>
+    <button id="lvA" aria-pressed="false">초등 고급</button>
+  </div>
+  <div class="search"><input id="q" type="search" placeholder="상황·영어 표현 검색 (예: 정리, focus)" aria-label="검색"></div>
+</header>
+
+<div class="wrap">
+  <aside class="rail">
+    <div class="cats" id="cats"></div>
+    <div class="daytag" id="daytag"></div>
+    <div class="list" id="list"></div>
+  </aside>
+
+  <main class="stage">
+    <section class="board" id="board" aria-live="polite"></section>
+    <div class="controls">
+      <button class="btn" id="prev">◀ 이전</button>
+      <button class="btn" id="next">다음 ▶</button>
+      <button class="btn" id="stepBtn" aria-pressed="false">한 줄씩 보기</button>
+      <button class="btn primary" id="play">▶ 소리로 듣기</button>
+      <span class="spacer"></span>
+      <button class="btn" id="present">크게 보기</button>
+    </div>
+  </main>
+</div>
+
+<script>
+const T='T',S='S';
+// [id, level, category, title, 한국어 상황, lines, action, recommended]
+const D=[
+// ---------- 유치부 KINDER ----------
+[1,'K','attn','Look at me','주목할 때',[[T,'One, two, three, look at me!'],[S,'One, two, look at you!']],'손가락으로 눈 가리키기',1],
+[2,'K','attn','Zip it','조용히 할 때',[[T,'Zip it!'],[S,'Lock it!'],[T,'Put it in your pocket!']],'입에 지퍼 잠그고 주머니에 넣는 흉내',1],
+[3,'K','attn','Freeze','움직임 멈출 때',[[T,'Everybody, freeze!'],[S,'Like a tree!']],'나무처럼 팔 벌리고 멈추기'],
+[4,'K','attn','Ears open','잘 들을 때',[[T,'Ears open!'],[S,'Ears open!']],'두 손을 귀 옆에 대기'],
+[5,'K','attn','Hands on knees','바르게 앉을 때',[[T,'Hands on knees!'],[S,'Yes, please!']],'두 손 무릎 위에'],
+[6,'K','attn','Repeat after me','따라 말하기',[[T,'Repeat after me!'],[S,'Okay!']]],
+[7,'K','routine','Good morning','아침 인사',[[T,'Good morning, everyone!'],[S,'Good morning, teacher!']],'',1],
+[8,'K','routine','How are you?','기분 묻기',[[T,'How are you today?'],[S,"I'm happy! / I'm great! / I'm sleepy."]],'표정으로 기분 표현하기'],
+[9,'K','routine','Bathroom','화장실 가고 싶을 때',[[S,'Can I go to the bathroom?'],[T,'Sure, go ahead.']],'',1],
+[10,'K','routine','Water','물 마시고 싶을 때',[[S,'Can I have some water?'],[T,'Yes, you can.']]],
+[11,'K','routine','Sit down','자리에 앉을 때',[[T,'Sit down, please.'],[S,'Okay, teacher!']]],
+[12,'K','routine','Clean up','정리 시간',[[T,'Clean up time!'],[S,'Clean up, clean up, everybody clean up!']],'',1],
+[13,'K','routine','Line up','줄 설 때',[[T,'Line up, please!'],[S,'One by one!']]],
+[14,'K','routine','My turn','차례 지킬 때',[[T,'Whose turn is it?'],[S,"It's my turn! / It's your turn!"]]],
+[15,'K','routine','Help me','도움이 필요할 때',[[S,'Help me, please!'],[T,'Sure! I can help.']]],
+[16,'K','routine','Goodbye','수업 끝 인사',[[T,'Bye-bye, everyone!'],[S,'See you tomorrow!']],'손 흔들기',1],
+[17,'K','praise','Good job','칭찬할 때',[[T,'Good job!'],[S,'Thank you!']]],
+[18,'K','praise','High five','잘했을 때',[[T,'Give me five!'],[S,'High five!']],'하이파이브',1],
+[19,'K','praise','Yes, I can','자신감 주기',[[T,'Can you do it?'],[S,'Yes, I can!']]],
+[20,'K','praise',"That's okay",'틀렸을 때',[[T,"Oops! That's okay!"],[S,"I'll try again!"]]],
+[21,'K','praise','Who is ready?','참여 유도',[[T,"Who's ready?"],[S,'Me, me, me!']],'손 번쩍 들기'],
+[22,'K','praise','Sorry','친구에게 사과',[[S,"I'm sorry."],[S,"That's okay!"]]],
+[23,'K','praise','Thank you','고마울 때',[[S,'Thank you!'],[T,"You're welcome!"]]],
+// ---------- 초등 초급 BASIC ----------
+[1,'B','attn','Attention','주목시킬 때',[[T,'Can I have your attention, please?'],[S,'Yes, you can!']],'',1],
+[2,'B','attn','Voices off','조용히 시킬 때',[[T,'Voices off.'],[S,'Ears on.']],'',1],
+[3,'B','attn','Pause','하던 것 멈출 때',[[T,'Pause, please.'],[S,'Pencils down, eyes up.']]],
+[4,'B','attn','Countdown','잡담 끝내기',[[T,'Three, two, one.'],[S,"We're done."]]],
+[5,'B','attn','Focus','집중시킬 때',[[T,'Focus up!'],[S,'Locked in!']]],
+[6,'B','attn','Ready, set','활동 시작 전',[[T,'Ready?'],[S,'Ready!'],[T,'Set?'],[S,"Let's go!"]]],
+[7,'B','routine','Start','수업 시작',[[T,"Let's get started."],[S,"We're ready!"]],'',1],
+[8,'B','routine','Open your books','책 펼 때',[[T,'Open your books to page 12.'],[S,'Page 12. Got it.']]],
+[9,'B','routine','Clear?','이해했는지 확인',[[T,'Are we clear?'],[S,'Crystal clear!']],'',1],
+[10,'B','routine','Make sense?','설명 후 확인',[[T,'Does that make sense?'],[S,'Yes, it does. / Not yet. Can you explain again?']]],
+[11,'B','routine','Done?','과제 끝났는지',[[T,'Are you done?'],[S,'All done! / Almost done.']]],
+[12,'B','routine','Time check','시간 알려줄 때',[[T,'Two more minutes.'],[S,'Got it!']]],
+[13,'B','routine','Wrap up','정리 시간',[[T,"Time to wrap up."],[S,"Let's tidy up!"]],'',1],
+[14,'B','routine','Line up','줄 설 때',[[T,'Line up, please.'],[S,'Quietly and quickly!']]],
+[15,'B','routine','Review','수업 마무리',[[T,'What did we learn today?'],[S,'Today we learned about ...']],'',1],
+[16,'B','routine','See you','수업 끝 인사',[[T,'Great work today. See you next time!'],[S,'Thank you! See you!']]],
+[17,'B','talk','Say it again','다시 듣고 싶을 때',[[S,'Can you say that again, please?'],[T,'Sure. Listen carefully.']],'',1],
+[18,'B','talk',"Don't understand",'이해가 안 될 때',[[S,"Sorry, I don't understand."],[T,'No problem. Let me help you.']]],
+[19,'B','talk','In English','영어로 뭐라고 할 때',[[S,'How do you say "연필깎이" in English?'],[T,'We say "pencil sharpener."']]],
+[20,'B','talk','Meaning','단어 뜻 물을 때',[[S,'What does "huge" mean?'],[T,'It means "very big."']]],
+[21,'B','talk','Restroom','화장실 갈 때',[[S,'May I go to the restroom?'],[T,'Sure, go ahead.']]],
+[22,'B','talk','Answer','손 들고 대답',[[T,'Who knows the answer?'],[S,'I do! / Can I try?']]],
+[23,'B','talk','Partner','짝 활동',[[T,'Work with your partner.'],[S,"Let's do it together!"]]],
+[24,'B','talk','Take turns','차례대로 할 때',[[T,'Take turns, please.'],[S,'You go first. / My turn!']]],
+[25,'B','talk','Borrow','물건 빌릴 때',[[S,'Can I borrow your eraser?'],[S,'Sure, here you go.']]],
+[26,'B','praise','Nice try','틀렸을 때 격려',[[T,'Nice try!'],[S,"I'll try again."]]],
+[27,'B','praise','Mistakes','실수해도 괜찮아',[[T,'Mistakes are okay.'],[S,'Mistakes help us learn.']]],
+[28,'B','praise',"Don't be shy",'수줍은 학생 격려',[[T,"Don't be shy."],[S,"I'll give it a try."]]],
+[29,'B','praise','Great job','칭찬할 때',[[T,'Great job, everyone!'],[S,'Thank you!']]],
+[30,'B','praise','Challenge','도전 과제 시작',[[T,"Who's ready for a challenge?"],[S,'Bring it on!']]],
+// ---------- 초등 고급 ADVANCED ----------
+[1,'A','attn','Get focused','수업 집중 시작',[[T,"Let's get focused."],[S,"We're focused and ready."]],'',1],
+[2,'A','attn','Eyes up','주목시킬 때',[[T,'Eyes up, minds on.'],[S,"We're with you."]]],
+[3,'A','attn','Same page','진도 확인',[[T,'Quick check. Are we on the same page?'],[S,'Same page!']]],
+[4,'A','attn','Reset','분위기 전환',[[T,"Let's reset."],[S,'Deep breath. Refocus.']],'다 같이 심호흡 한 번'],
+[5,'A','attn','Listen and respond','듣고 답하기',[[T,'Listen carefully.'],[S,'Respond thoughtfully.']]],
+[6,'A','think','Think it through','찍지 말고 생각하기',[[T,"Don't just guess."],[S,'Let me think it through.']]],
+[7,'A','think','Evidence','근거 찾기',[[T,"What's your evidence?"],[S,'According to the text, ...']],'',1],
+[8,'A','think','Reason','이유 말하기',[[T,'Why do you think so?'],[S,'I think so because ...']]],
+[9,'A','think','Predict','예측하기',[[T,'What do you predict will happen?'],[S,'I predict that ...']]],
+[10,'A','think','Another way','다른 관점',[[T,'Is there another way to see it?'],[S,'Another way to look at it is ...']]],
+[11,'A','think','Connection','연결 짓기',[[T,'Make a connection.'],[S,'This reminds me of ...']]],
+[12,'A','think','Main idea','주제 찾기',[[T,"What's the main idea?"],[S,'The main idea is ...']]],
+[13,'A','talk','Opinion','의견 말하기',[[T,"What's your opinion?"],[S,'In my opinion, ...']],'',1],
+[14,'A','talk','Agree','찬성할 때',[[T,'Do you agree?'],[S,'I agree with Minji because ...']]],
+[15,'A','talk','Disagree','정중하게 반대',[[T,'Does anyone disagree?'],[S,'I see your point, but ...']],'',1],
+[16,'A','talk','Add on','의견 덧붙이기',[[T,'Can anyone add to that?'],[S,"I'd like to add that ..."]]],
+[17,'A','talk','Explain more','자세히 설명',[[T,'Can you explain a little more?'],[S,'What I mean is ...']]],
+[18,'A','talk','Respectful debate','예의 있는 토론',[[T,'Respect the person.'],[S,'Challenge the idea.']]],
+[19,'A','talk','Speak up','크게 말하기',[[T,'Speak up, please.'],[S,'Loud and clear.']]],
+[20,'A','vocab','In other words','바꿔 말하기',[[T,'Say it another way.'],[S,'In other words, ...']]],
+[21,'A','vocab','Check the tense','시제 점검',[[T,'Check the tense.'],[S,'Past, present, or future?']]],
+[22,'A','vocab','Linking words','연결어 사용',[[T,'Use a linking word.'],[S,'However, therefore, although ...']]],
+[23,'A','vocab','Be specific','구체적으로',[[T,'Make it more specific.'],[S,'For example, ...']]],
+[24,'A','vocab','Revise','글 고쳐 쓰기',[[T,'Read it over once more.'],[S,'Revise and improve.']]],
+[25,'A','vocab','Idioms','숙어 배울 때',[[T,"Don't take it literally."],[S,"It's an idiom. It means ..."]]],
+[26,'A','team','Every voice','모든 의견 듣기',[[T,'Every voice counts.'],[S,"Let's hear from everyone."]]],
+[27,'A','team','Roles','역할 나누기',[[T,"Who's doing what?"],[S,"I'll take care of the ..."]]],
+[28,'A','team','Feedback','친구 피드백',[[T,'Give kind, clear feedback.'],[S,'One thing I liked was ... One thing to improve is ...']]],
+[29,'A','team','Presentation','발표 시작 전',[[T,'Presentation time.'],[S,'Stand tall. Speak clearly.']],'',1],
+[30,'A','team','Growth mindset','어려울 때',[[T,'Can you do it?'],[S,"Not yet, but I'm getting there."]]],
+];
+const P=[ // Advanced student phrases (students use on their own)
+['아이디어 덧붙이기','Adding an idea',"I'd like to build on what you said."],
+['의견 말하기','Giving an opinion',"From my point of view, ..."],
+['정중하게 반대하기','Disagreeing politely',"I see your point, but I have a different perspective."],
+['설명 요청하기','Asking for clarification',"Could you elaborate on that?"],
+['근거 제시하기','Giving evidence',"One example that supports my argument is ..."],
+['스스로 고쳐 말하기','Correcting themselves',"Let me rephrase that."],
+['생각할 시간 갖기','Thinking carefully',"That's an interesting question. Let me think."],
+['아이디어 비교하기','Comparing ideas',"On the other hand, ..."],
+['요약하기','Summarizing',"To put it simply, ..."],
+['피드백에 답하기','Responding to feedback',"That's a good point. I'll take that into consideration."],
+['토론에 끼어들기','Joining a discussion',"May I add something to that?"],
+['발표 마무리','Ending a presentation',"Thank you for listening. I'm happy to answer any questions."],
+];
+const CATS={
+ K:[['star','추천 8'],['all','전체'],['attn','집중·조용히'],['routine','생활 루틴'],['praise','칭찬·격려']],
+ B:[['star','추천 8'],['all','전체'],['attn','주의집중'],['routine','수업 루틴'],['talk','학생 질문·요청'],['praise','칭찬·격려']],
+ A:[['star','추천 7'],['all','전체'],['attn','주의집중'],['think','비판적 사고'],['talk','토론·발표'],['vocab','어휘·문법'],['team','팀워크'],['phrase','학생 표현 12']]
+};
+const DAY={attn:'추천 요일: 월 — 집중·준비 루틴',think:'추천 요일: 화 — 읽기·퍼즐 전에',talk:'추천 요일: 수 — 토론 후 문장 시작어 연습',vocab:'추천 요일: 목 — 문법·어휘·글쓰기',team:'추천 요일: 금 — 모둠 발표·성찰'};
+
+const items=D.map(r=>({id:r[0],lv:r[1],cat:r[2],en:r[3],ko:r[4],lines:r[5],act:r[6]||'',rec:!!r[7]}));
+P.forEach((p,i)=>items.push({id:i+1,lv:'A',cat:'phrase',en:p[1],ko:p[0],lines:[[S,p[2]]],act:'',rec:false,phrase:true}));
+
+const st={lv:'B',cat:'star',q:'',cur:null,step:false,shown:99};
+const $=s=>document.querySelector(s);
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+function visible(){
+  const q=st.q.trim().toLowerCase();
+  return items.filter(it=>{
+    if(it.lv!==st.lv) return false;
+    if(q) return (it.ko+' '+it.en+' '+it.lines.map(l=>l[1]).join(' ')).toLowerCase().includes(q);
+    if(st.cat==='all') return !it.phrase;
+    if(st.cat==='star') return it.rec;
+    return it.cat===st.cat;
+  });
+}
+function renderCats(){
+  $('#cats').innerHTML=CATS[st.lv].map(([k,l])=>`<button data-c="${k}" aria-pressed="${st.cat===k&&!st.q}">${l}</button>`).join('');
+  $('#daytag').textContent=st.lv==='A'&&DAY[st.cat]&&!st.q?DAY[st.cat]:'';
+}
+function renderList(){
+  const v=visible();
+  $('#list').innerHTML=v.length?v.map((it,i)=>`<button class="item" data-i="${items.indexOf(it)}" aria-current="${st.cur===it}">
+    <span class="n">${it.phrase?'P'+it.id:String(it.id).padStart(2,'0')}</span>
+    <span class="t"><div class="ko">${it.ko}</div><div class="en">${it.en}</div></span>
+    ${it.rec?'<span class="star">추천</span>':''}</button>`).join('')
+    :'<div class="empty">찾는 표현이 없어요. 다른 단어로 검색해 보세요.</div>';
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+function renderBoard(){
+  const it=st.cur, b=$('#board');
+  if(!it){b.innerHTML='<div class="sit">왼쪽에서 상황을 골라 주세요</div>';return}
+  const n=it.lines.length;
+  b.innerHTML=`<div><div class="sit">${it.ko}</div><div class="sub">${it.phrase?'Student phrase · ':'#'+it.id+' · '}${esc(it.en)}</div></div>
+   <div class="lines">${it.lines.map((l,i)=>`<div class="ln ${l[0]} ${st.step&&i>=st.shown?'hidden':''} ${st.step&&i===st.shown-1?'now':''}" data-l="${i}">
+     <span class="who">${l[0]===T?'선생님 Teacher':(it.phrase?'학생 Me':'학생들 Students')}</span><span class="say">${esc(l[1])}</span></div>`).join('')}</div>
+   ${it.act?`<div class="action"><b>동작</b>${it.act}</div>`:''}
+   ${st.step?`<div class="hint">화면을 터치하면 다음 줄 (${Math.min(st.shown,n)}/${n})</div>`:''}`;
+}
+function select(it){st.cur=it;st.shown=st.step?1:99;stopSpeak();renderList();renderBoard();
+  const el=document.querySelector('.item[aria-current="true"]');if(el)el.scrollIntoView({block:'nearest'})}
+function move(d){const v=visible();if(!v.length)return;let i=v.indexOf(st.cur);i=i<0?0:(i+d+v.length)%v.length;select(v[i])}
+
+// speech
+let speaking=false;
+function stopSpeak(){try{speechSynthesis.cancel()}catch(e){}speaking=false;$('#play').textContent='▶ 소리로 듣기';document.querySelectorAll('.ln.now').forEach(e=>{if(!st.step)e.classList.remove('now')})}
+function voiceEn(){try{const vs=speechSynthesis.getVoices();return vs.find(v=>/en-US/i.test(v.lang)&&/Samantha|Google|Jenny|Aria/i.test(v.name))||vs.find(v=>/^en/i.test(v.lang))}catch(e){return null}}
+function play(){
+  if(!st.cur)return;
+  if(speaking){stopSpeak();return}
+  if(!('speechSynthesis' in window)){$('#play').textContent='이 기기에서는 음성이 지원되지 않아요';return}
+  speaking=true;$('#play').textContent='■ 멈추기';
+  const lines=st.cur.lines, v=voiceEn();let i=0;
+  const next=()=>{
+    if(!speaking||i>=lines.length){stopSpeak();return}
+    document.querySelectorAll('.ln').forEach(e=>e.classList.toggle('now',+e.dataset.l===i));
+    const el=document.querySelector(`.ln[data-l="${i}"]`);if(el)el.classList.remove('hidden');
+    const u=new SpeechSynthesisUtterance(lines[i][1].replace(/\.\.\./g,''));
+    u.lang='en-US';if(v)u.voice=v;
+    u.rate=lines[i][0]===T?0.9:1.0;u.pitch=lines[i][0]===T?0.9:1.3;
+    u.onend=()=>{i++;setTimeout(next,350)};u.onerror=()=>stopSpeak();
+    speechSynthesis.speak(u);
+  };next();
+}
+
+// events
+$('#cats').onclick=e=>{const b=e.target.closest('button');if(!b)return;st.cat=b.dataset.c;st.q='';$('#q').value='';renderCats();renderList();const v=visible();if(v.length)select(v[0])};
+$('#list').onclick=e=>{const b=e.target.closest('.item');if(b)select(items[+b.dataset.i])};
+$('#q').oninput=e=>{st.q=e.target.value;renderCats();renderList()};
+function setLv(lv){st.lv=lv;st.cat='star';st.q='';$('#q').value='';
+  ['K','B','A'].forEach(k=>$('#lv'+k).setAttribute('aria-pressed',lv===k));
+  store.set('chants-lv',lv);renderCats();renderList();select(visible()[0])}
+$('#lvK').onclick=()=>setLv('K');$('#lvB').onclick=()=>setLv('B');$('#lvA').onclick=()=>setLv('A');
+$('#prev').onclick=()=>move(-1);$('#next').onclick=()=>move(1);
+$('#play').onclick=play;
+$('#stepBtn').onclick=()=>{st.step=!st.step;$('#stepBtn').setAttribute('aria-pressed',st.step);st.shown=st.step?1:99;renderBoard()};
+$('#board').onclick=()=>{if(!st.step||!st.cur)return;st.shown=st.shown>=st.cur.lines.length?1:st.shown+1;renderBoard()};
+$('#present').onclick=()=>{const on=document.body.classList.toggle('present');$('#present').textContent=on?'목록 보기':'크게 보기';
+  try{if(on&&document.documentElement.requestFullscreen)document.documentElement.requestFullscreen().catch(()=>{});else if(!on&&document.fullscreenElement)document.exitFullscreen().catch(()=>{})}catch(e){}};
+document.addEventListener('keydown',e=>{if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'||e.key==='ArrowDown'){e.preventDefault();move(1)}
+  else if(e.key==='ArrowLeft'||e.key==='ArrowUp'){e.preventDefault();move(-1)}
+  else if(e.key===' '){e.preventDefault();if(st.step)$('#board').click();else play()}});
+try{speechSynthesis.onvoiceschanged=()=>{}}catch(e){}
+
+{const sv=store.get('chants-lv');setLv(['K','B','A'].includes(sv)?sv:'B');}
+</script>
+</body>
+</html>
