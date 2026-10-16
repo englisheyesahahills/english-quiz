@@ -87,15 +87,31 @@ button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline
 .phr{display:flex;flex-direction:column;gap:10px;justify-content:center;flex:1}
 .phr .say{color:var(--student)}
 
-body.present .rail,body.present .top{display:none}
-body.present .wrap{grid-template-columns:1fr;height:100%}
+/* compact list: every situation visible at once, no scrolling */
+.wrap{grid-template-columns:minmax(240px,290px) 1fr;gap:12px;padding-block:10px}
+.rail{gap:6px;overflow:visible}
+.cats{gap:4px}
+.cats button{padding:4px 9px;font-size:.78rem}
+.daytag{font-size:.7rem}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:4px}
+.item{grid-template-columns:auto 1fr;gap:5px;padding:5px 7px;min-height:32px;border-radius:8px}
+.item .n{font-size:.68rem}
+.item .ko{font-size:.8rem;font-weight:700;line-height:1.2}
+.item .en,.item .star{display:none}
+.item.rec{border-color:var(--accent-soft);background:linear-gradient(var(--accent-soft),var(--accent-soft)) left/3px 100% no-repeat,var(--panel)}
+.item[aria-current="true"]{border-color:var(--accent);background:var(--accent);box-shadow:none}
+.item[aria-current="true"] .ko,.item[aria-current="true"] .n{color:#fff}
+
+/* 크게 보기: hide top bar only, keep the compact list beside the board */
+body.present .top{display:none}
+body.present .wrap{height:100%;padding-block:10px}
 
 @media (max-width:820px){
   .wrap{grid-template-columns:1fr;height:auto}
   .rail{max-height:none;overflow:visible}
-  .list{max-height:300px;overflow:auto}
   .board{min-height:360px;border-width:8px}
   .search{max-width:none;order:3;flex-basis:100%}
+  body.present .wrap{height:auto}
 }
 @media (prefers-reduced-motion:reduce){.ln{transition:none}}
 </style>
@@ -266,7 +282,7 @@ function renderCats(){
 }
 function renderList(){
   const v=visible();
-  $('#list').innerHTML=v.length?v.map((it,i)=>`<button class="item" data-i="${items.indexOf(it)}" aria-current="${st.cur===it}">
+  $('#list').innerHTML=v.length?v.map((it,i)=>`<button class="item${it.rec?' rec':''}" data-i="${items.indexOf(it)}" aria-current="${st.cur===it}">
     <span class="n">${it.phrase?'P'+it.id:String(it.id).padStart(2,'0')}</span>
     <span class="t"><div class="ko">${it.ko}</div><div class="en">${it.en}</div></span>
     ${it.rec?'<span class="star">추천</span>':''}</button>`).join('')
