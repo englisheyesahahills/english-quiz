@@ -590,7 +590,7 @@ VIEWS.assign = async m => {
   <div class="card"><div class="fg"><div><label class="f">반</label><select id="ac">${th.classes.map(c => `<option>${esc(c)}</option>`).join('')}<option>전체</option></select></div>
    <div><label class="f">주 시작(월)</label><input type="date" id="aw" value="${ws}"></div>
    <div><label class="f">제외할 학생 (선택)</label><select id="ax" multiple style="height:70px">${opts.map(o => `<option value="${esc(o.학생ID)}">${esc(o.반)} · ${esc(o.이름)}</option>`).join('')}</select></div></div>
-   <div class="basis">기본 계획표(시트 ‘주간기본계획’)를 불러왔습니다. 진도·시험 일정에 맞게 체크를 해제하거나 범위를 바꾸세요. 범위가 빈 과제는 만들어지지 않습니다.</div></div>
+   <div class="basis">기본 계획표(시트 ‘주간기본계획’)를 불러왔습니다. <b>체크된 과제가 모두 만들어집니다.</b> 범위·단어 수는 선택이에요(단어 수를 비우면 학생이 전체 문항 수를 직접 입력). 오늘 이전 날짜는 자동으로 빠집니다.</div></div>
   ${DOWS.map((dw, i) => { const rows = tpl.filter(t => t.요일 === dw); if (!rows.length) return ''; return `<div class="card"><h3>${dw}요일</h3>${rows.map(t => `<div class="row tplr" data-day="${i}" data-area="${esc(t.영역)}" data-ev="${esc(t.증거유형)}" style="margin:6px 0"><input type="checkbox" checked><span class="chip c-navy">${esc(t.영역)}</span><input type="text" name="title" value="${esc(t.제목)}" class="sp" style="min-width:140px"><input type="text" name="range" placeholder="범위 (예: DAY 05)" style="max-width:170px">${t.증거유형 === '단어테스트' ? '<input type="number" name="max" placeholder="단어 수" style="max-width:90px" inputmode="numeric">' : ''}</div>`).join('')}</div>`; }).join('')}
   <button class="btn bur" style="width:100%" id="mkWeek">이번 주 과제 만들기</button>
 
@@ -609,10 +609,12 @@ VIEWS.assign = async m => {
   $('#aw').onchange = () => { S.aWs = monday($('#aw').value); go('assign'); };
   $('#mkWeek').onclick = async () => {
     const cls = $('#ac').value, ex = [...$('#ax').selectedOptions].map(o => o.value).join(',');
-    const list = $$('.tplr').filter(r => $('input[type=checkbox]', r).checked && $('[name=range]', r).value.trim()).map(r => ({
+    const today = todayStr(); let past = 0;
+    const list = $$('.tplr').filter(r => { if (!$('input[type=checkbox]', r).checked) return false; if (addD(ws, +r.dataset.day) < today) { past++; return false; } return true; }).map(r => ({
       날짜: addD(ws, +r.dataset.day), 대상반: cls, 제외학생ID: ex, 영역: r.dataset.area, 제목: $('[name=title]', r).value, 범위: $('[name=range]', r).value, 증거유형: r.dataset.ev, 만점: $('[name=max]', r) ? $('[name=max]', r).value : '' }));
-    if (!list.length) return toast('범위를 입력한 과제가 없습니다.', true);
-    try { const r = await call('createTasks', { list }); toast(r.saved + '개 과제 생성'); go('assign'); } catch (e) { fail(e); }
+    if (!list.length) return toast(past ? '오늘 이후 날짜의 체크된 과제가 없습니다.' : '체크된 과제가 없습니다.', true);
+    if (!confirm(cls + ' · ' + list.length + '개 과제를 만들까요?' + (past ? '\n(지난 날짜 ' + past + '개는 제외)' : ''))) return;
+    try { const r = await call('createTasks', { list }); toast(r.saved + '개 과제 생성' + (past ? ' · 지난 날짜 ' + past + '개 제외' : '')); go('assign'); } catch (e) { fail(e); }
   };
   $('#mkOne').onclick = async () => {
     const tg = $('#id2').value.split(':');
