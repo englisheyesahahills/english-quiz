@@ -200,11 +200,12 @@ VIEWS.home = async m => {
   m.innerHTML = `
   <h2>${esc(d.name)}의 오늘 공부 <span class="muted" style="font-weight:500">${d.today.slice(5)}</span></h2>
   <div class="card row" style="gap:14px">${ring(w.rate)}<div class="sp"><div style="font-weight:800">이번 주 달성률</div>
-    <div class="muted">배정 ${w.due}개 중 확인 완료 ${w.done}개 · 제출 ${w.submitted}개</div>
+    <div class="muted">이번 주 과제 ${w.total}개 · 오늘까지 ${w.due}개 중 확인 완료 ${w.done}개</div>
     <div class="basis">달성률은 선생님 확인(또는 단어 만점)까지 끝난 과제 기준이에요. 공부 시간이 아니라 결과로 계산해요.</div></div></div>
   ${d.retests.length ? `<div class="card flag r2"><h3>재시험 안내</h3>${d.retests.map(r => `<div style="margin:6px 0"><b>${esc(r.영역)} ${esc(r.범위)}</b> <span class="muted">첫 점수 ${esc(r.첫점수)} → 통과 ${esc(r.통과점수)}점</span>${r.틀린항목 ? `<div class="pill-list">${String(r.틀린항목).split(',').map(x => `<span>${esc(x.trim())}</span>`).join('')}</div>` : ''}</div>`).join('')}<div class="basis">틀린 항목을 다시 외우고 다음 등원 때 재시험을 봐요.</div></div>` : ''}
   <h2>오늘 할 일 (${d.todays.length})</h2>
   ${d.todays.length ? d.todays.map(taskCard).join('') : '<div class="card empty">오늘 배정된 과제가 없어요. 아래 누적 오답 단어를 복습해 보세요!</div>'}
+  ${d.upcoming.length ? `<h2>이번 주 남은 과제 (${d.upcoming.length})</h2><div class="basis" style="margin:-6px 0 8px">미리 해도 돼요. 미리 제출하면 그날 과제가 이미 완료로 표시돼요.</div>${d.upcoming.map(taskCard).join('')}` : ''}
   ${d.back.length ? `<h2>밀린 과제 · 다시 할 과제 (${d.back.length})</h2>${d.back.map(taskCard).join('')}` : ''}
   ${d.wrongs.length ? `<h2>오답 고치기 (${d.wrongs.length})</h2>${d.wrongs.map(w => `<div class="task" data-w="${esc(w.오답ID)}"><div class="ar">${esc(w.영역)} · ${esc(w.원인)}</div><div class="tt">${esc(w.문항)}</div><div class="mini">${esc(w.날짜)} ${esc(w.출처)}</div>
      <div class="row" style="margin-top:8px"><input type="text" placeholder="고친 답 + 왜 틀렸는지 한 줄" class="sp"><button class="btn sm" onclick="fixW(this)">고쳤어요</button></div></div>`).join('')}` : ''}
