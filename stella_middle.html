@@ -371,8 +371,8 @@ VIEWS.dash = async m => {
 
   <h2>선생님별 관리 현황</h2>
   <div class="card tscroll"><table class="t"><tr><th>선생님</th><th>담당</th><th>기록 완료율</th><th>기록 누락</th><th>검토 지연</th><th>재시험 지연</th><th>미처리 인계</th><th>지난주 학부모 보고</th></tr>
-   ${d.teachers.map(t => `<tr><td><b>${esc(t.이름)}</b></td><td>${t.학생수}명</td><td>${pctTxt(t.기록완료율)}<div class="mini">${t.기준일.slice(5)} 기준</div></td><td>${t.기록누락.length ? esc(t.기록누락.join(', ')) : '-'}</td><td>${badN(t.검토지연)}</td><td>${badN(t.재시험지연)}</td><td>${badN(t.미처리인계)}</td><td>${pctTxt(t.지난주보고율)}</td></tr>`).join('')}</table>
-   <div class="basis">기록 완료율 = 가장 최근 정규수업일에 담당 학생 수업기록이 있는 비율 · 검토 지연 = 제출 후 기준일 초과 미검토 · 재시험 지연 = 미통과 후 기준일 초과 미처리 · 학부모 보고 = 지난주 주간코멘트 작성 비율. 학생 점수로 선생님을 평가하지 않습니다.</div></div>
+   ${d.teachers.map(t => `<tr><td><b>${esc(t.이름)}</b></td><td>${t.학생수}명</td><td>${pctTxt(t.기록완료율)}<div class="mini">어제까지 최근 수업일</div></td><td>${t.기록누락.length ? esc(t.기록누락.join(', ')) : '-'}</td><td>${badN(t.검토지연)}</td><td>${badN(t.재시험지연)}</td><td>${badN(t.미처리인계)}</td><td>${pctTxt(t.지난주보고율)}</td></tr>`).join('')}</table>
+   <div class="basis">기록 완료율 = 학생별 수업요일 기준, 어제까지 가장 최근 정규수업일에 수업기록이 있는 비율 · 검토 지연 = 제출 후 기준일 초과 미검토 · 재시험 지연 = 미통과 후 기준일 초과 미처리 · 학부모 보고 = 지난주 주간코멘트 작성 비율. 학생 점수로 선생님을 평가하지 않습니다.</div></div>
 
   <h2>재시험 대상 · 미통과 (${d.retests.length})</h2>
   <div class="card tscroll">${d.retests.length ? `<table class="t"><tr><th>학생</th><th>영역/범위</th><th>시험일</th><th>첫 점수</th><th>재시험</th><th>경과</th></tr>${d.retests.map(r => `<tr><td>${esc(r.이름)} <span class="mini">${esc(r.반)}</span></td><td>${esc(r.영역)} ${esc(r.범위)}</td><td>${r.날짜.slice(5)}</td><td>${esc(r.첫점수)}</td><td>${r.재시험 ? r.재시험 + '회 실패' : '대기'}</td><td>${r.경과일}일</td></tr>`).join('')}</table>` : '<div class="empty">없음</div>'}</div>
@@ -451,7 +451,7 @@ VIEWS.today = async m => {
   const focus = d.queue.filter(q => q.집중), quick = d.queue.filter(q => !q.집중);
   const st = d.stat;
   m.innerHTML = `
-  ${st ? `<div class="card" style="margin-top:16px"><div class="row"><b>${esc(d.me)} 선생님 관리 현황</b><span class="mini">${st.기준일.slice(5)} 기준</span></div>
+  ${st ? `<div class="card" style="margin-top:16px"><div class="row"><b>${esc(d.me)} 선생님 관리 현황</b><span class="mini">어제까지 최근 수업일 기준</span></div>
    <div class="row" style="margin-top:6px;gap:6px"><span class="chip ${st.기록완료율 === 100 ? 'c-ok' : 'c-warn'}">수업기록 ${st.기록완료율 === null ? '담당 없음' : st.기록완료율 + '%'}</span><span class="chip ${st.검토지연 ? 'c-bad' : 'c-ok'}">검토 지연 ${st.검토지연}</span><span class="chip ${st.재시험지연 ? 'c-bad' : 'c-ok'}">재시험 지연 ${st.재시험지연}</span><span class="chip ${st.미처리인계 ? 'c-warn' : 'c-ok'}">미처리 인계 ${st.미처리인계}</span></div>
    ${st.기록누락.length ? `<div class="mini" style="margin-top:6px">기록 누락: ${esc(st.기록누락.join(', '))}</div>` : ''}</div>` : ''}
 
@@ -521,23 +521,25 @@ async function doneHand(id, b) { b.disabled = true; try { await call('resolveHan
 /* ================= 교사: 수업·자습 기록 ================= */
 VIEWS.record = async m => {
   const th = S.th || (S.th = await call('teacherHome'));
-  const date = S.recDate || todayStr(), kind = S.recKind || '정규', cls = S.recCls || th.classes[0] || '전체';
+  const date = S.recDate || todayStr(), kind = S.recKind === '화목자습' ? '자습' : (S.recKind || '정규'), cls = S.recCls || th.classes[0] || '전체';
   m.innerHTML = `<h2>수업·자습 기록</h2>
   <div class="card fg"><div><label class="f">날짜</label><input type="date" id="rd" value="${date}"></div>
-   <div><label class="f">구분</label><select id="rk">${['정규', '화목자습', '일요집중'].map(k => `<option ${k === kind ? 'selected' : ''}>${k}</option>`).join('')}</select></div>
+   <div><label class="f">구분</label><select id="rk">${['정규', '자습', '일요집중'].map(k => `<option ${k === kind ? 'selected' : ''}>${k}</option>`).join('')}</select></div>
    <div><label class="f">반</label><select id="rc">${['전체', ...th.classes].map(c => `<option ${c === cls ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></div></div>
   <div id="rbody">${loading()}</div>`;
   const reload = () => { S.recDate = $('#rd').value; S.recKind = $('#rk').value; S.recCls = $('#rc').value; go('record'); };
   ['#rd', '#rk', '#rc'].forEach(s => $(s).onchange = reload);
-  const rows = await call('classSheet', { cls, date, kind });
+  const res = await call('classSheet', { cls, date, kind, all: !!S.recAll }), rows = res.rows;
   const self = kind !== '정규';
   $('#rbody').innerHTML = `
+   ${kind === '정규' ? `<div class="card row" style="padding:10px 12px"><span class="mini sp">${res.day}요일 정규수업 학생만 표시${res.hidden ? ` · 오늘 수업 없는 학생 ${res.hidden}명 숨김` : ''} (학생 시트 ‘수업요일’ 기준)</span><label class="mini" style="display:flex;gap:4px;align-items:center"><input type="checkbox" id="recAll" ${S.recAll ? 'checked' : ''}>전체 보기</label></div>` : ''}
    <div class="row" style="margin-bottom:8px"><button class="btn ghost sm" id="allIn">전원 출석</button><span class="mini sp">값을 누르면 선택, 다시 누르면 해제. 학생 옆 빨간 숫자 = 최근 7일 미제출 과제.</span></div>
-   ${rows.map(r => `<div class="stu" data-sid="${esc(r.학생ID)}"><div class="row"><span class="nm">${esc(r.이름)}</span>${r.미제출 ? `<span class="chip c-bad">미제출 ${r.미제출}</span>` : ''}${r.수정필요 ? `<span class="chip c-warn">다시 할 것 ${r.수정필요}</span>` : ''}${r.저장됨 ? '<span class="chip c-ok">저장됨</span>' : ''}</div>
+   ${rows.map(r => `<div class="stu" data-sid="${esc(r.학생ID)}"><div class="row"><span class="nm">${esc(r.이름)}</span><span class="mini">${esc(r.수업요일)}</span>${r.미제출 ? `<span class="chip c-bad">미제출 ${r.미제출}</span>` : ''}${r.수정필요 ? `<span class="chip c-warn">다시 할 것 ${r.수정필요}</span>` : ''}${r.저장됨 ? '<span class="chip c-ok">저장됨</span>' : ''}</div>
     <div class="row" style="margin-top:6px;gap:6px">${seg('출결', ['출석', '지각', '결석'], r.출결, 'c')}${self ? seg('학습완료', ['완료', '미완료'], r.학습완료, 'c') : seg('숙제확인', ['완료', '일부', '미완료'], r.숙제확인, 'c')}${seg('태도', ['좋음', '보통', '주의'], r.태도, 'c')}</div>
     <div class="fg" style="margin-top:6px"><input type="text" name="특이사항" value="${esc(r.특이사항)}" placeholder="특이사항"><input type="text" name="다음확인" value="${esc(r.다음확인)}" placeholder="다음 수업에서 확인할 것 → 자동 인계"></div></div>`).join('') || '<div class="card empty">학생 없음</div>'}
    <button class="btn bur" style="width:100%;margin-top:6px" id="saveRec">저장하기</button>
    <div class="basis">${self ? '자습: 출석과 실제 학습 완료를 따로 기록합니다.' : '정규수업: 숙제 확인은 시스템 제출 기록과 별도로, 교재·노트 실물 확인 결과를 적습니다.'} ‘다음 확인’에 적은 내용은 다른 선생님의 ‘오늘 할 일 › 인계 사항’에 자동으로 뜹니다.</div>`;
+  if ($('#recAll')) $('#recAll').onchange = () => { S.recAll = $('#recAll').checked; go('record'); };
   $('#allIn').onclick = () => $$('.seg[data-name="출결"]').forEach(s => { $$('button', s).forEach(b => b.classList.toggle('on', b.dataset.v === '출석')); });
   $('#saveRec').onclick = async () => {
     const data = $$('[data-sid]').map(box => ({ 학생ID: box.dataset.sid, 출결: segVal(box, '출결'), 숙제확인: segVal(box, '숙제확인'), 학습완료: segVal(box, '학습완료'), 태도: segVal(box, '태도'), 특이사항: $('[name=특이사항]', box).value, 다음확인: $('[name=다음확인]', box).value }));
