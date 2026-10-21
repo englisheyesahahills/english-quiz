@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>원어민 인터뷰 수행평가 대비</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Nunito:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1f2a5a; --navy2:#2e3d7c; --coral:#ff6b5b; --mint:#2ec4a6; --sun:#ffc145;
+  --bg:#f4f6fb; --card:#fff; --text:#1d2238; --sub:#6b7290; --line:#e3e7f1;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:90px}
+.en{font-family:'Nunito','Noto Sans KR',sans-serif}
+header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:20px 16px 26px;border-radius:0 0 24px 24px}
+.top{display:flex;justify-content:space-between;align-items:center;max-width:640px;margin:0 auto}
+.title small{display:block;font-size:12px;opacity:.75;font-weight:500}
+.title b{font-size:19px;font-weight:900}
+.dday{background:var(--coral);border-radius:14px;padding:8px 12px;text-align:center;font-weight:900;line-height:1.1}
+.dday span{display:block;font-size:10px;font-weight:500;opacity:.9}
+.dday strong{font-size:20px}
+.namebar{max-width:640px;margin:14px auto 0;display:flex;gap:8px}
+.namebar input{flex:1;border:none;border-radius:12px;padding:10px 12px;font-size:15px;font-family:inherit}
+main{max-width:640px;margin:0 auto;padding:16px}
+.section{display:none}.section.on{display:block}
+.card{background:var(--card);border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 2px 10px rgba(31,42,90,.06)}
+h2{font-size:17px;font-weight:900;margin-bottom:10px}
+.qtabs{display:flex;gap:6px;margin-bottom:14px}
+.qtabs button{flex:1;border:2px solid var(--line);background:#fff;border-radius:12px;padding:10px 4px;font-weight:700;font-family:inherit;font-size:14px;color:var(--sub);cursor:pointer}
+.qtabs button.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.qbox{background:#eef1fb;border-radius:14px;padding:14px;margin-bottom:14px}
+.qbox .en{font-size:18px;font-weight:800;color:var(--navy)}
+.qbox .ko{font-size:13px;color:var(--sub);margin-top:4px}
+.ans{border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px}
+.ans .tag{display:inline-block;background:var(--sun);color:var(--navy);font-size:12px;font-weight:900;border-radius:8px;padding:3px 8px;margin-bottom:8px}
+.ans p.en{font-size:15.5px;line-height:1.65}
+.ans p.ko{font-size:13px;color:var(--sub);line-height:1.6;margin-top:8px;display:none}
+.ans.showko p.ko{display:block}
+.row{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.btn{border:none;border-radius:10px;padding:9px 12px;font-weight:700;font-family:inherit;font-size:13px;cursor:pointer;background:#eef1fb;color:var(--navy)}
+.btn.main{background:var(--navy);color:#fff}
+.btn.coral{background:var(--coral);color:#fff}
+.btn.mint{background:var(--mint);color:#fff}
+.btn.big{width:100%;padding:15px;font-size:16px;border-radius:14px}
+.btn:disabled{opacity:.4}
+.tip{background:#fff8e6;border-left:4px solid var(--sun);border-radius:10px;padding:12px;font-size:13.5px;line-height:1.65}
+.tip b{color:var(--navy)}
+.past{background:#ffe9e6;color:#c4382a;font-weight:700;border-radius:4px;padding:0 3px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{background:#eef1fb;border-radius:20px;padding:6px 11px;font-size:13.5px}
+label.step{display:block;font-size:13px;font-weight:700;color:var(--navy);margin:12px 0 5px}
+label.step em{font-style:normal;color:var(--sub);font-weight:500}
+textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:10px;font-family:'Nunito','Noto Sans KR',sans-serif;font-size:15px;resize:vertical;min-height:52px}
+textarea:focus,input:focus{outline:2px solid var(--navy2);border-color:transparent}
+.saved{font-size:12px;color:var(--mint);font-weight:700;margin-top:8px;min-height:16px}
+/* 실전 */
+.stage{text-align:center;padding:26px 16px}
+.stage .num{font-size:13px;color:var(--sub);font-weight:700}
+.bubble{background:var(--navy);color:#fff;border-radius:20px;padding:20px;margin:14px 0;font-size:16px;min-height:80px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px}
+.bubble .hidden{font-size:30px;letter-spacing:4px}
+.timer{font-size:52px;font-weight:900;font-family:'Nunito';color:var(--navy);margin:8px 0}
+.timer.warn{color:var(--coral)}
+.bar{height:8px;background:var(--line);border-radius:8px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;background:var(--mint);width:0;transition:width .3s}
+.checks label{display:flex;gap:10px;align-items:center;padding:11px;border:1.5px solid var(--line);border-radius:12px;margin-bottom:8px;font-size:14.5px;text-align:left;cursor:pointer}
+.checks input{width:20px;height:20px;accent-color:var(--mint)}
+.stars{font-size:30px;color:var(--sun);letter-spacing:4px;margin:8px 0}
+.hist li{list-style:none;display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.rescue{display:grid;gap:8px}
+.rescue div{border:1.5px solid var(--line);border-radius:12px;padding:12px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.rescue .en{font-weight:800;color:var(--navy);font-size:15px}
+.rescue small{display:block;color:var(--sub);font-size:12.5px;margin-top:2px}
+.plan td{padding:9px 6px;border-bottom:1px solid var(--line);font-size:13.5px;vertical-align:top}
+.plan td:first-child{font-weight:900;color:var(--navy);white-space:nowrap}
+nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 4px calc(6px + env(safe-area-inset-bottom));z-index:10}
+nav button{flex:1;max-width:130px;border:none;background:none;font-family:inherit;font-size:11.5px;font-weight:700;color:var(--sub);padding:6px 2px;cursor:pointer;border-radius:12px}
+nav button .ic{display:block;font-size:21px;margin-bottom:2px}
+nav button.on{color:var(--navy);background:#eef1fb}
+audio{width:100%;margin-top:10px}
+.rec-dot{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--coral);margin-right:6px;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.2}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="title"><small>중1 2학기 영어 말하기 수행평가</small><b>🎤 원어민 인터뷰 대비</b></div>
+    <div class="dday"><span>시험 시작</span><strong id="dday">D-?</strong></div>
+  </div>
+  <div class="namebar"><input id="sname" placeholder="이름을 입력하세요"></div>
+</header>
+
+<main>
+<!-- 1. 예시답안 -->
+<section class="section on" id="s-learn">
+  <div class="card">
+    <div class="qtabs" data-target="learn"></div>
+    <div id="learnBox"></div>
+  </div>
+  <div class="card">
+    <h2>💡 4문장 답변 공식</h2>
+    <div class="tip">
+      <b>① 직접 답</b> 질문에 바로 답하기<br>
+      <b>②③ 구체적 내용</b> 누구와 / 어디서 / 무엇을 / 왜<br>
+      <b>④ 감정·마무리</b> I felt… / I want to… / So I think…<br><br>
+      ⚠️ 예시답안을 <b>그대로 외우면 감점</b>! 내 경험으로 단어를 바꾸세요.
+    </div>
+  </div>
+</section>
+
+<!-- 2. 내 답안 -->
+<section class="section" id="s-mine">
+  <div class="card">
+    <div class="qtabs" data-target="mine"></div>
+    <div id="mineBox"></div>
+  </div>
+</section>
+
+<!-- 3. 실전 -->
+<section class="section" id="s-test">
+  <div class="card" id="testCard">
+    <div class="stage" id="stage"></div>
+  </div>
+  <div class="card">
+    <h2>📊 내 연습 기록</h2>
+    <ul class="hist" id="hist"></ul>
+  </div>
+</section>
+
+<!-- 4. 표현 & 계획 -->
+<section class="section" id="s-tips">
+  <div class="card">
+    <h2>🆘 위기 탈출 표현</h2>
+    <div class="rescue" id="rescue"></div>
+  </div>
+  <div class="card">
+    <h2>✅ 채점 포인트</h2>
+    <div class="tip">
+      <b>내용</b> 질문에 맞는 답, 내 경험이 들어갔나<br>
+      <b>문장 수</b> 3~4문장 이상<br>
+      <b>정확성</b> 2·3번은 <span class="past">과거시제</span> 끝까지 유지 (went, ate, was)<br>
+      <b>유창성</b> 멈추지 않고 끝까지 / Well, Actually 같은 연결어<br>
+      <b>태도</b> 눈 맞춤, 또박또박, 자신 있는 목소리
+    </div>
+  </div>
+  <div class="card">
+    <h2>🗓️ 3주 연습 계획</h2>
+    <table class="plan">
+      <tr><td>1주차<br>10/21~27</td><td><b>내 답 만들기</b><br>예시 중 내 상황과 맞는 것을 골라 단어 바꾸기 → '내 답안' 탭에 저장 → 선생님 첨삭</td></tr>
+      <tr><td>2주차<br>10/28~11/3</td><td><b>입으로 익히기</b><br>보지 않고 말하기, 녹음해서 들어보기, 한 질문당 30초 이상</td></tr>
+      <tr><td>3주차<br>11/4~8</td><td><b>실전 모의</b><br>'실전' 탭에서 순서 랜덤 + 꼬리질문까지 매일 1회, 별점 5개 목표</td></tr>
+    </table>
+  </div>
+</section>
+</main>
+
+<nav>
+  <button class="on" data-s="learn"><span class="ic">📖</span>예시답안</button>
+  <button data-s="mine"><span class="ic">✏️</span>내 답안</button>
+  <button data-s="test"><span class="ic">🎤</span>실전 모드</button>
+  <button data-s="tips"><span class="ic">🆘</span>표현·계획</button>
+</nav>
+
+<script>
+const Q = [
+ {en:"What do you think about school field trips?", ko:"학교 현장체험학습에 대해 어떻게 생각하나요?", past:false,
+  ans:[
+   {t:"긍정형 · 새로운 장소", en:"I think school field trips are really exciting. I can see new places outside the classroom. Last year, I went to a science museum with my class. I learned a lot about space there. I hope we go on more field trips.", ko:"저는 현장체험학습이 정말 신난다고 생각해요. 교실 밖의 새로운 장소를 볼 수 있어요. 작년에 반 친구들과 과학관에 갔어요. 거기서 우주에 대해 많이 배웠어요. 현장체험학습을 더 많이 가면 좋겠어요."},
+   {t:"긍정형 · 친구", en:"In my opinion, field trips are great for making friends. I can talk with classmates I don't usually talk to. We eat lunch together and take pictures. It makes our class closer. So I think field trips are very important.", ko:"제 생각에 현장체험학습은 친구를 사귀기에 좋아요. 평소에 잘 얘기하지 않던 반 친구들과 이야기할 수 있어요. 함께 점심을 먹고 사진을 찍어요. 그래서 우리 반이 더 친해져요. 그래서 현장체험학습은 아주 중요하다고 생각해요."},
+   {t:"장단점형", en:"I think field trips have good points and bad points. They are fun and we can learn new things. But sometimes it is tiring because we walk a lot. Also, some places are too crowded. Still, I like field trips more than regular classes.", ko:"현장체험학습에는 좋은 점과 나쁜 점이 있다고 생각해요. 재미있고 새로운 것을 배울 수 있어요. 하지만 많이 걸어서 가끔 피곤해요. 또 어떤 곳은 너무 붐벼요. 그래도 저는 일반 수업보다 현장체험학습이 더 좋아요."},
+   {t:"제안형", en:"I like school field trips, but I want to choose the place. Most of the time, teachers decide where we go. If students can vote, everyone will enjoy the trip more. I want to visit an amusement park or a farm next time.", ko:"저는 현장체험학습을 좋아하지만 장소를 직접 고르고 싶어요. 대부분 선생님이 어디 갈지 정해요. 학생들이 투표할 수 있다면 모두 더 즐거울 거예요. 다음에는 놀이공원이나 농장에 가고 싶어요."}
+  ],
+  words:["exciting","interesting","boring","tiring","museum","amusement park","history","nature","classmates","I learned…","I hope…"],
+  follow:["Where do you want to go next time?","Why do you like field trips?","What was your best field trip?","Who do you want to go with?"]},
+ {en:"What did you do last weekend?", ko:"지난 주말에 무엇을 했나요?", past:true,
+  ans:[
+   {t:"집에서 휴식", en:"Last weekend, I stayed home and relaxed. I watched movies with my brother. Then I played games on my phone. In the evening, my mom made kimchi stew for us. It was a quiet but nice weekend.", ko:"지난 주말에 저는 집에서 쉬었어요. 남동생과 영화를 봤어요. 그다음 휴대폰으로 게임을 했어요. 저녁에는 엄마가 김치찌개를 만들어 주셨어요. 조용하지만 좋은 주말이었어요."},
+   {t:"친구와 외출", en:"Last Saturday, I met my friends at the mall. We went shopping and bought some clothes. After that, we ate tteokbokki at a snack bar. We talked and laughed a lot. I had so much fun.", ko:"지난 토요일에 쇼핑몰에서 친구들을 만났어요. 쇼핑을 하고 옷을 샀어요. 그 후에 분식집에서 떡볶이를 먹었어요. 많이 이야기하고 웃었어요. 정말 재미있었어요."},
+   {t:"공부·학원", en:"Last weekend, I was very busy. I went to my academy on Saturday morning. I studied English and math for my exams. On Sunday, I cleaned my room and helped my mom. I was tired, but I felt proud of myself.", ko:"지난 주말에 저는 아주 바빴어요. 토요일 아침에 학원에 갔어요. 시험을 위해 영어와 수학을 공부했어요. 일요일에는 방을 청소하고 엄마를 도와드렸어요. 피곤했지만 제 자신이 자랑스러웠어요."},
+   {t:"가족 나들이", en:"Last Sunday, I went to Dadaepo Beach with my family. We rode bikes along the beach. The weather was cool and sunny. After that, we had grilled fish for dinner. It was a perfect weekend.", ko:"지난 일요일에 가족과 다대포 해수욕장에 갔어요. 해변을 따라 자전거를 탔어요. 날씨가 시원하고 맑았어요. 그 후에 저녁으로 생선구이를 먹었어요. 완벽한 주말이었어요."}
+  ],
+  words:["went → go","ate → eat","played → play","watched → watch","met → meet","bought → buy","saw → see","had → have","was / were","After that,","Then,"],
+  follow:["Who did you go with?","How did you feel?","What did you eat?","What will you do this weekend?"]},
+ {en:"What is your favorite memory from this year?", ko:"올해 가장 기억에 남는 일은 무엇인가요?", past:true,
+  ans:[
+   {t:"중학교 입학", en:"My favorite memory is my first day of middle school. I was nervous because everything was new. But I met a kind friend in my class. She helped me a lot. Now we are best friends.", ko:"가장 기억에 남는 일은 중학교 첫날이에요. 모든 게 새로워서 긴장했어요. 하지만 반에서 친절한 친구를 만났어요. 그 친구가 저를 많이 도와줬어요. 지금 우리는 가장 친한 친구예요."},
+   {t:"체육대회", en:"My favorite memory from this year is the school sports day. I ran in the relay race for my class. We didn't win first place, but we did our best. Everyone cheered for each other. I felt really happy that day.", ko:"올해 가장 기억에 남는 일은 체육대회예요. 반 대표로 계주를 뛰었어요. 1등은 못 했지만 최선을 다했어요. 모두가 서로를 응원했어요. 그날 정말 행복했어요."},
+   {t:"가족여행", en:"My best memory is my family trip to Jeju Island this summer. We climbed Hallasan and swam in the sea. I tried black pork for the first time, and it was delicious. I want to go there again.", ko:"가장 좋은 기억은 이번 여름 제주도 가족여행이에요. 한라산에 오르고 바다에서 수영했어요. 흑돼지를 처음 먹어봤는데 맛있었어요. 그곳에 다시 가고 싶어요."},
+   {t:"성취 경험", en:"My favorite memory is when I got a good score on my English test. I studied very hard for two weeks. When I saw my score, I was so happy. My parents were proud of me, too. It gave me confidence.", ko:"가장 기억에 남는 일은 영어 시험에서 좋은 점수를 받은 거예요. 2주 동안 정말 열심히 공부했어요. 점수를 봤을 때 너무 기뻤어요. 부모님도 저를 자랑스러워하셨어요. 그 일로 자신감이 생겼어요."}
+  ],
+  words:["sports day","school festival","trip","birthday party","nervous","excited","proud","for the first time","did my best","It gave me…"],
+  follow:["Why is it special to you?","Who were you with?","How did you feel?","Do you want to do it again?"]}
+];
+const RESCUE=[
+ ["Let me think…","잠깐 생각해 볼게요"],["Can you say that again, please?","다시 말씀해 주시겠어요?"],
+ ["Could you speak more slowly, please?","천천히 말씀해 주시겠어요?"],["Sorry, what does ___ mean?","___가 무슨 뜻인가요?"],
+ ["Well, actually…","음, 사실은…"],["That's a good question.","좋은 질문이네요."],
+ ["I'm not sure, but I think…","잘 모르겠지만 제 생각엔…"],["For example,","예를 들면,"]
+];
+const STEPS=[["① 직접 답","질문에 바로 답하기"],["② 구체적 내용 1","누구와 / 어디서 / 무엇을"],["③ 구체적 내용 2","그다음 / 이유 / 느낀 점"],["④ 감정·마무리","I felt… / I want to…"],["⑤ 추가 문장 (선택)","더 말하면 가산점!"]];
+
+// storage
+const S={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+// D-day
+(function(){const t=new Date(2026,10,9);const n=new Date();n.setHours(0,0,0,0);const d=Math.round((t-n)/86400000);
+document.getElementById('dday').textContent=d>0?'D-'+d:(d===0?'D-DAY':'시험 중');})();
+
+const nm=document.getElementById('sname');nm.value=S.get('si_name','');nm.oninput=()=>S.set('si_name',nm.value);
+
+// TTS
+let voice=null;
+function pickVoice(){const vs=speechSynthesis.getVoices();voice=vs.find(v=>/en-US/.test(v.lang)&&/Samantha|Google US|Jenny|Aria/.test(v.name))||vs.find(v=>/en-US/.test(v.lang))||vs.find(v=>/^en/.test(v.lang))||null;}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+function speak(text,rate=0.9,onend){if(!('speechSynthesis' in window)){onend&&onend();return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';if(voice)u.voice=voice;u.rate=rate;if(onend)u.onend=onend;speechSynthesis.speak(u);}
+
+// nav
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('nav button').forEach(x=>x.classList.remove('on'));b.classList.add('on');
+ document.querySelectorAll('.section').forEach(s=>s.classList.remove('on'));document.getElementById('s-'+b.dataset.s).classList.add('on');
+ speechSynthesis&&speechSynthesis.cancel();window.scrollTo(0,0);
+ if(b.dataset.s==='test'&&!testState.running)renderStart();
+});
+
+// q tabs
+const cur={learn:0,mine:0};
+document.querySelectorAll('.qtabs').forEach(w=>{const tg=w.dataset.target;
+ w.innerHTML=Q.map((q,i)=>`<button class="${i===0?'on':''}" data-i="${i}">질문 ${i+1}</button>`).join('');
+ w.querySelectorAll('button').forEach(b=>b.onclick=()=>{w.querySelectorAll('button').forEach(x=>x.classList.remove('on'));b.classList.add('on');cur[tg]=+b.dataset.i;tg==='learn'?renderLearn():renderMine();});
+});
+function qHead(q,i){return `<div class="qbox"><div class="en">Q${i+1}. ${q.en}</div><div class="ko">${q.ko}</div>
+ <div class="row"><button class="btn main" onclick="speak(Q[${i}].en)">🔊 질문 듣기</button></div></div>`}
+
+function renderLearn(){const i=cur.learn,q=Q[i];
+ let h=qHead(q,i);
+ if(q.past)h+=`<div class="tip" style="margin-bottom:12px">⚠️ 이 질문은 <span class="past">과거시제</span>로 끝까지 답해야 해요!</div>`;
+ q.ans.forEach((a,j)=>{h+=`<div class="ans" id="a${j}"><span class="tag">예시 ${'ABCD'[j]} · ${a.t}</span>
+  <p class="en">${a.en}</p><p class="ko">${a.ko}</p>
+  <div class="row"><button class="btn main" onclick="speak(Q[${i}].ans[${j}].en)">🔊 듣기</button>
+  <button class="btn" onclick="speak(Q[${i}].ans[${j}].en,0.65)">🐢 천천히</button>
+  <button class="btn" onclick="document.getElementById('a${j}').classList.toggle('showko')">🇰🇷 해석</button></div></div>`});
+ h+=`<h2 style="margin-top:16px">🔑 바꿔 쓸 표현</h2><div class="chips">${q.words.map(w=>`<span class="chip en">${w}</span>`).join('')}</div>
+ <h2 style="margin-top:16px">❓ 예상 꼬리질문</h2><div class="chips">${q.follow.map((f,k)=>`<span class="chip en" style="cursor:pointer" onclick="speak(Q[${i}].follow[${k}])">🔊 ${f}</span>`).join('')}</div>`;
+ document.getElementById('learnBox').innerHTML=h;}
+
+function renderMine(){const i=cur.mine,q=Q[i];const data=S.get('si_mine_'+i,[]);
+ let h=qHead(q,i)+`<div class="tip">예시답안을 참고하되 <b>나의 실제 경험</b>으로 써 보세요.${q.past?' <span class="past">과거시제</span> 주의!':''}</div>`;
+ STEPS.forEach((s,k)=>{h+=`<label class="step">${s[0]} <em>${s[1]}</em></label><textarea data-k="${k}" placeholder="영어로 한 문장">${data[k]||''}</textarea>`});
+ h+=`<div class="saved" id="saved"></div><div class="row"><button class="btn main" onclick="readMine(${i})">🔊 내 답안 듣기</button><button class="btn" onclick="hideMine()">🙈 가리고 말해보기</button></div>`;
+ const box=document.getElementById('mineBox');box.innerHTML=h;
+ box.querySelectorAll('textarea').forEach(t=>t.oninput=()=>{const d=S.get('si_mine_'+i,[]);d[+t.dataset.k]=t.value;S.set('si_mine_'+i,d);const sv=document.getElementById('saved');sv.textContent='✓ 자동 저장됨';});}
+function readMine(i){const d=S.get('si_mine_'+i,[]).filter(Boolean).join(' ');d?speak(d):alert('먼저 답안을 작성해 주세요.');}
+function hideMine(){document.querySelectorAll('#mineBox textarea').forEach(t=>t.style.filter=t.style.filter?'':'blur(6px)');}
+
+function renderRescue(){document.getElementById('rescue').innerHTML=RESCUE.map((r,k)=>`<div><div><span class="en">${r[0]}</span><small>${r[1]}</small></div><button class="btn main" onclick="speak(RESCUE[${k}][0])">🔊</button></div>`).join('');}
+
+// ===== 실전 모드 =====
+const testState={running:false,order:[],step:0,timer:null,rec:null,chunks:[],hasFollow:true};
+const stage=document.getElementById('stage');
+function renderStart(){stage.innerHTML=`<div style="font-size:44px">🎤</div><h2 style="margin:8px 0">실전 모의 인터뷰</h2>
+ <p style="color:var(--sub);font-size:14px;line-height:1.7;margin-bottom:16px">원어민 선생님이 질문 3개를 <b>랜덤 순서</b>로 물어봐요.<br>화면에 글자는 안 보여요. <b>귀로 듣고</b> 대답하세요!<br>각 질문 뒤에 꼬리질문이 나올 수 있어요.</p>
+ <div class="checks"><label><input type="checkbox" id="optFollow" checked> 꼬리질문 포함</label><label><input type="checkbox" id="optRec" checked> 내 목소리 녹음하기</label></div>
+ <button class="btn coral big" onclick="startTest()">시작하기</button>`;}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function startTest(){testState.hasFollow=document.getElementById('optFollow').checked;testState.useRec=document.getElementById('optRec').checked;
+ testState.order=[];shuffle([0,1,2]).forEach(i=>{testState.order.push({q:Q[i].en,main:true,qi:i});if(testState.hasFollow&&Math.random()<0.7){const f=Q[i].follow[Math.floor(Math.random()*Q[i].follow.length)];testState.order.push({q:f,main:false,qi:i})}});
+ testState.step=0;testState.running=true;testState.clips=[];nextQ();}
+function nextQ(){const s=testState.step,tot=testState.order.length;if(s>=tot)return finishTest();const it=testState.order[s];
+ stage.innerHTML=`<div class="bar"><i style="width:${s/tot*100}%"></i></div><div class="num">${it.main?'질문':'꼬리질문'} ${s+1} / ${tot}</div>
+ <div class="bubble"><div>🧑‍🏫 원어민 선생님</div><div class="hidden" id="qtxt">• • •</div></div>
+ <div class="timer" id="tm">${it.main?30:15}</div><div id="recst" style="font-size:13px;color:var(--sub);min-height:18px"></div>
+ <div class="row" style="justify-content:center"><button class="btn" onclick="speak(testState.order[testState.step].q,0.8)">🔁 다시 듣기</button>
+ <button class="btn" onclick="document.getElementById('qtxt').textContent=testState.order[testState.step].q;document.getElementById('qtxt').style.cssText='font-size:16px;letter-spacing:0'">👀 질문 보기</button></div>
+ <button class="btn mint big" style="margin-top:14px" onclick="endAnswer()">답변 완료 ➜</button>`;
+ speak(it.q,0.9,()=>startAnswer(it.main?30:15));}
+async function startAnswer(sec){let t=sec;const el=document.getElementById('tm');if(!el)return;
+ if(testState.useRec&&navigator.mediaDevices&&window.MediaRecorder){try{const st=await navigator.mediaDevices.getUserMedia({audio:true});testState.stream=st;testState.chunks=[];const r=new MediaRecorder(st);testState.rec=r;r.ondataavailable=e=>testState.chunks.push(e.data);r.start();const rs=document.getElementById('recst');if(rs)rs.innerHTML='<span class="rec-dot"></span>녹음 중… 지금 말하세요!';}catch(e){const rs=document.getElementById('recst');if(rs)rs.textContent='🎙️ 마이크 권한이 없어 녹음 없이 진행해요.';}}
+ else{const rs=document.getElementById('recst');if(rs)rs.textContent='지금 말하세요!';}
+ clearInterval(testState.timer);testState.timer=setInterval(()=>{t--;if(el){el.textContent=t;el.classList.toggle('warn',t<=5)}if(t<=0)endAnswer();},1000);}
+function stopRec(){return new Promise(res=>{const r=testState.rec;if(r&&r.state!=='inactive'){r.onstop=()=>{const b=new Blob(testState.chunks,{type:r.mimeType||'audio/webm'});testState.stream&&testState.stream.getTracks().forEach(t=>t.stop());testState.rec=null;res(b)};r.stop();}else res(null);});}
+async function endAnswer(){clearInterval(testState.timer);speechSynthesis.cancel();const b=await stopRec();
+ testState.clips.push({q:testState.order[testState.step].q,blob:b});testState.step++;nextQ();}
+function finishTest(){testState.running=false;
+ let h=`<div style="font-size:44px">🎉</div><h2 style="margin:8px 0">인터뷰 끝! 셀프 체크</h2>`;
+ if(testState.clips.some(c=>c.blob)){h+=`<div style="text-align:left;margin:12px 0">`;testState.clips.forEach((c,k)=>{if(c.blob)h+=`<div class="en" style="font-size:13.5px;font-weight:800;color:var(--navy);margin-top:10px">${c.q}</div><audio controls src="${URL.createObjectURL(c.blob)}"></audio>`});h+=`</div>`;}
+ const items=["모든 질문에 3문장 이상 말했다","2·3번을 과거시제로 말했다","멈추지 않고 끝까지 말했다","예시답안이 아닌 내 경험으로 말했다","꼬리질문에도 대답했다"];
+ h+=`<div class="checks" style="margin-top:12px">${items.map((t,k)=>`<label><input type="checkbox" class="sc"> ${t}</label>`).join('')}</div>
+ <div class="stars" id="stars">☆☆☆☆☆</div><button class="btn coral big" onclick="saveResult()">기록 저장하기</button>
+ <button class="btn big" style="margin-top:8px" onclick="renderStart()">다시 도전</button>`;
+ stage.innerHTML=h;document.querySelectorAll('.sc').forEach(c=>c.onchange=()=>{const n=document.querySelectorAll('.sc:checked').length;document.getElementById('stars').textContent='★'.repeat(n)+'☆'.repeat(5-n)});}
+function saveResult(){const n=document.querySelectorAll('.sc:checked').length;const hs=S.get('si_hist',[]);const d=new Date();
+ hs.unshift({d:`${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`,s:n});S.set('si_hist',hs.slice(0,30));renderHist();
+ stage.innerHTML=`<div style="font-size:44px">${n>=5?'🏆':n>=3?'👍':'💪'}</div><h2 style="margin:8px 0">${'★'.repeat(n)}${'☆'.repeat(5-n)}</h2><p style="color:var(--sub);font-size:14px;margin-bottom:16px">${n>=5?'완벽해요! 이 감각 그대로 시험 보세요.':n>=3?'좋아요! 체크 못 한 항목을 다시 연습해요.':'괜찮아요. 내 답안 탭에서 한 번 더 다듬어 봐요!'}</p><button class="btn coral big" onclick="renderStart()">다시 도전</button>`;}
+function renderHist(){const hs=S.get('si_hist',[]);document.getElementById('hist').innerHTML=hs.length?hs.map(x=>`<li><span>${x.d}</span><span style="color:var(--sun)">${'★'.repeat(x.s)}${'☆'.repeat(5-x.s)}</span></li>`).join(''):'<li style="color:var(--sub)">아직 기록이 없어요. 첫 도전을 해 보세요!</li>';}
+
+renderLearn();renderMine();renderRescue();renderStart();renderHist();
+</script>
+</body>
+</html>
