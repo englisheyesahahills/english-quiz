@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L8 Butterfly Mini Test</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: one centered column (max 680px) — sticky navy header band, day grid on home, one question card at a time */
+:root{
+  --navy:#1d2b4f; --burgundy:#8a2240; --gold:#c98a12;
+  --bg:#f4f5f9; --card:#ffffff; --ink:#1b2133; --muted:#5c6478; --line:#dfe2ea;
+  --soft:#eef0f6; --ok:#1d7a4a; --ok-bg:#e5f4ec; --bad:#b3263a; --bad-bg:#fbe9ec;
+  --hdr:#1d2b4f; --hdr-ink:#ffffff; --chip:#ffffff; --chip-line:#c9cedb; --sel:#1d2b4f; --sel-ink:#ffffff;
+  --display:"Do Hyeon","Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12151f; --card:#1b2030; --ink:#e8eaf1; --muted:#a3a9ba; --line:#2d3346; --soft:#232a3d;
+  --burgundy:#e0708c; --gold:#e8b04a; --ok:#5fcf8f; --ok-bg:#163527; --bad:#ff8094; --bad-bg:#3a1a22;
+  --hdr:#0d1426; --hdr-ink:#ffffff; --chip:#232a3d; --chip-line:#3a4258; --sel:#8fa3d9; --sel-ink:#0d1426; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151f; --card:#1b2030; --ink:#e8eaf1; --muted:#a3a9ba; --line:#2d3346; --soft:#232a3d;
+  --burgundy:#e0708c; --gold:#e8b04a; --ok:#5fcf8f; --ok-bg:#163527; --bad:#ff8094; --bad-bg:#3a1a22;
+  --hdr:#0d1426; --hdr-ink:#ffffff; --chip:#232a3d; --chip-line:#3a4258; --sel:#8fa3d9; --sel-ink:#0d1426; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--hdr)}
+.wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--hdr);color:var(--hdr-ink)}
+header.top .wrap{display:flex;align-items:center;gap:12px;padding-block:12px}
+.brand{font-family:var(--display);font-size:20px;letter-spacing:.5px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{font-family:var(--body);font-size:12px;opacity:.75;margin-left:6px;letter-spacing:0}
+.hbtn{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+.bar{height:4px;background:rgba(255,255,255,.15)}.bar i{display:block;height:100%;background:var(--gold);transition:width .3s}
+main{padding-block:20px 48px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+.hero{display:grid;gap:6px;margin-bottom:18px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);font-weight:700}
+.hero h1{font-size:32px;line-height:1.2;color:var(--ink)}
+.hero p{margin:0;color:var(--muted);font-size:14px}
+.namebox{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:18px}
+.namebox label{font-size:14px;color:var(--muted);white-space:nowrap}
+.namebox input{flex:1;min-width:0;border:0;background:transparent;font:inherit;color:var(--ink);font-weight:700;outline:none}
+.stats{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:12px}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--muted)}
+.tag.c-대화문{color:#2f6fb0}.tag.c-본문{color:#3c8a5a}.tag.c-문법{color:var(--burgundy)}.tag.c-통합{color:#8a5a12}.tag.c-서술형{color:#6a3fa0}.tag.c-실전{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.day{display:grid;gap:4px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;font:inherit;color:var(--ink)}
+.day:hover,.day:focus-visible{border-color:var(--sel);outline:none}
+.day .n{font-family:var(--display);font-size:20px;display:flex;justify-content:space-between;align-items:center}
+.day .n em{font-style:normal;font-family:var(--body);font-size:13px;font-weight:700;color:var(--ok);font-variant-numeric:tabular-nums}
+.day .t{font-size:13px;color:var(--muted);line-height:1.4}
+.day.done{border-color:var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;font-size:14px;color:var(--muted)}
+.qhead b{color:var(--ink);font-family:var(--display);font-size:18px;font-weight:400}
+.type{font-size:12px;font-weight:700;color:var(--burgundy);border:1px solid currentColor;border-radius:6px;padding:1px 6px}
+details.pass{background:var(--soft);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:15px}
+details.pass summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--muted)}
+details.pass .ptxt{margin-top:8px;line-height:1.75;overflow-wrap:anywhere}
+.qtext{font-size:17px;font-weight:500;margin-bottom:16px;overflow-wrap:anywhere}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;background:var(--chip);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px;color:var(--ink);cursor:pointer;line-height:1.5}
+.opt .num{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--chip-line);display:grid;place-items:center;font-size:13px;font-weight:700}
+.opt span:last-child{min-width:0;overflow-wrap:anywhere}
+.opt.sel{border-color:var(--sel)}.opt.sel .num{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.inp{width:100%;font:inherit;font-size:16px;padding:12px;border:1.5px solid var(--chip-line);border-radius:10px;background:var(--chip);color:var(--ink)}
+.inp:focus{outline:2px solid var(--sel);outline-offset:1px}
+.built{min-height:56px;display:flex;flex-wrap:wrap;gap:6px;padding:10px;border:1.5px dashed var(--chip-line);border-radius:10px;margin-bottom:10px;align-content:flex-start}
+.built:empty::before{content:"아래 단어를 순서대로 눌러 문장을 완성하세요";color:var(--muted);font-size:14px}
+.pool{display:flex;flex-wrap:wrap;gap:6px}
+.w{font:inherit;font-size:15px;padding:6px 12px;border-radius:8px;border:1.5px solid var(--chip-line);background:var(--chip);color:var(--ink);cursor:pointer}
+.w.used{opacity:.25;pointer-events:none}
+.built .w{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+.actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 18px;border-radius:10px;border:0;background:var(--navy);color:#fff;cursor:pointer;flex:1}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);flex:0 0 auto}
+.btn.accent{background:var(--burgundy)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible,.w:focus-visible,.opt:focus-visible,.hbtn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.fb{margin-top:16px;border-radius:10px;padding:12px 14px;font-size:15px}
+.fb.ok{background:var(--ok-bg);color:var(--ink);border-left:4px solid var(--ok)}
+.fb.no{background:var(--bad-bg);color:var(--ink);border-left:4px solid var(--bad)}
+.fb strong{display:block;margin-bottom:4px}
+.fb .ans{font-weight:700}
+.score{display:grid;gap:4px;text-align:center;padding:24px 18px}
+.score .big{font-family:var(--display);font-size:64px;line-height:1;color:var(--navy);font-variant-numeric:tabular-nums}
+:root:not([data-theme="light"]) .score .big{color:var(--ink)}
+.score .meta{color:var(--muted);font-size:14px}
+.review{display:grid;gap:8px;margin-top:16px}
+.ri{display:grid;grid-template-columns:28px 1fr;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:14px}
+.ri .mk{font-weight:700;font-size:16px}.ri.ok .mk{color:var(--ok)}.ri.no .mk{color:var(--bad)}
+.ri div{min-width:0;overflow-wrap:anywhere}
+.ri .q{color:var(--muted)}
+.sec{margin-top:24px;display:grid;gap:10px}
+.sec h2{font-size:22px}
+.point{background:var(--soft);border-radius:10px;padding:12px 16px}
+.point ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:15px}
+.wsi{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--card);display:grid;gap:8px}
+.wsi .lines{border-bottom:1px solid var(--line);height:28px}
+.wsi button{justify-self:start;font:inherit;font-size:13px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:3px 10px;cursor:pointer}
+.wsi .a{color:var(--burgundy);font-weight:500;font-size:15px}
+.note{font-size:13px;color:var(--muted)}
+footer{font-size:12px;color:var(--muted);text-align:center;padding-block:8px 24px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="brand" id="brand">L7 Daily Mini Test<small id="subb">중2 동아(윤정미)</small></div><button class="hbtn" id="homeBtn" hidden>목록</button></div><div class="bar"><i id="bar" style="width:0"></i></div></header>
+<main class="wrap" id="app"></main>
+<footer class="wrap" id="foot">제작: 스텔라원장 · 잉글리시아이 스텔라</footer>
+
+<script>
+const CONF={key:"l8yun_v1",unit:"중2 동아(윤정미) L8",brand:"L8 Daily Mini Test",sub:"중2 동아(윤정미)",eyebrow:"Lesson 8 · A Butterfly That Changed the Future",flow:"본문 → 문법 → 통합 → 서술형 → 실전"};
+const PASS={
+Y1:"<b>A Butterfly That Changed the Future ①</b>\nEckels walked into the office of Time Travel. The big sign on the wall said, “NAME ANY YEAR IN THE PAST. WE TAKE YOU THERE.” There was a TV on the wall, and Mr. Keith, the new president, was on the news.\n“How can we help you?” said Mr. Parker, the founder of Time Travel.\n“[[I've always wanted]] to see a dinosaur. Is it possible?” asked Eckels.\n“Sure,” said Mr. Parker. “We can take you back to the jungle of 60 million years ago.”\n“Great,” said Eckels. “Can you take me there now?”\n“You're lucky. There's a time machine that leaves in 10 minutes,” said Mr. Parker.",
+Y2:"<b>A Butterfly That Changed the Future ②</b>\n“This is Travis, your travel guide,” he continued. “To stay safe, you must follow his instructions.”\nInside the time machine, there were two other travelers. Eckels sat down and closed his eyes. He felt the machine moving under his feet. After only a few minutes, the machine stopped.\n“[[We've just arrived]] in the jungle of 60 million years ago,” Travis explained. “Do you see the path over there? You must not leave it at any time. Do not touch anything. You might kill something by accident. A little change here can cause something unthinkable in the future.”",
+Y3:"<b>A Butterfly That Changed the Future ③</b>\nSlowly, everyone got out of the time machine. The jungle was covered in fog. It was very quiet.\n“I'm so excited,” said Eckels.\n“Be careful. Some of the dinosaurs are hungry,” said Travis. “Just stay calm. I don't want you to do anything foolish.”\n“Don't worry. I'm not a fool,” said Eckels.\nThey all began to walk on the path.\nAfter some time, Travis whispered, “Look over there. There is a T. rex.”\nOne hundred meters away, a T. rex slowly appeared.\n“It,” whispered Eckels. “It ...”\n“Sh!”\n“It ... is huge. [[I've never seen]] such a huge thing. I'm so scared,” said Eckels.\n“Sh ... quiet!” Travis said angrily. “You don't want it to see you.”",
+Y4:"<b>A Butterfly That Changed the Future ④</b>\n“I can't breathe,” said Eckels. “Get me out of here!”\n“Don't panic, Eckels,” said Travis. “Turn around, and walk quietly back to the machine.”\nEckels turned around and started to run. He was [[so terrified that]] he left the path by accident.\n“Eckels!” shouted Travis. “Don't leave the path!”\nThe T. rex heard Travis and turned its head toward him and the other travelers. There was a moment of silence. Then, it suddenly started to run toward them with a loud roar.\n“Run, everybody! Run!” shouted Travis.",
+Y5:"<b>A Butterfly That Changed the Future ⑤</b>\nTravis and the other travelers returned safely to the machine and found Eckels inside.\n“You put all of us in danger,” said Travis to Eckels in an angry voice. “You left the path.”\n“I'm sorry, but I didn't kill anything,” said Eckels. “There's only a little mud on my shoes.”\nTravis stared at Eckels for a long time without saying anything.\n“Let's go home,” said Travis finally.\nThe machine stopped. They all returned to the present safely.\n“Is everything okay here?” asked Travis.\n“Fine. Welcome home!” said Mr. Parker.",
+Y6:"<b>A Butterfly That Changed the Future ⑥</b>\nEckels looked around the room carefully. Everything looked the same, except the big sign on the wall. The sign now said, “NAIM ANY YEER EN THE PAST. WEE TAEK YU THAIR.” Eckels was confused.\nThen, he saw the TV. The new president was on the news, but it was not Mr. Keith. “What's going on?” He got more confused.\nHe sat down and looked closely at the mud on his shoes.\n“No, it can't be,” said Eckels. “It's all because of this little thing?” He was shocked. In the mud on his right shoe, he found a small dead butterfly."
+};
+const DAYS=[];
+
+DAYS.push({d:1,cat:"본문",title:"Time Travel 사무실 ① 내용 이해",
+point:["Eckels가 Time Travel 사무실에 감 – 간판: “과거의 어느 연도든 말하세요. 데려다 드립니다.”","TV 뉴스에는 새 대통령 Keith 씨 (← 마지막 장면의 복선)","Eckels: 항상 공룡을 보고 싶었다 → 6천만 년 전 정글로","10분 후 출발하는 타임머신이 있음"],
+q:[
+{t:"mc",p:"Y1",q:"글의 내용과 일치하지 <b>않는</b> 것은?",o:["Eckels went into the office of Time Travel.","Mr. Keith was the new president on the news.","Mr. Parker started the company Time Travel.","Eckels wanted to see a dinosaur.","Eckels had to wait a day for the time machine."],a:4,e:"10분 후에 출발하는 타임머신이 있었다."},
+{t:"mc",p:"Y1",q:"Mr. Parker에 대한 설명으로 알맞은 것은?",o:["the new president","the founder of Time Travel","Eckels' travel guide","a dinosaur expert","a news reporter"],a:1,e:"Mr. Parker, the founder of Time Travel (동격)"},
+{t:"mc",p:"Y1",q:"이야기 앞부분에서 TV 속 대통령이 Mr. Keith라고 밝힌 이유로 가장 알맞은 것은?",o:["Eckels가 대통령을 만나러 왔기 때문에","나중에 미래가 바뀌었다는 것을 보여 주기 위한 복선","Mr. Parker가 대통령의 친구이기 때문에","타임머신이 TV로 작동하기 때문에","Eckels가 정치에 관심이 많기 때문에"],a:1,e:"돌아왔을 때 대통령이 바뀌어 있다 → 복선"},
+{t:"mc",p:"Y1",q:"간판의 'NAME ANY YEAR IN THE PAST.'에서 name의 의미는?",o:["이름","이름 짓다","(구체적으로) 말하다, 지정하다","유명한","부르다"],a:2,e:"어느 해든 말하세요(지정하세요)"},
+{t:"mc",p:"Y1",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["Where did Eckels go?","What did the big sign say?","Who was on the news?","How much did the trip cost?","When does the time machine leave?"],a:3,e:"여행 비용은 나오지 않는다."},
+{t:"mc",q:"'“You're lucky. There's a time machine <u>that</u> leaves in 10 minutes.”'의 that과 쓰임이 같은 것은?",o:["I know that he is lucky.","That is a time machine.","I have a friend that lives in Busan.","She said that she was tired.","I think that dinosaurs are cool."],a:2,e:"주격 관계대명사 that"},
+{t:"mc",q:"'in 10 minutes'의 in과 같은 의미로 쓰인 것은?",o:["He lives in Seoul.","I'll be back in an hour.","She was born in 2010.","Put it in the box.","He is in the office."],a:1,e:"in + 시간: ~ 후에"},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (He wanted로 시작)<br>Q: What did Eckels want to see?",a:["He wanted to see a dinosaur.","He wanted to see dinosaurs."],e:"He wanted to see a dinosaur."},
+{t:"sa",q:"동격의 콤마를 사용하여 영작하시오. (said로 시작하지 말 것)<br>Time Travel의 설립자인 Parker 씨가 “무엇을 도와드릴까요?”라고 말했다.<br>→ “How can we help you?” said ________________.",a:["Mr. Parker, the founder of Time Travel"],e:"Mr. Parker, the founder of Time Travel"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>우리는 당신을 6천만 년 전의 정글로 데려다줄 수 있습니다.",w:["we","can","take","you","back","to the jungle","of 60 million years ago","took"],a:"we can take you back to the jungle of 60 million years ago",e:"take A back to B"}
+],
+ws:[
+{q:"이야기 첫 장면의 인물과 장소를 정리하시오. (Eckels / Mr. Parker / Mr. Keith / 장소)",a:"Eckels – 공룡을 보고 싶은 손님 / Mr. Parker – Time Travel 설립자 / Mr. Keith – TV 속 새 대통령 / 장소 – Time Travel 사무실"},
+{q:"영어로 답하시오: Where can Time Travel take Eckels?",a:"It can take him back to the jungle of 60 million years ago."},
+{q:"간판 문구를 우리말로 해석하시오: NAME ANY YEAR IN THE PAST. WE TAKE YOU THERE.",a:"과거의 어느 연도든 말씀하세요. 우리가 당신을 그곳에 데려다 드립니다."},
+{q:"Mr. Keith가 뉴스에 나온 장면이 이야기에서 어떤 역할을 하는지 우리말로 쓰시오.",a:"마지막에 대통령이 바뀐 것과 비교되어 과거의 작은 변화가 미래를 바꿨음을 보여 주는 복선이다."}
+]});
+
+DAYS.push({d:2,cat:"본문",title:"Time Travel 사무실 ② 어법·어휘",
+point:["현재완료(계속): I've always wanted to see a dinosaur. (지금까지 항상 ~해 왔다)","동격의 콤마: Mr. Keith, the new president / Mr. Parker, the founder of Time Travel","take A back to B: A를 B로 데려가다","There's a time machine that leaves ~ (주격 관계대명사, 단수동사 leaves)"],
+q:[
+{t:"mc",q:"'I<u>'ve always wanted</u> to see a dinosaur.'의 현재완료 용법과 같은 것은?",o:["I have just finished my homework.","Have you ever been to Jeju-do?","My uncle has lived in Canada since 2010.","The concert has already started.","I have seen a T. rex once."],a:2,e:"계속 용법 (since 2010)"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>Eckels (a)<u>walked</u> into the office of Time Travel. There (b)<u>was</u> a TV on the wall. “I (c)<u>have always wanted</u> to see a dinosaur,” asked Eckels. “There's a time machine that (d)<u>leave</u> in 10 minutes,” said Mr. Parker. “We can (e)<u>take</u> you back to the jungle.”",o:["(a)","(b)","(c)","(d)","(e)"],a:3,e:"선행사 a time machine(단수) → leaves"},
+{t:"mc",q:"콤마(,)의 쓰임이 'Mr. Parker, the founder of Time Travel'과 같은 것은?",o:["Yes, I can.","Travis, your travel guide, is kind.","Slowly, everyone got out.","I like red, blue, and green.","If you're lucky, you can go."],a:1,e:"동격의 콤마"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["I've always wanted to see a dinosaur.","Can you take me there now?","There's a time machine that leaves soon.","Is it possible?","I've always want to see a dinosaur."],a:4,e:"have + 과거분사(wanted)"},
+{t:"mc",q:"'Is it possible?'에서 it이 가리키는 것은?",o:["the office","seeing a dinosaur","the TV","the sign","the time machine"],a:1,e:"공룡을 보는 것이 가능한가?"},
+{t:"mc",q:"빈칸에 들어갈 말로 알맞은 것은?<br><br>Eckels walked ____ the office of Time Travel.",o:["into","onto","out","at","by"],a:0,e:"walk into: ~ 안으로 걸어 들어가다"},
+{t:"mc",q:"영영풀이 'a person who starts a company or organization'에 해당하는 단어는?",o:["president","founder","traveler","guide","fool"],a:1,e:"founder: 설립자"},
+{t:"sa",q:"현재완료를 사용하여 영작하시오. (always 포함)<br>나는 항상 공룡을 보고 싶었다.",a:["I've always wanted to see a dinosaur.","I have always wanted to see a dinosaur."],e:"have always wanted"},
+{t:"sa",q:"관계대명사 that을 사용하여 영작하시오. (There's로 시작)<br>10분 후에 출발하는 타임머신이 있습니다.",a:["There's a time machine that leaves in 10 minutes.","There is a time machine that leaves in 10 minutes."],e:"There's a time machine that leaves in 10 minutes."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>벽에는 TV가 있었고, 새 대통령인 Keith 씨가 뉴스에 나오고 있었다.",w:["there was","a TV","on the wall","and","Mr. Keith","the new president","was","on the news","were"],a:"there was a TV on the wall and Mr. Keith the new president was on the news",e:"동격: Mr. Keith, the new president"}
+],
+ws:[
+{q:"현재완료(계속)로 영작하시오: 나는 항상 우주에 가 보고 싶었다. (want, go to space)",a:"I've always wanted to go to space."},
+{q:"동격의 콤마로 한 문장으로: Travis is a travel guide. Travis is kind.",a:"Travis, a travel guide, is kind."},
+{q:"틀린 부분을 고치시오: There's a bus that leave in 5 minutes.",a:"leave → leaves"},
+{q:"영영풀이에 맞는 단어: (1) a person who starts a company (2) the leader of a country",a:"(1) founder (2) president"}
+]});
+
+DAYS.push({d:3,cat:"본문",title:"타임머신과 Travis의 지시 ① 내용 이해",
+point:["Travis = 여행 안내원 / 안전하려면 그의 지시를 따라야 함","타임머신 안에 다른 여행자 2명 / 몇 분 만에 도착","규칙: 길을 절대 벗어나지 말 것, 아무것도 만지지 말 것","이유: 작은 변화가 미래에 상상할 수 없는 일을 일으킬 수 있음"],
+q:[
+{t:"mc",p:"Y2",q:"Travis가 여행자들에게 지시한 것이 <b>아닌</b> 것은?",o:["길을 벗어나지 말 것","아무것도 만지지 말 것","그의 지시를 따를 것","공룡 사진을 찍을 것","실수로 무언가를 죽이지 않도록 조심할 것"],a:3,e:"사진에 관한 지시는 없다."},
+{t:"mc",p:"Y2",q:"Travis가 '길을 벗어나지 말라'고 한 근본적인 이유는?",o:["길 밖에 공룡이 많아서","길 밖은 진흙투성이라서","작은 변화가 미래에 상상할 수 없는 일을 일으킬 수 있어서","길을 잃을 수 있어서","타임머신이 멀리 있어서"],a:2,e:"A little change here can cause something unthinkable in the future."},
+{t:"mc",p:"Y2",q:"글의 내용과 일치하는 것은?",o:["Eckels traveled alone in the time machine.","The trip to the past took several hours.","Eckels felt the machine moving under his feet.","Travis told them to touch the plants.","They arrived in the jungle of 6 million years ago."],a:2,e:"He felt the machine moving under his feet."},
+{t:"mc",p:"Y2",q:"타임머신 안에 있던 여행자는 Eckels를 포함해 모두 몇 명인가? (안내원 제외)",o:["1명","2명","3명","4명","5명"],a:2,e:"two other travelers + Eckels = 3명"},
+{t:"mc",p:"Y2",q:"'unthinkable'의 의미로 알맞은 것은?",o:["생각하기 쉬운","상상할 수 없는","잊어버린","생각이 깊은","분명한"],a:1,e:"un(부정) + think + able → 상상할 수 없는"},
+{t:"mc",p:"Y2",q:"이 부분에서 이후의 사건을 예고하는 문장은?",o:["Eckels sat down and closed his eyes.","After only a few minutes, the machine stopped.","You might kill something by accident.","Inside the time machine, there were two other travelers.","This is Travis, your travel guide."],a:2,e:"실제로 Eckels가 실수로 나비를 죽이게 된다."},
+{t:"mc",p:"Y2",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["Who is Travis?","How many other travelers were in the machine?","How long did the trip take?","What must they not leave?","What were the other travelers' names?"],a:4,e:"다른 여행자들의 이름은 나오지 않는다."},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (They must로 시작)<br>Q: What must the travelers do to stay safe?",a:["They must follow his instructions.","They must follow Travis's instructions.","They must follow Travis' instructions."],e:"They must follow his instructions."},
+{t:"sa",q:"Travis가 말한 이유를 본문에서 찾아 그대로 쓰시오. (A little change로 시작)",a:["A little change here can cause something unthinkable in the future."],e:"A little change here can cause something unthinkable in the future."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>여러분은 어떤 경우에도 그 길을 벗어나면 안 됩니다.",w:["you","must not","leave","it","at any time","must","leaving"],a:"you must not leave it at any time",e:"must not + 동사원형: ~하면 안 된다"}
+],
+ws:[
+{q:"Travis의 지시 사항 3가지를 영어로 쓰시오.",a:"You must not leave the path. / Do not touch anything. / You must follow my instructions."},
+{q:"영어로 답하시오: Why must they not touch anything?",a:"Because they might kill something by accident, and a little change can cause something unthinkable in the future."},
+{q:"'You might kill something by accident.'가 이후 사건과 어떻게 연결되는지 우리말로 쓰시오.",a:"Eckels가 길을 벗어나 실수로 나비를 죽이게 되는 사건을 미리 암시한다."},
+{q:"영작하시오: 안전하려면, 너는 규칙을 따라야 한다. (To stay safe)",a:"To stay safe, you must follow the rules."}
+]});
+
+DAYS.push({d:4,cat:"본문",title:"타임머신과 Travis의 지시 ② 어법·어휘",
+point:["현재완료(완료): We've just arrived ~ (막 ~했다)","지각동사 feel + 목적어 + -ing/동사원형: He felt the machine moving.","To stay safe: 목적의 to부정사 (~하기 위해)","must not: ~해서는 안 된다(금지) / might: ~일지도 모른다 / by accident: 실수로"],
+q:[
+{t:"mc",q:"'We<u>'ve just arrived</u> in the jungle.'의 현재완료 용법과 같은 것은?",o:["I have visited Paris twice.","She has lived here for 5 years.","He has just finished his homework.","Have you ever seen a T. rex?","I have known him since 2020."],a:2,e:"완료 용법 (just)"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["He felt the machine moving under his feet.","He felt the machine move under his feet.","He felt the machine to move under his feet.","I saw the T. rex coming.","I heard Travis shout."],a:2,e:"지각동사 + 목적어 + 동사원형/-ing (to부정사 ×)"},
+{t:"mc",q:"'<u>To stay</u> safe, you must follow his instructions.'의 To stay와 쓰임이 같은 것은?",o:["I want to stay here.","To stay calm is hard.","She studied hard to pass the test.","It's time to stay home.","My plan is to stay in Seoul."],a:2,e:"목적(~하기 위해)"},
+{t:"mc",q:"'You must not leave it.'의 must not과 의미가 같은 것은?",o:["don't have to","need not","shouldn't","may not have to","can"],a:2,e:"must not = 금지 (shouldn't에 가장 가깝다)"},
+{t:"mc",q:"'You <u>might</u> kill something by accident.'의 might와 의미가 가장 가까운 것은?",o:["must","may","should","will","can't"],a:1,e:"might = ~일지도 모른다 (may)"},
+{t:"mc",q:"빈칸 (A), (B)에 알맞은 것은?<br><br>• You might kill something (A)____ accident.<br>• He felt the machine moving (B)____ his feet.",o:["by - under","in - on","by - over","with - under","on - below"],a:0,e:"by accident / under his feet"},
+{t:"mc",q:"밑줄 친 it이 가리키는 것은?<br>“Do you see the path over there? You must not leave <u>it</u> at any time.”",o:["the jungle","the path","the time machine","the future","anything"],a:1,e:"it = the path"},
+{t:"sa",q:"현재완료를 사용하여 영작하시오. (just 포함, We로 시작)<br>우리는 방금 정글에 도착했다.",a:["We've just arrived in the jungle.","We have just arrived in the jungle."],e:"have just arrived"},
+{t:"sa",q:"지각동사를 사용하여 영작하시오. (moving 사용)<br>그는 발밑에서 기계가 움직이는 것을 느꼈다.",a:["He felt the machine moving under his feet."],e:"felt + 목적어 + moving"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>이곳에서의 작은 변화가 미래에 상상할 수 없는 일을 일으킬 수 있다.",w:["a little change","here","can","cause","something","unthinkable","in the future","causes"],a:"a little change here can cause something unthinkable in the future",e:"-thing + 형용사 (something unthinkable)"}
+],
+ws:[
+{q:"지각동사 문장으로 영작하시오: 나는 땅이 흔들리는 것을 느꼈다. (feel, shake)",a:"I felt the ground shaking[shake]."},
+{q:"현재완료(완료)로: 기차가 막 도착했다. (just, arrive)",a:"The train has just arrived."},
+{q:"-thing + 형용사 어순으로 영작: 나는 특별한 무언가를 원한다.",a:"I want something special."},
+{q:"must not과 don't have to의 차이를 예문과 함께 쓰시오.",a:"must not: 금지(~하면 안 된다) – You must not leave the path. / don't have to: 불필요(~할 필요 없다) – You don't have to hurry."}
+]});
+
+DAYS.push({d:5,cat:"본문",title:"정글과 T. rex ① 내용 이해",
+point:["정글은 안개로 덮여 있고 매우 조용함","Eckels: 신난다 → Travis: 조심, 어리석은 짓 하지 말라","100미터 떨어진 곳에 T. rex 등장 → Eckels: 이렇게 거대한 건 본 적 없다, 무섭다","Eckels의 감정 변화: excited → scared"],
+q:[
+{t:"mc",p:"Y3",q:"Eckels의 심경 변화로 가장 알맞은 것은?",o:["bored → excited","excited → scared","scared → relieved","angry → calm","sad → happy"],a:1,e:"I'm so excited → I'm so scared"},
+{t:"mc",p:"Y3",q:"글의 내용과 일치하지 <b>않는</b> 것은?",o:["The jungle was covered in fog.","Travis told Eckels to stay calm.","Eckels said he was not a fool.","The T. rex appeared 100 meters away.","Eckels had seen many T. rexes before."],a:4,e:"I've never seen such a huge thing."},
+{t:"mc",p:"Y3",q:"Travis가 'You don't want it to see you.'라고 말한 의도는?",o:["공룡에게 인사하라","조용히 해서 공룡에게 들키지 않게 하라","공룡 사진을 찍어라","공룡에게 다가가라","타임머신을 출발시켜라"],a:1,e:"공룡이 너를 보길 원하지 않잖아 → 조용히 하라"},
+{t:"mc",p:"Y3",q:"정글의 분위기로 가장 알맞은 것은?",o:["밝고 시끄러운","안개가 끼고 고요한","덥고 건조한","춥고 눈이 오는","화려하고 즐거운"],a:1,e:"covered in fog, very quiet"},
+{t:"mc",p:"Y3",q:"Eckels가 'It ... It ...'이라고 말을 잇지 못한 이유는?",o:["공룡 이름을 몰라서","너무 놀라고 무서워서","Travis가 말을 막아서","배가 고파서","춥고 피곤해서"],a:1,e:"거대한 공룡을 보고 놀라고 겁먹었다."},
+{t:"mc",p:"Y3",q:"Eckels의 'I'm not a fool.'과 이후 행동을 비교할 때 알 수 있는 것은?",o:["Eckels는 끝까지 침착했다.","Eckels는 말과 달리 어리석은 행동을 하게 된다.","Eckels는 Travis보다 용감했다.","Eckels는 공룡을 잘 알았다.","Eckels는 길을 지켰다."],a:1,e:"이후 겁에 질려 길을 벗어난다 → 아이러니"},
+{t:"mc",p:"Y3",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["What was the jungle like?","How far away was the T. rex?","How did Eckels feel when he saw the T. rex?","How tall was the T. rex?","What did Travis tell Eckels to do?"],a:3,e:"공룡의 키는 나오지 않는다."},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (It was로 시작)<br>Q: How far away was the T. rex?",a:["It was one hundred meters away.","It was 100 meters away."],e:"It was one hundred meters away."},
+{t:"sa",q:"현재완료(경험)를 사용하여 영작하시오. (never, such 포함)<br>나는 이렇게 거대한 것을 본 적이 없다.",a:["I've never seen such a huge thing.","I have never seen such a huge thing."],e:"I've never seen such a huge thing."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 당신이 어리석은 어떤 행동도 하지 않기를 바랍니다.",w:["I","don't","want","you","to do","anything","foolish","doing"],a:"I don't want you to do anything foolish",e:"want + 목적어 + to부정사 / anything + 형용사"}
+],
+ws:[
+{q:"Eckels의 감정 변화를 본문 표현 2개로 쓰시오.",a:"I'm so excited. → I'm so scared."},
+{q:"영어로 답하시오: What was the jungle like?",a:"It was covered in fog and very quiet."},
+{q:"'I'm not a fool.'이라는 Eckels의 말이 아이러니한 이유를 우리말로 쓰시오.",a:"바보가 아니라고 했지만 결국 겁에 질려 길을 벗어나 미래를 바꾸는 어리석은 행동을 했기 때문이다."},
+{q:"요약문 빈칸: When a T. rex appeared, Eckels was so ______. He had never seen such a ______ thing.",a:"scared / huge"}
+]});
+
+DAYS.push({d:6,cat:"본문",title:"정글과 T. rex ② 어법·어휘",
+point:["be covered in/with: ~으로 덮여 있다 (수동태)","want + 목적어 + to부정사: I don't want you to do ~ / You don't want it to see you.","-thing + 형용사: anything foolish","현재완료(경험): I've never seen such a huge thing. (such + a + 형용사 + 명사)"],
+q:[
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["I don't want you to do anything foolish.","You don't want it to see you.","I want you stay calm.","She wants me to be careful.","They want us to follow the path."],a:2,e:"want + 목적어 + to부정사 → to stay"},
+{t:"mc",q:"어순이 바른 것은?",o:["I don't want you to do foolish anything.","I don't want you to do anything foolish.","I don't want to you do anything foolish.","I don't want you doing foolish anything.","I don't you want to do anything foolish."],a:1,e:"-thing으로 끝나는 대명사는 형용사가 뒤에서 수식"},
+{t:"mc",q:"'such a huge thing'과 어순이 같은 것은?",o:["such huge a thing","so a huge thing","such a scary dinosaur","a such quiet jungle","so huge thing"],a:2,e:"such + a + 형용사 + 명사"},
+{t:"mc",q:"'I've never seen such a huge thing.'의 현재완료 용법과 같은 것은?",o:["He has lived here since 2010.","Have you ever been to Jeju-do?","I have just eaten lunch.","The concert has already started.","She has worked here for a year."],a:1,e:"경험 용법 (never, ever)"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>The jungle was (a)<u>covered</u> in fog. “I'm so (b)<u>exciting</u>,” said Eckels. “Just stay (c)<u>calm</u>. I don't want you (d)<u>to do</u> anything foolish,” said Travis. They all began (e)<u>to walk</u> on the path.",o:["(a)","(b)","(c)","(d)","(e)"],a:1,e:"사람이 느끼는 감정 → excited"},
+{t:"mc",q:"'Travis said <u>angrily</u>.'처럼 부사가 바르게 쓰인 것은?",o:["He stayed calmly.","She looked angrily.","Travis whispered quietly.","The T. rex was hugely.","Eckels felt scaredly."],a:2,e:"동사(whispered)를 수식 → 부사. stay/look/feel/be 뒤는 형용사."},
+{t:"mc",q:"영영풀이 'to speak very quietly'에 해당하는 단어는?",o:["shout","whisper","roar","explain","breathe"],a:1,e:"whisper: 속삭이다"},
+{t:"sa",q:"want를 사용하여 영작하시오. (I don't로 시작)<br>나는 네가 어리석은 어떤 행동도 하지 않기를 바란다.",a:["I don't want you to do anything foolish."],e:"want + you + to do + anything foolish"},
+{t:"sa",q:"수동태로 바꾸시오.<br>Fog covered the jungle.<br>→ The jungle ________________.",a:["was covered in fog","was covered with fog","was covered by fog"],e:"The jungle was covered in fog."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>당신은 그것이 당신을 보기를 원하지 않잖아요.",w:["you","don't","want","it","to see","you","seeing"],a:"you don't want it to see you",e:"want + 목적어(it) + to부정사"}
+],
+ws:[
+{q:"want + 목적어 + to부정사로 영작: 엄마는 내가 일찍 자기를 원하신다.",a:"My mom wants me to go to bed early."},
+{q:"such 어순으로 영작: 나는 그렇게 아름다운 꽃을 본 적이 없다.",a:"I've never seen such a beautiful flower."},
+{q:"감정 형용사 고르기: (1) Eckels was (excited / exciting). (2) The trip was (excited / exciting).",a:"(1) excited (2) exciting"},
+{q:"-thing + 형용사로 영작: 그는 이상한 무언가를 봤다.",a:"He saw something strange."}
+]});
+
+DAYS.push({d:7,cat:"본문",title:"길을 벗어난 Eckels ① 내용 이해",
+point:["Eckels: 숨을 쉴 수 없다, 여기서 꺼내 달라","Travis: 당황하지 말고 돌아서서 조용히 타임머신으로 걸어가라","Eckels는 너무 겁에 질려 실수로 길을 벗어남","T. rex가 Travis의 외침을 듣고 큰 포효와 함께 그들에게 달려옴"],
+q:[
+{t:"mc",p:"Y4",q:"Travis가 Eckels에게 지시한 행동은?",o:["뛰어서 도망가라","돌아서서 조용히 타임머신으로 걸어가라","공룡에게 소리쳐라","나무 뒤에 숨어라","길 밖으로 나가라"],a:1,e:"Turn around, and walk quietly back to the machine."},
+{t:"mc",p:"Y4",q:"글의 내용과 일치하지 <b>않는</b> 것은?",o:["Eckels said he couldn't breathe.","Eckels started to run instead of walking.","Eckels left the path on purpose.","The T. rex turned its head toward Travis.","The T. rex ran toward them with a loud roar."],a:2,e:"by accident(실수로) 벗어났다."},
+{t:"mc",p:"Y4",q:"T. rex가 여행자들 쪽으로 고개를 돌린 이유는?",o:["Eckels가 돌을 던져서","Travis가 소리치는 것을 들어서","타임머신이 큰 소리를 내서","배가 고파 냄새를 맡아서","다른 공룡이 나타나서"],a:1,e:"The T. rex heard Travis and turned its head ~"},
+{t:"mc",p:"Y4",q:"Eckels가 Travis의 지시와 다르게 한 행동은?",o:["돌아섰다","뛰기 시작했다","타임머신으로 갔다","공룡을 보았다","숨을 쉬었다"],a:1,e:"walk quietly → started to run"},
+{t:"mc",p:"Y4",q:"'There was a moment of silence.'가 주는 효과로 알맞은 것은?",o:["평화로운 분위기","긴장감을 높임","슬픔을 표현","웃음을 유발","시간이 많이 흘렀음을 나타냄"],a:1,e:"공룡이 달려오기 직전의 긴장감"},
+{t:"mc",p:"Y4",q:"이 장면의 분위기로 가장 알맞은 것은?",o:["peaceful","boring","urgent and frightening","funny","romantic"],a:2,e:"긴박하고 무서운"},
+{t:"mc",p:"Y4",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["What did Travis tell Eckels to do?","Why did Eckels leave the path?","What did the T. rex hear?","How did the T. rex come toward them?","How many people did the T. rex catch?"],a:4,e:"공룡이 누구를 잡았다는 내용은 없다."},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (Because he was로 시작)<br>Q: Why did Eckels leave the path?",a:["Because he was so terrified.","Because he was so scared.","Because he was very terrified."],e:"Because he was so terrified."},
+{t:"sa",q:"부정명령문으로 영작하시오.<br>길을 벗어나지 마세요!",a:["Don't leave the path!","Do not leave the path!"],e:"Don't + 동사원형"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그것은 갑자기 큰 포효와 함께 그들을 향해 달리기 시작했다.",w:["it","suddenly","started","to run","toward them","with","a loud roar","running to"],a:"it suddenly started to run toward them with a loud roar",e:"start to + 동사원형"}
+],
+ws:[
+{q:"Travis의 지시와 Eckels의 실제 행동을 비교해서 쓰시오.",a:"지시: Turn around, and walk quietly back to the machine. / 행동: He turned around and started to run, and left the path by accident."},
+{q:"영어로 답하시오: What happened after Travis shouted?",a:"The T. rex heard Travis and turned its head toward them. Then it started to run toward them with a loud roar."},
+{q:"이 장면을 우리말 2문장으로 요약하시오.",a:"Eckels는 너무 겁에 질려 뛰다가 실수로 길을 벗어났다. Travis의 외침을 들은 T. rex가 큰 포효와 함께 그들에게 달려왔다."},
+{q:"부정명령문 2개를 영작하시오: 당황하지 마. / 아무것도 만지지 마.",a:"Don't panic. / Don't touch anything."}
+]});
+
+DAYS.push({d:8,cat:"본문",title:"길을 벗어난 Eckels ② 어법 (so ~ that)",
+point:["so + 형용사/부사 + that + 주어 + 동사: 너무 ~해서 …하다","He was so terrified that he left the path. = He was too terrified ~ (that절에 결과)","start + to부정사/동명사 / Get me out of here! / turn around: 돌아서다","감정 형용사: terrified, scared, confused, shocked (사람이 느낌)"],
+q:[
+{t:"mc",q:"'He was <u>so</u> terrified <u>that</u> he left the path by accident.'의 해석으로 알맞은 것은?",o:["그는 길을 벗어났기 때문에 겁에 질렸다.","그는 너무 겁에 질려서 실수로 길을 벗어났다.","그는 겁에 질렸지만 길을 벗어나지 않았다.","그는 길을 벗어나려고 겁을 먹었다.","그는 겁에 질릴 정도로 길을 벗어났다."],a:1,e:"so ~ that …: 너무 ~해서 …하다"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>The T. rex was ____ huge ____ Eckels couldn't breathe.",o:["such - that","so - that","too - to","so - as","very - that"],a:1,e:"so + 형용사 + that"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["He was so scared that he ran away.","It was so quiet that we heard a bird.","She was so tired that she fell asleep.","The roar was so loud that everyone ran.","He was such terrified that he left the path."],a:4,e:"such 뒤에는 (a) 형용사 + 명사 → so terrified"},
+{t:"mc",q:"두 문장을 so ~ that으로 바르게 연결한 것은?<br><br>The jungle was very quiet. We could hear our breathing.",o:["The jungle was so quiet that we could hear our breathing.","The jungle was quiet so that we could hear our breathing.","The jungle was so that quiet we could hear our breathing.","The jungle was such quiet that we could hear our breathing.","So the jungle was quiet that we could hear our breathing."],a:0,e:"so + 형용사 + that + 결과"},
+{t:"mc",q:"'started to run'에서 to run 대신 쓸 수 있는 것은?",o:["run","ran","running","to running","runs"],a:2,e:"start + to부정사 / 동명사 모두 가능"},
+{t:"mc",q:"감정 형용사가 바르게 쓰인 것은?",o:["Eckels was terrifying.","The T. rex was terrified to the travelers.","Eckels was terrified.","The roar was terrified.","I was shocking at the news."],a:2,e:"사람이 느낌 → terrified"},
+{t:"mc",q:"'turned its head toward him'에서 its가 가리키는 것은?",o:["Eckels","Travis","the T. rex","the machine","the path"],a:2,e:"The T. rex ~ turned its head"},
+{t:"sa",q:"so ~ that을 사용하여 한 문장으로 쓰시오.<br>Eckels was very terrified. He left the path by accident.",a:["Eckels was so terrified that he left the path by accident."],e:"so terrified that ~"},
+{t:"sa",q:"so ~ that을 사용하여 영작하시오.<br>T. rex는 너무 거대해서 Eckels는 숨을 쉴 수 없었다.",a:["The T. rex was so huge that Eckels couldn't breathe.","The T. rex was so huge that Eckels could not breathe.","A T. rex was so huge that Eckels couldn't breathe."],e:"The T. rex was so huge that Eckels couldn't breathe."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그는 너무 겁에 질려서 실수로 길을 벗어났다.",w:["he","was","so","terrified","that","he","left","the path","by accident","such"],a:"he was so terrified that he left the path by accident",e:"so + 형용사 + that"}
+],
+ws:[
+{q:"so ~ that으로 연결하시오: I was very tired. I went to bed early.",a:"I was so tired that I went to bed early."},
+{q:"so ~ that으로 영작하시오: 그 영화는 너무 무서워서 나는 눈을 감았다.",a:"The movie was so scary that I closed my eyes."},
+{q:"틀린 부분을 고치시오: He was such scared that he ran.",a:"such → so"},
+{q:"본문 내용으로 so ~ that 문장을 하나 만드시오.",a:"(예시) The T. rex was so scary that Eckels started to run."}
+]});
+
+DAYS.push({d:9,cat:"본문",title:"타임머신으로 돌아오다 ① 내용 이해",
+point:["Travis와 다른 여행자들은 안전하게 돌아와 기계 안의 Eckels를 발견","Travis: 당신이 우리 모두를 위험에 빠뜨렸다 / 길을 벗어났다","Eckels: 아무것도 죽이지 않았다, 신발에 진흙이 조금 묻었을 뿐","Travis는 아무 말 없이 오래 응시 → 현재로 안전하게 귀환"],
+q:[
+{t:"mc",p:"Y5",q:"Travis가 Eckels에게 화가 난 이유는?",o:["Eckels가 늦게 와서","Eckels가 길을 벗어나 모두를 위험에 빠뜨려서","Eckels가 공룡을 죽여서","Eckels가 타임머신을 망가뜨려서","Eckels가 돈을 내지 않아서"],a:1,e:"You put all of us in danger. You left the path."},
+{t:"mc",p:"Y5",q:"글의 내용과 일치하지 <b>않는</b> 것은?",o:["Eckels was already inside the machine.","Travis spoke in an angry voice.","Eckels said he didn't kill anything.","Eckels had some mud on his shoes.","Travis said many things to Eckels for a long time."],a:4,e:"without saying anything – 아무 말 없이 응시했다."},
+{t:"mc",p:"Y5",q:"Travis가 Eckels를 아무 말 없이 오래 응시한 이유로 가장 알맞은 것은?",o:["Eckels가 잘생겨서","Eckels의 행동이 가져올 결과를 걱정해서","Eckels가 다쳐서","Eckels를 칭찬하려고","Eckels가 누구인지 몰라서"],a:1,e:"길을 벗어난 결과로 미래가 바뀌었을지 걱정하는 것"},
+{t:"mc",p:"Y5",q:"Eckels의 말 'There's only a little mud on my shoes.'에서 알 수 있는 것은?",o:["Eckels는 사건의 심각성을 깨닫지 못하고 있다.","Eckels는 신발을 새로 사고 싶어 한다.","Eckels는 진흙을 좋아한다.","Eckels는 나비를 일부러 죽였다.","Eckels는 Travis에게 고마워한다."],a:0,e:"작은 일로 여기지만 결국 미래를 바꿨다."},
+{t:"mc",p:"Y5",q:"Mr. Parker의 'Fine. Welcome home!'에서 알 수 있는 것은?",o:["Mr. Parker는 변화를 눈치채지 못했다.","Mr. Parker는 화가 났다.","Mr. Parker는 여행을 취소했다.","Mr. Parker는 공룡을 보았다.","Mr. Parker는 Eckels를 꾸짖었다."],a:0,e:"바뀐 세계에 사는 Parker 씨는 변화를 모른다."},
+{t:"mc",p:"Y5",q:"'You put all of us in danger.'의 의미로 알맞은 것은?",o:["당신은 우리 모두를 구했다.","당신은 우리 모두를 위험에 빠뜨렸다.","당신은 우리를 모두 내려 주었다.","당신은 위험을 피했다.","당신은 우리를 기다리게 했다."],a:1,e:"put ~ in danger: ~을 위험에 빠뜨리다"},
+{t:"mc",p:"Y5",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["Where did Travis find Eckels?","How did Travis speak to Eckels?","What was on Eckels' shoes?","Who said “Welcome home!”?","How long did the trip back take?"],a:4,e:"돌아오는 데 걸린 시간은 나오지 않는다."},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (There was로 시작)<br>Q: What was on Eckels' shoes?",a:["There was a little mud on his shoes.","There was a little mud on them."],e:"There was a little mud on his shoes."},
+{t:"sa",q:"without을 사용하여 영작하시오. (Travis로 시작)<br>Travis는 아무 말 없이 오랫동안 Eckels를 응시했다.",a:["Travis stared at Eckels for a long time without saying anything."],e:"without + 동명사"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그들은 모두 안전하게 현재로 돌아왔다.",w:["they","all","returned","to the present","safely","safe","returned to"],a:"they all returned to the present safely",e:"return to + 장소 / 부사 safely"}
+],
+ws:[
+{q:"Eckels와 Travis의 생각 차이를 우리말로 쓰시오.",a:"Eckels는 아무것도 죽이지 않았고 진흙만 묻었다고 가볍게 생각했지만, Travis는 길을 벗어난 것이 큰 결과를 가져올 수 있다고 심각하게 생각했다."},
+{q:"영어로 답하시오: Why did Travis say, “You put all of us in danger”?",a:"Because Eckels left the path."},
+{q:"without + -ing로 영작: 그는 아무 말 없이 방을 나갔다.",a:"He left the room without saying anything."},
+{q:"'Fine. Welcome home!'이라는 Parker 씨의 말에서 알 수 있는 점을 우리말로 쓰시오.",a:"Parker 씨는 바뀐 미래 속에 살고 있어서 무엇이 달라졌는지 전혀 알지 못한다."}
+]});
+
+DAYS.push({d:10,cat:"본문",title:"타임머신으로 돌아오다 ② 어법·어휘",
+point:["without + 동명사: ~하지 않고 (without saying anything)","stare at: ~을 응시하다 / put ~ in danger: ~을 위험에 빠뜨리다","in an angry voice: 화난 목소리로 / return to: ~로 돌아오다 (return back ×)","Let's + 동사원형 / Welcome home!"],
+q:[
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["Travis stared at Eckels without saying anything.","He left without say goodbye.","She went out without eating breakfast.","They walked without making a sound.","He answered without thinking."],a:1,e:"전치사 without + 동명사 → saying"},
+{t:"mc",q:"빈칸 (A), (B)에 알맞은 것은?<br><br>• Travis stared (A)____ Eckels for a long time.<br>• You put all of us (B)____ danger.",o:["at - in","to - on","at - into","on - in","for - at"],a:0,e:"stare at / put ~ in danger"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>Travis and the other travelers returned (a)<u>safely</u> to the machine and (b)<u>found</u> Eckels inside. “You put all of us in danger,” said Travis (c)<u>in an angry voice</u>. “I'm sorry, but I (d)<u>didn't kill</u> anything,” said Eckels. Travis stared at Eckels (e)<u>without say</u> anything.",o:["(a)","(b)","(c)","(d)","(e)"],a:4,e:"without saying"},
+{t:"mc",q:"'“Let's go home,” said Travis <u>finally</u>.'의 finally와 의미가 가까운 것은?",o:["at last","at first","suddenly","slowly","quickly"],a:0,e:"finally = at last (마침내)"},
+{t:"mc",q:"'Travis said to Eckels <u>in an angry voice</u>.'와 의미가 같은 것은?",o:["Travis said to Eckels angrily.","Travis said to Eckels quietly.","Travis said to Eckels happily.","Travis said to Eckels slowly.","Travis said to Eckels kindly."],a:0,e:"in an angry voice = angrily"},
+{t:"mc",q:"'They all returned to the present safely.'의 the present 의미로 알맞은 것은?",o:["선물","현재","참석한","발표하다","대통령"],a:1,e:"the present: 현재 (past ↔ present ↔ future)"},
+{t:"mc",q:"다음 중 어법상 올바른 것은?",o:["They returned back to the present.","They returned to the present.","They returned at the present.","They return to present safe.","They returning to the present."],a:1,e:"return to (back 중복 ×)"},
+{t:"sa",q:"without을 사용하여 영작하시오.<br>그녀는 아침을 먹지 않고 학교에 갔다.",a:["She went to school without eating breakfast.","She went to school without having breakfast."],e:"without + 동명사"},
+{t:"sa",q:"부사를 사용하여 같은 의미로 쓰시오. (Travis로 시작)<br>Travis said to Eckels in an angry voice.",a:["Travis said to Eckels angrily.","Travis angrily said to Eckels."],e:"in an angry voice = angrily"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>Travis와 다른 여행자들은 안전하게 기계로 돌아와서 안에 있는 Eckels를 발견했다.",w:["Travis and the other travelers","returned","safely","to the machine","and","found","Eckels","inside","safe"],a:"Travis and the other travelers returned safely to the machine and found Eckels inside",e:"returned와 found 병렬"}
+],
+ws:[
+{q:"without + -ing로 영작: 그는 뒤돌아보지 않고 달렸다. (look back)",a:"He ran without looking back."},
+{q:"빈칸 완성: (1) stare ___ (2) put A ___ danger (3) ___ an angry voice",a:"(1) at (2) in (3) in"},
+{q:"past, present, future의 뜻을 쓰고 본문 문장 하나씩 찾아 쓰시오.",a:"과거 / 현재 / 미래 – NAME ANY YEAR IN THE PAST. / They all returned to the present safely. / A little change here can cause something unthinkable in the future."},
+{q:"Eckels가 Travis에게 사과하는 말을 영어 2문장으로 써 보시오.",a:"(예시) I'm really sorry. I was so scared that I left the path."}
+]});
+
+DAYS.push({d:11,cat:"본문",title:"바뀐 미래 ① 내용 이해",
+point:["간판 철자가 바뀜: NAIM ANY YEER EN THE PAST ...","뉴스 속 새 대통령이 Keith 씨가 아님","Eckels: 혼란 → 더 혼란 → 충격","오른쪽 신발 진흙 속 죽은 작은 나비 발견 → 과거의 작은 변화가 미래를 바꿈"],
+q:[
+{t:"mc",p:"Y6",q:"Eckels가 현재로 돌아와서 발견한 변화가 <b>아닌</b> 것은?",o:["간판의 철자가 바뀌었다.","뉴스 속 대통령이 바뀌었다.","방의 다른 것들은 똑같아 보였다.","Mr. Parker가 다른 사람이 되었다.","신발 진흙 속에 죽은 나비가 있었다."],a:3,e:"Mr. Parker가 바뀌었다는 내용은 없다."},
+{t:"mc",p:"Y6",q:"Eckels의 심경 변화로 가장 알맞은 것은?",o:["happy → confused → excited","confused → more confused → shocked","shocked → calm → happy","excited → bored → angry","calm → happy → proud"],a:1,e:"was confused → got more confused → was shocked"},
+{t:"mc",p:"Y6",q:"미래가 바뀐 원인으로 알맞은 것은?",o:["Travis가 길을 벗어나서","Eckels가 실수로 나비를 죽여서","T. rex가 타임머신을 망가뜨려서","Mr. Parker가 간판을 바꿔서","대통령 선거가 있어서"],a:1,e:"길을 벗어난 Eckels가 나비를 밟아 죽였다."},
+{t:"mc",p:"Y6",q:"'It's all because of this little thing?'에서 this little thing이 가리키는 것은?",o:["the mud","the sign","a small dead butterfly","the TV","the time machine"],a:2,e:"죽은 작은 나비"},
+{t:"mc",p:"Y6",q:"글의 주제(교훈)로 가장 알맞은 것은?",o:["공룡은 위험하다.","작은 행동이 큰 결과를 가져올 수 있다.","시간 여행은 재미있다.","대통령 선거는 중요하다.","신발을 깨끗이 해야 한다."],a:1,e:"나비 효과: 작은 변화가 미래를 바꾼다."},
+{t:"mc",p:"Y6",q:"'Everything looked the same, <u>except</u> the big sign on the wall.'의 except 의미로 알맞은 것은?",o:["~을 포함하여","~을 제외하고","~ 때문에","~ 대신에","~와 함께"],a:1,e:"except: ~을 제외하고"},
+{t:"mc",p:"Y6",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["What did the sign say now?","Who was the new president on the news?","Where did Eckels find the butterfly?","How did Eckels feel when he found the butterfly?","Was the president on the news Mr. Keith?"],a:1,e:"새 대통령이 누구인지(이름)는 나오지 않는다."},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (He found로 시작)<br>Q: What did Eckels find in the mud on his right shoe?",a:["He found a small dead butterfly.","He found a small dead butterfly in the mud."],e:"He found a small dead butterfly."},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (No로 시작)<br>Q: Was the new president on the news Mr. Keith?",a:["No, it wasn't.","No, he wasn't.","No, it was not.","No, he was not."],e:"No, it wasn't."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>벽에 걸린 큰 간판을 제외하고 모든 것이 똑같아 보였다.",w:["everything","looked","the same","except","the big sign","on the wall","were","same"],a:"everything looked the same except the big sign on the wall",e:"look + 형용사 / except: ~을 제외하고"}
+],
+ws:[
+{q:"현재로 돌아와서 달라진 것 2가지를 영어로 쓰시오.",a:"The sign on the wall changed. / The new president on the news was not Mr. Keith."},
+{q:"Eckels의 감정 변화를 본문 단어 3개로 쓰시오.",a:"confused → more confused → shocked"},
+{q:"이 이야기의 교훈을 영어 한 문장으로 쓰시오.",a:"(예시) A small action can make a big change in the future."},
+{q:"'나비 효과'의 의미를 이 이야기와 연결하여 우리말로 설명하시오.",a:"작은 변화가 예측할 수 없는 큰 결과를 가져온다는 뜻으로, Eckels가 과거에서 나비 한 마리를 죽인 일이 미래의 철자와 대통령까지 바꾸었다."}
+]});
+
+DAYS.push({d:12,cat:"본문",title:"바뀐 미래 ② 어법·어휘",
+point:["감정 형용사: confused / shocked (사람이 느낌) ↔ confusing / shocking","get + 비교급: got more confused (더 혼란스러워졌다)","because of + 명사 / because + 주어 + 동사","look around / look closely at / except"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>It's all ______ this little thing?",o:["because","because of","so","although","since"],a:1,e:"명사(this little thing) 앞 → because of"},
+{t:"mc",q:"(A), (B)에 알맞은 것끼리 짝지은 것은?<br><br>• Eckels was (A)(confused / confusing).<br>• The sign was (B)(confused / confusing).",o:["confused - confused","confused - confusing","confusing - confused","confusing - confusing","confuse - confusing"],a:1,e:"사람 -ed / 사물 -ing"},
+{t:"mc",q:"'He got more confused.'의 의미로 알맞은 것은?",o:["그는 혼란을 얻었다.","그는 더 혼란스러워졌다.","그는 혼란을 줄였다.","그는 더 이상 혼란스럽지 않았다.","그는 혼란을 주었다."],a:1,e:"get + 형용사(비교급): ~해지다"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>Eckels looked around the room (a)<u>carefully</u>. Everything looked (b)<u>the same</u>, except the big sign. Eckels was (c)<u>confusing</u>. He sat down and looked (d)<u>closely</u> at the mud. He was (e)<u>shocked</u>.",o:["(a)","(b)","(c)","(d)","(e)"],a:2,e:"Eckels가 혼란을 느낌 → confused"},
+{t:"mc",q:"'No, it can't be.'의 can't와 쓰임이 같은 것은?",o:["I can't swim.","You can't park here.","That can't be true.","She can't come today.","We can't see it."],a:2,e:"can't be: ~일 리가 없다 (강한 부정 추측)"},
+{t:"mc",q:"영영풀이 'very surprised and upset'에 해당하는 단어는?",o:["excited","shocked","calm","bored","lucky"],a:1,e:"shocked: 충격을 받은"},
+{t:"mc",q:"'a small dead butterfly'에서 형용사 어순이 바른 것은?",o:["a dead small butterfly","a small dead butterfly","small a dead butterfly","a butterfly small dead","dead a small butterfly"],a:1,e:"본문 표현: a small dead butterfly"},
+{t:"sa",q:"because 또는 because of를 사용하여 영작하시오. (It's all로 시작)<br>그것은 모두 이 작은 것 때문이다.",a:["It's all because of this little thing.","It is all because of this little thing."],e:"because of + 명사"},
+{t:"sa",q:"get을 사용하여 영작하시오.<br>그는 더 혼란스러워졌다.",a:["He got more confused."],e:"He got more confused."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그는 앉아서 신발에 묻은 진흙을 자세히 보았다.",w:["he","sat down","and","looked","closely","at the mud","on his shoes","close"],a:"he sat down and looked closely at the mud on his shoes",e:"look closely at ~"}
+],
+ws:[
+{q:"감정 형용사 고르기: (1) The news was (shocked / shocking). (2) Eckels was (shocked / shocking).",a:"(1) shocking (2) shocked"},
+{q:"because / because of: (1) I stayed home ___ the rain. (2) I stayed home ___ it rained.",a:"(1) because of (2) because"},
+{q:"get + 형용사로 영작: 날씨가 점점 더 추워졌다.",a:"It got colder and colder."},
+{q:"except를 사용하여 영작: 나를 제외하고 모두가 웃었다.",a:"Everyone laughed except me."}
+]});
+
+DAYS.push({d:13,cat:"본문",title:"사건 순서·인물 (본문 종합 ①)",
+point:["사건 순서: 사무실 → 출발 → 도착·규칙 → T. rex 등장 → 길 이탈 → 귀환 → 바뀐 미래 → 나비 발견","인물: Eckels(손님) / Mr. Parker(설립자) / Travis(안내원) / Mr. Keith(원래 대통령)","복선: Mr. Keith 뉴스, You might kill something by accident, mud on my shoes"],
+q:[
+{t:"mc",q:"이야기의 사건을 일어난 순서대로 바르게 나열한 것은?<br><br>(a) Eckels left the path.<br>(b) A T. rex appeared.<br>(c) Eckels found a dead butterfly.<br>(d) Travis explained the rules.<br>(e) The sign looked different.",o:["(d)-(b)-(a)-(e)-(c)","(b)-(d)-(a)-(c)-(e)","(d)-(a)-(b)-(e)-(c)","(d)-(b)-(a)-(c)-(e)","(a)-(d)-(b)-(e)-(c)"],a:0,e:"규칙 → 공룡 → 길 이탈 → 간판 변화 → 나비 발견"},
+{t:"mc",q:"인물과 설명이 바르게 연결되지 <b>않은</b> 것은?",o:["Eckels – 공룡을 보고 싶어 한 손님","Mr. Parker – Time Travel의 설립자","Travis – 여행 안내원","Mr. Keith – 원래 뉴스 속 새 대통령","Travis – 실수로 길을 벗어난 사람"],a:4,e:"길을 벗어난 사람은 Eckels"},
+{t:"mc",q:"이야기에 쓰인 복선이 <b>아닌</b> 것은?",o:["Mr. Keith가 뉴스에 나온 장면","You might kill something by accident.","A little change here can cause something unthinkable.","There's only a little mud on my shoes.","Eckels sat down and closed his eyes."],a:4,e:"눈을 감은 것은 이후 사건과 관련 없다."},
+{t:"mc",q:"Eckels에 대한 설명으로 알맞지 <b>않은</b> 것은?",o:["He had always wanted to see a dinosaur.","He got scared when he saw the T. rex.","He left the path by accident.","He was careful to follow every rule.","He found a dead butterfly on his shoe."],a:3,e:"규칙을 지키지 못했다."},
+{t:"mc",q:"Travis에 대한 설명으로 알맞은 것은?",o:["He was careless about the rules.","He tried to keep the travelers safe.","He killed the butterfly.","He was the founder of Time Travel.","He wanted to see the T. rex closer."],a:1,e:"규칙을 강조하고 안전을 지키려 했다."},
+{t:"mc",q:"이야기의 제목 'A Butterfly That Changed the Future'에서 That의 쓰임은?",o:["지시대명사","명사절 접속사","주격 관계대명사","목적격 관계대명사","지시형용사"],a:2,e:"A Butterfly that changed ~ (뒤에 동사)"},
+{t:"mc",q:"이야기 전체의 분위기 변화로 가장 알맞은 것은?",o:["기대감 → 긴장·공포 → 충격","슬픔 → 기쁨 → 평화","지루함 → 기대 → 행복","공포 → 평화 → 기대","분노 → 슬픔 → 기쁨"],a:0,e:"공룡을 보러 가는 기대 → T. rex 장면 긴장 → 바뀐 미래에 충격"},
+{t:"sa",q:"이야기의 제목을 영어로 쓰시오.",a:["A Butterfly That Changed the Future"],e:"A Butterfly That Changed the Future"},
+{t:"sa",q:"영어로 답하시오. (He was로 시작, 직업만)<br>Q: Who was Travis?",a:["He was a travel guide.","He was Eckels' travel guide.","He was the travel guide."],e:"He was a travel guide."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>과거의 작은 변화가 미래를 바꿀 수 있다.",w:["a small change","in the past","can","change","the future","changes","present"],a:"a small change in the past can change the future",e:"조동사 can + 동사원형"}
+],
+ws:[
+{q:"이야기를 5단계(발단–전개–위기–절정–결말)로 우리말 정리하시오.",a:"발단: 공룡을 보러 Time Travel에 감 / 전개: 정글 도착, 규칙 안내 / 위기: T. rex 등장 / 절정: 겁에 질려 길을 벗어남 / 결말: 현재가 바뀌고 죽은 나비 발견"},
+{q:"이야기 속 복선 2가지를 쓰고 무엇을 예고하는지 쓰시오.",a:"Mr. Keith 뉴스 → 대통령이 바뀜 / You might kill something by accident → 나비를 죽임"},
+{q:"Eckels에게 해 주고 싶은 말을 영어 2문장으로 쓰시오.",a:"(예시) You should have followed the rules. A small mistake can change everything."},
+{q:"제목 A Butterfly That Changed the Future를 우리말로 쓰고 that의 역할을 쓰시오.",a:"미래를 바꾼 나비 – 주격 관계대명사"}
+]});
+
+DAYS.push({d:14,cat:"본문",title:"본문 어휘·영영풀이 (본문 종합 ②)",
+point:["founder 설립자 / president 대통령 / instruction 지시 / path 길 / unthinkable 상상할 수 없는","fog 안개 / whisper 속삭이다 / appear 나타나다 / huge 거대한 / panic 겁에 질려 어쩔 줄 모르다","terrified 겁에 질린 / roar 포효 / silence 정적 / stare 응시하다 / mud 진흙 / confused 혼란스러운"],
+q:[
+{t:"mc",q:"영영풀이 'to suddenly feel so afraid that you cannot think clearly'에 해당하는 단어는?",o:["breathe","panic","appear","whisper","stare"],a:1,e:"panic: 겁에 질려 어쩔 줄 모르다"},
+{t:"mc",q:"영영풀이 'a loud, deep sound made by an animal'에 해당하는 단어는?",o:["roar","silence","fog","path","mud"],a:0,e:"roar: 포효"},
+{t:"mc",q:"영영풀이 'to look at someone or something for a long time'에 해당하는 단어는?",o:["whisper","stare","shout","breathe","explain"],a:1,e:"stare: 응시하다"},
+{t:"mc",q:"영영풀이 'wet, soft earth'에 해당하는 단어는?",o:["fog","mud","path","sign","jungle"],a:1,e:"mud: 진흙"},
+{t:"mc",q:"반의어끼리 짝지어지지 <b>않은</b> 것은?",o:["appear – disappear","past – future","quiet – loud","huge – tiny","scared – terrified"],a:4,e:"scared와 terrified는 비슷한 의미"},
+{t:"mc",q:"문맥상 낱말의 쓰임이 <b>어색한</b> 것은?<br><br>The jungle was covered in fog. It was very (a)<u>quiet</u>. One hundred meters away, a T. rex slowly (b)<u>appeared</u>. “It is (c)<u>tiny</u>. I've never seen such a huge thing,” said Eckels. Travis said (d)<u>angrily</u>, “Sh ... (e)<u>quiet</u>!”",o:["(a)","(b)","(c)","(d)","(e)"],a:2,e:"거대한(huge) 공룡 → tiny(아주 작은)는 어색"},
+{t:"mc",q:"단어의 관계가 나머지와 <b>다른</b> 하나는?",o:["found – founder","travel – traveler","lead – leader","teach – teacher","quiet – quietly"],a:4,e:"나머지는 동사 → 사람(-er)"},
+{t:"sa",q:"빈칸에 알맞은 단어를 본문에서 찾아 쓰시오.<br>To stay safe, you must follow his ________.",a:["instructions"],e:"instructions: 지시"},
+{t:"sa",q:"영영풀이에 해당하는 단어를 본문에서 찾아 쓰시오.<br>'extremely afraid'",a:["terrified"],e:"terrified: 겁에 질린"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>잠시 정적이 흘렀다.",w:["there","was","a moment","of","silence","silent","were"],a:"there was a moment of silence",e:"a moment of silence"}
+],
+ws:[
+{q:"우리말 뜻을 쓰시오: founder / instruction / unthinkable / terrified / stare",a:"설립자 / 지시 / 상상할 수 없는 / 겁에 질린 / 응시하다"},
+{q:"영어로 쓰시오: 안개 / 속삭이다 / 나타나다 / 진흙 / 혼란스러운",a:"fog / whisper / appear / mud / confused"},
+{q:"반의어를 쓰시오: (1) appear (2) past (3) huge",a:"(1) disappear (2) future (3) tiny / small"},
+{q:"본문 단어 3개를 사용하여 이야기의 한 장면을 영어 한 문장으로 쓰시오.",a:"(예시) In the fog, a huge T. rex appeared with a loud roar."}
+]});
+
+DAYS.push({d:15,cat:"본문",title:"주제·추론 (나비 효과)",
+point:["주제: 작은 행동(변화)이 예상치 못한 큰 결과를 가져온다 (나비 효과)","추론 단서: 간판 철자 변화, 대통령 변화, 신발 속 죽은 나비","인물의 태도: Eckels(부주의·가벼움) ↔ Travis(신중·책임감)"],
+q:[
+{t:"mc",q:"이 글의 주제로 가장 알맞은 것은?",o:["The dangers of dinosaurs","How time machines work","Small changes can have big effects","The importance of elections","Why butterflies are beautiful"],a:2,e:"작은 변화 → 큰 결과"},
+{t:"mc",q:"이 이야기와 가장 관련 있는 속담은?",o:["작은 고추가 맵다","티끌 모아 태산","나비의 작은 날갯짓이 폭풍을 일으킨다","가는 말이 고와야 오는 말이 곱다","백지장도 맞들면 낫다"],a:2,e:"나비 효과"},
+{t:"mc",q:"간판의 철자가 'NAIM ANY YEER ~'로 바뀐 것에서 추론할 수 있는 것은?",o:["Mr. Parker가 장난을 쳤다.","미래 세계의 언어(철자)가 바뀌었다.","간판이 오래되어 지워졌다.","Eckels가 글을 잘못 읽었다.","타임머신이 고장 났다."],a:1,e:"과거의 변화로 현재 세계 자체가 달라졌다."},
+{t:"mc",q:"Eckels에게 해 줄 충고로 가장 알맞은 것은?",o:["Be brave and touch the dinosaurs.","Always follow the rules, even small ones.","Don't travel with a guide.","Run fast when you see danger.","Clean your shoes every day."],a:1,e:"작은 규칙도 지켜야 한다."},
+{t:"mc",q:"이야기의 결말 이후를 가장 그럴듯하게 추론한 것은?",o:["Eckels는 아무 일 없다는 듯 웃었다.","Eckels는 자신의 실수로 미래가 바뀐 것을 깨달았다.","Travis는 다시 과거로 가서 공룡을 잡았다.","Mr. Keith가 다시 대통령이 되었다.","간판은 원래대로 돌아왔다."],a:1,e:"No, it can't be. ~ He was shocked."},
+{t:"mc",q:"이 글의 장르로 가장 알맞은 것은?",o:["뉴스 기사","과학 소설(SF)","광고문","설명문","편지"],a:1,e:"시간 여행을 다룬 SF 소설"},
+{t:"mc",q:"두 인물의 태도를 바르게 짝지은 것은?<br>(Eckels – Travis)",o:["careful – careless","careless – responsible","brave – cowardly","calm – foolish","honest – lazy"],a:1,e:"Eckels: 부주의 / Travis: 책임감"},
+{t:"sa",q:"이야기의 교훈을 완성하시오. (2단어)<br>A ______ ______ can cause something unthinkable in the future.",a:["little change","small change"],e:"A little change"},
+{t:"sa",q:"영어로 답하시오. (Because로 시작)<br>Q: Why did the future change?",a:["Because Eckels killed a butterfly.","Because Eckels killed a butterfly by accident.","Because Eckels left the path and killed a butterfly."],e:"Because Eckels killed a butterfly (by accident)."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>작은 행동이 미래에 큰 결과를 가져올 수 있다.",w:["a small action","can","bring","a big result","in the future","brings","past"],a:"a small action can bring a big result in the future",e:"can + 동사원형"}
+],
+ws:[
+{q:"나비 효과를 우리말로 설명하고, 일상생활의 예를 하나 쓰시오.",a:"작은 변화가 예상치 못한 큰 결과를 가져오는 것. (예) 매일 10분씩 영어 공부를 한 것이 1년 뒤 큰 실력 향상이 되었다."},
+{q:"내가 Eckels라면 어떻게 했을지 영어 2문장으로 쓰시오.",a:"(예시) I would stay on the path. I would walk quietly back to the machine."},
+{q:"이야기 뒷부분을 영어 2~3문장으로 상상해서 쓰시오.",a:"(예시) Eckels asked Mr. Parker to take him back. He wanted to save the butterfly. But it was too late."},
+{q:"이 이야기의 교훈을 영어 한 문장으로 쓰시오.",a:"(예시) We should be careful because small actions can change the future."}
+]});
+
+DAYS.push({d:16,cat:"문법",title:"현재완료 ① 형태",
+point:["평서문: have/has + p.p. / 부정문: have/has + not + p.p. / 의문문: Have/Has + 주어 + p.p. ~?","대답: Yes, I have. / No, I haven't.","축약: I've, You've, We've, He's(= He has), haven't, hasn't","불규칙 과거분사: see-seen, be-been, eat-eaten, go-gone, do-done, meet-met"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>My uncle ______ in Canada since 2010.",o:["lives","lived","has lived","have lived","is living"],a:2,e:"since 2010 + 주어 3인칭 단수 → has lived"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["I've never seen such a huge thing.","Have you been to Jeju-do before?","The concert has already started.","She have finished her homework.","We've just arrived in the jungle."],a:3,e:"She → has finished"},
+{t:"mc",q:"질문에 대한 대답으로 알맞은 것은?<br><br>A: Have you ever eaten malatang?<br>B: ______",o:["Yes, I did.","No, I don't.","Yes, I have.","No, I didn't.","Yes, I am."],a:2,e:"Have you ~? → Yes, I have. / No, I haven't."},
+{t:"mc",q:"동사의 과거분사가 바르게 짝지어지지 <b>않은</b> 것은?",o:["see – seen","be – been","eat – eaten","meet – meeted","do – done"],a:3,e:"meet – met – met"},
+{t:"mc",q:"부정문이 바르게 쓰인 것은?",o:["I don't have seen a T. rex.","I haven't seen a T. rex.","I have seen not a T. rex.","I not have seen a T. rex.","I didn't have seen a T. rex."],a:1,e:"have + not + p.p."},
+{t:"mc",q:"의문문이 바르게 쓰인 것은?",o:["Do you have been to Paris?","Have you ever be to Paris?","Have you ever been to Paris?","Did you have been to Paris?","You have been to Paris?"],a:2,e:"Have + 주어 + p.p. ~?"},
+{t:"mc",q:"'He's finished his homework.'에서 He's의 원래 형태는?",o:["He is","He was","He has","He does","He had"],a:2,e:"He's + p.p. → He has"},
+{t:"sa",q:"Use It! 주어진 단어를 활용하여 완성하시오. (be)<br>I ________ to Paris before. It was beautiful.",a:["have been","'ve been"],e:"have been"},
+{t:"sa",q:"Use It! 주어진 단어를 활용하여 완성하시오. (learn)<br>I ________ to play the piano for three years. Now I'm good at it.",a:["have learned","have learnt","'ve learned"],e:"have learned"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>너는 전에 일출을 본 적이 있니?",w:["have","you","seen","a sunrise","before","saw","did"],a:"have you seen a sunrise before",e:"Have + 주어 + p.p. ~?"}
+],
+ws:[
+{q:"Use It! 완성: I ___ just ___ my math homework. (finish)",a:"have, finished"},
+{q:"Play Time: Have you ~? 질문 3개를 만들고 자신의 대답을 쓰시오. (eat malatang / be on TV / swim in the sea)",a:"Have you eaten malatang? – Yes, I have. / Have you been on TV? – No, I haven't. / Have you swum in the sea? – Yes, I have."},
+{q:"과거분사를 쓰시오: go / see / eat / swim / run / meet",a:"gone / seen / eaten / swum / run / met"},
+{q:"부정문과 의문문으로 바꾸시오: She has visited Jeju-do.",a:"She hasn't visited Jeju-do. / Has she visited Jeju-do?"}
+]});
+
+DAYS.push({d:17,cat:"문법",title:"현재완료 ② 4가지 용법 구별",
+point:["완료: just, already, yet → 막/이미 ~했다","경험: ever, never, before, once, twice → ~한 적이 있다","계속: for + 기간, since + 시점 → (지금까지) ~해 왔다","결과: have gone (가 버려서 지금 없다), have lost (잃어버려서 지금 없다)"],
+q:[
+{t:"mc",q:"<보기>와 현재완료 용법이 같은 것은?<br><보기> I've never seen such a huge thing.",o:["We've just arrived in the jungle.","My uncle has lived in Canada since 2010.","Have you been to Jeju-do before?","The concert has already started.","He has lost his bag."],a:2,e:"경험"},
+{t:"mc",q:"<보기>와 현재완료 용법이 같은 것은?<br><보기> The concert has already started.",o:["I have been to Paris twice.","She has just finished her homework.","He has known her for ten years.","Have you ever tried ice fishing?","I have learned the piano for three years."],a:1,e:"완료 (already, just)"},
+{t:"mc",q:"밑줄 친 현재완료의 용법이 나머지와 <b>다른</b> 하나는?",o:["I <u>have lived</u> here for five years.","She <u>has studied</u> English since 2020.","We <u>have known</u> each other for a long time.","He <u>has visited</u> Busan three times.","They <u>have worked</u> together since last year."],a:3,e:"three times → 경험. 나머지는 계속."},
+{t:"mc",q:"'He has gone to Seoul.'의 의미로 알맞은 것은?",o:["그는 서울에 가 본 적이 있다.","그는 서울에 가 버렸다(그래서 지금 여기 없다).","그는 서울에서 돌아왔다.","그는 서울에 갈 것이다.","그는 서울에 살아 왔다."],a:1,e:"have gone to: 가 버렸다 (결과)"},
+{t:"mc",q:"빈칸에 for와 since 중 since가 들어가는 것은?",o:["I have lived here ____ ten years.","She has worked ____ 2019.","We have waited ____ two hours.","He has studied ____ a long time.","They have been friends ____ five years."],a:1,e:"since + 시점(2019)"},
+{t:"mc",q:"우리말을 영어로 바르게 옮긴 것은?<br><br>나는 3년째 피아노를 배우고 있다.",o:["I learn the piano for three years.","I learned the piano since three years.","I have learned the piano for three years.","I have learned the piano since three years.","I am learning the piano since three years."],a:2,e:"계속: have + p.p. + for + 기간"},
+{t:"mc",q:"짝지어진 대화가 <b>어색한</b> 것은?",o:["A: Have you finished your homework yet?<br>B: Yes, I've just finished it.","A: Have you ever seen a dinosaur?<br>B: No, I haven't.","A: How long have you lived here?<br>B: For five years.","A: Has she been to Japan?<br>B: Yes, she has.","A: Have you ever met a movie star?<br>B: Yes, I met."],a:4,e:"Yes, I have."},
+{t:"sa",q:"현재완료를 사용하여 한 문장으로 쓰시오. (since 사용)<br>My uncle started to live in Canada in 2010. He still lives there.",a:["My uncle has lived in Canada since 2010."],e:"has lived ~ since 2010"},
+{t:"sa",q:"현재완료를 사용하여 영작하시오. (already 포함)<br>연주회는 이미 시작했다.",a:["The concert has already started."],e:"has already started"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그녀는 전에 영화배우를 두 번 만난 적이 있다.",w:["she","has","met","a movie star","twice","before","have","meet"],a:"she has met a movie star twice before",e:"경험 용법"}
+],
+ws:[
+{q:"현재완료의 용법(완료/경험/계속/결과)을 쓰시오: (1) I've just eaten. (2) I've been to Busan. (3) I've lived here for 3 years. (4) He has gone to London.",a:"(1) 완료 (2) 경험 (3) 계속 (4) 결과"},
+{q:"for 또는 since: (1) ___ 2015 (2) ___ two weeks (3) ___ last Monday",a:"(1) since (2) for (3) since"},
+{q:"한 문장으로: I lost my phone. I still don't have it.",a:"I have lost my phone."},
+{q:"자신의 경험을 현재완료로 2문장 쓰시오.",a:"(예시) I have been to Jeju-do twice. I have never ridden a horse."}
+]});
+
+DAYS.push({d:18,cat:"문법",title:"현재완료 ③ 과거시제와 구별",
+point:["현재완료는 특정 과거 시점(yesterday, last night, ago, when, in 2020 등)과 함께 쓰지 않는다.","When have you met her? (×) → When did you meet her? (○)","과거: 끝난 일 / 현재완료: 과거~현재의 연결","just now는 과거와 함께: I finished it just now."],
+q:[
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["They watched the movie last night.","They have watched the movie last night.","Have you watched the movie?","I have watched the movie twice.","I watched the movie yesterday."],a:1,e:"last night(특정 과거) → 과거시제"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["When did you meet her?","When have you met her?","Have you met her before?","I met her two years ago.","I have known her for two years."],a:1,e:"when 의문문 → 과거시제"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>Eckels ______ a dinosaur 60 million years ago.",o:["has seen","have seen","saw","sees","has been seeing"],a:2,e:"60 million years ago → 과거시제"},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>• I (A)______ to Jeju-do three times.<br>• I (B)______ to Jeju-do last summer.",o:["have been - went","went - have been","have been - have gone","went - went","have gone - went"],a:0,e:"경험 → have been / last summer → went"},
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) I have seen a T. rex yesterday.<br>(b) She has lived here since 2015.<br>(c) When have you arrived?<br>(d) We've just arrived.<br>(e) He visited Paris last year.",o:["1개","2개","3개","4개","5개"],a:2,e:"(b)(d)(e) 3개"},
+{t:"mc",q:"우리말을 영어로 바르게 옮긴 것은?<br><br>Eckels는 방금 전에 타임머신에 탔다.",o:["Eckels has got on the time machine a minute ago.","Eckels got on the time machine a minute ago.","Eckels has gotten on the time machine yesterday.","Eckels have got on the time machine.","Eckels has got on the time machine when he arrived."],a:1,e:"a minute ago → 과거시제"},
+{t:"mc",q:"밑줄 친 부분을 바르게 고친 것은?<br><br>I <u>have finished</u> my homework an hour ago.",o:["finish","finished","has finished","had finish","am finishing"],a:1,e:"an hour ago → 과거시제 finished"},
+{t:"sa",q:"틀린 부분을 고쳐 문장 전체를 다시 쓰시오.<br>They have watched the movie last night.",a:["They watched the movie last night."],e:"last night → 과거시제"},
+{t:"sa",q:"틀린 부분을 고쳐 문장 전체를 다시 쓰시오.<br>When have you met her?",a:["When did you meet her?"],e:"when → 과거시제"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 작년에 처음으로 공룡 박물관을 방문했다.",w:["I","visited","the dinosaur museum","for the first time","last year","have visited","has"],a:"I visited the dinosaur museum for the first time last year",e:"last year → 과거시제"}
+],
+ws:[
+{q:"과거시제 또는 현재완료로 고치시오: (1) I (see) him yesterday. (2) I (see) him three times.",a:"(1) saw (2) have seen"},
+{q:"틀린 부분을 고치시오: I have eaten pizza two days ago.",a:"have eaten → ate"},
+{q:"현재완료와 함께 쓸 수 없는 표현 3개를 쓰시오.",a:"(예시) yesterday / last night / ago / when / in 2020"},
+{q:"같은 내용을 과거시제와 현재완료로 각각 쓰시오. (Jeju-do 방문)",a:"(예시) I visited Jeju-do last summer. / I have visited Jeju-do twice."}
+]});
+
+DAYS.push({d:19,cat:"문법",title:"현재완료 ④ 본문 적용·서술형",
+point:["본문 현재완료: I've always wanted ~ (계속) / We've just arrived ~ (완료) / I've never seen ~ (경험)","질문에 현재완료로 답하기: Have you ever ~? → Yes, I have. / No, I haven't.","두 문장 → 현재완료 한 문장: 과거에 시작 + 지금도 계속"],
+q:[
+{t:"mc",q:"본문의 현재완료 문장과 용법이 바르게 연결된 것은?",o:["I've always wanted to see a dinosaur. – 완료","We've just arrived in the jungle. – 경험","I've never seen such a huge thing. – 경험","We've just arrived in the jungle. – 계속","I've always wanted to see a dinosaur. – 결과"],a:2,e:"계속 / 완료 / 경험"},
+{t:"mc",q:"다음 대화의 빈칸에 알맞은 것은?<br><br>A: ______ you ever ______ a T. rex in a museum?<br>B: Yes, I have. It was huge.",o:["Did - see","Have - saw","Have - seen","Do - see","Has - seen"],a:2,e:"Have + you + ever + seen"},
+{t:"mc",q:"두 문장을 한 문장으로 바르게 연결한 것은?<br><br>I started to learn English in 2020. I still learn it.",o:["I learned English in 2020.","I have learned English since 2020.","I have learned English for 2020.","I learn English since 2020.","I had learned English in 2020."],a:1,e:"since + 시점"},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>I (A)____ always (B)____ to see a dinosaur.",o:["have - want","have - wanted","has - wanted","had - want","am - wanting"],a:1,e:"I + have + always + wanted (계속 용법)"},
+{t:"mc",q:"빈칸에 들어갈 말로 알맞지 <b>않은</b> 것은?<br><br>I have ______ been to Jeju-do.",o:["never","already","ever","just","yesterday"],a:4,e:"yesterday는 현재완료와 쓸 수 없다."},
+{t:"mc",q:"다음 중 어법상 올바른 것은?",o:["Have you finished it yet?","I have finished it yet.","Have you finished it already yesterday?","I haven't finished it already.","Yet I have finished it."],a:0,e:"yet: 의문문(벌써)·부정문(아직)"},
+{t:"mc",q:"현재완료 '결과' 용법이 쓰인 문장은?",o:["I have lost my key, so I can't open the door.","I have been to London.","I have just eaten lunch.","I have lived here for a year.","Have you ever seen it?"],a:0,e:"잃어버려서 지금 없다 → 결과"},
+{t:"sa",q:"Play Time: 질문에 답하시오. (부정)<br>A: Have you run a marathon before?<br>B: ________",a:["No, I haven't.","No, I have not."],e:"No, I haven't."},
+{t:"sa",q:"현재완료를 사용하여 영작하시오. (before 포함)<br>너는 전에 제주도에 가 본 적이 있니?",a:["Have you been to Jeju-do before?","Have you ever been to Jeju-do before?"],e:"Have you been to Jeju-do before?"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 아직 수학 숙제를 끝내지 못했다.",w:["I","haven't","finished","my math homework","yet","already","didn't"],a:"I haven't finished my math homework yet",e:"부정문 + yet: 아직"}
+],
+ws:[
+{q:"본문의 현재완료 문장 3개를 쓰고 용법을 쓰시오.",a:"I've always wanted to see a dinosaur. (계속) / We've just arrived in the jungle ~ (완료) / I've never seen such a huge thing. (경험)"},
+{q:"한 문장으로: I met Minsu in 2022. I still know him.",a:"I have known Minsu since 2022."},
+{q:"Play Time: 친구에게 Have you ~? 질문 2개를 영어로 쓰시오.",a:"(예시) Have you seen a shooting star? / Have you played baseball?"},
+{q:"현재완료로 나의 '계속' 경험을 한 문장 쓰시오.",a:"(예시) I have studied English for five years."}
+]});
+
+DAYS.push({d:20,cat:"문법",title:"so ~ that 구문",
+point:["so + 형용사/부사 + that + 주어 + 동사: 너무 ~해서 …하다","본문: He was so terrified that he left the path by accident.","such + (a) + 형용사 + 명사 + that: 같은 의미, 명사가 있을 때","so ~ that + 주어 + can't = too ~ to (너무 ~해서 …할 수 없다)"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>The T. rex was ______ scary that Eckels started to run.",o:["such","so","too","very","much"],a:1,e:"so + 형용사 + that"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>It was ______ a huge dinosaur that everyone was scared.",o:["so","such","too","very","as"],a:1,e:"such + a + 형용사 + 명사 + that"},
+{t:"mc",q:"두 문장의 의미가 같도록 할 때 빈칸에 알맞은 것은?<br><br>Eckels was too scared to breathe.<br>= Eckels was so scared that he ______ breathe.",o:["can","could","can't","couldn't","didn't"],a:3,e:"too ~ to = so ~ that 주어 couldn't (과거)"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["He was so terrified that he left the path.","It was such a quiet jungle that we heard nothing.","The roar was so loud that everyone ran.","She was so tired that she couldn't walk.","It was so a huge thing that I was scared."],a:4,e:"such a huge thing / so huge"},
+{t:"mc",q:"'He was so terrified that he left the path by accident.'에서 원인과 결과를 바르게 짝지은 것은?",o:["원인: 길을 벗어남 – 결과: 겁에 질림","원인: 겁에 질림 – 결과: 길을 벗어남","원인: 공룡이 달림 – 결과: 겁에 질림","원인: 사고 – 결과: 겁에 질림","원인: Travis의 외침 – 결과: 길을 벗어남"],a:1,e:"so ~(원인) that …(결과)"},
+{t:"mc",q:"우리말을 영어로 바르게 옮긴 것은?<br><br>정글이 너무 조용해서 나는 내 숨소리를 들을 수 있었다.",o:["The jungle was such quiet that I could hear my breathing.","The jungle was so quiet that I could hear my breathing.","The jungle was too quiet that I could hear my breathing.","The jungle was so quiet to hear my breathing.","The jungle so quiet that I could hear my breathing."],a:1,e:"so + 형용사 + that"},
+{t:"mc",q:"다음 중 'so ~ that'의 that과 쓰임이 같은 것은?",o:["I know that he is lucky.","The film was so sad that I cried.","This is the butterfly that changed the future.","That is my dog.","She said that she was confused."],a:1,e:"결과를 이끄는 that"},
+{t:"sa",q:"so ~ that을 사용하여 한 문장으로 쓰시오.<br>The roar was very loud. Everyone was scared.",a:["The roar was so loud that everyone was scared."],e:"so loud that ~"},
+{t:"sa",q:"so ~ that을 사용하여 바꾸어 쓰시오.<br>Eckels was too scared to move.<br>→ Eckels was so scared that ________________.",a:["he couldn't move","he could not move"],e:"he couldn't move"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그것은 너무 거대해서 나는 숨을 쉴 수 없었다.",w:["it","was","so","huge","that","I","couldn't","breathe","such","to"],a:"it was so huge that I couldn't breathe",e:"so + 형용사 + that + 주어 + couldn't"}
+],
+ws:[
+{q:"so ~ that으로 연결: The movie was very funny. We laughed a lot.",a:"The movie was so funny that we laughed a lot."},
+{q:"too ~ to → so ~ that: I was too tired to study.",a:"I was so tired that I couldn't study."},
+{q:"such ~ that으로 영작: 그것은 너무 멋진 날이어서 우리는 소풍을 갔다.",a:"It was such a nice day that we went on a picnic."},
+{q:"본문 내용으로 so ~ that 문장 2개를 만드시오.",a:"(예시) Eckels was so terrified that he left the path. The T. rex was so huge that Eckels couldn't breathe."}
+]});
+
+DAYS.push({d:21,cat:"문법",title:"want + 목적어 + to부정사 · 지각동사",
+point:["want/tell/ask/expect + 목적어 + to부정사: I don't want you to do ~","지각동사(see, hear, feel, watch) + 목적어 + 동사원형/-ing: He felt the machine moving.","make/let(사역동사) + 목적어 + 동사원형: Get me out of here! (get + 목적어 + 부사구)"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>Travis told the travelers ______ the path.",o:["not leave","not to leave","to not leaving","don't leave","leaving not"],a:1,e:"tell + 목적어 + not to부정사"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["I want you to stay calm.","He told me to be careful.","I saw the T. rex to run.","I heard Travis shout.","She felt the ground shaking."],a:2,e:"지각동사 see + 목적어 + 동사원형/-ing → run/running"},
+{t:"mc",q:"빈칸에 들어갈 수 <b>없는</b> 것은?<br><br>Eckels felt the machine ______ under his feet.",o:["move","moving","to move","shake","shaking"],a:2,e:"지각동사 뒤 to부정사 불가"},
+{t:"mc",q:"(A), (B)에 알맞은 것끼리 짝지은 것은?<br><br>• I don't want you (A)(do / to do) anything foolish.<br>• I heard the T. rex (B)(roar / to roar).",o:["do - roar","to do - roar","to do - to roar","do - to roar","doing - roared"],a:1,e:"want + O + to부정사 / 지각동사 + O + 동사원형"},
+{t:"mc",q:"'You don't want it to see you.'의 해석으로 알맞은 것은?",o:["당신은 그것을 보고 싶지 않다.","당신은 그것이 당신을 보기를 원하지 않는다.","그것은 당신을 보고 싶지 않다.","당신은 그것을 보게 하지 않는다.","그것은 당신이 보기를 원한다."],a:1,e:"want + 목적어(it) + to see: 그것이 ~하기를 원하다"},
+{t:"mc",q:"다음 중 문장 구조가 나머지와 <b>다른</b> 하나는?",o:["I want you to come.","She asked me to help her.","He told us to be quiet.","I expect him to win.","I want to see a dinosaur."],a:4,e:"want + to부정사(목적어). 나머지는 동사 + 목적어 + to부정사."},
+{t:"mc",q:"우리말을 영어로 바르게 옮긴 것은?<br><br>Travis는 Eckels가 길을 벗어나는 것을 보았다.",o:["Travis saw Eckels to leave the path.","Travis saw Eckels leaving the path.","Travis saw Eckels left the path.","Travis saw to Eckels leave the path.","Travis saw Eckels leaves the path."],a:1,e:"see + 목적어 + -ing"},
+{t:"sa",q:"want를 사용하여 영작하시오. (Travis wanted로 시작)<br>Travis는 Eckels가 침착하기를 원했다.",a:["Travis wanted Eckels to stay calm.","Travis wanted Eckels to be calm.","Travis wanted him to stay calm."],e:"want + 목적어 + to부정사"},
+{t:"sa",q:"지각동사를 사용하여 영작하시오. (heard 사용)<br>T. rex는 Travis가 소리치는 것을 들었다.",a:["The T. rex heard Travis shout.","The T. rex heard Travis shouting.","The T. rex heard Travis shout."],e:"hear + 목적어 + 동사원형/-ing"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그는 기계가 발밑에서 움직이는 것을 느꼈다.",w:["he","felt","the machine","moving","under his feet","to move","feel"],a:"he felt the machine moving under his feet",e:"feel + 목적어 + -ing"}
+],
+ws:[
+{q:"want + 목적어 + to부정사로: 선생님은 우리가 규칙을 따르기를 원하신다.",a:"The teacher wants us to follow the rules."},
+{q:"tell + 목적어 + not to로: Travis는 Eckels에게 아무것도 만지지 말라고 말했다.",a:"Travis told Eckels not to touch anything."},
+{q:"지각동사로: 나는 새가 노래하는 것을 들었다.",a:"I heard a bird sing[singing]."},
+{q:"틀린 부분을 고치시오: I saw him to run.",a:"to run → run / running"}
+]});
+
+DAYS.push({d:22,cat:"문법",title:"문법 통합 (현재완료·so ~ that·to부정사)",
+point:["현재완료: have/has + p.p. – 과거 시점 표현과 함께 쓰지 않음","so ~ that: 너무 ~해서 …하다","want + O + to부정사 / 지각동사 + O + 동사원형/-ing / 목적의 to부정사"],
+q:[
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) I've never seen such a huge thing.<br>(b) He was so terrified that he left the path.<br>(c) I don't want you doing anything foolish.<br>(d) We have arrived in the jungle yesterday.<br>(e) He felt the machine moving.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(b)(e) 3개 / (c) to do (d) arrived"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>“I (a)<u>'ve always wanted</u> to see a dinosaur.” “(b)<u>To stay</u> safe, you must follow his instructions.” “We (c)<u>'ve just arrived</u>.” “I don't want you (d)<u>to do</u> anything foolish.” He was (e)<u>such terrified</u> that he left the path.",o:["(a)","(b)","(c)","(d)","(e)"],a:4,e:"so terrified"},
+{t:"mc",q:"우리말을 영어로 바르게 옮기지 <b>않은</b> 것은?",o:["나는 항상 공룡을 보고 싶었다. → I've always wanted to see a dinosaur.","우리는 방금 도착했다. → We've just arrived.","나는 그렇게 거대한 것을 본 적이 없다. → I've never seen such a huge thing.","그는 너무 겁에 질려 길을 벗어났다. → He was so terrified that he left the path.","나는 네가 침착하길 원한다. → I want you stay calm."],a:4,e:"I want you to stay calm."},
+{t:"mc",q:"(A), (B), (C)에 알맞은 것끼리 짝지은 것은?<br><br>• Have you ever (A)(saw / seen) a T. rex?<br>• It was (B)(so / such) big that I ran.<br>• He told me (C)(to follow / following) the path.",o:["saw - so - to follow","seen - so - to follow","seen - such - following","saw - such - to follow","seen - so - following"],a:1,e:"seen / so / to follow"},
+{t:"mc",q:"밑줄 친 to부정사의 쓰임이 나머지와 <b>다른</b> 하나는?",o:["<u>To stay</u> safe, you must follow his instructions.","They came here <u>to see</u> a dinosaur.","He went to the office <u>to travel</u> in time.","I've always wanted <u>to see</u> a dinosaur.","She studied hard <u>to pass</u> the test."],a:3,e:"wanted의 목적어(명사적). 나머지는 목적(부사적)."},
+{t:"mc",q:"빈칸에 공통으로 들어갈 말은?<br><br>• I have lived here ____ 2015.<br>• It has been five years ____ I met him.",o:["for","since","ago","before","when"],a:1,e:"since + 시점 / since + 절"},
+{t:"mc",q:"다음 중 어법상 올바른 것은?",o:["When have you arrived?","I have seen him last week.","Eckels has never seen such a huge thing before that day.","She has visited Paris in 2019.","They have just arrived."],a:4,e:"완료 용법 just"},
+{t:"sa",q:"so ~ that과 현재완료를 모두 활용하여 영작하시오. (두 문장, 두 번째는 I've로 시작)<br>그것은 너무 거대해서 나는 무서웠다. 나는 그런 것을 본 적이 없다.",a:["It was so huge that I was scared. I've never seen such a thing.","It was so huge that I was scared. I have never seen such a thing.","It was so huge that I was scared. I've never seen such a huge thing."],e:"It was so huge that I was scared. I've never seen such a thing."},
+{t:"sa",q:"틀린 부분 2개를 고쳐 문장 전체를 다시 쓰시오.<br>I don't want you do anything foolishly.",a:["I don't want you to do anything foolish."],e:"do → to do / foolishly → foolish"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>Travis는 여행자들이 길을 벗어나지 않기를 원했다.",w:["Travis","wanted","the travelers","not","to leave","the path","leaving","don't"],a:"Travis wanted the travelers not to leave the path",e:"want + O + not to부정사"}
+],
+ws:[
+{q:"현재완료·so ~ that·want O to 각각 한 문장씩 본문 내용으로 쓰시오.",a:"(예시) Eckels has always wanted to see a dinosaur. / He was so scared that he left the path. / Travis wanted him to stay calm."},
+{q:"틀린 부분을 고치시오: We have arrived in the jungle an hour ago.",a:"have arrived → arrived"},
+{q:"to부정사의 쓰임을 쓰시오 (명사적/부사적 목적): (1) I want to go. (2) He came to help me.",a:"(1) 명사적(목적어) (2) 부사적(목적)"},
+{q:"오늘 가장 헷갈린 문법을 예문과 함께 정리하시오.",a:"(개인별 작성)"}
+]});
+DAYS[DAYS.length-1].q[6]={t:"mc",q:"다음 중 어법상 올바른 것은?",o:["When have you arrived?","I have seen him last week.","She has visited Paris in 2019.","They have just arrived.","He has gone there two days ago."],a:3,e:"완료 용법 just. 나머지는 과거 시점 표현과 함께 쓰여 틀림."};
+
+DAYS.push({d:23,cat:"통합",title:"본문 고난도 ① (앞부분: 사무실 ~ T. rex)",
+point:["문장 삽입·순서·무관한 문장: 대명사(it, he, his)와 시간 표현(After only a few minutes, After some time)이 단서","복선 찾기"],
+q:[
+{t:"mc",q:"글의 흐름으로 보아 주어진 문장이 들어가기에 가장 알맞은 곳은?<br><br>After only a few minutes, the machine stopped.<br><br>Inside the time machine, there were two other travelers. (①) Eckels sat down and closed his eyes. (②) He felt the machine moving under his feet. (③) “We've just arrived in the jungle of 60 million years ago,” Travis explained. (④) “Do you see the path over there? (⑤)”",o:["①","②","③","④","⑤"],a:2,e:"움직임을 느낌 → 몇 분 뒤 멈춤 → 도착 설명"},
+{t:"mc",q:"주어진 문장 다음에 이어질 글의 순서로 알맞은 것은?<br><br>Eckels walked into the office of Time Travel.<br>(A) “I've always wanted to see a dinosaur. Is it possible?” asked Eckels.<br>(B) “How can we help you?” said Mr. Parker, the founder of Time Travel.<br>(C) “Sure,” said Mr. Parker. “We can take you back to the jungle of 60 million years ago.”",o:["(A)-(B)-(C)","(B)-(A)-(C)","(B)-(C)-(A)","(C)-(A)-(B)","(A)-(C)-(B)"],a:1,e:"질문(B) → 요청(A) → 대답(C)"},
+{t:"mc",q:"글의 흐름과 관계 <b>없는</b> 문장은?<br><br>Slowly, everyone got out of the time machine. ① The jungle was covered in fog. ② It was very quiet. ③ Dinosaurs lived on the earth for about 165 million years. ④ “I'm so excited,” said Eckels. ⑤ “Be careful. Some of the dinosaurs are hungry,” said Travis.",o:["①","②","③","④","⑤"],a:2,e:"공룡의 생존 기간 정보는 이야기 흐름과 무관"},
+{t:"mc",q:"밑줄 친 it이 가리키는 대상이 나머지와 <b>다른</b> 하나는?<br><br>“Do you see the path over there? You must not leave (a)<u>it</u> at any time.” ... “Look over there. There is a T. rex.” “(b)<u>It</u>,” whispered Eckels. “(c)<u>It</u> ... is huge.” “You don't want (d)<u>it</u> to see you.” The T. rex turned (e)<u>its</u> head toward him.",o:["(a)","(b)","(c)","(d)","(e)"],a:0,e:"(a) the path / 나머지는 the T. rex"},
+{t:"mc",q:"Travis가 한 말 중 이후 사건의 복선이 되는 것은?",o:["This is Travis, your travel guide.","Do you see the path over there?","You might kill something by accident.","Look over there.","Sh ... quiet!"],a:2,e:"나비를 실수로 죽이게 된다."},
+{t:"mc",q:"요약문의 빈칸 (A), (B)에 알맞은 것은?<br><br>Eckels traveled to the (A)______ to see a dinosaur. Travis told him not to leave the path because a little change could (B)______ the future.",o:["past - change","future - keep","present - change","past - save","future - change"],a:0,e:"past / change"},
+{t:"mc",q:"Eckels에 대한 설명으로 앞부분에서 알 수 있는 것은?",o:["He was a calm and careful person.","He was excited at first but got scared easily.","He had seen a T. rex before.","He was the founder of Time Travel.","He traveled alone."],a:1,e:"excited → scared"},
+{t:"sa",q:"Travis의 지시 중 두 가지를 본문에서 찾아 그대로 쓰시오. (Do not ~ / You must not ~ 형태로 한 문장씩, 마침표로 구분)",a:["You must not leave it at any time. Do not touch anything.","Do not touch anything. You must not leave it at any time."],e:"You must not leave it at any time. / Do not touch anything."},
+{t:"sa",q:"영어로 답하시오. (He wanted로 시작)<br>Q: Why did Eckels go to Time Travel?",a:["He wanted to see a dinosaur.","He wanted to see dinosaurs."],e:"He wanted to see a dinosaur."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>운이 좋으시네요. 10분 후에 출발하는 타임머신이 있습니다.",w:["you're lucky","there's","a time machine","that","leaves","in 10 minutes","leave","after"],a:"you're lucky there's a time machine that leaves in 10 minutes",e:"주격 관계대명사 that + 단수동사"}
+],
+ws:[
+{q:"앞부분(사무실~T. rex 등장)을 영어 3문장으로 요약하시오.",a:"(예시) Eckels went to Time Travel to see a dinosaur. Travis told him not to leave the path. In the jungle, a huge T. rex appeared."},
+{q:"복선이 된 문장 2개를 영어로 쓰시오.",a:"Mr. Keith, the new president, was on the news. / You might kill something by accident."},
+{q:"Travis가 규칙을 강조한 이유를 영어로 쓰시오.",a:"Because a little change in the past can cause something unthinkable in the future."},
+{q:"내가 Time Travel을 이용한다면 가고 싶은 시대와 이유를 영어로 쓰시오.",a:"(예시) I want to go to the Joseon Dynasty because I want to meet King Sejong."}
+]});
+
+DAYS.push({d:24,cat:"통합",title:"본문 고난도 ② (뒷부분: 길 이탈 ~ 나비)",
+point:["원인과 결과 연결: 겁에 질림 → 길 이탈 → 나비를 밟음 → 미래 변화","인물의 심경 변화 / 결말 추론"],
+q:[
+{t:"mc",q:"주어진 문장이 들어가기에 가장 알맞은 곳은?<br><br>The T. rex heard Travis and turned its head toward him and the other travelers.<br><br>Eckels turned around and started to run. (①) He was so terrified that he left the path by accident. (②) “Eckels!” shouted Travis. “Don't leave the path!” (③) There was a moment of silence. (④) Then, it suddenly started to run toward them with a loud roar. (⑤)",o:["①","②","③","④","⑤"],a:2,e:"Travis가 외침 → 공룡이 듣고 고개를 돌림 → 정적"},
+{t:"mc",q:"주어진 문장 다음에 이어질 글의 순서로 알맞은 것은?<br><br>Eckels looked around the room carefully.<br>(A) Then, he saw the TV. The new president was on the news, but it was not Mr. Keith.<br>(B) He sat down and looked closely at the mud on his shoes.<br>(C) Everything looked the same, except the big sign on the wall.",o:["(A)-(B)-(C)","(C)-(A)-(B)","(C)-(B)-(A)","(B)-(A)-(C)","(A)-(C)-(B)"],a:1,e:"간판(C) → TV(A) → 신발 진흙(B)"},
+{t:"mc",q:"글의 흐름과 관계 <b>없는</b> 문장은?<br><br>Travis and the other travelers returned safely to the machine. ① “You put all of us in danger,” said Travis. ② “I'm sorry, but I didn't kill anything,” said Eckels. ③ Butterflies drink nectar from flowers. ④ Travis stared at Eckels for a long time without saying anything. ⑤ “Let's go home,” said Travis finally.",o:["①","②","③","④","⑤"],a:2,e:"나비 생태 정보는 흐름과 무관"},
+{t:"mc",q:"사건의 원인과 결과를 바르게 연결한 것은?",o:["Eckels가 나비를 죽임 → T. rex가 나타남","Eckels가 겁에 질림 → 길을 벗어남","간판이 바뀜 → Eckels가 길을 벗어남","대통령이 바뀜 → Eckels가 겁에 질림","Travis가 화를 냄 → 나비가 죽음"],a:1,e:"so terrified that he left the path"},
+{t:"mc",q:"요약문의 빈칸 (A), (B)에 알맞은 것은?<br><br>Because Eckels left the path, he killed a (A)______ by accident. As a result, the sign and the (B)______ changed in the present.",o:["dinosaur - president","butterfly - president","butterfly - guide","bird - founder","dinosaur - founder"],a:1,e:"butterfly / president"},
+{t:"mc",q:"'Travis stared at Eckels for a long time without saying anything.'에서 Travis의 심정으로 가장 알맞은 것은?",o:["proud","worried","excited","bored","thankful"],a:1,e:"결과를 걱정함"},
+{t:"mc",q:"이야기 결말에서 Eckels가 깨달은 것은?",o:["공룡이 위험하다는 것","자신의 작은 실수가 미래를 바꿨다는 것","Travis가 거짓말을 했다는 것","Mr. Parker가 바뀌었다는 것","신발을 갈아 신어야 한다는 것"],a:1,e:"It's all because of this little thing?"},
+{t:"sa",q:"so ~ that을 사용하여 Eckels가 길을 벗어난 이유를 본문 그대로 쓰시오. (He was로 시작)",a:["He was so terrified that he left the path by accident."],e:"He was so terrified that he left the path by accident."},
+{t:"sa",q:"영어로 답하시오. (Because로 시작)<br>Q: Why was Eckels confused when he returned?",a:["Because the sign and the president changed.","Because the sign on the wall changed.","Because the sign looked different.","Because the president was not Mr. Keith."],e:"Because the sign (and the president) changed."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그는 오른쪽 신발의 진흙 속에서 죽은 작은 나비 한 마리를 발견했다.",w:["in the mud","on his right shoe","he","found","a small dead butterfly","died","finding"],a:"in the mud on his right shoe he found a small dead butterfly",e:"부사구 + 주어 + 동사 + 목적어"}
+],
+ws:[
+{q:"뒷부분(길 이탈~나비)을 영어 3문장으로 요약하시오.",a:"(예시) Eckels was so scared that he left the path. When they returned, the sign and the president were different. He found a dead butterfly on his shoe."},
+{q:"원인–결과 사슬을 우리말로 4단계 쓰시오.",a:"겁에 질림 → 길을 벗어남 → 나비를 밟아 죽임 → 현재의 간판·대통령이 바뀜"},
+{q:"Travis가 아무 말 없이 Eckels를 응시한 이유를 영어로 추론하시오.",a:"(예시) He was worried that Eckels changed something in the past."},
+{q:"이야기의 다른 결말을 영어 2문장으로 써 보시오.",a:"(예시) Eckels stayed on the path. When they returned, everything was the same."}
+]});
+
+DAYS.push({d:25,cat:"통합",title:"어법 고난도 (개수·짝 고르기)",
+point:["현재완료 vs 과거 / so ~ that / such 어순","want/tell + O + to부정사 / 지각동사 + O + 동사원형·-ing","감정 형용사(-ed/-ing) / without + -ing / -thing + 형용사 / 주격 관계대명사 수일치"],
+q:[
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) There's a time machine that leave in 10 minutes.<br>(b) He felt the machine moving under his feet.<br>(c) I don't want you to do foolish anything.<br>(d) He was so terrified that he left the path.<br>(e) Travis stared at Eckels without saying anything.",o:["1개","2개","3개","4개","5개"],a:2,e:"(b)(d)(e) 3개"},
+{t:"mc",q:"어법상 <b>틀린</b> 문장의 개수는?<br><br>(a) I've never seen such a huge thing.<br>(b) Eckels was confusing.<br>(c) We have arrived in the jungle an hour ago.<br>(d) I heard the T. rex roar.<br>(e) You don't want it to see you.",o:["1개","2개","3개","4개","5개"],a:1,e:"(b) confused (c) arrived → 2개"},
+{t:"mc",q:"(A), (B), (C)에서 어법상 알맞은 것끼리 짝지은 것은?<br><br>• I've always (A)(want / wanted) to see a dinosaur.<br>• Some of the dinosaurs (B)(is / are) hungry.<br>• Eckels was (C)(shocked / shocking).",o:["want - is - shocked","wanted - are - shocked","wanted - is - shocking","want - are - shocking","wanted - are - shocking"],a:1,e:"wanted / Some of + 복수명사 → are / shocked"},
+{t:"mc",q:"(A), (B), (C)에서 어법상 알맞은 것끼리 짝지은 것은?<br><br>• The jungle was (A)(covering / covered) in fog.<br>• Travis said (B)(angry / angrily).<br>• Just stay (C)(calm / calmly).",o:["covering - angry - calm","covered - angrily - calm","covered - angry - calmly","covering - angrily - calmly","covered - angrily - calmly"],a:1,e:"수동태 covered / 동사 수식 angrily / stay + 형용사 calm"},
+{t:"mc",q:"밑줄 친 부분을 바르게 고친 것이 <b>아닌</b> 것은?",o:["He was <u>such</u> terrified that he ran. → so","I <u>have seen</u> it yesterday. → saw","He felt the machine <u>to move</u>. → moving","Travis stared at him without <u>say</u> anything. → saying","I want you <u>stay</u> calm. → staying"],a:4,e:"want + O + to부정사 → to stay"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>Eckels looked around the room (a)<u>carefully</u>. Everything looked (b)<u>the same</u>. Eckels was (c)<u>confused</u>. He got (d)<u>more confused</u>. “It's all (e)<u>because</u> this little thing?”",o:["(a)","(b)","(c)","(d)","(e)"],a:4,e:"명사 앞 because of"},
+{t:"mc",q:"다음 중 어법상 올바른 것은?",o:["Have you ever saw a dinosaur?","I didn't want anything foolish him to do.","The T. rex was so big that everyone ran away.","He has gone there last week.","Eckels felt the machine to move."],a:2,e:"so ~ that"},
+{t:"sa",q:"틀린 부분 2개를 고쳐 문장 전체를 다시 쓰시오.<br>He was such terrified that he leave the path by accident.",a:["He was so terrified that he left the path by accident."],e:"such → so / leave → left"},
+{t:"sa",q:"틀린 부분 2개를 고쳐 문장 전체를 다시 쓰시오.<br>I have always want seeing a dinosaur.",a:["I have always wanted to see a dinosaur.","I've always wanted to see a dinosaur."],e:"want → wanted / seeing → to see"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>몇몇 공룡들은 배가 고파요.",w:["some of","the dinosaurs","are","hungry","is","dinosaur"],a:"some of the dinosaurs are hungry",e:"some of + 복수명사 + 복수동사"}
+],
+ws:[
+{q:"틀린 부분을 모두 고치시오: Eckels was so confusing that he look at the mud careful.",a:"confusing → confused / look → looked / careful → carefully"},
+{q:"틀린 부분을 고치시오: I have met Travis two days ago.",a:"have met → met"},
+{q:"틀린 부분을 고치시오: She heard the T. rex to roar.",a:"to roar → roar / roaring"},
+{q:"오늘 틀린 어법 포인트를 정리하시오.",a:"(개인별 작성)"}
+]});
+
+DAYS.push({d:26,cat:"서술형",title:"서술형 집중 ① 문장 전환·결합",
+point:["현재완료 한 문장 만들기(for/since)","so ~ that / too ~ to 전환","want + O + to부정사 / 지각동사 / without -ing"],
+q:[
+{t:"sa",q:"현재완료를 사용하여 한 문장으로 쓰시오. (for 사용)<br>I started learning the piano three years ago. I still learn it.",a:["I have learned the piano for three years.","I've learned the piano for three years.","I have learned to play the piano for three years."],e:"have learned ~ for three years"},
+{t:"sa",q:"so ~ that을 사용하여 한 문장으로 쓰시오.<br>The T. rex was very scary. Eckels couldn't breathe.",a:["The T. rex was so scary that Eckels couldn't breathe.","The T. rex was so scary that Eckels could not breathe."],e:"so scary that ~"},
+{t:"sa",q:"too ~ to 문장을 so ~ that으로 바꾸시오.<br>Eckels was too scared to walk quietly.",a:["Eckels was so scared that he couldn't walk quietly.","Eckels was so scared that he could not walk quietly."],e:"so scared that he couldn't ~"},
+{t:"sa",q:"want를 사용하여 한 문장으로 쓰시오.<br>Travis said to Eckels, “Stay calm.”<br>→ Travis wanted ________________.",a:["Eckels to stay calm","him to stay calm"],e:"Travis wanted Eckels to stay calm."},
+{t:"sa",q:"without을 사용하여 영작하시오.<br>그는 뒤돌아보지 않고 기계로 달려갔다. (look back)",a:["He ran to the machine without looking back."],e:"without looking back"},
+{t:"mc",q:"두 문장을 한 문장으로 바르게 연결한 것은?<br><br>Eckels saw a T. rex. It was appearing slowly.",o:["Eckels saw a T. rex to appear slowly.","Eckels saw a T. rex appearing slowly.","Eckels saw a T. rex appeared slowly.","Eckels saw a T. rex appears slowly.","Eckels saw to a T. rex appear slowly."],a:1,e:"see + O + -ing"},
+{t:"mc",q:"'나는 그렇게 거대한 것을 본 적이 없다.'를 영작할 때 다섯 번째 단어는? (I've를 한 단어로)",o:["never","seen","such","a","huge"],a:3,e:"I've(1) never(2) seen(3) such(4) a(5) huge thing."},
+{t:"mc",q:"'Travis는 Eckels에게 길을 벗어나지 말라고 말했다.'를 영작할 때 필요 <b>없는</b> 단어는?",o:["told","Eckels","not","to","don't"],a:4,e:"Travis told Eckels not to leave the path."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그는 너무 혼란스러워서 아무 말도 할 수 없었다.",w:["he","was","so","confused","that","he","couldn't","say anything","confusing","such"],a:"he was so confused that he couldn't say anything",e:"so + 형용사 + that"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 2010년부터 이 도시에 살아 왔다.",w:["I","have","lived","in this city","since 2010","for","live"],a:"I have lived in this city since 2010",e:"since + 시점"}
+],
+ws:[
+{q:"현재완료로 한 문장: She moved to Busan in 2020. She still lives there.",a:"She has lived in Busan since 2020."},
+{q:"so ~ that으로: The sign was very strange. Eckels was confused.",a:"The sign was so strange that Eckels was confused."},
+{q:"tell + O + to로: Travis said to them, “Run!”",a:"Travis told them to run."},
+{q:"지각동사로 한 문장: I heard the T. rex. It was roaring.",a:"I heard the T. rex roaring[roar]."}
+]});
+
+DAYS.push({d:27,cat:"서술형",title:"서술형 집중 ② 질문에 답하기",
+point:["영어 질문에는 완전한 문장으로 답하기","시제 일치: 과거 이야기 → 과거시제로 답","대명사로 바꾸어 답하기 (Eckels → he, the T. rex → it)"],
+q:[
+{t:"sa",q:"영어로 답하시오. (He wanted로 시작)<br>Q: What had Eckels always wanted to do?",a:["He wanted to see a dinosaur.","He had always wanted to see a dinosaur.","He has always wanted to see a dinosaur."],e:"He (had always) wanted to see a dinosaur."},
+{t:"sa",q:"영어로 답하시오. (It was로 시작)<br>Q: What was the jungle like?",a:["It was covered in fog and very quiet.","It was covered in fog.","It was very quiet."],e:"It was covered in fog and very quiet."},
+{t:"sa",q:"영어로 답하시오. (He told로 시작)<br>Q: What did Travis tell Eckels to do when he panicked?",a:["He told Eckels to turn around and walk quietly back to the machine.","He told him to turn around and walk quietly back to the machine."],e:"He told Eckels to turn around and walk quietly back to the machine."},
+{t:"sa",q:"영어로 답하시오. (He said로 시작)<br>Q: What did Eckels say about his shoes?",a:["He said there was only a little mud on his shoes.","He said, “There's only a little mud on my shoes.”","He said there was a little mud on his shoes."],e:"He said there was only a little mud on his shoes."},
+{t:"sa",q:"영어로 답하시오. (It was로 시작)<br>Q: What did the sign say when Eckels returned?",a:["It was “NAIM ANY YEER EN THE PAST. WEE TAEK YU THAIR.”","It was NAIM ANY YEER EN THE PAST WEE TAEK YU THAIR"],e:"NAIM ANY YEER EN THE PAST. WEE TAEK YU THAIR."},
+{t:"mc",q:"질문과 대답이 바르게 짝지어진 것은?",o:["Q: Who was Mr. Parker?<br>A: He was the new president.","Q: Where did they travel?<br>A: To the jungle of 60 million years ago.","Q: How far was the T. rex?<br>A: It was ten meters away.","Q: What did Eckels find?<br>A: He found a dead dinosaur.","Q: Who left the path?<br>A: Travis did."],a:1,e:"나머지: 설립자 / 100미터 / 나비 / Eckels"},
+{t:"mc",q:"감점 없이 영작한 것은?<br>'T. rex는 Travis의 소리를 듣고 고개를 돌렸다.'",o:["The T. rex heard Travis and turn its head.","The T. rex heard Travis and turned it's head.","The T. rex heard Travis and turned its head.","The T. rex hears Travis and turned its head.","The T. rex heard Travis and turned his head toward."],a:2,e:"과거 병렬 heard, turned / 소유격 its"},
+{t:"mc",q:"조건(현재완료, never, 7단어)에 맞게 '나는 그렇게 무서운 것을 본 적이 없다.'를 영작한 것은?",o:["I have never seen such a scary thing.","I've never seen such a scary thing.","I never saw such a scary thing.","I haven't seen a scary thing.","I've never see such a scary thing."],a:1,e:"I've(1) never(2) seen(3) such(4) a(5) scary(6) thing(7)"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>Travis와 다른 여행자들은 안전하게 기계로 돌아왔다.",w:["Travis and the other travelers","returned","safely","to the machine","safe","returned back"],a:"Travis and the other travelers returned safely to the machine",e:"return to + 장소"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>새 대통령이 뉴스에 나왔지만, 그는 Keith 씨가 아니었다.",w:["the new president","was","on the news","but","it","was not","Mr. Keith","were"],a:"the new president was on the news but it was not Mr. Keith",e:"본문: ~, but it was not Mr. Keith."}
+],
+ws:[
+{q:"영어로 답하시오: Who was Travis and what did he tell the travelers?",a:"He was the travel guide. He told them not to leave the path and not to touch anything."},
+{q:"영어로 답하시오: How did Eckels feel when he saw the T. rex?",a:"He felt so scared."},
+{q:"영어로 답하시오: What changed when they returned to the present?",a:"The sign on the wall and the president changed."},
+{q:"영어로 답하시오: Why did the future change?",a:"Because Eckels killed a butterfly in the past by accident."}
+]});
+
+DAYS.push({d:28,cat:"서술형",title:"서술형 집중 ③ 요약·자기표현",
+point:["요약문: 인물 + 사건 + 결과를 한 문장에","교훈 쓰기: A small change can ~","자기표현: 현재완료로 경험 쓰기, so ~ that으로 감정 쓰기"],
+q:[
+{t:"sa",q:"요약문 빈칸에 알맞은 한 단어를 쓰시오.<br>Eckels traveled to the past to see a ________.",a:["dinosaur"],e:"dinosaur"},
+{t:"sa",q:"요약문 빈칸에 알맞은 두 단어를 쓰시오.<br>He was so scared that he left the path ______ ______.",a:["by accident"],e:"by accident"},
+{t:"sa",q:"요약문 빈칸에 알맞은 한 단어를 쓰시오.<br>He killed a small ________, and it changed the future.",a:["butterfly"],e:"butterfly"},
+{t:"sa",q:"교훈을 완성하시오. (3단어)<br>A little change in the past can ______________.",a:["change the future","cause something unthinkable"],e:"change the future"},
+{t:"sa",q:"현재완료와 never를 사용하여 자신에 대해 영작하시오. (I've never로 시작, 동사 seen 사용)",a:["I've never seen a dinosaur.","I've never seen a T. rex.","I've never seen a real dinosaur."],e:"(예) I've never seen a dinosaur."},
+{t:"mc",q:"요약문 빈칸 (A), (B), (C)에 알맞은 것은?<br><br>Eckels went back to the (A)______. He (B)______ the path and killed a butterfly. When he returned, the (C)______ had changed.",o:["past - left - future","future - followed - past","past - followed - future","present - left - past","past - left - past"],a:0,e:"past / left / future(present world)"},
+{t:"mc",q:"이야기를 읽고 쓴 감상문 중 내용을 잘못 이해한 것은?",o:["작은 실수도 큰 결과를 가져올 수 있다는 것을 배웠다.","Travis의 규칙에는 중요한 이유가 있었다.","Eckels는 일부러 나비를 죽였다.","미래를 바꾼 것이 작은 나비라는 점이 놀라웠다.","규칙을 지키는 것이 중요하다고 느꼈다."],a:2,e:"실수로(by accident) 죽였다."},
+{t:"mc",q:"이야기의 교훈을 영어로 바르게 표현한 것은?",o:["Dinosaurs are always dangerous.","Small actions can have big effects.","Time travel is easy.","Butterflies are beautiful.","Presidents change every year."],a:1,e:"작은 행동 → 큰 결과"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>우리는 작은 행동도 미래를 바꿀 수 있기 때문에 조심해야 한다.",w:["we","should","be careful","because","small actions","can change","the future","because of"],a:"we should be careful because small actions can change the future",e:"because + 절"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그 이야기는 너무 흥미로워서 나는 그것을 두 번 읽었다.",w:["the story","was","so","interesting","that","I","read it twice","interested","such"],a:"the story was so interesting that I read it twice",e:"so + 형용사 + that"}
+],
+ws:[
+{q:"이야기 전체를 영어 4문장으로 요약하시오.",a:"(예시) Eckels traveled to the past to see a dinosaur. Travis told him not to leave the path. Eckels was so scared that he left the path and killed a butterfly. When he returned, the future had changed."},
+{q:"현재완료로 나의 경험 2가지를 쓰시오.",a:"(예시) I have been to Jeju-do. I have never ridden a horse."},
+{q:"so ~ that으로 내가 겁먹었던 경험을 쓰시오.",a:"(예시) The roller coaster was so fast that I screamed."},
+{q:"이야기의 교훈을 나의 생활과 연결하여 영어 2문장으로 쓰시오.",a:"(예시) Small habits can change my future. So I will read English books every day."}
+]});
+
+DAYS.push({d:29,cat:"실전",title:"실전 모의고사 ①",
+point:["본문·문법 전 범위","본문 근거를 찾아 선택지 판단"],
+q:[
+{t:"mc",q:"본문의 내용과 일치하는 것은?",o:["Mr. Parker was Eckels' travel guide.","Eckels traveled with two other travelers.","The T. rex appeared 10 meters away.","Eckels left the path on purpose.","Eckels found a dead bird on his shoe."],a:1,e:"two other travelers"},
+{t:"mc",q:"Travis에 대한 설명으로 알맞지 <b>않은</b> 것은?",o:["He was the travel guide.","He told the travelers not to touch anything.","He shouted at Eckels not to leave the path.","He stared at Eckels without saying anything.","He killed the butterfly by accident."],a:4,e:"나비를 죽인 사람은 Eckels"},
+{t:"mc",q:"Eckels의 심경 변화로 알맞은 것은?",o:["excited → scared → confused → shocked","bored → excited → happy","scared → excited → calm","confused → excited → scared","angry → sad → happy"],a:0,e:"excited → scared → confused → shocked"},
+{t:"mc",q:"현재완료 용법이 <보기>와 같은 것은?<br><보기> I've always wanted to see a dinosaur.",o:["I have just finished it.","Have you ever eaten malatang?","She has lived here since 2015.","I have lost my key.","He has already left."],a:2,e:"계속 용법"},
+{t:"mc",q:"어법상 올바른 것은?",o:["He was such terrified that he ran.","I have seen it yesterday.","He felt the machine moving.","Travis told him not leave the path.","I don't want you doing anything foolish."],a:2,e:"지각동사 + O + -ing"},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>• My uncle has lived in Canada (A)____ 2010.<br>• I have learned the piano (B)____ three years.",o:["for - since","since - for","since - since","for - for","from - during"],a:1,e:"since + 시점 / for + 기간"},
+{t:"mc",q:"영영풀이 'a feeling of being unable to understand something'에 해당하는 단어가 쓰인 문장은?",o:["Eckels was shocked.","Eckels was confused.","Eckels was excited.","Eckels was scared.","Eckels was lucky."],a:1,e:"confused: 혼란스러운"},
+{t:"sa",q:"영어로 답하시오. (Because로 시작)<br>Q: Why did Travis say, “Don't leave the path”?",a:["Because Eckels left the path.","Because Eckels left the path by accident.","Because a little change can cause something unthinkable in the future."],e:"Because Eckels left the path."},
+{t:"sa",q:"so ~ that을 사용하여 영작하시오.<br>정글은 너무 조용해서 Eckels는 Travis의 속삭임을 들을 수 있었다.",a:["The jungle was so quiet that Eckels could hear Travis's whisper.","The jungle was so quiet that Eckels could hear Travis whisper.","The jungle was so quiet that Eckels could hear Travis whispering.","The jungle was so quiet that Eckels could hear Travis' whisper."],e:"The jungle was so quiet that Eckels could hear Travis whisper."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>당신이 우리 모두를 위험에 빠뜨렸어요.",w:["you","put","all of us","in danger","dangerous","into"],a:"you put all of us in danger",e:"put ~ in danger"}
+],
+ws:[
+{q:"본문의 현재완료 문장 3개를 찾아 쓰고 해석하시오.",a:"I've always wanted to see a dinosaur. (나는 항상 공룡을 보고 싶었다.) / We've just arrived in the jungle ~. (우리는 막 정글에 도착했다.) / I've never seen such a huge thing. (나는 그렇게 거대한 것을 본 적이 없다.)"},
+{q:"본문에서 so ~ that 문장을 찾아 쓰고 해석하시오.",a:"He was so terrified that he left the path by accident. (그는 너무 겁에 질려서 실수로 길을 벗어났다.)"},
+{q:"오늘 틀린 문항의 핵심 개념을 정리하시오.",a:"(개인별 작성)"},
+{q:"Eckels에게 편지를 영어 3문장으로 쓰시오.",a:"(예시) Dear Eckels, I know you were scared. But you should have followed the rules. Small things can change the future."}
+]});
+
+DAYS.push({d:30,cat:"실전",title:"실전 모의고사 ② (최종)",
+point:["Lesson 8 전 범위 최종 점검","틀린 문제는 해당 DAY로 돌아가 복습"],
+q:[
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) I've never seen such a huge thing.<br>(b) We have arrived in the jungle an hour ago.<br>(c) He was so terrified that he left the path.<br>(d) I don't want you to do anything foolish.<br>(e) Eckels was confusing.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(c)(d) 3개"},
+{t:"mc",q:"주어진 문장이 들어가기에 가장 알맞은 곳은?<br><br>He was shocked.<br><br>He sat down and looked closely at the mud on his shoes. (①) “No, it can't be,” said Eckels. (②) “It's all because of this little thing?” (③) In the mud on his right shoe, he found a small dead butterfly. (④) The end. (⑤)",o:["①","②","③","④","⑤"],a:2,e:"본문 순서: It's all because of this little thing? He was shocked. In the mud ~"},
+{t:"mc",q:"이야기에서 미래가 바뀌었다는 증거가 <b>아닌</b> 것은?",o:["간판의 철자가 달라짐","뉴스 속 대통령이 바뀜","신발 진흙 속의 죽은 나비","방의 다른 모든 것은 똑같아 보임","Eckels가 혼란스러워함"],a:3,e:"다른 것은 그대로였다는 것은 변화의 증거가 아니다."},
+{t:"mc",q:"밑줄 친 현재완료의 용법이 나머지와 <b>다른</b> 하나는?",o:["I <u>have seen</u> a T. rex once.","<u>Have</u> you ever <u>been</u> to Jeju-do?","I <u>have never eaten</u> malatang.","We <u>have just arrived</u> in the jungle.","She <u>has met</u> a movie star twice."],a:3,e:"완료. 나머지는 경험."},
+{t:"mc",q:"빈칸 (A), (B)에 알맞은 것은?<br><br>Eckels was (A)____ terrified that he left the path. Travis told him (B)____ the path.",o:["so - not to leave","such - not leaving","so - don't leave","too - not to leave","such - to not leave"],a:0,e:"so ~ that / tell + O + not to부정사"},
+{t:"mc",q:"이야기의 교훈으로 가장 알맞은 것은?",o:["Always run when you are scared.","A small change can make a big difference.","Never trust a travel guide.","Dinosaurs are not real.","Don't go to the jungle."],a:1,e:"작은 변화 → 큰 차이"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["Have you ever been to Paris?","He felt the machine moving.","Travis stared at him without saying anything.","There's a time machine that leave in 10 minutes.","Some of the dinosaurs are hungry."],a:3,e:"leaves"},
+{t:"sa",q:"현재완료를 사용하여 영작하시오. (just 포함, We로 시작)<br>우리는 막 6천만 년 전의 정글에 도착했다.",a:["We've just arrived in the jungle of 60 million years ago.","We have just arrived in the jungle of 60 million years ago."],e:"We've just arrived in the jungle of 60 million years ago."},
+{t:"sa",q:"want를 사용하여 영작하시오. (Travis로 시작)<br>Travis는 Eckels가 어리석은 어떤 행동도 하지 않기를 원했다.",a:["Travis didn't want Eckels to do anything foolish.","Travis did not want Eckels to do anything foolish."],e:"Travis didn't want Eckels to do anything foolish."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>이곳에서의 작은 변화가 미래에 상상할 수 없는 일을 일으킬 수 있습니다.",w:["a little change","here","can cause","something","unthinkable","in the future","unthinkable something"],a:"a little change here can cause something unthinkable in the future",e:"-thing + 형용사"}
+],
+ws:[
+{q:"이야기를 영어 5문장으로 요약하시오.",a:"(예시) Eckels traveled to the past to see a dinosaur. Travis told him not to leave the path. When a T. rex appeared, Eckels was so scared that he left the path. When they returned, the sign and the president were different. Eckels found a dead butterfly on his shoe."},
+{q:"현재완료 4가지 용법을 예문과 함께 정리하시오.",a:"완료: I've just finished it. / 경험: I've been to Paris. / 계속: I've lived here for 3 years. / 결과: He has gone to Seoul."},
+{q:"내가 과거로 간다면 꼭 지켜야 할 규칙 3가지를 영어로 쓰시오.",a:"(예시) Don't leave the path. Don't touch anything. Follow the guide's instructions."},
+{q:"30일 동안 가장 많이 틀린 개념과 앞으로의 학습 계획을 쓰시오.",a:"(개인별 작성)"}
+]});
+
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), app=$("#app");
+const KEY=CONF.key;
+/* ▼ 노션 자동저장: Apps Script 웹앱 배포 URL을 아래 따옴표 안에 붙여넣으세요 ▼ */
+const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
+const UNIT=CONF.unit;
+const QKEY=CONF.key+"_queue";
+let store={name:"",best:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) store=Object.assign(store,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+const saveOn=()=>/^https:\/\/script\.google\.com\//.test(SAVE_URL);
+function getQ(){try{return JSON.parse(localStorage.getItem(QKEY)||"[]")}catch(e){return []}}
+function setQ(q){try{localStorage.setItem(QKEY,JSON.stringify(q))}catch(e){}}
+async function post(payload){
+  const r=await fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+  const j=await r.json(); if(!j.ok) throw new Error(j.msg||"save failed"); return j;}
+async function flushQ(){ if(!saveOn())return; let q=getQ(); if(!q.length)return; const left=[];
+  for(const p of q){try{await post(p)}catch(e){left.push(p)}} setQ(left);}
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const fmt=s=>s.replace(/\[\[(.+?)\]\]/g,"<u>$1</u>").replace(/\n/g,"<br>");
+const CIRC=["①","②","③","④","⑤"];
+const TYPE={mc:"객관식",sa:"서술형",or:"배열"};
+function norm(s){s=String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/[“”]/g,'"');
+  const m={"isn't":"is not","don't":"do not","doesn't":"does not","it's":"it is","i'm":"i am","it'll":"it will","aren't":"are not","can't":"cannot","won't":"will not","what's":"what is","they're":"they are"};
+  for(const k in m)s=s.split(k).join(m[k]);
+  return s.replace(/[.,!?;:"()]/g," ").replace(/\s+/g," ").trim();}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const fixedOpts=o=>o.every(x=>/^(\(|[①-⑤]|\d개)/.test(x));
+
+let S=null; // session
+$("#subb").textContent=CONF.sub;
+function setBar(p){$("#bar").style.width=(p*100)+"%"}
+$("#homeBtn").onclick=home;
+
+function home(){
+  S=null; $("#homeBtn").hidden=true; setBar(0); window.scrollTo(0,0);
+  const doneN=Object.keys(store.best).length;
+  const avg=doneN?Math.round(Object.values(store.best).reduce((a,b)=>a+b,0)/doneN*10):0;
+  const cats=[...new Set(DAYS.map(d=>d.cat))];
+  app.innerHTML=`
+  <div class="hero"><span class="eyebrow">${CONF.eyebrow}</span>
+  <h1>30일 미니테스트</h1>
+  <p>하루 10문항 · ${CONF.flow} 순서로 진행합니다. 풀고 나면 같은 DAY의 연계 워크시트를 확인하세요.</p></div>
+  <div class="namebox"><label for="nm">이름</label><input id="nm" placeholder="이름을 입력하세요" value="${esc(store.name)}" maxlength="20"></div>
+  <div class="stats"><span>완료 <b>${doneN}</b>/30일</span><span>평균 <b>${avg}</b>점</span></div>
+  <div class="legend">${cats.map(c=>`<span class="tag c-${c}">${c}</span>`).join("")}</div>
+  <div class="grid">${DAYS.map(d=>{const b=store.best[d.d];return `<button class="day ${b!=null?"done":""}" data-d="${d.d}">
+    <span class="n">DAY ${String(d.d).padStart(2,"0")}${b!=null?`<em>${b}/10</em>`:""}</span>
+    <span class="tag c-${d.cat}" style="justify-self:start">${d.cat}</span>
+    <span class="t">${esc(d.title)}</span></button>`}).join("")}</div>`;
+  $("#nm").oninput=e=>{store.name=e.target.value.trim();save()};
+  app.querySelectorAll(".day").forEach(b=>b.onclick=()=>start(+b.dataset.d));
+}
+
+function start(d,only){
+  if(!store.name){const nm=$("#nm"); if(nm){nm.focus();nm.placeholder="먼저 이름을 입력하세요!";nm.parentNode.style.borderColor="var(--bad)";} return;}
+  const day=DAYS[d-1];
+  const idxs=only||day.q.map((_,i)=>i);
+  S={day,list:idxs.map(i=>prep(day.q[i],i)),i:0,res:[],retry:!!only,t0:Date.now()};
+  $("#homeBtn").hidden=false; showQ();
+}
+function prep(q,orig){
+  const o={...q,orig};
+  if(q.t==="mc"){const ord=q.o.map((_,i)=>i);o.ord=fixedOpts(q.o)?ord:shuffle(ord);}
+  if(q.t==="or"){o.pool=shuffle(q.w.map((w,i)=>({w,i})));}
+  return o;
+}
+function showQ(){
+  window.scrollTo(0,0);
+  const q=S.list[S.i], n=S.list.length;
+  setBar(S.i/n);
+  const pass=q.p?`<details class="pass" open><summary>지문 보기 / 접기</summary><div class="ptxt">${fmt(PASS[q.p])}</div></details>`:"";
+  let body="";
+  if(q.t==="mc") body=`<div class="opts">${q.ord.map((k,pos)=>`<button class="opt" data-k="${k}"><span class="num">${pos+1}</span><span>${fmt(q.o[k])}</span></button>`).join("")}</div>`;
+  if(q.t==="sa") body=`<input class="inp" id="sa" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="영어로 입력하세요">`;
+  if(q.t==="or") body=`<div class="built" id="built"></div><div class="pool" id="pool">${q.pool.map((p,k)=>`<button class="w" data-k="${k}">${esc(p.w)}</button>`).join("")}</div>`;
+  app.innerHTML=`<div class="card">
+   <div class="qhead"><b>DAY ${S.day.d}${S.retry?" · 오답 재도전":""}</b><span><span class="type">${TYPE[q.t]}</span> &nbsp;${S.i+1} / ${n}</span></div>
+   ${pass}<div class="qtext">${S.i+1}. ${fmt(q.q)}</div>${body}
+   <div id="fbx"></div>
+   <div class="actions">${q.t==="or"?`<button class="btn ghost" id="reset">다시 배열</button>`:""}<button class="btn" id="go" disabled>정답 확인</button></div></div>`;
+  const go=$("#go"); let pick=null, built=[];
+  if(q.t==="mc") app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{app.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");pick=+b.dataset.k;go.disabled=false});
+  if(q.t==="sa"){const inp=$("#sa");inp.oninput=()=>go.disabled=!inp.value.trim();inp.onkeydown=e=>{if(e.key==="Enter"&&!go.disabled)go.click()};setTimeout(()=>inp.focus({preventScroll:true}),50)}
+  if(q.t==="or"){
+    const draw=()=>{$("#built").innerHTML=built.map((k,j)=>`<button class="w" data-j="${j}">${esc(q.pool[k].w)}</button>`).join("");
+      app.querySelectorAll("#pool .w").forEach(b=>b.classList.toggle("used",built.includes(+b.dataset.k)));
+      app.querySelectorAll("#built .w").forEach(b=>b.onclick=()=>{if(S.locked)return;built.splice(+b.dataset.j,1);draw()});
+      go.disabled=!built.length;};
+    app.querySelectorAll("#pool .w").forEach(b=>b.onclick=()=>{if(S.locked)return;built.push(+b.dataset.k);draw()});
+    $("#reset").onclick=()=>{if(S.locked)return;built=[];draw()};
+  }
+  S.locked=false;
+  go.onclick=()=>{
+    if(S.locked){next();return}
+    let ok,user,right;
+    if(q.t==="mc"){ok=pick===q.a;user=CIRC[q.ord.indexOf(pick)]+" "+q.o[pick];right=CIRC[q.ord.indexOf(q.a)]+" "+q.o[q.a];
+      app.querySelectorAll(".opt").forEach(b=>{b.disabled=true;const k=+b.dataset.k;if(k===q.a)b.classList.add("right");else if(k===pick)b.classList.add("wrong")});}
+    if(q.t==="sa"){const v=$("#sa").value;user=v;ok=q.a.some(a=>norm(a)===norm(v));right=q.a[0];$("#sa").disabled=true;}
+    if(q.t==="or"){user=built.map(k=>q.pool[k].w).join(" ");ok=norm(user)===norm(q.a);right=cap(q.a)+".";
+      app.querySelectorAll(".w").forEach(b=>b.disabled=true);const r=$("#reset");if(r)r.disabled=true;}
+    S.res.push({orig:q.orig,ok,user,right,q});
+    S.locked=true;
+    $("#fbx").innerHTML=`<div class="fb ${ok?"ok":"no"}"><strong>${ok?"정답입니다!":"아쉬워요. 다시 확인해 봅시다."}</strong>${ok&&q.t==="mc"?"":`<div>정답: <span class="ans">${fmt(String(right).replace(/<br>/g," "))}</span></div>`}<div>${fmt(q.e)}</div></div>`;
+    go.textContent=S.i+1<S.list.length?"다음 문제":"결과 보기";
+    $("#fbx").scrollIntoView({behavior:"smooth",block:"nearest"});
+  };
+}
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function next(){S.i++; if(S.i<S.list.length)showQ(); else result();}
+
+function result(){
+  setBar(1); window.scrollTo(0,0);
+  const d=S.day, sc=S.res.filter(r=>r.ok).length, n=S.res.length;
+  if(!S.retry){const prev=store.best[d.d]; if(prev==null||sc>prev){store.best[d.d]=sc;save();}}
+  const wrong=S.res.filter(r=>!r.ok).map(r=>r.orig);
+  const now=new Date(), ts=`${now.getMonth()+1}/${now.getDate()} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  const msg=sc===n?"완벽해요! 내신 실전에서도 이 정확도를 유지하세요.":sc>=8?"아주 좋아요. 틀린 문제의 해설을 꼭 다시 읽어 보세요.":sc>=6?"기본은 잡혔어요. 오답 재도전으로 약점을 채워 봅시다.":"오늘 개념을 워크시트로 다시 정리한 뒤 재도전해 봅시다.";
+  app.innerHTML=`<div class="card score">
+     <span class="eyebrow">DAY ${d.d} · ${esc(d.title)}${S.retry?" · 오답 재도전":""}</span>
+     <div class="big">${sc}<span style="font-size:28px">/${n}</span></div>
+     <div class="meta">${esc(store.name||"이름 미입력")} · ${ts}</div>
+     <p style="margin:6px 0 0">${msg}</p>
+     <p class="note" style="margin:0" id="sv">${saveOn()?"결과를 선생님께 저장하는 중…":"이 화면을 캡처해서 선생님께 보내 주세요."}</p></div>
+   <div class="actions">${wrong.length?`<button class="btn accent" id="rt">오답만 다시 풀기 (${wrong.length})</button>`:""}<button class="btn" id="ws">연계 워크시트</button></div>
+   <div class="actions" style="margin-top:8px"><button class="btn ghost" id="again">처음부터 다시</button><button class="btn ghost" id="hm">DAY 목록</button></div>
+   <div class="sec"><h2>문항별 확인</h2><div class="review">${S.res.map((r,i)=>`<div class="ri ${r.ok?"ok":"no"}"><span class="mk">${r.ok?"O":"X"}</span><div><div class="q">${i+1}. ${fmt(r.q.q.split("<br>")[0])}</div>${r.ok?"":`<div>내 답: ${esc(String(r.user).replace(/<br>/g," "))}</div><div style="color:var(--ok);font-weight:700">정답: ${fmt(String(r.right).replace(/<br>/g," "))}</div>`}</div></div>`).join("")}</div></div>`;
+  if(wrong.length)$("#rt").onclick=()=>start(d.d,wrong);
+  if(saveOn()) send(buildPayload(d,sc,n,now));
+  $("#ws").onclick=()=>worksheet(d.d);
+  $("#again").onclick=()=>start(d.d);
+  $("#hm").onclick=home;
+}
+
+const strip=s=>String(s).replace(/<br>/g," ").replace(/<[^>]+>/g,"").replace(/\[\[|\]\]/g,"").replace(/\s+/g," ").trim();
+function buildPayload(d,sc,n,now){
+  const wr=S.res.map((r,i)=>({r,i})).filter(x=>!x.r.ok);
+  const p=v=>String(v).padStart(2,"0");
+  const ts=`${now.getFullYear()}-${p(now.getMonth()+1)}-${p(now.getDate())}T${p(now.getHours())}:${p(now.getMinutes())}:00+09:00`;
+  return {type:"minitest",name:store.name,unit:UNIT,day:d.d,title:d.title,cat:d.cat,
+    attempt:S.retry?"오답 재도전":"첫 응시",score:sc,total:n,
+    wrongNums:wr.length?wr.map(x=>(x.r.orig+1)+"번").join(", "):"없음",
+    wrongDetail:wr.map(x=>`${x.r.orig+1}번(${TYPE[x.r.q.t]}) 내 답: ${strip(x.r.user)||"-"} → 정답: ${strip(x.r.right)}`).join("\n").slice(0,1900),
+    minutes:Math.max(1,Math.round((Date.now()-S.t0)/60000)),timestamp:ts};
+}
+async function send(payload){
+  const el=$("#sv");
+  const show=(t,c)=>{const x=$("#sv"); if(x){x.innerHTML=t; x.style.color=c||"";}};
+  try{await post(payload); show("✓ 선생님 노션에 결과가 저장되었습니다.","var(--ok)"); flushQ();}
+  catch(e){const q=getQ(); q.push(payload); setQ(q);
+    show(`저장에 실패했어요(인터넷 확인). <button id="resend" class="w" style="font-size:13px;padding:2px 10px">다시 저장</button><br>다음에 앱을 열면 자동으로 다시 보내요.`,"var(--bad)");
+    const b=$("#resend"); if(b) b.onclick=async()=>{show("다시 저장하는 중…"); try{await flushQ(); if(getQ().length) throw 0; show("✓ 선생님 노션에 결과가 저장되었습니다.","var(--ok)");}catch(_){show("아직 저장되지 않았어요. 잠시 후 다시 시도하세요.","var(--bad)")}};}
+}
+function worksheet(dn){
+  const d=DAYS[dn-1]; setBar(0); window.scrollTo(0,0); $("#homeBtn").hidden=false;
+  app.innerHTML=`<div class="hero"><span class="eyebrow">DAY ${d.d} 연계 워크시트 · ${d.cat}</span><h1 style="font-size:26px">${esc(d.title)}</h1>
+  <p>개념을 다시 정리하고, 노트에 직접 써 본 뒤 정답을 확인하세요.</p></div>
+  <div class="sec" style="margin-top:0"><h2>핵심 개념</h2><div class="point"><ul>${d.point.map(p=>`<li>${p}</li>`).join("")}</ul></div></div>
+  <div class="sec"><h2>연습 문제</h2>${d.ws.map((w,i)=>`<div class="wsi"><div><b>${i+1}.</b> ${fmt(w.q)}</div><div class="lines"></div><button data-i="${i}">정답 보기</button><div class="a" hidden id="wa${i}">${fmt(esc(w.a))}</div></div>`).join("")}</div>
+  <div class="actions"><button class="btn" id="tq">DAY ${d.d} 테스트 풀기</button><button class="btn ghost" id="hm">DAY 목록</button></div>`;
+  app.querySelectorAll(".wsi button").forEach(b=>b.onclick=()=>{const a=$("#wa"+b.dataset.i);a.hidden=!a.hidden;b.textContent=a.hidden?"정답 보기":"정답 숨기기"});
+  $("#tq").onclick=()=>start(d.d); $("#hm").onclick=home;
+}
+home();
+flushQ();
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L8 Festival Fun Mini Test</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: one centered column (max 680px) — sticky navy header band, day grid on home, one question card at a time */
+:root{
+  --navy:#1d2b4f; --burgundy:#8a2240; --gold:#c98a12;
+  --bg:#f4f5f9; --card:#ffffff; --ink:#1b2133; --muted:#5c6478; --line:#dfe2ea;
+  --soft:#eef0f6; --ok:#1d7a4a; --ok-bg:#e5f4ec; --bad:#b3263a; --bad-bg:#fbe9ec;
+  --hdr:#1d2b4f; --hdr-ink:#ffffff; --chip:#ffffff; --chip-line:#c9cedb; --sel:#1d2b4f; --sel-ink:#ffffff;
+  --display:"Do Hyeon","Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12151f; --card:#1b2030; --ink:#e8eaf1; --muted:#a3a9ba; --line:#2d3346; --soft:#232a3d;
+  --burgundy:#e0708c; --gold:#e8b04a; --ok:#5fcf8f; --ok-bg:#163527; --bad:#ff8094; --bad-bg:#3a1a22;
+  --hdr:#0d1426; --hdr-ink:#ffffff; --chip:#232a3d; --chip-line:#3a4258; --sel:#8fa3d9; --sel-ink:#0d1426; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151f; --card:#1b2030; --ink:#e8eaf1; --muted:#a3a9ba; --line:#2d3346; --soft:#232a3d;
+  --burgundy:#e0708c; --gold:#e8b04a; --ok:#5fcf8f; --ok-bg:#163527; --bad:#ff8094; --bad-bg:#3a1a22;
+  --hdr:#0d1426; --hdr-ink:#ffffff; --chip:#232a3d; --chip-line:#3a4258; --sel:#8fa3d9; --sel-ink:#0d1426; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--hdr)}
+.wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--hdr);color:var(--hdr-ink)}
+header.top .wrap{display:flex;align-items:center;gap:12px;padding-block:12px}
+.brand{font-family:var(--display);font-size:20px;letter-spacing:.5px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{font-family:var(--body);font-size:12px;opacity:.75;margin-left:6px;letter-spacing:0}
+.hbtn{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+.bar{height:4px;background:rgba(255,255,255,.15)}.bar i{display:block;height:100%;background:var(--gold);transition:width .3s}
+main{padding-block:20px 48px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+.hero{display:grid;gap:6px;margin-bottom:18px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);font-weight:700}
+.hero h1{font-size:32px;line-height:1.2;color:var(--ink)}
+.hero p{margin:0;color:var(--muted);font-size:14px}
+.namebox{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:18px}
+.namebox label{font-size:14px;color:var(--muted);white-space:nowrap}
+.namebox input{flex:1;min-width:0;border:0;background:transparent;font:inherit;color:var(--ink);font-weight:700;outline:none}
+.stats{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:12px}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--muted)}
+.tag.c-대화문{color:#2f6fb0}.tag.c-본문{color:#3c8a5a}.tag.c-문법{color:var(--burgundy)}.tag.c-통합{color:#8a5a12}.tag.c-서술형{color:#6a3fa0}.tag.c-실전{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.day{display:grid;gap:4px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;font:inherit;color:var(--ink)}
+.day:hover,.day:focus-visible{border-color:var(--sel);outline:none}
+.day .n{font-family:var(--display);font-size:20px;display:flex;justify-content:space-between;align-items:center}
+.day .n em{font-style:normal;font-family:var(--body);font-size:13px;font-weight:700;color:var(--ok);font-variant-numeric:tabular-nums}
+.day .t{font-size:13px;color:var(--muted);line-height:1.4}
+.day.done{border-color:var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;font-size:14px;color:var(--muted)}
+.qhead b{color:var(--ink);font-family:var(--display);font-size:18px;font-weight:400}
+.type{font-size:12px;font-weight:700;color:var(--burgundy);border:1px solid currentColor;border-radius:6px;padding:1px 6px}
+details.pass{background:var(--soft);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:15px}
+details.pass summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--muted)}
+details.pass .ptxt{margin-top:8px;line-height:1.75;overflow-wrap:anywhere}
+.qtext{font-size:17px;font-weight:500;margin-bottom:16px;overflow-wrap:anywhere}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;background:var(--chip);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px;color:var(--ink);cursor:pointer;line-height:1.5}
+.opt .num{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--chip-line);display:grid;place-items:center;font-size:13px;font-weight:700}
+.opt span:last-child{min-width:0;overflow-wrap:anywhere}
+.opt.sel{border-color:var(--sel)}.opt.sel .num{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.inp{width:100%;font:inherit;font-size:16px;padding:12px;border:1.5px solid var(--chip-line);border-radius:10px;background:var(--chip);color:var(--ink)}
+.inp:focus{outline:2px solid var(--sel);outline-offset:1px}
+.built{min-height:56px;display:flex;flex-wrap:wrap;gap:6px;padding:10px;border:1.5px dashed var(--chip-line);border-radius:10px;margin-bottom:10px;align-content:flex-start}
+.built:empty::before{content:"아래 단어를 순서대로 눌러 문장을 완성하세요";color:var(--muted);font-size:14px}
+.pool{display:flex;flex-wrap:wrap;gap:6px}
+.w{font:inherit;font-size:15px;padding:6px 12px;border-radius:8px;border:1.5px solid var(--chip-line);background:var(--chip);color:var(--ink);cursor:pointer}
+.w.used{opacity:.25;pointer-events:none}
+.built .w{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+.actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 18px;border-radius:10px;border:0;background:var(--navy);color:#fff;cursor:pointer;flex:1}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);flex:0 0 auto}
+.btn.accent{background:var(--burgundy)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible,.w:focus-visible,.opt:focus-visible,.hbtn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.fb{margin-top:16px;border-radius:10px;padding:12px 14px;font-size:15px}
+.fb.ok{background:var(--ok-bg);color:var(--ink);border-left:4px solid var(--ok)}
+.fb.no{background:var(--bad-bg);color:var(--ink);border-left:4px solid var(--bad)}
+.fb strong{display:block;margin-bottom:4px}
+.fb .ans{font-weight:700}
+.score{display:grid;gap:4px;text-align:center;padding:24px 18px}
+.score .big{font-family:var(--display);font-size:64px;line-height:1;color:var(--navy);font-variant-numeric:tabular-nums}
+:root:not([data-theme="light"]) .score .big{color:var(--ink)}
+.score .meta{color:var(--muted);font-size:14px}
+.review{display:grid;gap:8px;margin-top:16px}
+.ri{display:grid;grid-template-columns:28px 1fr;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:14px}
+.ri .mk{font-weight:700;font-size:16px}.ri.ok .mk{color:var(--ok)}.ri.no .mk{color:var(--bad)}
+.ri div{min-width:0;overflow-wrap:anywhere}
+.ri .q{color:var(--muted)}
+.sec{margin-top:24px;display:grid;gap:10px}
+.sec h2{font-size:22px}
+.point{background:var(--soft);border-radius:10px;padding:12px 16px}
+.point ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:15px}
+.wsi{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--card);display:grid;gap:8px}
+.wsi .lines{border-bottom:1px solid var(--line);height:28px}
+.wsi button{justify-self:start;font:inherit;font-size:13px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:3px 10px;cursor:pointer}
+.wsi .a{color:var(--burgundy);font-weight:500;font-size:15px}
+.note{font-size:13px;color:var(--muted)}
+footer{font-size:12px;color:var(--muted);text-align:center;padding-block:8px 24px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="brand" id="brand">L7 Daily Mini Test<small id="subb">중2 동아(윤정미)</small></div><button class="hbtn" id="homeBtn" hidden>목록</button></div><div class="bar"><i id="bar" style="width:0"></i></div></header>
+<main class="wrap" id="app"></main>
+<footer class="wrap" id="foot">제작: 스텔라원장 · 잉글리시아이 스텔라</footer>
+
+<script>
+const CONF={key:"l8lee_v1",unit:"중2 동아(이병민) L8",brand:"L8 Daily Mini Test",sub:"중2 동아(이병민)",eyebrow:"Lesson 8 · Festival Fun",flow:"대화문 → 본문 → 문법 → 통합 → 서술형 → 실전"};
+const PASS={
+E1:"<b>[Topic 1 · Listen and Match 1]</b>\nB: [[Have you ever tried ice fishing?]]\nG: Yes, I have, Alex. I went to an ice festival last winter and tried ice fishing there.\nB: That's great! My family is planning to go ice fishing this winter.\nG: Oh, you're going to love it. It's really exciting.\nB: Yeah. I'm looking forward to fishing on the icy river.",
+E2:"<b>[Topic 1 · Listen and Match 2]</b>\nB: Reena, do you have any plans this weekend?\nG: Yes, I'm going camping with my family.\nB: That sounds fun! Have you ever roasted marshmallows while camping?\nG: No, I haven't, but I want to try.\nB: When you roast marshmallows, they become so soft and sweet.\nG: Oh, that sounds delicious. [[I'm really looking forward to tasting them.]]",
+E3:"<b>[Topic 1 · Listen and Match 3]</b>\nB: Have you ever been to Boryeong?\nG: Yes, I have, James. I went there last summer for the mud festival.\nB: Oh, really? I'm going to the next mud festival. What activities did you enjoy?\nG: I rode the mud slide and played in the mud pool.\nB: Sounds exciting! I'm looking forward to trying out all the muddy activities.\nG: Yeah, I hope you have a fantastic time!",
+E4:"<b>[Topic 1 · Watch and Write]</b>\nG: These strawberries are really delicious. Have you ever picked fresh strawberries, Giho?\nB: Yes, I have. I picked these strawberries [[myself]].\nG: Really? Where did you pick them?\nB: I participated in a strawberry picking event at a farm last week.\nG: That sounds really interesting. Can you tell me more about the event?\nB: Of course. You can eat all the strawberries you pick at the farm.\nG: How many strawberries did you eat?\nB: I don't know exactly, but I was so full.\nG: Sounds like you had a great time. Are you going to go there again?\nB: Yes. Next month. I'm looking forward to picking those fresh strawberries again.",
+E5:"<b>[Topic 2 · Watch a Video]</b>\nLucy: My friend Emily is visiting Seoul this weekend. Where can I take her?\nGiho: Well, Lucy, have you ever visited Hanyangdoseong before?\nLucy: No, I haven't. What's that?\nGiho: It's an ancient wall surrounding Seoul.\nLucy: That sounds interesting. What can we do there?\nGiho: You can walk along the wall and enjoy the beautiful view. You can also participate in a stamp tour.\nLucy: That's perfect. Emily likes walking. And she'll love the stamp tour.\nGiho: I hope you have a great time at Hanyangdoseong.\nLucy: Thanks. I'm really looking forward to walking around the city with Emily.",
+Q1:"<b>The Quebec Winter Carnival</b>\nHello! Welcome to the Quebec Winter Carnival. I am Bonhomme, the mascot of the carnival. I am a big snowman. As you can see, I'm wearing a big red hat and a special belt. Do you want to take home an unforgettable memory from the carnival? Follow me, and I'll show you [[what to do]] here.\n<b>Did You Know?</b>\n• Bonhomme means “good man” in French.\n• The Quebec Winter Carnival is usually held for 10 days between January and February in Quebec, Canada.",
+Q2:"<b>Bonhomme's Ice Palace</b>\nThis is my ice palace. Every year, a new ice palace is built for the carnival. So, I have a new home each year! Because the palace is made of ice and snow, it shines beautifully during the day. At night, it is even more beautiful with many lights. Take a look at my fantastic ice garden. You can see amazing ice sculptures of trees, flowers, and animals here. You can also enjoy exciting concerts and performances. Do you like to dance? I can teach you [[how to dance]] like me.",
+Q3:"<b>Toboggan Slide</b>\nThere are also so many interesting activities you can do at the carnival. The toboggan slide was built in 1884 and is 200 meters long. A toboggan is a long narrow sled. If you like speed, get on the toboggan. It is [[so fast that]] you will feel like you are on a roller coaster. While you're sliding down, you can enjoy amazing views of Quebec. You can see a huge famous castle on your left. On your right, you can see a beautiful icy river.",
+Q4:"<b>Ice Canoe Race</b>\nIf you see a large crowd along the river, it's time to watch the Ice Canoe Race. This race is one of the best parts of the carnival, and you shouldn't miss it. Canoe teams have to race through the icy river for about three kilometers. Teams are usually made up of five members, and both men and women can join the team. Look! One team is stuck in the ice and can't move! The members have to push their canoe on the ice to get to the water. Phew! They are in the water again. I hope they can make it to the finish line. The race is [[so exciting that]] you will forget about the cold.",
+Q5:"<b>Delicious Treats</b>\nAfter all these exciting activities, I'm really hungry. There are many delicious treats to eat at the carnival. How about a cup of hot chocolate? It's always the perfect drink in cold weather. You also have to try maple taffy. It's made in a special way here. Let's learn [[how to make]] it. Pour hot maple syrup on the snow. Then place a stick on the syrup and quickly roll it around. Now, you have delicious maple taffy!\nI hope you come and see me at the carnival. Oh, don't forget to check our website for more information. Bye!"
+};
+const DAYS=[];
+
+DAYS.push({d:1,cat:"대화문",title:"경험 묻기 (Ice Fishing)",
+point:["경험 묻기: Have you ever + 과거분사 ~? (~해 본 적 있니?)","대답: Yes, I have. / No, I haven't.","기대 표현: I'm looking forward to + 명사/동명사 (to는 전치사!)","be planning to + 동사원형: ~할 계획이다"],
+q:[
+{t:"mc",p:"E1",q:"밑줄 친 문장의 의도로 알맞은 것은?",o:["경험 묻기","기대 표현하기","계획 묻기","제안하기","설명 요청하기"],a:0,e:"Have you ever + p.p.? → 경험 묻기"},
+{t:"mc",p:"E1",q:"대화의 내용과 일치하는 것은?",o:["The boy has tried ice fishing before.","The girl went to an ice festival last winter.","The girl's family is planning to go ice fishing.","The girl thinks ice fishing is boring.","The boy is looking forward to swimming."],a:1,e:"I went to an ice festival last winter"},
+{t:"mc",q:"빈칸에 알맞은 대답은?<br><br>A: Have you ever tried ice fishing?<br>B: ______ I tried it last winter.",o:["Yes, I did.","Yes, I have.","No, I haven't.","Yes, I do.","No, I didn't."],a:1,e:"Have you ~? → Yes, I have."},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["I'm looking forward to fishing on the icy river.","I'm looking forward to the festival.","I'm looking forward to see you.","I'm looking forward to meeting my friends.","I'm looking forward to it."],a:2,e:"to는 전치사 → seeing"},
+{t:"mc",q:"'I'm looking forward to fishing on the icy river.'와 의미가 가장 가까운 것은?",o:["I'm worried about fishing.","I can't wait to fish on the icy river.","I don't want to fish.","I have fished on the icy river.","I'm tired of fishing."],a:1,e:"I can't wait to ~ = 기대"},
+{t:"mc",p:"E1",q:"대화를 읽고 답할 수 <b>없는</b> 질문은?",o:["Has the girl tried ice fishing?","Where did the girl try ice fishing?","What is the boy's family planning?","What does the girl think about ice fishing?","How many fish did the girl catch?"],a:4,e:"잡은 물고기 수는 나오지 않는다."},
+{t:"mc",q:"짝지어진 대화가 <b>어색한</b> 것은?",o:["A: Have you ever been to Jeju-do?<br>B: Yes, I have.","A: Have you ever seen a shooting star?<br>B: No, I haven't.","A: I'm going to the festival.<br>B: I hope you have a great time!","A: Have you ever tried sushi?<br>B: Yes, I am.","A: Are you excited?<br>B: Yes. I'm looking forward to it."],a:3,e:"Yes, I have."},
+{t:"sa",q:"주어진 단어를 사용하여 영작하시오. (ever, try, ice fishing)<br>너는 얼음낚시를 해 본 적 있니?",a:["Have you ever tried ice fishing?"],e:"Have you ever tried ice fishing?"},
+{t:"sa",q:"look을 사용하여 영작하시오. (I'm으로 시작)<br>나는 얼음 강에서 낚시하는 것을 기대하고 있다.",a:["I'm looking forward to fishing on the icy river.","I am looking forward to fishing on the icy river."],e:"I'm looking forward to fishing on the icy river."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>우리 가족은 이번 겨울에 얼음낚시를 하러 갈 계획이다.",w:["my family","is planning","to go","ice fishing","this winter","going","are"],a:"my family is planning to go ice fishing this winter",e:"be planning to + 동사원형"}
+],
+ws:[
+{q:"경험을 묻는 질문 3개를 Have you ever ~?로 쓰시오.",a:"(예시) Have you ever tried ice fishing? / Have you ever been to Boryeong? / Have you ever seen a shooting star?"},
+{q:"기대 표현을 3가지로 쓰시오. (I'm looking forward to / I can't wait / I'm excited about)",a:"I'm looking forward to the trip. / I can't wait to go there. / I'm excited about the trip."},
+{q:"틀린 부분을 고치시오: I'm looking forward to see the festival.",a:"see → seeing"},
+{q:"자신의 경험에 대한 대화 2줄을 쓰시오.",a:"(예시) A: Have you ever been skiing? B: Yes, I have. I went skiing last winter."}
+]});
+
+DAYS.push({d:2,cat:"대화문",title:"기대 표현하기 (Marshmallows)",
+point:["I'm looking forward to + -ing = I can't wait to + 동사원형 = I can't wait for + 명사","현재진행형으로 가까운 미래: I'm going camping ~","Have you ever roasted marshmallows while camping? (while + -ing)","become + 형용사: they become so soft and sweet"],
+q:[
+{t:"mc",p:"E2",q:"밑줄 친 문장과 의미가 같은 것은?",o:["I can't wait to taste them.","I don't want to taste them.","I've already tasted them.","I'm tired of tasting them.","I forgot to taste them."],a:0,e:"I can't wait to + 동사원형"},
+{t:"mc",p:"E2",q:"대화의 내용과 일치하지 <b>않는</b> 것은?",o:["Reena is going camping this weekend.","Reena has never roasted marshmallows.","Roasted marshmallows become soft and sweet.","The boy has roasted marshmallows before.","Reena doesn't want to try roasting marshmallows."],a:4,e:"but I want to try"},
+{t:"mc",q:"'I'm going camping with my family.'의 진행형과 쓰임이 같은 것은?",o:["Look! She is dancing.","I'm reading a book now.","We're leaving for Busan tomorrow.","He is sleeping in his room.","They are playing soccer now."],a:2,e:"가까운 미래의 예정"},
+{t:"mc",q:"빈칸에 들어갈 수 <b>없는</b> 것은?<br><br>I'm looking forward to ______.",o:["the camping trip","tasting them","meet you","the weekend","seeing the festival"],a:2,e:"to + 동명사/명사 → meeting you"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["They become so soft and sweet.","That sounds delicious.","I can't wait for the camping trip.","I can't wait to tasting them.","I want to try."],a:3,e:"I can't wait to + 동사원형 → taste"},
+{t:"mc",p:"E2",q:"Reena에 대한 설명으로 알맞은 것은?",o:["She has roasted marshmallows many times.","She is going camping with her friends.","She is excited to taste roasted marshmallows.","She doesn't like sweet food.","She has no plans this weekend."],a:2,e:"I'm really looking forward to tasting them."},
+{t:"mc",q:"대화의 순서로 알맞은 것은?<br><br>B: Reena, do you have any plans this weekend?<br>(A) No, I haven't, but I want to try.<br>(B) Yes, I'm going camping with my family.<br>(C) That sounds fun! Have you ever roasted marshmallows while camping?",o:["(A)-(B)-(C)","(B)-(C)-(A)","(B)-(A)-(C)","(C)-(B)-(A)","(C)-(A)-(B)"],a:1,e:"계획 → 경험 질문 → 대답"},
+{t:"sa",q:"wait를 사용하여 같은 의미로 쓰시오. (I can't로 시작)<br>I'm looking forward to tasting them.",a:["I can't wait to taste them.","I cannot wait to taste them."],e:"I can't wait to taste them."},
+{t:"sa",q:"현재완료 경험 질문으로 영작하시오. (while 포함)<br>너는 캠핑하는 동안 마시멜로를 구워 본 적 있니?",a:["Have you ever roasted marshmallows while camping?"],e:"Have you ever roasted marshmallows while camping?"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>마시멜로를 구우면, 그것들은 아주 부드럽고 달콤해진다.",w:["when","you","roast","marshmallows","they","become","so soft and sweet","softly"],a:"when you roast marshmallows they become so soft and sweet",e:"become + 형용사"}
+],
+ws:[
+{q:"같은 의미로 바꾸시오: I'm looking forward to the trip. → I can't wait ______.",a:"for the trip"},
+{q:"기대 표현으로 영작: 나는 내 생일 파티가 정말 기대된다.",a:"I'm really looking forward to my birthday party."},
+{q:"현재진행형(미래)으로 영작: 나는 이번 주말에 캠핑을 갈 거야.",a:"I'm going camping this weekend."},
+{q:"이번 주말 계획과 기대를 영어 2문장으로 쓰시오.",a:"(예시) I'm going to the movies with my friends. I'm looking forward to watching the new movie."}
+]});
+
+DAYS.push({d:3,cat:"대화문",title:"경험·기대 (Boryeong Mud Festival)",
+point:["Have you ever been to + 장소? : ~에 가 본 적 있니? (been to ↔ gone to)","I'm going to + 장소 (가까운 미래)","try out: 시도해 보다 / mud slide, mud pool","I hope (that) you have a fantastic time!"],
+q:[
+{t:"mc",p:"E3",q:"대화의 내용과 일치하는 것은?",o:["The girl has never been to Boryeong.","The girl went to the mud festival last winter.","The girl rode the mud slide.","The boy went to the mud festival last year.","The boy doesn't want to try muddy activities."],a:2,e:"I rode the mud slide and played in the mud pool."},
+{t:"mc",q:"'Have you ever been to Boryeong?'과 의미가 같은 것은?",o:["Are you going to Boryeong?","Have you visited Boryeong before?","Do you live in Boryeong?","Did you go to Boryeong yesterday?","Have you gone to Boryeong?"],a:1,e:"been to = 가 본 적 있다"},
+{t:"mc",q:"'He has gone to Boryeong.'의 의미로 알맞은 것은?",o:["그는 보령에 가 본 적이 있다.","그는 보령에 가 버렸다(지금 여기 없다).","그는 보령에서 왔다.","그는 보령에 갈 것이다.","그는 보령에 살았다."],a:1,e:"have gone to: 가 버렸다"},
+{t:"mc",p:"E3",q:"소녀가 머드 축제에서 한 활동이 <b>아닌</b> 것은?",o:["rode the mud slide","played in the mud pool","went to the festival last summer","tried the mud massage","enjoyed muddy activities"],a:3,e:"머드 마사지는 언급되지 않았다."},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["I'm looking forward to trying out all the muddy activities.","I hope you have a fantastic time!","Have you ever been to Boryeong?","I went there last summer.","I have gone there last summer."],a:4,e:"last summer → 과거시제"},
+{t:"mc",p:"E3",q:"'Sounds exciting!'이 가리키는 내용은?",o:["보령에 사는 것","머드 슬라이드와 머드 풀장에서 논 것","여름 방학 숙제","소년의 계획","축제 입장료"],a:1,e:"앞 문장의 활동"},
+{t:"mc",q:"빈칸에 들어갈 말로 가장 알맞은 것은?<br><br>A: I'm going to the mud festival next week.<br>B: ______",o:["I hope you have a fantastic time!","I'm sorry to hear that.","No, I haven't.","What did you say?","Can you repeat that?"],a:0,e:"상대의 계획에 좋은 시간을 바라는 말"},
+{t:"sa",q:"주어진 단어를 사용하여 영작하시오. (have, be, Boryeong)<br>너는 보령에 가 본 적이 있니?",a:["Have you ever been to Boryeong?","Have you been to Boryeong?"],e:"Have you ever been to Boryeong?"},
+{t:"sa",q:"look을 사용하여 영작하시오. (try out 포함)<br>나는 모든 진흙 활동을 해 보는 것을 기대하고 있어.",a:["I'm looking forward to trying out all the muddy activities.","I am looking forward to trying out all the muddy activities."],e:"I'm looking forward to trying out ~"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 머드 축제를 위해 지난여름에 그곳에 갔어.",w:["I","went","there","last summer","for the mud festival","have gone","to there"],a:"I went there last summer for the mud festival",e:"last summer → 과거 / there 앞에 to 없음"}
+],
+ws:[
+{q:"been to와 gone to의 차이를 예문과 함께 쓰시오.",a:"I have been to Boryeong. (가 본 적 있다) / He has gone to Boryeong. (가 버려서 지금 없다)"},
+{q:"틀린 부분을 고치시오: I have been to Boryeong last summer.",a:"have been → went"},
+{q:"가 본 축제를 소개하는 대화 3줄을 쓰시오.",a:"(예시) A: Have you ever been to a festival? B: Yes, I have. I went to the Jinju Lantern Festival. A: Sounds exciting!"},
+{q:"I hope ~로 친구에게 응원하는 문장을 쓰시오.",a:"(예시) I hope you have a great time at the festival!"}
+]});
+
+DAYS.push({d:4,cat:"대화문",title:"Watch and Write (딸기 따기)",
+point:["재귀대명사 강조: I picked these strawberries myself. (직접)","participate in: ~에 참여하다","all the strawberries (that) you pick: 목적격 관계대명사 생략","Sounds like + 주어 + 동사: ~인 것 같다"],
+q:[
+{t:"mc",p:"E4",q:"밑줄 친 myself와 쓰임이 같은 것은?",o:["I hurt myself.","I made this cake myself.","I looked at myself in the mirror.","I enjoyed myself at the party.","I said to myself."],a:1,e:"강조 용법(직접) – 생략 가능"},
+{t:"mc",p:"E4",q:"대화의 내용과 일치하지 <b>않는</b> 것은?",o:["Giho picked the strawberries himself.","Giho joined a strawberry picking event last week.","Visitors can eat all the strawberries they pick.","Giho knows exactly how many strawberries he ate.","Giho will go there again next month."],a:3,e:"I don't know exactly"},
+{t:"mc",q:"'You can eat all the strawberries you pick at the farm.'에서 생략된 말이 들어갈 위치는?<br><br>You can eat (①) all (②) the strawberries (③) you (④) pick (⑤) at the farm.",o:["①","②","③","④","⑤"],a:2,e:"the strawberries (that/which) you pick"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["I participated in a strawberry picking event.","Sounds like you had a great time.","You can eat all the strawberries you pick them.","I'm looking forward to picking strawberries again.","I picked these strawberries myself."],a:2,e:"목적어 them 중복"},
+{t:"mc",q:"'participate in'과 의미가 같은 것은?",o:["take part in","take care of","look for","give up","put on"],a:0,e:"participate in = take part in"},
+{t:"mc",p:"E4",q:"기호의 마지막 말에 담긴 감정은?",o:["실망","기대","걱정","후회","분노"],a:1,e:"I'm looking forward to ~"},
+{t:"mc",p:"E4",q:"대화를 읽고 답할 수 <b>없는</b> 질문은?",o:["Where did Giho pick the strawberries?","When did Giho participate in the event?","Can visitors eat the strawberries they pick?","How much was the event?","When will Giho go there again?"],a:3,e:"행사 비용은 나오지 않는다."},
+{t:"sa",q:"재귀대명사를 사용하여 영작하시오. (I picked로 시작)<br>나는 이 딸기들을 직접 땄어.",a:["I picked these strawberries myself."],e:"I picked these strawberries myself."},
+{t:"sa",q:"participate를 사용하여 영작하시오. (last week 포함)<br>나는 지난주에 한 농장에서 딸기 따기 행사에 참여했어.",a:["I participated in a strawberry picking event at a farm last week."],e:"participate in"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>너는 농장에서 네가 딴 딸기를 모두 먹을 수 있어.",w:["you","can","eat","all the strawberries","you","pick","at the farm","them"],a:"you can eat all the strawberries you pick at the farm",e:"목적격 관계대명사 생략, them 불필요"}
+],
+ws:[
+{q:"재귀대명사 강조 용법으로 영작: 그녀는 그 그림을 직접 그렸다.",a:"She drew the picture herself."},
+{q:"Watch and Write: Giho의 일기를 완성하시오. Today I participated in a strawberry ______ event. I ate so many that I was so ______.",a:"picking / full"},
+{q:"관계대명사를 생략하여 영작: 이것은 내가 딴 딸기이다.",a:"These are the strawberries I picked."},
+{q:"Sounds like로 대답하기: A: I went to a concert and danced a lot. B: ______",a:"Sounds like you had a great time."}
+]});
+
+DAYS.push({d:5,cat:"대화문",title:"See the City (한양도성)",
+point:["take + 사람 + to/장소: ~을 데려가다 → Where can I take her?","an ancient wall surrounding Seoul (현재분사 수식: 서울을 둘러싼)","walk along: ~을 따라 걷다 / participate in a stamp tour","I'm really looking forward to walking around the city."],
+q:[
+{t:"mc",p:"E5",q:"Lucy와 Emily가 주말에 할 일로 알맞은 것은?",o:["visit a history museum","join a stamp tour at a museum","visit Hanyangdoseong","go ice fishing","pick strawberries"],a:2,e:"Hanyangdoseong 방문"},
+{t:"mc",p:"E5",q:"대화의 내용과 일치하지 <b>않는</b> 것은?",o:["Emily is visiting Seoul this weekend.","Lucy has never visited Hanyangdoseong.","Hanyangdoseong is an ancient wall.","Emily doesn't like walking.","You can participate in a stamp tour there."],a:3,e:"Emily likes walking."},
+{t:"mc",q:"'an ancient wall <u>surrounding</u> Seoul'의 surrounding과 쓰임이 같은 것은?",o:["He is surrounding the house.","Look at the boy dancing on the stage.","I enjoy surrounding myself with books.","Surrounding is a hard word.","She stopped surrounding the city."],a:1,e:"명사를 뒤에서 수식하는 현재분사"},
+{t:"mc",q:"'My friend Emily is visiting Seoul this weekend.'의 is visiting이 나타내는 것은?",o:["현재 진행 중인 동작","가까운 미래의 계획","과거의 습관","현재의 습관","과거의 경험"],a:1,e:"this weekend → 예정"},
+{t:"mc",q:"한양도성에서 할 수 있는 일로 언급된 것끼리 짝지은 것은?",o:["성벽을 따라 걷기, 스탬프 투어","야간 투어, 그림 그리기","스탬프 투어, 박물관 관람","등산, 캠핑","성벽 그리기, 사진 찍기"],a:0,e:"walk along the wall / stamp tour"},
+{t:"mc",q:"짝지어진 대화가 <b>어색한</b> 것은?",o:["A: Have you ever visited Hanyangdoseong?<br>B: No, I haven't. What's that?","A: What can we do there?<br>B: You can walk along the wall.","A: I hope you have a great time.<br>B: Thanks.","A: Where can I take her?<br>B: Yes, I can take her.","A: That sounds interesting.<br>B: Yes, it's really fun."],a:3,e:"Where 의문문에 Yes로 답할 수 없다."},
+{t:"mc",q:"'along'의 쓰임이 본문과 같은 것은?",o:["Come along with me.","We walked along the river.","Get along with your friends.","Along the way, I met him.","He sang along."],a:1,e:"along: ~을 따라"},
+{t:"sa",q:"영어로 답하시오. (It's로 시작)<br>Q: What is Hanyangdoseong?",a:["It's an ancient wall surrounding Seoul.","It is an ancient wall surrounding Seoul."],e:"It's an ancient wall surrounding Seoul."},
+{t:"sa",q:"look을 사용하여 영작하시오. (really 포함, I'm으로 시작)<br>나는 Emily와 도시를 걸어 다니는 것이 정말 기대돼.",a:["I'm really looking forward to walking around the city with Emily."],e:"I'm really looking forward to walking ~"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>너는 성벽을 따라 걷고 아름다운 경치를 즐길 수 있어.",w:["you","can","walk","along the wall","and","enjoy","the beautiful view","enjoying"],a:"you can walk along the wall and enjoy the beautiful view",e:"can + walk / enjoy 병렬"}
+],
+ws:[
+{q:"현재분사 수식으로 영작: 나는 서울을 둘러싼 오래된 성벽을 보았다.",a:"I saw an ancient wall surrounding Seoul."},
+{q:"우리 동네 명소를 친구에게 추천하는 대화 3줄을 쓰시오.",a:"(예시) A: Have you ever visited Taejongdae? B: No, I haven't. A: You can walk along the cliffs and enjoy the sea."},
+{q:"I hope ~로 친구에게 인사하기",a:"(예시) I hope you have a great time in Busan."},
+{q:"기대 표현으로 이번 주 계획을 쓰시오.",a:"(예시) I'm looking forward to visiting my grandparents this Sunday."}
+]});
+
+DAYS.push({d:6,cat:"대화문",title:"대화문 종합 (고난도)",
+point:["경험 묻기 Have you ever p.p.? / Yes, I have. No, I haven't.","기대 표현 I'm looking forward to + (동)명사 = I can't wait to + 동사원형","현재완료 vs 과거시제 (last summer, last week → 과거)"],
+q:[
+{t:"mc",q:"다음 중 의도가 나머지와 <b>다른</b> 하나는?",o:["I'm looking forward to the festival.","I can't wait to go to the festival.","I'm excited about the festival.","I can't wait for the festival.","Have you ever been to the festival?"],a:4,e:"경험 묻기. 나머지는 기대 표현."},
+{t:"mc",q:"대화의 흐름상 <b>어색한</b> 것은?<br><br>A: (a) Have you ever picked fresh strawberries?<br>B: (b) Yes, I have. I picked these strawberries myself.<br>A: (c) Really? Where did you pick them?<br>B: (d) No, I haven't picked them.<br>A: (e) That sounds really interesting.",o:["(a)","(b)","(c)","(d)","(e)"],a:3,e:"장소를 물었는데 엉뚱한 대답"},
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) Have you ever tried ice fishing?<br>(b) I'm looking forward to see you.<br>(c) I went there last summer.<br>(d) I have been to Boryeong last year.<br>(e) I can't wait to taste them.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(c)(e) 3개"},
+{t:"mc",q:"대화와 인물이 바르게 연결되지 <b>않은</b> 것은?",o:["Alex – 이번 겨울 얼음낚시 계획","Reena – 이번 주말 가족 캠핑","James – 다음 머드 축제에 갈 예정","Giho – 지난주 딸기 따기 행사 참여","Lucy – 한양도성에 가 본 적 있음"],a:4,e:"Lucy: No, I haven't."},
+{t:"mc",q:"빈칸에 들어갈 말로 알맞은 것은?<br><br>A: Have you ever roasted marshmallows?<br>B: ______ I want to try it this weekend.",o:["Yes, I have.","No, I haven't.","Yes, I did.","No, I don't.","Sure, I am."],a:1,e:"해 보고 싶다 → 아직 안 해 봄"},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>• I'm looking forward (A)____ fishing.<br>• I can't wait (B)____ taste them.",o:["to - to","to - for","for - to","to - with","at - to"],a:0,e:"look forward to + -ing / can't wait to + 동사원형"},
+{t:"mc",q:"다음 대화에서 B의 마지막 말의 의도는?<br><br>A: I'm going to Hanyangdoseong with Emily.<br>B: I hope you have a great time there.",o:["경험 묻기","기대 표현","바람 표현","거절하기","사과하기"],a:2,e:"I hope ~: 바람(희망) 표현"},
+{t:"sa",q:"경험 묻기 질문을 완성하시오. (visit 활용)<br>A: ________________ Hanyangdoseong before?<br>B: No, I haven't.",a:["Have you ever visited","Have you visited"],e:"Have you ever visited"},
+{t:"sa",q:"can't wait를 사용하여 같은 의미로 쓰시오.<br>I'm looking forward to picking strawberries again.",a:["I can't wait to pick strawberries again.","I cannot wait to pick strawberries again."],e:"I can't wait to pick strawberries again."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>너는 좋은 시간을 보낸 것 같다.",w:["sounds","like","you","had","a great time","have","sound"],a:"sounds like you had a great time",e:"Sounds like + 주어 + 동사"}
+],
+ws:[
+{q:"경험 묻기와 기대 표현이 모두 들어간 대화 4줄을 쓰시오.",a:"(예시) A: Have you ever been to a winter festival? B: No, I haven't. A: I'm going to one next week. B: Sounds fun! I hope you have a great time."},
+{q:"틀린 부분을 고치시오: (1) I'm looking forward to visit Seoul. (2) I have gone to Jeju-do last year.",a:"(1) visit → visiting (2) have gone → went"},
+{q:"대화문 5개의 인물과 활동을 정리하시오.",a:"Alex–얼음낚시 / Reena–캠핑·마시멜로 / James–머드 축제 / Giho–딸기 따기 / Lucy–한양도성"},
+{q:"I can't wait to ~로 나의 기대를 쓰시오.",a:"(예시) I can't wait to go on a school trip."}
+]});
+
+DAYS.push({d:7,cat:"본문",title:"Bonhomme과 얼음 궁전 ① 내용 이해",
+point:["Bonhomme: 카니발 마스코트, 큰 눈사람, 큰 빨간 모자 + 특별한 허리띠 / 프랑스어로 ‘좋은 사람’","카니발: 캐나다 퀘벡, 보통 1~2월 사이 10일 동안","얼음 궁전: 매년 새로 지어짐 → Bonhomme은 매년 새 집 / 낮엔 빛나고 밤엔 불빛으로 더 아름다움","얼음 정원(나무·꽃·동물 얼음 조각), 콘서트·공연, 춤 배우기"],
+q:[
+{t:"mc",p:"Q1",q:"Bonhomme에 대한 설명으로 알맞지 <b>않은</b> 것은?",o:["He is the mascot of the carnival.","He is a big snowman.","He wears a big red hat.","His name means “good man” in French.","He wears a special blue scarf."],a:4,e:"a special belt(허리띠)"},
+{t:"mc",p:"Q1",q:"퀘벡 윈터 카니발에 대한 설명으로 알맞은 것은?",o:["It is held in Quebec, France.","It is usually held for 10 days.","It is held in December.","It is held every two years.","It is a summer festival."],a:1,e:"usually held for 10 days between January and February in Quebec, Canada"},
+{t:"mc",p:"Q2",q:"Bonhomme이 '매년 새 집을 가진다'고 말한 이유는?",o:["이사를 자주 해서","매년 새 얼음 궁전이 지어져서","집이 매년 녹아서 다른 곳으로 가서","관광객이 집을 사 가서","눈사람이 매년 새로 태어나서"],a:1,e:"Every year, a new ice palace is built for the carnival."},
+{t:"mc",p:"Q2",q:"얼음 궁전에 대한 설명으로 알맞지 <b>않은</b> 것은?",o:["It is made of ice and snow.","It shines beautifully during the day.","It is more beautiful at night with lights.","It has an ice garden.","It is built of wood every year."],a:4,e:"얼음과 눈으로 만들어진다."},
+{t:"mc",p:"Q2",q:"얼음 정원에서 볼 수 있는 얼음 조각이 <b>아닌</b> 것은?",o:["trees","flowers","animals","castles","(언급된 것 중 하나만 고르시오: 위 셋은 모두 언급됨)"],a:3,e:"trees, flowers, animals만 언급. castles는 언급되지 않음"},
+{t:"mc",p:"Q1",q:"글쓴이(화자)가 이 글을 쓴 목적으로 가장 알맞은 것은?",o:["눈사람 만드는 법을 알려 주려고","퀘벡 윈터 카니발을 소개하고 안내하려고","프랑스어를 가르치려고","얼음 궁전의 역사를 설명하려고","캐나다 날씨를 알려 주려고"],a:1,e:"마스코트가 카니발을 안내하는 글"},
+{t:"mc",p:"Q2",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["What is the ice palace made of?","When is the ice palace more beautiful?","What can you see in the ice garden?","How many people visit the ice palace?","What can Bonhomme teach you?"],a:3,e:"방문객 수는 나오지 않는다."},
+{t:"sa",q:"영어로 답하시오. (It means로 시작)<br>Q: What does Bonhomme mean in French?",a:["It means “good man.”","It means good man","It means “good man” in French."],e:"It means “good man.”"},
+{t:"sa",q:"영어로 답하시오. (It is made of로 시작)<br>Q: What is the ice palace made of?",a:["It is made of ice and snow.","It's made of ice and snow."],e:"It is made of ice and snow."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>당신은 여기서 나무, 꽃, 동물의 놀라운 얼음 조각들을 볼 수 있어요.",w:["you","can see","amazing","ice sculptures","of trees, flowers, and animals","here","amazed"],a:"you can see amazing ice sculptures of trees, flowers, and animals here",e:"amazing: 놀라운(감정을 일으킴)"}
+],
+ws:[
+{q:"Bonhomme을 영어 3문장으로 소개하시오.",a:"Bonhomme is the mascot of the Quebec Winter Carnival. He is a big snowman. He wears a big red hat and a special belt."},
+{q:"카니발 정보 정리: 장소 / 시기 / 기간",a:"Quebec, Canada / between January and February / about 10 days"},
+{q:"얼음 궁전에서 할 수 있는 일 3가지를 영어로 쓰시오.",a:"see ice sculptures in the ice garden / enjoy concerts and performances / learn how to dance like Bonhomme"},
+{q:"영어로 답하시오: Why does Bonhomme have a new home each year?",a:"Because a new ice palace is built for the carnival every year."}
+]});
+DAYS[DAYS.length-1].q[4]={t:"mc",p:"Q2",q:"얼음 정원의 얼음 조각으로 언급되지 <b>않은</b> 것은?",o:["trees","flowers","animals","castles","(위 보기 중 셋은 모두 언급됨)"],a:3,e:"trees, flowers, animals만 언급"};
+DAYS[DAYS.length-1].q[4].o=["trees","flowers","animals","castles","none of them"];
+
+DAYS.push({d:8,cat:"본문",title:"Bonhomme과 얼음 궁전 ② 어법·어휘",
+point:["의문사 + to부정사: I'll show you what to do here. / I can teach you how to dance like me.","수동태: a new ice palace is built / The carnival is held / the palace is made of ice","even + 비교급: even more beautiful (훨씬 더)","As you can see: 보시다시피 / take a look at: ~을 보다 / unforgettable: 잊지 못할"],
+q:[
+{t:"mc",q:"'I'll show you <u>what to do</u> here.'의 의미로 알맞은 것은?",o:["여기서 무엇을 했는지","여기서 무엇을 해야 할지","여기서 무엇을 하기 위해","여기서 하는 것","여기서 왜 해야 하는지"],a:1,e:"what + to부정사: 무엇을 ~할지"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>I can teach you ______ dance like me.",o:["what to","how to","when","where","why to"],a:1,e:"how to + 동사원형: ~하는 방법"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>Every year, a new ice palace (a)<u>is built</u> for the carnival. Because the palace (b)<u>is made of</u> ice and snow, it shines (c)<u>beautiful</u> during the day. At night, it is (d)<u>even more beautiful</u> with many lights. I can teach you (e)<u>how to dance</u> like me.",o:["(a)","(b)","(c)","(d)","(e)"],a:2,e:"동사(shines) 수식 → beautifully"},
+{t:"mc",q:"'even more beautiful'의 even과 바꿔 쓸 수 <b>없는</b> 것은?",o:["much","far","still","a lot","very"],a:4,e:"비교급 강조: much, even, far, still, a lot (very ×)"},
+{t:"mc",q:"'The palace is made <u>of</u> ice and snow.'처럼 빈칸에 of가 들어가는 것은?",o:["Cheese is made ____ milk.","This desk is made ____ wood.","Wine is made ____ grapes.","The festival is held ____ Quebec.","The team is made up ____ boys."],a:1,e:"be made of: 재료(형태 그대로) / be made from: 원료(형태 변화)"},
+{t:"mc",q:"'unforgettable'의 의미로 알맞은 것은?",o:["잊기 쉬운","잊지 못할","잊어버린","기억하지 못하는","용서할 수 없는"],a:1,e:"un + forget + able"},
+{t:"mc",q:"'Bonhomme, the mascot of the carnival'의 콤마와 쓰임이 같은 것은?",o:["Hello, everyone!","Emily, my friend, is visiting Seoul.","At night, it is beautiful.","Trees, flowers, and animals","Yes, I have."],a:1,e:"동격의 콤마"},
+{t:"sa",q:"의문사 + to부정사를 사용하여 영작하시오. (I'll show you로 시작)<br>제가 이곳에서 무엇을 해야 할지 보여 줄게요.",a:["I'll show you what to do here.","I will show you what to do here."],e:"what to do"},
+{t:"sa",q:"수동태로 바꾸시오.<br>They build a new ice palace every year.<br>→ A new ice palace ________ every year.",a:["is built"],e:"is built"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>밤에, 그것은 많은 불빛들로 훨씬 더 아름다워요.",w:["at night","it","is","even","more beautiful","with many lights","very","beautifully"],a:"at night it is even more beautiful with many lights",e:"even + 비교급"}
+],
+ws:[
+{q:"의문사 + to부정사로 영작: 나에게 스키 타는 법을 가르쳐 줄래?",a:"Can you teach me how to ski?"},
+{q:"수동태로: People hold the carnival in Quebec.",a:"The carnival is held in Quebec."},
+{q:"비교급 강조로 영작: 이 궁전은 저 궁전보다 훨씬 더 크다.",a:"This palace is much[even/far] bigger than that one."},
+{q:"be made of / be made from 구별: (1) The palace is made ___ ice. (2) Maple syrup is made ___ tree sap.",a:"(1) of (2) from"}
+]});
+
+DAYS.push({d:9,cat:"본문",title:"Toboggan Slide ① 내용 이해",
+point:["터보건 활강장: 1884년 건설, 길이 200미터","toboggan = 길고 좁은 썰매","너무 빨라서 롤러코스터를 탄 기분","내려가며 퀘벡 경치: 왼쪽 – 거대하고 유명한 성 / 오른쪽 – 아름다운 얼음 강"],
+q:[
+{t:"mc",p:"Q3",q:"터보건 활강장에 대한 설명으로 알맞은 것은?",o:["It was built in 1984.","It is 2,000 meters long.","It was built in 1884.","It is a short, wide sled.","It is very slow."],a:2,e:"built in 1884, 200 meters long"},
+{t:"mc",p:"Q3",q:"toboggan의 뜻으로 알맞은 것은?",o:["a short wide boat","a long narrow sled","a roller coaster","an ice skate","a big castle"],a:1,e:"A toboggan is a long narrow sled."},
+{t:"mc",p:"Q3",q:"터보건을 타고 내려가며 볼 수 있는 것을 바르게 짝지은 것은?<br>(왼쪽 – 오른쪽)",o:["강 – 성","성 – 얼음 강","궁전 – 정원","산 – 바다","성 – 얼음 궁전"],a:1,e:"left: famous castle / right: icy river"},
+{t:"mc",p:"Q3",q:"터보건을 추천하는 사람은?",o:["속도를 좋아하는 사람","춤을 좋아하는 사람","음식을 좋아하는 사람","조용한 것을 좋아하는 사람","수영을 좋아하는 사람"],a:0,e:"If you like speed, get on the toboggan."},
+{t:"mc",p:"Q3",q:"글의 내용과 일치하지 <b>않는</b> 것은?",o:["There are many interesting activities at the carnival.","The toboggan is so fast that it feels like a roller coaster.","You can enjoy views of Quebec while sliding.","You can see a castle on your left.","You can see the ice palace on your right."],a:4,e:"오른쪽에는 얼음 강"},
+{t:"mc",p:"Q3",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["When was the toboggan slide built?","How long is the toboggan slide?","What is a toboggan?","How much does it cost to ride the toboggan?","What can you see on your left?"],a:3,e:"요금은 나오지 않는다."},
+{t:"mc",q:"다음 중 숫자 정보가 바르게 연결된 것은?",o:["터보건 활강장 길이 – 2킬로미터","카누 경주 거리 – 약 3킬로미터","카니발 기간 – 20일","터보건 활강장 건설 – 1984년","카누 팀 인원 – 보통 10명"],a:1,e:"about three kilometers"},
+{t:"sa",q:"영어로 답하시오. (It was built로 시작)<br>Q: When was the toboggan slide built?",a:["It was built in 1884."],e:"It was built in 1884."},
+{t:"sa",q:"영어로 답하시오. (It is로 시작)<br>Q: What is a toboggan?",a:["It is a long narrow sled.","It's a long narrow sled."],e:"It is a long narrow sled."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>당신이 미끄러져 내려가는 동안, 퀘벡의 놀라운 경치를 즐길 수 있어요.",w:["while","you're sliding down","you","can enjoy","amazing views","of Quebec","during","amazed"],a:"while you're sliding down you can enjoy amazing views of Quebec",e:"while + 주어 + 동사 (during + 명사)"}
+],
+ws:[
+{q:"터보건 활강장 정보를 정리하시오: 건설 연도 / 길이 / 터보건의 뜻",a:"1884 / 200 meters / a long narrow sled"},
+{q:"영어로 답하시오: What can you see while sliding down?",a:"You can see a huge famous castle on your left and a beautiful icy river on your right."},
+{q:"터보건을 탄 느낌을 본문 표현으로 쓰시오.",a:"It is so fast that you will feel like you are on a roller coaster."},
+{q:"내가 타 본 가장 빠른 놀이기구를 영어 2문장으로 소개하시오.",a:"(예시) I rode a roller coaster at Lotte World. It was so fast that I screamed."}
+]});
+
+DAYS.push({d:10,cat:"본문",title:"Toboggan Slide ② 어법 (so ~ that)",
+point:["so + 형용사 + that + 주어 + 동사: It is so fast that you will feel like ~","feel like + 주어 + 동사: ~인 것처럼 느끼다","There are so many interesting activities (that) you can do ~ (목적격 관계대명사 생략)","while + 주어 + 동사 / was built (수동태 과거)"],
+q:[
+{t:"mc",q:"'It is so fast that you will feel like you are on a roller coaster.'의 해석으로 알맞은 것은?",o:["그것은 빨라서 롤러코스터처럼 보인다.","그것은 너무 빨라서 당신은 롤러코스터를 탄 것처럼 느낄 것이다.","그것은 롤러코스터만큼 빠르지 않다.","롤러코스터가 너무 빨라서 그것을 탈 수 없다.","그것은 롤러코스터를 타기 위해 빠르다."],a:1,e:"so ~ that …"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>The toboggan is ______ fast ______ you will feel like you are on a roller coaster.",o:["such - that","so - that","too - to","very - that","so - as"],a:1,e:"so + 형용사 + that"},
+{t:"mc",q:"'There are so many interesting activities you can do at the carnival.'에서 생략된 말은?",o:["what","who","that","when","where"],a:2,e:"activities (that/which) you can do"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["The toboggan slide was built in 1884.","It is so fast that you will feel like you are on a roller coaster.","During you're sliding down, you can enjoy amazing views.","You can see a huge famous castle on your left.","A toboggan is a long narrow sled."],a:2,e:"주어+동사 앞 → While"},
+{t:"mc",q:"두 문장을 so ~ that으로 바르게 연결한 것은?<br><br>The river is very beautiful. Many people take pictures of it.",o:["The river is such beautiful that many people take pictures of it.","The river is so beautiful that many people take pictures of it.","The river is beautiful so that many people take pictures of it.","The river is too beautiful that many people take pictures of it.","So the river is beautiful that many people take pictures of it."],a:1,e:"so + 형용사 + that"},
+{t:"mc",q:"'The toboggan slide <u>was built</u> in 1884.'와 같은 수동태 문장은?",o:["They built the slide.","The slide is 200 meters long.","The palace was made of ice.","He is building a slide.","We slid down the hill."],a:2,e:"be + p.p."},
+{t:"mc",q:"'feel like'의 쓰임이 본문과 같은 것은?",o:["I feel like eating pizza.","I feel like I'm flying.","Do you feel like going out?","I don't feel like studying.","She feels like a cup of tea."],a:1,e:"feel like + 절: ~인 것처럼 느끼다 (나머지는 ~하고 싶다)"},
+{t:"sa",q:"so ~ that을 사용하여 한 문장으로 쓰시오.<br>The toboggan is very fast. You will feel like you are on a roller coaster.",a:["The toboggan is so fast that you will feel like you are on a roller coaster.","It is so fast that you will feel like you are on a roller coaster."],e:"so fast that ~"},
+{t:"sa",q:"수동태로 바꾸시오. (by 생략)<br>People built the toboggan slide in 1884.",a:["The toboggan slide was built in 1884."],e:"The toboggan slide was built in 1884."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>카니발에서 당신이 할 수 있는 정말 많은 흥미로운 활동들이 있어요.",w:["there are","so many","interesting activities","you","can do","at the carnival","them","interested"],a:"there are so many interesting activities you can do at the carnival",e:"목적격 관계대명사 생략, them 불필요"}
+],
+ws:[
+{q:"so ~ that으로 연결: The ice palace was very beautiful. I took many pictures.",a:"The ice palace was so beautiful that I took many pictures."},
+{q:"while / during: (1) ___ the carnival (2) ___ I was sliding down",a:"(1) during (2) while"},
+{q:"수동태로: They made the slide 200 meters long. → 대신 쉬운 문장: People built this castle long ago.",a:"This castle was built long ago."},
+{q:"so ~ that으로 나의 경험 쓰기",a:"(예시) The snow was so deep that we couldn't walk."}
+]});
+DAYS[DAYS.length-1].ws[2]={q:"수동태로 바꾸시오: People built this castle long ago.",a:"This castle was built long ago."};
+
+DAYS.push({d:11,cat:"본문",title:"Ice Canoe Race ① 내용 이해",
+point:["강을 따라 큰 군중 → 아이스 카누 경주를 볼 시간","카니발 최고의 부분 중 하나 – 놓치면 안 됨","얼음 강을 약 3킬로미터 경주 / 보통 5명, 남녀 모두 참가 가능","얼음에 갇힌 팀 → 카누를 밀어 물로 이동 / 너무 흥미진진해서 추위를 잊음"],
+q:[
+{t:"mc",p:"Q4",q:"아이스 카누 경주에 대한 설명으로 알맞지 <b>않은</b> 것은?",o:["Teams race through the icy river.","The race is about three kilometers long.","Teams are usually made up of five members.","Only men can join the team.","It is one of the best parts of the carnival."],a:3,e:"both men and women can join"},
+{t:"mc",p:"Q4",q:"강을 따라 많은 군중이 보이면 무엇을 의미하는가?",o:["얼음 궁전이 열렸다","아이스 카누 경주를 볼 시간이다","간식을 파는 시간이다","터보건이 시작된다","카니발이 끝났다"],a:1,e:"it's time to watch the Ice Canoe Race"},
+{t:"mc",p:"Q4",q:"얼음에 갇힌 팀이 한 일은?",o:["경주를 포기했다","구조를 기다렸다","카누를 얼음 위에서 밀어 물로 갔다","얼음을 깨서 녹였다","다른 카누로 갈아탔다"],a:2,e:"push their canoe on the ice to get to the water"},
+{t:"mc",p:"Q4",q:"'Phew!'에 담긴 화자의 심정은?",o:["실망","안도","분노","지루함","부러움"],a:1,e:"다시 물에 들어가서 안도함"},
+{t:"mc",p:"Q4",q:"글의 내용으로 추론할 수 있는 것은?",o:["경주는 따뜻한 날에만 열린다.","경주는 매우 흥미진진해서 관중이 추위를 잊는다.","카누 팀은 혼자 경기한다.","결승선은 얼음 궁전 앞이다.","경주는 1시간 만에 끝난다."],a:1,e:"so exciting that you will forget about the cold"},
+{t:"mc",p:"Q4",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["How far do teams race?","How many members are usually on a team?","Who can join the team?","Which team won the race last year?","What did the stuck team have to do?"],a:3,e:"작년 우승 팀은 나오지 않는다."},
+{t:"mc",p:"Q4",q:"'I hope they can make it to the finish line.'의 make it의 의미는?",o:["만들다","해내다, 도착하다","포기하다","시작하다","기다리다"],a:1,e:"make it: (목표에) 도달하다, 해내다"},
+{t:"sa",q:"영어로 답하시오. (They have to로 시작)<br>Q: How far do canoe teams have to race?",a:["They have to race for about three kilometers.","They have to race about three kilometers.","They have to race through the icy river for about three kilometers."],e:"They have to race for about three kilometers."},
+{t:"sa",q:"영어로 답하시오. (They are usually로 시작)<br>Q: What are teams usually made up of?",a:["They are usually made up of five members."],e:"They are usually made up of five members."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>이 경주는 카니발의 최고의 부분 중 하나예요.",w:["this race","is","one of","the best","parts","of the carnival","part","better"],a:"this race is one of the best parts of the carnival",e:"one of the + 최상급 + 복수명사"}
+],
+ws:[
+{q:"아이스 카누 경주 정리: 거리 / 팀 인원 / 참가 자격",a:"about three kilometers / usually five members / both men and women"},
+{q:"영어로 답하시오: What did the stuck team do?",a:"The members pushed their canoe on the ice to get to the water."},
+{q:"화자의 심정 변화를 우리말로 쓰시오. (Look! → Phew! → I hope ~)",a:"놀람·걱정 → 안도 → 응원(바람)"},
+{q:"one of the + 최상급으로 영작: 이것은 카니발에서 가장 인기 있는 활동 중 하나이다.",a:"This is one of the most popular activities at the carnival."}
+]});
+
+DAYS.push({d:12,cat:"본문",title:"Ice Canoe Race ② 어법·어휘",
+point:["one of the best parts (one of the + 최상급 + 복수명사)","be made up of: ~으로 구성되다 / both A and B: A와 B 둘 다 (복수 취급)","have to + 동사원형 / shouldn't: ~해서는 안 된다","so exciting that you will forget about the cold / to get to the water (목적)"],
+q:[
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>This race is one of the best (a)<u>part</u> of the carnival, and you (b)<u>shouldn't</u> miss it. Canoe teams (c)<u>have to</u> race through the icy river. Teams are usually (d)<u>made up of</u> five members. The race is (e)<u>so exciting that</u> you will forget about the cold.",o:["(a)","(b)","(c)","(d)","(e)"],a:0,e:"one of the + 최상급 + 복수명사 → parts"},
+{t:"mc",q:"'be made up of'와 의미가 같은 것은?",o:["consist of","make it","take part in","look after","give up"],a:0,e:"be made up of = consist of"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>______ men and women can join the team.",o:["Either","Neither","Both","Each","Every"],a:2,e:"both A and B"},
+{t:"mc",q:"감정 형용사가 바르게 쓰인 것은?",o:["The race is so excited.","I was so exciting during the race.","The race is so exciting that you will forget the cold.","The fans were boring.","The view was amazed."],a:2,e:"감정을 일으키는 것 → -ing"},
+{t:"mc",q:"'The members have to push their canoe on the ice <u>to get</u> to the water.'의 to get과 쓰임이 같은 것은?",o:["I want to get a toboggan.","It's hard to get there.","She ran fast to get to school on time.","My plan is to get a ticket.","I need something to get."],a:2,e:"목적(~하기 위해)"},
+{t:"mc",q:"'you shouldn't miss it'의 it이 가리키는 것은?",o:["the river","the crowd","this race","the cold","the finish line"],a:2,e:"this race"},
+{t:"mc",q:"'One team is stuck in the ice and can't move!'의 stuck의 의미는?",o:["빠른","(꼼짝 못하고) 갇힌","녹은","떠 있는","부서진"],a:1,e:"stuck: 꼼짝 못하는, 갇힌"},
+{t:"sa",q:"so ~ that을 사용하여 영작하시오. (The race로 시작)<br>그 경주는 너무 흥미진진해서 당신은 추위를 잊을 거예요.",a:["The race is so exciting that you will forget about the cold.","The race is so exciting that you'll forget about the cold."],e:"The race is so exciting that you will forget about the cold."},
+{t:"sa",q:"made를 사용하여 영작하시오. (Teams로 시작)<br>팀들은 보통 다섯 명의 팀원으로 구성된다.",a:["Teams are usually made up of five members."],e:"be made up of"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>팀원들은 물에 도달하기 위해 얼음 위에서 카누를 밀어야 한다.",w:["the members","have to","push","their canoe","on the ice","to get to","the water","has to"],a:"the members have to push their canoe on the ice to get to the water",e:"have to + 동사원형 / to get (목적)"}
+],
+ws:[
+{q:"one of the + 최상급으로 영작: 그녀는 세계에서 가장 빠른 선수 중 한 명이다.",a:"She is one of the fastest players in the world."},
+{q:"both A and B로 영작: 남자와 여자 모두 그 경주에 참가할 수 있다.",a:"Both men and women can join the race."},
+{q:"so ~ that으로: The race was very exciting. I forgot about the cold.",a:"The race was so exciting that I forgot about the cold."},
+{q:"be made up of로 영작: 우리 반은 25명의 학생으로 구성되어 있다.",a:"Our class is made up of 25 students."}
+]});
+
+DAYS.push({d:13,cat:"본문",title:"Delicious Treats ① 내용 이해",
+point:["간식: 핫초코 – 추운 날씨에 완벽한 음료 / 메이플 태피 – 이곳만의 특별한 방법","메이플 태피 만드는 법: ① 눈 위에 뜨거운 메이플 시럽 붓기 ② 시럽 위에 막대 놓기 ③ 재빨리 돌돌 말기","마무리: 카니발에 와서 나를 만나길 바람 / 웹사이트 확인 잊지 말기"],
+q:[
+{t:"mc",p:"Q5",q:"메이플 태피를 만드는 순서로 알맞은 것은?",o:["막대 놓기 → 시럽 붓기 → 말기","시럽 붓기 → 막대 놓기 → 재빨리 말기","말기 → 시럽 붓기 → 막대 놓기","눈 위에 막대 놓기 → 말기 → 시럽 붓기","시럽 끓이기 → 얼리기 → 자르기"],a:1,e:"Pour → place a stick → roll it around"},
+{t:"mc",p:"Q5",q:"글의 내용과 일치하지 <b>않는</b> 것은?",o:["There are many delicious treats at the carnival.","Hot chocolate is a perfect drink in cold weather.","Maple taffy is made in a special way here.","You pour cold maple syrup on the snow.","Bonhomme hopes you come to the carnival."],a:3,e:"hot maple syrup"},
+{t:"mc",p:"Q5",q:"Bonhomme이 마지막에 당부한 것은?",o:["간식을 많이 먹을 것","웹사이트에서 정보를 확인할 것","따뜻한 옷을 입을 것","사진을 찍을 것","표를 미리 살 것"],a:1,e:"don't forget to check our website"},
+{t:"mc",p:"Q5",q:"'How about a cup of hot chocolate?'의 의도는?",o:["가격 묻기","제안하기","거절하기","경험 묻기","이유 묻기"],a:1,e:"How about ~? = 제안"},
+{t:"mc",p:"Q5",q:"메이플 태피를 만들 때 필요한 것이 <b>아닌</b> 것은?",o:["snow","hot maple syrup","a stick","ice cream","(눈, 시럽, 막대는 모두 필요)"],a:3,e:"아이스크림은 언급되지 않음"},
+{t:"mc",p:"Q5",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["What is the perfect drink in cold weather?","What do you pour on the snow?","What do you place on the syrup?","How much does maple taffy cost?","What should you check for more information?"],a:3,e:"가격은 나오지 않는다."},
+{t:"mc",q:"본문 전체에서 Bonhomme이 소개한 활동의 순서로 알맞은 것은?",o:["Ice Palace – Toboggan Slide – Ice Canoe Race – Delicious Treats","Toboggan Slide – Ice Palace – Delicious Treats – Ice Canoe Race","Ice Canoe Race – Ice Palace – Toboggan Slide – Delicious Treats","Delicious Treats – Ice Palace – Toboggan Slide – Ice Canoe Race","Ice Palace – Ice Canoe Race – Toboggan Slide – Delicious Treats"],a:0,e:"본문 순서"},
+{t:"sa",q:"영어로 답하시오. (You pour로 시작)<br>Q: What is the first step to make maple taffy?",a:["You pour hot maple syrup on the snow."],e:"You pour hot maple syrup on the snow."},
+{t:"sa",q:"부정명령문으로 영작하시오.<br>더 많은 정보를 위해 우리 웹사이트를 확인하는 것을 잊지 마세요.",a:["Don't forget to check our website for more information.","Do not forget to check our website for more information."],e:"Don't forget to + 동사원형"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>카니발에는 먹을 맛있는 간식들이 많이 있어요.",w:["there are","many","delicious treats","to eat","at the carnival","eating","is"],a:"there are many delicious treats to eat at the carnival",e:"to부정사의 형용사적 용법 (먹을)"}
+],
+ws:[
+{q:"메이플 태피 만드는 법을 영어 3단계로 쓰시오.",a:"1. Pour hot maple syrup on the snow. 2. Place a stick on the syrup. 3. Quickly roll it around."},
+{q:"How about ~?으로 친구에게 간식을 제안하시오.",a:"(예시) How about some tteokbokki?"},
+{q:"영어로 답하시오: Why is hot chocolate perfect at the carnival?",a:"Because it's always the perfect drink in cold weather."},
+{q:"우리나라 겨울 간식 만드는 법을 how to로 소개하시오.",a:"(예시) Let me tell you how to make hotteok. ..."}
+]});
+DAYS[DAYS.length-1].q[4].o=["snow","hot maple syrup","a stick","ice cream","none of them"];
+
+DAYS.push({d:14,cat:"본문",title:"Delicious Treats ② 어법·어휘",
+point:["how to + 동사원형: Let's learn how to make it.","명령문: Pour ~ / Then place ~ and quickly roll ~","to부정사 형용사적 용법: many delicious treats to eat (먹을)","don't forget to + 동사원형: ~할 것을 잊지 마라 / I hope (that) you come ~"],
+q:[
+{t:"mc",q:"'Let's learn <u>how to make</u> it.'의 의미로 알맞은 것은?",o:["그것을 만들기 위해 배우자.","그것을 어떻게 만드는지 배우자.","그것을 언제 만들지 배우자.","그것을 만든 이유를 배우자.","그것을 만들었다는 것을 배우자."],a:1,e:"how + to부정사: ~하는 방법"},
+{t:"mc",q:"'many delicious treats <u>to eat</u>'의 to eat과 쓰임이 같은 것은?",o:["I want to eat maple taffy.","It's fun to eat treats.","I need something to drink.","He came here to eat taffy.","My wish is to eat a lot."],a:2,e:"명사를 꾸미는 형용사적 용법"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["Don't forget to check our website.","Pour hot maple syrup on the snow.","Then place a stick on the syrup.","Quickly roll it around.","Let's learn how make it."],a:4,e:"how to make"},
+{t:"mc",q:"'Don't forget <u>to check</u> our website.'와 'I forgot <u>checking</u> the website.'의 차이로 알맞은 것은?",o:["둘 다 '확인할 것을 잊다'","to check: (앞으로) 확인할 것을 잊다 / checking: (과거에) 확인한 것을 잊다","둘 다 '확인한 것을 잊다'","to check: 확인한 것을 잊다 / checking: 확인할 것을 잊다","의미 차이가 없다"],a:1,e:"forget + to부정사(미래) / 동명사(과거)"},
+{t:"mc",q:"빈칸에 들어갈 말로 알맞은 것은?<br><br>It's always the ______ drink in cold weather.",o:["perfectly","perfect","perfection","perfects","more perfectly"],a:1,e:"명사 drink 수식 → 형용사"},
+{t:"mc",q:"'I hope you come and see me at the carnival.'에서 생략된 말은?",o:["what","that","which","who","to"],a:1,e:"hope (that) + 절"},
+{t:"mc",q:"영영풀이 'to make a liquid flow from a container'에 해당하는 단어는?",o:["place","roll","pour","melt","check"],a:2,e:"pour: 붓다"},
+{t:"sa",q:"how to를 사용하여 영작하시오. (Let's로 시작)<br>그것을 어떻게 만드는지 배워 봐요.",a:["Let's learn how to make it."],e:"Let's learn how to make it."},
+{t:"sa",q:"to부정사를 사용하여 영작하시오. (There are로 시작)<br>카니발에는 먹을 맛있는 간식들이 많이 있다.",a:["There are many delicious treats to eat at the carnival."],e:"treats to eat"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그런 다음 시럽 위에 막대를 놓고 재빨리 돌돌 말아요.",w:["then","place","a stick","on the syrup","and","quickly","roll it around","quick"],a:"then place a stick on the syrup and quickly roll it around",e:"명령문 병렬"}
+],
+ws:[
+{q:"how to로 영작: 나는 메이플 태피 만드는 법을 배우고 싶다.",a:"I want to learn how to make maple taffy."},
+{q:"형용사적 to부정사로 영작: 나는 마실 것이 필요하다.",a:"I need something to drink."},
+{q:"forget to / forget -ing 구별: (1) 웹사이트 확인하는 것을 잊지 마. (2) 나는 그를 만났던 것을 잊었다.",a:"(1) Don't forget to check the website. (2) I forgot meeting him."},
+{q:"명령문으로 라면 끓이는 법 3단계를 쓰시오.",a:"(예시) Boil water. Put the noodles in. Cook for 4 minutes."}
+]});
+
+DAYS.push({d:15,cat:"본문",title:"카니발 활동 비교 (본문 종합 ①)",
+point:["Ice Palace: 얼음·눈 궁전, 얼음 정원, 공연, 춤","Toboggan Slide: 1884년, 200m, 롤러코스터 같은 속도, 성·얼음 강 경치","Ice Canoe Race: 약 3km, 5명, 남녀, 얼음 밀기","Delicious Treats: 핫초코, 메이플 태피"],
+q:[
+{t:"mc",q:"활동과 설명이 바르게 연결되지 <b>않은</b> 것은?",o:["Ice Palace – 매년 새로 지어진다","Toboggan Slide – 길이 200미터","Ice Canoe Race – 약 3킬로미터 경주","Delicious Treats – 메이플 태피","Toboggan Slide – 5명이 한 팀"],a:4,e:"5명 팀은 카누 경주"},
+{t:"mc",q:"속도를 좋아하는 친구에게 추천할 활동은?",o:["Ice Palace","Toboggan Slide","Ice garden","Hot chocolate","Concerts"],a:1,e:"If you like speed, get on the toboggan."},
+{t:"mc",q:"'so ~ that'이 쓰인 활동끼리 짝지은 것은?",o:["Ice Palace, Treats","Toboggan Slide, Ice Canoe Race","Ice Palace, Toboggan Slide","Ice Canoe Race, Treats","Treats, Toboggan Slide"],a:1,e:"so fast that / so exciting that"},
+{t:"mc",q:"'의문사 + to부정사'가 쓰인 부분이 <b>아닌</b> 것은?",o:["I'll show you what to do here.","I can teach you how to dance like me.","Let's learn how to make it.","There are many delicious treats to eat.","(나머지 셋은 모두 의문사+to부정사)"],a:3,e:"treats to eat은 형용사적 용법"},
+{t:"mc",q:"본문에 나온 숫자 정보가 <b>잘못</b> 연결된 것은?",o:["카니발 기간 – 약 10일","터보건 건설 – 1884년","터보건 길이 – 200미터","카누 경주 – 약 3킬로미터","카누 팀 – 보통 3명"],a:4,e:"보통 5명"},
+{t:"mc",q:"화자(Bonhomme)의 말투로 가장 알맞은 것은?",o:["딱딱하고 엄격한","친근하고 안내하는","슬프고 우울한","화나고 비판적인","무관심한"],a:1,e:"Follow me / Take a look / Let's learn ~"},
+{t:"mc",q:"글의 제목으로 가장 알맞은 것은?",o:["How to Make a Snowman","Fun Things to Do at the Quebec Winter Carnival","The History of Canada","Winter Sports in Korea","How to Ride a Canoe"],a:1,e:"카니발에서 할 수 있는 재미있는 활동"},
+{t:"sa",q:"영어로 답하시오. (축제 이름만)<br>Q: Which festival does Bonhomme introduce?",a:["the Quebec Winter Carnival","Quebec Winter Carnival","The Quebec Winter Carnival"],e:"the Quebec Winter Carnival"},
+{t:"sa",q:"영어로 답하시오. (본문 활동 이름만)<br>Q: Which activity is one of the best parts of the carnival?",a:["the Ice Canoe Race","Ice Canoe Race","The Ice Canoe Race"],e:"the Ice Canoe Race"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>당신은 카니발에서 잊지 못할 추억을 집에 가져가고 싶나요?",w:["do you want","to take home","an unforgettable memory","from the carnival","taking","forgettable"],a:"do you want to take home an unforgettable memory from the carnival",e:"want + to부정사"}
+],
+ws:[
+{q:"네 가지 활동을 표로 정리하시오. (활동 / 핵심 정보)",a:"Ice Palace – 얼음·눈, 매년 새로 / Toboggan Slide – 1884년, 200m / Ice Canoe Race – 3km, 5명 / Treats – 핫초코, 메이플 태피"},
+{q:"가장 해 보고 싶은 활동과 이유를 영어 2문장으로 쓰시오.",a:"(예시) I want to ride the toboggan. It is so fast that it will feel like a roller coaster."},
+{q:"우리나라 겨울 축제를 Bonhomme처럼 소개하는 글을 3문장으로 쓰시오.",a:"(예시) Welcome to the Hwacheon Sancheoneo Ice Festival! You can try ice fishing here. I'll show you how to catch fish."},
+{q:"본문에서 so ~ that 문장 2개를 찾아 쓰시오.",a:"It is so fast that you will feel like you are on a roller coaster. / The race is so exciting that you will forget about the cold."}
+]});
+DAYS[DAYS.length-1].q[3].o=["I'll show you what to do here.","I can teach you how to dance like me.","Let's learn how to make it.","There are many delicious treats to eat.","none of them"];
+
+DAYS.push({d:16,cat:"본문",title:"본문 어휘·영영풀이 (본문 종합 ②)",
+point:["mascot 마스코트 / palace 궁전 / sculpture 조각 / performance 공연 / unforgettable 잊지 못할","toboggan 터보건(썰매) / narrow 좁은 / slide 미끄러지다 / castle 성 / icy 얼음에 뒤덮인","crowd 군중 / stuck 갇힌 / finish line 결승선 / treat 간식 / pour 붓다 / roll 굴리다, 말다"],
+q:[
+{t:"mc",q:"영영풀이 'a large group of people in one place'에 해당하는 단어는?",o:["team","crowd","member","mascot","palace"],a:1,e:"crowd: 군중"},
+{t:"mc",q:"영영풀이 'not wide'에 해당하는 단어는?",o:["long","narrow","huge","icy","fast"],a:1,e:"narrow: 좁은"},
+{t:"mc",q:"영영풀이 'an animal, person, or thing that represents an event or team'에 해당하는 단어는?",o:["mascot","sculpture","performer","castle","treat"],a:0,e:"mascot: 마스코트"},
+{t:"mc",q:"영영풀이 'something special and nice to eat'에 해당하는 단어는?",o:["treat","syrup","stick","snow","drink"],a:0,e:"treat: (특별한) 간식, 대접"},
+{t:"mc",q:"반의어끼리 짝지어지지 <b>않은</b> 것은?",o:["narrow – wide","long – short","beautiful – pretty","forget – remember","hot – cold"],a:2,e:"beautiful과 pretty는 비슷한 말"},
+{t:"mc",q:"문맥상 낱말의 쓰임이 <b>어색한</b> 것은?<br><br>A toboggan is a long (a)<u>narrow</u> sled. If you like (b)<u>speed</u>, get on the toboggan. It is so (c)<u>slow</u> that you will feel like you are on a roller coaster. While you're (d)<u>sliding</u> down, you can enjoy (e)<u>amazing</u> views of Quebec.",o:["(a)","(b)","(c)","(d)","(e)"],a:2,e:"롤러코스터 같은 → fast"},
+{t:"mc",q:"단어의 관계가 나머지와 <b>다른</b> 하나는?",o:["ice – icy","snow – snowy","mud – muddy","beauty – beautiful","forget – unforgettable"],a:4,e:"나머지는 명사 → 형용사(-y/-ful). forget은 동사 + un-~-able"},
+{t:"sa",q:"빈칸에 알맞은 단어를 본문에서 찾아 쓰시오.<br>One team is ______ in the ice and can't move!",a:["stuck"],e:"stuck"},
+{t:"sa",q:"빈칸에 알맞은 단어를 쓰시오. (p로 시작)<br>______ hot maple syrup on the snow.",a:["Pour","pour"],e:"Pour"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>당신은 신나는 콘서트와 공연들도 즐길 수 있어요.",w:["you","can","also","enjoy","exciting","concerts and performances","excited"],a:"you can also enjoy exciting concerts and performances",e:"exciting: 신나게 하는"}
+],
+ws:[
+{q:"우리말 뜻을 쓰시오: mascot / palace / sculpture / narrow / crowd",a:"마스코트 / 궁전 / 조각품 / 좁은 / 군중"},
+{q:"영어로 쓰시오: 잊지 못할 / 성 / 갇힌 / 간식 / 붓다",a:"unforgettable / castle / stuck / treat / pour"},
+{q:"형용사로 바꾸시오: ice / snow / beauty / amaze",a:"icy / snowy / beautiful / amazing"},
+{q:"본문 단어 3개를 넣어 카니발을 한 문장으로 묘사하시오.",a:"(예시) A large crowd watched the exciting canoe race on the icy river."}
+]});
+
+DAYS.push({d:17,cat:"문법",title:"의문사 + to부정사 ① 의미",
+point:["how to ~: 어떻게 ~할지, ~하는 방법","what to ~: 무엇을 ~할지 / when to ~: 언제 ~할지 / where to ~: 어디서[어디로] ~할지","why to ~는 쓰지 않는다.","문장에서 주어·목적어·보어 역할 (주로 동사의 목적어)"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>I learned ______ swim when I was six years old.",o:["what to","how to","where to","when","why to"],a:1,e:"how to swim: 수영하는 법"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>Please tell me ______ take the bus to the museum.",o:["where to","what to","why to","which","how"],a:0,e:"where to take: 어디서 탈지"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>She didn't know ______ ask questions.",o:["what to","when to","why to","where","to when"],a:1,e:"when to ask: 언제 질문할지"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["I don't know what to prepare.","Tell me how to use this kiosk.","I don't know why to go there.","She asked me where to eat.","He decided when to leave."],a:2,e:"why + to부정사는 쓰지 않는다."},
+{t:"mc",q:"Practice: 키오스크 사용법을 바르게 완성한 것은?<br><br>First, choose ______. (어디서 먹을지)",o:["what to eat","where to eat","how to eat","when to eat","where eat"],a:1,e:"where to eat"},
+{t:"mc",q:"Practice: 빈칸에 알맞은 것끼리 짝지은 것은?<br><br>Next, choose (A)______. (무엇을 주문할지) Lastly, choose (B)______. (어떻게 지불할지)",o:["what to order - how to pay","how to order - what to pay","what order - how pay","where to order - when to pay","what to ordering - how to paying"],a:0,e:"what to order / how to pay"},
+{t:"mc",q:"우리말을 영어로 바르게 옮긴 것은?<br><br>체육 선생님께서 경기 전에 무엇을 할지 말씀해 주셨다.",o:["The P.E. teacher told us how to do before the game.","The P.E. teacher told us what to do before the game.","The P.E. teacher told us what do before the game.","The P.E. teacher told us to what do before the game.","The P.E. teacher told us why to do before the game."],a:1,e:"what to do"},
+{t:"sa",q:"의문사 + to부정사로 영작하시오. (I can teach you로 시작)<br>어떻게 저처럼 춤추는지 제가 가르쳐 줄 수 있어요.",a:["I can teach you how to dance like me."],e:"how to dance"},
+{t:"sa",q:"Now You Can: 의문사 + to부정사로 질문을 완성하시오.<br>Do you know ________________ history books? (어디서 찾을지)",a:["where to find"],e:"where to find"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>책을 언제 반납해야 하는지 아세요?",w:["do you know","when","to return","the books","returning","why"],a:"do you know when to return the books",e:"when to + 동사원형"}
+],
+ws:[
+{q:"Practice 완성: 1 First, choose ______. 2 Next, choose ______. 3 Lastly, choose ______.",a:"where to eat / what to order / how to pay"},
+{q:"Now You Can: Do you know how to look for a book? 에 대한 대답을 쓰시오.",a:"Yes. You can search for it on the computer."},
+{q:"의문사+to부정사 4가지(how/what/when/where)로 각각 한 문장씩 쓰시오.",a:"(예시) I know how to ski. / I don't know what to say. / Tell me when to start. / I don't know where to go."},
+{q:"why to를 쓸 수 없다는 점을 예문으로 설명하시오.",a:"I don't know why to go. (×) → I don't know why I should go. (○)"}
+]});
+
+DAYS.push({d:18,cat:"문법",title:"의문사 + to부정사 ② 문장 전환",
+point:["의문사 + to부정사 = 의문사 + 주어 + should + 동사원형","I don't know what to prepare. = I don't know what I should prepare.","주어 역할: What to do first is important. (단수 취급) / 보어 역할: My concern is when to leave."],
+q:[
+{t:"mc",q:"두 문장의 의미가 같도록 할 때 빈칸에 알맞은 것은?<br><br>I don't know what to prepare.<br>= I don't know what I ______ prepare.",o:["will","should","can't","did","must not"],a:1,e:"의문사 + 주어 + should + 동사원형"},
+{t:"mc",q:"두 문장의 의미가 같은 것은?",o:["Tell me where to go. = Tell me where I went.","I know how to ski. = I know how I skied.","She asked when to start. = She asked when she should start.","He knows what to do. = He knows what he does.","Tell me how to cook. = Tell me how I cook."],a:2,e:"when to start = when she should start"},
+{t:"mc",q:"밑줄 친 부분의 역할이 나머지와 <b>다른</b> 하나는?",o:["I don't know <u>what to say</u>.","She learned <u>how to swim</u>.","<u>What to do first</u> is important.","Tell me <u>where to go</u>.","He forgot <u>when to call</u>."],a:2,e:"주어 역할. 나머지는 목적어."},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>What to do first ______ important.",o:["are","is","were","be","have"],a:1,e:"의문사 + to부정사 주어 → 단수"},
+{t:"mc",q:"'My concern is <u>when to leave</u>.'에서 밑줄 친 부분의 역할은?",o:["주어","목적어","보어","수식어","동사"],a:2,e:"be동사 뒤 보어"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["I don't know what I should prepare.","Can you tell me how I should use it?","Please tell me where should I go.","She asked when she should start.","I wonder what I should buy."],a:2,e:"간접의문문 어순: where I should go"},
+{t:"mc",q:"우리말을 영어로 바르게 옮긴 것은?<br><br>나는 그에게 무엇을 말해야 할지 모르겠다.",o:["I don't know what to tell him.","I don't know what tell him.","I don't know to what tell him.","I don't know what to telling him.","I don't know how to tell what him."],a:0,e:"what to tell"},
+{t:"sa",q:"should를 사용하여 같은 의미로 바꾸시오.<br>I don't know where to go.<br>→ I don't know ________________.",a:["where I should go"],e:"where I should go"},
+{t:"sa",q:"의문사 + to부정사로 바꾸시오.<br>Can you tell me how I should make maple taffy?<br>→ Can you tell me ________________ maple taffy?",a:["how to make"],e:"how to make"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>먼저 무엇을 할지가 중요하다.",w:["what","to do","first","is","important","are","doing"],a:"what to do first is important",e:"주어 역할, 단수 동사"}
+],
+ws:[
+{q:"should 문장으로 바꾸시오: (1) I don't know what to buy. (2) Tell me when to leave.",a:"(1) I don't know what I should buy. (2) Tell me when I should leave."},
+{q:"의문사 + to부정사로 바꾸시오: She asked me where she should sit.",a:"She asked me where to sit."},
+{q:"의문사 + to부정사를 주어로 하는 문장을 하나 쓰시오.",a:"(예시) How to study English is my big question."},
+{q:"틀린 부분을 고치시오: Please tell me where should I take the bus.",a:"where I should take the bus (또는 where to take the bus)"}
+]});
+
+DAYS.push({d:19,cat:"문법",title:"의문사 + to부정사 ③ 본문 적용·서술형",
+point:["본문: I'll show you what to do here. / I can teach you how to dance like me. / Let's learn how to make it.","show/teach/tell + 사람 + 의문사 + to부정사 (4형식)","know/learn/decide/forget + 의문사 + to부정사 (목적어)"],
+q:[
+{t:"mc",q:"본문 문장과 의문사의 의미가 바르게 연결된 것은?",o:["what to do – 어떻게 할지","how to dance – 춤추는 방법","how to make – 무엇을 만들지","what to do – 언제 할지","how to dance – 어디서 춤출지"],a:1,e:"how to: 방법"},
+{t:"mc",q:"빈칸에 들어갈 말로 알맞지 <b>않은</b> 것은?<br><br>Bonhomme can show you ______.",o:["what to do","how to dance","where to go","why to visit","when to watch the race"],a:3,e:"why to 불가"},
+{t:"mc",q:"다음 대화의 빈칸에 알맞은 것은?<br><br>A: I want to make maple taffy, but I don't know ______ it.<br>B: Pour hot maple syrup on the snow first.",o:["what to make","how to make","where make","when to making","why to make"],a:1,e:"만드는 방법"},
+{t:"mc",q:"다음 대화의 빈칸에 알맞은 것은?<br><br>A: Do you know ______ the Ice Canoe Race?<br>B: Yes. Look for a large crowd along the river.",o:["what to watch","where to watch","how watch","why to watch","to where watch"],a:1,e:"어디서 볼지 → 장소로 대답"},
+{t:"mc",q:"문장 구조가 'I can teach you how to dance like me.'와 같은 것은?",o:["I know how to dance.","Dancing is fun.","She showed me where to sit.","I want to dance.","How to dance is important."],a:2,e:"동사 + 사람 + 의문사 + to부정사"},
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) I'll show you what to do here.<br>(b) Let's learn how to make it.<br>(c) I don't know why to go.<br>(d) Tell me where to eat.<br>(e) She taught me how to skiing.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(b)(d) 3개"},
+{t:"mc",q:"우리말을 영어로 바르게 옮긴 것은?<br><br>Bonhomme이 그 카니발에서 무엇을 해야 할지 알려 줄 것이다.",o:["Bonhomme will tell you what to do at the carnival.","Bonhomme will tell you what do at the carnival.","Bonhomme will tell you to what do at the carnival.","Bonhomme will tell you what doing at the carnival.","Bonhomme will tell what you to do at the carnival."],a:0,e:"tell + 사람 + what to do"},
+{t:"sa",q:"의문사 + to부정사로 영작하시오. (Let's로 시작)<br>메이플 태피를 어떻게 만드는지 배워 봅시다.",a:["Let's learn how to make maple taffy."],e:"Let's learn how to make maple taffy."},
+{t:"sa",q:"의문사 + to부정사로 영작하시오. (Can you tell me로 시작)<br>터보건을 어디서 타야 하는지 알려 줄래요?",a:["Can you tell me where to ride the toboggan?","Can you tell me where to get on the toboggan?"],e:"where to ride the toboggan"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>저를 따라오세요, 그러면 이곳에서 무엇을 할지 보여 줄게요.",w:["follow me","and","I'll","show you","what","to do","here","how"],a:"follow me and I'll show you what to do here",e:"명령문, and ~ / show + 사람 + what to do"}
+],
+ws:[
+{q:"본문에서 의문사 + to부정사 3개를 찾아 쓰고 해석하시오.",a:"what to do (무엇을 할지) / how to dance (춤추는 법) / how to make (만드는 법)"},
+{q:"친구에게 무언가 하는 방법을 알려 주는 문장을 쓰시오. (I'll teach you how to ~)",a:"(예시) I'll teach you how to make kimbap."},
+{q:"도서관 대화: A: Do you know ______? (언제 책을 반납할지) B: You can return them in two weeks.",a:"when to return the books"},
+{q:"카니발 안내원이 되어 의문사+to부정사 2개가 들어간 안내문을 쓰시오.",a:"(예시) I'll show you where to see the ice sculptures. I'll also tell you when to watch the canoe race."}
+]});
+
+DAYS.push({d:20,cat:"문법",title:"so ~ that 구문",
+point:["so + 형용사/부사 + that + 주어 + 동사: 너무 ~해서 …하다","본문: It is so fast that you will feel like ~ / The race is so exciting that you will forget about the cold.","so ~ that + 주어 + can't ~ = too ~ to ~","such + (a) + 형용사 + 명사 + that"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>The ice palace is ______ beautiful that many people visit it.",o:["such","so","too","very","much"],a:1,e:"so + 형용사 + that"},
+{t:"mc",q:"두 문장의 의미가 같도록 할 때 빈칸에 알맞은 것은?<br><br>The river was too icy to swim in.<br>= The river was so icy that we ______ swim in it.",o:["can","could","couldn't","didn't","won't"],a:2,e:"too ~ to = so ~ that 주어 couldn't"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["It is so fast that you will feel like you are on a roller coaster.","The race is so exciting that you will forget about the cold.","It was such a cold day that we stayed home.","The palace is so beautiful that it shines.","It was so a fun race that everyone cheered."],a:4,e:"such a fun race / so fun"},
+{t:"mc",q:"'The race is so exciting that you will forget about the cold.'에서 결과에 해당하는 것은?",o:["The race","exciting","so","you will forget about the cold","the cold"],a:3,e:"that절이 결과"},
+{t:"mc",q:"우리말을 영어로 바르게 옮긴 것은?<br><br>메이플 태피가 너무 맛있어서 나는 세 개를 먹었다.",o:["Maple taffy was such delicious that I ate three.","Maple taffy was so delicious that I ate three.","Maple taffy was too delicious that I ate three.","Maple taffy was so delicious to eat three.","So maple taffy was delicious that I ate three."],a:1,e:"so + 형용사 + that"},
+{t:"mc",q:"밑줄 친 that의 쓰임이 나머지와 <b>다른</b> 하나는?",o:["It is so fast <u>that</u> you will scream.","The race is so exciting <u>that</u> you'll forget the cold.","I was so hungry <u>that</u> I ate a lot.","I hope <u>that</u> you come to the carnival.","It was so cold <u>that</u> the river froze."],a:3,e:"hope의 목적어 명사절 접속사. 나머지는 so ~ that 결과."},
+{t:"mc",q:"두 문장을 so ~ that으로 바르게 연결한 것은?<br><br>The snowman was very big. We couldn't see the palace behind it.",o:["The snowman was so big that we couldn't see the palace behind it.","The snowman was such big that we couldn't see the palace.","The snowman was big so that we couldn't see the palace.","The snowman was too big that we couldn't see the palace.","So the snowman was big that we couldn't see the palace."],a:0,e:"so + 형용사 + that"},
+{t:"sa",q:"so ~ that을 사용하여 한 문장으로 쓰시오.<br>The race is very exciting. You will forget about the cold.",a:["The race is so exciting that you will forget about the cold.","The race is so exciting that you'll forget about the cold."],e:"so exciting that ~"},
+{t:"sa",q:"too ~ to 문장을 so ~ that으로 바꾸시오.<br>It was too cold to stay outside.<br>→ It was so cold that ________________.",a:["we couldn't stay outside","I couldn't stay outside","we could not stay outside","I could not stay outside"],e:"we couldn't stay outside"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그것은 너무 빨라서 당신은 롤러코스터를 탄 것처럼 느낄 거예요.",w:["it","is","so","fast","that","you will feel","like you are on a roller coaster","such","too"],a:"it is so fast that you will feel like you are on a roller coaster",e:"so + 형용사 + that"}
+],
+ws:[
+{q:"so ~ that으로 연결: The hot chocolate was very hot. I couldn't drink it.",a:"The hot chocolate was so hot that I couldn't drink it."},
+{q:"too ~ to → so ~ that: The toboggan was too fast to stop.",a:"The toboggan was so fast that it couldn't stop."},
+{q:"such ~ that으로 영작: 그것은 너무 멋진 축제여서 나는 또 가고 싶다.",a:"It was such a great festival that I want to go again."},
+{q:"카니발 활동 하나를 so ~ that으로 묘사하시오.",a:"(예시) The ice garden was so beautiful that I took many pictures."}
+]});
+
+DAYS.push({d:21,cat:"문법",title:"수동태 · 기타 본문 문법",
+point:["수동태: a new ice palace is built / The carnival is held / was built in 1884 / is made of / are made up of / It's made in a special way","to부정사 형용사적 용법: treats to eat / 목적: to get to the water","one of the + 최상급 + 복수명사 / even + 비교급 / both A and B"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>The Quebec Winter Carnival ______ for 10 days.",o:["holds","is held","held","is holding","has holding"],a:1,e:"축제가 열린다 → 수동태"},
+{t:"mc",q:"다음 중 수동태가 바르게 쓰인 것은?",o:["A new ice palace builds every year.","The toboggan slide was built in 1884.","Maple taffy is make in a special way.","Teams are made up five members.","The carnival is hold in Quebec."],a:1,e:"was built"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>Every year, a new ice palace (a)<u>is built</u>. The palace (b)<u>is made of</u> ice and snow. The toboggan slide (c)<u>built</u> in 1884. Teams (d)<u>are</u> usually made up of five members. Maple taffy (e)<u>is made</u> in a special way.",o:["(a)","(b)","(c)","(d)","(e)"],a:2,e:"was built"},
+{t:"mc",q:"빈칸에 들어갈 말이 나머지와 <b>다른</b> 하나는?",o:["The palace is made ____ ice.","This table is made ____ wood.","Teams are made up ____ five members.","Maple syrup is made ____ tree sap.","The sculpture is made ____ snow."],a:3,e:"원료(형태 변화) → from. 나머지는 of"},
+{t:"mc",q:"'one of the best parts'와 같은 형태로 바르게 쓴 것은?",o:["one of the most famous castle","one of the biggest festivals","one of the more popular activity","one of best treats","the one of fun activities"],a:1,e:"one of the + 최상급 + 복수명사"},
+{t:"mc",q:"밑줄 친 to부정사의 쓰임이 나머지와 <b>다른</b> 하나는?",o:["There are many treats <u>to eat</u>.","I need something <u>to drink</u>.","There are many activities <u>to enjoy</u>.","They push the canoe <u>to get</u> to the water.","I have a lot of homework <u>to do</u>."],a:3,e:"목적(부사적). 나머지는 형용사적."},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>At night, the palace is ______ more beautiful.",o:["very","even","many","so","too"],a:1,e:"비교급 강조 even"},
+{t:"sa",q:"수동태로 바꾸시오. (by 생략)<br>People hold the carnival between January and February.",a:["The carnival is held between January and February."],e:"is held"},
+{t:"sa",q:"수동태로 바꾸시오. (by 생략)<br>They make maple taffy in a special way here.",a:["Maple taffy is made in a special way here."],e:"is made"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>터보건 활강장은 1884년에 지어졌고 길이가 200미터이다.",w:["the toboggan slide","was built","in 1884","and","is","200 meters long","built","long 200 meters"],a:"the toboggan slide was built in 1884 and is 200 meters long",e:"was built / is ~ long"}
+],
+ws:[
+{q:"본문에서 수동태 문장 3개를 찾아 쓰시오.",a:"Every year, a new ice palace is built for the carnival. / The toboggan slide was built in 1884. / It's made in a special way here."},
+{q:"be made of / from / up of: (1) The palace is made ___ ice. (2) Teams are made ___ five members.",a:"(1) of (2) up of"},
+{q:"one of the + 최상급으로 영작: 그것은 가장 유명한 성 중 하나이다.",a:"It is one of the most famous castles."},
+{q:"형용사적 to부정사로 영작: 카니발에는 볼 것이 많다.",a:"There are many things to see at the carnival."}
+]});
+
+DAYS.push({d:22,cat:"문법",title:"문법 통합 (의문사+to부정사·so ~ that·수동태)",
+point:["의문사 + to부정사 (why ×) = 의문사 + 주어 + should + 동사원형","so ~ that / too ~ to","수동태 be + p.p. / 현재완료 경험 Have you ever p.p.?"],
+q:[
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) I can teach you how to dance like me.<br>(b) The toboggan slide built in 1884.<br>(c) It is so fast that you will scream.<br>(d) I don't know why to go there.<br>(e) Have you ever tried maple taffy?",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(c)(e) 3개"},
+{t:"mc",q:"(A), (B), (C)에 알맞은 것끼리 짝지은 것은?<br><br>• Let's learn how (A)(make / to make) it.<br>• The race is (B)(so / such) exciting that you will forget the cold.<br>• A new ice palace (C)(builds / is built) every year.",o:["make - so - builds","to make - so - is built","to make - such - is built","make - such - builds","to make - so - builds"],a:1,e:"to make / so / is built"},
+{t:"mc",q:"우리말을 영어로 바르게 옮기지 <b>않은</b> 것은?",o:["무엇을 할지 보여 줄게요. → I'll show you what to do.","그것은 너무 빨라서 무섭다. → It is so fast that it is scary.","궁전은 얼음으로 만들어진다. → The palace is made of ice.","어디서 먹을지 고르세요. → Choose where to eat.","왜 가야 하는지 모르겠다. → I don't know why to go."],a:4,e:"why I should go"},
+{t:"mc",q:"밑줄 친 부분의 쓰임이 <보기>와 같은 것은?<br><보기> Do you know <u>where to find</u> history books?",o:["I went to the library to find books.","There are many books to read.","Tell me how to use the computer.","I want to find a book.","Finding books is easy."],a:2,e:"의문사 + to부정사"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>A: Have you ever ______ maple taffy?<br>B: No, I haven't. I don't know how ______ it.",o:["eat - to make","eaten - to make","ate - make","eaten - making","eating - to make"],a:1,e:"Have you ever + p.p. / how to + 동사원형"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["The carnival is held for 10 days.","Teams are made up of five members.","What to do first are important.","I'm looking forward to the race.","It was so cold that the river froze."],a:2,e:"What to do first is important. (단수)"},
+{t:"mc",q:"두 문장의 의미가 같지 <b>않은</b> 것은?",o:["I don't know what to do. = I don't know what I should do.","It was too cold to go out. = It was so cold that we couldn't go out.","They build a palace. = A palace is built.","Tell me when to start. = Tell me when I should start.","I can't wait to go. = I don't want to go."],a:4,e:"can't wait to = 기대 / don't want to = 원하지 않음"},
+{t:"sa",q:"의문사 + to부정사와 so ~ that을 모두 사용하여 영작하시오. (두 문장)<br>나는 터보건 타는 법을 배웠다. 그것은 너무 빨라서 나는 소리를 질렀다.",a:["I learned how to ride the toboggan. It was so fast that I screamed."],e:"I learned how to ride the toboggan. It was so fast that I screamed."},
+{t:"sa",q:"틀린 부분 2개를 고쳐 문장 전체를 다시 쓰시오.<br>The palace is make of ice, and it is such beautiful that people love it.",a:["The palace is made of ice, and it is so beautiful that people love it."],e:"make → made / such → so"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>어떻게 지불할지 선택하세요.",w:["choose","how","to pay","paying","why"],a:"choose how to pay",e:"how to pay"}
+],
+ws:[
+{q:"의문사+to부정사·so ~ that·수동태를 각각 한 문장씩 본문 내용으로 쓰시오.",a:"(예시) Bonhomme can teach you how to dance. / The race is so exciting that you'll forget the cold. / The palace is made of ice and snow."},
+{q:"틀린 부분을 고치시오: I don't know why to choose.",a:"why I should choose (또는 what to choose 등 의미에 맞게)"},
+{q:"틀린 부분을 고치시오: The slide built in 1884.",a:"built → was built"},
+{q:"오늘 헷갈린 문법을 예문과 함께 정리하시오.",a:"(개인별 작성)"}
+]});
+
+DAYS.push({d:23,cat:"통합",title:"대화문 + 본문·문법 통합",
+point:["경험 묻기 + 기대 표현 + 의문사+to부정사를 한 대화에 활용","Have you ever been to ~? / I'm looking forward to ~ / Do you know how to ~?"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>A: Have you ever been to the Quebec Winter Carnival?<br>B: ______ But I'm going there next month.",o:["Yes, I have.","No, I haven't.","Yes, I did.","No, I don't.","Sure, I am."],a:1,e:"가 본 적 없음"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>A: I'm going to the carnival next week.<br>B: Great! Do you know ______ maple taffy?<br>A: Yes. Pour hot syrup on the snow and roll it with a stick.",o:["what to make","how to make","where to make","when making","why to make"],a:1,e:"만드는 법"},
+{t:"mc",q:"대화의 흐름상 <b>어색한</b> 것은?<br><br>A: (a) Have you ever ridden a toboggan?<br>B: (b) No, I haven't.<br>A: (c) It's so fast that you'll feel like you're on a roller coaster.<br>B: (d) Sounds exciting! I'm looking forward to riding it.<br>A: (e) Yes, I have. I rode it last year.",o:["(a)","(b)","(c)","(d)","(e)"],a:4,e:"질문이 없는데 경험을 대답함"},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>A: I'm looking forward (A)______ the Ice Canoe Race.<br>B: Me too. Do you know (B)______ watch it?<br>A: Look for a large crowd along the river.",o:["to watching - where to","to watch - where to","to watching - how","watching - when","to watching - why to"],a:0,e:"look forward to -ing / where to watch"},
+{t:"mc",q:"짝지어진 대화가 자연스러운 것은?",o:["A: Have you ever tried hot chocolate?<br>B: Yes, I did.","A: Do you know how to dance like Bonhomme?<br>B: Yes. I can teach you.","A: I'm looking forward to the carnival.<br>B: No, I haven't.","A: Where can I take her?<br>B: Yes, you can.","A: What's that?<br>B: Yes, it is."],a:1,e:"방법을 묻고 가르쳐 줄 수 있다고 답함"},
+{t:"mc",q:"다음 중 의도가 '기대 표현'인 것은?",o:["Have you ever seen an ice palace?","I can't wait to see the ice palace.","How about a cup of hot chocolate?","Do you know where to go?","Can you tell me more about it?"],a:1,e:"I can't wait to ~"},
+{t:"mc",q:"대화와 본문의 공통 표현이 <b>아닌</b> 것은?",o:["경험 묻기(Have you ever ~?)","기대 표현(look forward to)","의문사 + to부정사","so ~ that","why to부정사"],a:4,e:"why to부정사는 쓰지 않는 표현"},
+{t:"sa",q:"경험 묻기 질문을 완성하시오. (be 활용)<br>A: ________________ to a winter festival?<br>B: Yes, I have.",a:["Have you ever been","Have you been"],e:"Have you ever been"},
+{t:"sa",q:"기대 표현과 의문사+to부정사를 사용하여 영작하시오.<br>나는 메이플 태피 만드는 법을 배우는 것을 기대하고 있다. (I'm looking forward to로 시작)",a:["I'm looking forward to learning how to make maple taffy.","I am looking forward to learning how to make maple taffy."],e:"I'm looking forward to learning how to make maple taffy."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>너는 썰매 타는 법을 알고 있니?",w:["do you know","how","to ride","a sled","riding","what"],a:"do you know how to ride a sled",e:"how to + 동사원형"}
+],
+ws:[
+{q:"카니발에 함께 가자고 친구와 나누는 대화를 경험 묻기·기대 표현을 넣어 4줄로 쓰시오.",a:"(예시) A: Have you ever been to a winter carnival? B: No, I haven't. A: Let's go to the Quebec Winter Carnival together! B: Great! I'm looking forward to it."},
+{q:"의문사+to부정사로 질문 2개 만들기 (카니발 관련)",a:"(예시) Do you know where to buy tickets? / Do you know how to make maple taffy?"},
+{q:"I can't wait to ~로 기대 표현 2개 쓰기",a:"(예시) I can't wait to ride the toboggan. I can't wait to try maple taffy."},
+{q:"so ~ that으로 대답하기: A: How was the toboggan? B: ______",a:"(예시) It was so fast that I screamed."}
+]});
+
+DAYS.push({d:24,cat:"통합",title:"본문 고난도 (문장 삽입·순서·요약)",
+point:["문장 삽입·순서: 대명사(it, they)와 연결어(So, Because, Then, While)가 단서","각 활동의 핵심 정보를 요약문에 연결"],
+q:[
+{t:"mc",q:"주어진 문장이 들어가기에 가장 알맞은 곳은?<br><br>So, I have a new home each year!<br><br>This is my ice palace. (①) Every year, a new ice palace is built for the carnival. (②) Because the palace is made of ice and snow, it shines beautifully during the day. (③) At night, it is even more beautiful with many lights. (④) Take a look at my fantastic ice garden. (⑤)",o:["①","②","③","④","⑤"],a:1,e:"매년 새 궁전 → 그래서 매년 새 집"},
+{t:"mc",q:"주어진 문장 다음에 이어질 글의 순서로 알맞은 것은?<br><br>You also have to try maple taffy. It's made in a special way here.<br>(A) Then place a stick on the syrup and quickly roll it around.<br>(B) Let's learn how to make it. Pour hot maple syrup on the snow.<br>(C) Now, you have delicious maple taffy!",o:["(A)-(B)-(C)","(B)-(A)-(C)","(B)-(C)-(A)","(C)-(A)-(B)","(A)-(C)-(B)"],a:1,e:"시럽 붓기(B) → 막대(A) → 완성(C)"},
+{t:"mc",q:"글의 흐름과 관계 <b>없는</b> 문장은?<br><br>If you see a large crowd along the river, it's time to watch the Ice Canoe Race. ① This race is one of the best parts of the carnival. ② Canoe teams have to race through the icy river. ③ Canoes were first made by Native Americans long ago. ④ Teams are usually made up of five members. ⑤ The race is so exciting that you will forget about the cold.",o:["①","②","③","④","⑤"],a:2,e:"카누의 기원은 경주 소개와 무관"},
+{t:"mc",q:"주어진 문장이 들어가기에 가장 알맞은 곳은?<br><br>A toboggan is a long narrow sled.<br><br>There are also so many interesting activities you can do at the carnival. (①) The toboggan slide was built in 1884 and is 200 meters long. (②) If you like speed, get on the toboggan. (③) It is so fast that you will feel like you are on a roller coaster. (④) While you're sliding down, you can enjoy amazing views. (⑤)",o:["①","②","③","④","⑤"],a:1,e:"활강장 소개 → 터보건의 뜻 → 타 보라"},
+{t:"mc",q:"요약문 빈칸 (A), (B)에 알맞은 것은?<br><br>At the Quebec Winter Carnival, you can enjoy an ice palace, a fast (A)______, an exciting canoe race, and delicious (B)______.",o:["toboggan - treats","castle - drinks","river - sculptures","sled - parades","toboggan - fireworks"],a:0,e:"toboggan / treats"},
+{t:"mc",q:"글 전체의 내용으로 추론할 수 있는 것은?",o:["The carnival is held in summer.","Bonhomme wants visitors to enjoy many activities.","The ice palace is the same every year.","Only children can join the canoe race.","Maple taffy is made with cold syrup."],a:1,e:"마스코트가 다양한 활동을 안내함"},
+{t:"mc",q:"'it's time to watch the Ice Canoe Race'에서 it과 쓰임이 같은 것은?",o:["It is my ice palace.","It's time to go home.","It shines beautifully.","I like it very much.","It's made in a special way."],a:1,e:"비인칭 주어 it (시간)"},
+{t:"sa",q:"요약문을 완성하시오. (2단어)<br>Bonhomme shows visitors ________ at the carnival.",a:["what to do"],e:"what to do"},
+{t:"sa",q:"영어로 답하시오. (Because로 시작)<br>Q: Why does the ice palace shine beautifully during the day?",a:["Because it is made of ice and snow.","Because the palace is made of ice and snow.","Because it's made of ice and snow."],e:"Because it is made of ice and snow."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>강을 따라 많은 군중이 보인다면, 아이스 카누 경주를 볼 시간이에요.",w:["if","you see","a large crowd","along the river","it's time","to watch","the Ice Canoe Race","watching"],a:"if you see a large crowd along the river it's time to watch the Ice Canoe Race",e:"it's time to + 동사원형"}
+],
+ws:[
+{q:"본문 전체를 영어 4문장으로 요약하시오.",a:"(예시) Bonhomme introduces the Quebec Winter Carnival. You can visit his ice palace and ride the toboggan. You can also watch the Ice Canoe Race. Don't forget to try maple taffy."},
+{q:"각 단락의 첫 문장(주제문)을 찾아 쓰시오. (Ice Palace / Toboggan / Ice Canoe / Treats)",a:"This is my ice palace. / There are also so many interesting activities ~ / If you see a large crowd ~ / After all these exciting activities, I'm really hungry."},
+{q:"Because, So, Then, While이 본문에서 어떤 역할을 하는지 예문과 함께 쓰시오.",a:"(예시) Because ~(이유) / So(결과) / Then(순서) / While(동시 진행)"},
+{q:"우리나라 겨울 축제를 Bonhomme처럼 4문장으로 소개하시오.",a:"(개인별 작성)"}
+]});
+
+DAYS.push({d:25,cat:"통합",title:"어법 고난도 (개수·짝 고르기)",
+point:["의문사+to부정사 / so ~ that / 수동태 / 현재완료 경험","look forward to + -ing / one of the + 최상급 + 복수명사 / 감정 형용사 -ing·-ed","while vs during / be made of·from·up of"],
+q:[
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) I'm looking forward to fishing on the icy river.<br>(b) Have you ever been to Boryeong last year?<br>(c) Let's learn how to make it.<br>(d) This race is one of the best part of the carnival.<br>(e) The race is so exciting that you will forget about the cold.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(c)(e) 3개"},
+{t:"mc",q:"어법상 <b>틀린</b> 문장의 개수는?<br><br>(a) A new ice palace is built every year.<br>(b) During you're sliding down, you can enjoy the view.<br>(c) I don't know why to go.<br>(d) Teams are made up of five members.<br>(e) It shines beautiful during the day.",o:["1개","2개","3개","4개","5개"],a:2,e:"(b)(c)(e) 3개 틀림"},
+{t:"mc",q:"(A), (B), (C)에서 알맞은 것끼리 짝지은 것은?<br><br>• Have you ever (A)(tried / try) ice fishing?<br>• I'm looking forward to (B)(taste / tasting) them.<br>• Both men and women (C)(can join / can joins) the team.",o:["tried - tasting - can join","try - taste - can joins","tried - taste - can join","try - tasting - can join","tried - tasting - can joins"],a:0,e:"tried / tasting / can join"},
+{t:"mc",q:"(A), (B), (C)에서 알맞은 것끼리 짝지은 것은?<br><br>• The palace is made (A)(of / from) ice and snow.<br>• It is (B)(so / such) fast that you'll scream.<br>• You can see (C)(amazing / amazed) views.",o:["of - so - amazing","from - so - amazed","of - such - amazing","from - such - amazing","of - so - amazed"],a:0,e:"of / so / amazing"},
+{t:"mc",q:"밑줄 친 부분을 바르게 고친 것이 <b>아닌</b> 것은?",o:["I'm looking forward to <u>see</u> you. → seeing","It shines <u>beautiful</u>. → beautifully","The slide <u>built</u> in 1884. → was built","I don't know <u>why to</u> go. → why I should","one of the best <u>part</u> → parted"],a:4,e:"part → parts"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>After all these (a)<u>exciting</u> activities, I'm really hungry. There are many delicious treats (b)<u>to eat</u>. It's always the (c)<u>perfect</u> drink in cold weather. Let's learn how (d)<u>making</u> it. Don't forget (e)<u>to check</u> our website.",o:["(a)","(b)","(c)","(d)","(e)"],a:3,e:"how to make"},
+{t:"mc",q:"다음 중 어법상 올바른 것은?",o:["I have been to the carnival last winter.","The carnival is held for 10 days.","I can't wait to tasting it.","It is such fast that I screamed.","Tell me where should I go."],a:1,e:"수동태 is held"},
+{t:"sa",q:"틀린 부분 2개를 고쳐 문장 전체를 다시 쓰시오.<br>The toboggan slide built in 1884 and is 200 meter long.",a:["The toboggan slide was built in 1884 and is 200 meters long."],e:"built → was built / meter → meters"},
+{t:"sa",q:"틀린 부분 2개를 고쳐 문장 전체를 다시 쓰시오.<br>I'm looking forward to learn how make maple taffy.",a:["I'm looking forward to learning how to make maple taffy.","I am looking forward to learning how to make maple taffy."],e:"learn → learning / how make → how to make"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>당신이 미끄러져 내려가는 동안, 놀라운 경치를 즐길 수 있어요.",w:["while","you're sliding down","you","can enjoy","amazing views","during","amazed"],a:"while you're sliding down you can enjoy amazing views",e:"while + 절"}
+],
+ws:[
+{q:"틀린 부분을 모두 고치시오: Have you ever been to Quebec last year? It was such cold that I can't go out.",a:"Have you ever been → Did you go (또는 last year 삭제) / such → so / can't → couldn't"},
+{q:"틀린 부분을 고치시오: Teams are made up five member.",a:"made up of five members"},
+{q:"틀린 부분을 고치시오: During I was in Quebec, I tried maple taffy.",a:"During → While"},
+{q:"오늘 틀린 어법 포인트를 정리하시오.",a:"(개인별 작성)"}
+]});
+
+DAYS.push({d:26,cat:"서술형",title:"서술형 집중 ① 문장 전환·결합",
+point:["의문사+to부정사 ↔ 의문사+주어+should+동사원형","so ~ that ↔ too ~ to / 능동 ↔ 수동","I'm looking forward to -ing ↔ I can't wait to + 동사원형"],
+q:[
+{t:"sa",q:"의문사 + to부정사로 바꾸시오.<br>I don't know what I should prepare.<br>→ I don't know ________________.",a:["what to prepare"],e:"what to prepare"},
+{t:"sa",q:"should를 사용하여 바꾸시오.<br>Please tell me where to take the bus.<br>→ Please tell me ________________ the bus.",a:["where I should take"],e:"where I should take"},
+{t:"sa",q:"so ~ that을 사용하여 한 문장으로 쓰시오.<br>The ice palace is very beautiful. Many people take pictures of it.",a:["The ice palace is so beautiful that many people take pictures of it."],e:"so beautiful that ~"},
+{t:"sa",q:"수동태로 바꾸시오. (by 생략)<br>People build a new ice palace every year.",a:["A new ice palace is built every year."],e:"A new ice palace is built every year."},
+{t:"sa",q:"can't wait를 사용하여 같은 의미로 쓰시오.<br>I'm looking forward to riding the toboggan.",a:["I can't wait to ride the toboggan.","I cannot wait to ride the toboggan."],e:"I can't wait to ride the toboggan."},
+{t:"mc",q:"두 문장을 바르게 연결한 것은?<br><br>The race was very exciting. We forgot about the cold.",o:["The race was such exciting that we forgot about the cold.","The race was so exciting that we forgot about the cold.","The race was exciting so that we forgot about the cold.","The race was too exciting that we forgot the cold.","The race was so excited that we forgot about the cold."],a:1,e:"so exciting that"},
+{t:"mc",q:"'제가 어떻게 저처럼 춤추는지 가르쳐 줄 수 있어요.'를 영작할 때 여섯 번째 단어는?<br>(I can teach you how to dance like me.)",o:["you","how","to","dance","like"],a:2,e:"I(1) can(2) teach(3) you(4) how(5) to(6)"},
+{t:"mc",q:"'메이플 태피는 여기서 특별한 방법으로 만들어진다.'를 영작할 때 필요 <b>없는</b> 단어는?",o:["is","made","in","a special way","makes"],a:4,e:"Maple taffy is made in a special way here."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그 궁전은 얼음과 눈으로 만들어지기 때문에 낮 동안 아름답게 빛난다.",w:["because","the palace","is made of","ice and snow","it","shines","beautifully","during the day","beautiful"],a:"because the palace is made of ice and snow it shines beautifully during the day",e:"because + 절 / 부사 beautifully"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>팀들은 보통 다섯 명으로 구성되고, 남자와 여자 모두 팀에 들어갈 수 있다.",w:["teams","are usually made up of","five members","and","both men and women","can join","the team","either"],a:"teams are usually made up of five members and both men and women can join the team",e:"be made up of / both A and B"}
+],
+ws:[
+{q:"의문사 + to부정사로: Tell me how I should use this kiosk.",a:"Tell me how to use this kiosk."},
+{q:"so ~ that으로: The toboggan was too fast to stop. → ",a:"The toboggan was so fast that it couldn't stop."},
+{q:"수동태로: They made the snowman yesterday.",a:"The snowman was made yesterday."},
+{q:"I can't wait로: I'm looking forward to the winter vacation.",a:"I can't wait for the winter vacation."}
+]});
+
+DAYS.push({d:27,cat:"서술형",title:"서술형 집중 ② 질문에 답하기",
+point:["완전한 문장으로 답하기, 대명사로 바꾸기","시제 일치: 본문은 현재시제 설명문 → 현재로 답 / 연도는 과거","수동태 질문에는 수동태로 답하기"],
+q:[
+{t:"sa",q:"영어로 답하시오. (He is로 시작)<br>Q: Who is Bonhomme?",a:["He is the mascot of the carnival.","He is the mascot of the Quebec Winter Carnival.","He is a big snowman."],e:"He is the mascot of the carnival."},
+{t:"sa",q:"영어로 답하시오. (It is usually held로 시작)<br>Q: When is the Quebec Winter Carnival held?",a:["It is usually held between January and February.","It is usually held for 10 days between January and February."],e:"It is usually held between January and February."},
+{t:"sa",q:"영어로 답하시오. (It is로 시작)<br>Q: How long is the toboggan slide?",a:["It is 200 meters long.","It's 200 meters long."],e:"It is 200 meters long."},
+{t:"sa",q:"영어로 답하시오. (They have to로 시작)<br>Q: What do the members of the stuck team have to do?",a:["They have to push their canoe on the ice to get to the water.","They have to push their canoe on the ice."],e:"They have to push their canoe on the ice to get to the water."},
+{t:"sa",q:"영어로 답하시오. (It's로 시작)<br>Q: Why is hot chocolate good at the carnival?",a:["It's always the perfect drink in cold weather.","It is always the perfect drink in cold weather.","It's the perfect drink in cold weather."],e:"It's always the perfect drink in cold weather."},
+{t:"mc",q:"질문과 대답이 바르게 짝지어진 것은?",o:["Q: What does Bonhomme wear?<br>A: He wears a blue hat.","Q: What can you see on your right?<br>A: A beautiful icy river.","Q: How many members are on a canoe team?<br>A: Usually ten.","Q: When was the slide built?<br>A: In 1984.","Q: What is maple taffy made with?<br>A: Hot chocolate."],a:1,e:"On your right, you can see a beautiful icy river."},
+{t:"mc",q:"감점 없이 영작한 것은?<br>'얼음 궁전은 매년 카니발을 위해 지어진다.'",o:["A new ice palace builds for the carnival every year.","A new ice palace is built for the carnival every year.","A new ice palace is build for the carnival every year.","A new ice palace was built for the carnival every years.","A new ice palace are built for the carnival every year."],a:1,e:"is built"},
+{t:"mc",q:"조건(의문사+to부정사, 7단어)에 맞게 '나는 메이플 태피 만드는 법을 배웠다.'를 영작한 것은?",o:["I learned how to make maple taffy.","I learned to make maple taffy.","I learned how I made maple taffy.","I learned how make maple taffy.","I learned what to make maple taffy."],a:0,e:"I(1) learned(2) how(3) to(4) make(5) maple(6) taffy(7)"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>당신은 왼쪽에서 거대한 유명한 성을 볼 수 있어요.",w:["you","can see","a huge famous castle","on your left","at","famously"],a:"you can see a huge famous castle on your left",e:"on your left"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>저는 그들이 결승선까지 도착할 수 있기를 바라요.",w:["I hope","they","can","make it","to the finish line","making"],a:"I hope they can make it to the finish line",e:"make it: 도착하다, 해내다"}
+],
+ws:[
+{q:"영어로 답하시오: What can you see in the ice garden?",a:"You can see amazing ice sculptures of trees, flowers, and animals."},
+{q:"영어로 답하시오: Who can join the canoe teams?",a:"Both men and women can join the teams."},
+{q:"영어로 답하시오: How do you make maple taffy?",a:"Pour hot maple syrup on the snow. Then place a stick on the syrup and quickly roll it around."},
+{q:"영어로 답하시오: What does Bonhomme ask you to do at the end?",a:"He asks us to check the website for more information."}
+]});
+
+DAYS.push({d:28,cat:"서술형",title:"서술형 집중 ③ 요약·자기표현",
+point:["요약문: 장소 + 활동 + 특징을 한 문장에","자기표현: 경험(Have you ever ~?), 기대(look forward to), 방법(how to), 결과(so ~ that)"],
+q:[
+{t:"sa",q:"요약문 빈칸에 알맞은 한 단어를 쓰시오.<br>Bonhomme is the ______ of the Quebec Winter Carnival.",a:["mascot"],e:"mascot"},
+{t:"sa",q:"요약문 빈칸에 알맞은 두 단어를 쓰시오.<br>The ice palace is made of ______ ______ snow.",a:["ice and"],e:"ice and"},
+{t:"sa",q:"요약문 빈칸에 알맞은 한 단어를 쓰시오.<br>A toboggan is a long narrow ______.",a:["sled"],e:"sled"},
+{t:"sa",q:"요약문 빈칸에 알맞은 두 단어를 쓰시오.<br>To make maple taffy, pour hot maple ______ on the ______.",a:["syrup snow","syrup, snow"],e:"syrup / snow"},
+{t:"sa",q:"현재완료 경험 질문을 만드시오. (try, maple taffy)",a:["Have you ever tried maple taffy?"],e:"Have you ever tried maple taffy?"},
+{t:"mc",q:"요약문 빈칸 (A), (B), (C)에 알맞은 것은?<br><br>At the carnival, Bonhomme shows you (A)______ to do. The toboggan is so (B)______ that it feels like a roller coaster. You can also learn how (C)______ maple taffy.",o:["what - fast - to make","how - slow - make","what - fast - making","where - slow - to make","what - fun - make"],a:0,e:"what / fast / to make"},
+{t:"mc",q:"본문을 읽고 쓴 감상문 중 내용을 잘못 이해한 것은?",o:["얼음 궁전이 매년 새로 지어진다니 놀랍다.","터보건이 롤러코스터처럼 빠르다니 타 보고 싶다.","카누 경주에는 남자만 참가할 수 있어서 아쉽다.","메이플 태피를 눈 위에서 만드는 방법이 신기하다.","Bonhomme이 친절하게 안내해 줘서 재미있었다."],a:2,e:"남녀 모두 참가 가능"},
+{t:"mc",q:"Bonhomme의 마지막 말에 담긴 의도는?",o:["카니발 방문 권유와 정보 확인 당부","카니발 취소 안내","간식 판매 홍보","경주 결과 발표","날씨 경고"],a:0,e:"I hope you come ~ / don't forget to check our website"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 퀘벡 윈터 카니발에 가는 것을 정말 기대하고 있다.",w:["I'm","really","looking forward to","going to","the Quebec Winter Carnival","go to"],a:"I'm really looking forward to going to the Quebec Winter Carnival",e:"look forward to + -ing"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그 축제는 너무 재미있어서 나는 매년 가고 싶다.",w:["the festival","is","so","fun","that","I","want to go","every year","such"],a:"the festival is so fun that I want to go every year",e:"so ~ that"}
+],
+ws:[
+{q:"본문 전체를 영어 5문장으로 요약하시오.",a:"(예시) Bonhomme is the mascot of the Quebec Winter Carnival. His ice palace is built every year. The toboggan is so fast that it feels like a roller coaster. The Ice Canoe Race is one of the best parts. You can also learn how to make maple taffy."},
+{q:"내가 가 본 축제를 경험·기대 표현을 넣어 3문장으로 쓰시오.",a:"(예시) I have been to the Busan Fireworks Festival. It was so beautiful that I took many pictures. I'm looking forward to going there again."},
+{q:"how to로 내가 잘하는 것을 친구에게 알려 주는 글을 쓰시오.",a:"(예시) I'll teach you how to make a paper crane. First, fold the paper in half. ..."},
+{q:"카니발 체험 후기를 so ~ that을 넣어 2문장으로 쓰시오.",a:"(예시) The ice palace was so beautiful that I couldn't stop looking at it. The maple taffy was so sweet that I ate two."}
+]});
+
+DAYS.push({d:29,cat:"실전",title:"실전 모의고사 ①",
+point:["대화문·본문·문법 전 범위","본문 근거로 선택지 판단"],
+q:[
+{t:"mc",q:"짝지어진 대화가 <b>어색한</b> 것은?",o:["A: Have you ever tried ice fishing?<br>B: Yes, I have.","A: I'm going camping this weekend.<br>B: That sounds fun!","A: Have you ever been to Boryeong?<br>B: No, I haven't.","A: Where did you pick them?<br>B: At a farm.","A: Do you have any plans this weekend?<br>B: Yes, I have."],a:4,e:"Do you ~? → Yes, I do. + 계획"},
+{t:"mc",p:"E4",q:"대화의 내용과 일치하는 것은?",o:["The girl picked the strawberries.","Giho joined the event last month.","You can eat all the strawberries you pick.","Giho ate exactly 30 strawberries.","Giho won't go there again."],a:2,e:"You can eat all the strawberries you pick at the farm."},
+{t:"mc",q:"본문의 내용과 일치하지 <b>않는</b> 것은?",o:["Bonhomme means “good man” in French.","The toboggan slide is 200 meters long.","Canoe teams race for about three kilometers.","The ice palace is made of ice and snow.","Maple taffy is made with cold milk."],a:4,e:"hot maple syrup"},
+{t:"mc",q:"빈칸에 들어갈 수 <b>없는</b> 것은?<br><br>I don't know ______ to do.",o:["what","how","when","where","why"],a:4,e:"why to 불가"},
+{t:"mc",q:"어법상 올바른 것은?",o:["The carnival holds for 10 days.","It is so fast that you will feel like you are on a roller coaster.","I'm looking forward to see you.","This is one of the best part.","Let's learn how make it."],a:1,e:"so ~ that"},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>• Have you ever (A)______ to Hanyangdoseong?<br>• The palace (B)______ beautifully during the day.",o:["been - shines","gone - shine","be - shining","been - shine","went - shines"],a:0,e:"been / shines"},
+{t:"mc",q:"'Teams are usually made up of five members.'와 의미가 같은 것은?",o:["Teams usually have five members.","Teams make five members.","Five teams have members.","Teams are made by five members.","Members make up five teams."],a:0,e:"5명으로 구성 = 5명이 있다"},
+{t:"sa",q:"영어로 답하시오. (I'm looking forward to로 시작)<br>Q: What are you looking forward to at the carnival? (터보건 타기)",a:["I'm looking forward to riding the toboggan.","I am looking forward to riding the toboggan."],e:"I'm looking forward to riding the toboggan."},
+{t:"sa",q:"so ~ that을 사용하여 영작하시오.<br>메이플 태피는 너무 맛있어서 나는 하나 더 먹었다.",a:["Maple taffy was so delicious that I ate one more.","The maple taffy was so delicious that I ate one more.","Maple taffy was so delicious that I ate another one."],e:"so delicious that ~"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>당신은 메이플 태피도 꼭 먹어 봐야 해요.",w:["you","also","have to","try","maple taffy","has to","trying"],a:"you also have to try maple taffy",e:"have to + 동사원형"}
+],
+ws:[
+{q:"대화문 5개에서 경험 묻기 문장을 3개 찾아 쓰시오.",a:"Have you ever tried ice fishing? / Have you ever roasted marshmallows while camping? / Have you ever been to Boryeong?"},
+{q:"본문의 의문사 + to부정사와 so ~ that 문장을 각각 쓰시오.",a:"I'll show you what to do here. / It is so fast that you will feel like you are on a roller coaster."},
+{q:"오늘 틀린 문항의 핵심 개념을 정리하시오.",a:"(개인별 작성)"},
+{q:"Bonhomme에게 질문하는 편지를 의문사+to부정사를 넣어 2문장 쓰시오.",a:"(예시) Dear Bonhomme, I'm going to the carnival. Can you tell me where to buy tickets?"}
+]});
+
+DAYS.push({d:30,cat:"실전",title:"실전 모의고사 ② (최종)",
+point:["Lesson 8 전 범위 최종 점검","틀린 문제는 해당 DAY로 돌아가 복습"],
+q:[
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) Have you ever picked fresh strawberries?<br>(b) I'm looking forward to walk around the city.<br>(c) I can teach you how to dance like me.<br>(d) The toboggan slide was built in 1884.<br>(e) It is such fast that you'll scream.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(c)(d) 3개"},
+{t:"mc",q:"주어진 문장이 들어가기에 가장 알맞은 곳은?<br><br>Phew! They are in the water again.<br><br>Look! One team is stuck in the ice and can't move! (①) The members have to push their canoe on the ice to get to the water. (②) I hope they can make it to the finish line. (③) The race is so exciting that you will forget about the cold. (④) After all these exciting activities, I'm really hungry. (⑤)",o:["①","②","③","④","⑤"],a:1,e:"카누를 밀어 물로 → 휴! 다시 물에 → 결승선 기원"},
+{t:"mc",q:"다음 중 의도가 나머지와 <b>다른</b> 하나는?",o:["I'm looking forward to the trip.","I can't wait to go there.","I'm excited about the festival.","I can't wait for the weekend.","Have you ever been there?"],a:4,e:"경험 묻기"},
+{t:"mc",q:"Bonhomme이 소개한 내용이 <b>아닌</b> 것은?",o:["얼음 궁전과 얼음 정원","터보건 활강장","아이스 카누 경주","메이플 태피 만드는 법","얼음낚시 대회"],a:4,e:"얼음낚시는 대화문 내용"},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>• Do you know (A)______ to find science books?<br>• The race is (B)______ exciting that you'll forget the cold.<br>• The carnival (C)______ for 10 days.",o:["where - so - is held","what - such - holds","where - such - is held","how - so - holds","why - so - is held"],a:0,e:"where / so / is held"},
+{t:"mc",q:"우리말을 영어로 바르게 옮기지 <b>않은</b> 것은?",o:["너는 보령에 가 본 적 있니? → Have you ever been to Boryeong?","나는 그것을 맛보기를 기대한다. → I'm looking forward to tasting it.","무엇을 할지 보여 줄게. → I'll show you what to do.","그것은 너무 빨라서 무섭다. → It is so fast that it's scary.","새 궁전이 매년 지어진다. → A new palace builds every year."],a:4,e:"is built"},
+{t:"mc",q:"글 전체의 주제로 가장 알맞은 것은?",o:["How to build an ice palace","Fun activities at the Quebec Winter Carnival","The history of maple syrup","How to win a canoe race","Why snowmen are popular"],a:1,e:"카니발의 재미있는 활동"},
+{t:"sa",q:"의문사 + to부정사를 사용하여 영작하시오. (Let's로 시작)<br>그것을 어떻게 만드는지 배워 봐요.",a:["Let's learn how to make it."],e:"Let's learn how to make it."},
+{t:"sa",q:"현재완료 경험 질문으로 영작하시오. (visit 사용)<br>너는 전에 한양도성을 방문한 적이 있니?",a:["Have you ever visited Hanyangdoseong before?","Have you visited Hanyangdoseong before?"],e:"Have you ever visited Hanyangdoseong before?"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그 경주는 너무 흥미진진해서 당신은 추위를 잊을 거예요.",w:["the race","is","so","exciting","that","you will forget","about the cold","excited","such"],a:"the race is so exciting that you will forget about the cold",e:"so + 형용사 + that"}
+],
+ws:[
+{q:"Lesson 8의 의사소통 표현(경험 묻기, 기대 표현)을 각각 2개씩 쓰시오.",a:"경험: Have you ever tried ~? / Have you ever been to ~? 기대: I'm looking forward to ~. / I can't wait to ~."},
+{q:"Lesson 8 문법(의문사+to부정사, so ~ that)을 예문과 함께 정리하시오.",a:"how to dance / what to do / where to eat / when to leave — It is so fast that you will scream."},
+{q:"내가 가고 싶은 겨울 축제를 소개하는 글을 경험·기대·how to·so ~ that을 넣어 4문장으로 쓰시오.",a:"(개인별 작성)"},
+{q:"30일 동안 가장 많이 틀린 개념과 앞으로의 학습 계획을 쓰시오.",a:"(개인별 작성)"}
+]});
+
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), app=$("#app");
+const KEY=CONF.key;
+/* ▼ 노션 자동저장: Apps Script 웹앱 배포 URL을 아래 따옴표 안에 붙여넣으세요 ▼ */
+const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
+const UNIT=CONF.unit;
+const QKEY=CONF.key+"_queue";
+let store={name:"",best:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) store=Object.assign(store,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+const saveOn=()=>/^https:\/\/script\.google\.com\//.test(SAVE_URL);
+function getQ(){try{return JSON.parse(localStorage.getItem(QKEY)||"[]")}catch(e){return []}}
+function setQ(q){try{localStorage.setItem(QKEY,JSON.stringify(q))}catch(e){}}
+async function post(payload){
+  const r=await fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+  const j=await r.json(); if(!j.ok) throw new Error(j.msg||"save failed"); return j;}
+async function flushQ(){ if(!saveOn())return; let q=getQ(); if(!q.length)return; const left=[];
+  for(const p of q){try{await post(p)}catch(e){left.push(p)}} setQ(left);}
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const fmt=s=>s.replace(/\[\[(.+?)\]\]/g,"<u>$1</u>").replace(/\n/g,"<br>");
+const CIRC=["①","②","③","④","⑤"];
+const TYPE={mc:"객관식",sa:"서술형",or:"배열"};
+function norm(s){s=String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/[“”]/g,'"');
+  const m={"isn't":"is not","don't":"do not","doesn't":"does not","it's":"it is","i'm":"i am","it'll":"it will","aren't":"are not","can't":"cannot","won't":"will not","what's":"what is","they're":"they are"};
+  for(const k in m)s=s.split(k).join(m[k]);
+  return s.replace(/[.,!?;:"()]/g," ").replace(/\s+/g," ").trim();}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const fixedOpts=o=>o.every(x=>/^(\(|[①-⑤]|\d개)/.test(x));
+
+let S=null; // session
+$("#subb").textContent=CONF.sub;
+function setBar(p){$("#bar").style.width=(p*100)+"%"}
+$("#homeBtn").onclick=home;
+
+function home(){
+  S=null; $("#homeBtn").hidden=true; setBar(0); window.scrollTo(0,0);
+  const doneN=Object.keys(store.best).length;
+  const avg=doneN?Math.round(Object.values(store.best).reduce((a,b)=>a+b,0)/doneN*10):0;
+  const cats=[...new Set(DAYS.map(d=>d.cat))];
+  app.innerHTML=`
+  <div class="hero"><span class="eyebrow">${CONF.eyebrow}</span>
+  <h1>30일 미니테스트</h1>
+  <p>하루 10문항 · ${CONF.flow} 순서로 진행합니다. 풀고 나면 같은 DAY의 연계 워크시트를 확인하세요.</p></div>
+  <div class="namebox"><label for="nm">이름</label><input id="nm" placeholder="이름을 입력하세요" value="${esc(store.name)}" maxlength="20"></div>
+  <div class="stats"><span>완료 <b>${doneN}</b>/30일</span><span>평균 <b>${avg}</b>점</span></div>
+  <div class="legend">${cats.map(c=>`<span class="tag c-${c}">${c}</span>`).join("")}</div>
+  <div class="grid">${DAYS.map(d=>{const b=store.best[d.d];return `<button class="day ${b!=null?"done":""}" data-d="${d.d}">
+    <span class="n">DAY ${String(d.d).padStart(2,"0")}${b!=null?`<em>${b}/10</em>`:""}</span>
+    <span class="tag c-${d.cat}" style="justify-self:start">${d.cat}</span>
+    <span class="t">${esc(d.title)}</span></button>`}).join("")}</div>`;
+  $("#nm").oninput=e=>{store.name=e.target.value.trim();save()};
+  app.querySelectorAll(".day").forEach(b=>b.onclick=()=>start(+b.dataset.d));
+}
+
+function start(d,only){
+  if(!store.name){const nm=$("#nm"); if(nm){nm.focus();nm.placeholder="먼저 이름을 입력하세요!";nm.parentNode.style.borderColor="var(--bad)";} return;}
+  const day=DAYS[d-1];
+  const idxs=only||day.q.map((_,i)=>i);
+  S={day,list:idxs.map(i=>prep(day.q[i],i)),i:0,res:[],retry:!!only,t0:Date.now()};
+  $("#homeBtn").hidden=false; showQ();
+}
+function prep(q,orig){
+  const o={...q,orig};
+  if(q.t==="mc"){const ord=q.o.map((_,i)=>i);o.ord=fixedOpts(q.o)?ord:shuffle(ord);}
+  if(q.t==="or"){o.pool=shuffle(q.w.map((w,i)=>({w,i})));}
+  return o;
+}
+function showQ(){
+  window.scrollTo(0,0);
+  const q=S.list[S.i], n=S.list.length;
+  setBar(S.i/n);
+  const pass=q.p?`<details class="pass" open><summary>지문 보기 / 접기</summary><div class="ptxt">${fmt(PASS[q.p])}</div></details>`:"";
+  let body="";
+  if(q.t==="mc") body=`<div class="opts">${q.ord.map((k,pos)=>`<button class="opt" data-k="${k}"><span class="num">${pos+1}</span><span>${fmt(q.o[k])}</span></button>`).join("")}</div>`;
+  if(q.t==="sa") body=`<input class="inp" id="sa" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="영어로 입력하세요">`;
+  if(q.t==="or") body=`<div class="built" id="built"></div><div class="pool" id="pool">${q.pool.map((p,k)=>`<button class="w" data-k="${k}">${esc(p.w)}</button>`).join("")}</div>`;
+  app.innerHTML=`<div class="card">
+   <div class="qhead"><b>DAY ${S.day.d}${S.retry?" · 오답 재도전":""}</b><span><span class="type">${TYPE[q.t]}</span> &nbsp;${S.i+1} / ${n}</span></div>
+   ${pass}<div class="qtext">${S.i+1}. ${fmt(q.q)}</div>${body}
+   <div id="fbx"></div>
+   <div class="actions">${q.t==="or"?`<button class="btn ghost" id="reset">다시 배열</button>`:""}<button class="btn" id="go" disabled>정답 확인</button></div></div>`;
+  const go=$("#go"); let pick=null, built=[];
+  if(q.t==="mc") app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{app.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");pick=+b.dataset.k;go.disabled=false});
+  if(q.t==="sa"){const inp=$("#sa");inp.oninput=()=>go.disabled=!inp.value.trim();inp.onkeydown=e=>{if(e.key==="Enter"&&!go.disabled)go.click()};setTimeout(()=>inp.focus({preventScroll:true}),50)}
+  if(q.t==="or"){
+    const draw=()=>{$("#built").innerHTML=built.map((k,j)=>`<button class="w" data-j="${j}">${esc(q.pool[k].w)}</button>`).join("");
+      app.querySelectorAll("#pool .w").forEach(b=>b.classList.toggle("used",built.includes(+b.dataset.k)));
+      app.querySelectorAll("#built .w").forEach(b=>b.onclick=()=>{if(S.locked)return;built.splice(+b.dataset.j,1);draw()});
+      go.disabled=!built.length;};
+    app.querySelectorAll("#pool .w").forEach(b=>b.onclick=()=>{if(S.locked)return;built.push(+b.dataset.k);draw()});
+    $("#reset").onclick=()=>{if(S.locked)return;built=[];draw()};
+  }
+  S.locked=false;
+  go.onclick=()=>{
+    if(S.locked){next();return}
+    let ok,user,right;
+    if(q.t==="mc"){ok=pick===q.a;user=CIRC[q.ord.indexOf(pick)]+" "+q.o[pick];right=CIRC[q.ord.indexOf(q.a)]+" "+q.o[q.a];
+      app.querySelectorAll(".opt").forEach(b=>{b.disabled=true;const k=+b.dataset.k;if(k===q.a)b.classList.add("right");else if(k===pick)b.classList.add("wrong")});}
+    if(q.t==="sa"){const v=$("#sa").value;user=v;ok=q.a.some(a=>norm(a)===norm(v));right=q.a[0];$("#sa").disabled=true;}
+    if(q.t==="or"){user=built.map(k=>q.pool[k].w).join(" ");ok=norm(user)===norm(q.a);right=cap(q.a)+".";
+      app.querySelectorAll(".w").forEach(b=>b.disabled=true);const r=$("#reset");if(r)r.disabled=true;}
+    S.res.push({orig:q.orig,ok,user,right,q});
+    S.locked=true;
+    $("#fbx").innerHTML=`<div class="fb ${ok?"ok":"no"}"><strong>${ok?"정답입니다!":"아쉬워요. 다시 확인해 봅시다."}</strong>${ok&&q.t==="mc"?"":`<div>정답: <span class="ans">${fmt(String(right).replace(/<br>/g," "))}</span></div>`}<div>${fmt(q.e)}</div></div>`;
+    go.textContent=S.i+1<S.list.length?"다음 문제":"결과 보기";
+    $("#fbx").scrollIntoView({behavior:"smooth",block:"nearest"});
+  };
+}
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function next(){S.i++; if(S.i<S.list.length)showQ(); else result();}
+
+function result(){
+  setBar(1); window.scrollTo(0,0);
+  const d=S.day, sc=S.res.filter(r=>r.ok).length, n=S.res.length;
+  if(!S.retry){const prev=store.best[d.d]; if(prev==null||sc>prev){store.best[d.d]=sc;save();}}
+  const wrong=S.res.filter(r=>!r.ok).map(r=>r.orig);
+  const now=new Date(), ts=`${now.getMonth()+1}/${now.getDate()} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  const msg=sc===n?"완벽해요! 내신 실전에서도 이 정확도를 유지하세요.":sc>=8?"아주 좋아요. 틀린 문제의 해설을 꼭 다시 읽어 보세요.":sc>=6?"기본은 잡혔어요. 오답 재도전으로 약점을 채워 봅시다.":"오늘 개념을 워크시트로 다시 정리한 뒤 재도전해 봅시다.";
+  app.innerHTML=`<div class="card score">
+     <span class="eyebrow">DAY ${d.d} · ${esc(d.title)}${S.retry?" · 오답 재도전":""}</span>
+     <div class="big">${sc}<span style="font-size:28px">/${n}</span></div>
+     <div class="meta">${esc(store.name||"이름 미입력")} · ${ts}</div>
+     <p style="margin:6px 0 0">${msg}</p>
+     <p class="note" style="margin:0" id="sv">${saveOn()?"결과를 선생님께 저장하는 중…":"이 화면을 캡처해서 선생님께 보내 주세요."}</p></div>
+   <div class="actions">${wrong.length?`<button class="btn accent" id="rt">오답만 다시 풀기 (${wrong.length})</button>`:""}<button class="btn" id="ws">연계 워크시트</button></div>
+   <div class="actions" style="margin-top:8px"><button class="btn ghost" id="again">처음부터 다시</button><button class="btn ghost" id="hm">DAY 목록</button></div>
+   <div class="sec"><h2>문항별 확인</h2><div class="review">${S.res.map((r,i)=>`<div class="ri ${r.ok?"ok":"no"}"><span class="mk">${r.ok?"O":"X"}</span><div><div class="q">${i+1}. ${fmt(r.q.q.split("<br>")[0])}</div>${r.ok?"":`<div>내 답: ${esc(String(r.user).replace(/<br>/g," "))}</div><div style="color:var(--ok);font-weight:700">정답: ${fmt(String(r.right).replace(/<br>/g," "))}</div>`}</div></div>`).join("")}</div></div>`;
+  if(wrong.length)$("#rt").onclick=()=>start(d.d,wrong);
+  if(saveOn()) send(buildPayload(d,sc,n,now));
+  $("#ws").onclick=()=>worksheet(d.d);
+  $("#again").onclick=()=>start(d.d);
+  $("#hm").onclick=home;
+}
+
+const strip=s=>String(s).replace(/<br>/g," ").replace(/<[^>]+>/g,"").replace(/\[\[|\]\]/g,"").replace(/\s+/g," ").trim();
+function buildPayload(d,sc,n,now){
+  const wr=S.res.map((r,i)=>({r,i})).filter(x=>!x.r.ok);
+  const p=v=>String(v).padStart(2,"0");
+  const ts=`${now.getFullYear()}-${p(now.getMonth()+1)}-${p(now.getDate())}T${p(now.getHours())}:${p(now.getMinutes())}:00+09:00`;
+  return {type:"minitest",name:store.name,unit:UNIT,day:d.d,title:d.title,cat:d.cat,
+    attempt:S.retry?"오답 재도전":"첫 응시",score:sc,total:n,
+    wrongNums:wr.length?wr.map(x=>(x.r.orig+1)+"번").join(", "):"없음",
+    wrongDetail:wr.map(x=>`${x.r.orig+1}번(${TYPE[x.r.q.t]}) 내 답: ${strip(x.r.user)||"-"} → 정답: ${strip(x.r.right)}`).join("\n").slice(0,1900),
+    minutes:Math.max(1,Math.round((Date.now()-S.t0)/60000)),timestamp:ts};
+}
+async function send(payload){
+  const el=$("#sv");
+  const show=(t,c)=>{const x=$("#sv"); if(x){x.innerHTML=t; x.style.color=c||"";}};
+  try{await post(payload); show("✓ 선생님 노션에 결과가 저장되었습니다.","var(--ok)"); flushQ();}
+  catch(e){const q=getQ(); q.push(payload); setQ(q);
+    show(`저장에 실패했어요(인터넷 확인). <button id="resend" class="w" style="font-size:13px;padding:2px 10px">다시 저장</button><br>다음에 앱을 열면 자동으로 다시 보내요.`,"var(--bad)");
+    const b=$("#resend"); if(b) b.onclick=async()=>{show("다시 저장하는 중…"); try{await flushQ(); if(getQ().length) throw 0; show("✓ 선생님 노션에 결과가 저장되었습니다.","var(--ok)");}catch(_){show("아직 저장되지 않았어요. 잠시 후 다시 시도하세요.","var(--bad)")}};}
+}
+function worksheet(dn){
+  const d=DAYS[dn-1]; setBar(0); window.scrollTo(0,0); $("#homeBtn").hidden=false;
+  app.innerHTML=`<div class="hero"><span class="eyebrow">DAY ${d.d} 연계 워크시트 · ${d.cat}</span><h1 style="font-size:26px">${esc(d.title)}</h1>
+  <p>개념을 다시 정리하고, 노트에 직접 써 본 뒤 정답을 확인하세요.</p></div>
+  <div class="sec" style="margin-top:0"><h2>핵심 개념</h2><div class="point"><ul>${d.point.map(p=>`<li>${p}</li>`).join("")}</ul></div></div>
+  <div class="sec"><h2>연습 문제</h2>${d.ws.map((w,i)=>`<div class="wsi"><div><b>${i+1}.</b> ${fmt(w.q)}</div><div class="lines"></div><button data-i="${i}">정답 보기</button><div class="a" hidden id="wa${i}">${fmt(esc(w.a))}</div></div>`).join("")}</div>
+  <div class="actions"><button class="btn" id="tq">DAY ${d.d} 테스트 풀기</button><button class="btn ghost" id="hm">DAY 목록</button></div>`;
+  app.querySelectorAll(".wsi button").forEach(b=>b.onclick=()=>{const a=$("#wa"+b.dataset.i);a.hidden=!a.hidden;b.textContent=a.hidden?"정답 보기":"정답 숨기기"});
+  $("#tq").onclick=()=>start(d.d); $("#hm").onclick=home;
+}
+home();
+flushQ();
+})();
+</script>
+
+</body>
+</html>
