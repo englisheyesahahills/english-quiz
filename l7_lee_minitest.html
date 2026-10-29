@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>L7 Idioms Mini Test</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: one centered column (max 680px) — sticky navy header band, day grid on home, one question card at a time */
+:root{
+  --navy:#1d2b4f; --burgundy:#8a2240; --gold:#c98a12;
+  --bg:#f4f5f9; --card:#ffffff; --ink:#1b2133; --muted:#5c6478; --line:#dfe2ea;
+  --soft:#eef0f6; --ok:#1d7a4a; --ok-bg:#e5f4ec; --bad:#b3263a; --bad-bg:#fbe9ec;
+  --hdr:#1d2b4f; --hdr-ink:#ffffff; --chip:#ffffff; --chip-line:#c9cedb; --sel:#1d2b4f; --sel-ink:#ffffff;
+  --display:"Do Hyeon","Noto Sans KR","Apple SD Gothic Neo",sans-serif;
+  --body:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#12151f; --card:#1b2030; --ink:#e8eaf1; --muted:#a3a9ba; --line:#2d3346; --soft:#232a3d;
+  --burgundy:#e0708c; --gold:#e8b04a; --ok:#5fcf8f; --ok-bg:#163527; --bad:#ff8094; --bad-bg:#3a1a22;
+  --hdr:#0d1426; --hdr-ink:#ffffff; --chip:#232a3d; --chip-line:#3a4258; --sel:#8fa3d9; --sel-ink:#0d1426; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#12151f; --card:#1b2030; --ink:#e8eaf1; --muted:#a3a9ba; --line:#2d3346; --soft:#232a3d;
+  --burgundy:#e0708c; --gold:#e8b04a; --ok:#5fcf8f; --ok-bg:#163527; --bad:#ff8094; --bad-bg:#3a1a22;
+  --hdr:#0d1426; --hdr-ink:#ffffff; --chip:#232a3d; --chip-line:#3a4258; --sel:#8fa3d9; --sel-ink:#0d1426; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--hdr)}
+.wrap{max-width:680px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--hdr);color:var(--hdr-ink)}
+header.top .wrap{display:flex;align-items:center;gap:12px;padding-block:12px}
+.brand{font-family:var(--display);font-size:20px;letter-spacing:.5px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{font-family:var(--body);font-size:12px;opacity:.75;margin-left:6px;letter-spacing:0}
+.hbtn{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:6px 12px;font:inherit;font-size:14px;cursor:pointer}
+.bar{height:4px;background:rgba(255,255,255,.15)}.bar i{display:block;height:100%;background:var(--gold);transition:width .3s}
+main{padding-block:20px 48px}
+h1,h2,h3{font-family:var(--display);font-weight:400;text-wrap:balance;margin:0}
+.hero{display:grid;gap:6px;margin-bottom:18px}
+.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--burgundy);font-weight:700}
+.hero h1{font-size:32px;line-height:1.2;color:var(--ink)}
+.hero p{margin:0;color:var(--muted);font-size:14px}
+.namebox{display:flex;gap:8px;align-items:center;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:18px}
+.namebox label{font-size:14px;color:var(--muted);white-space:nowrap}
+.namebox input{flex:1;min-width:0;border:0;background:transparent;font:inherit;color:var(--ink);font-weight:700;outline:none}
+.stats{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--muted);margin-bottom:12px}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tag{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--soft);color:var(--muted)}
+.tag.c-대화문{color:#2f6fb0}.tag.c-본문{color:#3c8a5a}.tag.c-문법{color:var(--burgundy)}.tag.c-통합{color:#8a5a12}.tag.c-서술형{color:#6a3fa0}.tag.c-실전{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.day{display:grid;gap:4px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;cursor:pointer;font:inherit;color:var(--ink)}
+.day:hover,.day:focus-visible{border-color:var(--sel);outline:none}
+.day .n{font-family:var(--display);font-size:20px;display:flex;justify-content:space-between;align-items:center}
+.day .n em{font-style:normal;font-family:var(--body);font-size:13px;font-weight:700;color:var(--ok);font-variant-numeric:tabular-nums}
+.day .t{font-size:13px;color:var(--muted);line-height:1.4}
+.day.done{border-color:var(--ok)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.qhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;font-size:14px;color:var(--muted)}
+.qhead b{color:var(--ink);font-family:var(--display);font-size:18px;font-weight:400}
+.type{font-size:12px;font-weight:700;color:var(--burgundy);border:1px solid currentColor;border-radius:6px;padding:1px 6px}
+details.pass{background:var(--soft);border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:15px}
+details.pass summary{cursor:pointer;font-size:13px;font-weight:700;color:var(--muted)}
+details.pass .ptxt{margin-top:8px;line-height:1.75;overflow-wrap:anywhere}
+.qtext{font-size:17px;font-weight:500;margin-bottom:16px;overflow-wrap:anywhere}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;background:var(--chip);border:1.5px solid var(--line);border-radius:10px;padding:10px 12px;font:inherit;font-size:15px;color:var(--ink);cursor:pointer;line-height:1.5}
+.opt .num{flex:none;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--chip-line);display:grid;place-items:center;font-size:13px;font-weight:700}
+.opt span:last-child{min-width:0;overflow-wrap:anywhere}
+.opt.sel{border-color:var(--sel)}.opt.sel .num{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.opt:disabled{cursor:default}
+.inp{width:100%;font:inherit;font-size:16px;padding:12px;border:1.5px solid var(--chip-line);border-radius:10px;background:var(--chip);color:var(--ink)}
+.inp:focus{outline:2px solid var(--sel);outline-offset:1px}
+.built{min-height:56px;display:flex;flex-wrap:wrap;gap:6px;padding:10px;border:1.5px dashed var(--chip-line);border-radius:10px;margin-bottom:10px;align-content:flex-start}
+.built:empty::before{content:"아래 단어를 순서대로 눌러 문장을 완성하세요";color:var(--muted);font-size:14px}
+.pool{display:flex;flex-wrap:wrap;gap:6px}
+.w{font:inherit;font-size:15px;padding:6px 12px;border-radius:8px;border:1.5px solid var(--chip-line);background:var(--chip);color:var(--ink);cursor:pointer}
+.w.used{opacity:.25;pointer-events:none}
+.built .w{background:var(--sel);color:var(--sel-ink);border-color:var(--sel)}
+.actions{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+.btn{font:inherit;font-weight:700;font-size:16px;padding:12px 18px;border-radius:10px;border:0;background:var(--navy);color:#fff;cursor:pointer;flex:1}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);flex:0 0 auto}
+.btn.accent{background:var(--burgundy)}
+.btn:disabled{opacity:.4;cursor:default}
+.btn:focus-visible,.w:focus-visible,.opt:focus-visible,.hbtn:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.fb{margin-top:16px;border-radius:10px;padding:12px 14px;font-size:15px}
+.fb.ok{background:var(--ok-bg);color:var(--ink);border-left:4px solid var(--ok)}
+.fb.no{background:var(--bad-bg);color:var(--ink);border-left:4px solid var(--bad)}
+.fb strong{display:block;margin-bottom:4px}
+.fb .ans{font-weight:700}
+.score{display:grid;gap:4px;text-align:center;padding:24px 18px}
+.score .big{font-family:var(--display);font-size:64px;line-height:1;color:var(--navy);font-variant-numeric:tabular-nums}
+:root:not([data-theme="light"]) .score .big{color:var(--ink)}
+.score .meta{color:var(--muted);font-size:14px}
+.review{display:grid;gap:8px;margin-top:16px}
+.ri{display:grid;grid-template-columns:28px 1fr;gap:8px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);font-size:14px}
+.ri .mk{font-weight:700;font-size:16px}.ri.ok .mk{color:var(--ok)}.ri.no .mk{color:var(--bad)}
+.ri div{min-width:0;overflow-wrap:anywhere}
+.ri .q{color:var(--muted)}
+.sec{margin-top:24px;display:grid;gap:10px}
+.sec h2{font-size:22px}
+.point{background:var(--soft);border-radius:10px;padding:12px 16px}
+.point ul{margin:0;padding-left:18px;display:grid;gap:4px;font-size:15px}
+.wsi{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--card);display:grid;gap:8px}
+.wsi .lines{border-bottom:1px solid var(--line);height:28px}
+.wsi button{justify-self:start;font:inherit;font-size:13px;border:1px solid var(--line);background:transparent;color:var(--muted);border-radius:6px;padding:3px 10px;cursor:pointer}
+.wsi .a{color:var(--burgundy);font-weight:500;font-size:15px}
+.note{font-size:13px;color:var(--muted)}
+footer{font-size:12px;color:var(--muted);text-align:center;padding-block:8px 24px}
+@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+</style>
+
+</head>
+<body>
+<header class="top"><div class="wrap"><div class="brand" id="brand">L7 Daily Mini Test<small id="subb">중2 동아(윤정미)</small></div><button class="hbtn" id="homeBtn" hidden>목록</button></div><div class="bar"><i id="bar" style="width:0"></i></div></header>
+<main class="wrap" id="app"></main>
+<footer class="wrap" id="foot">제작: 스텔라원장 · 잉글리시아이 스텔라</footer>
+
+<script>
+const CONF={key:"l7lee_v1",unit:"중2 동아(이병민) L7",brand:"L7 Daily Mini Test",sub:"중2 동아(이병민)",eyebrow:"Lesson 7 · Wonders in Words",flow:"대화문 → 본문 → 문법 → 통합 → 서술형 → 실전"};
+const PASS = {
+D1: "<b>[Topic 1 · Listen and Match 1]</b>\nG: Look! There's a smart farm in this subway station.\nB: [[What did you say?]]\nG: I said, \"There's a smart farm here.\"\nB: A smart farm? Can you tell me more about it?\nG: A smart farm uses the latest technology to grow vegetables.",
+D2: "<b>[Topic 1 · Listen and Match 2]</b>\nG: This song keeps playing in my head.\nB: Oh, you have an earworm.\nG: I didn't get that. What did you say?\nB: \"An earworm.\" It's a song that keeps repeating in your mind.\nG: That's interesting. [[Can you tell me more about it?]]\nB: Most earworms are very easy to remember.",
+D3: "<b>[Topic 1 · Listen and Match 3]</b>\nB: When I feel stressed, I usually watch mukbang.\nG: What did you say? Watch what?\nB: I said \"mukbang.\" It's a type of eating show.\nG: Oh, that sounds interesting. [[Can you tell me more about it?]]\nB: The host eats a lot of food and communicates with the viewers on the show.",
+D4: "<b>[Topic 1 · Watch and Write]</b>\nG: Did you know that the first zipper was used on a shoe?\nB: What did you say?\nG: I said, \"The first zipper was used on a shoe.\"\nB: That's interesting. Can you tell me more about it?\nG: Sure. A man wanted to put on his shoes quickly, so he made zippers for [[them]].\nB: Wow! What a great idea!\nG: Yeah. Now, we use zippers on many things like jackets and bags.",
+D5: "<b>[Topic 2 · Watch a Video]</b>\nJake: Wow! Look at the big sculpture over there.\nHana: It's beautiful. The word \"love\" is in big red letters.\nJake: It's a great example of public art.\nHana: What did you say?\nJake: I said \"public art.\" It's art for everyone.\nHana: I like that idea. Can you tell me more about it?\nJake: Sure. It's art in public spaces like parks and streets.\nHana: Oh, I saw a piece of public art when I visited Jeju-do.\nJake: Yeah, they're everywhere. Let's take a photo in front of the sculpture.\nHana: Sounds good.",
+LEG: "<b>Break a Leg</b>\nIt was the day of the school play. Lily practiced for the play for weeks. The curtains were about to go up, and she felt very nervous. Her friend smiled and said, \"Break a leg!\" Lily said, \"Thanks. I will!\" She got on the stage and performed successfully. Although \"Break a leg!\" may sound like a bad thing, it actually means \"Good luck!\" German actors who came to the United States in the early 20th century first used this phrase. By wishing each other bad luck, they believed that it would go away. This expression is still used today. \"Break a leg\" is a phrase that people say to wish performers good luck before a show.",
+BEANS: "<b>Spill the Beans</b>\nTommy and Lisa were preparing a surprise party for Hana. But Tommy was not good at keeping secrets. So, Lisa told him, \"Don't spill the beans.\" Tommy said, \"Don't worry. I promise not to tell Hana.\" Tommy kept his promise and the surprise party was a big success. Hana was completely surprised. What does the phrase \"spill the beans\" mean? It means to reveal a secret. Where does this phrase come from? It comes from an ancient Greek way of voting. When Greeks voted, they put a white or black bean in a big jar. When the voting was completed, the beans were spilled to reveal the results. From then, people began to use this phrase with a new meaning.",
+RAIN: "<b>Take a Rain Check</b>\nSarah wanted to see a movie with her best friend, Emily. So, she asked Emily, \"Do you want to see a movie with me today?\" Emily replied, \"I'm sorry, but I have to take a rain check. I have to go to my grandmother's house today.\" \"That's okay. Let's do it another time,\" said Sarah. Although Sarah was a little disappointed, she understood Emily's situation. What does \"take a rain check\" mean? It means to refuse an offer politely but wish to do it later. The phrase \"rain check\" was first used at a baseball game in the 1880s. A rain check was a ticket that people got for a future game when a baseball game was canceled because of rain. Later, rain checks were given at other sporting events. Over time, \"take a rain check\" has been widely used to say that you can't do something now and want to do it later."
+};
+const DAYS=[];
+
+DAYS.push({d:1,cat:"대화문",title:"반복 요청하기 (Smart Farm)",
+point:["반복 요청: What did you say? = Can you repeat that? = Could you say that again? = Pardon (me)?","대답: I said, “~.” (내가 한 말을 다시 말함)","There's + 단수명사: ~이 있다","to부정사 부사적 용법(목적): uses the latest technology <b>to grow</b> vegetables (재배하기 위해)"],
+q:[
+{t:"mc",p:"D1",q:"밑줄 친 문장과 바꾸어 쓸 수 <b>없는</b> 것은?",o:["Can you repeat that?","Could you say that again?","Pardon me?","Can you say that again?","Can you tell me more about it?"],a:4,e:"Can you tell me more about it?은 '설명 요청'. 나머지는 '반복 요청'."},
+{t:"mc",p:"D1",q:"대화의 내용과 일치하는 것은?",o:["The boy already knows about smart farms.","The smart farm is in a subway station.","The girl asks the boy to repeat his words.","A smart farm uses old ways to grow vegetables.","The boy wants to buy vegetables."],a:1,e:"There's a smart farm in this subway station."},
+{t:"mc",p:"D1",q:"소년이 'A smart farm? Can you tell me more about it?'이라고 말한 의도는?",o:["반복 요청","설명 요청","제안하기","칭찬하기","거절하기"],a:1,e:"더 많은 정보를 요청하는 표현."},
+{t:"mc",q:"'A smart farm uses the latest technology <u>to grow</u> vegetables.'의 to grow와 쓰임이 같은 것은?",o:["I want to grow vegetables.","It is easy to grow vegetables.","He went to the farm to grow vegetables.","My plan is to grow vegetables.","I have some seeds to grow."],a:2,e:"목적(~하기 위해)의 부사적 용법."},
+{t:"mc",q:"대화가 자연스럽지 <b>않은</b> 것은?",o:["A: What did you say?<br>B: I said, “It's raining cats and dogs.”","A: Can you repeat that?<br>B: Sure. I said “earworm.”","A: Can you tell me more about it?<br>B: Sure. It's art for everyone.","A: Could you say that again?<br>B: Yes, I can tell you more about it later.","A: Pardon?<br>B: I said, “There's a smart farm here.”"],a:3,e:"다시 말해 달라는 요청에 했던 말을 반복하지 않았다."},
+{t:"mc",q:"'the <u>latest</u> technology'의 latest 의미로 알맞은 것은?",o:["가장 늦은","최신의","마지막의","오래된","지난"],a:1,e:"latest: 최신의 (late의 최상급)"},
+{t:"mc",p:"D1",q:"대화를 읽고 답할 수 <b>없는</b> 질문은?",o:["Where is the smart farm?","What does the boy ask the girl to do first?","What does a smart farm use?","What does a smart farm grow?","How many vegetables does the smart farm grow?"],a:4,e:"채소의 양은 언급되지 않았다."},
+{t:"sa",q:"우리말과 같도록 영작하시오. (I said로 시작)<br>나는 “여기 스마트 팜이 있어.”라고 말했어.",a:["I said, “There's a smart farm here.”","I said, \"There is a smart farm here.\"","I said There's a smart farm here"],e:"I said, “There's a smart farm here.”"},
+{t:"sa",q:"'What did you say?'와 같은 의미가 되도록 repeat를 사용하여 4단어로 쓰시오.",a:["Can you repeat that?","Could you repeat that?"],e:"Can you repeat that?"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>스마트 팜은 채소를 재배하기 위해 최신 기술을 사용한다.",w:["a smart farm","uses","the latest","technology","to grow","vegetables","growing"],a:"a smart farm uses the latest technology to grow vegetables",e:"to부정사(목적)"}
+],
+ws:[
+{q:"'What did you say?'와 같은 의미의 표현을 3가지 쓰시오.",a:"Can you repeat that? / Could you say that again? / Pardon (me)?"},
+{q:"대화를 완성하시오. A: It's raining cats and dogs. B: ______ (반복 요청) A: ______ (다시 말하기)",a:"What did you say? / I said, “It's raining cats and dogs.”"},
+{q:"to부정사(목적)를 사용하여 영작하시오: 나는 영어를 배우기 위해 도서관에 갔다.",a:"I went to the library to learn English."},
+{q:"smart farm을 영어로 한 문장 설명하시오.",a:"A smart farm uses the latest technology to grow vegetables."}
+]});
+
+DAYS.push({d:2,cat:"대화문",title:"설명 요청하기 (Earworm)",
+point:["설명 요청: Can you tell me more about it? = Can you give me more information[details] about it? = I'd like to know more about it. = Please tell me more about it.","I didn't get that. = 잘 못 알아들었어. (= I didn't understand that.)","keep + -ing: 계속 ~하다 (keeps playing / keeps repeating)","a song <b>that</b> keeps repeating ~ → 주격 관계대명사 that"],
+q:[
+{t:"mc",p:"D2",q:"밑줄 친 문장과 바꾸어 쓸 수 <b>없는</b> 것은?",o:["Can you give me more information about it?","I'd like to know more about it.","Please tell me more about it.","Can you give me more details about it?","Can you say that again?"],a:4,e:"Can you say that again?은 '반복 요청'."},
+{t:"mc",p:"D2",q:"'I didn't get that.'의 의미로 알맞은 것은?",o:["나는 그것을 받지 못했어.","나는 잘 알아듣지 못했어.","나는 그것을 사지 않았어.","나는 거기에 가지 않았어.","나는 그것을 원하지 않아."],a:1,e:"get = 이해하다"},
+{t:"mc",p:"D2",q:"대화의 내용과 일치하는 것은?",o:["The boy has an earworm.","The girl understood the word earworm at once.","An earworm is a song that keeps repeating in your mind.","Most earworms are hard to remember.","The girl doesn't want to know more about earworms."],a:2,e:"It's a song that keeps repeating in your mind."},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["This song keeps playing in my head.","He kept talking about the show.","She keeps to repeat the song.","They kept walking in the rain.","The baby kept crying."],a:2,e:"keep + 동명사(-ing) → keeps repeating"},
+{t:"mc",q:"'It's a song <u>that</u> keeps repeating in your mind.'의 that과 쓰임이 같은 것은?",o:["I know that she is right.","That is my book.","I have a friend that lives in Busan.","Did you know that the first zipper was used on a shoe?","That song is popular."],a:2,e:"주격 관계대명사 that (뒤에 주어가 빠진 절)."},
+{t:"mc",q:"'Most earworms are very easy <u>to remember</u>.'의 해석으로 알맞은 것은?",o:["대부분의 귀벌레는 기억하기 매우 쉽다.","대부분의 귀벌레는 기억하기 위해 매우 쉽다.","대부분의 귀벌레를 기억하는 것은 쉽지 않다.","귀벌레는 기억할 것이 매우 쉽다.","귀벌레는 기억되어 쉽다."],a:0,e:"형용사(easy)를 수식하는 to부정사: ~하기에"},
+{t:"mc",q:"대화의 순서로 알맞은 것은?<br><br>G: This song keeps playing in my head.<br>(A) “An earworm.” It's a song that keeps repeating in your mind.<br>(B) Oh, you have an earworm.<br>(C) I didn't get that. What did you say?<br>(D) That's interesting. Can you tell me more about it?",o:["(A)-(B)-(C)-(D)","(B)-(C)-(A)-(D)","(B)-(A)-(C)-(D)","(C)-(B)-(A)-(D)","(B)-(D)-(A)-(C)"],a:1,e:"귀벌레 언급 → 반복 요청 → 다시 말하고 설명 → 추가 설명 요청"},
+{t:"sa",q:"know를 사용하여 '그것에 관해 좀 더 알고 싶어.'를 영작하시오. (I'd로 시작)",a:["I'd like to know more about it.","I would like to know more about it."],e:"I'd like to know more about it."},
+{t:"sa",q:"keep을 사용하여 영작하시오. (This song으로 시작)<br>이 노래가 내 머릿속에서 계속 재생되고 있어.",a:["This song keeps playing in my head."],e:"keep + -ing"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그것은 마음속에서 계속 반복되는 노래야.",w:["it's","a song","that","keeps","repeating","in your mind","to repeat"],a:"it's a song that keeps repeating in your mind",e:"a song + 주격 관계대명사 that + keeps repeating"}
+],
+ws:[
+{q:"'Can you tell me more about it?'과 같은 의미의 표현을 3가지 쓰시오.",a:"Can you give me more information[details] about it? / I'd like to know more about it. / Please tell me more about it."},
+{q:"틀린 부분을 고치시오: This song keeps to play in my head.",a:"to play → playing"},
+{q:"earworm의 의미를 영어로 쓰시오.",a:"It's a song that keeps repeating in your mind."},
+{q:"'I didn't get that.'과 같은 뜻의 문장을 understand를 사용하여 쓰시오.",a:"I didn't understand that."}
+]});
+
+DAYS.push({d:3,cat:"대화문",title:"반복·설명 요청 (Mukbang)",
+point:["What did you say? Watch what? → 일부만 못 들었을 때 다시 묻기","a type of + 명사/동명사: 일종의 ~ (a type of eating show)","communicate with ~: ~와 의사소통하다","When I feel stressed, ~ : 스트레스를 받을 때 (feel + 형용사)"],
+q:[
+{t:"mc",p:"D3",q:"대화의 내용과 일치하지 <b>않는</b> 것은?",o:["The boy watches mukbang when he feels stressed.","The girl didn't hear the word mukbang clearly.","Mukbang is a type of eating show.","The host cooks food for the viewers.","The host communicates with the viewers."],a:3,e:"진행자는 많은 음식을 먹고 시청자와 소통한다. 요리한다는 말은 없다."},
+{t:"mc",p:"D3",q:"밑줄 친 문장과 바꾸어 쓸 수 있는 것은?",o:["Can you give me more information about it?","Can you explain why so many people watch it?","What did you say?","Can you repeat that?","Do you like it?"],a:0,e:"설명 요청 = Can you give me more information about it?"},
+{t:"mc",q:"'When I feel <u>stressed</u>'처럼 감정을 나타내는 형용사가 바르게 쓰인 것은?",o:["I was very interesting in the show.","The show was interested.","I felt bored during the class.","The movie was surprised.","She was exciting about the trip."],a:2,e:"사람의 감정: -ed (bored) / 감정을 일으키는 것: -ing"},
+{t:"mc",q:"'It's a type of <u>eating</u> show.'의 eating과 쓰임이 같은 것은?",o:["He is eating lunch.","I enjoy eating spicy food.","Look at the eating dog.","She was eating when I called.","They are eating pizza now."],a:1,e:"동명사 (enjoy의 목적어). 본문은 'eating show(먹기 쇼)'에서 명사를 수식하는 동명사(용도)."},
+{t:"mc",p:"D3",q:"'Watch what?'에서 소녀가 알아듣지 못한 부분은?",o:["When I feel stressed","I usually","watch","mukbang","stressed"],a:3,e:"무엇을 본다는 것인지(mukbang)를 다시 물었다."},
+{t:"mc",q:"빈칸에 들어갈 말로 알맞은 것은?<br><br>The host eats a lot of food and communicates ____ the viewers.",o:["to","with","at","for","by"],a:1,e:"communicate with ~"},
+{t:"mc",p:"D3",q:"대화를 읽고 답할 수 <b>없는</b> 질문은?",o:["When does the boy watch mukbang?","What is mukbang?","What does the host do on the show?","Who does the host communicate with?","What is the name of the boy's favorite mukbang show?"],a:4,e:"좋아하는 프로그램 이름은 나오지 않는다."},
+{t:"sa",q:"우리말과 같도록 영작하시오. (When으로 시작)<br>스트레스를 받을 때, 나는 보통 먹방을 봐.",a:["When I feel stressed, I usually watch mukbang.","When I am stressed, I usually watch mukbang."],e:"When I feel stressed, I usually watch mukbang."},
+{t:"sa",q:"우리말과 같도록 영작하시오. (type 포함, It's로 시작)<br>그것은 일종의 먹기 쇼야.",a:["It's a type of eating show.","It is a type of eating show."],e:"It's a type of eating show."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>진행자는 많은 음식을 먹고 시청자들과 의사소통한다.",w:["the host","eats","a lot of","food","and","communicates","with","the viewers","to"],a:"the host eats a lot of food and communicates with the viewers",e:"eats와 communicates가 병렬 (주어 3인칭 단수)"}
+],
+ws:[
+{q:"mukbang을 영어 두 문장으로 설명하시오.",a:"It's a type of eating show. The host eats a lot of food and communicates with the viewers."},
+{q:"괄호 안에서 알맞은 것을 고르시오: (1) I feel (stressed / stressing). (2) That sounds (interested / interesting).",a:"(1) stressed (2) interesting"},
+{q:"설명 요청 표현을 give를 사용하여 쓰시오.",a:"Can you give me more information[details] about it?"},
+{q:"스트레스를 받을 때 하는 일을 When I feel stressed, ~로 쓰시오.",a:"(예시) When I feel stressed, I listen to music."}
+]});
+
+DAYS.push({d:4,cat:"대화문",title:"Watch and Write (최초의 지퍼)",
+point:["Did you know (that) ~? : ~라는 것을 알았니? (that은 명사절 접속사, 생략 가능)","수동태 과거: was used (사용되었다)","want + to부정사 / put on: 입다, 신다","What a great idea! : 정말 좋은 생각이다! (What + a + 형용사 + 명사!)"],
+q:[
+{t:"mc",p:"D4",q:"밑줄 친 them이 가리키는 것은?",o:["jackets","bags","zippers","his shoes","many things"],a:3,e:"신발을 빨리 신으려고 그 신발들에 지퍼를 만들었다."},
+{t:"mc",p:"D4",q:"대화의 내용과 일치하는 것은?",o:["The first zipper was used on a jacket.","The boy asks the girl to repeat what she said.","A man made zippers to make his shoes beautiful.","The boy thinks the man's idea is strange.","Zippers are used only on shoes today."],a:1,e:"What did you say? → 반복 요청"},
+{t:"mc",q:"(A), (B), (C)에서 어법상 알맞은 것끼리 짝지은 것은?<br><br>• Did you know that the first zipper (A)(used / was used) on a shoe?<br>• A man wanted (B)(putting / to put) on his shoes quickly.<br>• Wow! (C)(How / What) a great idea!",o:["used - putting - How","was used - to put - What","was used - putting - What","used - to put - How","was used - to put - How"],a:1,e:"수동태 / want + to부정사 / What + a + 형 + 명!"},
+{t:"mc",q:"'Did you know <u>that</u> the first zipper was used on a shoe?'의 that과 쓰임이 같은 것은?",o:["I like that bag.","She said that she was busy.","This is the book that I bought.","That is a zipper.","The man that made zippers was smart."],a:1,e:"명사절을 이끄는 접속사 that (생략 가능)"},
+{t:"mc",p:"D4",q:"남자가 신발에 지퍼를 만든 이유는?",o:["신발을 예쁘게 꾸미려고","신발을 빨리 신고 싶어서","신발을 팔기 위해","신발 끈이 없어서","가방과 맞추려고"],a:1,e:"A man wanted to put on his shoes quickly"},
+{t:"mc",q:"다음 중 수동태가 바르게 쓰인 것은?",o:["The first zipper used on a shoe.","Zippers are use on bags.","The first zipper was used on a shoe.","The zipper was make by a man.","Zippers is used on jackets."],a:2,e:"be + p.p."},
+{t:"mc",p:"D4",q:"대화를 읽고 답할 수 <b>없는</b> 질문은?",o:["Where was the first zipper used?","Why did the man make zippers for his shoes?","What does the boy think of the man's idea?","What do people use zippers on now?","When was the first zipper made?"],a:4,e:"최초의 지퍼가 언제 만들어졌는지는 나오지 않는다."},
+{t:"sa",q:"우리말과 같도록 영작하시오. (Did you know로 시작)<br>너는 최초의 지퍼가 신발에 사용되었다는 것을 알았니?",a:["Did you know that the first zipper was used on a shoe?","Did you know the first zipper was used on a shoe?"],e:"Did you know (that) ~ was used ~?"},
+{t:"sa",q:"감탄문으로 쓰시오. (What으로 시작, 4단어)<br>정말 좋은 생각이다!",a:["What a great idea!","What a good idea!"],e:"What a great idea!"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>이제 우리는 재킷과 가방 같은 많은 것들에 지퍼를 사용한다.",w:["now","we","use","zippers","on","many things","like","jackets and bags","are used"],a:"now we use zippers on many things like jackets and bags",e:"like: ~ 같은"}
+],
+ws:[
+{q:"수동태로 바꾸시오: A man made the first zipper.",a:"The first zipper was made by a man."},
+{q:"Did you know that ~?을 사용하여 재미있는 사실 하나를 쓰시오.",a:"(예시) Did you know that honey never goes bad?"},
+{q:"What 감탄문으로 바꾸시오: It is a very great idea.",a:"What a great idea (it is)!"},
+{q:"대화 내용을 영어 2문장으로 요약하시오.",a:"(예시) The first zipper was used on a shoe. A man made zippers because he wanted to put on his shoes quickly."}
+]});
+
+DAYS.push({d:5,cat:"대화문",title:"Public Art Around Us",
+point:["public art: 모두를 위한 미술, 공원·거리 같은 공공장소의 미술","a piece of ~: ~ 한 점(작품) / in front of: ~ 앞에서","when + 주어 + 동사: ~할 때 (접속사)","Let's + 동사원형 / Sounds good. (제안 수락)"],
+q:[
+{t:"mc",p:"D5",q:"대화 직후 두 사람이 할 일은?",o:["take a photo","draw a picture","interview an artist","visit Jeju-do","buy a sculpture"],a:0,e:"Let's take a photo in front of the sculpture."},
+{t:"mc",p:"D5",q:"대화의 내용과 일치하지 <b>않는</b> 것은?",o:["The sculpture has the word “love” on it.","Jake says public art is for everyone.","Public art can be found in parks and streets.","Hana saw public art in Jeju-do.","Public art is mostly found indoors."],a:4,e:"public spaces like parks and streets — 실내가 아니다."},
+{t:"mc",p:"D5",q:"Hana가 'What did you say?'라고 말한 이유는?",o:["Jake의 제안을 거절하려고","Jake가 한 말을 다시 듣고 싶어서","조각의 가격을 물으려고","사진을 찍자고 하려고","Jake를 칭찬하려고"],a:1,e:"반복 요청"},
+{t:"mc",q:"'they're everywhere'의 they가 가리키는 것은?",o:["parks","streets","pieces of public art","red letters","Jake and Hana"],a:2,e:"공공 미술 작품들은 어디에나 있다."},
+{t:"mc",q:"빈칸에 공통으로 알맞은 말은?<br><br>• I saw a piece of public art ____ I visited Jeju-do.<br>• ____ I feel stressed, I watch mukbang.",o:["because","when","although","so","but"],a:1,e:"when: ~할 때"},
+{t:"mc",q:"짝지어진 대화가 <b>어색한</b> 것은?",o:["A: Let's take a photo.<br>B: Sounds good.","A: What did you say?<br>B: I said “public art.”","A: Can you tell me more about it?<br>B: Sure. It's art in public spaces.","A: Look at the big sculpture.<br>B: It's beautiful.","A: I saw public art in Jeju-do.<br>B: Can you repeat that? Sure, I can."],a:4,e:"반복을 요청하고 스스로 Sure로 답하는 것은 어색하다."},
+{t:"mc",q:"'in big red <u>letters</u>'의 letters와 같은 의미로 쓰인 것은?",o:["I wrote letters to my grandma.","The sign has big letters.","She got two letters today.","He sent letters by mail.","Did you read my letter?"],a:1,e:"letter: 글자, 문자"},
+{t:"sa",q:"Jake가 설명한 public art의 두 가지 의미 중 하나를 본문 그대로 쓰시오. (It's로 시작)",a:["It's art for everyone.","It's art in public spaces like parks and streets.","It is art for everyone.","It is art in public spaces like parks and streets."],e:"It's art for everyone. / It's art in public spaces like parks and streets."},
+{t:"sa",q:"우리말과 같도록 영작하시오. (in front of 포함)<br>그 조각 앞에서 사진을 찍자.",a:["Let's take a photo in front of the sculpture."],e:"Let's take a photo in front of the sculpture."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 제주도를 방문했을 때 공공 미술 작품 하나를 봤어.",w:["I","saw","a piece of","public art","when","I","visited","Jeju-do","visit"],a:"I saw a piece of public art when I visited Jeju-do",e:"과거 시제 일치: saw / visited"}
+],
+ws:[
+{q:"public art의 의미를 영어로 2가지 쓰시오.",a:"It's art for everyone. / It's art in public spaces like parks and streets."},
+{q:"우리 동네에서 본 공공 미술을 영어 2문장으로 소개하시오.",a:"(예시) I saw a big sculpture in the park. It was a great example of public art."},
+{q:"영작하시오: 나는 부산을 방문했을 때 바다를 봤다. (when)",a:"I saw the sea when I visited Busan."},
+{q:"제안하고 수락하는 대화 2줄을 쓰시오. (Let's, Sounds good.)",a:"(예시) A: Let's take a photo here. B: Sounds good."}
+]});
+
+DAYS.push({d:6,cat:"대화문",title:"대화문 종합 (고난도)",
+point:["반복 요청 vs 설명 요청 구별","대화 흐름 파악: 요청 → 응답","대화문 속 문법: keep -ing, to부정사, 수동태, 감탄문, 주격 관계대명사"],
+q:[
+{t:"mc",q:"다음 중 의도가 나머지와 <b>다른</b> 하나는?",o:["What did you say?","Can you repeat that?","Could you say that again?","Pardon me?","Can you give me more details about it?"],a:4,e:"설명 요청. 나머지는 반복 요청."},
+{t:"mc",q:"대화의 흐름상 <b>어색한</b> 것은?<br><br>A: (a) Did you know that the first zipper was used on a shoe?<br>B: (b) What did you say?<br>A: (c) I said, “I don't know about zippers.”<br>B: (d) That's interesting. Can you tell me more about it?<br>A: (e) Sure. A man wanted to put on his shoes quickly.",o:["(a)","(b)","(c)","(d)","(e)"],a:2,e:"반복 요청에는 앞에서 한 말을 그대로 다시 말해야 한다."},
+{t:"mc",q:"단어와 의미가 바르게 연결되지 <b>않은</b> 것은?",o:["smart farm – a farm which uses the latest technology","earworm – a song that keeps repeating in your mind","mukbang – a type of eating show","public art – art for everyone","earworm – a worm that lives in your ear"],a:4,e:"earworm은 머릿속에서 반복되는 노래."},
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) This song keeps playing in my head.<br>(b) The first zipper used on a shoe.<br>(c) A man wanted to put on his shoes quickly.<br>(d) How a great idea!<br>(e) Most earworms are very easy to remember.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(c)(e) 3개 / (b) was used (d) What a great idea!"},
+{t:"mc",q:"빈칸에 들어갈 말로 가장 알맞은 것은?<br><br>A: It's raining cats and dogs.<br>B: I didn't get that. __________<br>A: I said, “It's raining cats and dogs.”",o:["Can you tell me more about it?","What did you say?","What a great idea!","Sounds good.","Did you know that?"],a:1,e:"뒤에 같은 말을 반복하므로 반복 요청."},
+{t:"mc",q:"빈칸에 들어갈 말로 가장 알맞은 것은?<br><br>A: Raining cats and dogs? __________<br>B: Sure. It means it's raining heavily.",o:["What did you say?","Can you tell me more about it?","Can you repeat that?","Pardon?","Why not?"],a:1,e:"뒤에 의미를 설명하므로 설명 요청."},
+{t:"mc",q:"주격 관계대명사가 쓰인 문장은?",o:["Did you know that the first zipper was used on a shoe?","I said “public art.”","It's a song that keeps repeating in your mind.","Let's take a photo.","When I feel stressed, I watch mukbang."],a:2,e:"a song that keeps ~ → 주격 관계대명사"},
+{t:"sa",q:"반복 요청과 그 대답을 완성하시오.<br>A: Look! There's a smart farm here.<br>B: What did you say?<br>A: ________________________ (I said로 시작)",a:["I said, “There's a smart farm here.”","I said, \"There is a smart farm here.\"","I said There's a smart farm here"],e:"I said, “There's a smart farm here.”"},
+{t:"sa",q:"우리말과 같도록 영작하시오. (details 포함)<br>그것에 관해 좀 더 자세히 말해 줄래?",a:["Can you give me more details about it?","Could you give me more details about it?"],e:"Can you give me more details about it?"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>한 남자가 신발을 빨리 신고 싶어서 그것들에 지퍼를 만들었다.",w:["a man","wanted","to put on","his shoes","quickly","so","he","made","zippers","for them","putting on"],a:"a man wanted to put on his shoes quickly so he made zippers for them",e:"want + to부정사 / so(그래서)"}
+],
+ws:[
+{q:"반복 요청 표현 2개, 설명 요청 표현 2개를 쓰시오.",a:"반복: What did you say? / Can you repeat that?  설명: Can you tell me more about it? / I'd like to know more about it."},
+{q:"smart farm, earworm, mukbang 중 하나를 골라 반복 요청-설명 요청이 들어간 4줄 대화를 쓰시오.",a:"(예시) A: I have an earworm. B: What did you say? A: I said “earworm.” B: Can you tell me more about it?"},
+{q:"틀린 부분을 고치시오: (1) The first zipper used on a shoe. (2) How a great idea!",a:"(1) used → was used (2) How → What"},
+{q:"영작하시오: 대부분의 귀벌레는 기억하기 매우 쉽다.",a:"Most earworms are very easy to remember."}
+]});
+
+DAYS.push({d:7,cat:"본문",title:"Break a Leg ① 내용 이해",
+point:["Lily: 몇 주 동안 연극 연습 → 커튼이 막 올라가려 할 때 긴장","친구: “Break a leg!” → 실제 의미는 “Good luck!”","유래: 20세기 초 미국에 온 독일 배우들 – 서로에게 불운을 빌면 불운이 사라진다고 믿음","오늘날: 공연 전 공연자에게 행운을 빌어 주는 말"],
+q:[
+{t:"mc",p:"LEG",q:"글의 주제로 가장 알맞은 것은?",o:["학교 연극을 성공시키는 방법","'Break a leg'의 의미와 유래","독일 배우들의 공연 습관","무대 공포증을 극복하는 법","미국 연극의 역사"],a:1,e:"관용 표현 'Break a leg'의 뜻과 유래를 설명한다."},
+{t:"mc",p:"LEG",q:"글의 내용과 일치하지 <b>않는</b> 것은?",o:["Lily practiced for the play for weeks.","Lily felt nervous before the play.","Lily performed successfully.","German actors first used the phrase in Germany.","The phrase is still used today."],a:3,e:"미국에 온(came to the United States) 독일 배우들이 처음 사용했다."},
+{t:"mc",p:"LEG",q:"독일 배우들이 서로에게 불운을 빈 이유는?",o:["서로 경쟁했기 때문에","불운을 빌면 불운이 사라진다고 믿었기 때문에","관객을 웃기기 위해","다리를 다치지 않으려고","미국 문화를 따라 하려고"],a:1,e:"By wishing each other bad luck, they believed that it would go away."},
+{t:"mc",p:"LEG",q:"'The curtains were about to go up'이 나타내는 상황은?",o:["공연이 끝났다.","공연이 막 시작하려고 했다.","커튼이 찢어졌다.","공연이 취소되었다.","연습이 시작되었다."],a:1,e:"be about to: 막 ~하려고 하다"},
+{t:"mc",p:"LEG",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["How long did Lily practice for the play?","How did Lily feel before the play?","What does “Break a leg!” actually mean?","Who first used the phrase?","What was the title of Lily's play?"],a:4,e:"연극 제목은 나오지 않는다."},
+{t:"mc",p:"LEG",q:"'it would go away'의 it이 가리키는 것은?",o:["the play","bad luck","the phrase","the stage","good luck"],a:1,e:"불운이 사라질 것이라고 믿었다."},
+{t:"mc",q:"다음 상황에서 할 말로 가장 알맞은 것은?<br><br>Your friend is about to sing on the stage at the school festival.",o:["Spill the beans!","Break a leg!","Take a rain check!","What did you say?","I'm sorry."],a:1,e:"공연 직전 행운을 빌 때: Break a leg!"},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (It means로 시작)<br>Q: What does “Break a leg!” actually mean?",a:["It means “Good luck!”","It means Good luck","It actually means “Good luck!”"],e:"It means “Good luck!”"},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (They로 시작)<br>Q: When did German actors come to the United States?",a:["They came to the United States in the early 20th century.","They came in the early 20th century."],e:"in the early 20th century"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그녀는 무대에 올라 성공적으로 공연했다.",w:["she","got on","the stage","and","performed","successfully","success"],a:"she got on the stage and performed successfully",e:"got과 performed 병렬"}
+],
+ws:[
+{q:"Break a Leg 정리: 상황 / 의미 / 유래 / 오늘날의 쓰임을 우리말로 쓰시오.",a:"연극 직전 긴장한 Lily에게 친구가 말함 / 행운을 빌어 / 20세기 초 미국에 온 독일 배우들이 서로 불운을 빌면 불운이 사라진다고 믿음 / 공연 전 공연자에게 행운을 빌 때"},
+{q:"영어로 답하시오: Why did German actors wish each other bad luck?",a:"They believed that bad luck would go away."},
+{q:"요약문 빈칸: Although “Break a leg!” may sound ______, it actually means “______!”",a:"bad / Good luck"},
+{q:"Break a leg!를 쓸 수 있는 상황을 영어 한 문장으로 쓰시오.",a:"(예시) I can say it to my friend before her piano concert."}
+]});
+
+DAYS.push({d:8,cat:"본문",title:"Break a Leg ② 어법·어휘",
+point:["be about to + 동사원형: 막 ~하려고 하다","feel + 형용사: felt very nervous (nervously ×)","Although + 주어 + 동사, ~ : 비록 ~이지만 (= Though)","German actors <b>who</b> came ~ (주격) / a phrase <b>that</b> people say (목적격) / By + -ing: ~함으로써 / is used (수동태)"],
+q:[
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>The curtains were about to (a)<u>go</u> up, and she felt very (b)<u>nervously</u>. Her friend smiled and said, “Break a leg!” She got on the stage and (c)<u>performed</u> successfully. (d)<u>Although</u> “Break a leg!” may sound like a bad thing, it actually means “Good luck!” This expression is still (e)<u>used</u> today.",o:["(a)","(b)","(c)","(d)","(e)"],a:1,e:"feel + 형용사 → nervous"},
+{t:"mc",q:"'German actors <u>who</u> came to the United States'의 who와 쓰임이 같은 것은?",o:["Who is that actor?","I know who she is.","The girl who sings well is Lily.","Who did you meet?","Tell me who called you."],a:2,e:"주격 관계대명사 who"},
+{t:"mc",q:"'a phrase <u>that</u> people say to wish performers good luck'의 that과 쓰임이 같은 것은?",o:["I think that it is true.","That is my friend.","This is the song that I like.","She said that she was nervous.","Did you know that he came?"],a:2,e:"목적격 관계대명사 that (say의 목적어 역할)"},
+{t:"mc",q:"'<u>By wishing</u> each other bad luck'의 의미로 알맞은 것은?",o:["서로에게 불운을 빌기 위해","서로에게 불운을 빎으로써","서로에게 불운을 빌었지만","서로에게 불운을 빌기 전에","서로에게 불운을 빌었을 때"],a:1,e:"by + 동명사: ~함으로써"},
+{t:"mc",q:"Although의 쓰임이 <b>어색한</b> 것은?",o:["Although it was cold, we went out.","Although she was nervous, she performed well.","Although the rain, we played soccer.","Although he was tired, he kept working.","Although the phrase sounds bad, it means good luck."],a:2,e:"although 뒤에는 '주어+동사' → 명사(구) 앞에는 despite / in spite of"},
+{t:"mc",q:"'Although “Break a leg!” may sound like a bad thing, it actually means “Good luck!”'과 의미가 같은 것은?",o:["“Break a leg!” may sound like a bad thing, so it means “Good luck!”","“Break a leg!” may sound like a bad thing, but it actually means “Good luck!”","Because “Break a leg!” sounds bad, it means “Good luck!”","If “Break a leg!” sounds bad, it means “Good luck!”","“Break a leg!” sounds good, and it means “Good luck!”"],a:1,e:"Although ~ = ~, but …"},
+{t:"mc",q:"빈칸 (A), (B)에 알맞은 것은?<br><br>• Lily practiced (A)____ the play (B)____ weeks.",o:["for - for","to - for","for - during","at - in","with - for"],a:0,e:"for + 목적(~을 위해) / for + 기간(~ 동안)"},
+{t:"sa",q:"수동태 문장으로 쓰시오.<br>People still use this expression today.<br>→ This expression ________ today.",a:["is still used","is still used today"],e:"This expression is still used today."},
+{t:"sa",q:"Although를 사용하여 한 문장으로 쓰시오.<br>Lily was nervous. She performed successfully.",a:["Although Lily was nervous, she performed successfully.","Although she was nervous, Lily performed successfully.","Lily performed successfully although she was nervous."],e:"Although Lily was nervous, she performed successfully."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>커튼이 막 올라가려 했고, 그녀는 매우 긴장했다.",w:["the curtains","were","about","to go up","and","she","felt","very","nervous","nervously"],a:"the curtains were about to go up and she felt very nervous",e:"be about to + 동사원형 / feel + 형용사"}
+],
+ws:[
+{q:"be about to를 사용하여 영작하시오: 그 영화가 막 시작하려고 했다.",a:"The movie was about to start."},
+{q:"Although로 연결하시오: It was raining. We went on a picnic.",a:"Although it was raining, we went on a picnic."},
+{q:"by + -ing를 사용하여 영작하시오: 나는 매일 연습함으로써 실력이 늘었다. (improve)",a:"I improved by practicing every day."},
+{q:"본문에서 주격 관계대명사 문장과 목적격 관계대명사 문장을 하나씩 찾아 쓰시오.",a:"주격: German actors who came to the United States ~ / 목적격: “Break a leg” is a phrase that people say ~"}
+]});
+
+DAYS.push({d:9,cat:"본문",title:"Spill the Beans ① 내용 이해",
+point:["Tommy는 비밀을 잘 못 지킴 → Lisa: “Don't spill the beans.”","Tommy는 약속을 지킴 → 깜짝 파티 대성공, Hana는 완전히 놀람","spill the beans = reveal a secret (비밀을 누설하다)","유래: 고대 그리스의 투표 – 흰콩/검은콩을 항아리에 넣고, 투표가 끝나면 쏟아서 결과 공개"],
+q:[
+{t:"mc",p:"BEANS",q:"'spill the beans'의 의미로 알맞은 것은?",o:["to keep a secret","to reveal a secret","to cook beans","to vote for someone","to prepare a party"],a:1,e:"It means to reveal a secret."},
+{t:"mc",p:"BEANS",q:"글의 내용과 일치하지 <b>않는</b> 것은?",o:["Tommy and Lisa were preparing a party for Hana.","Tommy was not good at keeping secrets.","Tommy told Hana about the party.","The surprise party was a big success.","Hana was completely surprised."],a:2,e:"Tommy kept his promise → 말하지 않았다."},
+{t:"mc",p:"BEANS",q:"고대 그리스인들의 투표 방법으로 알맞은 것은?",o:["종이에 이름을 썼다.","손을 들어 투표했다.","흰콩이나 검은콩을 큰 항아리에 넣었다.","콩을 땅에 심었다.","콩의 개수를 말로 외쳤다."],a:2,e:"they put a white or black bean in a big jar"},
+{t:"mc",p:"BEANS",q:"투표가 끝난 뒤 콩을 쏟은 이유는?",o:["새 투표를 하려고","결과를 드러내기 위해","콩을 요리하려고","항아리를 씻으려고","비밀을 지키려고"],a:1,e:"the beans were spilled to reveal the results"},
+{t:"mc",p:"BEANS",q:"Lisa가 Tommy에게 'Don't spill the beans.'라고 말한 이유는?",o:["Tommy가 콩을 자주 쏟아서","Tommy가 비밀을 잘 지키지 못해서","Hana가 콩을 싫어해서","파티 음식을 준비하려고","Tommy가 파티에 늦어서"],a:1,e:"But Tommy was not good at keeping secrets. So, ~"},
+{t:"mc",p:"BEANS",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["Who was the surprise party for?","What did Tommy promise?","Where does the phrase come from?","What color were the beans in the jar?","How many people came to the party?"],a:4,e:"파티 참석 인원은 나오지 않는다."},
+{t:"mc",q:"다음 상황에서 쓸 수 있는 표현은?<br><br>민수가 친구의 생일 선물을 미리 말해 버렸다.",o:["Minsu broke a leg.","Minsu spilled the beans.","Minsu took a rain check.","Minsu kept his promise.","Minsu had an earworm."],a:1,e:"비밀을 누설했다 → spilled the beans"},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (It comes from로 시작)<br>Q: Where does the phrase “spill the beans” come from?",a:["It comes from an ancient Greek way of voting."],e:"It comes from an ancient Greek way of voting."},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (He promised로 시작, to부정사 사용)<br>Q: What did Tommy promise?",a:["He promised not to tell Hana.","He promised not to tell Hana about the party.","He promised not to tell Hana about the surprise party."],e:"He promised not to tell Hana."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>Tommy는 약속을 지켰고 깜짝 파티는 크게 성공했다.",w:["Tommy","kept","his promise","and","the surprise party","was","a big success","successful"],a:"Tommy kept his promise and the surprise party was a big success",e:"keep one's promise: 약속을 지키다"}
+],
+ws:[
+{q:"Spill the Beans 정리: 상황 / 의미 / 유래를 우리말로 쓰시오.",a:"비밀을 못 지키는 Tommy에게 Lisa가 말함 / 비밀을 누설하다 / 고대 그리스에서 항아리에 넣은 투표용 콩을 쏟아 결과를 공개한 데서 유래"},
+{q:"영어로 답하시오: What did Greeks do when the voting was completed?",a:"They spilled the beans to reveal the results."},
+{q:"요약문 빈칸: “Spill the beans” means to ______ a secret. It comes from an ancient Greek way of ______.",a:"reveal / voting"},
+{q:"spill the beans를 사용하여 자신의 문장을 쓰시오.",a:"(예시) Please don't spill the beans about the gift."}
+]});
+
+DAYS.push({d:10,cat:"본문",title:"Spill the Beans ② 어법·어휘",
+point:["be good at + 동명사 / be not good at keeping secrets","promise not to + 동사원형 (to부정사의 부정: not을 to 앞에)","감정 분사: Hana was surprised (사람이 느끼는 감정 -ed)","mean + to부정사: ~을 의미하다 / come from: ~에서 유래하다 / were spilled to reveal (수동태 + 목적의 to부정사)"],
+q:[
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>But Tommy was not good at (a)<u>keeping</u> secrets. Tommy said, “Don't worry. I promise (b)<u>to not tell</u> Hana.” Tommy kept his promise and the surprise party was a big success. Hana was completely (c)<u>surprised</u>. It means (d)<u>to reveal</u> a secret. When the voting was completed, the beans (e)<u>were spilled</u> to reveal the results.",o:["(a)","(b)","(c)","(d)","(e)"],a:1,e:"to부정사의 부정: not to tell"},
+{t:"mc",q:"감정 형용사가 바르게 쓰인 것은?",o:["Hana was completely surprising.","The party was surprised.","The news was surprising to Hana.","I was very exciting at the party.","The game was bored."],a:2,e:"사람이 느낌 -ed / 감정을 일으킴 -ing"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["Tommy was not good at keeping secrets.","She is good at singing.","He is good at play soccer.","I'm not good at drawing.","Are you good at cooking?"],a:2,e:"전치사 at + 동명사 → playing"},
+{t:"mc",q:"'When the voting was completed, the beans were spilled <u>to reveal</u> the results.'의 to reveal과 쓰임이 같은 것은?",o:["It means to reveal a secret.","I want to reveal the answer.","They opened the box to reveal the gift.","It's hard to reveal a secret.","My plan is to reveal it."],a:2,e:"목적(~하기 위해)의 부사적 용법"},
+{t:"mc",q:"'It means <u>to reveal</u> a secret.'의 to reveal과 쓰임이 같은 것은?",o:["He came here to reveal the truth.","She began to use the phrase.","I went out to buy beans.","They spilled the beans to show the results.","He studied hard to pass the test."],a:1,e:"동사의 목적어로 쓰인 명사적 용법 (mean to ~, begin to ~)"},
+{t:"mc",q:"빈칸 (A), (B)에 알맞은 것은?<br><br>• Where does this phrase come (A)____?<br>• They put a white or black bean (B)____ a big jar.",o:["from - in","to - in","from - on","for - at","from - with"],a:0,e:"come from: ~에서 유래하다 / put A in B"},
+{t:"mc",q:"'From then, people began <u>to use</u> this phrase with a new meaning.'에서 to use를 대신할 수 있는 것은?",o:["used","use","using","to using","uses"],a:2,e:"begin + to부정사 / 동명사 모두 가능"},
+{t:"sa",q:"not을 사용하여 영작하시오. (I promise로 시작)<br>나는 하나에게 말하지 않겠다고 약속해.",a:["I promise not to tell Hana."],e:"promise not to + 동사원형"},
+{t:"sa",q:"수동태 문장으로 바꾸시오.<br>They spilled the beans to reveal the results.<br>→ The beans ______________________.",a:["were spilled to reveal the results"],e:"The beans were spilled to reveal the results."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그것은 고대 그리스의 투표 방법에서 유래한다.",w:["it","comes","from","an ancient","Greek","way","of","voting","vote"],a:"it comes from an ancient Greek way of voting",e:"전치사 of + 동명사 voting"}
+],
+ws:[
+{q:"틀린 부분을 고치시오: I promise to not tell Hana.",a:"to not tell → not to tell"},
+{q:"괄호 안에서 알맞은 것을 고르시오: (1) Hana was (surprised / surprising). (2) The party was (surprised / surprising).",a:"(1) surprised (2) surprising"},
+{q:"영작하시오: 나는 비밀을 지키는 것을 잘한다. (good at)",a:"I am good at keeping secrets."},
+{q:"수동태로 바꾸시오: Greeks completed the voting.",a:"The voting was completed by Greeks."}
+]});
+
+DAYS.push({d:11,cat:"본문",title:"Take a Rain Check ① 내용 이해",
+point:["Sarah: Emily에게 영화 보자고 제안 → Emily: 할머니 댁에 가야 해서 “I have to take a rain check.”","Sarah는 조금 실망했지만 Emily의 상황을 이해함","take a rain check = 제안을 정중히 거절하지만 나중에 하고 싶다","유래: 1880년대 야구 경기 – 비로 경기가 취소되면 미래 경기를 위한 표(rain check)를 줌 → 다른 스포츠 행사로 확대"],
+q:[
+{t:"mc",p:"RAIN",q:"'take a rain check'의 의미로 알맞은 것은?",o:["to accept an offer happily","to refuse an offer politely but wish to do it later","to buy a ticket for a baseball game","to check the weather","to cancel a game because of rain"],a:1,e:"It means to refuse an offer politely but wish to do it later."},
+{t:"mc",p:"RAIN",q:"글의 내용과 일치하지 <b>않는</b> 것은?",o:["Sarah wanted to see a movie with Emily.","Emily had to go to her grandmother's house.","Sarah was a little disappointed.","Sarah got angry and didn't understand Emily.","“Rain check” was first used at a baseball game."],a:3,e:"she understood Emily's situation"},
+{t:"mc",p:"RAIN",q:"rain check에 대한 설명으로 알맞은 것은?",o:["비 오는 날 받는 우산","비로 경기가 취소되었을 때 미래 경기를 위해 받는 표","날씨를 확인하는 표","야구 선수의 계약서","경기 결과를 적은 종이"],a:1,e:"a ticket that people got for a future game when a baseball game was canceled because of rain"},
+{t:"mc",p:"RAIN",q:"Emily가 Sarah의 제안을 거절한 이유는?",o:["영화를 싫어해서","할머니 댁에 가야 해서","비가 와서","야구 경기를 보러 가서","Sarah와 다퉈서"],a:1,e:"I have to go to my grandmother's house today."},
+{t:"mc",p:"RAIN",q:"글을 읽고 답할 수 <b>없는</b> 질문은?",o:["Who did Sarah want to see a movie with?","Why did Emily take a rain check?","When was the phrase “rain check” first used?","What movie did Sarah want to see?","Where were rain checks given later?"],a:3,e:"영화 제목은 나오지 않는다."},
+{t:"mc",p:"RAIN",q:"'Let's do it another time'의 it이 가리키는 것은?",o:["going to the grandmother's house","seeing a movie together","taking a rain check","playing baseball","buying a ticket"],a:1,e:"다음에 같이 영화를 보자."},
+{t:"mc",q:"다음 상황에서 쓸 수 있는 표현은?<br><br>A: Do you want to play soccer after school?<br>B: I'd love to, but I have to study for the test today. ____________",o:["Break a leg.","Don't spill the beans.","Can I take a rain check?","What did you say?","What a great idea!"],a:2,e:"지금은 거절하지만 다음을 기약할 때"},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (It was first used로 시작)<br>Q: Where was the phrase “rain check” first used?",a:["It was first used at a baseball game in the 1880s.","It was first used at a baseball game."],e:"It was first used at a baseball game in the 1880s."},
+{t:"sa",q:"글을 읽고 영어로 답하시오. (She had to로 시작)<br>Q: Why did Emily take a rain check?",a:["She had to go to her grandmother's house.","She had to go to her grandmother's house today."],e:"She had to go to her grandmother's house."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>이후에, 우천 교환권은 다른 스포츠 행사들에서 주어졌다.",w:["later","rain checks","were","given","at","other","sporting events","gave"],a:"later rain checks were given at other sporting events",e:"수동태 were given"}
+],
+ws:[
+{q:"Take a Rain Check 정리: 상황 / 의미 / 유래를 우리말로 쓰시오.",a:"영화 보자는 Sarah의 제안에 Emily가 할머니 댁 때문에 다음으로 미룸 / 제안을 정중히 거절하지만 나중에 하고 싶다 / 1880년대 야구 경기에서 비로 경기가 취소되면 미래 경기용 표를 준 데서 유래"},
+{q:"영어로 답하시오: What was a rain check?",a:"It was a ticket that people got for a future game when a baseball game was canceled because of rain."},
+{q:"요약문 빈칸: “Take a rain check” means to ______ an offer politely but wish to do it ______.",a:"refuse / later"},
+{q:"친구의 제안을 rain check로 거절하는 대화 2줄을 쓰시오.",a:"(예시) A: Do you want to go shopping? B: Sorry, I have to take a rain check. I have a piano lesson."}
+]});
+
+DAYS.push({d:12,cat:"본문",title:"Take a Rain Check ② 어법·어휘",
+point:["a ticket <b>that</b> people got ~ : 목적격 관계대명사 that (= which, 생략 가능)","has been widely used: 현재완료 수동태 (have/has been + p.p.)","because of + 명사 / because + 주어 + 동사","Although Sarah was a little disappointed (감정 -ed) / have to: ~해야 한다"],
+q:[
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>(a)<u>Although</u> Sarah was a little (b)<u>disappointing</u>, she understood Emily's situation. A rain check was a ticket (c)<u>that</u> people got for a future game when a baseball game (d)<u>was canceled</u> because of rain. Over time, “take a rain check” (e)<u>has been</u> widely used.",o:["(a)","(b)","(c)","(d)","(e)"],a:1,e:"Sarah가 실망을 느낌 → disappointed"},
+{t:"mc",q:"'A rain check was a ticket <u>that</u> people got for a future game.'에서 that을 대신할 수 있는 것은?",o:["who","whom","which","what","whose"],a:2,e:"선행사가 사물(a ticket) → which"},
+{t:"mc",q:"'has been widely used'의 형태와 의미로 알맞은 것은?",o:["현재완료 능동 – 널리 사용해 왔다","현재완료 수동 – 널리 사용되어 왔다","과거 수동 – 널리 사용되었다","현재 수동 – 널리 사용된다","미래 수동 – 널리 사용될 것이다"],a:1,e:"have/has been + p.p. = 현재완료 수동태"},
+{t:"mc",q:"빈칸에 들어갈 말이 나머지와 <b>다른</b> 하나는?",o:["The game was canceled ____ rain.","We stayed home ____ the storm.","I was late ____ the traffic.","She was happy ____ she passed the test.","He couldn't sleep ____ the noise."],a:3,e:"주어+동사 앞은 because, 명사 앞은 because of"},
+{t:"mc",q:"다음 중 현재완료 수동태가 바르게 쓰인 것은?",o:["The phrase has used for a long time.","The phrase has been used for a long time.","The phrase have been used for a long time.","The phrase has being used for a long time.","The phrase is been used for a long time."],a:1,e:"has been used"},
+{t:"mc",q:"'I have to take a rain check.'의 have to와 의미가 같은 것은?",o:["may","must","can","will","would like to"],a:1,e:"have to = must (~해야 한다)"},
+{t:"mc",q:"목적격 관계대명사를 생략할 수 있는 문장은?",o:["German actors who came to the United States first used this phrase.","It's a song that keeps repeating in your mind.","A rain check was a ticket that people got for a future game.","A smart farm is a farm which uses the latest technology.","I know a boy who plays soccer."],a:2,e:"people got의 목적어 역할 → 목적격, 생략 가능. 나머지는 주격."},
+{t:"sa",q:"현재완료 수동태를 사용하여 영작하시오. (This phrase로 시작, for many years로 끝)<br>이 어구는 수년 동안 사용되어 왔다.",a:["This phrase has been used for many years."],e:"has been used"},
+{t:"sa",q:"which를 사용하여 한 문장으로 연결하시오.<br>A rain check was a ticket. People got it for a future game.",a:["A rain check was a ticket which people got for a future game."],e:"목적어 it을 빼고 which로 연결"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>비록 Sarah는 조금 실망했지만, 그녀는 Emily의 상황을 이해했다.",w:["although","Sarah","was","a little","disappointed","she","understood","Emily's situation","disappointing"],a:"although Sarah was a little disappointed she understood Emily's situation",e:"Although + 주어 + 동사, 주어 + 동사"}
+],
+ws:[
+{q:"현재완료 수동태로 바꾸시오: People have used this phrase since the 1880s.",a:"This phrase has been used since the 1880s."},
+{q:"because 또는 because of를 쓰시오: (1) The game was canceled ______ rain. (2) The game was canceled ______ it rained.",a:"(1) because of (2) because"},
+{q:"which로 연결하시오: This is the ticket. I got it yesterday.",a:"This is the ticket which I got yesterday."},
+{q:"감정 형용사 고르기: (1) Sarah was (disappointed / disappointing). (2) The news was (disappointed / disappointing).",a:"(1) disappointed (2) disappointing"}
+]});
+
+DAYS.push({d:13,cat:"본문",title:"세 관용 표현 비교 (본문 종합 ①)",
+point:["Break a leg = Good luck! (공연 전) – 20세기 초 미국의 독일 배우들","Spill the beans = reveal a secret – 고대 그리스 콩 투표","Take a rain check = 정중히 거절 + 다음 기약 – 1880년대 야구 경기","제목 Stories Behind Idioms: 관용 표현에 얽힌 이야기"],
+q:[
+{t:"mc",q:"관용 표현과 의미가 바르게 연결되지 <b>않은</b> 것은?",o:["Break a leg – Good luck","Spill the beans – reveal a secret","Take a rain check – refuse an offer politely but wish to do it later","Break a leg – hurt your leg","Spill the beans – tell a secret"],a:3,e:"Break a leg는 다리를 다치라는 뜻이 아니라 행운을 빈다는 뜻."},
+{t:"mc",q:"관용 표현과 유래가 바르게 연결된 것은?",o:["Break a leg – 고대 그리스의 투표","Spill the beans – 1880년대 야구 경기","Take a rain check – 미국에 온 독일 배우들","Spill the beans – 고대 그리스의 투표","Break a leg – 비 오는 날의 야구 경기"],a:3,e:"Spill the beans – ancient Greek way of voting"},
+{t:"mc",q:"유래된 시기가 오래된 순서대로 바르게 나열한 것은?",o:["Break a leg – Spill the beans – Take a rain check","Spill the beans – Take a rain check – Break a leg","Take a rain check – Break a leg – Spill the beans","Spill the beans – Break a leg – Take a rain check","Break a leg – Take a rain check – Spill the beans"],a:1,e:"고대 그리스 → 1880년대 → 20세기 초"},
+{t:"mc",q:"각 상황에 알맞은 표현끼리 짝지은 것은?<br><br>(A) 내일 피아노 대회에 나가는 친구에게<br>(B) 오늘은 바빠서 친구의 제안을 다음으로 미룰 때",o:["Break a leg – Spill the beans","Break a leg – Take a rain check","Spill the beans – Break a leg","Take a rain check – Break a leg","Spill the beans – Take a rain check"],a:1,e:"(A) 행운 빌기 (B) 다음 기약"},
+{t:"mc",q:"글 전체의 제목으로 가장 알맞은 것은?",o:["How to Act on the Stage","Stories Behind Idioms","The History of Baseball","Ancient Greek Voting","How to Keep Secrets"],a:1,e:"관용 표현에 얽힌 이야기"},
+{t:"mc",q:"세 이야기에 공통으로 나타난 글의 구성은?",o:["문제 – 해결책 – 결과","상황 예시 – 표현의 의미 – 표현의 유래","주장 – 근거 – 반론","원인 – 결과 – 교훈","과거 – 현재 – 미래 예측"],a:1,e:"상황 속 대화 → 의미 → 유래"},
+{t:"mc",q:"본문의 인물과 내용이 바르게 연결되지 <b>않은</b> 것은?",o:["Lily – 연극 전에 긴장함","Tommy – 비밀을 잘 지키지 못하는 편임","Hana – 깜짝 파티에 완전히 놀람","Emily – 영화를 보기 싫어서 거절함","Sarah – 조금 실망했지만 상황을 이해함"],a:3,e:"Emily는 할머니 댁에 가야 해서 거절했다."},
+{t:"sa",q:"영어로 답하시오. (관용 표현만 쓰시오)<br>Q: Which idiom can you use to tell someone not to tell a secret? → Don't ________.",a:["spill the beans"],e:"Don't spill the beans."},
+{t:"sa",q:"영어로 답하시오. (관용 표현만 쓰시오)<br>Q: Which idiom do people say to performers before a show?",a:["Break a leg","Break a leg!"],e:"Break a leg!"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>영어에는 흥미로운 유래를 가진 표현들이 많다.",w:["there are","many","expressions","with","interesting","stories","in English","there is"],a:"there are many expressions with interesting stories in English",e:"There are + 복수명사"}
+],
+ws:[
+{q:"세 관용 표현의 의미와 유래를 표로 정리하시오.",a:"Break a leg – Good luck – 20세기 초 미국의 독일 배우 / Spill the beans – 비밀 누설 – 고대 그리스 투표 / Take a rain check – 정중히 거절·다음 기약 – 1880년대 야구"},
+{q:"세 표현 중 하나를 골라 그 표현을 쓸 수 있는 상황을 영어 2문장으로 쓰시오.",a:"(예시) My friend has a dance contest tomorrow. I will say, “Break a leg!”"},
+{q:"우리말 관용 표현 하나를 영어로 소개하시오. (의미 포함)",a:"(예시) “Pie in the sky” — In Korean, we say “그림의 떡.” It means something you want but can't have."},
+{q:"가장 흥미로웠던 유래와 이유를 영어로 쓰시오.",a:"(예시) The story of “spill the beans” was interesting because Greeks voted with beans."}
+]});
+
+DAYS.push({d:14,cat:"본문",title:"본문 어휘·영영풀이 (본문 종합 ②)",
+point:["perform 공연하다 / performer 공연자 / phrase 어구 / expression 표현 / idiom 관용구","reveal 드러내다 / ancient 고대의 / jar 항아리 / vote 투표하다 / result 결과","refuse 거절하다 / offer 제안 / politely 정중하게 / cancel 취소하다 / situation 상황","nervous 긴장한 / disappointed 실망한 / completely 완전히 / widely 널리"],
+q:[
+{t:"mc",q:"영영풀이에 해당하는 단어는?<br>'to make something known that was secret'",o:["refuse","reveal","perform","prepare","complete"],a:1,e:"reveal: 드러내다"},
+{t:"mc",q:"영영풀이에 해당하는 단어는?<br>'to say no to something that someone offers'",o:["refuse","accept","promise","reply","wish"],a:0,e:"refuse: 거절하다"},
+{t:"mc",q:"영영풀이에 해당하는 단어는?<br>'a container, usually made of glass or clay, with a wide opening'",o:["bean","jar","stage","ticket","curtain"],a:1,e:"jar: 항아리, 단지"},
+{t:"mc",q:"영영풀이에 해당하는 단어는?<br>'to decide that something will not happen'",o:["complete","cancel","continue","reveal","vote"],a:1,e:"cancel: 취소하다"},
+{t:"mc",q:"반의어끼리 짝지어지지 <b>않은</b> 것은?",o:["refuse – accept","ancient – modern","nervous – calm","reveal – hide","politely – kindly"],a:4,e:"politely와 kindly는 비슷한 의미."},
+{t:"mc",q:"문맥상 낱말의 쓰임이 <b>어색한</b> 것은?<br><br>Tommy was not good at (a)<u>keeping</u> secrets. Lisa told him, “Don't spill the beans.” Tommy (b)<u>kept</u> his promise and the party was a big (c)<u>failure</u>. Hana was (d)<u>completely</u> surprised. “Spill the beans” means to (e)<u>reveal</u> a secret.",o:["(a)","(b)","(c)","(d)","(e)"],a:2,e:"약속을 지켜서 파티는 크게 성공(success)했다."},
+{t:"mc",q:"단어의 관계가 나머지와 <b>다른</b> 하나는?",o:["perform – performer","act – actor","vote – voter","play – player","polite – politely"],a:4,e:"나머지는 동사 → 행위자(~하는 사람). polite – politely는 형용사 → 부사."},
+{t:"sa",q:"빈칸에 알맞은 단어를 본문에서 찾아 쓰시오.<br>“Break a leg” is a phrase that people say to wish ________ good luck before a show.",a:["performers"],e:"performers: 공연자들"},
+{t:"sa",q:"빈칸에 알맞은 단어를 쓰시오. (p로 시작)<br>It means to refuse an offer ________ but wish to do it later.",a:["politely"],e:"politely: 정중하게"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>투표가 완료되었을 때, 그 콩들은 결과를 드러내기 위해 쏟아졌다.",w:["when","the voting","was completed","the beans","were spilled","to reveal","the results","completed"],a:"when the voting was completed the beans were spilled to reveal the results",e:"수동태 + 목적의 to부정사"}
+],
+ws:[
+{q:"우리말 뜻을 쓰시오: reveal / ancient / refuse / offer / cancel",a:"드러내다 / 고대의 / 거절하다 / 제안 / 취소하다"},
+{q:"영어로 쓰시오: 공연하다 / 어구 / 정중하게 / 실망한 / 항아리",a:"perform / phrase / politely / disappointed / jar"},
+{q:"반의어를 쓰시오: (1) refuse (2) reveal (3) nervous",a:"(1) accept (2) hide (3) calm / relaxed"},
+{q:"빈칸 완성: (1) keep one's ______ (약속을 지키다) (2) be about ______ go up (3) come ______ (유래하다)",a:"(1) promise (2) to (3) from"}
+]});
+
+DAYS.push({d:15,cat:"문법",title:"목적격 관계대명사 ① 기본",
+point:["선행사가 사람: who / whom / that  ·  사물·동물: which / that","관계대명사가 관계사절에서 <b>목적어</b> 역할 → 뒤 절에 목적어가 없음","예) I want to eat the sandwich <b>which</b> Amy made.","예) Joy is the movie star <b>whom</b> I like the most."],
+q:[
+{t:"mc",q:"빈칸에 들어갈 말로 알맞은 것은?<br><br>Daniel is the boy ______ I met on the trip.",o:["which","whom","what","whose","when"],a:1,e:"선행사 사람(the boy) + 목적격 → whom"},
+{t:"mc",q:"빈칸에 들어갈 말로 알맞은 것은?<br><br>I ate the sandwich ______ Mom made.",o:["who","whom","which","what","where"],a:2,e:"선행사 사물 → which"},
+{t:"mc",q:"빈칸에 들어갈 수 <b>없는</b> 것은?<br><br>Lee Nana is the director ______ I like the most.",o:["whom","who","that","(생략)","which"],a:4,e:"사람 선행사에는 which를 쓰지 않는다."},
+{t:"mc",q:"빈칸에 공통으로 들어갈 수 있는 것은?<br><br>• I played with the cute dog ______ Minsu brought.<br>• The teacher ______ I respect is very kind.",o:["who","whom","which","that","what"],a:3,e:"that은 사람·사물 모두 가능"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["She likes the bike which her father bought for her.","I have a friend whom everyone trusts.","The musical which I watched yesterday was exciting.","This is the book what I bought yesterday.","The teacher that I respect is very kind."],a:3,e:"선행사가 있으면 what을 쓸 수 없다 → which/that"},
+{t:"mc",q:"관계대명사절이 수식하는 선행사로 알맞은 것은?<br><br>The musical which I watched yesterday was exciting.",o:["I","yesterday","The musical","exciting","watched"],a:2,e:"which 앞의 명사 The musical"},
+{t:"mc",q:"'The musical which I watched yesterday was exciting.'의 해석으로 알맞은 것은?",o:["나는 어제 신나는 뮤지컬을 보았다.","내가 어제 본 뮤지컬은 신났다.","그 뮤지컬은 어제 나를 신나게 했다.","어제 뮤지컬은 내가 보기에 신났다.","나를 본 뮤지컬은 어제 신났다."],a:1,e:"관계사절이 앞의 명사를 수식: 내가 어제 본 뮤지컬"},
+{t:"sa",q:"which를 사용하여 한 문장으로 연결하시오.<br>I want to eat the sandwich. Amy made the sandwich.",a:["I want to eat the sandwich which Amy made."],e:"I want to eat the sandwich which Amy made."},
+{t:"sa",q:"whom을 사용하여 영작하시오. (괄호 단어 활용)<br>Daniel은 내가 여행 중에 만난 소년이다. (meet)",a:["Daniel is the boy whom I met on the trip."],e:"Daniel is the boy whom I met on the trip."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 민수가 데려온 귀여운 강아지와 놀았다.",w:["I","played","with","the cute dog","which","Minsu","brought","who","it"],a:"I played with the cute dog which Minsu brought",e:"사물(동물) 선행사 → which / 목적어 it 중복 금지"}
+],
+ws:[
+{q:"Practice: whom 또는 which를 사용하여 완성하시오. (1) I ate the sandwich ______. (Mom, make) (2) Lee Nana is the director ______ the most. (like)",a:"(1) which Mom made (2) whom I like"},
+{q:"한 문장으로 연결하시오: She likes the bike. Her father bought it for her.",a:"She likes the bike which[that] her father bought for her."},
+{q:"한 문장으로 연결하시오: I have a friend. Everyone trusts him.",a:"I have a friend whom[who/that] everyone trusts."},
+{q:"Now You Can: 친구가 읽은 책을 설명하시오. (예: The book which Miso read is Frindle.) 자신의 경우로 쓰시오.",a:"(예시) The book which I read last week is Wonder."}
+]});
+
+DAYS.push({d:16,cat:"문법",title:"목적격 관계대명사 ② 문장 결합·목적어 중복",
+point:["두 문장 결합: 공통 명사 확인 → 뒤 문장의 목적어(him, it 등)를 관계대명사로 바꿔 앞으로","관계사절 안에 목적어를 다시 쓰지 않음: the book which I bought <s>the book</s> (×)","관계사절이 주어를 수식할 때: 주어 + [관계사절] + 동사 → The pet which Reena wants to have <b>is</b> a chameleon."],
+q:[
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["This is the book which I bought yesterday.","This is the book which I bought it yesterday.","This is the book that I bought yesterday.","This is the book I bought yesterday.","These are the books which I bought yesterday."],a:1,e:"관계대명사가 목적어 역할 → it 중복 금지"},
+{t:"mc",q:"두 문장을 한 문장으로 바르게 연결한 것은?<br><br>The movie star is Joy. I like her the most.",o:["The movie star is Joy whom I like her the most.","Joy is the movie star whom I like the most.","Joy is the movie star which I like the most.","Joy is the movie star whom I like it the most.","Joy is the movie star what I like the most."],a:1,e:"사람 선행사 + whom, her 삭제"},
+{t:"mc",q:"밑줄 친 동사의 형태가 알맞은 것은?",o:["The food which Homin eats on rainy days <u>are</u> kimchijeon.","The pet which Reena wants to have <u>are</u> a chameleon.","The superhero whom Kevin likes the most <u>is</u> Spider-Man.","The books which I read <u>is</u> interesting.","The songs which she sings <u>is</u> popular."],a:2,e:"주어(The superhero)가 단수 → is. 관계사절 속 명사에 동사를 맞추지 않는다."},
+{t:"mc",q:"우리말을 영어로 바르게 옮긴 것은?<br><br>호민이가 비 오는 날 먹는 음식은 김치전이다.",o:["The food which Homin eats on rainy days is kimchijeon.","The food which Homin eats it on rainy days is kimchijeon.","Homin eats the food on rainy days which is kimchijeon.","The food whom Homin eats on rainy days is kimchijeon.","The food which Homin eats on rainy days are kimchijeon."],a:0,e:"The food + which Homin eats ~ + is"},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>• The man (A)____ I saw at the park was my teacher.<br>• The cake (B)____ she baked (C)____ delicious.",o:["whom - which - was","which - who - was","whom - which - were","who - whom - were","which - which - was"],a:0,e:"사람 whom / 사물 which / The cake(단수) was"},
+{t:"mc",q:"다음 문장에서 생략된 말이 들어갈 위치로 알맞은 곳은?<br><br>The pet (①) Reena (②) wants (③) to have (④) is (⑤) a chameleon.",o:["①","②","③","④","⑤"],a:0,e:"The pet (which/that) Reena wants to have ~"},
+{t:"mc",q:"두 문장을 관계대명사로 연결할 때 필요 <b>없는</b> 단어는?<br><br>I know the girl. You met her yesterday.<br>→ I know the girl ______ you met ______ yesterday.",o:["whom","you","met","her","yesterday"],a:3,e:"관계대명사가 her를 대신하므로 her는 쓰지 않는다."},
+{t:"sa",q:"관계대명사 which를 사용하여 한 문장으로 쓰시오.<br>The pet is a chameleon. Reena wants to have it.<br>→ The pet ________________ is a chameleon.",a:["which Reena wants to have"],e:"The pet which Reena wants to have is a chameleon."},
+{t:"sa",q:"관계대명사 whom을 사용하여 영작하시오.<br>Kevin이 가장 좋아하는 슈퍼히어로는 스파이더맨이다.",a:["The superhero whom Kevin likes the most is Spider-Man.","The superhero whom Kevin likes most is Spider-Man."],e:"The superhero whom Kevin likes the most is Spider-Man."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>내가 어제 본 뮤지컬은 신났다.",w:["the musical","which","I","watched","yesterday","was","exciting","it","excited"],a:"the musical which I watched yesterday was exciting",e:"주어 + 관계사절 + 동사 / it 중복 금지"}
+],
+ws:[
+{q:"한 문장으로 연결하시오: The boy is my cousin. I met him at the library.",a:"The boy whom[who/that] I met at the library is my cousin."},
+{q:"틀린 부분을 고치시오: This is the cap which I bought it last week.",a:"it 삭제"},
+{q:"Now You Can: Q: What food do you eat on rainy days? → The food which I eat on rainy days is ______.",a:"(예시) The food which I eat on rainy days is kimchijeon."},
+{q:"주어를 수식하는 목적격 관계대명사 문장을 하나 쓰시오.",a:"(예시) The song which I like the most is “Dynamite.”"}
+]});
+
+DAYS.push({d:17,cat:"문법",title:"목적격 관계대명사 ③ 생략·주격과 구별",
+point:["목적격 관계대명사는 생략 가능: the book (which) I bought","주격 관계대명사는 생략 불가: a song <b>that</b> keeps repeating (뒤에 동사가 바로 옴)","구별법: 관계대명사 뒤가 <b>주어+동사</b> → 목적격 / 뒤가 <b>동사</b> → 주격"],
+q:[
+{t:"mc",q:"밑줄 친 관계대명사를 생략할 수 있는 것은?",o:["German actors <u>who</u> came to the United States first used this phrase.","It's a song <u>that</u> keeps repeating in your mind.","A smart farm is a farm <u>which</u> uses the latest technology.","“Break a leg” is a phrase <u>that</u> people say before a show.","I know a girl <u>who</u> sings well."],a:3,e:"that 뒤에 people say(주어+동사) → 목적격 → 생략 가능"},
+{t:"mc",q:"밑줄 친 관계대명사의 쓰임이 나머지와 <b>다른</b> 하나는?",o:["The teacher <u>whom</u> I respect is kind.","The bike <u>which</u> her father bought is new.","The ticket <u>that</u> people got was for a future game.","The boy <u>who</u> lives next door is my friend.","The movie <u>which</u> I watched was fun."],a:3,e:"who lives → 주격. 나머지는 목적격."},
+{t:"mc",q:"관계대명사가 생략된 문장은?",o:["This is the phone I bought last week.","I think she is kind.","He said he was tired.","Did you know the zipper was used on a shoe?","I hope you like it."],a:0,e:"the phone (which) I bought — 나머지는 접속사 that 생략"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["The cake I made was sweet.","The girl I met yesterday was Lily.","The song keeps repeating in your mind is an earworm.","The ticket people got was a rain check.","The idiom we learned was interesting."],a:2,e:"주격 관계대명사는 생략 불가 → The song that keeps repeating ~"},
+{t:"mc",q:"빈칸에 that이 들어갈 수 있는 것을 모두 고른 것은?<br><br>(a) The man ____ I saw was tall.<br>(b) The dog ____ is running is mine.<br>(c) This is the house ____ my uncle built.",o:["(a)","(b)","(a), (c)","(b), (c)","(a), (b), (c)"],a:4,e:"that은 주격·목적격, 사람·사물 모두 가능"},
+{t:"mc",q:"밑줄 친 부분을 생략했을 때 어법상 <b>틀린</b> 문장이 되는 것은?",o:["The book <u>which</u> I read was fun.","The friend <u>whom</u> I trust is Minsu.","The actor <u>who</u> came to Korea was German.","The pizza <u>that</u> we ordered was big.","The song <u>which</u> I heard is an earworm."],a:2,e:"주격(who came)은 생략 불가"},
+{t:"mc",q:"관계대명사의 쓰임에 대한 설명으로 <b>틀린</b> 것은?<br><br>A rain check was a ticket that people got for a future game.",o:["선행사는 a ticket이다.","that은 목적격 관계대명사이다.","that 대신 which를 쓸 수 있다.","that은 생략할 수 있다.","that 뒤에 목적어 it을 써야 한다."],a:4,e:"관계대명사가 목적어 역할을 하므로 it을 쓰지 않는다."},
+{t:"sa",q:"관계대명사를 생략하고 문장 전체를 다시 쓰시오.<br>This is the book which I bought yesterday.",a:["This is the book I bought yesterday."],e:"목적격 관계대명사 생략"},
+{t:"sa",q:"생략된 관계대명사를 that으로 넣어 문장 전체를 쓰시오.<br>“Break a leg” is a phrase people say before a show.",a:["“Break a leg” is a phrase that people say before a show.","Break a leg is a phrase that people say before a show."],e:"a phrase that people say ~"},
+{t:"or",q:"우리말과 같도록 배열하시오. (관계대명사 생략, 필요 없는 단어 포함)<br>내가 가장 좋아하는 관용 표현은 'Break a leg'이다.",w:["the idiom","I","like","the most","is","“Break a leg”","are","it"],a:"the idiom I like the most is “Break a leg”",e:"The idiom (which) I like the most is ~"}
+],
+ws:[
+{q:"목적격이면 '목', 주격이면 '주'를 쓰시오: (1) the boy who helped me (2) the boy whom I helped (3) the farm which uses technology",a:"(1) 주 (2) 목 (3) 주"},
+{q:"관계대명사를 생략할 수 있으면 O, 없으면 X: (1) The cake that I made (2) The girl who sings well",a:"(1) O (2) X"},
+{q:"틀린 부분을 고치시오: The man is talking to Jake is my uncle.",a:"The man who[that] is talking to Jake is my uncle."},
+{q:"관계대명사를 생략한 문장을 하나 영작하시오.",a:"(예시) The movie I watched yesterday was funny."}
+]});
+
+DAYS.push({d:18,cat:"문법",title:"that의 다양한 쓰임 구별",
+point:["주격 관계대명사 that: 앞 명사 + that + 동사 ~","목적격 관계대명사 that: 앞 명사 + that + 주어 + 동사 (목적어 없음)","명사절 접속사 that: believe/know/say + that + 완전한 절 (생략 가능)","지시대명사·지시형용사 that: 저것, 저 ~"],
+q:[
+{t:"mc",q:"밑줄 친 that의 쓰임이 나머지와 <b>다른</b> 하나는?",o:["A rain check was a ticket <u>that</u> people got.","“Break a leg” is a phrase <u>that</u> people say.","The bike <u>that</u> her father bought is red.","They believed <u>that</u> it would go away.","The teacher <u>that</u> I respect is kind."],a:3,e:"believed that ~ → 명사절 접속사. 나머지는 목적격 관계대명사."},
+{t:"mc",q:"<보기>의 that과 쓰임이 같은 것은?<br><보기> Did you know <u>that</u> the first zipper was used on a shoe?",o:["It's a song that keeps repeating.","That's interesting.","I think that public art is great.","The ticket that I got was free.","Look at that sculpture."],a:2,e:"명사절 접속사 that"},
+{t:"mc",q:"'Over time, “take a rain check” has been widely used to say <u>that</u> you can't do something now.'의 that과 쓰임이 같은 것은?",o:["She said that she was busy.","This is the phone that I lost.","That is my sister.","The song that keeps playing is an earworm.","I like that idea."],a:0,e:"say의 목적어 명사절을 이끄는 접속사"},
+{t:"mc",q:"밑줄 친 that을 생략할 수 <b>없는</b> 것은?",o:["I know <u>that</u> he is honest.","The book <u>that</u> I read was fun.","It's a song <u>that</u> keeps repeating in your mind.","They believed <u>that</u> it would go away.","She said <u>that</u> she was nervous."],a:2,e:"주격 관계대명사는 생략 불가"},
+{t:"mc",q:"'That's interesting.'의 That과 쓰임이 같은 것은?",o:["I hope that you like it.","That is a great idea.","The jar that they used was big.","Did you know that beans were used?","The boy that I met is Tommy."],a:1,e:"지시대명사 That"},
+{t:"mc",q:"that의 쓰임이 같은 것끼리 짝지은 것은?<br><br>(a) I think <u>that</u> he is right.<br>(b) The cap <u>that</u> I bought is blue.<br>(c) We believe <u>that</u> it is true.<br>(d) The girl <u>that</u> runs fast is Lily.",o:["(a), (b)","(a), (c)","(b), (c)","(b), (d)","(c), (d)"],a:1,e:"(a)(c) 명사절 접속사 / (b) 목적격 / (d) 주격"},
+{t:"mc",q:"다음 중 관계대명사 that을 which로 바꿀 수 <b>없는</b> 것은?",o:["The ticket that people got","The bike that her father bought","The teacher that I respect","The song that keeps repeating","The jar that Greeks used"],a:2,e:"선행사가 사람이면 which 불가 → whom/who"},
+{t:"sa",q:"that을 사용하여 영작하시오. (They believed로 시작)<br>그들은 그것이 사라질 것이라고 믿었다.",a:["They believed that it would go away."],e:"명사절 접속사 that"},
+{t:"sa",q:"목적격 관계대명사 that을 사용하여 영작하시오.<br>이것은 내가 어제 산 책이다.",a:["This is the book that I bought yesterday."],e:"This is the book that I bought yesterday."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 우천 교환권이 미래 경기를 위한 표였다는 것을 알았다.",w:["I","learned","that","a rain check","was","a ticket","for a future game","what"],a:"I learned that a rain check was a ticket for a future game",e:"learned의 목적어 명사절"}
+],
+ws:[
+{q:"that의 쓰임을 쓰시오 (주격/목적격/접속사/지시): (1) I know that you're right. (2) The jar that they used (3) That is my bag.",a:"(1) 접속사 (2) 목적격 관계대명사 (3) 지시대명사"},
+{q:"본문에서 접속사 that이 쓰인 문장을 2개 찾아 쓰시오.",a:"By wishing each other bad luck, they believed that it would go away. / ~ has been widely used to say that you can't do something now ~"},
+{q:"영작하시오: 나는 그 표현이 흥미롭다고 생각한다. (that)",a:"I think that the expression is interesting."},
+{q:"주격 관계대명사 that 문장 1개, 목적격 관계대명사 that 문장 1개를 쓰시오.",a:"(예시) I have a friend that lives in Busan. / This is the song that I like."}
+]});
+
+DAYS.push({d:19,cat:"문법",title:"접속사 although · 감정 분사",
+point:["Although/Though + 주어 + 동사, 주절 (비록 ~이지만) ↔ despite / in spite of + 명사","Although A, B = A, but B (although와 but을 함께 쓰지 않음)","감정 분사: 사람이 느끼면 -ed (surprised, disappointed, interested, bored) / 감정을 일으키면 -ing (surprising, disappointing, interesting, boring)"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>______ Sarah was a little disappointed, she understood Emily's situation.",o:["Because","Although","So","If","Despite"],a:1,e:"서로 대조되는 내용 → Although"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["Although he was tired, he kept working.","Though it rained, we played soccer.","Despite the rain, we played soccer.","Although the rain, we played soccer.","In spite of his mistake, the team trusted him."],a:3,e:"although 뒤에는 주어+동사 → Despite the rain"},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["Although she was nervous, she performed well.","She was nervous, but she performed well.","Although she was nervous, but she performed well.","She performed well although she was nervous.","Though she was nervous, she performed well."],a:2,e:"although와 but을 함께 쓰지 않는다."},
+{t:"mc",q:"감정 분사가 바르게 쓰인 것은?",o:["I was interesting in the story.","The story was interested.","Hana was surprised at the party.","The result was disappointed.","I was boring in class."],a:2,e:"사람이 느낌 → surprised"},
+{t:"mc",q:"(A), (B), (C)에서 알맞은 것끼리 짝지은 것은?<br><br>• Hana was completely (A)(surprised / surprising).<br>• The story behind the idiom is (B)(interested / interesting).<br>• Sarah was a little (C)(disappointed / disappointing).",o:["surprised - interested - disappointed","surprised - interesting - disappointed","surprising - interesting - disappointing","surprised - interesting - disappointing","surprising - interested - disappointed"],a:1,e:"사람 -ed / 사물 -ing"},
+{t:"mc",q:"두 문장의 의미가 같도록 할 때 빈칸에 알맞은 것은?<br><br>“Break a leg!” may sound like a bad thing, but it actually means “Good luck!”<br>= ______ “Break a leg!” may sound like a bad thing, it actually means “Good luck!”",o:["Because","When","Though","If","So"],a:2,e:"Though = Although"},
+{t:"mc",q:"문맥상 빈칸에 Although가 들어가기에 <b>어색한</b> 것은?",o:["____ it was cold, he wore shorts.","____ I studied hard, I failed the test.","____ she was sick, she went to school.","____ I was hungry, I ate a lot.","____ the movie was long, it was fun."],a:3,e:"배고파서 많이 먹었다 → Because"},
+{t:"sa",q:"Although를 사용하여 한 문장으로 쓰시오.<br>Tommy was not good at keeping secrets. He kept his promise.",a:["Although Tommy was not good at keeping secrets, he kept his promise.","Although he was not good at keeping secrets, Tommy kept his promise.","Tommy kept his promise although he was not good at keeping secrets."],e:"Although ~, he kept his promise."},
+{t:"sa",q:"괄호 안의 단어를 알맞은 형태로 바꿔 쓰시오. (한 단어)<br>The ending of the movie was very ______. (surprise)",a:["surprising"],e:"영화 결말이 놀라움을 일으킴 → surprising"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>비록 피곤했지만, 그는 계속 일했다.",w:["although","he","was","tired","he","kept","working","but","tiring"],a:"although he was tired he kept working",e:"although와 but 동시 사용 불가 / 사람이 느낌 tired"}
+],
+ws:[
+{q:"Although로 연결하시오: It was raining. The game was not canceled.",a:"Although it was raining, the game was not canceled."},
+{q:"despite를 사용하여 바꾸시오: Although it rained, we played soccer.",a:"Despite the rain, we played soccer."},
+{q:"알맞은 형태로 쓰시오: (1) I was (bore) in class. (2) The class was (bore). (3) The news was (excite).",a:"(1) bored (2) boring (3) exciting"},
+{q:"Although를 사용하여 자신의 경험을 한 문장으로 쓰시오.",a:"(예시) Although I was nervous, I did well on the test."}
+]});
+
+DAYS.push({d:20,cat:"문법",title:"수동태 · 현재완료 수동태",
+point:["수동태: be + p.p. (+ by 행위자) – 과거: was/were + p.p.","현재완료 수동태: have/has + been + p.p. (has been widely used)","본문 예: is still used / was completed / were spilled / was first used / was canceled / were given / has been widely used"],
+q:[
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>The phrase “rain check” ______ at a baseball game in the 1880s.",o:["first used","was first used","has first used","is first using","were first used"],a:1,e:"과거(1880s) + 수동 → was used"},
+{t:"mc",q:"빈칸에 알맞은 것은?<br><br>Over time, “take a rain check” ______ widely used.",o:["has","has been","have been","is been","was being"],a:1,e:"현재완료 수동태: has been + p.p."},
+{t:"mc",q:"다음 중 어법상 <b>어색한</b> 것은?",o:["The beans were spilled to reveal the results.","When the voting was completed, ~","Rain checks were given at other sporting events.","A baseball game was canceled because of rain.","This expression is still use today."],a:4,e:"is still used"},
+{t:"mc",q:"능동태를 수동태로 바르게 바꾼 것은?<br><br>People have held this festival every year since 1950.",o:["This festival has held every year since 1950.","This festival has been held every year since 1950.","This festival have been held every year since 1950.","This festival was been held every year since 1950.","This festival is held every year since 1950."],a:1,e:"has been held"},
+{t:"mc",q:"수동태로 바꿀 때 주어로 알맞은 것은?<br><br>Later, they gave rain checks at other sporting events.",o:["they","rain checks","other sporting events","later","gave"],a:1,e:"목적어 rain checks → 주어 → Rain checks were given ~"},
+{t:"mc",q:"밑줄 친 부분이 어법상 올바른 것은?",o:["The first zipper <u>used</u> on a shoe.","The results <u>revealed</u> by the beans.","This song <u>has been loved</u> by many people.","The game <u>canceled</u> because of rain.","The idiom <u>has using</u> for years."],a:2,e:"현재완료 수동태 has been loved"},
+{t:"mc",q:"'has been widely used'에서 widely의 위치로 알맞은 것은?",o:["has 앞","has와 been 사이","been과 used 사이","used 뒤 문장 끝","주어 앞"],a:2,e:"본문: has been widely used"},
+{t:"sa",q:"수동태 문장으로 바꾸시오. (by 생략)<br>They canceled the baseball game because of rain.",a:["The baseball game was canceled because of rain."],e:"The baseball game was canceled because of rain."},
+{t:"sa",q:"현재완료 수동태로 바꾸시오. (by 생략)<br>People have used this phrase for a long time.",a:["This phrase has been used for a long time."],e:"This phrase has been used for a long time."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그 표현은 오늘날에도 여전히 사용된다.",w:["this expression","is","still","used","today","uses","has"],a:"this expression is still used today",e:"be + still + p.p."}
+],
+ws:[
+{q:"수동태로 바꾸시오: Greeks put beans in a big jar.",a:"Beans were put in a big jar by Greeks."},
+{q:"현재완료 수동태로 바꾸시오: Many people have watched this movie.",a:"This movie has been watched by many people."},
+{q:"본문에서 수동태 문장 3개를 찾아 쓰시오.",a:"This expression is still used today. / The beans were spilled to reveal the results. / The phrase “rain check” was first used at a baseball game in the 1880s."},
+{q:"틀린 부분을 고치시오: The idiom have been used since the 1880s.",a:"have → has"}
+]});
+
+DAYS.push({d:21,cat:"문법",title:"문법 통합 (관계대명사·although·수동태)",
+point:["목적격 관계대명사 who(m)/which/that – 목적어 중복 금지, 생략 가능","주격 관계대명사 – 생략 불가","Although + 절 / 감정 분사 -ed, -ing","수동태 be p.p. / 현재완료 수동태 has been p.p."],
+q:[
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) This is the book which I bought it yesterday.<br>(b) The teacher whom I respect is very kind.<br>(c) Although it was cold, but we went out.<br>(d) This expression is still used today.<br>(e) Hana was completely surprised.",o:["1개","2개","3개","4개","5개"],a:2,e:"(b)(d)(e) 3개 / (a) it 삭제 (c) but 삭제"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>A rain check was a ticket (a)<u>that</u> people (b)<u>got it</u> for a future game when a baseball game (c)<u>was canceled</u> (d)<u>because of</u> rain. Over time, “take a rain check” (e)<u>has been</u> widely used.",o:["(a)","(b)","(c)","(d)","(e)"],a:1,e:"관계사절 안에 목적어 it 중복 → got"},
+{t:"mc",q:"우리말을 영어로 바르게 옮기지 <b>않은</b> 것은?",o:["내가 존경하는 선생님 → the teacher whom I respect","Amy가 만든 샌드위치 → the sandwich which Amy made","미국에 온 독일 배우들 → German actors who came to the United States","사람들이 공연 전에 하는 말 → a phrase that people say it before a show","그녀의 아버지가 사 준 자전거 → the bike her father bought"],a:3,e:"it 중복"},
+{t:"mc",q:"(A), (B), (C)에서 알맞은 것끼리 짝지은 것은?<br><br>• The sandwich (A)(who / which) Amy made was delicious.<br>• (B)(Although / Despite) she was nervous, she performed well.<br>• The phrase has (C)(used / been used) for years.",o:["who - Although - used","which - Although - been used","which - Despite - been used","who - Despite - used","which - Although - used"],a:1,e:"사물 which / 절 앞 Although / 현재완료 수동"},
+{t:"mc",q:"다음 중 관계대명사를 생략할 수 있는 문장의 개수는?<br><br>(a) The girl who sings well is Lily.<br>(b) The jar which Greeks used was big.<br>(c) The man whom I met was kind.<br>(d) A farm which uses technology is smart.",o:["0개","1개","2개","3개","4개"],a:2,e:"(b)(c) 목적격 2개"},
+{t:"mc",q:"다음 대화의 빈칸에 알맞은 것은?<br><br>A: Who is the singer ______ you like the most?<br>B: I like IU the most.",o:["which","whom","what","whose","where"],a:1,e:"사람 선행사 + 목적격 → whom (who/that도 가능)"},
+{t:"mc",q:"다음 중 문장 구조가 <보기>와 같은 것은?<br><보기> The superhero whom Kevin likes the most is Spider-Man.",o:["Kevin likes Spider-Man the most.","The food which Homin eats on rainy days is kimchijeon.","Kevin is a boy who likes Spider-Man.","Spider-Man is liked by Kevin.","I know that Kevin likes Spider-Man."],a:1,e:"주어 + 목적격 관계사절 + is + 보어"},
+{t:"sa",q:"목적격 관계대명사를 사용하여 한 문장으로 쓰시오.<br>The idiom is “spill the beans.” We learned it today.<br>→ The idiom __________________ is “spill the beans.”",a:["which we learned today","that we learned today","we learned today"],e:"The idiom which we learned today is ~"},
+{t:"sa",q:"틀린 부분 2개를 고쳐 문장 전체를 다시 쓰시오.<br>Although Sarah was disappointing, but she understood Emily's situation.",a:["Although Sarah was disappointed, she understood Emily's situation."],e:"disappointing → disappointed / but 삭제"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>Sarah가 보고 싶었던 영화는 다음으로 미뤄졌다.",w:["the movie","which","Sarah","wanted to see","was","put off","it","were"],a:"the movie which Sarah wanted to see was put off",e:"주어 + 관계사절 + was put off (수동태)"}
+],
+ws:[
+{q:"틀린 부분을 모두 고치시오: The bike which her father bought it for her are new.",a:"it 삭제 / are → is"},
+{q:"관계대명사로 연결하시오: The phrase is “Break a leg.” Actors say it before a show.",a:"The phrase which[that] actors say before a show is “Break a leg.”"},
+{q:"Although와 감정 분사를 사용하여 영작하시오: 비록 나는 실망했지만, 그를 이해했다.",a:"Although I was disappointed, I understood him."},
+{q:"현재완료 수동태 문장을 하나 영작하시오.",a:"(예시) This song has been loved by many people."}
+]});
+
+DAYS.push({d:22,cat:"통합",title:"대화문 + 문법 통합",
+point:["반복·설명 요청 표현과 관계대명사를 함께 활용","단어 설명하기: It's a song that ~ / It's a farm which ~ / It's art for everyone","A: What did you say? B: I said “~.” It's a ~ which/that ~"],
+q:[
+{t:"mc",q:"빈칸에 들어갈 말로 알맞은 것은?<br><br>A: Can you tell me more about a smart farm?<br>B: Sure. It's a farm ______ uses the latest technology.",o:["who","whom","which","what","where"],a:2,e:"사물 + 주격 → which (that도 가능)"},
+{t:"mc",q:"빈칸에 들어갈 말로 알맞은 것은?<br><br>A: What did you say?<br>B: I said “Lee Nana.” She is the director ______ I like the most.",o:["which","whom","what","when","whose"],a:1,e:"사람 + 목적격 → whom"},
+{t:"mc",q:"대화의 흐름상 <b>어색한</b> 것은?<br><br>A: (a) I have to take a rain check.<br>B: (b) What did you say?<br>A: (c) I said, “I have to take a rain check.”<br>B: (d) Can you tell me more about it?<br>A: (e) Sure. It's a ticket which people got for a movie.",o:["(a)","(b)","(c)","(d)","(e)"],a:4,e:"rain check는 야구 경기가 비로 취소되었을 때 받는 표(미래 경기용)."},
+{t:"mc",q:"짝지어진 대화가 자연스러운 것은?",o:["A: What did you say?<br>B: I can tell you more about it.","A: Can you tell me more about it?<br>B: I said “mukbang.”","A: Break a leg!<br>B: Thanks. I will!","A: Don't spill the beans.<br>B: OK. I'll tell everyone.","A: Do you want to see a movie?<br>B: Sorry, I have to take a rain check. Let's go now."],a:2,e:"본문 Lily의 대답"},
+{t:"mc",q:"'What did you say?'에 대한 대답으로 알맞지 <b>않은</b> 것은?",o:["I said “earworm.”","I said, “There's a smart farm here.”","I said “public art.”","I said, “The first zipper was used on a shoe.”","Sure. I'll tell you more about it."],a:4,e:"앞에서 한 말을 그대로 반복하지 않고 엉뚱한 내용이다."},
+{t:"mc",q:"관계대명사 that의 쓰임이 나머지와 <b>다른</b> 하나는?",o:["It's a song that keeps repeating in your mind.","A smart farm is a farm that uses technology.","Public art is art that everyone can enjoy.","German actors that came to the US used the phrase.","An earworm is a song that keeps playing."],a:2,e:"everyone can enjoy (주어+동사) → 목적격. 나머지는 주격."},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>A: (A)______ Hana liked the idea, she wanted to know more.<br>B: Yes. She asked, “Can you (B)______ me more about it?”",o:["Although - say","Because - tell","Because - say","Although - tell","When - repeat"],a:1,e:"좋아했기 때문에 더 알고 싶었다 / tell me more"},
+{t:"sa",q:"목적격 관계대명사 which를 사용하여 대답을 완성하시오.<br>A: What is mukbang?<br>B: It's an eating show ______________. (many people, watch)",a:["which many people watch"],e:"It's an eating show which many people watch."},
+{t:"sa",q:"반복 요청 표현을 repeat를 사용하여 쓰고, 이어서 설명 요청 표현을 쓰시오. (두 문장)",a:["Can you repeat that? Can you tell me more about it?","Could you repeat that? Can you tell me more about it?"],e:"Can you repeat that? Can you tell me more about it?"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>공공 미술은 모두가 공원에서 즐길 수 있는 미술이다.",w:["public art","is","art","that","everyone","can enjoy","in parks","it"],a:"public art is art that everyone can enjoy in parks",e:"목적격 관계대명사 that, it 중복 금지"}
+],
+ws:[
+{q:"관계대명사를 사용하여 단어를 설명하시오: (1) earworm (2) smart farm",a:"(1) It's a song that keeps repeating in your mind. (2) It's a farm which uses the latest technology."},
+{q:"반복 요청 → 설명 요청이 들어간 대화를 public art로 4줄 쓰시오.",a:"(예시) A: It's a great example of public art. B: What did you say? A: I said “public art.” B: Can you tell me more about it?"},
+{q:"목적격 관계대명사로 자신이 좋아하는 것을 소개하시오. (The ~ which I like the most is ~)",a:"(예시) The food which I like the most is tteokbokki."},
+{q:"rain check를 관계대명사로 설명하시오.",a:"A rain check was a ticket that people got for a future game when a baseball game was canceled because of rain."}
+]});
+
+DAYS.push({d:23,cat:"통합",title:"본문 고난도 ① (Break a Leg + Spill the Beans)",
+point:["문장 삽입·순서·무관한 문장: 대명사(it, this phrase)와 연결어(So, But, Although)가 단서","두 이야기의 공통 구조: 상황 → 의미 → 유래"],
+q:[
+{t:"mc",q:"글의 흐름으로 보아 주어진 문장이 들어가기에 가장 알맞은 곳은?<br><br>By wishing each other bad luck, they believed that it would go away.<br><br>Although “Break a leg!” may sound like a bad thing, it actually means “Good luck!” (①) German actors who came to the United States in the early 20th century first used this phrase. (②) This expression is still used today. (③) “Break a leg” is a phrase that people say to wish performers good luck. (④) It is a great way to cheer up performers. (⑤)",o:["①","②","③","④","⑤"],a:1,e:"they = German actors → 독일 배우들 문장 바로 뒤"},
+{t:"mc",q:"주어진 문장 다음에 이어질 글의 순서로 알맞은 것은?<br><br>Tommy and Lisa were preparing a surprise party for Hana.<br>(A) Tommy said, “Don't worry. I promise not to tell Hana.”<br>(B) But Tommy was not good at keeping secrets. So, Lisa told him, “Don't spill the beans.”<br>(C) Tommy kept his promise and the surprise party was a big success.",o:["(A)-(B)-(C)","(B)-(A)-(C)","(B)-(C)-(A)","(C)-(A)-(B)","(A)-(C)-(B)"],a:1,e:"문제 상황(B) → 약속(A) → 결과(C)"},
+{t:"mc",q:"글의 흐름과 관계 <b>없는</b> 문장은?<br><br>What does the phrase “spill the beans” mean? ① It means to reveal a secret. ② It comes from an ancient Greek way of voting. ③ Beans are very healthy food for children. ④ When Greeks voted, they put a white or black bean in a big jar. ⑤ When the voting was completed, the beans were spilled to reveal the results.",o:["①","②","③","④","⑤"],a:2,e:"콩의 영양 이야기는 유래와 무관하다."},
+{t:"mc",q:"두 글의 요약문 빈칸 (A), (B)에 알맞은 것은?<br><br>“Break a leg” is said to wish performers (A)______, and “spill the beans” means to (B)______ a secret.",o:["bad luck - keep","good luck - reveal","good luck - keep","bad luck - reveal","success - hide"],a:1,e:"good luck / reveal"},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>• The curtains were about (a)<u>to go</u> up.<br>• German actors (b)<u>who</u> came to the United States first used this phrase.<br>• Tommy was not good at (c)<u>keep</u> secrets.<br>• I promise (d)<u>not to tell</u> Hana.<br>• The beans (e)<u>were spilled</u> to reveal the results.",o:["(a)","(b)","(c)","(d)","(e)"],a:2,e:"at + 동명사 keeping"},
+{t:"mc",q:"두 글을 통해 추론할 수 있는 것은?",o:["Lily didn't want to perform.","German actors believed words could change luck.","Tommy told Hana about the party.","Greeks voted by raising their hands.","Lisa was not invited to the party."],a:1,e:"불운을 빌면 불운이 사라진다고 믿음 → 말이 운을 바꾼다고 믿었다."},
+{t:"mc",q:"두 글에 대한 설명으로 알맞지 <b>않은</b> 것은?",o:["두 글 모두 관용 표현의 의미를 설명한다.","두 글 모두 표현의 유래를 소개한다.","두 글 모두 등장인물의 대화로 시작한다.","Break a leg는 미국에서 사용되기 시작했다.","Spill the beans는 고대 그리스와 관련이 있다."],a:2,e:"Break a Leg는 It was the day of the school play.라는 설명으로 시작한다."},
+{t:"sa",q:"본문에서 Break a leg의 뜻을 설명한 문장을 찾아 쓰시오. (“Break a leg” is a phrase로 시작)",a:["“Break a leg” is a phrase that people say to wish performers good luck before a show.","Break a leg is a phrase that people say to wish performers good luck before a show."],e:"“Break a leg” is a phrase that people say to wish performers good luck before a show."},
+{t:"sa",q:"영어로 답하시오. (They put으로 시작)<br>Q: How did Greeks vote?",a:["They put a white or black bean in a big jar."],e:"They put a white or black bean in a big jar."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>서로에게 불운을 빎으로써, 그들은 그것이 사라질 거라고 믿었다.",w:["by","wishing","each other","bad luck","they","believed","that","it","would go away","to wish"],a:"by wishing each other bad luck they believed that it would go away",e:"by + 동명사 / believed that + 절"}
+],
+ws:[
+{q:"Break a Leg를 영어 2문장으로 요약하시오.",a:"(예시) “Break a leg!” means “Good luck!” German actors in the United States first used it because they believed bad luck would go away."},
+{q:"Spill the Beans를 영어 2문장으로 요약하시오.",a:"(예시) “Spill the beans” means to reveal a secret. It comes from an ancient Greek way of voting with beans."},
+{q:"두 이야기의 공통점을 영어 한 문장으로 쓰시오.",a:"(예시) Both stories explain the meaning and the origin of an idiom."},
+{q:"'they believed that it would go away'에서 they와 it이 가리키는 것을 쓰시오.",a:"they = German actors / it = bad luck"}
+]});
+
+DAYS.push({d:24,cat:"통합",title:"본문 고난도 ② (Take a Rain Check + 전체)",
+point:["Rain Check: 상황(Sarah–Emily) → 의미(정중한 거절+다음 기약) → 유래(1880년대 야구) → 확장(다른 스포츠 → 일상 표현)","시간 흐름 단서: first used → Later → Over time"],
+q:[
+{t:"mc",q:"주어진 문장이 들어가기에 가장 알맞은 곳은?<br><br>Later, rain checks were given at other sporting events.<br><br>The phrase “rain check” was first used at a baseball game in the 1880s. (①) A rain check was a ticket that people got for a future game when a baseball game was canceled because of rain. (②) Over time, “take a rain check” has been widely used to say that you can't do something now and want to do it later. (③) So, you can use it when you refuse an offer. (④) It is a polite expression. (⑤)",o:["①","②","③","④","⑤"],a:1,e:"야구 경기 → Later 다른 스포츠 → Over time 일상 표현"},
+{t:"mc",q:"주어진 문장 다음에 이어질 글의 순서로 알맞은 것은?<br><br>Sarah wanted to see a movie with her best friend, Emily.<br>(A) “That's okay. Let's do it another time,” said Sarah.<br>(B) So, she asked Emily, “Do you want to see a movie with me today?”<br>(C) Emily replied, “I'm sorry, but I have to take a rain check.”",o:["(A)-(B)-(C)","(B)-(A)-(C)","(B)-(C)-(A)","(C)-(B)-(A)","(C)-(A)-(B)"],a:2,e:"제안(B) → 거절(C) → 수락(A)"},
+{t:"mc",q:"글의 흐름과 관계 <b>없는</b> 문장은?<br><br>What does “take a rain check” mean? ① It means to refuse an offer politely but wish to do it later. ② The phrase “rain check” was first used at a baseball game in the 1880s. ③ Baseball is the most popular sport in Korea. ④ A rain check was a ticket for a future game. ⑤ Later, rain checks were given at other sporting events.",o:["①","②","③","④","⑤"],a:2,e:"한국 야구 인기는 유래 설명과 무관하다."},
+{t:"mc",q:"'take a rain check'의 의미가 변화한 과정을 바르게 정리한 것은?",o:["다른 스포츠 행사 → 야구 경기 → 일상 표현","야구 경기 → 다른 스포츠 행사 → 일상 표현","일상 표현 → 야구 경기 → 다른 스포츠 행사","야구 경기 → 일상 표현 → 다른 스포츠 행사","영화관 → 야구 경기 → 일상 표현"],a:1,e:"first used → Later → Over time"},
+{t:"mc",q:"요약문 빈칸 (A), (B)에 알맞은 것은?<br><br>A rain check was a ticket for a (A)______ game, and now “take a rain check” is used to (B)______ an offer politely.",o:["past - accept","future - refuse","future - accept","canceled - make","free - refuse"],a:1,e:"future / refuse"},
+{t:"mc",q:"세 글 전체에 대한 설명으로 알맞은 것은?",o:["세 표현 모두 원래 의미 그대로 쓰인다.","세 표현 모두 미국에서 처음 쓰였다.","세 표현 모두 겉뜻과 실제 의미가 다르다.","세 표현 모두 스포츠에서 유래했다.","세 표현 모두 비밀과 관련이 있다."],a:2,e:"관용 표현: 단어의 뜻만으로 짐작하기 어렵다."},
+{t:"mc",q:"Sarah에 대한 설명으로 알맞은 것은?",o:["Emily의 거절에 화를 냈다.","Emily와 할머니 댁에 함께 갔다.","조금 실망했지만 Emily를 이해했다.","혼자 영화를 보러 갔다.","rain check의 의미를 몰랐다."],a:2,e:"Although Sarah was a little disappointed, she understood Emily's situation."},
+{t:"sa",q:"영어로 답하시오. (It was a ticket으로 시작, 관계대명사 that 사용)<br>Q: What was a rain check?",a:["It was a ticket that people got for a future game.","It was a ticket that people got for a future game when a baseball game was canceled because of rain."],e:"It was a ticket that people got for a future game (when ~)."},
+{t:"sa",q:"현재완료 수동태를 사용하여 본문 문장을 완성하시오.<br>Over time, “take a rain check” ________________ to say that you can't do something now.",a:["has been widely used"],e:"has been widely used"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그것은 제안을 정중하게 거절하지만 나중에 하고 싶다는 것을 의미한다.",w:["it","means","to refuse","an offer","politely","but","wish","to do it later","polite"],a:"it means to refuse an offer politely but wish to do it later",e:"mean + to부정사"}
+],
+ws:[
+{q:"Take a Rain Check를 영어 2문장으로 요약하시오.",a:"(예시) “Take a rain check” means to refuse an offer politely but wish to do it later. It comes from tickets for future baseball games in the 1880s."},
+{q:"rain check의 의미 변화 과정을 우리말로 3단계로 쓰시오.",a:"야구 경기 우천 취소 시 받는 표 → 다른 스포츠 행사에서도 주어짐 → 지금은 못 하지만 나중에 하고 싶다는 일상 표현"},
+{q:"Emily 입장에서 Sarah에게 보내는 메시지를 rain check를 넣어 2문장으로 쓰시오.",a:"(예시) Sorry, I have to take a rain check today. Let's see the movie next weekend."},
+{q:"세 표현의 공통점을 영어 한 문장으로 쓰시오.",a:"(예시) Their real meanings are different from the meanings of the words."}
+]});
+
+DAYS.push({d:25,cat:"통합",title:"어법 고난도 (개수·짝 고르기)",
+point:["관계대명사: 선행사(사람/사물) · 격(주격/목적격) · 목적어 중복 · 생략","although vs despite / although + but 금지","수동태·현재완료 수동태 / 감정 분사 / be good at -ing / promise not to"],
+q:[
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) The curtains were about to go up.<br>(b) She felt very nervously.<br>(c) Tommy was not good at keeping secrets.<br>(d) I promise to not tell Hana.<br>(e) The beans were spilled to reveal the results.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(c)(e) 3개"},
+{t:"mc",q:"어법상 <b>틀린</b> 문장의 개수는?<br><br>(a) This is the book which I bought it.<br>(b) The teacher whom I respect is kind.<br>(c) Although the rain, we played.<br>(d) This phrase has been used for years.<br>(e) Hana was completely surprising.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(c)(e) 3개 틀림"},
+{t:"mc",q:"(A), (B), (C)에서 어법상 알맞은 것끼리 짝지은 것은?<br><br>• Lee Nana is the director (A)(whom / which) I like the most.<br>• (B)(Although / Despite) Sarah was disappointed, she understood.<br>• The phrase “rain check” (C)(first used / was first used) in the 1880s.",o:["whom - Although - was first used","which - Although - first used","whom - Despite - was first used","which - Despite - first used","whom - Although - first used"],a:0,e:"사람 whom / 절 Although / 수동태"},
+{t:"mc",q:"(A), (B), (C)에서 어법상 알맞은 것끼리 짝지은 것은?<br><br>• The food which Homin eats on rainy days (A)(is / are) kimchijeon.<br>• This song keeps (B)(playing / to play) in my head.<br>• Most earworms are very easy (C)(remember / to remember).",o:["is - playing - to remember","are - playing - to remember","is - to play - remember","are - to play - remember","is - playing - remember"],a:0,e:"The food(단수) is / keep -ing / easy to ~"},
+{t:"mc",q:"밑줄 친 부분을 바르게 고친 것이 <b>아닌</b> 것은?",o:["She felt very <u>nervously</u>. → nervous","I promise <u>to not</u> tell Hana. → not to","This is the book which I bought <u>it</u>. → 삭제","Although it rained, <u>but</u> we played. → 삭제","The phrase <u>has used</u> for years. → have used"],a:4,e:"has been used로 고쳐야 한다."},
+{t:"mc",q:"밑줄 친 부분 중 어법상 <b>틀린</b> 것은?<br><br>Sarah wanted (a)<u>to see</u> a movie with her best friend, Emily. Emily replied, “I'm sorry, but I have to take a rain check.” (b)<u>Although</u> Sarah was a little (c)<u>disappointed</u>, she understood Emily's situation. A rain check was a ticket (d)<u>which</u> people got for a future game when a baseball game (e)<u>canceled</u> because of rain.",o:["(a)","(b)","(c)","(d)","(e)"],a:4,e:"경기가 취소됨 → was canceled"},
+{t:"mc",q:"어법상 올바른 것은?",o:["The man whom I met him was kind.","The jar which Greeks used was big.","The girl which I like is Lily.","The phrase what people say is “Break a leg.”","The bike that her father bought it is red."],a:1,e:"사물 which, 목적어 중복 없음"},
+{t:"sa",q:"틀린 부분 2개를 고쳐 문장 전체를 다시 쓰시오.<br>The pet which Reena wants to have it are a chameleon.",a:["The pet which Reena wants to have is a chameleon."],e:"it 삭제 / are → is"},
+{t:"sa",q:"틀린 부분 2개를 고쳐 문장 전체를 다시 쓰시오.<br>Tommy was not good at keep secrets, so he promised to not tell Hana.",a:["Tommy was not good at keeping secrets, so he promised not to tell Hana."],e:"keep → keeping / to not → not to"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>Amy가 만든 샌드위치는 맛있었다.",w:["the sandwich","which","Amy","made","was","delicious","it","were"],a:"the sandwich which Amy made was delicious",e:"주어 + 관계사절 + was"}
+],
+ws:[
+{q:"틀린 부분을 모두 고치시오: Although she felt nervously, but she performed successful.",a:"nervously → nervous / but 삭제 / successful → successfully"},
+{q:"틀린 부분을 모두 고치시오: The ticket which people got it were for a future game.",a:"it 삭제 / were → was"},
+{q:"틀린 부분을 고치시오: The phrase have used since the 1880s.",a:"have used → has been used"},
+{q:"오늘 가장 헷갈린 어법 포인트를 한 줄로 정리하시오.",a:"(개인별 작성)"}
+]});
+
+DAYS.push({d:26,cat:"서술형",title:"서술형 집중 ① 문장 결합·전환",
+point:["관계대명사 결합: 공통 명사 찾기 → 대명사 삭제 → who(m)/which/that","Although로 연결 / 수동태 전환","조건(단어 수, 시작 단어)을 반드시 지킬 것"],
+q:[
+{t:"sa",q:"whom을 사용하여 한 문장으로 쓰시오.<br>The teacher is very kind. I respect her.",a:["The teacher whom I respect is very kind."],e:"The teacher whom I respect is very kind."},
+{t:"sa",q:"which를 사용하여 한 문장으로 쓰시오.<br>She likes the bike. Her father bought it for her.",a:["She likes the bike which her father bought for her."],e:"She likes the bike which her father bought for her."},
+{t:"sa",q:"Although를 사용하여 한 문장으로 쓰시오.<br>“Break a leg!” may sound like a bad thing. It actually means “Good luck!”",a:["Although “Break a leg!” may sound like a bad thing, it actually means “Good luck!”","Although Break a leg may sound like a bad thing, it actually means Good luck"],e:"Although ~, it actually means “Good luck!”"},
+{t:"sa",q:"수동태로 바꾸시오. (by 생략)<br>People still use this expression today.",a:["This expression is still used today."],e:"This expression is still used today."},
+{t:"sa",q:"현재완료 수동태로 바꾸시오. (by 생략)<br>People have widely used “take a rain check.”",a:["“Take a rain check” has been widely used.","Take a rain check has been widely used."],e:"“Take a rain check” has been widely used."},
+{t:"mc",q:"두 문장을 한 문장으로 연결할 때 바른 것은?<br><br>A rain check was a ticket. People got it for a future game.",o:["A rain check was a ticket who people got for a future game.","A rain check was a ticket which people got it for a future game.","A rain check was a ticket that people got for a future game.","A rain check was a ticket what people got for a future game.","A rain check was a ticket people got it for a future game."],a:2,e:"that(목적격), it 삭제"},
+{t:"mc",q:"'Lily가 연습한 연극은 성공적이었다.'를 영작할 때 다섯 번째로 오는 단어는?<br>(관계대명사 which 사용)",o:["Lily","practiced","was","which","successful"],a:2,e:"The(1) play(2) which(3) Lily(4) practiced(5)... → 정답: practiced"},
+{t:"mc",q:"'하나에게 말하지 않겠다고 약속해.'를 영작할 때 필요 <b>없는</b> 단어는?",o:["promise","not","to","tell","don't"],a:4,e:"I promise not to tell Hana."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>내가 존경하는 선생님은 매우 친절하시다.",w:["the teacher","whom","I","respect","is","very","kind","her","are"],a:"the teacher whom I respect is very kind",e:"her 중복 금지 / The teacher(단수) is"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>나는 모든 사람이 신뢰하는 친구가 한 명 있다.",w:["I","have","a friend","whom","everyone","trusts","which","trust"],a:"I have a friend whom everyone trusts",e:"everyone은 단수 → trusts"}
+],
+ws:[
+{q:"관계대명사로 연결하시오: The song is “Dynamite.” I listen to it every day.",a:"The song which[that] I listen to every day is “Dynamite.”"},
+{q:"Although로 연결하시오: Emily wanted to see the movie. She had to go to her grandmother's house.",a:"Although Emily wanted to see the movie, she had to go to her grandmother's house."},
+{q:"수동태로: German actors first used this phrase.",a:"This phrase was first used by German actors."},
+{q:"관계대명사 생략 문장으로: The jar which Greeks used was big.",a:"The jar Greeks used was big."}
+]});
+DAYS[DAYS.length-1].q[6]={t:"mc",q:"'Lily가 연습한 연극은 성공적이었다.'를 관계대명사 which를 사용하여 영작할 때 다섯 번째로 오는 단어는?",o:["Lily","practiced","was","which","successful"],a:1,e:"The(1) play(2) which(3) Lily(4) practiced(5) was successful."};
+
+DAYS.push({d:27,cat:"서술형",title:"서술형 집중 ② 질문에 답하기·조건 영작",
+point:["영어 질문에는 완전한 문장으로 답하기 (주어 + 동사)","본문 표현을 그대로 활용하되 대명사로 바꾸기","조건 영작: 주어진 단어 형태 변형에 주의"],
+q:[
+{t:"sa",q:"영어로 답하시오. (She로 시작)<br>Q: How did Lily feel before the play?",a:["She felt very nervous.","She felt nervous.","She was very nervous."],e:"She felt very nervous."},
+{t:"sa",q:"영어로 답하시오.<br>Q: Who first used the phrase “Break a leg”?<br>A: German actors who ______________________ first used it.",a:["came to the United States in the early 20th century"],e:"came to the United States in the early 20th century"},
+{t:"sa",q:"영어로 답하시오. (It means로 시작)<br>Q: What does “spill the beans” mean?",a:["It means to reveal a secret."],e:"It means to reveal a secret."},
+{t:"sa",q:"조건 영작: (good at, keep 형태 변형, 7단어)<br>Tommy는 비밀을 지키는 것을 잘 못했다.",a:["Tommy was not good at keeping secrets.","Tommy wasn't good at keeping secrets."],e:"Tommy was not good at keeping secrets."},
+{t:"sa",q:"조건 영작: (about 사용, The curtains로 시작)<br>커튼이 막 올라가려고 했다.",a:["The curtains were about to go up."],e:"be about to + 동사원형"},
+{t:"mc",q:"질문과 대답이 바르게 짝지어진 것은?",o:["Q: What did Lily's friend say?<br>A: She said, “Spill the beans!”","Q: What was the surprise party like?<br>A: It was a big success.","Q: Why did Emily take a rain check?<br>A: She didn't like movies.","Q: What did Greeks put in a jar?<br>A: They put red beans.","Q: Where was “rain check” first used?<br>A: At a soccer game."],a:1,e:"the surprise party was a big success"},
+{t:"mc",q:"다음 학생 영작 중 감점이 <b>없는</b> 것은?<br>'투표가 완료되었을 때, 콩들은 쏟아졌다.'",o:["When the voting completed, the beans spilled.","When the voting was completed, the beans were spilled.","When the voting was complete, the beans was spilled.","When the voting completed, the beans were spill.","When voting were completed, the beans spilled."],a:1,e:"둘 다 수동태"},
+{t:"mc",q:"조건(관계대명사 whom, 8단어)에 맞게 '그녀는 모든 사람이 신뢰하는 친구이다.'를 영작한 것은?",o:["She is a friend everyone trusts.","She is a friend whom everyone trusts.","She is a friend whom everyone trusts her.","She is a friend which everyone trusts.","She is the friend that everyone trusts."],a:1,e:"She(1) is(2) a(3) friend(4) whom(5) everyone(6) trusts(7) — 7단어. 조건 중 whom 사용·목적어 중복 없음이 맞는 것은 ②"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그때부터, 사람들은 새로운 의미로 이 어구를 사용하기 시작했다.",w:["from then","people","began","to use","this phrase","with","a new meaning","using it"],a:"from then people began to use this phrase with a new meaning",e:"begin to + 동사원형"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>Emily는 오늘 할머니 댁에 가야 한다.",w:["Emily","has","to go","to","her grandmother's house","today","must to"],a:"Emily has to go to her grandmother's house today",e:"has to + 동사원형"}
+],
+ws:[
+{q:"영어로 답하시오: What did Tommy promise?",a:"He promised not to tell Hana."},
+{q:"영어로 답하시오: Why were the beans spilled?",a:"They were spilled to reveal the results."},
+{q:"영어로 답하시오: What does “take a rain check” mean?",a:"It means to refuse an offer politely but wish to do it later."},
+{q:"조건 영작 (although, disappointed): 비록 나는 조금 실망했지만, 친구를 이해했다.",a:"Although I was a little disappointed, I understood my friend."}
+]});
+DAYS[DAYS.length-1].q[7]={t:"mc",q:"조건(관계대명사 whom 사용, 7단어)에 맞게 '그녀는 모든 사람이 신뢰하는 친구이다.'를 영작한 것은?",o:["She is a friend everyone trusts.","She is a friend whom everyone trusts.","She is a friend whom everyone trusts her.","She is a friend which everyone trusts.","She is the friend that everyone trusts."],a:1,e:"She(1) is(2) a(3) friend(4) whom(5) everyone(6) trusts(7)"};
+
+DAYS.push({d:28,cat:"서술형",title:"서술형 집중 ③ 요약·자기표현",
+point:["요약문: 핵심 인물·의미·유래를 한 문장에","자기표현: 관계대명사, although, 관용 표현을 넣어 내 이야기 쓰기"],
+q:[
+{t:"sa",q:"요약문 빈칸에 알맞은 두 단어를 쓰시오.<br>“Break a leg” is said to wish performers ______ ______ before a show.",a:["good luck"],e:"good luck"},
+{t:"sa",q:"요약문 빈칸에 알맞은 말을 쓰시오. (3단어)<br>“Spill the beans” comes from an ancient Greek way of voting, and it means ______________.",a:["to reveal a secret","revealing a secret"],e:"to reveal a secret"},
+{t:"sa",q:"요약문 빈칸에 알맞은 말을 쓰시오. (한 단어씩, 콤마로 구분)<br>“Take a rain check” means to refuse an offer ______ but wish to do it ______.",a:["politely, later","politely later"],e:"politely, later"},
+{t:"sa",q:"관용 표현을 넣어 대답을 완성하시오.<br>A: Do you want to play basketball now?<br>B: Sorry, I have to ______________. I have a lot of homework.",a:["take a rain check"],e:"take a rain check"},
+{t:"sa",q:"관용 표현을 넣어 완성하시오.<br>My sister has a dance contest tomorrow. I'll say to her, “________!”",a:["Break a leg"],e:"Break a leg!"},
+{t:"mc",q:"다음 상황에 맞는 관용 표현끼리 바르게 짝지은 것은?<br><br>(A) 엄마의 깜짝 생일 선물을 동생이 말해 버릴까 걱정될 때<br>(B) 친구의 노래 대회 직전",o:["Don't spill the beans. - Break a leg!","Take a rain check. - Spill the beans.","Break a leg! - Take a rain check.","Don't break a leg. - Spill the beans.","Take a rain check. - Break a leg!"],a:0,e:"(A) 비밀 지키기 (B) 행운 빌기"},
+{t:"mc",q:"요약문 빈칸 (A), (B), (C)에 알맞은 것은?<br><br>Idioms often have (A)______ meanings that are different from their words. For example, “Break a leg!” means “Good luck!” and “spill the beans” means to (B)______ a secret. Learning their (C)______ helps us remember them.",o:["hidden - reveal - stories","simple - keep - prices","hidden - hide - rules","real - keep - stories","simple - reveal - games"],a:0,e:"숨겨진 의미 / 드러내다 / 유래 이야기"},
+{t:"mc",q:"다음 글에서 관용 표현이 <b>잘못</b> 쓰인 것은?",o:["Before her speech, I said, “Break a leg!”","Please don't spill the beans about the party.","I can't come today. Can I take a rain check?","He spilled the beans, so the surprise was ruined.","I broke a leg, so I performed very well."],a:4,e:"broke a leg는 실제로 다리가 부러졌다는 뜻이 될 수 있어 어색하다."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>내가 가장 좋아하는 관용 표현은 'spill the beans'이다.",w:["the idiom","which","I","like","the most","is","“spill the beans”","it"],a:"the idiom which I like the most is “spill the beans”",e:"목적격 관계대명사"},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>비록 그것은 이상하게 들리지만, 실제로는 좋은 의미를 갖고 있다.",w:["although","it","sounds","strange","it","actually","has","a good meaning","strangely","but"],a:"although it sounds strange it actually has a good meaning",e:"sound + 형용사 / although와 but 함께 쓰지 않음"}
+],
+ws:[
+{q:"세 관용 표현을 각각 한 문장으로 요약하시오.",a:"(예시) “Break a leg” means good luck. “Spill the beans” means to reveal a secret. “Take a rain check” means to put off an offer politely."},
+{q:"내가 rain check를 사용했던(또는 사용할) 상황을 영어 2문장으로 쓰시오.",a:"(예시) My friend asked me to play games. I said, “Sorry, I have to take a rain check.”"},
+{q:"관계대명사를 사용하여 내가 좋아하는 것 2가지를 소개하시오.",a:"(예시) The book which I like the most is Wonder. The singer whom I like is IU."},
+{q:"우리말 속담·관용 표현 하나를 영어로 의미와 함께 소개하시오.",a:"(예시) “누워서 떡 먹기” means something is very easy, like “a piece of cake.”"}
+]});
+
+DAYS.push({d:29,cat:"실전",title:"실전 모의고사 ①",
+point:["대화문·본문·문법 전 범위","선택지를 끝까지 읽고 본문 근거 찾기"],
+q:[
+{t:"mc",q:"짝지어진 대화가 <b>어색한</b> 것은?",o:["A: There's a smart farm here.<br>B: What did you say?","A: Can you tell me more about it?<br>B: Sure. It uses the latest technology.","A: This song keeps playing in my head.<br>B: Oh, you have an earworm.","A: Let's take a photo in front of the sculpture.<br>B: Sounds good.","A: What did you say?<br>B: Sure. I'd like to know more about it."],a:4,e:"반복 요청에 대한 응답으로 어색하다."},
+{t:"mc",p:"D5",q:"대화의 내용과 일치하는 것은?",o:["Hana knew the word public art well.","Jake explains public art twice.","Public art is only in museums.","Hana visited Jeju-do with Jake.","They will draw a picture of the sculpture."],a:1,e:"It's art for everyone. / It's art in public spaces ~ (두 번 설명)"},
+{t:"mc",p:"D4",q:"대화의 내용과 일치하지 <b>않는</b> 것은?",o:["The first zipper was used on a shoe.","A man wanted to put on his shoes quickly.","The boy thinks it was a great idea.","Zippers are used on jackets and bags now.","The man made zippers for his jacket first."],a:4,e:"신발에 처음 사용"},
+{t:"mc",q:"본문의 내용과 일치하는 것은?",o:["Lily didn't practice much for the play.","German actors wished each other good luck.","Tommy kept the secret from Hana.","Greeks used red and green beans.","Emily accepted Sarah's offer."],a:2,e:"Tommy kept his promise"},
+{t:"mc",q:"밑줄 친 관계대명사 중 생략할 수 있는 것은?",o:["It's a song <u>that</u> keeps repeating.","German actors <u>who</u> came to the US","A farm <u>which</u> uses the latest technology","A ticket <u>that</u> people got for a future game","A girl <u>who</u> sings well"],a:3,e:"목적격"},
+{t:"mc",q:"빈칸에 알맞은 것끼리 짝지은 것은?<br><br>• The director (A)____ I like the most is Lee Nana.<br>• The dog (B)____ Minsu brought is cute.",o:["whom - which","which - whom","whom - whom","which - which","what - which"],a:0,e:"사람 whom / 동물 which"},
+{t:"mc",q:"어법상 올바른 것은?",o:["Although she was nervous, but she did well.","The phrase has been used since the 1880s.","Hana was completely surprising.","I promise to not tell her.","He is good at keep secrets."],a:1,e:"현재완료 수동태"},
+{t:"sa",q:"영어로 답하시오. (It means로 시작)<br>Q: What does “take a rain check” mean?",a:["It means to refuse an offer politely but wish to do it later."],e:"It means to refuse an offer politely but wish to do it later."},
+{t:"sa",q:"which를 사용하여 한 문장으로 쓰시오.<br>The musical was exciting. I watched it yesterday.",a:["The musical which I watched yesterday was exciting."],e:"The musical which I watched yesterday was exciting."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>그것은 사람들이 공연 전에 공연자들에게 행운을 빌어 주기 위해 하는 말이다.",w:["it","is","a phrase","that","people","say","to wish","performers","good luck","before a show","it's"],a:"it is a phrase that people say to wish performers good luck before a show",e:"목적격 that + 목적의 to부정사 / wish + 간목 + 직목"}
+],
+ws:[
+{q:"대화문 Topic 1의 세 단어(smart farm, earworm, mukbang)를 관계대명사를 사용해 각각 설명하시오.",a:"A smart farm is a farm which uses the latest technology. / An earworm is a song that keeps repeating in your mind. / Mukbang is a show which many people watch to see someone eat."},
+{q:"본문 세 이야기 중 하나를 골라 친구에게 소개하듯 3문장으로 쓰시오.",a:"(예시) Do you know “spill the beans”? It means to reveal a secret. It comes from an ancient Greek way of voting."},
+{q:"오늘 틀린 문항의 핵심 개념을 정리하시오.",a:"(개인별 작성)"},
+{q:"수동태·현재완료 수동태 문장을 각각 하나씩 영작하시오.",a:"(예시) The game was canceled because of rain. / This phrase has been used for many years."}
+]});
+
+DAYS.push({d:30,cat:"실전",title:"실전 모의고사 ② (최종)",
+point:["Lesson 7 전 범위 최종 점검","틀린 문제는 해당 DAY로 돌아가 복습"],
+q:[
+{t:"mc",q:"어법상 올바른 문장의 개수는?<br><br>(a) This song keeps playing in my head.<br>(b) The first zipper used on a shoe.<br>(c) The teacher whom I respect is very kind.<br>(d) Although it rained, but we played.<br>(e) “Take a rain check” has been widely used.",o:["1개","2개","3개","4개","5개"],a:2,e:"(a)(c)(e) 3개"},
+{t:"mc",q:"관용 표현에 대한 설명으로 알맞지 <b>않은</b> 것은?",o:["Break a leg – 공연 전 행운을 빌어 주는 말","Break a leg – 20세기 초 미국에 온 독일 배우들이 처음 사용","Spill the beans – 비밀을 누설하다","Spill the beans – 고대 그리스의 투표에서 유래","Take a rain check – 1880년대 축구 경기에서 유래"],a:4,e:"야구 경기"},
+{t:"mc",q:"주어진 문장이 들어가기에 가장 알맞은 곳은?<br><br>Hana was completely surprised.<br><br>Tommy and Lisa were preparing a surprise party for Hana. (①) But Tommy was not good at keeping secrets. (②) So, Lisa told him, “Don't spill the beans.” (③) Tommy said, “Don't worry. I promise not to tell Hana.” (④) Tommy kept his promise and the surprise party was a big success. (⑤)",o:["①","②","③","④","⑤"],a:4,e:"파티가 성공한 결과 → 하나가 놀람"},
+{t:"mc",q:"다음 중 의도가 나머지와 <b>다른</b> 하나는?",o:["Can you tell me more about it?","I'd like to know more about it.","Can you give me more details about it?","Please tell me more about it.","Could you say that again?"],a:4,e:"반복 요청. 나머지는 설명 요청."},
+{t:"mc",q:"'A rain check was a ticket that people got for a future game.'에 대한 설명으로 <b>틀린</b> 것은?",o:["선행사는 a ticket이다.","that은 목적격 관계대명사이다.","that 대신 which를 쓸 수 있다.","that은 생략할 수 없다.","관계사절에 목적어가 없다."],a:3,e:"목적격 관계대명사는 생략 가능"},
+{t:"mc",q:"감정 분사가 <b>잘못</b> 쓰인 것은?",o:["Lily felt very nervous.","Hana was completely surprised.","Sarah was a little disappointed.","That sounds interesting.","The story was very interested."],a:4,e:"이야기가 흥미를 일으킴 → interesting"},
+{t:"mc",q:"빈칸 (A), (B)에 알맞은 것은?<br><br>(A)______ “Break a leg!” may sound like a bad thing, it actually means “Good luck!” (B)______ wishing each other bad luck, they believed that it would go away.",o:["Although - By","Because - By","Although - For","So - With","If - In"],a:0,e:"양보 Although / 수단 By + -ing"},
+{t:"sa",q:"영어로 답하시오. (The beans로 시작, 수동태 사용)<br>Q: What happened to the beans when the voting was completed?",a:["The beans were spilled to reveal the results.","The beans were spilled."],e:"The beans were spilled to reveal the results."},
+{t:"sa",q:"관계대명사 which를 사용하여 영작하시오.<br>Reena가 갖고 싶어 하는 반려동물은 카멜레온이다.",a:["The pet which Reena wants to have is a chameleon."],e:"The pet which Reena wants to have is a chameleon."},
+{t:"or",q:"우리말과 같도록 배열하시오. (필요 없는 단어 포함)<br>시간이 지나면서, 그 표현은 널리 사용되어 왔다.",w:["over time","the expression","has","been","widely","used","have","using"],a:"over time the expression has been widely used",e:"현재완료 수동태 has been + p.p."}
+],
+ws:[
+{q:"Lesson 7에서 배운 관용 표현 하나를 골라 의미·유래·예문을 영어로 쓰시오.",a:"(예시) “Take a rain check” means to refuse an offer politely but wish to do it later. It comes from baseball games in the 1880s. Example: Sorry, I have to take a rain check today."},
+{q:"목적격 관계대명사를 사용하여 내 주변 사람·물건 3가지를 소개하시오.",a:"(예시) The teacher whom I respect is Ms. Kim. The book which I read last week was fun. The food which I like the most is pizza."},
+{q:"반복 요청·설명 요청이 들어간 대화를 관용 표현을 주제로 4줄 쓰시오.",a:"(예시) A: Break a leg! B: What did you say? A: I said, “Break a leg!” B: Can you tell me more about it?"},
+{q:"30일 동안 가장 많이 틀린 개념과 앞으로의 학습 계획을 쓰시오.",a:"(개인별 작성)"}
+]});
+
+</script>
+<script>
+(function(){
+const $=s=>document.querySelector(s), app=$("#app");
+const KEY=CONF.key;
+/* ▼ 노션 자동저장: Apps Script 웹앱 배포 URL을 아래 따옴표 안에 붙여넣으세요 ▼ */
+const SAVE_URL="PASTE_APPS_SCRIPT_URL_HERE";
+const UNIT=CONF.unit;
+const QKEY=CONF.key+"_queue";
+let store={name:"",best:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY)||"null"); if(s) store=Object.assign(store,s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){}}
+const saveOn=()=>/^https:\/\/script\.google\.com\//.test(SAVE_URL);
+function getQ(){try{return JSON.parse(localStorage.getItem(QKEY)||"[]")}catch(e){return []}}
+function setQ(q){try{localStorage.setItem(QKEY,JSON.stringify(q))}catch(e){}}
+async function post(payload){
+  const r=await fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+  const j=await r.json(); if(!j.ok) throw new Error(j.msg||"save failed"); return j;}
+async function flushQ(){ if(!saveOn())return; let q=getQ(); if(!q.length)return; const left=[];
+  for(const p of q){try{await post(p)}catch(e){left.push(p)}} setQ(left);}
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const fmt=s=>s.replace(/\[\[(.+?)\]\]/g,"<u>$1</u>").replace(/\n/g,"<br>");
+const CIRC=["①","②","③","④","⑤"];
+const TYPE={mc:"객관식",sa:"서술형",or:"배열"};
+function norm(s){s=String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/[“”]/g,'"');
+  const m={"isn't":"is not","don't":"do not","doesn't":"does not","it's":"it is","i'm":"i am","it'll":"it will","aren't":"are not","can't":"cannot","won't":"will not","what's":"what is","they're":"they are"};
+  for(const k in m)s=s.split(k).join(m[k]);
+  return s.replace(/[.,!?;:"()]/g," ").replace(/\s+/g," ").trim();}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+const fixedOpts=o=>o.every(x=>/^(\(|[①-⑤]|\d개)/.test(x));
+
+let S=null; // session
+$("#subb").textContent=CONF.sub;
+function setBar(p){$("#bar").style.width=(p*100)+"%"}
+$("#homeBtn").onclick=home;
+
+function home(){
+  S=null; $("#homeBtn").hidden=true; setBar(0); window.scrollTo(0,0);
+  const doneN=Object.keys(store.best).length;
+  const avg=doneN?Math.round(Object.values(store.best).reduce((a,b)=>a+b,0)/doneN*10):0;
+  const cats=[...new Set(DAYS.map(d=>d.cat))];
+  app.innerHTML=`
+  <div class="hero"><span class="eyebrow">${CONF.eyebrow}</span>
+  <h1>30일 미니테스트</h1>
+  <p>하루 10문항 · ${CONF.flow} 순서로 진행합니다. 풀고 나면 같은 DAY의 연계 워크시트를 확인하세요.</p></div>
+  <div class="namebox"><label for="nm">이름</label><input id="nm" placeholder="이름을 입력하세요" value="${esc(store.name)}" maxlength="20"></div>
+  <div class="stats"><span>완료 <b>${doneN}</b>/30일</span><span>평균 <b>${avg}</b>점</span></div>
+  <div class="legend">${cats.map(c=>`<span class="tag c-${c}">${c}</span>`).join("")}</div>
+  <div class="grid">${DAYS.map(d=>{const b=store.best[d.d];return `<button class="day ${b!=null?"done":""}" data-d="${d.d}">
+    <span class="n">DAY ${String(d.d).padStart(2,"0")}${b!=null?`<em>${b}/10</em>`:""}</span>
+    <span class="tag c-${d.cat}" style="justify-self:start">${d.cat}</span>
+    <span class="t">${esc(d.title)}</span></button>`}).join("")}</div>`;
+  $("#nm").oninput=e=>{store.name=e.target.value.trim();save()};
+  app.querySelectorAll(".day").forEach(b=>b.onclick=()=>start(+b.dataset.d));
+}
+
+function start(d,only){
+  if(!store.name){const nm=$("#nm"); if(nm){nm.focus();nm.placeholder="먼저 이름을 입력하세요!";nm.parentNode.style.borderColor="var(--bad)";} return;}
+  const day=DAYS[d-1];
+  const idxs=only||day.q.map((_,i)=>i);
+  S={day,list:idxs.map(i=>prep(day.q[i],i)),i:0,res:[],retry:!!only,t0:Date.now()};
+  $("#homeBtn").hidden=false; showQ();
+}
+function prep(q,orig){
+  const o={...q,orig};
+  if(q.t==="mc"){const ord=q.o.map((_,i)=>i);o.ord=fixedOpts(q.o)?ord:shuffle(ord);}
+  if(q.t==="or"){o.pool=shuffle(q.w.map((w,i)=>({w,i})));}
+  return o;
+}
+function showQ(){
+  window.scrollTo(0,0);
+  const q=S.list[S.i], n=S.list.length;
+  setBar(S.i/n);
+  const pass=q.p?`<details class="pass" open><summary>지문 보기 / 접기</summary><div class="ptxt">${fmt(PASS[q.p])}</div></details>`:"";
+  let body="";
+  if(q.t==="mc") body=`<div class="opts">${q.ord.map((k,pos)=>`<button class="opt" data-k="${k}"><span class="num">${pos+1}</span><span>${fmt(q.o[k])}</span></button>`).join("")}</div>`;
+  if(q.t==="sa") body=`<input class="inp" id="sa" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="영어로 입력하세요">`;
+  if(q.t==="or") body=`<div class="built" id="built"></div><div class="pool" id="pool">${q.pool.map((p,k)=>`<button class="w" data-k="${k}">${esc(p.w)}</button>`).join("")}</div>`;
+  app.innerHTML=`<div class="card">
+   <div class="qhead"><b>DAY ${S.day.d}${S.retry?" · 오답 재도전":""}</b><span><span class="type">${TYPE[q.t]}</span> &nbsp;${S.i+1} / ${n}</span></div>
+   ${pass}<div class="qtext">${S.i+1}. ${fmt(q.q)}</div>${body}
+   <div id="fbx"></div>
+   <div class="actions">${q.t==="or"?`<button class="btn ghost" id="reset">다시 배열</button>`:""}<button class="btn" id="go" disabled>정답 확인</button></div></div>`;
+  const go=$("#go"); let pick=null, built=[];
+  if(q.t==="mc") app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{app.querySelectorAll(".opt").forEach(x=>x.classList.remove("sel"));b.classList.add("sel");pick=+b.dataset.k;go.disabled=false});
+  if(q.t==="sa"){const inp=$("#sa");inp.oninput=()=>go.disabled=!inp.value.trim();inp.onkeydown=e=>{if(e.key==="Enter"&&!go.disabled)go.click()};setTimeout(()=>inp.focus({preventScroll:true}),50)}
+  if(q.t==="or"){
+    const draw=()=>{$("#built").innerHTML=built.map((k,j)=>`<button class="w" data-j="${j}">${esc(q.pool[k].w)}</button>`).join("");
+      app.querySelectorAll("#pool .w").forEach(b=>b.classList.toggle("used",built.includes(+b.dataset.k)));
+      app.querySelectorAll("#built .w").forEach(b=>b.onclick=()=>{if(S.locked)return;built.splice(+b.dataset.j,1);draw()});
+      go.disabled=!built.length;};
+    app.querySelectorAll("#pool .w").forEach(b=>b.onclick=()=>{if(S.locked)return;built.push(+b.dataset.k);draw()});
+    $("#reset").onclick=()=>{if(S.locked)return;built=[];draw()};
+  }
+  S.locked=false;
+  go.onclick=()=>{
+    if(S.locked){next();return}
+    let ok,user,right;
+    if(q.t==="mc"){ok=pick===q.a;user=CIRC[q.ord.indexOf(pick)]+" "+q.o[pick];right=CIRC[q.ord.indexOf(q.a)]+" "+q.o[q.a];
+      app.querySelectorAll(".opt").forEach(b=>{b.disabled=true;const k=+b.dataset.k;if(k===q.a)b.classList.add("right");else if(k===pick)b.classList.add("wrong")});}
+    if(q.t==="sa"){const v=$("#sa").value;user=v;ok=q.a.some(a=>norm(a)===norm(v));right=q.a[0];$("#sa").disabled=true;}
+    if(q.t==="or"){user=built.map(k=>q.pool[k].w).join(" ");ok=norm(user)===norm(q.a);right=cap(q.a)+".";
+      app.querySelectorAll(".w").forEach(b=>b.disabled=true);const r=$("#reset");if(r)r.disabled=true;}
+    S.res.push({orig:q.orig,ok,user,right,q});
+    S.locked=true;
+    $("#fbx").innerHTML=`<div class="fb ${ok?"ok":"no"}"><strong>${ok?"정답입니다!":"아쉬워요. 다시 확인해 봅시다."}</strong>${ok&&q.t==="mc"?"":`<div>정답: <span class="ans">${fmt(String(right).replace(/<br>/g," "))}</span></div>`}<div>${fmt(q.e)}</div></div>`;
+    go.textContent=S.i+1<S.list.length?"다음 문제":"결과 보기";
+    $("#fbx").scrollIntoView({behavior:"smooth",block:"nearest"});
+  };
+}
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+function next(){S.i++; if(S.i<S.list.length)showQ(); else result();}
+
+function result(){
+  setBar(1); window.scrollTo(0,0);
+  const d=S.day, sc=S.res.filter(r=>r.ok).length, n=S.res.length;
+  if(!S.retry){const prev=store.best[d.d]; if(prev==null||sc>prev){store.best[d.d]=sc;save();}}
+  const wrong=S.res.filter(r=>!r.ok).map(r=>r.orig);
+  const now=new Date(), ts=`${now.getMonth()+1}/${now.getDate()} ${String(now.getHours()).padStart(2,"0")}:${String(now.getMinutes()).padStart(2,"0")}`;
+  const msg=sc===n?"완벽해요! 내신 실전에서도 이 정확도를 유지하세요.":sc>=8?"아주 좋아요. 틀린 문제의 해설을 꼭 다시 읽어 보세요.":sc>=6?"기본은 잡혔어요. 오답 재도전으로 약점을 채워 봅시다.":"오늘 개념을 워크시트로 다시 정리한 뒤 재도전해 봅시다.";
+  app.innerHTML=`<div class="card score">
+     <span class="eyebrow">DAY ${d.d} · ${esc(d.title)}${S.retry?" · 오답 재도전":""}</span>
+     <div class="big">${sc}<span style="font-size:28px">/${n}</span></div>
+     <div class="meta">${esc(store.name||"이름 미입력")} · ${ts}</div>
+     <p style="margin:6px 0 0">${msg}</p>
+     <p class="note" style="margin:0" id="sv">${saveOn()?"결과를 선생님께 저장하는 중…":"이 화면을 캡처해서 선생님께 보내 주세요."}</p></div>
+   <div class="actions">${wrong.length?`<button class="btn accent" id="rt">오답만 다시 풀기 (${wrong.length})</button>`:""}<button class="btn" id="ws">연계 워크시트</button></div>
+   <div class="actions" style="margin-top:8px"><button class="btn ghost" id="again">처음부터 다시</button><button class="btn ghost" id="hm">DAY 목록</button></div>
+   <div class="sec"><h2>문항별 확인</h2><div class="review">${S.res.map((r,i)=>`<div class="ri ${r.ok?"ok":"no"}"><span class="mk">${r.ok?"O":"X"}</span><div><div class="q">${i+1}. ${fmt(r.q.q.split("<br>")[0])}</div>${r.ok?"":`<div>내 답: ${esc(String(r.user).replace(/<br>/g," "))}</div><div style="color:var(--ok);font-weight:700">정답: ${fmt(String(r.right).replace(/<br>/g," "))}</div>`}</div></div>`).join("")}</div></div>`;
+  if(wrong.length)$("#rt").onclick=()=>start(d.d,wrong);
+  if(saveOn()) send(buildPayload(d,sc,n,now));
+  $("#ws").onclick=()=>worksheet(d.d);
+  $("#again").onclick=()=>start(d.d);
+  $("#hm").onclick=home;
+}
+
+const strip=s=>String(s).replace(/<br>/g," ").replace(/<[^>]+>/g,"").replace(/\[\[|\]\]/g,"").replace(/\s+/g," ").trim();
+function buildPayload(d,sc,n,now){
+  const wr=S.res.map((r,i)=>({r,i})).filter(x=>!x.r.ok);
+  const p=v=>String(v).padStart(2,"0");
+  const ts=`${now.getFullYear()}-${p(now.getMonth()+1)}-${p(now.getDate())}T${p(now.getHours())}:${p(now.getMinutes())}:00+09:00`;
+  return {type:"minitest",name:store.name,unit:UNIT,day:d.d,title:d.title,cat:d.cat,
+    attempt:S.retry?"오답 재도전":"첫 응시",score:sc,total:n,
+    wrongNums:wr.length?wr.map(x=>(x.r.orig+1)+"번").join(", "):"없음",
+    wrongDetail:wr.map(x=>`${x.r.orig+1}번(${TYPE[x.r.q.t]}) 내 답: ${strip(x.r.user)||"-"} → 정답: ${strip(x.r.right)}`).join("\n").slice(0,1900),
+    minutes:Math.max(1,Math.round((Date.now()-S.t0)/60000)),timestamp:ts};
+}
+async function send(payload){
+  const el=$("#sv");
+  const show=(t,c)=>{const x=$("#sv"); if(x){x.innerHTML=t; x.style.color=c||"";}};
+  try{await post(payload); show("✓ 선생님 노션에 결과가 저장되었습니다.","var(--ok)"); flushQ();}
+  catch(e){const q=getQ(); q.push(payload); setQ(q);
+    show(`저장에 실패했어요(인터넷 확인). <button id="resend" class="w" style="font-size:13px;padding:2px 10px">다시 저장</button><br>다음에 앱을 열면 자동으로 다시 보내요.`,"var(--bad)");
+    const b=$("#resend"); if(b) b.onclick=async()=>{show("다시 저장하는 중…"); try{await flushQ(); if(getQ().length) throw 0; show("✓ 선생님 노션에 결과가 저장되었습니다.","var(--ok)");}catch(_){show("아직 저장되지 않았어요. 잠시 후 다시 시도하세요.","var(--bad)")}};}
+}
+function worksheet(dn){
+  const d=DAYS[dn-1]; setBar(0); window.scrollTo(0,0); $("#homeBtn").hidden=false;
+  app.innerHTML=`<div class="hero"><span class="eyebrow">DAY ${d.d} 연계 워크시트 · ${d.cat}</span><h1 style="font-size:26px">${esc(d.title)}</h1>
+  <p>개념을 다시 정리하고, 노트에 직접 써 본 뒤 정답을 확인하세요.</p></div>
+  <div class="sec" style="margin-top:0"><h2>핵심 개념</h2><div class="point"><ul>${d.point.map(p=>`<li>${p}</li>`).join("")}</ul></div></div>
+  <div class="sec"><h2>연습 문제</h2>${d.ws.map((w,i)=>`<div class="wsi"><div><b>${i+1}.</b> ${fmt(w.q)}</div><div class="lines"></div><button data-i="${i}">정답 보기</button><div class="a" hidden id="wa${i}">${fmt(esc(w.a))}</div></div>`).join("")}</div>
+  <div class="actions"><button class="btn" id="tq">DAY ${d.d} 테스트 풀기</button><button class="btn ghost" id="hm">DAY 목록</button></div>`;
+  app.querySelectorAll(".wsi button").forEach(b=>b.onclick=()=>{const a=$("#wa"+b.dataset.i);a.hidden=!a.hidden;b.textContent=a.hidden?"정답 보기":"정답 숨기기"});
+  $("#tq").onclick=()=>start(d.d); $("#hm").onclick=home;
+}
+home();
+flushQ();
+})();
+</script>
+
+</body>
+</html>
