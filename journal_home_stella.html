@@ -197,6 +197,7 @@ body.no-kr .sub .ko{display:none}
 .ideas span{background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:5px 12px;font:800 15px var(--body);display:inline-flex;flex-direction:column;line-height:1.25}
 .ideas span small{font:600 12px var(--kr);color:var(--muted)}
 .ideabtn{border:2px solid var(--line);background:var(--panel);border-radius:999px;font:800 13px var(--body);padding:6px 12px;color:var(--navy);margin-left:auto;align-self:center;margin-right:12px;min-height:36px}
+.gqi.starq .num{background:var(--navy)}
 .gqrow{border-radius:18px;background:var(--bg);overflow:hidden}
 .gqrow .gqi{width:100%;background:transparent}
 .gqrow .gqi .txt{display:flex;align-items:center;gap:10px}
@@ -449,7 +450,7 @@ function render(){
   }
   if(step==='think'){
     h=`<div class="eyebrow">Guided Questions · 저널 왼쪽 페이지에 단어로 써요</div>
-    <div class="gq">${w.gq.map((g,i)=>`<div class="gqrow"><div class="gqi ${g[2]?'star':''}" style="display:grid"><button class="num" data-q="${i}" style="border:0" aria-label="질문 듣기">${g[2]?'★':'Q'+(i+1)}</button><span class="txt"><span style="flex:1;min-width:0">${esc(g[0])}<span class="kr">${esc(g[1])}</span></span><button class="ideabtn" data-i="${i}">Ideas</button></span></div><div class="ideas" id="ideas${i}" hidden>${(w.ideas?w.ideas[i]:[]).map(x=>`<span>${esc(x[0])}<small>${esc(x[1])}</small></span>`).join('')}</div></div>`).join('')}</div>`;
+    <div class="gq">${w.gq.map((g,i)=>`<div class="gqrow"><div class="gqi ${g[2]?'starq':''}" style="display:grid"><button class="num" data-q="${i}" style="border:0" aria-label="질문 듣기">${g[2]?'★':'Q'+(i+1)}</button><span class="txt"><span style="flex:1;min-width:0">${esc(g[0])}<span class="kr">${esc(g[1])}</span></span><button class="ideabtn" data-i="${i}">Ideas</button></span></div><div class="ideas" id="ideas${i}" hidden>${(w.ideas?w.ideas[i]:[]).map(x=>`<span>${esc(x[0])}<small>${esc(x[1])}</small></span>`).join('')}</div></div>`).join('')}</div>`;
   }
   if(step==='words'){
     const en=shuffle(w.words.map((x,i)=>[i,x[0]])), kr=shuffle(w.words.map((x,i)=>[i,x[1]]));
