@@ -249,7 +249,7 @@ function taskCard(t) {
     form += `<div class="row" style="margin-top:10px"><button class="btn bur" data-submit="${id}">제출하기</button><span class="mini sp">시작: <span data-st="${id}">-</span></span></div>`;
   }
   return `<div class="task" data-task="${id}" data-ev="${esc(t.증거유형)}">
-   <div class="row"><span class="ar">${esc(t.영역)}</span><span class="mini">${esc(t.날짜.slice(5))} · 목표 ${esc(t.목표분)}분</span><span class="sp"></span>${chip(t.상태)}</div>
+   <div class="row"><span class="ar">${esc(t.영역)}</span><span class="mini">${esc(t.날짜.slice(5))}${t.목표분 ? ' · 목표 ' + esc(t.목표분) + '분' : ''}</span><span class="sp"></span>${chip(t.상태)}</div>
    <div class="tt">${esc(t.제목)}</div>${t.범위 ? `<div class="muted">${esc(t.범위)}</div>` : ''}
    <div class="mini" style="margin-top:4px">제출 증거: ${esc(t.안내)}</div>
    ${t.첫점수 !== '' && t.첫점수 !== undefined && t.증거유형 === '단어테스트' && t.상태 !== '미제출' ? `<div class="mini">첫 점수 ${esc(t.첫점수)} → 지금 ${esc(t.점수)}</div>` : ''}
@@ -586,8 +586,14 @@ VIEWS.assign = async m => {
   const tpl = await call('weekTemplate'), opts = S.opts || (S.opts = await call('studentOptions'));
   const ws = S.aWs || monday(todayStr());
   const evOpts = ['단어테스트', '사진', '작성', '음성'];
-  m.innerHTML = `<h2>주간 숙제 일괄 배정</h2>
-  <div class="card"><div class="fg"><div><label class="f">반</label><select id="ac">${th.classes.map(c => `<option>${esc(c)}</option>`).join('')}<option>전체</option></select></div>
+  const acls = S.aCls || th.classes[0] || '전체';
+  const made = await call('listTasks', { cls: acls, ws });
+  const byDay = {}; made.forEach(t => (byDay[t.날짜] = byDay[t.날짜] || []).push(t));
+  m.innerHTML = `<h2>이미 만든 과제 <span class="muted" style="font-weight:500">${esc(acls)} · ${ws.slice(5)} 주</span></h2>
+  <div class="card">${made.length ? Object.keys(byDay).sort().map(d => `<div style="margin:6px 0 10px"><div class="mini" style="font-weight:700">${d.slice(5)} (${dowK(d)})</div>${byDay[d].map(t => `<label class="row" style="padding:4px 0;border-bottom:1px solid #f1eee8"><input type="checkbox" class="dk" value="${esc(t.과제ID)}"><span class="chip c-navy">${esc(t.영역)}</span><span class="sp">${esc(t.제목)} <span class="mini">${esc(t.범위 || '')}${t.대상 !== acls ? ' · ' + esc(t.대상) : ''}</span></span>${t.제출수 ? `<span class="chip c-info">제출 ${t.제출수}</span>` : ''}</label>`).join('')}</div>`).join('') + `<button class="btn warn sm" id="delTasks" style="margin-top:6px">선택한 과제 삭제</button><div class="basis">잘못 만들었거나 이번 주에 안 할 과제를 체크하고 삭제하세요. 학생 화면에서도 바로 사라집니다.</div>` : '<div class="empty">이 주에 만든 과제가 없습니다.</div>'}</div>
+
+  <h2>주간 숙제 일괄 배정</h2>
+  <div class="card"><div class="fg"><div><label class="f">반</label><select id="ac">${[...th.classes, '전체'].map(c => `<option ${c === acls ? 'selected' : ''}>${esc(c)}</option>`).join('')}</select></div>
    <div><label class="f">주 시작(월)</label><input type="date" id="aw" value="${ws}"></div>
    <div><label class="f">제외할 학생 (선택)</label><select id="ax" multiple style="height:70px">${opts.map(o => `<option value="${esc(o.학생ID)}">${esc(o.반)} · ${esc(o.이름)}</option>`).join('')}</select></div></div>
    <div class="basis">기본 계획표(시트 ‘주간기본계획’)를 불러왔습니다. <b>체크된 과제가 모두 만들어집니다.</b> 범위·단어 수는 선택이에요(단어 수를 비우면 학생이 전체 문항 수를 직접 입력). 오늘 이전 날짜는 자동으로 빠집니다.</div></div>
@@ -607,6 +613,13 @@ VIEWS.assign = async m => {
   $('#id3').onchange = () => { $('#id4').value = th.evidence[$('#id3').value] || '사진'; };
   $('#id3').onchange();
   $('#aw').onchange = () => { S.aWs = monday($('#aw').value); go('assign'); };
+  $('#ac').onchange = () => { S.aCls = $('#ac').value; go('assign'); };
+  if ($('#delTasks')) $('#delTasks').onclick = async () => {
+    const ids = $$('.dk:checked').map(x => x.value); if (!ids.length) return toast('지울 과제를 체크해 주세요.', true);
+    const withSub = $$('.dk:checked').filter(x => x.closest('label').querySelector('.c-info')).length;
+    if (!confirm(ids.length + '개 과제를 삭제할까요?' + (withSub ? '\n(이미 제출한 학생이 있는 과제 ' + withSub + '개 포함 — 제출 사진은 드라이브에 남습니다)' : ''))) return;
+    try { const r = await call('deleteTasks', { ids }); toast(r.deleted + '개 과제 삭제'); go('assign'); } catch (e) { fail(e); }
+  };
   $('#mkWeek').onclick = async () => {
     const cls = $('#ac').value, ex = [...$('#ax').selectedOptions].map(o => o.value).join(',');
     const today = todayStr(); let past = 0;
@@ -614,7 +627,7 @@ VIEWS.assign = async m => {
       날짜: addD(ws, +r.dataset.day), 대상반: cls, 제외학생ID: ex, 영역: r.dataset.area, 제목: $('[name=title]', r).value, 범위: $('[name=range]', r).value, 증거유형: r.dataset.ev, 만점: $('[name=max]', r) ? $('[name=max]', r).value : '' }));
     if (!list.length) return toast(past ? '오늘 이후 날짜의 체크된 과제가 없습니다.' : '체크된 과제가 없습니다.', true);
     if (!confirm(cls + ' · ' + list.length + '개 과제를 만들까요?' + (past ? '\n(지난 날짜 ' + past + '개는 제외)' : ''))) return;
-    try { const r = await call('createTasks', { list }); toast(r.saved + '개 과제 생성' + (past ? ' · 지난 날짜 ' + past + '개 제외' : '')); go('assign'); } catch (e) { fail(e); }
+    try { const r = await call('createTasks', { list }); toast(r.saved + '개 과제 생성' + (r.skipped ? ' · 이미 있는 ' + r.skipped + '개 건너뜀' : '') + (past ? ' · 지난 날짜 ' + past + '개 제외' : '')); go('assign'); } catch (e) { fail(e); }
   };
   $('#mkOne').onclick = async () => {
     const tg = $('#id2').value.split(':');
