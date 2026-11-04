@@ -1,0 +1,242 @@
+<title>스텔라 교사 링크 허브</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Playfair+Display:wght@600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+/* Layout: launcher. Brand header with search, category chips, then card grids grouped by category; favorites pinned on top. Academy navy + burgundy + gold. */
+:root{
+  --bg:#F6F3EE; --surface:#FFFFFF; --ink:#14213E; --soft:#4B5468; --mute:#737B8C; --line:#E4DED3;
+  --navy:#14213E; --burgundy:#90394A; --gold:#C9A54C; --gold-soft:#F5EBD0; --chip:#ECE6DB;
+  --stu:#2F6FD6; --stu-bg:#E6EEFB; --board:#90394A; --board-bg:#F6E4E7; --par:#2D7A55; --par-bg:#E2F2EA;
+  --head-bg:#14213E; --head-ink:#F6F3EE; --head-soft:#B8C0D3;
+  --kr:'Pretendard','Noto Sans KR',system-ui,sans-serif; --serif:'Playfair Display',Georgia,serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0F1524; --surface:#182036; --ink:#ECEEF4; --soft:#B3BACB; --mute:#8D95A8; --line:#2A3350;
+  --gold-soft:#3A3220; --chip:#232C45; --stu:#7FA8F0; --stu-bg:#1E2B48; --board:#E59AA8; --board-bg:#3A2028; --par:#7CCBA3; --par-bg:#1B3529;
+  --head-bg:#0A0F1C; --head-ink:#ECEEF4; --head-soft:#98A1B7; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1524; --surface:#182036; --ink:#ECEEF4; --soft:#B3BACB; --mute:#8D95A8; --line:#2A3350;
+  --gold-soft:#3A3220; --chip:#232C45; --stu:#7FA8F0; --stu-bg:#1E2B48; --board:#E59AA8; --board-bg:#3A2028; --par:#7CCBA3; --par-bg:#1B3529;
+  --head-bg:#0A0F1C; --head-ink:#ECEEF4; --head-soft:#98A1B7; color-scheme:dark}
+html,body{min-height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--kr);font-size:16px}
+*{box-sizing:border-box}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--head-bg);color:var(--head-ink)}
+header .wrap{padding-block:28px 22px;display:flex;flex-direction:column;gap:16px}
+.brand{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px}
+.eyebrow{font-size:13px;font-weight:700;letter-spacing:.14em;color:var(--gold)}
+h1{font-family:var(--serif);font-weight:700;font-size:clamp(28px,4vw,42px);line-height:1.1;margin:4px 0 0;text-wrap:balance}
+h1 span{font-family:var(--kr);font-weight:800;font-size:.62em;color:var(--head-soft);margin-left:10px;letter-spacing:0}
+.hbtns{display:flex;gap:8px}
+.hbtn{border:1.5px solid #3A4766;background:transparent;color:var(--head-ink);border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px}
+.hbtn.on{background:var(--gold);border-color:var(--gold);color:#14213E}
+.search{display:flex;align-items:center;gap:10px;background:var(--surface);border-radius:14px;padding:4px 6px 4px 16px}
+.search input{flex:1;min-width:0;border:none;background:transparent;padding:12px 0;font-size:17px;color:var(--ink);outline:none}
+.search kbd{font-size:12px;color:var(--mute);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:none;border-radius:999px;padding:8px 14px;background:#22305A;color:var(--head-ink);font-weight:700;font-size:14px}
+.chip .n{opacity:.6;margin-left:4px;font-variant-numeric:tabular-nums}
+.chip.on{background:var(--gold);color:#14213E}
+main .wrap{padding-block:24px 40px;display:flex;flex-direction:column;gap:30px}
+.notice{border:1.5px dashed var(--gold);background:var(--gold-soft);border-radius:14px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.notice p{margin:0;font-size:15px;line-height:1.5;min-width:0;flex:1 1 320px}
+.notice .row{display:flex;gap:8px;flex-wrap:wrap}
+section h2{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;font-size:20px;font-weight:800}
+section h2 .cnt{font-size:14px;font-weight:700;color:var(--mute)}
+section h2 .bar{width:6px;height:18px;border-radius:3px;background:var(--burgundy);align-self:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.card{position:relative;display:flex;flex-direction:column;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0;transition:transform .12s,box-shadow .12s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(20,33,62,.10)}
+.card a.main{position:absolute;inset:0;border-radius:16px;z-index:1}
+.card .top{display:flex;align-items:center;gap:12px}
+.ico{width:46px;height:46px;border-radius:12px;background:var(--chip);display:flex;align-items:center;justify-content:center;font-size:24px;flex:none;font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif}
+.card h3{margin:0;font-size:17px;font-weight:800;line-height:1.3;min-width:0;text-wrap:balance}
+.card p.d{margin:0;color:var(--soft);font-size:14px;line-height:1.5;flex:1}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.tag{font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px}
+.tag.학생{color:var(--stu);background:var(--stu-bg)}
+.tag.전자칠판{color:var(--board);background:var(--board-bg)}
+.tag.학부모{color:var(--par);background:var(--par-bg)}
+.tag.교사{color:var(--ink);background:var(--chip)}
+.tag.new{color:#14213E;background:var(--gold)}
+.acts{display:flex;gap:6px;margin-left:auto;position:relative;z-index:2}
+.ib{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:6px 10px;font-size:13px;font-weight:700;color:var(--soft)}
+.ib.star{font-size:16px;padding:4px 9px;line-height:1}
+.ib.star.on{color:var(--gold);border-color:var(--gold)}
+.ib.done{color:var(--par);border-color:var(--par)}
+.empty{color:var(--mute);text-align:center;padding:30px 0;margin:0}
+/* edit */
+.edit .card{border-style:dashed}
+.edit .card a.main{display:none}
+.editbar{display:flex;gap:6px;position:relative;z-index:2}
+.form{background:var(--surface);border:1.5px solid var(--burgundy);border-radius:16px;padding:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.form label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:700;color:var(--soft);min-width:0}
+.form input,.form select{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--bg);font-size:15px;min-width:0}
+.form .full{grid-column:1/-1}
+.form .row{display:flex;gap:8px;flex-wrap:wrap;grid-column:1/-1}
+.btn{border:none;border-radius:10px;padding:10px 16px;font-weight:800;font-size:14px;background:var(--navy);color:#F6F3EE}
+.btn.gold{background:var(--gold);color:#14213E}
+.btn.line{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn.warn{background:transparent;border:1.5px solid var(--burgundy);color:var(--burgundy)}
+footer{color:var(--mute);font-size:13px;text-align:center;padding-block:0 30px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(20px);background:var(--navy);color:#F6F3EE;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;opacity:0;transition:.2s;pointer-events:none;z-index:9}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="brand">
+      <div><div class="eyebrow">잉글리시아이스텔라 영어전문 · 교사용</div><h1>Teacher Hub<span>수업 링크 모음</span></h1></div>
+      <div class="hbtns"><button class="hbtn" id="editBtn">링크 관리</button></div>
+    </div>
+    <label class="search"><span class="sr" style="position:absolute;left:-9999px">링크 검색</span>
+      <input id="q" type="search" placeholder="수업·교재 이름으로 찾기 (예: 브릭스, OMR, 독해)" autocomplete="off">
+      <kbd>/</kbd></label>
+    <div class="chips" id="chips"></div>
+  </div>
+</header>
+<main><div class="wrap" id="list"></div></main>
+<footer><div class="wrap">Created by Stella 원장 · 카드를 누르면 새 탭으로 열려요 · ‘링크 복사’로 학생에게 바로 보낼 수 있어요</div></footer>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const BASE = 'https://englisheyesahahills.github.io/english-quiz/';
+/* LINKS-START — 새 수업 웹이 생기면 이 목록에 추가하세요 (url은 파일 이름만 써도 됩니다) */
+const LINKS = [
+  { id:"bricks51", cat:"브릭스리딩", title:"Bricks 50-1 수업 보드", desc:"Level 1 Unit 1~16 · 50분 11단계 수업, 단어 수수께끼, 문장 배열 릴레이", url:"bricks51-board.html", who:"전자칠판", icon:"🧱", added:"2026-11-04" },
+  { id:"bricks52", cat:"브릭스리딩", title:"Bricks 50-2 수업 보드", desc:"Level 2 Unit 1~16 · 50분 11단계 수업, 단어 수수께끼, 문장 배열 릴레이", url:"bricks50-board.html", who:"전자칠판", icon:"🧱", added:"2026-11-04" },
+  { id:"voca", cat:"단어", title:"보카클리어 중학 실력편", desc:"DAY 01~40 · 플래시카드, 객관식, 주관식, 쉐도잉, 단어 목록", url:"voca_study.html", who:"학생", icon:"📚", added:"" },
+  { id:"rsd", cat:"독해", title:"리딩 스킬 디텍티브", desc:"Reader’s Bank Level 1~6 · 216개 CASE, 스키밍부터 스캐닝까지 6단계", url:"reading_skills_detective.html", who:"학생", icon:"🔍", added:"" },
+  { id:"rsd-board", cat:"독해", title:"리딩 스킬 전자칠판 대시보드", desc:"반 전체 결과와 순위 · 15초마다 자동 새로고침", url:"whiteboard_dashboard.html", who:"전자칠판", icon:"📊", added:"" },
+  { id:"speed", cat:"독해", title:"속독속해 트레이닝", desc:"빈칸추론 100문항 · 지문 듣기, 쉐도잉, 문항별 단어", url:"speed_reading_training.html", who:"학생", icon:"⚡", added:"" },
+  { id:"speed-basic", cat:"독해", title:"속독속해 트레이닝 초등기초편", desc:"100문항 · 빈칸추론, 주제 찾기, 내용 일치", url:"speed_reading_training_basic.html", who:"학생", icon:"🚀", added:"" },
+  { id:"omr", cat:"평가", title:"디지털 OMR", desc:"월말평가·토셀 자동채점 · 시험은 노션 ‘OMR 시험 설정’에서 활성화", url:"stella_omr_v2.html", who:"학생", icon:"📝", added:"" },
+  { id:"middle", cat:"중등부", title:"STELLA 중등 학습관리", desc:"학생 로그인 · 단어 테스트, 숙제 사진, 스피킹 녹음 제출", url:"stella_middle.html", who:"학생", icon:"🎓", added:"" },
+  { id:"home", cat:"학부모", title:"학원 홈페이지", desc:"공지, 소식지, 커리큘럼, 앨범, 학사일정", url:"stella_home.html", who:"학부모", icon:"🏠", added:"" }
+];
+/* LINKS-END */
+const CAT_ORDER = ["브릭스리딩","단어","독해","평가","중등부","학부모"];
+const WHO = ["학생","전자칠판","교사","학부모"];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const full = u => /^https?:\/\//i.test(u) ? u : BASE + String(u).replace(/^\/+/, '');
+function get(k,d){ try{ const v = JSON.parse(localStorage.getItem(k)); return v ?? d; }catch(e){ return d; } }
+function put(k,v){ try{ if(v===null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+
+let draft = get('hubDraft', null);           // this browser's unsaved edits
+let favs = new Set(get('hubFavs', []));
+let cat = 'all', q = '', editing = false, formFor = null;
+const links = () => draft || LINKS;
+
+function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1800); }
+async function copy(text, btn){
+  try{ await navigator.clipboard.writeText(text); }
+  catch(e){ const ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(_){} ta.remove(); }
+  if(btn){ const o=btn.textContent; btn.textContent='복사됨'; btn.classList.add('done'); setTimeout(()=>{btn.textContent=o;btn.classList.remove('done');},1400); }
+}
+function isNew(d){ if(!d) return false; const t=Date.parse(d); return !isNaN(t) && (Date.now()-t) < 14*864e5; }
+function cats(){ const s=new Set(links().map(l=>l.cat)); return [...CAT_ORDER.filter(c=>s.has(c)), ...[...s].filter(c=>!CAT_ORDER.includes(c))]; }
+
+function cardHTML(l){
+  const u = full(l.url);
+  return `<article class="card">
+    <a class="main" href="${esc(u)}" target="_blank" rel="noopener" aria-label="${esc(l.title)} 열기"></a>
+    <div class="top"><span class="ico">${esc(l.icon||'🔗')}</span><h3>${esc(l.title)}</h3></div>
+    <p class="d">${esc(l.desc)}</p>
+    <div class="meta"><span class="tag ${esc(l.who)}">${esc(l.who)}</span>${isNew(l.added)?'<span class="tag new">NEW</span>':''}
+      ${editing
+        ? `<span class="editbar acts"><button class="ib" data-act="up" data-id="${esc(l.id)}" aria-label="앞으로">↑</button><button class="ib" data-act="down" data-id="${esc(l.id)}" aria-label="뒤로">↓</button><button class="ib" data-act="edit" data-id="${esc(l.id)}">수정</button><button class="ib" data-act="del" data-id="${esc(l.id)}">삭제</button></span>`
+        : `<span class="acts"><button class="ib" data-act="copy" data-id="${esc(l.id)}">링크 복사</button><button class="ib star${favs.has(l.id)?' on':''}" data-act="fav" data-id="${esc(l.id)}" aria-label="즐겨찾기" aria-pressed="${favs.has(l.id)}">★</button></span>`}
+    </div></article>`;
+}
+function formHTML(l){
+  const c = cats();
+  return `<form class="form" id="lf">
+    <label>제목<input id="f-title" required value="${esc(l.title||'')}" placeholder="예: Bricks 60-1 수업 보드"></label>
+    <label>파일 이름 또는 주소<input id="f-url" required value="${esc(l.url||'')}" placeholder="예: bricks61-board.html"></label>
+    <label class="full">설명<input id="f-desc" value="${esc(l.desc||'')}" placeholder="한 줄 설명"></label>
+    <label>분류<input id="f-cat" list="catlist" required value="${esc(l.cat||c[0]||'')}"><datalist id="catlist">${c.map(x=>`<option value="${esc(x)}">`).join('')}</datalist></label>
+    <label>누가 쓰나요<select id="f-who">${WHO.map(w=>`<option${(l.who||'학생')===w?' selected':''}>${w}</option>`).join('')}</select></label>
+    <label>아이콘 (이모지 1개)<input id="f-icon" value="${esc(l.icon||'🔗')}" maxlength="4"></label>
+    <div class="row"><button class="btn gold" type="submit">${l.id?'수정 저장':'추가'}</button><button class="btn line" type="button" data-act="cancelForm">닫기</button></div>
+  </form>`;
+}
+
+function render(){
+  document.body.classList.toggle('edit', editing);
+  $('editBtn').classList.toggle('on', editing);
+  $('editBtn').textContent = editing ? '관리 끝내기' : '링크 관리';
+  const all = links(), cs = cats();
+  const counts = Object.fromEntries(cs.map(c=>[c, all.filter(l=>l.cat===c).length]));
+  const favCount = all.filter(l=>favs.has(l.id)).length;
+  $('chips').innerHTML = [`<button class="chip${cat==='all'?' on':''}" data-cat="all">전체<span class="n">${all.length}</span></button>`,
+    favCount?`<button class="chip${cat==='fav'?' on':''}" data-cat="fav">★ 즐겨찾기<span class="n">${favCount}</span></button>`:'',
+    ...cs.map(c=>`<button class="chip${cat===c?' on':''}" data-cat="${esc(c)}">${esc(c)}<span class="n">${counts[c]}</span></button>`)].join('');
+
+  const term = q.trim().toLowerCase();
+  const match = l => !term || [l.title,l.desc,l.cat,l.who,l.url].join(' ').toLowerCase().includes(term);
+  let html = '';
+  if(draft) html += `<div class="notice"><p><b>이 브라우저에만 저장된 변경사항이 있어요.</b> 모든 선생님께 반영하려면 ‘코드 복사’ 후 GitHub의 teacher-hub.html 파일에서 <code>LINKS-START</code>와 <code>LINKS-END</code> 사이를 붙여넣으세요.</p><div class="row"><button class="btn gold" data-act="export">코드 복사</button><button class="btn warn" data-act="discard">원래대로</button></div></div>`;
+  if(editing) html += formFor ? formHTML(formFor) : `<div><button class="btn" data-act="add">+ 새 링크 추가</button></div>`;
+
+  const groups = [];
+  if(cat==='all' && !term && favCount && !editing) groups.push(['★ 즐겨찾기', all.filter(l=>favs.has(l.id))]);
+  const showCats = cat==='all' ? cs : cat==='fav' ? [] : [cat];
+  if(cat==='fav') groups.push(['★ 즐겨찾기', all.filter(l=>favs.has(l.id)&&match(l))]);
+  showCats.forEach(c=>groups.push([c, all.filter(l=>l.cat===c && match(l))]));
+  const shown = groups.filter(([,ls])=>ls.length);
+  html += shown.length ? shown.map(([name,ls])=>`<section><h2><span class="bar"></span>${esc(name)}<span class="cnt">${ls.length}개</span></h2><div class="grid">${ls.map(cardHTML).join('')}</div></section>`).join('')
+                       : `<p class="empty">‘${esc(q)}’에 맞는 링크가 없어요.</p>`;
+  $('list').innerHTML = html;
+}
+
+function commit(list){ draft = list; put('hubDraft', list); render(); }
+function exportCode(){
+  const body = links().map(l=>'  '+JSON.stringify({id:l.id,cat:l.cat,title:l.title,desc:l.desc,url:l.url,who:l.who,icon:l.icon,added:l.added||''})).join(',\n');
+  return `const LINKS = [\n${body}\n];`;
+}
+
+document.addEventListener('click', e=>{
+  const b = e.target.closest('button'); if(!b) return;
+  if(b.dataset.cat){ cat=b.dataset.cat; render(); return; }
+  if(b.id==='editBtn'){ editing=!editing; formFor=null; render(); return; }
+  const id=b.dataset.id, list=links().slice(), i=list.findIndex(l=>l.id===id);
+  switch(b.dataset.act){
+    case 'copy': copy(full(list[i].url), b); break;
+    case 'fav': favs.has(id)?favs.delete(id):favs.add(id); put('hubFavs',[...favs]); render(); break;
+    case 'add': formFor={}; render(); $('f-title')?.focus(); break;
+    case 'edit': formFor=list[i]; render(); $('f-title')?.focus(); break;
+    case 'cancelForm': formFor=null; render(); break;
+    case 'up': if(i>0){ [list[i-1],list[i]]=[list[i],list[i-1]]; commit(list); } break;
+    case 'down': if(i<list.length-1){ [list[i+1],list[i]]=[list[i],list[i+1]]; commit(list); } break;
+    case 'del':
+      if(b.dataset.armed){ list.splice(i,1); commit(list); toast('삭제했어요'); }
+      else { b.dataset.armed='1'; b.textContent='한 번 더'; setTimeout(()=>{ if(b.isConnected){ delete b.dataset.armed; b.textContent='삭제'; } },2500); }
+      break;
+    case 'export': copy(exportCode()); toast('코드를 복사했어요 — GitHub 파일에 붙여넣으세요'); break;
+    case 'discard':
+      if(b.dataset.armed){ draft=null; put('hubDraft',null); render(); toast('원래 목록으로 돌렸어요'); }
+      else { b.dataset.armed='1'; b.textContent='한 번 더 누르면 되돌려요'; }
+      break;
+  }
+});
+document.addEventListener('submit', e=>{
+  if(e.target.id!=='lf') return; e.preventDefault();
+  const v = id => $(id).value.trim();
+  const item = { id: formFor.id || ('l'+Date.now().toString(36)), cat:v('f-cat'), title:v('f-title'), desc:v('f-desc'), url:v('f-url'), who:v('f-who'), icon:v('f-icon')||'🔗', added: formFor.added || new Date().toISOString().slice(0,10) };
+  const list = links().slice(); const i = list.findIndex(l=>l.id===item.id);
+  if(i>-1) list[i]=item; else list.unshift(item);
+  formFor=null; commit(list); toast(i>-1?'수정했어요':'추가했어요');
+});
+$('q').addEventListener('input', e=>{ q=e.target.value; render(); });
+document.addEventListener('keydown', e=>{ if(e.key==='/' && !/input|textarea|select/i.test(document.activeElement.tagName)){ e.preventDefault(); $('q').focus(); } });
+render();
+</script>
