@@ -33,12 +33,14 @@ button:focus-visible,select:focus-visible{outline:4px solid var(--blue);outline-
 .timer button.go{background:var(--orange);color:var(--ink)}
 .timer.done{animation:blink 1s steps(2) 4;background:var(--bad)}
 @keyframes blink{50%{background:var(--orange)}}
-.teams{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex:1;min-width:0}
-.team{display:flex;align-items:center;gap:8px;padding:6px 8px 6px 12px;border-radius:14px;background:var(--card);border:3px solid var(--tc)}
+.teams{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex:1 1 620px;min-width:0}
+.team{display:flex;align-items:center;justify-content:space-between;gap:6px;padding:6px 6px 6px 12px;border-radius:14px;background:var(--card);border:3px solid var(--tc);min-width:0;overflow:hidden}
+.team .ti{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-width:0}
 .team .tn{font-weight:800;font-size:15px;color:var(--tc);white-space:nowrap}
-.team .ts{font-family:var(--display);font-weight:700;font-size:clamp(26px,2.4vw,38px);line-height:1;min-width:1.3em;text-align:center;font-variant-numeric:tabular-nums}
-.team .tb{display:flex;gap:4px;margin-left:auto}
-.team .tb button{width:36px;height:36px;border-radius:10px;border:2px solid var(--line);background:var(--bg);font-weight:800;font-size:20px}
+.team .ts{font-family:var(--display);font-weight:700;font-size:clamp(28px,2.4vw,40px);line-height:1;font-variant-numeric:tabular-nums}
+.team .tb{display:flex;flex-direction:column;gap:4px;flex:none}
+.team .tb button{width:44px;height:34px;border-radius:10px;border:2px solid var(--tc);background:var(--bg);color:var(--tc);font-weight:800;font-size:22px;line-height:1;padding:0}
+.team .tb button.plus{background:var(--tc);color:#FFFDF9}
 .t1{--tc:var(--t1)}.t2{--tc:var(--t2)}.t3{--tc:var(--t3)}.t4{--tc:var(--t4)}
 .bump .ts{animation:bump .5s ease}
 @keyframes bump{40%{transform:scale(1.5)}}
@@ -422,7 +424,7 @@ function toggleTimer(){
 
 /* ---------- chrome ---------- */
 function renderTeams(b){
-  $('teams').innerHTML = TEAMS.map((n,i)=>`<div class="team t${i+1}${i===b?' bump':''}"><span class="tn">${n}</span><span class="ts">${scores[i]}</span><span class="tb"><button data-act="score" data-t="${i}" data-d="-1" aria-label="${n} 1점 빼기">−</button><button data-act="score" data-t="${i}" data-d="1" aria-label="${n} 1점 더하기">+</button></span></div>`).join('');
+  $('teams').innerHTML = TEAMS.map((n,i)=>`<div class="team t${i+1}${i===b?' bump':''}"><span class="ti"><span class="tn">${n}</span><span class="ts">${scores[i]}</span></span><span class="tb"><button class="plus" data-act="score" data-t="${i}" data-d="1" aria-label="${n} 1점 더하기">+</button><button data-act="score" data-t="${i}" data-d="-1" aria-label="${n} 1점 빼기">−</button></span></div>`).join('');
 }
 function addScore(t,d){ scores[t]=Math.max(0,scores[t]+d); store('b50scores',scores); renderTeams(t); if(STEPS[S].id==='star') render(); }
 function renderSteps(){
