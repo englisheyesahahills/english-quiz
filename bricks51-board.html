@@ -1,0 +1,694 @@
+<title>Bricks 50-1 Class Board</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Jua&family=Nunito:wght@600;700;800&family=Nanum+Gothic:wght@700;800&display=swap">
+<style>
+/* Layout: one-screen interactive-whiteboard board. Top bar = unit + timer + team scores; step rail colored by lesson phase; one big stage; prev/next at the bottom. Single bright classroom look on purpose. */
+:root{
+  --bg:#FFF8EC; --ink:#1F2A44; --soft:#4A5568; --mute:#6B7280; --card:#FFFDF9; --line:#E7DCC8;
+  --orange:#FF7A2F; --orange-ink:#B9480F; --peach:#FFE7D6; --blue:#2F6FD6; --sky:#E8F0FC;
+  --green:#1E8A57; --mint:#DDF3E7; --bad:#C93A3A; --rose:#FBE1E1; --navy2:#2A3758;
+  --t1:#FF7A2F; --t2:#2F6FD6; --t3:#1E8A57; --t4:#7B4FCC;
+  --display:'Fredoka','Jua',Arial,sans-serif;
+  --body:'Nunito','Nanum Gothic',Arial,sans-serif;
+  --kr:'Jua','Nanum Gothic',Arial,sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px}
+*{box-sizing:border-box}
+button,select{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button{cursor:pointer}
+button:focus-visible,select:focus-visible{outline:4px solid var(--blue);outline-offset:3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.app{min-height:100%;display:flex;flex-direction:column;gap:14px;padding-block:14px 12px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1900px;margin:0 auto}
+/* top bar */
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.brand{display:flex;flex-direction:column;gap:2px;min-width:0}
+.eyebrow{font-weight:800;font-size:13px;letter-spacing:.12em;color:var(--orange-ink)}
+.unitpick select{font-family:var(--display);font-weight:600;font-size:clamp(22px,2vw,32px);border:3px solid var(--ink);border-radius:14px;background:var(--card);padding:6px 12px;max-width:100%}
+.timer{display:flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border-radius:16px;padding:6px 8px 6px 16px}
+.timer .td{font-family:var(--display);font-weight:600;font-size:clamp(28px,2.6vw,42px);font-variant-numeric:tabular-nums;min-width:3.2ch;text-align:center}
+.timer button{border:none;border-radius:10px;padding:8px 12px;background:var(--navy2);color:var(--bg);font-weight:800;font-size:16px}
+.timer button.go{background:var(--orange);color:var(--ink)}
+.timer.done{animation:blink 1s steps(2) 4;background:var(--bad)}
+@keyframes blink{50%{background:var(--orange)}}
+.teams{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;flex:1;min-width:0}
+.team{display:flex;align-items:center;gap:8px;padding:6px 8px 6px 12px;border-radius:14px;background:var(--card);border:3px solid var(--tc)}
+.team .tn{font-weight:800;font-size:15px;color:var(--tc);white-space:nowrap}
+.team .ts{font-family:var(--display);font-weight:700;font-size:clamp(26px,2.4vw,38px);line-height:1;min-width:1.3em;text-align:center;font-variant-numeric:tabular-nums}
+.team .tb{display:flex;gap:4px;margin-left:auto}
+.team .tb button{width:36px;height:36px;border-radius:10px;border:2px solid var(--line);background:var(--bg);font-weight:800;font-size:20px}
+.t1{--tc:var(--t1)}.t2{--tc:var(--t2)}.t3{--tc:var(--t3)}.t4{--tc:var(--t4)}
+.bump .ts{animation:bump .5s ease}
+@keyframes bump{40%{transform:scale(1.5)}}
+/* step rail */
+.steps{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px}
+.step{flex:1;min-width:92px;border:none;border-radius:12px;padding:8px 6px;background:var(--card);border-bottom:5px solid var(--pc);display:flex;flex-direction:column;align-items:center;gap:0;line-height:1.15}
+.step .sn{font-family:var(--display);font-weight:700;font-size:20px;color:var(--pc2)}
+.step .sk{font-family:var(--kr);font-size:15px;white-space:nowrap}
+.step.on{background:var(--pc);color:var(--pt)}
+.step.on .sn{color:var(--pt)}
+.ph0{--pc:var(--orange);--pc2:var(--orange-ink);--pt:var(--ink)}
+.ph1{--pc:var(--blue);--pc2:var(--blue);--pt:#FFFDF9}
+.ph2{--pc:var(--green);--pc2:var(--green);--pt:#FFFDF9}
+.ph3{--pc:var(--ink);--pc2:var(--ink);--pt:#FFFDF9}
+/* stage */
+main{flex:1;display:flex;flex-direction:column;gap:14px;min-height:0}
+.shead{display:flex;flex-wrap:wrap;align-items:center;gap:14px}
+.pill{font-weight:800;font-size:17px;letter-spacing:.04em;padding:6px 16px;border-radius:999px;background:var(--pc);color:var(--pt);white-space:nowrap}
+.shead h2{font-family:var(--display);font-weight:600;font-size:clamp(32px,3.4vw,56px);line-height:1.05;margin:0}
+.shead .sko{font-family:var(--kr);font-size:clamp(20px,1.7vw,28px);color:var(--soft)}
+.tip{margin:0;font-size:clamp(16px,1.2vw,20px);color:var(--soft);background:var(--card);border:2px dashed var(--line);border-radius:14px;padding:8px 14px}
+.tip b{color:var(--orange-ink)}
+.body{flex:1;min-height:0;display:flex;gap:16px}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.grow{flex:1}
+.card{background:var(--card);border:3px solid var(--line);border-radius:24px;padding:clamp(16px,1.8vw,28px)}
+.dark{background:var(--ink);color:var(--bg);border-radius:24px;padding:clamp(16px,1.8vw,28px)}
+.btn{border:none;border-radius:14px;padding:12px 20px;background:var(--orange);color:var(--ink);font-family:var(--kr);font-size:clamp(18px,1.5vw,24px)}
+.btn.blue{background:var(--blue);color:#FFFDF9}
+.btn.ghost{background:transparent;border:3px solid currentColor}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.big{font-family:var(--display);font-weight:600}
+.emo{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',var(--display);line-height:1}
+/* hello */
+.chant{display:flex;flex-direction:column;gap:10px}
+.chant p{margin:0;font-family:var(--display);font-weight:500;font-size:clamp(26px,2.8vw,46px)}
+.chant .who{display:inline-block;width:1.6em;font-weight:700}
+.chant .T{color:var(--blue)}.chant .S{color:var(--orange-ink)}
+.chant .act{font-family:var(--kr);font-size:.55em;color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{border:none;border-radius:999px;background:var(--peach);padding:10px 20px;font-family:var(--display);font-weight:600;font-size:clamp(20px,1.8vw,30px);display:flex;align-items:center;gap:8px}
+/* riddle */
+.rgrid{flex:1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px}
+.rcard{position:relative;border-radius:22px;border:4px dashed var(--orange);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:12px;min-height:130px}
+.rcard .num{font-family:var(--display);font-weight:700;font-size:clamp(48px,5vw,92px);line-height:1;color:var(--orange)}
+.rcard.done{border-style:solid;border-color:var(--line);background:var(--sky)}
+.rcard.done .emo{font-size:clamp(40px,4vw,70px)}
+.rcard.done .w{font-family:var(--display);font-weight:600;font-size:clamp(20px,1.9vw,32px);text-align:center}
+.rcard .ok{position:absolute;top:8px;right:10px;font-weight:800;font-size:13px;color:var(--green);background:var(--mint);padding:3px 8px;border-radius:999px}
+.rd{flex:1;display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px}
+.board{display:flex;flex-direction:column;gap:12px}
+.bh{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px}
+.bh .tag{font-weight:800;font-size:16px;padding:5px 14px;border-radius:999px;background:var(--orange);color:var(--ink)}
+.worth{font-family:var(--kr);font-size:clamp(18px,1.5vw,26px);color:#FFD1B3}
+.worth b{font-family:var(--display);font-size:1.4em;color:#FFB27A}
+.clues{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;flex:1}
+.clue{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:16px;background:var(--navy2);animation:pop .35s ease}
+.clue.locked{background:transparent;border:2px dashed #46557A;animation:none}
+.clue .cn{font-weight:800;font-size:14px;letter-spacing:.08em;color:#FFB27A;white-space:nowrap}
+.clue .ct{font-family:var(--display);font-weight:500;font-size:clamp(22px,2.2vw,38px);line-height:1.2;flex:1;min-width:0}
+.clue.locked .ct{color:#8A96B4}
+.say{border:2px solid #5A6A90;background:transparent;color:var(--bg);border-radius:10px;padding:6px 12px;font-weight:800;font-size:15px;white-space:nowrap}
+@keyframes pop{from{transform:translateY(8px);opacity:.3}}
+.dark .btn.ghost{color:var(--bg)}
+.reveal{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:200px;text-align:center}
+.reveal .mys{font-family:var(--display);font-size:clamp(90px,9vw,160px);color:var(--line);line-height:1}
+.reveal .emo{font-size:clamp(80px,8vw,140px)}
+.reveal .aw{font-family:var(--display);font-weight:700;font-size:clamp(40px,4.4vw,76px);line-height:1.05;margin:0}
+.reveal .ak{font-family:var(--kr);font-size:clamp(20px,1.7vw,28px);color:var(--soft);margin:0}
+.award{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.award button{border-radius:14px;border:3px solid var(--tc);background:var(--card);padding:10px;font-weight:800;font-size:19px;color:var(--tc)}
+.award button[disabled]{opacity:.35;cursor:default}
+.award .none{grid-column:span 2;border-color:var(--line);color:var(--soft);font-size:16px}
+/* picture walk */
+.cover{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.cover .un{font-weight:800;letter-spacing:.1em;color:#FFB27A;font-size:18px}
+.cover h3{font-family:var(--display);font-weight:600;font-size:clamp(40px,4.6vw,80px);line-height:1.05;margin:0}
+.scatter{display:flex;flex-wrap:wrap;gap:14px 22px;font-size:clamp(44px,4.4vw,76px)}
+.frames{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.frame{border:none;text-align:left;border-radius:18px;padding:16px 22px;font-family:var(--display);font-weight:500;font-size:clamp(24px,2.4vw,40px);background:var(--peach)}
+.frame.up{background:var(--sky)}
+/* freeze */
+.fwords{display:flex;flex-wrap:wrap;gap:14px}
+.fw{display:flex;align-items:center;gap:12px;background:var(--card);border:3px solid var(--blue);border-radius:20px;padding:12px 24px 12px 16px}
+.fw .emo{font-size:clamp(40px,4vw,70px)}
+.fw .w{font-family:var(--display);font-weight:600;font-size:clamp(32px,3.4vw,60px)}
+.fw .cnt{font-family:var(--kr);font-size:20px;color:var(--orange-ink);margin-left:6px}
+.script{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px;overflow:auto;min-height:0}
+.script.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 14px;align-content:start}
+.sline{display:flex;align-items:center;gap:12px;border:none;text-align:left;width:100%;border-radius:14px;padding:10px 14px;background:var(--card);border:2px solid var(--line);font-family:var(--display);font-weight:500;font-size:clamp(22px,2.1vw,36px);line-height:1.2}
+.sline .no{font-family:var(--body);font-weight:800;font-size:15px;color:var(--mute);min-width:1.6em}
+.sline.cur{background:#FFF1C9;border-color:var(--orange)}
+.sline .tm{margin-left:auto;font-family:var(--body);font-weight:800;font-size:14px;color:#FFFDF9;background:var(--tc);border-radius:999px;padding:4px 10px;white-space:nowrap}
+.dots{display:flex;flex-wrap:wrap;gap:8px}
+.dots i{width:22px;height:22px;border-radius:50%;background:var(--navy2)}
+.dots i.on{background:var(--orange)}
+.listen{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;text-align:center}
+.listen .emo{font-size:clamp(90px,9vw,160px)}
+.listen p{margin:0;font-family:var(--kr);font-size:clamp(22px,2vw,32px)}
+/* read */
+.voice{font-family:var(--display);font-weight:700;font-size:clamp(40px,4vw,70px);color:var(--orange-ink)}
+/* act */
+.hot{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.hot li{display:flex;align-items:center;gap:12px;background:var(--navy2);border-radius:16px;padding:14px 18px}
+.hot .q{font-family:var(--display);font-weight:500;font-size:clamp(24px,2.3vw,40px);flex:1;min-width:0}
+.cast{font-family:var(--display);font-weight:600;font-size:clamp(26px,2.4vw,40px);line-height:1.3;margin:0}
+/* builder */
+.btop{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.turn{border-radius:999px;border:3px solid var(--tc);background:var(--tc);color:#FFFDF9;padding:6px 18px;font-family:var(--kr);font-size:clamp(20px,1.7vw,28px)}
+.turn small{font-family:var(--body);font-weight:800;font-size:13px;opacity:.85;margin-left:6px}
+.clock{margin-left:auto;font-family:var(--display);font-weight:600;font-size:clamp(28px,2.6vw,44px);font-variant-numeric:tabular-nums}
+.lane{min-height:clamp(100px,10vw,150px);border-radius:24px;border:4px dashed var(--blue);background:var(--sky);display:flex;flex-wrap:wrap;align-content:center;gap:10px;padding:14px}
+.lane .ph{font-family:var(--kr);font-size:clamp(20px,1.7vw,26px);color:var(--blue);margin:auto}
+.lane.win{border-style:solid;border-color:var(--green);background:var(--mint);animation:win .6s ease}
+@keyframes win{30%{transform:scale(1.02)}}
+.pool{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;padding:4px;min-height:80px;align-content:flex-start}
+.tile{font-family:var(--display);font-weight:600;font-size:clamp(26px,2.8vw,50px);line-height:1;padding:.35em .55em;border-radius:16px;background:var(--card);border:3px solid var(--ink);box-shadow:0 5px 0 var(--ink);transition:transform .1s}
+.tile:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.lane .tile{box-shadow:none;border-color:var(--blue)}
+.tile.ok{border-color:var(--green);background:var(--mint);color:var(--green)}
+.tile.no{border-color:var(--bad);background:var(--rose);color:var(--bad);animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.ko{font-family:var(--kr);font-size:clamp(20px,1.7vw,28px);color:var(--orange-ink);text-align:center;margin:0;min-height:1.3em}
+.fb{font-family:var(--kr);font-size:clamp(22px,2vw,34px);text-align:center;margin:0;min-height:1.3em}
+.fb.good{color:var(--green)}.fb.bad{color:var(--bad)}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.ctrl .btn.ghost{color:var(--ink)}
+/* book */
+.ox{display:flex;gap:16px;flex:1}
+.ox div{flex:1;border-radius:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px}
+.ox .o{background:var(--blue);color:#FFFDF9}.ox .x{background:var(--ink);color:#FFB27A}
+.ox b{font-family:var(--display);font-size:clamp(90px,10vw,180px);line-height:1}
+.ox span{font-family:var(--kr);font-size:clamp(22px,2vw,34px);color:#FFFDF9}
+.bign{font-family:var(--display);font-weight:600;font-size:clamp(60px,6vw,110px);line-height:1;color:var(--green)}
+.list{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:8px;font-size:clamp(20px,1.7vw,28px)}
+/* chain */
+.chain{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.ccard{position:relative;border:3px solid var(--ink);border-radius:20px;background:var(--card);padding:18px 20px 18px 74px;text-align:left;font-family:var(--display);font-weight:500;font-size:clamp(22px,2.1vw,36px);line-height:1.2;min-height:90px;box-shadow:0 5px 0 var(--ink)}
+.ccard .badge{position:absolute;left:16px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:3px dashed var(--line);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:24px}
+.ccard.sel .badge{border:none;background:var(--orange);color:var(--ink)}
+.ccard.ok{border-color:var(--green);background:var(--mint);box-shadow:0 5px 0 var(--green)}
+.ccard.no{border-color:var(--bad);background:var(--rose);box-shadow:0 5px 0 var(--bad)}
+.ccard .lab{display:block;font-family:var(--body);font-weight:800;font-size:15px;letter-spacing:.08em;color:var(--orange-ink);margin-bottom:4px}
+/* star */
+.bars{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.barrow{display:flex;align-items:center;gap:12px}
+.barrow .bn{width:7.5em;font-weight:800;font-size:clamp(18px,1.5vw,24px);color:var(--tc);white-space:nowrap}
+.barrow .bt{flex:1;height:clamp(40px,4vw,64px);background:var(--sky);border-radius:14px;overflow:hidden}
+.barrow .bf{height:100%;background:var(--tc);border-radius:14px;transition:width .6s ease;min-width:6px}
+.barrow .bv{width:3.5em;font-family:var(--display);font-weight:700;font-size:clamp(28px,2.6vw,44px);text-align:right;font-variant-numeric:tabular-nums}
+.crown{font-family:var(--kr);font-size:clamp(24px,2.2vw,36px);color:var(--orange-ink);margin:0}
+.hw{background:var(--peach);border:3px dashed var(--orange);border-radius:20px;padding:16px 22px}
+.hw b{display:block;font-size:15px;letter-spacing:.1em;color:var(--orange-ink)}
+.hw p{margin:4px 0 0;font-family:var(--kr);font-size:clamp(22px,1.9vw,30px)}
+/* exit */
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.three .card{display:flex;flex-direction:column;gap:6px}
+.three .n{font-family:var(--display);font-weight:700;font-size:clamp(70px,7vw,120px);line-height:1}
+.three .l{font-family:var(--display);font-weight:600;font-size:clamp(26px,2.4vw,40px)}
+.three .d{font-family:var(--kr);font-size:clamp(18px,1.5vw,24px);color:var(--soft)}
+.bank{display:flex;flex-wrap:wrap;gap:10px}
+.bank span{display:flex;align-items:center;gap:6px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-family:var(--display);font-weight:600;font-size:clamp(18px,1.6vw,26px)}
+/* footer */
+.foot{display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--mute);font-size:14px}
+.navbtn{border:3px solid var(--ink);background:var(--card);border-radius:14px;padding:8px 22px;font-family:var(--kr);font-size:clamp(18px,1.5vw,24px)}
+.navbtn.next{background:var(--ink);color:var(--bg)}
+.foot .mid{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center;text-align:center}
+.foot .mid button{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:6px 10px;font-weight:800;font-size:13px;color:var(--soft)}
+.foot .mid button.arm{border-color:var(--bad);color:var(--bad)}
+@media (max-width:1000px){
+  .teams{grid-template-columns:repeat(2,minmax(0,1fr));flex-basis:100%}
+  .rgrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .rd,.body{grid-template-columns:minmax(0,1fr);flex-direction:column}
+  .chain,.three,.script.two{grid-template-columns:minmax(0,1fr)}
+  .ox{flex-direction:column}
+  .clock{margin-left:0}
+}
+@media (max-width:560px){.rgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.foot>span{display:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="app">
+  <header class="bar">
+    <div class="brand">
+      <span class="eyebrow">BRICKS READING 50 · LEVEL 1 · 전자칠판 수업</span>
+      <label class="unitpick"><span class="sr">유닛 선택</span><select id="unitSel"></select></label>
+    </div>
+    <div class="timer" id="timer" aria-live="off">
+      <span class="td" id="tDisp">0:00</span>
+      <button class="go" id="tGo">시작</button>
+      <button id="tReset" aria-label="타이머 처음으로">처음</button>
+    </div>
+    <div class="teams" id="teams"></div>
+  </header>
+  <nav class="steps" id="steps" aria-label="수업 단계"></nav>
+  <main id="stage" aria-live="polite"></main>
+  <footer class="foot">
+    <button class="navbtn" id="prev">← 이전</button>
+    <span class="mid"><span>Created by Stella 원장</span><button id="resetScores">점수 초기화</button></span>
+    <button class="navbtn next" id="next">다음 →</button>
+  </footer>
+</div>
+
+<script>
+const WORDS = [{"n": 1, "title": "A Giant in the Forest", "w": [{"w": "huge", "ko": "거대한", "ex": "She lives in a huge house"}, {"w": "eye", "ko": "눈", "ex": "Close your eyes."}, {"w": "smelly", "ko": "냄새 나는", "ex": "The socks are smelly."}, {"w": "loud", "ko": "(소리가) 큰, 시끄러운", "ex": "He speaks in a loud voice."}, {"w": "hear", "ko": "듣다", "ex": "I can hear your voice."}, {"w": "finger", "ko": "손가락", "ex": "He puts a ring on my finger."}, {"w": "touch", "ko": "만지다", "ex": "We touch the snake."}, {"w": "hard", "ko": "단단한", "ex": "A stone is hard and cold."}, {"w": "taste", "ko": "맛보다", "ex": "We taste the cake on the table."}, {"w": "tongue", "ko": "혀", "ex": "The cat licks milk with its tongue."}]}, {"n": 2, "title": "Mom, He Is Ron!", "w": [{"w": "new", "ko": "새로운", "ex": "I get a new bag."}, {"w": "hair", "ko": "머리(털), 머리카락", "ex": "I wash my hair with shampoo."}, {"w": "short", "ko": "짧은", "ex": "She wears short pants."}, {"w": "ear", "ko": "귀", "ex": "A rabbit has long ears and red eyes."}, {"w": "lip", "ko": "입술", "ex": "The clown has big pink lips."}, {"w": "nose", "ko": "코", "ex": "The boy touches his nose."}, {"w": "large", "ko": "큰", "ex": "Put apples in a large bowl."}, {"w": "dinner", "ko": "저녁식사", "ex": "My family eats dinner at six"}, {"w": "chin", "ko": "턱", "ex": "David has a spot on his chin."}, {"w": "eat", "ko": "먹다", "ex": "I eat lunch with my friend."}]}, {"n": 3, "title": "Yummy Juice", "w": [{"w": "make", "ko": "만들다", "ex": "I make a pancake for my mom."}, {"w": "juice", "ko": "주스", "ex": "I drink orange juice in the morning."}, {"w": "mix", "ko": "섞다", "ex": "I mix milk and eggs."}, {"w": "lemon", "ko": "레몬", "ex": "There are lemons in the basket."}, {"w": "color", "ko": "색", "ex": "The color of the ball is blue."}, {"w": "cherry", "ko": "체리", "ex": "I put cherries on the cake."}, {"w": "purple", "ko": "보라색", "ex": "She wears a purple dress."}, {"w": "brown", "ko": "갈색", "ex": "John has brown eyes."}, {"w": "kiwi", "ko": "키위", "ex": "I eat kiwis and bananas."}, {"w": "plum", "ko": "자두", "ex": "I wash plums in the sink."}]}, {"n": 4, "title": "Cleaning Day", "w": [{"w": "dirty", "ko": "더러운", "ex": "The house is old and dirty."}, {"w": "window", "ko": "창문", "ex": "I open the window."}, {"w": "cloth", "ko": "천", "ex": "Use warm water and a soft cloth."}, {"w": "dish", "ko": "접시", "ex": "Put the apples in a big dish."}, {"w": "wipe", "ko": "닦다", "ex": "The girl wipes her chair."}, {"w": "sponge", "ko": "스펀지", "ex": "I wash dishes with a sponge."}, {"w": "mop", "ko": "자루걸레", "ex": "The boy cleans the kitchen with a mop."}, {"w": "floor", "ko": "바닥", "ex": "The dog sleeps on the floor."}, {"w": "spill", "ko": "엎지르다", "ex": "I spill water on the table."}, {"w": "messy", "ko": "지저분한", "ex": "The room is messy with toys."}]}, {"n": 5, "title": "Thanks, Friends!", "w": [{"w": "bring", "ko": "가져오다", "ex": "Sam brings some cookies."}, {"w": "birthday", "ko": "생일", "ex": "My birthday is coming up soon."}, {"w": "hairpin", "ko": "머리핀", "ex": "Mary buys a hairpin for her sister."}, {"w": "teddy bear", "ko": "곰 인형", "ex": "There is an old teddy bear."}, {"w": "basket", "ko": "바구니", "ex": "I put bananas in the basket."}, {"w": "bag", "ko": "가방", "ex": "The books are in my bag."}, {"w": "open", "ko": "열다", "ex": "Open the door."}, {"w": "jump", "ko": "뛰다, 점프하다", "ex": "A frog jumps into the pond."}, {"w": "frog", "ko": "개구리", "ex": "A frog can live in water."}, {"w": "scream", "ko": "소리 지르다", "ex": "My brother screams at me."}]}, {"n": 6, "title": "Please, Tom!", "w": [{"w": "bad", "ko": "나쁜", "ex": "I hear the bad news."}, {"w": "table", "ko": "탁자, 식탁", "ex": "The monster eats everything on the table."}, {"w": "habit", "ko": "습관", "ex": "Nail-biting is a bad habit."}, {"w": "living room", "ko": "거실", "ex": "We sit on the sofa in the living room."}, {"w": "burp", "ko": "트림하다", "ex": "My brother burps at the table."}, {"w": "say", "ko": "말하다", "ex": "I say, “Hello!”"}, {"w": "kitchen", "ko": "부엌", "ex": "My mom cooks in the kitchen."}, {"w": "street", "ko": "거리, 도로", "ex": "I meet my friend on the street."}, {"w": "fart", "ko": "방귀뀌다", "ex": "The boy farts in his classroom."}, {"w": "elevator", "ko": "엘리베이터", "ex": "A man waits for the elevator."}]}, {"n": 7, "title": "At the Pet Store", "w": [{"w": "pet", "ko": "애완동물", "ex": "My pet is a parrot."}, {"w": "want", "ko": "원하다", "ex": "I want a new bike."}, {"w": "snake", "ko": "뱀", "ex": "There is a snake under the rock."}, {"w": "giant", "ko": "거대한", "ex": "There is a giant tree on the hill."}, {"w": "scary", "ko": "무서운", "ex": "I like scary movies."}, {"w": "pretty", "ko": "예쁜, 귀여운", "ex": "The girl wears a pretty hat."}, {"w": "spider", "ko": "거미", "ex": "The spider makes a web."}, {"w": "buy", "ko": "사다.", "ex": "I buy a gift for my friend."}, {"w": "kitten", "ko": "새끼 고양이", "ex": "Ann has two kittens."}, {"w": "dog food", "ko": "개 사료", "ex": "Give Max a cup of dog food in the morning."}]}, {"n": 8, "title": "I See the Animals", "w": [{"w": "yawn", "ko": "하품하다", "ex": "I yawn on the sofa."}, {"w": "lazy", "ko": "게으른", "ex": "The lazy girl watches TV."}, {"w": "crocodile", "ko": "악어", "ex": "The crocodile goes back into the river."}, {"w": "busy", "ko": "바쁜", "ex": "My mom is busy with house chores."}, {"w": "crawl", "ko": "기다.", "ex": "The baby crawls in the grass."}, {"w": "monkey", "ko": "원숭이", "ex": "The monkey rides a bike."}, {"w": "swing", "ko": "흔들다", "ex": "Sam sits on a chair and swings his legs."}, {"w": "hungry", "ko": "배고픈", "ex": "I am hungry and thirsty."}, {"w": "growl", "ko": "으르렁대다.", "ex": "The dog shows its sharp teeth and growls."}, {"w": "follow", "ko": "따라가다[오다]", "ex": "She follows the footprints."}]}, {"n": 9, "title": "In the Sea", "w": [{"w": "pet", "ko": "쓰다듬다", "ex": "I pet my kitten."}, {"w": "swim", "ko": "수영하다", "ex": "We swim in the pool."}, {"w": "tickle", "ko": "간지럼을 태우다, 간지럽히다", "ex": "My puppy tickles me."}, {"w": "turtle", "ko": "거북이", "ex": "The turtle moves very slowly."}, {"w": "giggle", "ko": "낄낄대다", "ex": "The children look at the clown and giggle."}, {"w": "touch", "ko": "만지다", "ex": "I touch the flower."}, {"w": "starfish", "ko": "불가사리", "ex": "Starfish live in the sea."}, {"w": "shark", "ko": "상어", "ex": "A shark has sharp teeth."}, {"w": "poke", "ko": "찌르다", "ex": "Jane pokes a balloon with a pencil."}, {"w": "coral", "ko": "산호", "ex": "My sister has a coral necklace."}]}, {"n": 10, "title": "Christmas Elves", "w": [{"w": "elf", "ko": "요정", "ex": "An elf finds a big tree."}, {"w": "lollipop", "ko": "막대사탕", "ex": "The dog licks my lollipop."}, {"w": "help", "ko": "돕다", "ex": "I help my dad in the yard."}, {"w": "sweet", "ko": "달콤한, 단", "ex": "I like sweet cakes."}, {"w": "sour", "ko": "(맛이) 신", "ex": "The grapes taste sweet and sour."}, {"w": "jellybean", "ko": "젤리빈 (콩 모양의 젤리 과자).", "ex": "The man sells jellybeans."}, {"w": "candy cane", "ko": "지팡이 모양 사탕", "ex": "The children hang candy canes on the tree."}, {"w": "robot", "ko": "로봇", "ex": "The robot is in the box."}, {"w": "doll", "ko": "인형", "ex": "My doll has big eyes."}, {"w": "leave", "ko": "떠나다", "ex": "We leave home in the morning."}]}, {"n": 11, "title": "Great Jobs", "w": [{"w": "ill", "ko": "아픈", "ex": "My grandma is ill."}, {"w": "doctor", "ko": "의사", "ex": "The doctor works every day."}, {"w": "smart", "ko": "똑똑한", "ex": "He is a smart boy."}, {"w": "nurse", "ko": "간호사", "ex": "The nurse washes my face."}, {"w": "train", "ko": "조련하다", "ex": "My grandpa trains horses on his farm."}, {"w": "kind", "ko": "친절한", "ex": "Tom is kind to people."}, {"w": "brave", "ko": "용감한", "ex": "The brave man saves the girl."}, {"w": "trainer", "ko": "훈련시키는 사람, 트레이너", "ex": "The trainer feeds the animals."}, {"w": "clown", "ko": "광대", "ex": "Clowns dance on the stage."}, {"w": "trick", "ko": "마술", "ex": "A woman shows a trick with cards."}]}, {"n": 12, "title": "Fun Quiz", "w": [{"w": "skinny", "ko": "가는, 마른", "ex": "The skinny girl is hungry."}, {"w": "tongue", "ko": "혀", "ex": "You have a long tongue."}, {"w": "tail", "ko": "꼬리", "ex": "A monkey has a long tail."}, {"w": "wet", "ko": "젖은", "ex": "My clothes are all wet."}, {"w": "grass", "ko": "풀", "ex": "We eat lunch on the grass."}, {"w": "jungle", "ko": "정글", "ex": "The lion is king of the jungle."}, {"w": "anthill", "ko": "개미탑", "ex": "There are many ants in the anthill."}, {"w": "tall", "ko": "키가 큰", "ex": "There are many tall buildings in this town."}, {"w": "guess", "ko": "추측하다", "ex": "I guess what the animal is."}, {"w": "anteater", "ko": "개미핥기", "ex": "The anteater lives in the forest."}]}, {"n": 13, "title": "I Can’t Chew", "w": [{"w": "toothache", "ko": "치통", "ex": "Tom tells us about his toothache."}, {"w": "drink", "ko": "마시다", "ex": "I drink milk every morning."}, {"w": "breakfast", "ko": "아침식사", "ex": "I have an egg for breakfast."}, {"w": "tooth", "ko": "이빨", "ex": "I put my tooth in the box."}, {"w": "chew", "ko": "씹다", "ex": "Do not chew gum."}, {"w": "desk", "ko": "책상", "ex": "I have an old desk."}, {"w": "brush", "ko": "이를 닦다", "ex": "I brush my teeth in the bathroom."}, {"w": "read", "ko": "읽다", "ex": "My dad reads a newspaper."}, {"w": "write", "ko": "쓰다", "ex": "I write my name."}, {"w": "dentist", "ko": "치과의사", "ex": "The dentist looks at my teeth."}]}, {"n": 14, "title": "A Goal? No Goal!", "w": [{"w": "chase", "ko": "쫓다", "ex": "The boy chases the rabbit."}, {"w": "soccer", "ko": "축구", "ex": "I play soccer with my friends."}, {"w": "kick", "ko": "차다", "ex": "I kick the ball on the ground."}, {"w": "foot", "ko": "발", "ex": "The girl hurts her foot."}, {"w": "miss", "ko": "놓치다", "ex": "I miss the school bus."}, {"w": "head", "ko": "머리", "ex": "The boy shakes his head."}, {"w": "goal", "ko": "골", "ex": "The last goal is great."}, {"w": "hand", "ko": "손", "ex": "I have a coin in my hand."}, {"w": "hit", "ko": "치다", "ex": "I hit the wall."}, {"w": "throw", "ko": "던지다", "ex": "Ken throws stones into the pond."}]}, {"n": 15, "title": "We All Draw!", "w": [{"w": "contest", "ko": "대회", "ex": "I sing a song in the music contest."}, {"w": "butterfly", "ko": "나비", "ex": "A butterfly sits on the flower."}, {"w": "sketch", "ko": "스케치하다", "ex": "I sketch my family."}, {"w": "duck", "ko": "오리", "ex": "The ducks swim in the pond."}, {"w": "pine tree", "ko": "소나무", "ex": "There are many pine trees in the park."}, {"w": "bench", "ko": "벤치", "ex": "People eat sandwiches on the bench."}, {"w": "pond", "ko": "연못", "ex": "We walk to the pond."}, {"w": "draw", "ko": "그리다.", "ex": "I draw my mom’s face."}, {"w": "color", "ko": "색을 칠하다", "ex": "I color the picture."}, {"w": "win", "ko": "우승하다", "ex": "We win this game."}]}, {"n": 16, "title": "Come to My House!", "w": [{"w": "dream", "ko": "(희망을 담은) 꿈", "ex": "Everyone has a dream."}, {"w": "interesting", "ko": "재미있는", "ex": "This movie is very interesting."}, {"w": "round", "ko": "둥근", "ex": "The dishes are round."}, {"w": "living room", "ko": "거실", "ex": "I watch TV in the living room."}, {"w": "roof", "ko": "지붕", "ex": "A cat is on the roof."}, {"w": "bedroom", "ko": "침실", "ex": "The baby sleeps in the bedroom."}, {"w": "square", "ko": "정사각형 모양의", "ex": "The table looks square."}, {"w": "funny", "ko": "우스운, 웃기는", "ex": "I hear a funny story."}, {"w": "grow", "ko": "자라다", "ex": "Many flowers grow in the yard."}, {"w": "bathroom", "ko": "화장실", "ex": "I clean the bathroom."}]}];
+const EXTRA = {
+1:{ hero:'The Giant', cast:'I (나) · The Giant', key:[2,4,8,10], freeze:['giant','eyes','tongue'],
+  hot:['Where do you live?','Are you huge?','Do you smell good?'],
+  script:["A giant lives in the forest.","I see with my eyes.","I see the huge giant.","I smell with my nose.","I smell the smelly giant.","I hear with my ears.","I hear the loud giant.","I touch with my fingers.","I touch the giant's hard toe.","I taste with my tongue.","But I don't like the taste of the giant.","Yuck!"],
+  pics:{huge:['🏔️','It means very, very big.'],eye:['👁️','You see with it.'],smelly:['🦨','It smells bad. Pee-yew!'],loud:['📢','It is very noisy. Not quiet!'],hear:['👂','You do this with your ears.'],finger:['☝️','You have ten. They are on your hands.'],touch:['🤚','You feel something with your hand.'],hard:['🪨','Not soft! Like a rock.'],taste:['😋','You do this with your tongue. Yummy or yucky?'],tongue:['👅','It is in your mouth. It is pink.']}},
+2:{ hero:'Ron', cast:'I (나) · Ron · Mom', key:[0,2,7,9], freeze:['eyes','ears','nose'],
+  hot:['What color are your eyes?','Is your hair long or short?','Can you eat dinner with us?'],
+  script:["I have a new friend!","His name is Ron.","He has blue eyes.","He has short hair.","He has small ears.","He has red lips.","He has a long nose.","He has a large chin.","Mom, Ron is right here.","Can he eat dinner with us?"],
+  pics:{new:['🆕','It is not old.'],hair:['💇','It grows on your head.'],short:['🩳','Not long!'],ear:['👂','You hear with it. You have two.'],lip:['👄','Your mouth has two of them.'],nose:['👃','You smell with it.'],large:['🐘','It means big.'],dinner:['🍝','You eat it in the evening.'],chin:['🧔','It is the bottom part of your face.'],eat:['🍽️','You do this with food. Yum!']}},
+3:{ hero:'Juice Maker', cast:'I (나) · Mom · Dad', key:[1,4,7,9], freeze:['juice','mix','color'],
+  hot:['What do you make?','What do you mix?','What color is the juice?'],
+  script:["I make juice for my family.","I mix yellow lemons and blue grapes.","The juice has a green color.","It is for my mom.","I mix blue grapes and red cherries.","The juice has a purple color.","It is for my dad.","I mix green kiwis and red plums.","The juice has a brown color.","It is for me!"],
+  pics:{make:['🧑‍🍳','You cook or build something.'],juice:['🧃','You drink it. It comes from fruit.'],mix:['🥣','You put things together and stir.'],lemon:['🍋','It is yellow and sour.'],color:['🎨','Red, blue, and green are these.'],cherry:['🍒','It is small, round, and red.'],purple:['🍇','It is the color of grapes.'],brown:['🟤','It is the color of chocolate.'],kiwi:['🥝','It is green inside. It is brown and fuzzy outside.'],plum:['🟣','It is a small purple or red fruit.']}},
+4:{ hero:'The Cleaner', cast:'I (나) · My dog', key:[3,6,9,10], freeze:['dirty','water','floor'],
+  hot:['What do you clean?','What do you use?','What does your dog do?'],
+  script:["Today is cleaning day!","The windows are dirty.","I get a cloth and water.","I wipe the windows.","The dishes are dirty.","I get a sponge and water.","I wash the dishes.","The floor is dirty.","I get a mop and a bucket.","I clean the floor.","Oops! My dog spills his milk.","The floor is messy again!"],
+  pics:{dirty:['🐷','Not clean! Like a pig in mud.'],window:['🪟','You look outside through it.'],cloth:['🧣','It is a soft piece of fabric.'],dish:['🍽️','You put food on it.'],wipe:['🤚','You rub a cloth on it to clean.'],sponge:['🧽','It is soft and has many holes.'],mop:['🧹','You clean the floor with it. It has a long stick.'],floor:['🟫','You walk on it.'],spill:['🥛','Oops! Milk falls out of the cup.'],messy:['🌪️','Not neat! Things are everywhere.']}},
+5:{ hero:'Kim', cast:'Kim · Ricky · Ann · Tony', key:[2,5,8,11], freeze:['brings','basket','Thanks'],
+  hot:['What day is it today?','What is in the blue box?','How do you feel about the frog?'],
+  script:["Hurray!","Kim's friends come to her birthday party.","Ricky brings a blue box.","A teddy bear is in it.","\"Thanks, Ricky.\"","Ann brings a brown bag.","A hairpin is in it.","\"Thanks, Ann.\"","Tony brings a green basket.","\"Open the basket, Kim.\"","Kim opens the basket.","A frog jumps out of it.","\"Oh, Tony!\" Kim screams."],
+  pics:{bring:['🎁','You carry something to someone.'],birthday:['🎂','You have a cake and a party on this day.'],hairpin:['🎀','You put it in your hair.'],'teddy bear':['🧸','It is a soft toy bear.'],basket:['🧺','You carry fruit in it.'],bag:['👜','You carry books in it.'],open:['🔓','Not close! You do this to a door.'],jump:['🦘','You go up in the air with your legs.'],frog:['🐸','It is green. It jumps. Ribbit!'],scream:['😱','You shout very loudly. Ahhh!']}},
+6:{ hero:'Tom', cast:'Tom · Mom · Dad', key:[1,4,5,11], freeze:['burps','farts','Please'],
+  hot:['What are your bad habits?','Where do you burp?','Who farts at the end?'],
+  script:["Tom has bad habits.","Tom burps at the table.","Tom burps in the kitchen.","Tom burps in the living room.","Mom says, \"Please, Tom!\"","Tom farts in the elevator.","Tom farts in the street.","Tom farts in the car.","Mom says, \"Please, Tom!\"","Prrrt!","Mom says, \"Tom!\"","Tom says, \"It is not me! It is Dad!\""],
+  pics:{bad:['👎','Not good!'],table:['🪑','You eat on it. It has four legs.'],habit:['🔁','You do it again and again.'],'living room':['🛋️','You sit on the sofa and watch TV here.'],burp:['😮‍💨','Air comes out of your mouth after you eat.'],say:['💬','You speak words.'],kitchen:['🍳','You cook food here.'],street:['🛣️','Cars drive on it.'],fart:['💨','Air comes out of your bottom. Prrrt!'],elevator:['🛗','It takes you up and down in a building.']}},
+7:{ hero:'Kevin', cast:'Kevin · Dad', key:[1,3,5,10], freeze:['wants','snake','dog'],
+  hot:['Where are you?','What do you want?','How many dogs do you have?'],
+  script:["Kevin goes to the pet store with his dad.","Kevin wants a giant snake.","Dad says, \"No snakes.\"","Kevin wants a scary spider.","Dad says, \"No spiders.\"","Kevin wants a pretty kitten.","Dad says, \"No kittens.\"","Kevin wants a cute dog.","Dad says, \"You have twelve dogs!\"","\"Dad, what can we buy?\"","Dad says, \"Only dog food.\""],
+  pics:{pet:['🐕','It is an animal that lives with you.'],want:['🙏','You wish for it.'],snake:['🐍','It is long. It has no legs. Hiss!'],giant:['🦖','It is very, very big.'],scary:['👻','It makes you afraid.'],pretty:['🌸','It is nice to look at.'],spider:['🕷️','It has eight legs. It makes a web.'],buy:['🛒','You give money and get something.'],kitten:['🐱','It is a baby cat.'],'dog food':['🦴','A dog eats it.']}},
+8:{ hero:'Safari Kid', cast:'I (나) · Mom · Dad · Animals', key:[1,3,5,7], freeze:['lions','monkeys','bears'],
+  hot:['Where do you go?','What do the lions do?','What do the bears want?'],
+  script:["I go on a safari with my mom and dad.","I see lazy lions.","They yawn and sleep.","I see slow crocodiles.","They crawl and move.","I see busy monkeys.","They swing and play.","I see hungry bears.","They walk and growl.","Look! They follow our safari tour bus.","Oh, no! They want my snacks!"],
+  pics:{yawn:['🥱','You open your mouth wide when you are sleepy.'],lazy:['🦥','It does not want to work.'],crocodile:['🐊','It has big teeth. It lives in a river.'],busy:['🐝','You have a lot to do!'],crawl:['👶','A baby moves on hands and knees.'],monkey:['🐒','It climbs trees. It loves bananas.'],swing:['🌳','You move back and forth.'],hungry:['🍽️','You want to eat food now!'],growl:['🐻','Grrr! An angry bear makes this sound.'],follow:['👣','You go after someone.']}},
+9:{ hero:'Micky', cast:'Micky · Fish · Turtle · Starfish · Coral · Shark', key:[1,7,13,15], freeze:['tickles','pokes','swims'],
+  hot:['Where do you swim?','What tickles you?','What do you see at the end?'],
+  script:["Micky swims in the sea.","He pets a blue fish.","It tickles Micky.","Haha!","He pets a green turtle.","It tickles Micky, too.","Giggle!","He touches a red starfish.","It pokes Micky.","Ouch!","He touches a pink coral.","It pokes Micky, too.","Oops!","Micky sees a big shark.","He swims and swims.","Phew! It does not touch him!"],
+  pics:{pet:['🫳','You touch an animal softly.'],swim:['🏊','You move in water.'],tickle:['🪶','It makes you laugh. Hee hee!'],turtle:['🐢','It is very slow. It has a shell.'],giggle:['🤭','You laugh a little.'],touch:['🤚','You feel something with your hand.'],starfish:['⭐','It lives in the sea. It looks like a star.'],shark:['🦈','It is a big fish with sharp teeth.'],poke:['👉','You push it with your finger.'],coral:['🪸','It lives in the sea. It looks like a pink plant.']}},
+10:{ hero:'Sally', cast:'Sally · Jake · Santa', key:[1,3,7,12], freeze:['candies','toys','gifts'],
+  hot:['Who do you help?','What do you make?','How do the jellybeans taste?'],
+  script:["Sally and Jake are elves.","They help Santa.","They make Christmas gifts.","Sally makes some candies.","The lollipops taste sweet.","The jellybeans taste sour.","The candy canes taste great.","Jake makes some toys.","The dolls are pink.","The robots are brown.","The cars are blue.","Hurray! They make all the gifts.","Now, Santa can leave!"],
+  pics:{elf:['🧝','It is a little helper of Santa.'],lollipop:['🍭','It is candy on a stick.'],help:['🤝','You do work for someone.'],sweet:['🍬','It tastes like sugar.'],sour:['🍋','It tastes like a lemon.'],jellybean:['🫘','It is a small candy. It looks like a bean.'],'candy cane':['🎄','It is a red and white candy. It looks like a J.'],robot:['🤖','It is a machine. It can move and talk.'],doll:['🪆','It is a toy. It looks like a person.'],leave:['👋','You go away. Bye-bye!']}},
+11:{ hero:'My Aunt', cast:'Grandpa · Grandma · Uncle · Aunt · I', key:[1,4,7,10], freeze:['helps','trainer','clown'],
+  hot:['What is your job?','What do you do?','Are you funny?'],
+  script:["My family has great jobs!","My grandpa is a doctor.","He helps ill people.","He is smart.","My grandma is a nurse.","She helps sick people.","She is kind.","My uncle is a trainer.","He trains tigers.","He is brave.","My aunt is a circus clown.","She does tricks.","She is funny.","I want to do all these things, too!"],
+  pics:{ill:['🤒','You are sick.'],doctor:['🧑‍⚕️','This person helps sick people in a hospital.'],smart:['🧠','You know many things.'],nurse:['👩‍⚕️','This person helps a doctor.'],train:['🐅','You teach an animal to do things.'],kind:['💗','You are nice to people.'],brave:['🦸','You are not afraid.'],trainer:['🦁','This person teaches animals.'],clown:['🤡','This person has a red nose and makes you laugh.'],trick:['🎩','A magician shows it. Ta-da!']}},
+12:{ hero:'The Anteater', cast:'Quiz host · The Anteater', key:[1,3,5,11], freeze:['ants','Guess','tongue'],
+  hot:['What do you eat?','Is your nose skinny?','Where do you live?'],
+  script:["Guess what animal this is!","It has a skinny nose.","It has a long tongue.","It has a big tail.","Guess what animal this is!","It eats ants in wet jungles.","It eats ants in tall grass.","It eats ants in anthills.","Can you guess?","Come on! Guess!","What is this animal?","Yes! It is an anteater."],
+  pics:{skinny:['🥢','It is very thin.'],tongue:['👅','It is in your mouth. It is pink.'],tail:['🦊','It is at the back of an animal.'],wet:['💦','It has water on it. Not dry!'],grass:['🌿','It is green. It grows on the ground.'],jungle:['🌴','It is a hot forest with many trees.'],anthill:['⛰️','Many ants live in it.'],tall:['🦒','Not short! Like a giraffe.'],guess:['🤔','You think and say an answer. Maybe…'],anteater:['🐜','This animal eats ants with its long tongue.']}},
+13:{ hero:'Toothache Kid', cast:'I (나) · Mom', key:[0,2,6,9], freeze:["can't",'time','teeth'],
+  hot:['What is wrong?','What can’t you do?','Where do you go?'],
+  script:["Ouch! I have a toothache.","It is time for breakfast.","I can't chew food.","I can't drink cold water.","I can't brush my teeth.","It is time for school.","I can't sit at my desk.","I can't write words.","I can't read books.","Mom says, \"It is time to see the dentist.\"","I say, \"But Mom, I can't walk!\""],
+  pics:{toothache:['😖','Your tooth hurts. Ouch!'],drink:['🥤','You do this with water or milk.'],breakfast:['🥞','You eat it in the morning.'],tooth:['😁','You have many in your mouth. They are white.'],chew:['🍖','You bite food again and again.'],desk:['🪑','You sit at it and study.'],brush:['🪥','You clean your teeth with it.'],read:['📖','You do this with a book.'],write:['✍️','You do this with a pencil.'],dentist:['🦷','This doctor looks at your teeth.']}},
+14:{ hero:'Soccer Kid', cast:'I (나) · My team', key:[2,4,6,9], freeze:['ball','goal','misses'],
+  hot:['What game do you play?','How do you kick the ball?','Is it a goal?'],
+  script:["It is my first soccer game.","I chase the ball.","I kick the ball with my foot.","It misses the goal.","I hit the ball with my head.","It misses the goal.","I throw the ball with my hand.","It is a goal!","Oh, no! It is not a goal!","We can't use our hands in soccer."],
+  pics:{chase:['🏃','You run after something.'],soccer:['⚽','You kick a ball in this game.'],kick:['🦵','You hit it with your foot.'],foot:['🦶','You stand on it.'],miss:['❌','You try, but you do not hit it.'],head:['🧑','Your hair is on it.'],goal:['🥅','The ball goes in the net!'],hand:['✋','You have five fingers on it.'],hit:['🏏','You strike it hard.'],throw:['🤾','You send a ball in the air with your hand.']}},
+15:{ hero:'Kate', cast:'Ben · Jake · Kate · I', key:[2,4,6,8], freeze:['sits','sketches','park'],
+  hot:['Where do you sit?','What do you draw?','Who wins the contest?'],
+  script:["We have a drawing contest in a park.","Ben sits on grass.","He sketches butterflies.","Jake sits under a tree.","He sketches pine trees.","Kate sits near a pond.","She colors ducks.","I sit on a bench.","I draw all my friends in the park.","Yippee! We all win the contest!"],
+  pics:{contest:['🏆','Many people try to win it.'],butterfly:['🦋','It is an insect with pretty wings.'],sketch:['✏️','You draw a quick picture with a pencil.'],duck:['🦆','It swims and says quack.'],'pine tree':['🌲','It is a tall tree with green needles.'],bench:['🪑','You sit on it in a park.'],pond:['🏞️','It is a small lake.'],draw:['🖍️','You make a picture.'],color:['🎨','You fill a picture with crayons.'],win:['🥇','You are number one!']}},
+16:{ hero:'Dream House Kid', cast:'I (나) · Friends', key:[1,3,5,7], freeze:['grows','house','looks'],
+  hot:['What is your dream house like?','What grows in the living room?','Who can live with you?'],
+  script:["This is my dream house.","The door looks round.","The roof looks square.","The windows look like stars.","How interesting!","A tree grows in the living room.","Grass grows in the bathroom.","Flowers grow in the bedroom.","How funny!","I like my dream house.","Hey, friends!","Let's live in my dream house together!"],
+  pics:{dream:['💭','You see it when you sleep, or you hope for it.'],interesting:['🤩','It makes you want to know more.'],round:['⚪','It looks like a ball or a circle.'],'living room':['🛋️','You sit on the sofa and watch TV here.'],roof:['🏠','It is on top of a house.'],bedroom:['🛏️','You sleep in this room.'],square:['⬛','It has four sides. They are all the same.'],funny:['😂','It makes you laugh.'],grow:['🌱','It gets bigger and bigger.'],bathroom:['🛁','You take a bath here.']}}
+};
+
+
+/* ---------- data ---------- */
+const UNITS = WORDS.map(u => {
+  const x = EXTRA[u.n] || {};
+  const pics = x.pics || {};
+  const fix = x.exFix || {};
+  return { n:u.n, title:x.title || u.title, hero:x.hero, cast:x.cast, key:x.key, freeze:x.freeze, hot:x.hot, script:x.script || [],
+    words:u.w.map(w => ({ w:w.w, ko:w.ko, ex:fix[w.w] || w.ex || '', pic:(pics[w.w]||['🔤'])[0], def:(pics[w.w]||[,''])[1] })) };
+});
+const STEPS = [
+  {id:'hello',  n:'①', name:'Hello Chant',      ko:'인사 챈트',     ph:0, min:1,  tip:'모두 일어서서 2회 (두 번째는 더 크게) → 기분 단어를 한 명씩 빠르게 → <b>“Zip it, lock it!”</b>으로 착석'},
+  {id:'riddle', n:'②', name:'Word Riddle',      ko:'단어 수수께끼', ph:0, min:4,  tip:'숫자 카드 터치 → 영어 힌트를 하나씩 읽어 주기 → 손 든 팀이 영어로 말하면 그 팀 버튼. <b>힌트 1개 3점 · 2개 2점 · 3개 1점</b>'},
+  {id:'picture',n:'③', name:'Picture Walk',     ko:'그림 예측',     ph:0, min:3,  tip:'<b>책 본문 그림</b>을 30초 조용히 관찰 → 2~3명이 앞으로 나와 문장 틀로 발표(+2) → 예측은 칠판 구석에 적어 두기'},
+  {id:'freeze', n:'④', name:'Listen & Freeze',  ko:'들리면 얼음',   ph:1, min:4,  tip:'1회차 책 덮고 듣기 — FREEZE 단어가 들리면 손 머리 위 + 얼음! → 2회차 책 펴고 손가락으로 짚으며 듣기'},
+  {id:'read',   n:'⑤', name:'Read 3 Ways',      ko:'세 가지 읽기',  ph:1, min:6,  tip:'<b>Echo</b> 문장 터치 → 듣고 따라 읽기 · <b>Chorus</b> 목소리 카드 뽑아 다 같이 · <b>Relay</b> 팀 표시 켜고 팀별로 한 문장씩'},
+  {id:'act',    n:'⑥', name:'Act It Out',       ko:'나와서 연기',   ph:1, min:6,  tip:'선생님이 내레이터로 본문을 읽고 배우는 대사+큰 동작 → Hot Seat 의자에 주인공 1명, 친구들이 질문 → 출연 팀 +2'},
+  {id:'builder',n:'⑦', name:'Sentence Builder', ko:'문장 배열 릴레이', ph:1, min:6, tip:'차례인 팀 대표가 칠판 앞으로 → 단어를 순서대로 터치 → 정답 확인. <b>20초 안 3점 · 40초 안 2점 · 그 뒤 1점</b>, 다음 팀 자동'},
+  {id:'book',   n:'⑧', name:'Book Time',        ko:'교재 문제 풀기', ph:2, min:10, tip:'7분 조용히 풀기 → 남은 3분은 정답을 읽어 주며 <b>O 일어서기 · X 앉기</b>로 확인 → 팀 전원 O면 +1'},
+  {id:'chain',  n:'⑨', name:'Story Chain',      ko:'순서대로 말하기', ph:3, min:4, tip:'팀 대표 4명이 나와 이야기 순서대로 카드를 터치 → 정답 확인 → First, Next, Then, Finally로 다 같이 말하기'},
+  {id:'star',   n:'⑩', name:'Star of the Day',  ko:'오늘의 스타',   ph:3, min:2,  tip:'1등 팀 함성 → 오늘의 스타 1명을 이유와 함께 칭찬 (점수가 아니라 태도로) → 숙제 안내'},
+  {id:'exit',   n:'⑪', name:'Exit Ticket',      ko:'출구 티켓',     ph:3, min:4,  tip:'작은 종이에 3-2-1 작성 → 문 앞에서 선생님께 내고 단어 1개 읽고 하원. 못 쓴 칸은 다음 수업 수수께끼로'}
+];
+const PH = ['도입','전개','교재','정리'];
+const TEAMS = ['Team 1','Team 2','Team 3','Team 4'];
+const VOICES = ['whisper','robot','giant','mouse','opera','grandpa','baby','monster'];
+
+/* ---------- helpers ---------- */
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const reEsc = s => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+function shuffle(a){ const b=a.slice(); for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];} return b; }
+function store(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+function load(k,d){ try{ const v=JSON.parse(localStorage.getItem(k)); return v==null?d:v; }catch(e){ return d; } }
+function speak(text, onend, rate){
+  try{
+    if(!('speechSynthesis' in window)){ onend && onend(); return; }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(String(text).replace(/_{2,}/g,' blank '));
+    u.lang='en-US'; u.rate = rate || .85;
+    if(onend){ u.onend = onend; u.onerror = onend; }
+    speechSynthesis.speak(u);
+  }catch(e){ onend && onend(); }
+}
+function stopSpeak(){ try{ speechSynthesis.cancel(); }catch(e){} }
+function wordRe(w){
+  const parts = w.toLowerCase().split(/\s+/);
+  const f = parts[0];
+  const alts = [reEsc(f)+'(?:s|es|ed|d|ing)?'];
+  if(/y$/.test(f)) alts.push(reEsc(f.slice(0,-1))+'ies');
+  if(/f$/.test(f)) alts.push(reEsc(f.slice(0,-1))+'ves');
+  if(/e$/.test(f)) alts.push(reEsc(f.slice(0,-1))+'ing');
+  const rest = parts.slice(1).map(p=>'\\s+'+reEsc(p)+'(?:s|es)?').join('');
+  return new RegExp('(^|[^A-Za-z])((?:'+alts.join('|')+')'+rest+')(?![A-Za-z])','i');
+}
+function blank(sentence, w){
+  const re = wordRe(w);
+  return re.test(sentence) ? sentence.replace(re, (m,a)=>a+'___') : null;
+}
+function cluesFor(u, wd){
+  const c = [wd.def];
+  const ex = wd.ex && blank(wd.ex, wd.w);
+  if(ex) c.push(ex);
+  for(const s of u.script){ const b = blank(s, wd.w); if(b && b!==ex){ c.push(b); break; } }
+  if(c.length < 3) c.push(`It starts with “${wd.w[0]}”. It has ${wd.w.replace(/[\s-]/g,'').length} letters.`);
+  return c.slice(0,3);
+}
+function countIn(script, f){
+  const re = new RegExp('(^|[^A-Za-z])'+reEsc(f)+'(?:s|es)?(?![A-Za-z])','gi');
+  let n=0; script.forEach(s=>{ const m = s.match(re); if(m) n+=m.length; }); return n;
+}
+function picFor(u, f){
+  const fl = f.toLowerCase();
+  const hit = u.words.find(w => { const b=w.w.toLowerCase(); return fl===b || fl.startsWith(b.replace(/y$/,'')) || b.startsWith(fl); });
+  return hit ? hit.pic : '❄️';
+}
+
+/* ---------- state ---------- */
+let U = Math.min(Math.max(load('b51u',0),0), UNITS.length-1);
+let S = Math.min(Math.max(load('b51s',0),0), STEPS.length-1);
+let scores = load('b51scores',[0,0,0,0]); if(!Array.isArray(scores)||scores.length!==4) scores=[0,0,0,0];
+let R, F, RD, B, C;
+function resetUnitState(){
+  R = { cur:null, shown:1, revealed:false, awarded:false, done:new Set() };
+  F = { round:1, idx:-1, playing:false, showCount:false };
+  RD = { cur:-1, relay:false, voice:null };
+  B = { list:UNITS[U].script.filter(s=>{ const n=s.split(' ').length; return n>=3 && n<=9; }), i:0, team:0, pool:[], placed:[], marks:null, t0:null, elapsed:0, solved:false, showKo:false, fb:'', fbc:'', tick:null };
+  setupSentence();
+  C = { cards:[], order:[], checked:false };
+  setupChain();
+}
+
+/* ---------- timer ---------- */
+const T = { left:0, total:0, run:false, id:null };
+function setTimer(min){ clearInterval(T.id); T.run=false; T.total=T.left=Math.round(min*60); drawTimer(); }
+function drawTimer(){
+  const m=Math.floor(T.left/60), s=T.left%60;
+  $('tDisp').textContent = m+':'+String(s).padStart(2,'0');
+  $('tGo').textContent = T.run ? '멈춤' : (T.left===0 ? '시작' : (T.left<T.total?'계속':'시작'));
+}
+function beep(){ try{ const a=new (window.AudioContext||window.webkitAudioContext)(); [0,.25,.5].forEach(t=>{ const o=a.createOscillator(), g=a.createGain(); o.frequency.value=880; o.connect(g); g.connect(a.destination); g.gain.setValueAtTime(.2,a.currentTime+t); g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t+.2); o.start(a.currentTime+t); o.stop(a.currentTime+t+.2); }); }catch(e){} }
+function toggleTimer(){
+  if(T.run){ T.run=false; clearInterval(T.id); drawTimer(); return; }
+  if(T.left<=0) T.left=T.total;
+  T.run=true; $('timer').classList.remove('done');
+  T.id=setInterval(()=>{ T.left--; if(T.left<=0){ T.left=0; T.run=false; clearInterval(T.id); $('timer').classList.add('done'); beep(); } drawTimer(); },1000);
+  drawTimer();
+}
+
+/* ---------- chrome ---------- */
+function renderTeams(b){
+  $('teams').innerHTML = TEAMS.map((n,i)=>`<div class="team t${i+1}${i===b?' bump':''}"><span class="tn">${n}</span><span class="ts">${scores[i]}</span><span class="tb"><button data-act="score" data-t="${i}" data-d="-1" aria-label="${n} 1점 빼기">−</button><button data-act="score" data-t="${i}" data-d="1" aria-label="${n} 1점 더하기">+</button></span></div>`).join('');
+}
+function addScore(t,d){ scores[t]=Math.max(0,scores[t]+d); store('b51scores',scores); renderTeams(t); if(STEPS[S].id==='star') render(); }
+function renderSteps(){
+  $('steps').innerHTML = STEPS.map((s,i)=>`<button class="step ph${s.ph}${i===S?' on':''}" data-step="${i}" aria-label="${s.n} ${s.name}"><span class="sn">${s.n}</span><span class="sk">${s.ko}</span></button>`).join('');
+}
+function renderUnits(){
+  $('unitSel').innerHTML = UNITS.map((u,i)=>`<option value="${i}"${i===U?' selected':''}>Unit ${u.n} · ${esc(u.title)}</option>`).join('');
+}
+function head(s){
+  return `<div class="shead ph${s.ph}"><span class="pill">${PH[s.ph]} ${s.n} · ${s.min}분</span><h2>${s.name}</h2><span class="sko">${s.ko}</span></div><p class="tip">${s.tip}</p>`;
+}
+
+/* ---------- step views ---------- */
+const V = {};
+V.hello = u => `<div class="body"><div class="card grow chant">
+  <p><span class="who T">T</span>Hello, Bricks Readers!</p>
+  <p><span class="who S">S</span>Hello, teacher! <span class="act">(손 흔들기)</span></p>
+  <p><span class="who T">T</span>How are you today?</p>
+  <p><span class="who S">S</span>I’m <u>happy</u>! <span class="act">(표정 + 동작)</span></p>
+  <p><span class="who T">T</span>Are you ready to read?</p>
+  <p><span class="who S">S</span>Ready, ready, let’s read! <span class="act">(짝짝 + 엄지)</span></p>
+  <div class="chips">${[['😊','happy'],['😴','sleepy'],['🤩','excited'],['😋','hungry'],['👍','great']].map(([e,w])=>`<button class="chip" data-act="sayText" data-text="I'm ${w}!"><span class="emo">${e}</span>${w}</button>`).join('')}</div>
+</div></div>`;
+
+V.riddle = u => {
+  if(R.cur===null){
+    return `<div class="rgrid">${u.words.map((w,i)=> R.done.has(i)
+      ? `<button class="rcard done" data-act="open" data-i="${i}" aria-label="Word ${i+1}: ${esc(w.w)}"><span class="ok">완료</span><span class="emo">${w.pic}</span><span class="w">${esc(w.w)}</span></button>`
+      : `<button class="rcard" data-act="open" data-i="${i}" aria-label="Word ${i+1} 열기"><span class="num">${i+1}</span></button>`).join('')}</div>`;
+  }
+  const w = u.words[R.cur], cl = cluesFor(u,w), pts = Math.max(1,4-R.shown);
+  return `<div class="rd">
+    <div class="dark board">
+      <div class="bh"><span class="tag">WORD ${R.cur+1} / ${u.words.length}</span><span class="worth">${R.awarded?'점수 지급 완료':`지금 맞히면 <b>${pts}</b>점`}</span></div>
+      <ol class="clues">${cl.map((c,j)=> j<R.shown
+        ? `<li class="clue"><span class="cn">CLUE ${j+1}</span><span class="ct">${esc(c)}</span><button class="say" data-act="sayClue" data-c="${j}">듣기</button></li>`
+        : `<li class="clue locked"><span class="cn">CLUE ${j+1}</span><span class="ct">? ? ?</span></li>`).join('')}</ol>
+      <div class="row">${R.shown<cl.length?'<button class="btn" data-act="nextClue">다음 힌트</button>':''}${R.revealed?'':'<button class="btn ghost" data-act="reveal">정답 보기</button>'}<button class="btn ghost" data-act="back">목록으로</button></div>
+    </div>
+    <div class="col">
+      <div class="card reveal">${R.revealed?`<span class="emo">${w.pic}</span><p class="aw">${esc(w.w)}</p><p class="ak">${esc(w.ko)}</p>`:'<span class="mys">?</span>'}</div>
+      <div class="award">${TEAMS.map((n,i)=>`<button class="t${i+1}" data-act="award" data-t="${i}" ${R.awarded?'disabled':''}>${n} +${pts}</button>`).join('')}<button class="none" data-act="nobody" ${R.awarded?'disabled':''}>아무도 못 맞혔어요</button></div>
+    </div>
+  </div>`;
+};
+
+V.picture = u => `<div class="body">
+  <div class="dark cover grow"><span class="un">UNIT ${u.n}</span><h3>${esc(u.title)}</h3>
+    <div class="scatter">${u.words.map(w=>`<span class="emo" title="${esc(w.w)}">${w.pic}</span>`).join('')}</div>
+    <p class="tip" style="background:var(--navy2);border-color:#46557A;color:#C9D1E0">이 그림 단어들이 이야기에 나와요. 어떤 이야기일까?</p></div>
+  <div class="col grow frames">
+    <button class="frame" data-act="sayText" data-text="I see a blank.">I see a ______.</button>
+    <button class="frame" data-act="sayText" data-text="I think it's about blank.">I think it’s about ______.</button>
+    <button class="frame up" data-act="sayText" data-text="Maybe blank will blank.">Maybe ______ will ______.</button>
+    <p class="tip">파란 문장 = 도전 문장 · 문장을 누르면 소리로 들려줘요</p>
+  </div></div>`;
+
+V.freeze = u => {
+  const words = `<div class="fwords">${u.freeze.map(f=>`<div class="fw"><span class="emo">${picFor(u,f)}</span><span class="w">${esc(f)}</span>${F.showCount?`<span class="cnt">${countIn(u.script,f)}번</span>`:''}</div>`).join('')}</div>`;
+  const ctrl = `<div class="row">
+    <button class="btn ${F.round===1?'':'ghost'}" data-act="round" data-r="1">1회차 · 책 덮고</button>
+    <button class="btn ${F.round===2?'':'ghost'}" data-act="round" data-r="2">2회차 · 보면서</button>
+    <button class="btn blue" data-act="${F.playing?'stopScript':'playScript'}">${F.playing?'멈추기':'본문 읽어주기'}</button>
+    <button class="btn ghost" data-act="count">${F.showCount?'횟수 숨기기':'몇 번 나왔을까? 정답'}</button></div>`;
+  const view = F.round===1
+    ? `<div class="dark listen grow"><span class="emo">🎧</span><p>눈을 감고 귀를 쫑긋! 단어가 들리면 FREEZE!</p><div class="dots">${u.script.map((_,i)=>`<i class="${i<=F.idx?'on':''}"></i>`).join('')}</div></div>`
+    : `<ol class="script ${u.script.length>9?'two':''} grow">${u.script.map((s,i)=>`<li><button class="sline${i===F.idx?' cur':''}" data-act="sayLine" data-i="${i}"><span class="no">${i+1}</span>${esc(s)}</button></li>`).join('')}</ol>`;
+  return `<div class="col grow">${words}${ctrl}${view}</div>`;
+};
+
+V.read = u => `<div class="body">
+  <ol class="script ${u.script.length>9?'two':''} grow">${u.script.map((s,i)=>`<li><button class="sline${i===RD.cur?' cur':''}" data-act="readLine" data-i="${i}"><span class="no">${i+1}</span>${esc(s)}${RD.relay?`<span class="tm t${i%4+1}">${TEAMS[i%4]}</span>`:''}</button></li>`).join('')}</ol>
+  <div class="col" style="width:min(340px,100%)">
+    <div class="card" style="display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center">
+      <span class="sko" style="font-family:var(--kr);font-size:20px">Chorus 목소리 카드</span>
+      <span class="voice">${RD.voice||'?'}</span>
+      <button class="btn" data-act="voice">카드 뽑기</button>
+    </div>
+    <button class="btn ${RD.relay?'blue':'ghost'}" data-act="relay">${RD.relay?'릴레이 팀 표시 끄기':'릴레이 팀 표시 켜기'}</button>
+    <p class="tip">문장을 누르면 천천히 읽어 줘요 (Echo)</p>
+  </div></div>`;
+
+V.act = u => `<div class="body">
+  <div class="card col grow">
+    <span class="pill" style="background:var(--orange);color:var(--ink);align-self:flex-start">A · Mini Drama</span>
+    <p class="cast">${esc(u.cast)}</p>
+    <ul class="list"><li>선생님 = 내레이터 (본문을 읽어 줘요)</li><li>배우 = 대사 + 큰 동작</li><li>관객 미션: 박수 + “I like ___.”</li></ul>
+    <button class="btn blue" data-act="goStep" data-s="4" style="align-self:flex-start">본문 보기</button>
+  </div>
+  <div class="dark col grow">
+    <span class="pill" style="background:var(--blue);color:#FFFDF9;align-self:flex-start">B · Hot Seat</span>
+    <p class="cast" style="color:#FFB27A"><span class="emo">🪑</span> ${esc(u.hero)}에게 질문!</p>
+    <ul class="hot">${u.hot.map((q,i)=>`<li><span class="q">${esc(q)}</span><button class="say" data-act="sayHot" data-i="${i}">듣기</button></li>`).join('')}</ul>
+  </div></div>`;
+
+V.builder = u => {
+  if(!B.list.length) return '<p class="tip">이 유닛에는 문장 배열용 문장이 없어요.</p>';
+  const s = B.list[B.i];
+  return `<div class="col grow">
+    <div class="btop"><span class="pill" style="background:var(--blue);color:#FFFDF9">SENTENCE ${B.i+1} / ${B.list.length}</span>
+      <button class="turn t${B.team+1}" data-act="turn">${TEAMS[B.team]} 차례<small>바꾸기</small></button>
+      <span class="clock" id="clock">${B.elapsed.toFixed(1)}s</span></div>
+    <div class="lane${B.solved?' win':''}">${B.placed.length?B.placed.map((x,k)=>`<button class="tile${B.marks?(B.marks[k]?' ok':' no'):''}" data-act="unplace" data-k="${k}">${esc(x.t)}</button>`).join(''):'<span class="ph">단어를 순서대로 눌러 문장을 만드세요</span>'}</div>
+    <div class="pool">${B.pool.map((x,k)=>`<button class="tile" data-act="place" data-k="${k}">${esc(x.t)}</button>`).join('')}</div>
+    <p class="fb ${B.fbc}">${B.fb}</p>
+    <div class="ctrl">
+      <button class="btn ghost" data-act="hintFirst">첫 단어 힌트</button>
+      <button class="btn ghost" data-act="listenS">듣기</button>
+      <button class="btn ghost" data-act="reshuffle">다시 섞기</button>
+      <button class="btn" data-act="check">정답 확인</button>
+      <button class="btn ghost" data-act="nextS">다음 문장 →</button>
+    </div></div>`;
+};
+
+V.book = u => `<div class="body">
+  <div class="card col grow">
+    <span class="bign">7분</span>
+    <p class="cast" style="font-family:var(--kr)">조용히 혼자 풀기</p>
+    <ul class="list"><li>교재 Unit ${u.n} 문제 풀기</li><li>모르면 본문에서 근거 문장에 밑줄</li><li>다 풀면 손 머리 위 “Done!”</li></ul>
+    <button class="btn" data-act="t7" style="align-self:flex-start">7분 타이머 시작</button>
+  </div>
+  <div class="col grow">
+    <p class="cast" style="font-family:var(--kr)">3분 · 정답 O/X 확인</p>
+    <div class="ox"><div class="o"><b>O</b><span>내 답이 맞으면 일어서기</span></div><div class="x"><b>X</b><span>틀리면 앉기</span></div></div>
+    <button class="btn blue" data-act="t3" style="align-self:flex-start">3분 타이머 시작</button>
+  </div></div>`;
+
+V.chain = u => {
+  const labels=['First,','Next,','Then,','Finally,'];
+  return `<div class="col grow">
+    <div class="chain">${C.cards.map((c,k)=>{
+      const pos = C.order.indexOf(k);
+      const cls = C.checked ? (C.order[c.rank]===k?' ok':' no') : (pos>-1?' sel':'');
+      return `<button class="ccard${pos>-1?' sel':''}${cls}" data-act="pick" data-k="${k}"><span class="badge">${pos>-1?pos+1:''}</span>${C.checked?`<span class="lab">${labels[c.rank]}</span>`:''}${esc(c.s)}</button>`;}).join('')}</div>
+    <div class="ctrl">
+      <button class="btn" data-act="checkChain">정답 확인</button>
+      <button class="btn ghost" data-act="sayChain">순서대로 듣기</button>
+      <button class="btn ghost" data-act="reChain">다시 섞기</button>
+    </div>
+    <p class="fb ${C.fbc||''}">${C.fb||'이야기 순서대로 카드를 하나씩 눌러요 (1 → 4)'}</p></div>`;
+};
+
+V.star = u => {
+  const max = Math.max(1, ...scores), top = Math.max(...scores);
+  const win = scores.map((s,i)=>s===top&&top>0?TEAMS[i]:null).filter(Boolean);
+  return `<div class="body">
+    <div class="card col grow bars">${TEAMS.map((n,i)=>`<div class="barrow t${i+1}"><span class="bn">${n}${scores[i]===top&&top>0?' <span class="emo">👑</span>':''}</span><span class="bt"><span class="bf" style="display:block;width:${scores[i]/max*100}%"></span></span><span class="bv">${scores[i]}</span></div>`).join('')}
+      <p class="crown">${win.length?`${win.join(', ')} 우승! 다 같이 “We did it!”`:'점수판에 점수를 넣어 주세요'}</p></div>
+    <div class="col" style="width:min(520px,100%)">
+      <div class="dark" style="display:flex;flex-direction:column;gap:8px;align-items:center;text-align:center"><span class="emo" style="font-size:90px">⭐</span><p class="cast" style="color:#FFB27A">Today’s Star</p><p style="margin:0;font-family:var(--kr);font-size:22px;color:#C9D1E0">크게 읽은 친구 · 용감하게 나온 친구 · 친구를 도와준 친구</p></div>
+      <div class="hw"><b>HOMEWORK</b><p>Unit ${u.n} 본문 3번 소리 내 읽기 · 단어 ${u.words.length}개 2번씩 쓰기</p></div>
+    </div></div>`;
+};
+
+V.exit = u => `<div class="col grow">
+  <div class="three">
+    <div class="card"><span class="n" style="color:var(--orange)">3</span><span class="l">words</span><span class="d">오늘 배운 단어 3개</span></div>
+    <div class="card"><span class="n" style="color:var(--blue)">2</span><span class="l">sentences</span><span class="d">기억나는 문장 2개 (책 보고 OK)</span></div>
+    <div class="dark" style="display:flex;flex-direction:column;gap:6px"><span class="n" style="color:#FFB27A;font-family:var(--display);font-weight:700;font-size:clamp(70px,7vw,120px);line-height:1">1</span><span class="l" style="font-family:var(--display);font-weight:600;font-size:clamp(26px,2.4vw,40px)">feeling</span><span class="d" style="font-family:var(--kr);color:#C9D1E0;font-size:clamp(18px,1.5vw,24px)">I liked ___. / 궁금한 점</span></div>
+  </div>
+  <p class="tip">오늘의 단어 — 철자가 기억 안 나면 여기를 보고 써요</p>
+  <div class="bank">${u.words.map(w=>`<span><span class="emo">${w.pic}</span>${esc(w.w)}</span>`).join('')}</div></div>`;
+
+function render(){
+  const u = UNITS[U], s = STEPS[S];
+  $('stage').innerHTML = head(s) + V[s.id](u);
+  renderSteps();
+  $('prev').disabled = S===0; $('next').disabled = S===STEPS.length-1;
+  $('next').textContent = S===STEPS.length-1 ? '끝!' : '다음 →';
+}
+function goStep(i){ stopSpeak(); F.playing=false; S=Math.min(Math.max(i,0),STEPS.length-1); store('b51s',S); setTimer(STEPS[S].min); render(); }
+
+/* ---------- builder ---------- */
+function setupSentence(){
+  clearInterval(B.tick); B.tick=null;
+  if(!B.list.length) return;
+  const toks = B.list[B.i].split(' ').map((t,k)=>({t,id:k}));
+  let sh = shuffle(toks), g=0; while(toks.length>1 && sh.every((x,k)=>x.t===toks[k].t) && g++<20) sh=shuffle(toks);
+  Object.assign(B,{pool:sh,placed:[],marks:null,t0:null,elapsed:0,solved:false,fb:'',fbc:''});
+}
+function startClock(){ if(B.t0||B.solved) return; B.t0=performance.now(); B.tick=setInterval(()=>{ B.elapsed=(performance.now()-B.t0)/1000; const c=$('clock'); if(c) c.textContent=B.elapsed.toFixed(1)+'s'; },100); }
+function checkSentence(){
+  const ans = B.list[B.i].split(' ');
+  if(B.placed.length<ans.length){ B.fb='단어를 모두 놓아 주세요'; B.fbc='bad'; return; }
+  B.marks = B.placed.map((x,k)=>x.t===ans[k]);
+  if(B.marks.every(Boolean)){
+    B.solved=true; clearInterval(B.tick); B.tick=null;
+    const p = B.elapsed<20?3:B.elapsed<40?2:1; addScore(B.team,p);
+    B.fb=`정답! ${TEAMS[B.team]} +${p}점 (${B.elapsed.toFixed(1)}초)`; B.fbc='good'; speak(B.list[B.i]);
+  } else { B.fb='빨간 단어를 눌러 빼고 다시 놓아 보세요'; B.fbc='bad'; }
+}
+/* ---------- chain ---------- */
+function setupChain(){
+  const u=UNITS[U]; const ks=(u.key||[]).filter(i=>u.script[i]).slice(0,4);
+  let cards = ks.map((i,r)=>({s:u.script[i],rank:r})), sh=shuffle(cards), g=0;
+  while(sh.length>1 && sh.every((c,k)=>c.rank===k) && g++<20) sh=shuffle(cards);
+  C = {cards:sh, order:[], checked:false, fb:'', fbc:''};
+}
+/* ---------- freeze playback ---------- */
+function playFrom(i){
+  const u=UNITS[U];
+  if(!F.playing || i>=u.script.length){ F.playing=false; render(); return; }
+  F.idx=i; render();
+  speak(u.script[i], ()=>{ if(F.playing) setTimeout(()=>playFrom(i+1), 450); }, .8);
+}
+
+/* ---------- events ---------- */
+let armed=false, armT=null;
+$('unitSel').addEventListener('change', e=>{ stopSpeak(); U=+e.target.value; store('b51u',U); resetUnitState(); render(); });
+$('tGo').addEventListener('click', toggleTimer);
+$('tReset').addEventListener('click', ()=>{ $('timer').classList.remove('done'); setTimer(STEPS[S].min); });
+$('prev').addEventListener('click', ()=>goStep(S-1));
+$('next').addEventListener('click', ()=>goStep(S+1));
+$('resetScores').addEventListener('click', e=>{
+  const b=e.currentTarget;
+  if(!armed){ armed=true; b.classList.add('arm'); b.textContent='한 번 더 누르면 0점'; clearTimeout(armT); armT=setTimeout(()=>{armed=false;b.classList.remove('arm');b.textContent='점수 초기화';},3000); return; }
+  armed=false; b.classList.remove('arm'); b.textContent='점수 초기화'; scores=[0,0,0,0]; store('b51scores',scores); renderTeams(); if(STEPS[S].id==='star') render();
+});
+document.addEventListener('keydown', e=>{
+  if(e.target.closest('select')) return;
+  if(e.key==='ArrowRight') goStep(S+1); else if(e.key==='ArrowLeft') goStep(S-1);
+});
+document.addEventListener('click', e=>{
+  const b=e.target.closest('button'); if(!b) return;
+  if(b.dataset.step!=null){ goStep(+b.dataset.step); return; }
+  const a=b.dataset.act; if(!a) return;
+  const u=UNITS[U];
+  switch(a){
+    case 'score': addScore(+b.dataset.t, +b.dataset.d); break;
+    case 'sayText': speak(b.dataset.text); break;
+    case 'goStep': goStep(+b.dataset.s); break;
+    case 'open': { const i=+b.dataset.i; R.cur=i; R.shown=R.done.has(i)?3:1; R.revealed=R.awarded=R.done.has(i); render(); if(!R.done.has(i)) speak(cluesFor(u,u.words[i])[0]); break; }
+    case 'nextClue': R.shown++; render(); speak(cluesFor(u,u.words[R.cur])[R.shown-1]); break;
+    case 'sayClue': speak(cluesFor(u,u.words[R.cur])[+b.dataset.c]); break;
+    case 'reveal': R.revealed=true; render(); speak(u.words[R.cur].w); break;
+    case 'back': R.cur=null; render(); break;
+    case 'award': if(!R.awarded){ addScore(+b.dataset.t, Math.max(1,4-R.shown)); R.awarded=R.revealed=true; R.done.add(R.cur); render(); speak(u.words[R.cur].w); } break;
+    case 'nobody': R.awarded=R.revealed=true; R.done.add(R.cur); render(); speak(u.words[R.cur].w); break;
+    case 'round': F.round=+b.dataset.r; F.idx=-1; F.playing=false; stopSpeak(); render(); break;
+    case 'playScript': F.playing=true; playFrom(F.idx>=0&&F.idx<u.script.length-1?F.idx+1:0); break;
+    case 'stopScript': F.playing=false; stopSpeak(); render(); break;
+    case 'count': F.showCount=!F.showCount; render(); break;
+    case 'sayLine': F.idx=+b.dataset.i; render(); speak(u.script[F.idx]); break;
+    case 'readLine': RD.cur=+b.dataset.i; render(); speak(u.script[RD.cur], null, .75); break;
+    case 'voice': { let v; do{ v=VOICES[Math.floor(Math.random()*VOICES.length)]; }while(v===RD.voice); RD.voice=v; render(); break; }
+    case 'relay': RD.relay=!RD.relay; render(); break;
+    case 'sayHot': speak(u.hot[+b.dataset.i]); break;
+    case 'place': if(B.solved) break; startClock(); B.placed.push(B.pool.splice(+b.dataset.k,1)[0]); B.marks=null; B.fb=''; render(); break;
+    case 'unplace': if(B.solved) break; B.pool.push(B.placed.splice(+b.dataset.k,1)[0]); B.marks=null; B.fb=''; render(); break;
+    case 'check': if(!B.solved){ checkSentence(); render(); } break;
+    case 'hintFirst': B.fb='첫 단어: '+B.list[B.i].split(' ')[0]; B.fbc=''; render(); break;
+    case 'listenS': speak(B.list[B.i]); break;
+    case 'reshuffle': setupSentence(); render(); break;
+    case 'turn': B.team=(B.team+1)%4; render(); break;
+    case 'nextS': B.i=(B.i+1)%B.list.length; B.team=(B.team+1)%4; setupSentence(); render(); break;
+    case 't7': setTimer(7); toggleTimer(); break;
+    case 't3': setTimer(3); toggleTimer(); break;
+    case 'pick': { if(C.checked) break; const k=+b.dataset.k, p=C.order.indexOf(k); if(p>-1) C.order.splice(p,1); else if(C.order.length<C.cards.length) C.order.push(k); C.fb=''; render(); break; }
+    case 'checkChain': {
+      if(C.order.length<C.cards.length){ C.fb='카드 4장을 모두 눌러 주세요'; C.fbc='bad'; render(); break; }
+      C.checked=true; const ok=C.order.every((k,i)=>C.cards[k].rank===i);
+      C.fb= ok?'정답! 이야기 순서가 딱 맞아요':'빨간 카드는 순서가 달라요 — 정답 순서를 확인해요'; C.fbc= ok?'good':'bad';
+      render(); break; }
+    case 'sayChain': { const seq=C.cards.slice().sort((x,y)=>x.rank-y.rank); let i=0; const nx=()=>{ if(i<seq.length) speak(seq[i++].s, ()=>setTimeout(nx,350)); }; nx(); break; }
+    case 'reChain': setupChain(); render(); break;
+  }
+});
+
+renderUnits(); renderTeams(); resetUnitState(); setTimer(STEPS[S].min); render();
+</script>
