@@ -1,0 +1,1730 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Reader's Bank Level 2</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: one 1600×900 classroom-board stage scaled to fit; a control rail below it. Ink-on-paper reading lab, S/V/O/C colors carry grammar meaning. */
+:root{
+  --paper:#EEF3F1; --card:#FFFFFF; --ink:#132E2A; --muted:#5A6F6A; --line:#CFDCD7; --soft:#E2EAE7;
+  --accent:#E39B2E; --accent-ink:#6E4300; --accent-soft:#FBEBD2;
+  --s:#2563C9; --v:#D23C33; --o:#17905F; --c:#8646C9;
+  --tA:#E4572E; --tB:#2E86AB; --tC:#3E9D4F; --tD:#9B5DE5;
+  --good:#17905F; --bad:#D23C33;
+  --rail:#132E2A; --rail-fg:#EEF3F1;
+  --f-display:"Bricolage Grotesque", "IBM Plex Sans KR", system-ui, sans-serif;
+  --f-read:"Atkinson Hyperlegible", "IBM Plex Sans KR", system-ui, sans-serif;
+  --f-ko:"IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0E1917; --card:#16241F; --ink:#E4EEEA; --muted:#93A9A2; --line:#284540; --soft:#1C2E29;
+  --accent:#F0B356; --accent-ink:#FFD99A; --accent-soft:#3A2C14;
+  --s:#6EA2FF; --v:#FF7A70; --o:#4FD39C; --c:#C08CFF;
+  --good:#4FD39C; --bad:#FF7A70; --rail:#08110F; --rail-fg:#E4EEEA; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0E1917; --card:#16241F; --ink:#E4EEEA; --muted:#93A9A2; --line:#284540; --soft:#1C2E29;
+  --accent:#F0B356; --accent-ink:#FFD99A; --accent-soft:#3A2C14;
+  --s:#6EA2FF; --v:#FF7A70; --o:#4FD39C; --c:#C08CFF;
+  --good:#4FD39C; --bad:#FF7A70; --rail:#08110F; --rail-fg:#E4EEEA; color-scheme:dark}
+
+[hidden]{display:none!important}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-ko);overflow:hidden;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));box-sizing:border-box}
+*{box-sizing:border-box}
+button,select{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+#app{height:100%;display:flex;flex-direction:column}
+#viewport{flex:1;position:relative;min-height:0}
+#stage{position:absolute;left:50%;top:50%;width:1600px;height:900px;transform-origin:center center;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.slide{position:absolute;inset:0;padding:56px 72px 60px;display:flex;flex-direction:column;gap:22px}
+
+/* rail */
+#rail{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding-block:8px;flex-wrap:wrap;justify-content:center}
+.rb{background:var(--rail);color:var(--rail-fg);border:0;border-radius:8px;padding:9px 14px;font-size:14px;font-weight:500;white-space:nowrap}
+.rb.on{background:var(--accent);color:#1d1300}
+#unitSel{appearance:none;-webkit-appearance:none;padding-right:14px;font-weight:700}
+#counter{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);min-width:64px;text-align:center}
+
+/* header in slide */
+.top{display:flex;align-items:center;gap:16px;min-height:44px;padding-right:420px}
+.sec{font-family:var(--f-display);font-weight:700;font-size:18px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.min{font-size:16px;font-weight:700;color:var(--accent-ink);background:var(--accent-soft);border-radius:99px;padding:5px 14px;font-variant-numeric:tabular-nums}
+.comeup{font-family:var(--f-display);font-weight:800;font-size:17px;letter-spacing:.1em;color:#fff;background:var(--v);padding:6px 14px;border-radius:6px;transform:rotate(-2deg)}
+.team-tag{font-family:var(--f-display);font-weight:800;font-size:17px;letter-spacing:.1em;color:#fff;background:var(--s);padding:6px 14px;border-radius:6px;transform:rotate(1.5deg)}
+h1,h2{font-family:var(--f-display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:54px;font-weight:800;line-height:1.05}
+h2 small{display:block;font-family:var(--f-ko);font-size:24px;font-weight:500;color:var(--muted);margin-top:8px;letter-spacing:0}
+.body{flex:1;min-height:0;display:flex;gap:36px}
+
+/* scoreboard (inside stage, top-right) */
+#score{position:absolute;top:18px;right:20px;display:flex;gap:8px;z-index:20}
+.tm{display:flex;align-items:center;gap:6px;background:var(--card);border:2px solid var(--line);border-radius:10px;padding:5px 6px 5px 12px}
+.tm b{font-family:var(--f-display);font-size:16px}
+.tm .pt{font-family:var(--f-display);font-weight:800;font-size:28px;min-width:34px;text-align:center;font-variant-numeric:tabular-nums}
+.tm button{width:30px;height:30px;border-radius:7px;border:0;background:var(--soft);font-size:18px;font-weight:700;line-height:1}
+.tm .dot{width:12px;height:12px;border-radius:50%}
+.tm.bump{animation:bump .35s}
+@keyframes bump{50%{transform:scale(1.12)}}
+
+/* overlays inside stage */
+.ov{position:absolute;inset:0;background:color-mix(in srgb,var(--paper) 88%,transparent);z-index:40;display:flex;align-items:center;justify-content:center}
+.ov-card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:40px 56px;display:flex;flex-direction:column;align-items:center;gap:22px;min-width:640px}
+.ov-x{position:absolute;top:22px;right:26px;border:0;background:var(--soft);border-radius:10px;padding:10px 16px;font-size:18px}
+#tDigits{font-family:var(--f-display);font-weight:800;font-size:220px;line-height:1;font-variant-numeric:tabular-nums}
+#tDigits.urgent{color:var(--v)}
+.row{display:flex;gap:12px;flex-wrap:wrap;justify-content:center}
+.chip{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:10px 18px;font-size:20px;font-weight:700}
+.chip.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.big-btn{border:0;background:var(--accent);color:#1d1300;border-radius:12px;padding:14px 28px;font-size:22px;font-weight:700}
+.ghost{border:2px solid var(--line);background:transparent;border-radius:12px;padding:12px 24px;font-size:20px;font-weight:700}
+#pickOut{font-family:var(--f-display);font-weight:800;font-size:150px;line-height:1}
+
+/* notes drawer */
+#notes{position:absolute;left:0;right:0;bottom:0;z-index:30;background:var(--ink);color:var(--card);padding:22px 72px 26px;font-size:21px;line-height:1.6;max-height:330px;overflow:auto}
+#notes h4{margin:0 0 6px;font-size:15px;letter-spacing:.12em;color:var(--accent);font-family:var(--f-display)}
+#notes p{margin:0 0 6px}
+
+/* title slide */
+.title-slide{justify-content:space-between}
+.ttl-book{font-family:var(--f-display);font-weight:700;font-size:26px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.ttl-main{font-family:var(--f-display);font-weight:800;font-size:150px;line-height:.92;letter-spacing:-.03em}
+.ttl-main span{color:var(--accent)}
+.ttl-units{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ttl-units b{font-size:20px;margin-right:6px}
+.ttl-list{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.ttl-item{border-top:4px solid var(--ink);padding-top:14px}
+.ttl-item .n{font-family:var(--f-display);font-weight:800;font-size:22px;color:var(--accent-ink)}
+.ttl-item .k{font-size:30px;font-weight:700;margin-top:4px}
+.ttl-item .e{font-family:var(--f-read);font-size:20px;color:var(--muted)}
+.credit{font-size:17px;color:var(--muted)}
+
+/* plan */
+.timeline{display:flex;gap:6px;align-items:stretch;height:150px}
+.tl{border-radius:10px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;background:var(--soft);min-width:0}
+.tl .m{font-family:var(--f-display);font-weight:800;font-size:28px}
+.tl .l{font-size:17px;font-weight:700;line-height:1.3}
+.tl.game{background:var(--accent-soft)}
+.teamset{display:flex;gap:28px;align-items:center;flex-wrap:wrap}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;font-size:22px;line-height:1.5}
+.rules div{border-left:5px solid var(--accent);padding-left:16px}
+.rules b{display:block;font-size:24px}
+
+/* riddle */
+.clues{display:flex;flex-direction:column;gap:14px;flex:1}
+.clue{font-family:var(--f-read);font-size:44px;font-weight:700;padding:16px 26px;border-radius:12px;background:var(--soft);display:flex;gap:20px;align-items:center}
+.clue .pts{font-family:var(--f-display);font-size:20px;background:var(--ink);color:var(--card);border-radius:99px;padding:4px 14px;white-space:nowrap}
+.clue.hide{color:transparent;background:repeating-linear-gradient(-45deg,var(--soft),var(--soft) 14px,var(--paper) 14px,var(--paper) 28px)}
+.clue.hide .pts{opacity:.5}
+.answer{font-family:var(--f-display);font-weight:800;font-size:72px;color:var(--o)}
+
+/* vocab */
+.tabs{display:flex;gap:10px}
+.tab{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:10px 20px;font-size:20px;font-weight:700}
+.tab.on{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.vgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;flex:1;align-content:start;overflow:auto}
+.vc{height:86px;border-radius:12px;border:2px solid var(--line);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;text-align:center}
+.vc .en{font-family:var(--f-read);font-weight:700;font-size:26px;line-height:1.1}
+.vc .ko{font-size:18px;font-weight:500;color:var(--muted);line-height:1.25}
+.vc.flip{background:var(--accent-soft);border-color:var(--accent)}
+.vc.flip .ko{color:var(--accent-ink);font-weight:700}
+
+.speed{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px}
+.speed .q{font-size:88px;font-weight:700;text-align:center;line-height:1.15}
+.speed .a{font-family:var(--f-read);font-weight:700;font-size:110px;color:var(--o);min-height:130px}
+.speed .from{font-size:20px;color:var(--muted)}
+
+/* passage */
+.pwrap{display:grid;grid-template-columns:1fr 420px;gap:34px;flex:1;min-height:0}
+.ptext{overflow:auto;padding-right:10px;font-family:var(--f-read);line-height:2.15}
+.ptext .ln{display:block;color:var(--muted);font-weight:700}
+.sn{border-radius:8px;padding:2px 4px;cursor:pointer;transition:background .15s}
+.sn:hover{background:var(--soft)}
+.sn.sel{background:var(--accent-soft);box-shadow:inset 0 -3px 0 var(--accent)}
+.ko-line{display:block;font-family:var(--f-ko);font-size:.62em;line-height:1.5;color:var(--accent-ink);margin:-4px 0 10px 4px}
+.sl{display:none;font-style:normal;color:var(--accent);font-weight:700;padding:0 .15em}
+.mode-chunk .sl,.mode-sv .sl{display:inline}
+.mode-sv [class^="t-"]{position:relative;font-weight:700;border-bottom:3px solid currentColor}
+.mode-sv .t-s{color:var(--s)} .mode-sv .t-v{color:var(--v)} .mode-sv .t-o{color:var(--o)} .mode-sv .t-c{color:var(--c)}
+.mode-sv [class^="t-"]::after{content:attr(data-l);position:absolute;left:0;top:-1.05em;font-family:var(--f-display);font-size:.42em;font-weight:800;line-height:1;letter-spacing:.04em}
+.side{display:flex;flex-direction:column;gap:16px;min-height:0}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;background:var(--soft);padding:6px;border-radius:12px}
+.seg button{border:0;background:transparent;border-radius:8px;padding:12px 4px;font-size:19px;font-weight:700;color:var(--muted)}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 0 var(--line)}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tools button{border:2px solid var(--line);background:var(--card);border-radius:10px;padding:9px 14px;font-size:17px;font-weight:700}
+.tools button.on{border-color:var(--accent);background:var(--accent-soft)}
+.tip{flex:1;border-radius:14px;background:var(--soft);padding:20px 22px;font-size:22px;line-height:1.55;overflow:auto}
+.tip h5{margin:0 0 8px;font-size:15px;letter-spacing:.12em;color:var(--muted);font-family:var(--f-display)}
+.tip .en{font-family:var(--f-read);font-weight:700;font-size:23px;margin-bottom:10px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:16px;font-weight:700}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend i{width:14px;height:14px;border-radius:3px;display:inline-block}
+.task{border:2px dashed var(--accent);border-radius:12px;padding:12px 16px;font-size:19px;line-height:1.45}
+.task b{color:var(--accent-ink)}
+
+/* grammar */
+.gwrap{display:grid;grid-template-columns:1.15fr 1fr;gap:36px;flex:1;min-height:0}
+.formula{font-family:var(--f-display);font-weight:800;font-size:40px;line-height:1.25;padding:22px 28px;border-radius:14px;background:var(--ink);color:var(--card)}
+.formula em{font-style:normal;color:var(--accent)}
+.gcol{display:flex;flex-direction:column;gap:14px;min-width:0}
+.ex{font-family:var(--f-read);font-size:29px;line-height:1.45;padding:8px 0;border-bottom:1px solid var(--line)}
+.ex .k{display:block;font-family:var(--f-ko);font-size:19px;color:var(--muted)}
+.ex mark{background:none;color:var(--v);font-weight:700;border-bottom:3px solid var(--v)}
+.gnote{font-size:21px;line-height:1.55;background:var(--soft);border-radius:12px;padding:16px 20px}
+.fix{border:2px solid var(--line);border-radius:14px;padding:14px 20px;cursor:pointer;text-align:left;background:var(--card);display:flex;flex-direction:column;gap:6px;width:100%}
+.fix .w{font-family:var(--f-read);font-size:29px;font-weight:700;text-decoration:line-through;text-decoration-color:var(--bad);text-decoration-thickness:3px}
+.fix .r{font-family:var(--f-read);font-size:29px;font-weight:700;color:var(--good);display:none}
+.fix .why{font-size:18px;color:var(--muted);display:none}
+.fix.show .r,.fix.show .why{display:block}
+.fix.show .w{opacity:.45}
+.fix .hint{font-size:16px;color:var(--muted)}
+
+/* hunter */
+.hunt{flex:1;display:flex;flex-direction:column;gap:26px;justify-content:center}
+.hs{display:flex;flex-wrap:wrap;gap:12px;font-family:var(--f-read);font-size:52px;font-weight:700}
+.tok{border:3px solid transparent;background:var(--soft);border-radius:12px;padding:6px 16px}
+.tok.pick{border-color:var(--accent);background:var(--accent-soft)}
+.tok.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 18%,var(--card));color:var(--good)}
+.tok.miss{border-color:var(--good);border-style:dashed}
+.tok.no{border-color:var(--bad);color:var(--bad);text-decoration:line-through}
+.hctl{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.verdict{font-size:26px;font-weight:700}
+
+/* flip cards */
+.fgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;flex:1}
+.fc{border-radius:16px;border:3px solid var(--ink);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;position:relative;padding:12px;text-align:center}
+.fc .no{position:absolute;top:10px;left:14px;font-family:var(--f-display);font-weight:800;font-size:22px;color:var(--muted)}
+.fc .p{font-family:var(--f-read);font-weight:700;font-size:52px;line-height:1.15}
+.fc .pa{font-family:var(--f-read);font-weight:700;font-size:52px;color:var(--v);display:none;line-height:1.15}
+.fc .kind{font-size:17px;color:var(--muted);display:none}
+.fgrid.small .p{font-size:32px}
+.fgrid.small .pa{font-size:40px}
+.fc.open{background:var(--accent-soft);border-color:var(--accent)}
+.fc.open .p{font-size:26px;color:var(--muted)}
+.fc.open .pa,.fc.open .kind{display:block}
+
+/* role play */
+.roles{display:flex;gap:14px}
+.role{border-radius:12px;padding:10px 18px;font-size:22px;font-weight:700;color:#fff}
+.script{flex:1;display:flex;flex-direction:column;gap:12px;font-family:var(--f-read);font-size:36px;line-height:1.35;overflow:auto}
+.script div{padding:6px 18px;border-left:8px solid;border-radius:4px;background:var(--soft)}
+.script small{font-family:var(--f-ko);font-size:18px;font-weight:700;display:inline-block;min-width:150px;margin-right:12px;color:var(--muted)}
+
+/* ox */
+.oxw{flex:1;display:flex;flex-direction:column;justify-content:center;gap:28px}
+.oxq{font-family:var(--f-read);font-size:60px;font-weight:700;line-height:1.25}
+.oxa{display:flex;align-items:center;gap:26px;min-height:150px}
+.oxa .mk{font-family:var(--f-display);font-weight:800;font-size:150px;line-height:1}
+.oxa .why{font-size:26px;color:var(--muted);line-height:1.45}
+
+/* scramble */
+.scr{flex:1;display:flex;flex-direction:column;gap:24px;justify-content:center}
+.slot{min-height:110px;border:3px dashed var(--line);border-radius:16px;padding:14px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;font-family:var(--f-read);font-size:42px;font-weight:700}
+.slot.ok{border-color:var(--good);border-style:solid;background:color-mix(in srgb,var(--good) 12%,var(--card))}
+.slot.bad{border-color:var(--bad);border-style:solid}
+.pool{display:flex;flex-wrap:wrap;gap:12px;font-family:var(--f-read);font-size:42px;font-weight:700}
+.pool .tok[disabled]{opacity:.2}
+.scr .ko{font-size:28px;font-weight:500;color:var(--muted)}
+
+/* battle */
+.bwrap{flex:1;display:grid;grid-template-columns:240px 1fr;gap:30px;min-height:0}
+.qnav{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;align-content:start}
+.qnav button{height:64px;border-radius:12px;border:2px solid var(--line);background:var(--card);font-family:var(--f-display);font-weight:800;font-size:26px}
+.qnav button.done{background:var(--soft);color:var(--muted)}
+.qnav button.cur{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.qbox{display:flex;flex-direction:column;gap:24px;justify-content:center;min-width:0}
+.qtype{font-family:var(--f-display);font-weight:700;font-size:20px;letter-spacing:.1em;color:var(--accent-ink)}
+.qtext{font-size:50px;font-weight:700;line-height:1.3}
+.qtext .en{font-family:var(--f-read)}
+.qans{font-family:var(--f-read);font-size:50px;font-weight:700;color:var(--good);min-height:70px}
+.qans small{display:block;font-family:var(--f-ko);font-size:22px;color:var(--muted);font-weight:500}
+.award{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:20px;font-weight:700}
+.award button{border:0;color:#fff;border-radius:10px;padding:10px 18px;font-size:20px;font-weight:700}
+
+/* exit */
+.exits{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;flex:1}
+.exit{border-radius:16px;border:3px solid var(--ink);padding:26px;display:flex;flex-direction:column;gap:14px}
+.exit .g{font-family:var(--f-display);font-weight:800;font-size:20px;color:var(--accent-ink);letter-spacing:.06em}
+.exit .f{font-family:var(--f-read);font-weight:700;font-size:42px;line-height:1.2}
+.exit .k{font-size:21px;color:var(--muted);line-height:1.5}
+.podium{display:flex;gap:16px;align-items:flex-end;justify-content:center}
+.pod{display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700}
+.pod .bar{width:120px;border-radius:10px 10px 0 0;display:flex;align-items:flex-start;justify-content:center;color:#fff;font-family:var(--f-display);font-size:30px;padding-top:6px}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head><body>
+
+<div id="app">
+  <div id="viewport"><div id="stage"></div></div>
+  <div id="rail">
+    <select class="rb" id="unitSel" aria-label="유닛 선택"></select>
+    <button class="rb" id="bPrev" aria-label="이전 슬라이드">◀ 이전</button>
+    <span id="counter">1 / 17</span>
+    <button class="rb" id="bNext" aria-label="다음 슬라이드">다음 ▶</button>
+    <button class="rb" id="bScore">점수판</button>
+    <button class="rb" id="bTimer">타이머</button>
+    <button class="rb" id="bPick">랜덤 뽑기</button>
+    <button class="rb" id="bNotes">강사 노트</button>
+    <button class="rb" id="bFull">전체화면</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   LESSON DATA — Reader's Bank Level 2, Unit 01~12
+   새 유닛 추가: UNITS 배열에 같은 구조의 객체를 하나 더 넣으면 됩니다.
+   ===================================================================== */
+const BOOK={book:"Reader's Bank", level:"Level 2"};
+const UNITS=[
+
+/* ---------------- UNIT 01 ---------------- */
+{no:"01",
+ passages:[
+  {no:"01", ko:"엄마 입이 보금자리", en:"Mom’s Mouth Is a Nest",
+   task:"<b>Find</b> 엄마 시클리드가 알을 지키는 방법 찾기",
+   note:["시클리드(cichlid)는 아프리카의 작은 물고기. 엄마가 알을 입속에서 30일 동안 지킨다는 점을 그림으로 보여 주세요.","When + 주어 + 동사(~할 때), so(그래서), turn into(~으로 변하다)를 구문분석으로 짚어 주세요."],
+   lines:[
+    {en:"<s>Cichlids</s> <v>are</v> <c>small fish / from Africa</c>.", ko:"시클리드는 아프리카에서 온 작은 물고기들이다.", tip:"주어가 복수(Cichlids) → are. fish는 복수도 fish 그대로!"},
+    {en:"When the mother fish lays eggs, / <s>she</s> <v>cares for</v> <o>them</o> / in an unusual way.", ko:"엄마 물고기는 알들을 낳으면, 특이한 방법으로 그것들을 돌본다.", tip:"When + 주어 + 동사 = ~할 때. lay eggs = 알을 낳다. care for = ~을 돌보다. them = eggs."},
+    {en:"<s>She</s> <v>keeps</v> <o>them</o> / in her mouth!", ko:"그녀는 그것들을 그녀의 입속에서 지킨다!", tip:"keep + 목적어 + 장소 = ~을 …에 두다. 3인칭 단수 she → keeps."},
+    {en:"In this way, / <s>she</s> <v>can protect</v> <o>her eggs</o>.", ko:"이러한 방법으로, 그녀는 그녀의 알들을 보호할 수 있다.", tip:"can + 동사원형 = ~할 수 있다. can 뒤에는 -s를 붙이지 않아요."},
+    {en:"<s>Her mouth</s> <v>is</v> <c>full of eggs</c>, / so <s>she</s> <v>cannot eat</v> <o>anything</o>.", ko:"그녀의 입은 알들로 가득 차서, 아무것도 먹을 수 없다.", tip:"be full of ~ = ~으로 가득 차다. so = 그래서 (결과). 부정문에서는 anything = 아무것도."},
+    {en:"After 30 days, / <s>the eggs</s> <v>turn into</v> <o>baby fish</o> / and <v>come out of</v> <o>her mouth</o>.", ko:"30일 후에, 그 알들은 새끼 물고기들로 변하고 그녀의 입 밖으로 나온다.", tip:"turn into ~ = ~으로 변하다. come out of ~ = ~밖으로 나오다. 동사 2개가 and로 연결."},
+    {en:"Then, / <s>the mother</s> <v>is</v> <c>free</c>.", ko:"그러면, 그 엄마 물고기는 자유로워진다.", tip:"be + 형용사(free) = 자유롭다. free는 보어(C)."},
+    {en:"<s>She</s> <v>can eat</v> <o>food</o> / and <v>rest</v>.", ko:"그녀는 먹이를 먹고 쉴 수 있다.", tip:"can eat and (can) rest → 뒤의 rest도 동사원형."}
+   ]},
+  {no:"02", ko:"충격적인 비밀", en:"A Shocking Secret",
+   task:"<b>Guess</b> Maria의 반응이 왜 충격적이었을까요?",
+   note:["대화가 있는 지문 → 역할극으로 읽기. 마지막 반전(Peter는 Maria의 남자친구!)을 맞히게 하세요.","과거형 had, didn’t tell, met, sat, whispered, began / tell A to B / As(~할 때)를 확인하세요."],
+   lines:[
+    {en:"<s>Jane</s> <v>had</v> <o>a big secret</o>.", ko:"Jane은 큰 비밀이 하나 있었다.", tip:"have의 과거 had. have a secret = 비밀이 있다."},
+    {en:"<s>She</s> <v>didn’t tell</v> <o>her secret</o> / to her sister or brother.", ko:"그녀는 그녀의 언니나 오빠에게 자신의 비밀을 말하지 않았다.", tip:"과거 부정: didn’t + 동사원형. tell A to B = A를 B에게 말하다."},
+    {en:"But then one day / <s>she</s> <v>met</v> <o>Maria, her close friend</o>.", ko:"하지만 그러던 어느 날 그녀는 그녀의 절친한 친구인 Maria를 만났다.", tip:"meet-met-met. Maria = her close friend (콤마로 같은 사람을 설명, 동격)."},
+    {en:"As they sat in a busy cafe, / <s>Jane</s> <v>whispered</v> quietly / to Maria.", ko:"그들이 붐비는 카페에 앉았을 때, Jane은 Maria에게 조용히 속삭였다.", tip:"As + 주어 + 동사 = ~할 때. sit-sat-sat. quietly(부사)가 동사 whispered를 꾸밈."},
+    {en:"“<s>I</s> <v>want to say</v> <o>something important</o> / to you, / but please <v>don’t tell</v> <o>this</o> / to anyone.", ko:"“나는 너에게 중요한 것을 말하고 싶은데, 이것을 아무에게도 말하지 말아 줘.", tip:"want to + 동사원형 = ~하고 싶다. something important = 중요한 무언가 (-thing은 형용사가 뒤에!). Don’t + 동사원형 = ~하지 마."},
+    {en:"Recently, / <s>I</s> <v>met</v> <o>a boy</o> / and <v>began</v> <o>to really like him</o>.", ko:"최근에, 나는 한 남자아이를 만났는데 그를 정말 좋아하기 시작했어.", tip:"begin-began-begun. begin to + 동사원형 = ~하기 시작하다."},
+    {en:"<s>His name</s> <v>is</v> <c>Peter Parker</c>.”", ko:"그의 이름은 Peter Parker야.”", tip:"His name(주어) + is + Peter Parker(보어)."},
+    {en:"Then / <s>Maria’s response</s> <v>was</v> <c>shocking</c>.", ko:"그러자 Maria의 반응은 충격적이었다.", tip:"shocking = 충격적인 (사물·일이 충격을 줄 때)."},
+    {en:"“Oh, my! / <s>Peter</s> <v>is</v> <c>MY boyfriend</c>!”", ko:"“오, 세상에! Peter는 내 남자친구야!”", tip:"Oh, my! = 오, 세상에! MY를 대문자로 써서 강조."}
+   ]},
+  {no:"03", ko:"챗GPT를 만든 Sam Altman", en:"Sam Altman, the Maker of ChatGPT",
+   task:"<b>Order</b> Sam Altman의 인생을 순서대로 정리하기",
+   note:["인물 이야기 → 나이·연도 순서로 정리(8살 → 대학 → 2015년 OpenAI → 지금).","a boy named ~ / something big called ~ / teach + 사람 + to 동사원형 / want + 목적어 + to 동사원형을 짚어 주세요."],
+   lines:[
+    {en:"There <v>was</v> <s>a smart boy / named Sam Altman</s>.", ko:"Sam Altman이라는 이름의 한 똑똑한 소년이 있었다.", tip:"There was + 단수 = ~이 있었다. named + 이름 = ~라는 이름의 (뒤에서 a smart boy를 꾸밈)."},
+    {en:"<s>Sam</s> <v>enjoyed</v> <o>thinking of new things</o> / with his dad.", ko:"Sam은 그의 아빠와 함께 새로운 것을 생각하는 것을 즐겼다.", tip:"enjoy + 동사-ing = ~하는 것을 즐기다 (enjoy 뒤에는 to 대신 -ing!). think of = ~을 생각하다."},
+    {en:"<s>His dad</s> <v>loved</v> <o>computers</o> / and <v>taught</v> <o>Sam</o> <c>to program</c>.", ko:"그의 아버지는 컴퓨터를 매우 좋아했고 Sam에게 프로그램을 짜는 법을 가르쳤다.", tip:"teach-taught-taught. teach + 사람 + to 동사원형 = ~에게 …하는 법을 가르치다."},
+    {en:"<s>Sam</s> <v>was</v> <c>only 8 years old</c> / then.", ko:"그때 Sam은 겨우 8살이었다.", tip:"only = 겨우, 단지. then = 그때."},
+    {en:"When he was in college, / <s>he</s> <v>started</v> <o>his own company</o>.", ko:"그는 대학에 다닐 때 자신의 회사를 시작했다.", tip:"When ~ = ~할 때. his own + 명사 = 자기 자신의 ~."},
+    {en:"There, / <s>he</s> <v>met</v> <o>Elon Musk</o>.", ko:"그곳에서 그는 Elon Musk를 만났다.", tip:"There = 그곳에서 (his company). meet-met."},
+    {en:"Together, / <s>they</s> <v>made</v> <o>something big / called OpenAI</o> / in 2015.", ko:"함께 그들은 2015년에 OpenAI라고 불리는 대단한 것을 만들었다.", tip:"something big = 대단한 것 (-thing + 형용사). called ~ = ~라고 불리는."},
+    {en:"<s>Sam</s> <v>wanted</v> <o>computers</o> <c>to think like humans</c>.", ko:"Sam은 컴퓨터가 인간처럼 생각하기를 원했다.", tip:"want + 목적어 + to 동사원형 = ~가 …하기를 원하다. like humans = 인간처럼."},
+    {en:"Now, / <s>Sam</s> <v>is</v> <c>very important</c> / in the world of technology.", ko:"이제 Sam은 기술 업계에서 매우 중요하다.", tip:"현재 이야기 → is. the world of technology = 기술의 세계(업계)."},
+    {en:"<s>He</s> <v>leads</v> <o>ChatGPT</o>.", ko:"그는 챗GPT를 이끌고 있다.", tip:"lead = 이끌다. 3인칭 단수 → leads."}
+   ]}
+ ],
+ riddle:{clues:["I am a small fish.","I come from Africa.","I keep my eggs in my mouth.","I can’t eat for 30 days."], answer:"Cichlid! 시클리드"},
+ grammar:[
+  {title:"When + 주어 + 동사 · so", sub:"~할 때 / 그래서", formula:"<em>When</em> + 주어 + 동사, 주어 + 동사 | 원인, <em>so</em> + 결과",
+   ex:[["<mark>When</mark> the mother fish lays eggs, she cares for them.","엄마 물고기가 알을 낳을 때"],["Her mouth is full of eggs, <mark>so</mark> she cannot eat anything.","그래서 아무것도 못 먹는다"],["<mark>When</mark> he was in college, he started his own company.","그가 대학에 다닐 때"]],
+   note:"When절이 앞에 오면 콤마(,)를 찍어요.<br><b>be full of</b> = ~으로 가득 차다 · <b>turn into</b> = ~으로 변하다",
+   fix:[["When the mother fish lay eggs, ...","When the mother fish lays eggs, ...","3인칭 단수 현재 → lays"],["Her mouth is full with eggs.","Her mouth is full of eggs.","be full of"],["She can eats food.","She can eat food.","can + 동사원형"]]},
+  {title:"과거시제 (규칙 · 불규칙)", sub:"~했다 / ~하지 않았다", formula:"동사<em>-ed</em> · 불규칙 과거 | <em>didn’t</em> + 동사원형",
+   ex:[["Jane <mark>had</mark> a big secret.","have → had"],["She <mark>didn’t tell</mark> her secret to her sister.","과거 부정"],["As they <mark>sat</mark> in a busy cafe, Jane <mark>whispered</mark> quietly.","sit → sat / whisper → whispered"]],
+   note:"불규칙: meet-<b>met</b> · begin-<b>began</b> · sit-<b>sat</b> · teach-<b>taught</b> · make-<b>made</b><br><b>something + 형용사</b> = something important / something big",
+   fix:[["She didn’t told her secret.","She didn’t tell her secret.","didn’t + 동사원형"],["Recently, I meeted a boy.","Recently, I met a boy.","meet-met"],["I want to say important something.","I want to say something important.","-thing + 형용사"]]},
+  {title:"named / called · 동사 + 목적어 + to부정사", sub:"~라는 이름의 / ~가 …하기를", formula:"명사 + <em>named / called</em> ~ | want · teach + 목적어 + <em>to 동사원형</em>",
+   ex:[["There was a smart boy <mark>named</mark> Sam Altman.","Sam Altman이라는 이름의 소년"],["They made something big <mark>called</mark> OpenAI.","OpenAI라고 불리는 것"],["Sam <mark>wanted</mark> computers <mark>to think</mark> like humans.","컴퓨터가 생각하기를 원했다"]],
+   note:"<b>teach + 사람 + to 동사원형</b> = ~에게 …하는 법을 가르치다 → taught Sam to program<br><b>enjoy + -ing</b> = enjoyed thinking (enjoy to think ✗)",
+   fix:[["a boy naming Sam","a boy named Sam","‘이름 지어진’ → named"],["Sam wanted computers think.","Sam wanted computers to think.","want + 목적어 + to"],["Sam enjoyed to think of new things.","Sam enjoyed thinking of new things.","enjoy + -ing"]]}
+ ],
+ acts:[
+  {after:0,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["Cichlids are big fish from Africa.","X","Cichlids are small fish from Africa."],["The mother fish keeps her eggs in her mouth.","O","She keeps them in her mouth!"],["The mother can eat food when her mouth is full of eggs.","X","She cannot eat anything."],["The eggs turn into baby fish after 30 days.","O","After 30 days, the eggs turn into baby fish."],["After that, the mother can rest.","O","She can eat food and rest."]]},
+  {after:1,type:"role",lbl:"역할극",title:"Role-play: A Shocking Secret",sub:"3명이 나와서 역할을 나눠 읽어요 (마지막 줄은 깜짝 놀라며!)",
+   roles:[["Narrator 해설","var(--muted)"],["Jane 제인","var(--tA)"],["Maria 마리아","var(--tB)"]],
+   script:[[0,"Jane had a big secret. One day she met Maria, her close friend. They sat in a busy cafe."],[1,"I want to say something important to you, but please don’t tell this to anyone."],[2,"Okay. What is it?"],[1,"Recently, I met a boy and began to really like him. His name is Peter Parker."],[0,"Then Maria’s response was shocking."],[2,"Oh, my! Peter is MY boyfriend!"]]},
+  {after:1,type:"flip",lbl:"과거형 카드",title:"Past Tense Flip",sub:"동사원형을 보고 과거형을 먼저 말한 뒤 카드를 여세요",
+   cards:[["have","had","불규칙"],["meet","met","불규칙"],["sit","sat","불규칙"],["begin","began","불규칙"],["whisper","whispered","규칙 -ed"],["teach","taught","불규칙"],["make","made","불규칙"],["love","loved","함정! -e로 끝나면 -d"]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["She keeps them in her mouth.","그녀는 그것들을 그녀의 입속에서 지킨다."],["Her mouth is full of eggs.","그녀의 입은 알들로 가득 차 있다."],["Please don’t tell this to anyone.","이것을 아무에게도 말하지 말아 줘."],["There was a smart boy named Sam Altman.","Sam Altman이라는 이름의 똑똑한 소년이 있었다."],["Sam wanted computers to think like humans.","Sam은 컴퓨터가 인간처럼 생각하기를 원했다."]]}
+ ],
+ battle:[
+  {t:"내용 · 01", q:"시클리드는 어디에서 온 물고기인가요?", a:"Africa (아프리카)", k:"Cichlids are small fish from Africa.", p:1},
+  {t:"내용 · 01", q:"알이 새끼 물고기로 변하기까지 며칠 걸리나요?", a:"30 days", k:"After 30 days, the eggs turn into baby fish.", p:1},
+  {t:"O / X · 02", q:"Jane은 언니와 오빠에게 비밀을 말했다.", a:"X", k:"She didn’t tell her secret to her sister or brother.", p:1},
+  {t:"내용 · 02", q:"Jane과 Maria는 어디에 앉아 있었나요?", a:"a busy cafe (붐비는 카페)", k:"As they sat in a busy cafe", p:1},
+  {t:"내용 · 02", q:"Maria의 반응이 충격적이었던 이유는?", a:"Peter가 Maria의 남자친구라서", k:"Peter is MY boyfriend!", p:1},
+  {t:"내용 · 03", q:"Sam이 프로그램 짜는 법을 배운 나이는?", a:"8살 (8 years old)", k:"Sam was only 8 years old then.", p:1},
+  {t:"문법 · 빈칸", q:"Her mouth is full <span class='en'>___</span> eggs.", a:"of", k:"be full of = ~으로 가득 차다", p:1},
+  {t:"문법 · 빈칸", q:"Recently, I <span class='en'>___</span> a boy. (meet)", a:"met", k:"meet-met-met", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>Sam wanted computers think like humans.</span>", a:"Sam wanted computers to think like humans.", k:"want + 목적어 + to 동사원형", p:1},
+  {t:"영작", q:"“그녀는 아무것도 먹을 수 없다.”", a:"She cannot eat anything.", k:"cannot + 동사원형 / anything", p:1},
+  {t:"BONUS · 3점", q:"Sam Altman과 Elon Musk가 2015년에 함께 만든 것은?", a:"OpenAI", k:"they made something big called OpenAI in 2015", p:3}
+ ],
+ exit:[["01 · so","I was tired, so ______.","결과를 이어 쓰기<br>예) I was tired, so I went to bed early."],["02 · 과거시제","Yesterday, I ______.","어제 한 일 (과거형)<br>예) Yesterday, I met my friend."],["03 · want + O + to","I want my friend to ______.","친구에게 바라는 것<br>예) I want my friend to call me."]]
+},
+/* ---------------- UNIT 02 ---------------- */
+{no:"02",
+ passages:[
+  {no:"04", ko:"변신의 왕은 바로 나!", en:"I’m the King of Change!",
+   task:"<b>Find</b> Boquila가 바꾸는 두 가지 찾기",
+   note:["보키야(Boquila)는 주변 식물을 흉내 내는 덩굴식물. 카멜레온과 비교해 주세요.","to look like / to hide (~하기 위해서), help + 목적어 + 동사원형을 짚어 주세요."],
+   lines:[
+    {en:"There <v>is</v> <s>a very interesting plant</s>.", ko:"매우 흥미로운 식물이 있다.", tip:"There is + 단수 명사 = ~이 있다."},
+    {en:"<s>This plant</s> <v>can imitate</v> <o>things / around it</o>.", ko:"이 식물은 그것 주변의 것들을 따라할 수 있다.", tip:"imitate = 따라 하다. around it = 그것 주변의 (things를 꾸밈)."},
+    {en:"<s>It</s> <v>changes</v> <o>its color</o> / to look like other plants.", ko:"그것은 다른 식물들처럼 보이기 위해서 그것의 색깔을 바꾼다.", tip:"to + 동사원형 = ~하기 위해서 (목적). look like + 명사 = ~처럼 보이다. its = 그것의 (it’s ✗)."},
+    {en:"<s>It</s> also <v>changes</v> <o>its leaf shape</o> / to hide from animals.", ko:"그것은 또한 동물들로부터 숨기 위해서 그것의 잎 모양을 바꾼다.", tip:"to hide = 숨기 위해서. also는 일반동사 앞."},
+    {en:"<s>The name of this amazing plant</s> <v>is</v> <c>Boquila</c>.", ko:"이 놀라운 식물의 이름은 ‘Boquila(보키야)’이다.", tip:"주어는 The name (of this amazing plant) → 단수 is."},
+    {en:"<s>It</s> <v>comes from</v> <o>Argentina and Chile</o>.", ko:"그것은 아르헨티나와 칠레에서 왔다.", tip:"come from ~ = ~에서 오다, ~ 출신이다."},
+    {en:"<s>Its skills</s> <v>help</v> <o>it</o> <c>survive</c>.", ko:"그것의 기술들은 그것이 생존하는 것을 돕는다.", tip:"help + 목적어 + 동사원형 = ~가 …하는 것을 돕다. 주어 Its skills가 복수 → help."},
+    {en:"Truly, / <s>it</s> <v>is</v> <c>a plant chameleon</c>!", ko:"정말로 그것은 식물 카멜레온이다!", tip:"Truly = 정말로. 색을 바꾸는 카멜레온에 비유."}
+   ]},
+  {no:"05", ko:"용돈을 올려 받은 비결", en:"How Laura Got More Allowance",
+   task:"<b>Find</b> Laura가 부모님의 마음을 바꾸기 위해 한 일 2가지",
+   note:["문제(용돈 부족) → 시도(부탁) → 실패 → 아이디어(집안일) → 성공의 흐름으로 정리하세요.","ask A for B / come up with / to change (목적) / decide to / be glad to를 짚어 주세요."],
+   lines:[
+    {en:"<s>Laura</s> <v>got</v> <o>ten dollars</o> / a week / from her parents.", ko:"Laura는 그녀의 부모님으로부터 일주일마다 10달러를 받았다.", tip:"get-got = 받다. a week = 일주일마다."},
+    {en:"But / <s>she</s> <v>needed</v> <o>more money</o>.", ko:"하지만 그녀는 더 많은 돈이 필요했다.", tip:"more money = 더 많은 돈 (much의 비교급 more)."},
+    {en:"<s>She</s> <v>wanted</v> <o>to buy her favorite things</o>.", ko:"그녀는 자신이 좋아하는 물건들을 사기를 원했다.", tip:"want to + 동사원형 = ~하기를 원하다."},
+    {en:"<s>Laura</s> <v>asked</v> <o>her parents</o> / for a bigger allowance.", ko:"Laura는 그녀의 부모님께 더 많은 용돈을 부탁했다.", tip:"ask A for B = A에게 B를 부탁하다. bigger = big의 비교급 (g를 한 번 더!)."},
+    {en:"But / <s>they</s> <v>said</v> <o>no</o>.", ko:"하지만 그들은 안 된다고 말했다.", tip:"say-said. say no = 안 된다고 말하다."},
+    {en:"<s>Laura</s> <v>came up with</v> <o>an idea</o> / to change their minds.", ko:"Laura는 그들의 마음을 바꾸기 위해서 아이디어를 떠올렸다.", tip:"come up with = ~을 생각해 내다 (came). to change = 바꾸기 위해서."},
+    {en:"<s>She</s> <v>washed</v> <o>their cars</o> / every morning.", ko:"그녀는 매일 아침 그들의 자동차를 세차했다.", tip:"every morning = 매일 아침. wash-washed."},
+    {en:"<s>She</s> also <v>did</v> <o>the dishes</o>.", ko:"그녀는 설거지도 했다.", tip:"do the dishes = 설거지하다. do-did."},
+    {en:"Amazingly, / <s>this plan</s> <v>worked</v>!", ko:"놀랍게도 이 계획은 효과가 있었다!", tip:"work = 효과가 있다 (‘일하다’ 아님!)."},
+    {en:"<s>Her parents</s> <v>decided</v> <o>to raise her allowance</o>.", ko:"그녀의 부모님은 그녀의 용돈을 올리기로 결정했다.", tip:"decide to + 동사원형 = ~하기로 결정하다. raise = 올리다."},
+    {en:"Now / <s>she</s> <v>is</v> <c>glad</c> / to get fifteen dollars a week.", ko:"이제 그녀는 일주일마다 15달러를 받아서 기쁘다.", tip:"be glad to + 동사원형 = ~해서 기쁘다 (감정의 이유)."}
+   ]},
+  {no:"06", ko:"상상 그 이상의 게임 세상", en:"Games Beyond Your Imagination",
+   task:"<b>Compare</b> 과거의 게임 vs 오늘날의 게임",
+   note:["In the past ↔ Today 대조 구조. 칠판에 두 칸 표를 만들어 채우게 하세요.","could not ~ at all / make them more fun / let you be ~를 짚어 주세요. 학생들이 아는 게임(Roblox, Minecraft)으로 이야기 나누기."],
+   lines:[
+    {en:"<s>Computer games</s> <v>are changing</v> / every day.", ko:"컴퓨터 게임은 매일 변화하고 있다.", tip:"be + 동사-ing = ~하고 있다 (현재진행)."},
+    {en:"In the past, / <s>computer games</s> <v>were</v> <c>simple</c>.", ko:"과거에는 컴퓨터 게임이 단순했다.", tip:"In the past = 과거에. 복수 주어의 과거 → were."},
+    {en:"<s>They</s> <v>had</v> <o>fixed rules or stories</o>.", ko:"그것들은 정해진 규칙이나 스토리가 있었다.", tip:"fixed = 고정된, 정해진 (rules를 꾸밈)."},
+    {en:"<s>You</s> <v>could not change</v> <o>them</o> / at all.", ko:"당신은 그것들을 전혀 바꿀 수 없었다.", tip:"could = can의 과거. not ~ at all = 전혀 ~아닌."},
+    {en:"Today, / <s>things</s> <v>are</v> <c>different</c>.", ko:"오늘날, 상황이 다르다.", tip:"things = 상황, 사정. different = 다른."},
+    {en:"<s>Players</s> <v>can change</v> <o>different parts of the games</o>.", ko:"플레이어들은 게임의 다양한 부분들을 바꿀 수 있다.", tip:"different parts = 다양한 부분들."},
+    {en:"<s>They</s> <v>can change</v> <o>the rules</o> / to make them more fun.", ko:"그들은 그것들을 더 재미있게 만들기 위해서 규칙들을 바꿀 수 있다.", tip:"to make = 만들기 위해서. make + 목적어 + 형용사 = ~을 …하게 만들다. more fun = 더 재미있는."},
+    {en:"In Roblox, for example, / <s>you</s> <v>can become</v> <c>a superhero or anyone you like</c>.", ko:"예를 들면, Roblox에서 당신은 슈퍼히어로 혹은 당신이 좋아하는 누구든지 될 수 있다.", tip:"for example = 예를 들면. become + 명사 = ~이 되다. anyone you like = 당신이 좋아하는 누구든지."},
+    {en:"In addition, / in Minecraft, / <s>you</s> <v>can build</v> <o>big cities</o>.", ko:"게다가, Minecraft에서 당신은 큰 도시들을 건설할 수 있다.", tip:"In addition = 게다가. city → cities."},
+    {en:"<s>You</s> <v>can</v> also <v>visit</v> <o>new worlds</o>.", ko:"당신은 새로운 세계를 방문할 수도 있다.", tip:"also는 조동사 can 뒤에."},
+    {en:"In short, / <s>games today</s> <v>let</v> <o>you</o> <c>be anyone</c> / and <c>go anywhere</c>.", ko:"요약하면, 오늘날의 게임은 당신이 누구든 될 수 있게 하고 어디든 갈 수 있게 한다.", tip:"In short = 요약하면. let + 목적어 + 동사원형 = ~가 …하게 하다. anyone = 누구든, anywhere = 어디든."}
+   ]}
+ ],
+ riddle:{clues:["I am a plant.","I come from Argentina and Chile.","I can change my color and leaf shape.","People call me a plant chameleon."], answer:"Boquila! 보키야"},
+ grammar:[
+  {title:"to부정사: ~하기 위해서", sub:"목적을 나타내는 to + 동사원형", formula:"문장 + <em>to + 동사원형</em> (~하기 위해서)",
+   ex:[["It changes its color <mark>to look</mark> like other plants.","다른 식물처럼 보이기 위해서"],["It also changes its leaf shape <mark>to hide</mark> from animals.","동물로부터 숨기 위해서"],["Laura came up with an idea <mark>to change</mark> their minds.","마음을 바꾸기 위해서"]],
+   note:"‘왜?’에 대한 대답 → to + 동사원형<br>Why does it change its color? → <b>To look</b> like other plants.",
+   fix:[["It changes its color to looks like plants.","It changes its color to look like plants.","to + 동사원형"],["It changes it’s color.","It changes its color.","its = 그것의 / it’s = it is"],["She did the dishes for change their minds.","She did the dishes to change their minds.","목적 → to부정사"]]},
+  {title:"동사 + to부정사 · ask A for B", sub:"~하기를 원하다 / ~하기로 결정하다", formula:"want · decide · need + <em>to 동사원형</em> | ask A <em>for</em> B",
+   ex:[["She <mark>wanted to buy</mark> her favorite things.","사기를 원했다"],["Her parents <mark>decided to raise</mark> her allowance.","올리기로 결정했다"],["Laura <mark>asked</mark> her parents <mark>for</mark> a bigger allowance.","부모님께 더 많은 용돈을 부탁했다"]],
+   note:"<b>be glad to</b> + 동사원형 = ~해서 기쁘다 → She is glad to get fifteen dollars.<br><b>come up with</b> = ~을 생각해 내다 · <b>do the dishes</b> = 설거지하다",
+   fix:[["Her parents decided raise her allowance.","Her parents decided to raise her allowance.","decide to"],["Laura asked her parents to a bigger allowance.","Laura asked her parents for a bigger allowance.","ask A for B"],["She is glad to gets fifteen dollars.","She is glad to get fifteen dollars.","to + 동사원형"]]},
+  {title:"make + O + 형용사 · let + O + 동사원형", sub:"~을 …하게 만들다 / ~가 …하게 하다", formula:"make + O + <em>형용사</em> | let · help + O + <em>동사원형</em>",
+   ex:[["They can change the rules to <mark>make</mark> them <mark>more fun</mark>.","더 재미있게 만들다"],["Games today <mark>let</mark> you <mark>be</mark> anyone and <mark>go</mark> anywhere.","누구든 되게, 어디든 가게 해 준다"],["Its skills <mark>help</mark> it <mark>survive</mark>.","생존하도록 돕는다"]],
+   note:"<b>not ~ at all</b> = 전혀 ~아닌 → You could not change them at all.<br><b>could</b> = can의 과거",
+   fix:[["Games let you to be anyone.","Games let you be anyone.","let + O + 동사원형"],["They make the game more funly.","They make the game more fun.","make + O + 형용사"],["In the past, games are simple.","In the past, games were simple.","과거 → were"]]}
+ ],
+ acts:[
+  {after:0,type:"hunt",lbl:"to부정사 헌터",title:"to-Verb Hunter",sub:"‘~하기 위해서’라는 뜻의 to + 동사원형을 모두 터치하세요",
+   items:["It changes its color *to* *look* like other plants.","It also changes its leaf shape *to* *hide* from animals.","Laura came up with an idea *to* *change* their minds.","They can change the rules *to* *make* them more fun."]},
+  {after:1,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["Boquila can change its color and leaf shape.","O","It changes its color ... It also changes its leaf shape."],["Boquila comes from Brazil.","X","It comes from Argentina and Chile."],["Laura got fifteen dollars a week at first.","X","Laura got ten dollars a week."],["Laura washed her parents’ cars every morning.","O","She washed their cars every morning."],["Laura’s plan didn’t work.","X","Amazingly, this plan worked!"]]},
+  {after:2,type:"flip",lbl:"과거 vs 오늘",title:"Past vs Today",sub:"앞면을 보고 반대편 내용을 먼저 말한 뒤 카드를 여세요",small:true,
+   cards:[["In the past, computer games were ___.","simple","과거"],["In the past, games had ___ rules or stories.","fixed","과거"],["In the past, you ___ change them at all.","could not","과거"],["Today, players can change ___ of the games.","different parts","오늘"],["They change the rules to make them ___.","more fun","오늘"],["In Roblox, you can become ___.","a superhero or anyone you like","오늘"],["In Minecraft, you can build ___.","big cities","오늘"],["Games today let you be anyone and ___.","go anywhere","요약"]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["Its skills help it survive.","그것의 기술들은 그것이 생존하는 것을 돕는다."],["Laura asked her parents for a bigger allowance.","Laura는 부모님께 더 많은 용돈을 부탁했다."],["Her parents decided to raise her allowance.","그녀의 부모님은 그녀의 용돈을 올리기로 결정했다."],["You could not change them at all.","당신은 그것들을 전혀 바꿀 수 없었다."],["Games today let you be anyone.","오늘날의 게임은 당신이 누구든 될 수 있게 한다."]]}
+ ],
+ battle:[
+  {t:"내용 · 04", q:"Boquila가 잎 모양을 바꾸는 이유는?", a:"to hide from animals", k:"동물들로부터 숨기 위해서", p:1},
+  {t:"내용 · 04", q:"글쓴이는 Boquila를 무엇이라고 불렀나요?", a:"a plant chameleon", k:"Truly, it is a plant chameleon!", p:1},
+  {t:"내용 · 05", q:"Laura가 처음 받던 용돈은 일주일에 얼마?", a:"ten dollars (10달러)", k:"Laura got ten dollars a week.", p:1},
+  {t:"내용 · 05", q:"Laura가 한 집안일 2가지는?", a:"세차하기, 설거지하기", k:"She washed their cars ... She also did the dishes.", p:1},
+  {t:"O / X · 06", q:"과거의 컴퓨터 게임은 규칙을 마음대로 바꿀 수 있었다.", a:"X", k:"You could not change them at all.", p:1},
+  {t:"내용 · 06", q:"Minecraft에서 할 수 있는 일 2가지는?", a:"큰 도시 건설, 새로운 세계 방문", k:"build big cities / visit new worlds", p:1},
+  {t:"문법 · 빈칸", q:"It changes its color <span class='en'>___</span> look like other plants.", a:"to", k:"to + 동사원형 = ~하기 위해서", p:1},
+  {t:"문법 · 빈칸", q:"Laura asked her parents <span class='en'>___</span> a bigger allowance.", a:"for", k:"ask A for B", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>Games let you to be anyone.</span>", a:"Games let you be anyone.", k:"let + 목적어 + 동사원형", p:1},
+  {t:"영작", q:"“그녀의 부모님은 그녀의 용돈을 올리기로 결정했다.”", a:"Her parents decided to raise her allowance.", k:"decide to + 동사원형", p:1},
+  {t:"BONUS · 3점", q:"Laura의 용돈은 일주일에 얼마나 올랐나요?", a:"5달러 (10 → 15달러)", k:"ten dollars → fifteen dollars", p:3}
+ ],
+ exit:[["04 · to부정사(목적)","I study hard to ______.","공부하는 이유<br>예) I study hard to get good grades."],["05 · decide to","I decided to ______.","내가 결심한 것<br>예) I decided to read more books."],["06 · let + O + 동사원형","My mom lets me ______.","엄마가 허락해 주는 것<br>예) My mom lets me play games."]]
+},
+/* ---------------- UNIT 03 ---------------- */
+{no:"03",
+ passages:[
+  {no:"07", ko:"파자마 파티", en:"Slumber Parties",
+   task:"<b>List</b> Sarah와 친구들이 파자마 파티에서 하는 일 모두 찾기",
+   note:["slumber party = 친구 집에서 자고 가는 파자마 파티. 학생들의 경험을 물어보며 시작하세요.","love -ing / invite + 사람 + to 동사원형 / a good way to ~ / lie-fall asleep을 짚어 주세요."],
+   lines:[
+    {en:"<s>Sarah</s> <v>loves</v> <o>having slumber parties</o>.", ko:"Sarah는 파자마 파티를 매우 좋아한다.", tip:"love + 동사-ing = ~하는 것을 매우 좋아하다. have a party = 파티를 하다."},
+    {en:"<s>She</s> often <v>invites</v> <o>her friends</o> <c>to sleep over</c> / at her house.", ko:"그녀는 종종 그녀의 친구들을 집에서 자고 가라고 초대한다.", tip:"invite + 사람 + to 동사원형 = ~에게 …하라고 초대하다. often은 일반동사 앞."},
+    {en:"<s>This</s> <v>is</v> <c>a good way / to spend time with her friends</c>.", ko:"이것은 그녀의 친구들과 시간을 보내는 좋은 방법이다.", tip:"a good way to + 동사원형 = ~하는 좋은 방법 (to부정사가 명사 way를 꾸밈). spend time = 시간을 보내다."},
+    {en:"<s>They</s> <v>do</v> <o>a lot of fun things</o>.", ko:"그들은 재미있는 일을 많이 한다.", tip:"a lot of = 많은."},
+    {en:"<s>They</s> <v>fight</v> / with their pillows.", ko:"그들은 그들의 베개를 가지고 싸운다.", tip:"with = ~을 가지고 (도구). 베개 싸움!"},
+    {en:"<s>They</s> <v>sing</v> <o>songs</o> / and <v>watch</v> <o>scary movies</o>.", ko:"그들은 노래를 부르고 무서운 영화를 본다.", tip:"동사 2개(sing, watch)가 and로 연결."},
+    {en:"<s>They</s> also <v>eat</v> <o>delicious ice cream</o> / and <v>tell</v> <o>funny stories</o>.", ko:"그들은 맛있는 아이스크림도 먹고 재미있는 이야기도 한다.", tip:"tell a story = 이야기를 하다. funny = 재미있는, 웃긴."},
+    {en:"After all these activities, / <s>they</s> <v>lie</v> in bed / and <v>fall</v> <c>asleep</c>.", ko:"이 모든 활동들 후에, 그들은 침대에 누워 잠이 든다.", tip:"lie = 눕다. fall asleep = 잠이 들다. activity → activities."}
+   ]},
+  {no:"08", ko:"운동할 때는 이 과일을 챙기세요", en:"Take This Fruit When You Exercise",
+   task:"<b>Find</b> 바나나가 테니스 선수에게 좋은 이유 3가지",
+   note:["질문(Why do they do so?) → 이유 3가지(당분·미네랄·소화) 구조. 번호 붙이며 찾기.","like to eat / help muscles work / easy to digest / the best snack to give를 짚어 주세요."],
+   lines:[
+    {en:"<s>Tennis players</s> <v>like</v> <o>to eat bananas</o> / when they play matches.", ko:"테니스 선수들은 경기를 할 때 바나나를 먹는 것을 좋아한다.", tip:"like to + 동사원형 = ~하는 것을 좋아하다. when = ~할 때. match → matches."},
+    {en:"Why <v>do</v> <s>they</s> <v>do</v> so?", ko:"그들은 왜 그렇게 할까?", tip:"의문사 + do + 주어 + 동사원형? do so = 그렇게 하다 (바나나를 먹다)."},
+    {en:"<s>Bananas</s> <v>have</v> <o>a lot of natural sugars</o>.", ko:"바나나는 천연 당분을 많이 가지고 있다.", tip:"natural = 천연의, 자연의."},
+    {en:"<s>These sugars</s> <v>give</v> <o>them</o> <o>quick energy</o>.", ko:"이러한 당분은 그들에게 빠른 에너지를 준다.", tip:"give + 사람 + 물건 = ~에게 …을 주다 (4형식)."},
+    {en:"<s>Bananas</s> also <v>have</v> <o>plenty of minerals</o>.", ko:"바나나는 또한 많은 미네랄을 가지고 있다.", tip:"plenty of = 많은 (= a lot of)."},
+    {en:"<s>These minerals</s> <v>help</v> <o>muscles</o> <c>work better</c>.", ko:"이러한 미네랄은 근육이 더 잘 움직이도록 도와준다.", tip:"help + 목적어 + 동사원형. better = well의 비교급 (더 잘)."},
+    {en:"<s>Bananas</s> <v>are</v> <c>easy to digest</c>, too.", ko:"바나나는 소화하기도 쉽다.", tip:"easy to + 동사원형 = ~하기 쉬운. too = ~도 (문장 끝)."},
+    {en:"How cool!", ko:"얼마나 멋진가!", tip:"How + 형용사! = 정말 ~하구나! (감탄문)"},
+    {en:"<s>They</s> <v>are</v> <c>the best snack / to give quick energy</c>.", ko:"그것들은 빠른 에너지를 주는 최고의 간식이다.", tip:"the best = 최고의 (good의 최상급). to give ~ = ~을 주는 (snack을 꾸밈)."}
+   ]},
+  {no:"09", ko:"놀라운 축구의 기술", en:"Amazing Soccer Tricks",
+   task:"<b>Act</b> 두 가지 축구 기술을 몸으로 표현해 보기",
+   note:["기술 1(다리 사이로 공 차기) - Neymar, Hazard / 기술 2(공 밟고 앞으로 굴리기) - Messi, Ronaldo. 표로 정리하세요.","Some ~ / Other ~ 대조, pretend to, think (that) ~ will, make + O + 형용사를 짚어 주세요."],
+   lines:[
+    {en:"In soccer, / <s>players</s> <v>do</v> <o>cool tricks</o>.", ko:"축구에서 선수들은 멋진 속임수를 쓴다.", tip:"do a trick = 속임수(묘기)를 쓰다."},
+    {en:"<s>Some players</s> <v>kick</v> <o>the ball</o> / between another player’s legs.", ko:"몇몇 선수들은 다른 선수의 다리 사이로 공을 찬다.", tip:"between = (둘) 사이에. another player’s = 다른 선수의."},
+    {en:"Then, / <s>they</s> <v>get</v> <o>the ball</o> again / on the other side of the player.", ko:"그런 다음, 그들은 그 선수의 반대편에서 그 공을 다시 받는다.", tip:"the other side = 반대쪽."},
+    {en:"<s>This</s> <v>is</v> <c>a smart way / to avoid a defender</c>.", ko:"이것은 수비수를 피하는 똑똑한 방법이다.", tip:"a smart way to + 동사원형 = ~하는 똑똑한 방법."},
+    {en:"<s>Neymar and Eden Hazard</s> <v>do</v> <o>it</o> often.", ko:"Neymar와 Eden Hazard가 그것을 자주 사용한다.", tip:"주어가 두 명 → do (does ✗)."},
+    {en:"<s>Other players</s> <v>use</v> <o>a different trick</o>.", ko:"다른 선수들은 다른 속임수를 사용한다.", tip:"Some ~ / Other ~ = 어떤 ~들은 / 다른 ~들은."},
+    {en:"<s>They</s> <v>step on</v> <o>the ball</o> / and <v>pretend</v> <o>to push it back</o>.", ko:"그들은 공을 밟고 그것을 뒤로 밀어내는 체한다.", tip:"step on = ~을 밟다. pretend to + 동사원형 = ~하는 체하다."},
+    {en:"Then, / <s>they</s> quickly <v>roll</v> <o>it</o> forward.", ko:"그런 다음 그들은 그것을 앞으로 빠르게 굴린다.", tip:"quickly = 빠르게. forward = 앞으로 ↔ backward."},
+    {en:"<s>It</s> <v>surprises</v> <o>other players</o>.", ko:"그것은 다른 선수들을 놀라게 한다.", tip:"surprise = 놀라게 하다."},
+    {en:"Do you know why?", ko:"당신은 이유를 아는가?", tip:"Do you know why? = 왜 그런지 알아?"},
+    {en:"<s>Those players</s> <v>think</v> / <o>the ball will go backward</o>.", ko:"그 선수들은 그 공이 뒤로 갈 것이라고 생각한다.", tip:"think (that) 주어 + 동사 = ~라고 생각하다. that 생략. will = ~할 것이다."},
+    {en:"<s>Messi and Ronaldo</s> <v>use</v> <o>this trick</o> often.", ko:"Messi와 Ronaldo가 이 속임수를 자주 사용한다.", tip:"often = 자주."},
+    {en:"<s>They</s> <v>change</v> <o>the game</o> / with it.", ko:"그들은 그것으로 경기를 바꾼다.", tip:"with it = 그것(속임수)으로."},
+    {en:"<s>Soccer</s> <v>is</v> <c>full of fun surprises</c>.", ko:"축구는 재미있는 놀라움으로 가득하다.", tip:"be full of = ~으로 가득하다. 여기서 surprise는 명사(놀라움)."},
+    {en:"<s>These tricks</s> <v>make</v> <o>the game</o> <c>exciting</c>.", ko:"이러한 속임수들은 그 경기를 흥미진진하게 만든다.", tip:"make + 목적어 + 형용사 = ~을 …하게 만들다."}
+   ]}
+ ],
+ riddle:{clues:["I am a yellow fruit.","Tennis players like to eat me.","I have a lot of natural sugars.","I am easy to digest."], answer:"Banana! 바나나"},
+ grammar:[
+  {title:"동명사 vs to부정사 (목적어)", sub:"~하는 것을", formula:"love · enjoy + <em>-ing</em> | like · want · pretend + <em>to 동사원형</em>",
+   ex:[["Sarah <mark>loves having</mark> slumber parties.","love + -ing"],["Tennis players <mark>like to eat</mark> bananas.","like + to부정사"],["They <mark>pretend to push</mark> it back.","pretend + to부정사"]],
+   note:"love, like는 -ing와 to 둘 다 OK!<br>enjoy는 -ing만 / want, pretend, decide는 to만",
+   fix:[["Sarah loves have slumber parties.","Sarah loves having slumber parties.","love + -ing (또는 to have)"],["They pretend pushing it back.","They pretend to push it back.","pretend + to"],["She often invites her friends sleep over.","She often invites her friends to sleep over.","invite + 사람 + to"]]},
+  {title:"to부정사의 형용사·부사 역할", sub:"~하는 / ~하기에", formula:"명사 + <em>to 동사원형</em> (~하는) | 형용사 + <em>to 동사원형</em> (~하기에)",
+   ex:[["This is <mark>a good way to spend</mark> time with her friends.","시간을 보내는 좋은 방법"],["They are <mark>the best snack to give</mark> quick energy.","빠른 에너지를 주는 최고의 간식"],["Bananas are <mark>easy to digest</mark>, too.","소화하기 쉬운"]],
+   note:"<b>help + 목적어 + 동사원형</b> → These minerals help muscles <b>work</b> better.<br><b>give + 사람 + 물건</b> → These sugars give <b>them quick energy</b>.",
+   fix:[["Bananas are easy digest.","Bananas are easy to digest.","easy to + 동사원형"],["These minerals help muscles works better.","These minerals help muscles work better.","help + O + 동사원형"],["These sugars give quick energy them.","These sugars give them quick energy.","give + 사람 + 물건"]]},
+  {title:"think (that) + 주어 + 동사 · make + O + 형용사", sub:"~라고 생각하다 / ~을 …하게 만들다", formula:"think (<em>that</em>) 주어 + 동사 | make + O + <em>형용사</em>",
+   ex:[["Those players <mark>think</mark> the ball <mark>will go</mark> backward.","공이 뒤로 갈 거라고 생각한다"],["These tricks <mark>make</mark> the game <mark>exciting</mark>.","경기를 흥미진진하게 만든다"],["This is <mark>a smart way to avoid</mark> a defender.","수비수를 피하는 똑똑한 방법"]],
+   note:"think 뒤 that은 자주 생략돼요.<br><b>Some</b> players ~. <b>Other</b> players ~. = 어떤 선수들은 ~. 다른 선수들은 ~.",
+   fix:[["These tricks make the game excitingly.","These tricks make the game exciting.","보어 → 형용사"],["They think the ball will goes backward.","They think the ball will go backward.","will + 동사원형"],["Neymar and Hazard does it often.","Neymar and Hazard do it often.","복수 주어 → do"]]}
+ ],
+ acts:[
+  {after:0,type:"hunt",lbl:"동사 헌터",title:"Verb Hunter",sub:"파자마 파티에서 하는 행동(동사)을 모두 터치하세요",
+   items:["They *fight* with their pillows.","They *sing* songs and *watch* scary movies.","They also *eat* delicious ice cream and *tell* funny stories.","After all these activities, they *lie* in bed and *fall* asleep."]},
+  {after:1,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["Sarah’s friends sleep over at her house.","O","She often invites her friends to sleep over at her house."],["They watch funny movies.","X","They sing songs and watch scary movies."],["Bananas have a lot of natural sugars.","O","Bananas have a lot of natural sugars."],["Bananas are hard to digest.","X","Bananas are easy to digest, too."],["Minerals help muscles work better.","O","These minerals help muscles work better."]]},
+  {after:2,type:"flip",lbl:"축구 기술 카드",title:"Soccer Trick Flip",sub:"앞면의 빈칸을 먼저 말한 뒤 카드를 여세요",small:true,
+   cards:[["Some players kick the ball ___ another player’s legs.","between","기술 1"],["This is a smart way to avoid ___.","a defender","기술 1"],["Who does trick 1 often?","Neymar and Eden Hazard","기술 1"],["They step on the ball and pretend to ___.","push it back","기술 2"],["Then, they quickly roll it ___.","forward","기술 2"],["Those players think the ball will go ___.","backward","기술 2"],["Who uses trick 2 often?","Messi and Ronaldo","기술 2"],["These tricks make the game ___.","exciting","정리"]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["Sarah loves having slumber parties.","Sarah는 파자마 파티를 매우 좋아한다."],["They lie in bed and fall asleep.","그들은 침대에 누워 잠이 든다."],["These sugars give them quick energy.","이러한 당분은 그들에게 빠른 에너지를 준다."],["Bananas are easy to digest.","바나나는 소화하기 쉽다."],["These tricks make the game exciting.","이러한 속임수들은 경기를 흥미진진하게 만든다."]]}
+ ],
+ battle:[
+  {t:"내용 · 07", q:"Sarah와 친구들은 무엇을 가지고 싸우나요?", a:"pillows (베개)", k:"They fight with their pillows.", p:1},
+  {t:"내용 · 07", q:"모든 활동 후에 그들은 무엇을 하나요?", a:"침대에 누워 잠이 든다", k:"they lie in bed and fall asleep", p:1},
+  {t:"내용 · 08", q:"바나나의 당분은 선수들에게 무엇을 주나요?", a:"quick energy (빠른 에너지)", k:"These sugars give them quick energy.", p:1},
+  {t:"O / X · 08", q:"미네랄은 근육이 더 잘 움직이도록 돕는다.", a:"O", k:"These minerals help muscles work better.", p:1},
+  {t:"내용 · 09", q:"다리 사이로 공을 차는 기술을 자주 쓰는 선수 2명은?", a:"Neymar, Eden Hazard", k:"Neymar and Eden Hazard do it often.", p:1},
+  {t:"내용 · 09", q:"두 번째 기술에서 상대 선수들은 공이 어디로 갈 거라고 생각하나요?", a:"backward (뒤로)", k:"Those players think the ball will go backward.", p:1},
+  {t:"문법 · 빈칸", q:"She often invites her friends <span class='en'>___</span> sleep over.", a:"to", k:"invite + 사람 + to 동사원형", p:1},
+  {t:"문법 · 빈칸", q:"They pretend <span class='en'>___</span> push it back.", a:"to", k:"pretend to = ~하는 체하다", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>These minerals help muscles works better.</span>", a:"These minerals help muscles work better.", k:"help + 목적어 + 동사원형", p:1},
+  {t:"영작", q:"“이러한 속임수들은 경기를 흥미진진하게 만든다.”", a:"These tricks make the game exciting.", k:"make + 목적어 + 형용사", p:1},
+  {t:"BONUS · 3점", q:"바나나가 선수에게 좋은 이유 3가지를 모두 말하면?", a:"천연 당분(빠른 에너지), 미네랄(근육), 소화가 쉬움", k:"sugars / minerals / easy to digest", p:3}
+ ],
+ exit:[["07 · love -ing","I love ______.","내가 정말 좋아하는 활동<br>예) I love watching movies."],["08 · easy to","______ is easy to ______.","~하기 쉬운 것<br>예) This book is easy to read."],["09 · make + O + 형용사","______ makes me excited.","나를 신나게 하는 것<br>예) Soccer makes me excited."]]
+},
+
+/* ---------------- UNIT 04 ---------------- */
+{no:"04",
+ passages:[
+  {no:"10", ko:"인도의 갠지스강", en:"The Ganges River in India",
+   task:"<b>Find</b> 인도 사람들이 갠지스강에서 하는 일 2가지",
+   note:["갠지스강은 인도 사람들에게 ‘어머니’ 같은 성스러운 강. 사진을 보여 주며 시작하세요.","think (that) / believe (that) / during + 명사 / because + 주어 + 동사를 짚어 주세요."],
+   lines:[
+    {en:"<s>People in India</s> <v>love</v> <o>the Ganges River</o>.", ko:"인도 사람들은 갠지스강을 사랑한다.", tip:"주어 = People (in India). in India가 주어를 꾸며요."},
+    {en:"<s>They</s> <v>think</v> / <o>it is like a mother</o>.", ko:"그들은 그것이 어머니와 같다고 생각한다.", tip:"think (that) 주어 + 동사 = ~라고 생각하다. like = ~와 같은 (전치사)."},
+    {en:"<s>They</s> <v>bathe</v> / in it / during special events.", ko:"그들은 특별한 행사들 동안 그 안에서 목욕을 한다.", tip:"bathe = 목욕하다. during + 명사 = ~ 동안."},
+    {en:"<s>Some people</s> <v>do</v> <o>this</o> / every day.", ko:"어떤 사람들은 이것을 매일 한다.", tip:"this = 강에서 목욕하는 것. every day = 매일."},
+    {en:"<s>They</s> <v>believe</v> / <o>it cleans their hearts</o>.", ko:"그들은 그것이 그들의 마음을 깨끗하게 해준다고 믿는다.", tip:"believe (that) 주어 + 동사 = ~라고 믿다. clean = 깨끗하게 하다 (동사)."},
+    {en:"<s>People</s> also <v>put</v> <o>candles</o> / by the river.", ko:"사람들은 또한 그 강가에 촛불을 놓는다.", tip:"put = 놓다. by = ~옆에."},
+    {en:"Then / <s>they</s> <v>pray</v> / to their gods.", ko:"그다음 그들은 그들의 신들에게 기도한다.", tip:"pray to ~ = ~에게 기도하다."},
+    {en:"<s>They</s> <v>do</v> <o>this</o> / because they want their gods’ blessings.", ko:"그들은 그들의 신들의 축복을 원하기 때문에 이것을 한다.", tip:"because + 주어 + 동사 = ~ 때문에. gods’ = 신들의 (복수 소유격)."}
+   ]},
+  {no:"11", ko:"AI 기술의 어두운 면", en:"The Dark Side of AI",
+   task:"<b>Think</b> AI의 좋은 면과 나쁜 면 나눠 보기",
+   note:["AI의 거짓 영상(딥페이크) 문제. 실제 사례를 짧게 이야기해 주세요.","can + 동사원형 / This is not a problem / If ~, it can ~ / should + 동사원형을 짚어 주세요."],
+   lines:[
+    {en:"<s>AI</s> <v>is</v> <c>a useful technology</c>.", ko:"AI는 유용한 기술이다.", tip:"useful = 쓸모 있는, 유용한. a + useful (발음이 ‘유’라서 an ✗)."},
+    {en:"<s>It</s> <v>can do</v> <o>many good things</o>.", ko:"그것은 많은 좋은 것들을 할 수 있다.", tip:"can + 동사원형."},
+    {en:"But / <s>it</s> also <v>has</v> <o>some bad sides</o>.", ko:"하지만 그것은 몇몇 나쁜 면들도 가지고 있다.", tip:"bad side = 나쁜 면. 3인칭 단수 it → has."},
+    {en:"For example, / <s>AI</s> <v>can lie</v>.", ko:"예를 들면, AI는 거짓말을 할 수 있다.", tip:"lie = 거짓말하다 (‘눕다’와 철자가 같아요!)."},
+    {en:"<s>It</s> <v>can change</v> <o>faces and voices</o> / in videos.", ko:"그것은 동영상 속 얼굴과 목소리를 바꿀 수 있다.", tip:"in videos = 동영상 속의."},
+    {en:"<s>This</s> <v>is not</v> <c>a problem</c> / in movies.", ko:"이것은 영화 속에서는 문제가 되지 않는다.", tip:"be동사 부정: is not (isn’t)."},
+    {en:"But / <s>it</s> <v>can tell</v> <o>fake stories</o> / to people online.", ko:"하지만 그것은 온라인에서 사람들에게 가짜 이야기를 말할 수 있다.", tip:"tell A to B = B에게 A를 말하다. fake = 가짜의."},
+    {en:"<s>This</s> <v>can be</v> <c>a big problem</c>.", ko:"이것은 큰 문제가 될 수 있다.", tip:"can be = ~일 수 있다 (be동사 원형)."},
+    {en:"If someone shares a fake video, / <s>it</s> <v>can cause</v> <o>trouble</o>.", ko:"만약 누군가가 가짜 동영상을 공유하면, 그것은 문제를 일으킬 수 있다.", tip:"If + 주어 + 동사 = 만약 ~하면. someone은 단수 → shares. cause = 일으키다."},
+    {en:"<s>AI</s> <v>is</v> <c>very helpful</c>.", ko:"AI는 매우 유용하다.", tip:"helpful = 도움이 되는."},
+    {en:"But / <s>we</s> <v>should use</v> <o>it</o> / in the right way.", ko:"하지만 우리는 그것을 올바른 방법으로 사용해야 한다.", tip:"should + 동사원형 = ~해야 한다. in the right way = 올바른 방법으로."}
+   ]},
+  {no:"12", ko:"새를 구하기 위한 소녀의 지혜", en:"A Girl’s Idea to Save Birds",
+   task:"<b>Find</b> 새들이 창문에 부딪힌 이유와 Betty의 해결책",
+   note:["문제(새들이 창문에 부딪힘) → 원인(창문이 안 보임) → 해결(창문에 꽃 그림). 원인-결과 구조로 정리.","When ~ / found that ~ / had happened / because vs because of / decide to를 짚어 주세요."],
+   lines:[
+    {en:"When Betty entered her bedroom, / <s>she</s> <v>found</v> / <o>that the window was broken</o>.", ko:"Betty가 그녀의 침실에 들어갔을 때, 그녀는 창문이 깨져 있는 것을 알아차렸다.", tip:"find-found = 알아차리다. find that ~ = ~라는 것을 알게 되다. broken = 깨진."},
+    {en:"And / there <v>was</v> <s>a dead bird</s> / on the floor.", ko:"그리고 바닥에는 죽은 새 한 마리가 있었다.", tip:"There was + 단수 = ~이 있었다. dead = 죽은."},
+    {en:"“Poor bird!”", ko:"“불쌍한 새!”", tip:"poor = 불쌍한 (‘가난한’이라는 뜻도 있어요)."},
+    {en:"<s>Betty</s> <v>felt</v> <c>very sad</c>.", ko:"Betty는 매우 슬프게 느꼈다.", tip:"feel + 형용사 = ~하게 느끼다. feel-felt."},
+    {en:"<s>This</s> <v>had happened</v> / several times / before.", ko:"이런 일은 전에도 여러 번 일어났다.", tip:"had + 과거분사 = (그 전에) ~했었다. several times = 여러 번."},
+    {en:"<s>Her bedroom window</s> <v>is</v> / next to a tree.", ko:"그녀의 침실 창문은 나무 옆에 있다.", tip:"next to = ~옆에. be + 장소 = ~에 있다."},
+    {en:"<s>Birds</s> often <v>flew</v> / into the window / because they couldn’t see it.", ko:"새들은 창문을 볼 수 없었기 때문에 종종 그 창문으로 날아들곤 했다.", tip:"fly-flew. because + 주어 + 동사 = ~ 때문에. couldn’t = can’t의 과거."},
+    {en:"Then / <s>Betty</s> <v>had</v> <o>a good idea</o>.", ko:"그때 Betty에게 좋은 생각이 떠올랐다.", tip:"have an idea = 생각이 떠오르다."},
+    {en:"<s>She</s> <v>decided</v> <o>to paint pictures on the window</o>.", ko:"그녀는 창문 위에 그림을 그리기로 결심했다.", tip:"decide to + 동사원형 = ~하기로 결심하다."},
+    {en:"<s>She</s> <v>painted</v> <o>big colorful flowers</o> / on it.", ko:"그녀는 그 위에 크고 형형색색의 꽃들을 그렸다.", tip:"colorful = 형형색색의. it = the window."},
+    {en:"Now, / <s>birds</s> <v>don’t hit</v> <o>the window</o>.", ko:"이제, 새들이 그 창문에 부딪히지 않는다.", tip:"현재 부정: don’t + 동사원형. hit = 부딪히다."},
+    {en:"Because of the colorful pictures, / <s>the birds</s> <v>can see</v> <o>the window</o>.", ko:"그 형형색색의 그림들 때문에, 새들은 그 창문을 볼 수 있다.", tip:"because of + 명사 = ~ 때문에. (because + 주어 + 동사와 비교!)"}
+   ]}
+ ],
+ riddle:{clues:["I am a big river.","I am in India.","People bathe in me.","People think I am like a mother."], answer:"The Ganges River! 갠지스강"},
+ grammar:[
+  {title:"think · believe (that) + 주어 + 동사", sub:"~라고 생각하다 / ~라고 믿다", formula:"주어 + think · believe + (<em>that</em>) 주어 + 동사",
+   ex:[["They <mark>think</mark> it is like a mother.","그것이 어머니 같다고 생각한다"],["They <mark>believe</mark> it cleans their hearts.","마음을 깨끗하게 해준다고 믿는다"],["She <mark>found that</mark> the window was broken.","창문이 깨진 것을 알게 됐다"]],
+   note:"that은 생략할 수 있어요.<br><b>during</b> + 명사 = ~ 동안 → during special events",
+   fix:[["They believe it clean their hearts.","They believe it cleans their hearts.","it(3인칭 단수) → cleans"],["They bathe in it during they have events.","They bathe in it during special events.","during + 명사"],["They think it like a mother.","They think it is like a mother.","that절에도 동사 필요"]]},
+  {title:"조동사 can · should · If 조건문", sub:"~할 수 있다 / ~해야 한다 / 만약 ~하면", formula:"<em>can · should</em> + 동사원형 | <em>If</em> + 주어 + 현재동사, 주어 + can ~",
+   ex:[["AI <mark>can change</mark> faces and voices in videos.","바꿀 수 있다"],["We <mark>should use</mark> it in the right way.","사용해야 한다"],["<mark>If</mark> someone <mark>shares</mark> a fake video, it can cause trouble.","만약 공유하면"]],
+   note:"can be + 명사 = ~일 수 있다 → This <b>can be</b> a big problem.<br>lie = 거짓말하다 / 눕다 (뜻이 두 개!)",
+   fix:[["AI can lies.","AI can lie.","can + 동사원형"],["We should to use it in the right way.","We should use it in the right way.","should + 동사원형 (to ✗)"],["If someone share a fake video, ...","If someone shares a fake video, ...","someone → 단수"]]},
+  {title:"because vs because of", sub:"~ 때문에", formula:"<em>because</em> + 주어 + 동사 | <em>because of</em> + 명사",
+   ex:[["Birds often flew into the window <mark>because</mark> they couldn’t see it.","because + 문장"],["<mark>Because of</mark> the colorful pictures, the birds can see the window.","because of + 명사"],["They do this <mark>because</mark> they want their gods’ blessings.","because + 문장"]],
+   note:"<b>feel + 형용사</b> → Betty felt very sad. (sadly ✗)<br><b>had + 과거분사</b> → This had happened several times before. (그 전에 이미)",
+   fix:[["Because the colorful pictures, birds can see it.","Because of the colorful pictures, birds can see it.","명사 앞 → because of"],["Birds flew into it because of they couldn’t see it.","Birds flew into it because they couldn’t see it.","문장 앞 → because"],["Betty felt very sadly.","Betty felt very sad.","feel + 형용사"]]}
+ ],
+ acts:[
+  {after:0,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["People in India think the Ganges River is like a father.","X","They think it is like a mother."],["Some people bathe in the river every day.","O","Some people do this every day."],["They believe the river cleans their hearts.","O","They believe it cleans their hearts."],["People put flowers by the river.","X","People also put candles by the river."],["They pray because they want blessings.","O","because they want their gods’ blessings"]]},
+  {after:1,type:"flip",lbl:"AI 좋은 면·나쁜 면",title:"Good AI vs Bad AI",sub:"앞면을 보고 좋은 면인지 나쁜 면인지 먼저 말한 뒤 여세요",small:true,
+   cards:[["AI is a useful technology.","좋은 면 👍","useful"],["It can do many good things.","좋은 면 👍","good things"],["AI can lie.","나쁜 면 👎","lie"],["It can tell fake stories to people online.","나쁜 면 👎","fake"],["If someone shares a fake video, it can cause trouble.","나쁜 면 👎","cause trouble"],["AI is very helpful.","좋은 면 👍","helpful"],["What should we do?","We should use it in the right way.","정리"],["Changing faces in movies is ___.","not a problem","영화 속"]]},
+  {after:2,type:"hunt",lbl:"because 헌터",title:"because Hunter",sub:"because 또는 because of를 찾아 터치하세요 (of까지!)",
+   items:["Birds often flew into the window *because* they couldn’t see it.","*Because* *of* the colorful pictures, the birds can see the window.","They do this *because* they want their gods’ blessings.","She was sad *because* *of* the dead bird."]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["They think it is like a mother.","그들은 그것이 어머니와 같다고 생각한다."],["We should use it in the right way.","우리는 그것을 올바른 방법으로 사용해야 한다."],["This can be a big problem.","이것은 큰 문제가 될 수 있다."],["She decided to paint pictures on the window.","그녀는 창문 위에 그림을 그리기로 결심했다."],["Now, birds don’t hit the window.","이제 새들이 그 창문에 부딪히지 않는다."]]}
+ ],
+ battle:[
+  {t:"내용 · 10", q:"인도 사람들은 갠지스강을 무엇과 같다고 생각하나요?", a:"a mother (어머니)", k:"They think it is like a mother.", p:1},
+  {t:"내용 · 10", q:"사람들이 강가에 놓는 것은?", a:"candles (촛불)", k:"People also put candles by the river.", p:1},
+  {t:"내용 · 11", q:"AI가 동영상 속에서 바꿀 수 있는 것 2가지는?", a:"faces and voices (얼굴과 목소리)", k:"It can change faces and voices in videos.", p:1},
+  {t:"O / X · 11", q:"얼굴을 바꾸는 것은 영화 속에서도 큰 문제다.", a:"X", k:"This is not a problem in movies.", p:1},
+  {t:"내용 · 12", q:"Betty가 침실에서 발견한 것 2가지는?", a:"깨진 창문, 죽은 새", k:"the window was broken / a dead bird", p:1},
+  {t:"내용 · 12", q:"Betty가 창문에 그린 것은?", a:"big colorful flowers", k:"크고 형형색색의 꽃들", p:1},
+  {t:"문법 · 빈칸", q:"We <span class='en'>___</span> use it in the right way. (~해야 한다)", a:"should", k:"should + 동사원형", p:1},
+  {t:"문법 · 빈칸", q:"<span class='en'>___</span> of the colorful pictures, the birds can see the window.", a:"Because", k:"because of + 명사", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>They believe it clean their hearts.</span>", a:"They believe it cleans their hearts.", k:"it → 3인칭 단수 -s", p:1},
+  {t:"영작", q:"“AI는 거짓말을 할 수 있다.”", a:"AI can lie.", k:"can + 동사원형", p:1},
+  {t:"BONUS · 3점", q:"새들이 창문에 부딪힌 이유는?", a:"창문을 볼 수 없었기 때문에", k:"because they couldn’t see it", p:3}
+ ],
+ exit:[["10 · believe (that)","I believe ______.","내가 믿는 것<br>예) I believe I can do it."],["11 · should","We should ______.","우리가 해야 하는 것<br>예) We should save water."],["12 · because","I was happy because ______.","행복했던 이유<br>예) I was happy because I got a gift."]]
+},
+/* ---------------- UNIT 05 ---------------- */
+{no:"05",
+ passages:[
+  {no:"13", ko:"엄마 침팬지의 사랑", en:"A Mother Chimpanzee’s Love",
+   task:"<b>Find</b> Natalia가 죽은 아기에게 보여 주는 행동 찾기",
+   note:["슬픈 이야기 → 감정을 나누며 읽어 주세요. 동물도 사랑과 슬픔을 느낀다는 점.","show + 사람 + 물건(4형식) / two weeks later / as sad as(원급 비교)를 짚어 주세요."],
+   lines:[
+    {en:"In a zoo in Spain, / there <v>is</v> <s>a mother chimpanzee</s>.", ko:"스페인의 한 동물원에 엄마 침팬지 한 마리가 있다.", tip:"There is + 단수 = ~이 있다. 장소(In a zoo in Spain)가 앞에 왔어요."},
+    {en:"<s>Her name</s> <v>is</v> <c>Natalia</c>.", ko:"그녀의 이름은 Natalia이다.", tip:"Her name(S) + is(V) + Natalia(C)."},
+    {en:"<s>She</s> <v>had</v> <o>a baby</o>, / but <s>the baby</s> <v>died</v> / two weeks later.", ko:"그녀는 아기를 낳았지만, 그 아기는 2주 후에 죽었다.", tip:"have a baby = 아기를 낳다. die-died. ~ later = ~ 후에."},
+    {en:"Surprisingly, / <s>Natalia</s> still <v>shows</v> <o>it</o> <o>love and care</o>.", ko:"놀랍게도, Natalia는 그것(그녀의 죽은 아기)에게 여전히 사랑과 관심을 보여준다.", tip:"show + 사람 + 물건 = ~에게 …을 보여주다 (4형식). still = 여전히."},
+    {en:"<s>She</s> <v>carries</v> <o>her baby</o> / everywhere.", ko:"그녀는 어디든 그녀의 아기를 데리고 간다.", tip:"carry → carries (자음 + y → ies). everywhere = 어디든."},
+    {en:"<s>She</s> also <v>touches</v> and <v>kisses</v> <o>it</o>.", ko:"그녀는 그것(그녀의 죽은 아기)을 만지고 입을 맞추기도 한다.", tip:"-ch, -ss로 끝나면 -es: touches, kisses."},
+    {en:"<s>People at the zoo</s> <v>understand</v> <o>her feelings</o>.", ko:"동물원의 사람들은 그녀의 감정을 이해한다.", tip:"주어 = People (at the zoo) → 복수 understand."},
+    {en:"<s>They</s> <v>feel</v> <c>as sad as Natalia</c>.", ko:"그들은 Natalia만큼 슬프게 느낀다.", tip:"as + 형용사 + as ~ = ~만큼 …한 (원급 비교)."}
+   ]},
+  {no:"14", ko:"꽃과 인간의 공통점", en:"Flowers and People",
+   task:"<b>Think</b> 흰 꽃의 말이 틀린 이유는?",
+   note:["꽃의 색깔 → 사람의 피부색으로 확장되는 비유. ‘모두 똑같이 아름답다’는 메시지를 강조하세요.","more beautiful than(비교급) vs as beautiful as(원급) / make a difference / equally를 짚어 주세요."],
+   lines:[
+    {en:"<s>A white flower</s> <v>says</v> / to a yellow flower, / “<s>I</s> <v>am</v> <c>more beautiful than you</c>.”", ko:"흰 꽃이 노란 꽃에게 말한다. “나는 너보다 더 아름다워.”", tip:"more + 형용사 + than ~ = ~보다 더 …한 (긴 형용사의 비교급)."},
+    {en:"<v>Is</v> <s>the white flower</s> <c>right</c>?", ko:"흰 꽃이 맞을까?", tip:"be동사 의문문: Is + 주어 + 형용사?"},
+    {en:"No.", ko:"그렇지 않다.", tip:"No = 아니다 (흰 꽃이 틀렸다)."},
+    {en:"<s>A yellow flower</s> <v>is</v> <c>as beautiful as a white flower</c>.", ko:"노란 꽃은 흰 꽃만큼 아름답다.", tip:"as + 형용사 + as = ~만큼 …한."},
+    {en:"<s>The color</s> <v>doesn’t make</v> <o>a difference</o>.", ko:"색깔은 중요하지 않다.", tip:"make a difference = 차이를 만들다, 중요하다. doesn’t + 동사원형."},
+    {en:"<s>Flowers of all colors</s> <v>are</v> <c>equally beautiful</c>.", ko:"모든 색깔의 꽃들은 똑같이 아름답다.", tip:"equally = 똑같이 (부사가 형용사 beautiful을 꾸밈)."},
+    {en:"In the same way, / <s>people of all colors</s> <v>are</v> <c>equally beautiful</c>.", ko:"마찬가지로, 모든 피부색의 사람들은 똑같이 아름답다.", tip:"In the same way = 마찬가지로."},
+    {en:"<s>They</s> <v>are</v> <c>all lovely children of Mother Nature</c>.", ko:"그들은 모두 대자연의 사랑스러운 아이들이다.", tip:"child → children (불규칙 복수). lovely = 사랑스러운 (형용사!)."}
+   ]},
+  {no:"15", ko:"화성에 박테리아 보내기", en:"Sending Bacteria to Mars",
+   task:"<b>Compare</b> 옛날 지구 vs 지금의 화성",
+   note:["과거 지구(산소 없음, 생명 없음) → 박테리아가 산소를 만듦 → 생명체 등장. 화성도 같은 방법으로?","as hot as / by using / As a result / If ~, they may ~ / will be as comfortable as를 짚어 주세요."],
+   lines:[
+    {en:"Long ago, / <s>Earth</s> <v>was</v> <c>empty</c>.", ko:"오래전에, 지구는 텅 비어 있었다.", tip:"Long ago = 오래전에. empty = 텅 빈."},
+    {en:"There <v>was</v> <s>no oxygen</s>.", ko:"산소가 없었다.", tip:"There was no + 명사 = ~이 없었다."},
+    {en:"And / <s>it</s> <v>was</v> <c>as hot as a stove</c>.", ko:"그리고 그것은 난로만큼 뜨거웠다.", tip:"as + 형용사 + as = ~만큼 …한."},
+    {en:"<s>No life</s> <v>could live</v> / on it.", ko:"어떤 생명체도 그 위에서 살 수 없었다.", tip:"No + 명사(주어) = 어떤 ~도 …않다."},
+    {en:"Then, / <s>something special</s> <v>happened</v>.", ko:"그때, 특별한 일이 일어났다.", tip:"something + 형용사 = 특별한 무언가."},
+    {en:"<s>Tiny bacteria</s> <v>appeared</v> / and <v>changed</v> <o>the Earth</o> completely.", ko:"아주 작은 박테리아가 나타나 지구를 완전히 바꿨다.", tip:"appear = 나타나다. completely = 완전히."},
+    {en:"<s>The bacteria</s> <v>made</v> <o>oxygen</o> / by using sunlight.", ko:"그 박테리아는 햇빛을 이용함으로써 산소를 만들었다.", tip:"by + 동사-ing = ~함으로써 (방법)."},
+    {en:"As a result, / <s>the Earth</s> <v>became</v> <c>a good place to live</c>.", ko:"그 결과, 지구는 살기에 좋은 장소가 되었다.", tip:"As a result = 그 결과. become-became. a good place to live = 살기에 좋은 장소."},
+    {en:"<s>Plants and animals</s> <v>started</v> <o>to show up</o>.", ko:"식물과 동물이 나타나기 시작했다.", tip:"start to + 동사원형 = ~하기 시작하다. show up = 나타나다."},
+    {en:"<s>Mars</s> <v>is</v> <c>like the young Earth</c> / in some ways.", ko:"화성은 몇 가지 면에서 초기의 지구와 같다.", tip:"like = ~와 같은. in some ways = 몇 가지 면에서."},
+    {en:"<s>It</s> <v>has</v> <o>no air and no life</o>.", ko:"그것은 공기가 없고 생명체도 없다.", tip:"have no + 명사 = ~이 없다."},
+    {en:"If we send bacteria to Mars, / <s>they</s> <v>may change</v> <o>the planet</o>.", ko:"만약 우리가 박테리아를 화성으로 보내면, 그것들이 그 행성을 바꿀지도 모른다.", tip:"If + 현재동사 = 만약 ~하면. may + 동사원형 = ~할지도 모른다."},
+    {en:"If that happens, / <s>Mars</s> <v>will be</v> <c>as comfortable as the Earth</c>.", ko:"만약 그런 일이 일어나면, 화성은 지구만큼 편안해질 것이다.", tip:"If절은 현재(happens), 주절은 미래(will be). as comfortable as = ~만큼 편안한."},
+    {en:"<s>It</s> <v>will become</v> <c>a new home for humans</c>.", ko:"그것은 인류에게 새로운 보금자리가 될 것이다.", tip:"will + 동사원형 = ~할 것이다."}
+   ]}
+ ],
+ riddle:{clues:["I am a planet.","I have no air and no life.","I am like the young Earth.","Maybe bacteria can change me."], answer:"Mars! 화성"},
+ grammar:[
+  {title:"원급 비교 as ~ as", sub:"~만큼 …한", formula:"A + be동사 + <em>as + 형용사 + as</em> + B",
+   ex:[["They feel <mark>as sad as</mark> Natalia.","Natalia만큼 슬프게"],["A yellow flower is <mark>as beautiful as</mark> a white flower.","흰 꽃만큼 아름다운"],["It was <mark>as hot as</mark> a stove.","난로만큼 뜨거운"]],
+   note:"as와 as 사이에는 형용사 <b>원래 모양</b>! (as hotter as ✗)<br><b>show + 사람 + 물건</b> → Natalia still shows <b>it love and care</b>.",
+   fix:[["They feel as sadder as Natalia.","They feel as sad as Natalia.","as + 원급 + as"],["It was as hot than a stove.","It was as hot as a stove.","as ~ as"],["She carrys her baby everywhere.","She carries her baby everywhere.","자음 + y → ies"]]},
+  {title:"비교급 -er / more ~ than", sub:"~보다 더 …한", formula:"형용사<em>-er</em> + than | <em>more</em> + 긴 형용사 + <em>than</em>",
+   ex:[["I am <mark>more beautiful than</mark> you.","너보다 더 아름다운"],["Laura asked for a <mark>bigger</mark> allowance.","big → bigger"],["The Earth is getting <mark>hotter</mark>.","hot → hotter"]],
+   note:"짧은 형용사: tall → <b>taller</b> / 긴 형용사: beautiful → <b>more beautiful</b><br><b>make a difference</b> = 중요하다 · <b>equally</b> = 똑같이",
+   fix:[["I am beautifuler than you.","I am more beautiful than you.","긴 형용사 → more"],["I am more beautiful as you.","I am more beautiful than you.","비교급 + than"],["The color don’t make a difference.","The color doesn’t make a difference.","3인칭 단수 → doesn’t"]]},
+  {title:"by -ing · If ~, will / may", sub:"~함으로써 / 만약 ~하면 …할 것이다", formula:"<em>by + 동사-ing</em> | <em>If</em> + 주어 + 현재동사, 주어 + <em>will · may</em> + 동사원형",
+   ex:[["The bacteria made oxygen <mark>by using</mark> sunlight.","햇빛을 이용함으로써"],["<mark>If</mark> we <mark>send</mark> bacteria to Mars, they <mark>may change</mark> the planet.","바꿀지도 모른다"],["<mark>If</mark> that <mark>happens</mark>, Mars <mark>will be</mark> as comfortable as the Earth.","편안해질 것이다"]],
+   note:"If절에서는 미래라도 <b>현재형</b>! (If that will happen ✗)<br><b>As a result</b> = 그 결과 · <b>a good place to live</b> = 살기 좋은 곳",
+   fix:[["If that will happen, Mars will be comfortable.","If that happens, Mars will be comfortable.","If절은 현재형"],["They made oxygen by use sunlight.","They made oxygen by using sunlight.","by + -ing"],["They may changes the planet.","They may change the planet.","may + 동사원형"]]}
+ ],
+ acts:[
+  {after:0,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["Natalia lives in a zoo in Spain.","O","In a zoo in Spain, there is a mother chimpanzee."],["Natalia’s baby died two months later.","X","the baby died two weeks later"],["Natalia carries her baby everywhere.","O","She carries her baby everywhere."],["People at the zoo don’t understand her feelings.","X","People at the zoo understand her feelings."],["People feel as sad as Natalia.","O","They feel as sad as Natalia."]]},
+  {after:1,type:"hunt",lbl:"비교 헌터",title:"Comparison Hunter",sub:"비교 표현(as ~ as / more ~ than)을 모두 터치하세요",
+   items:["I am *more* *beautiful* *than* you.","A yellow flower is *as* *beautiful* *as* a white flower.","They feel *as* *sad* *as* Natalia.","And it was *as* *hot* *as* a stove."]},
+  {after:2,type:"flip",lbl:"지구 vs 화성",title:"Earth vs Mars",sub:"앞면의 빈칸을 먼저 말한 뒤 카드를 여세요",small:true,
+   cards:[["Long ago, Earth was ___.","empty","옛날 지구"],["There was no ___.","oxygen","옛날 지구"],["It was as hot as ___.","a stove","옛날 지구"],["The bacteria made oxygen by using ___.","sunlight","박테리아"],["The Earth became a good place ___.","to live","결과"],["Mars has no ___ and no ___.","air / life","화성"],["If we send bacteria to Mars, they may ___.","change the planet","미래"],["Mars will become a new home for ___.","humans","미래"]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["They feel as sad as Natalia.","그들은 Natalia만큼 슬프게 느낀다."],["I am more beautiful than you.","나는 너보다 더 아름다워."],["The color doesn’t make a difference.","색깔은 중요하지 않다."],["The bacteria made oxygen by using sunlight.","그 박테리아는 햇빛을 이용해서 산소를 만들었다."],["It will become a new home for humans.","그것은 인류의 새로운 보금자리가 될 것이다."]]}
+ ],
+ battle:[
+  {t:"내용 · 13", q:"엄마 침팬지의 이름은?", a:"Natalia", k:"Her name is Natalia.", p:1},
+  {t:"내용 · 13", q:"Natalia가 죽은 아기에게 하는 행동 3가지는?", a:"데리고 다니기, 만지기, 입 맞추기", k:"carries / touches / kisses", p:1},
+  {t:"O / X · 14", q:"흰 꽃이 노란 꽃보다 더 아름답다.", a:"X", k:"A yellow flower is as beautiful as a white flower.", p:1},
+  {t:"내용 · 14", q:"모든 피부색의 사람들은 누구의 아이들인가요?", a:"Mother Nature (대자연)", k:"lovely children of Mother Nature", p:1},
+  {t:"내용 · 15", q:"박테리아는 무엇을 이용해서 산소를 만들었나요?", a:"sunlight (햇빛)", k:"by using sunlight", p:1},
+  {t:"내용 · 15", q:"오래전 지구는 무엇만큼 뜨거웠나요?", a:"a stove (난로)", k:"it was as hot as a stove", p:1},
+  {t:"문법 · 빈칸", q:"They feel <span class='en'>___</span> sad <span class='en'>___</span> Natalia.", a:"as / as", k:"as + 형용사 + as", p:1},
+  {t:"문법 · 빈칸", q:"I am more beautiful <span class='en'>___</span> you.", a:"than", k:"비교급 + than", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>If that will happen, Mars will be comfortable.</span>", a:"If that happens, Mars will be comfortable.", k:"If절은 현재형", p:1},
+  {t:"영작", q:"“노란 꽃은 흰 꽃만큼 아름답다.”", a:"A yellow flower is as beautiful as a white flower.", k:"as beautiful as", p:1},
+  {t:"BONUS · 3점", q:"지문 14에서 꽃의 색깔은 무엇에 비유되었나요?", a:"사람의 피부색", k:"people of all colors are equally beautiful", p:3}
+ ],
+ exit:[["13 · as ~ as","I am as ______ as ______.","나와 누군가를 비교<br>예) I am as tall as my dad."],["14 · more ~ than","______ is more ______ than ______.","두 가지 비교<br>예) Math is more difficult than English."],["15 · If ~, will","If it rains tomorrow, I will ______.","내일 비가 오면 할 일<br>예) If it rains tomorrow, I will stay home."]]
+},
+/* ---------------- UNIT 06 ---------------- */
+{no:"06",
+ passages:[
+  {no:"16", ko:"축구 선수 등번호의 숨겨진 의미", en:"The Hidden Meaning of Uniform Numbers",
+   task:"<b>Match</b> 포지션과 등번호 연결하기",
+   note:["골키퍼 1 / 수비수 2~6 / 공격수 7~11 / 10번 = 최고의 선수. 칠판에 표를 그려 채우게 하세요.","give + 사람 + 물건(4형식) / such as / What about ~?을 짚어 주세요."],
+   lines:[
+    {en:"In sports, / <s>players</s> <v>wear</v> <o>numbers</o> / on their uniforms.", ko:"스포츠에서 선수들은 그들의 유니폼에 등번호를 단다.", tip:"wear = (번호를) 달다, (옷을) 입다."},
+    {en:"<s>Their teams</s> <v>give</v> <o>them</o> <o>numbers</o>.", ko:"그들의 팀이 그들에게 번호를 준다.", tip:"give + 사람 + 물건 = ~에게 …을 주다 (4형식)."},
+    {en:"<s>The numbers</s> <v>show</v> <o>the players’ positions</o>.", ko:"그 번호는 그 선수들의 포지션을 보여준다.", tip:"players’ = 선수들의 (복수 소유격). position = 위치, 포지션."},
+    {en:"For example, / <s>goalkeepers</s> <v>wear</v> <o>number 1</o>.", ko:"예를 들면, 골키퍼는 1번을 단다.", tip:"For example = 예를 들면."},
+    {en:"<s>Defenders</s> <v>wear</v> <o>numbers 2 to 6</o>.", ko:"수비수는 2번에서 6번을 단다.", tip:"A to B = A부터 B까지."},
+    {en:"What about forwards?", ko:"공격수는 어떨까?", tip:"What about ~? = ~은 어때?"},
+    {en:"<s>They</s> <v>wear</v> <o>numbers 7 to 11</o>.", ko:"그들은 7번에서 11번을 단다.", tip:"They = forwards (공격수들)."},
+    {en:"<s>The number 10</s> <v>is</v> <c>special</c>.", ko:"10번은 특별하다.", tip:"special = 특별한."},
+    {en:"<s>The best players / such as Messi and Neymar</s> <v>wear</v> <o>that number</o>.", ko:"Messi와 Neymar 같은 최고의 선수들이 그 등번호를 단다.", tip:"such as ~ = ~와 같은. 주어가 길어도 동사는 wear."}
+   ]},
+  {no:"17", ko:"저기, 자리 좀 양보해 주세요!", en:"Excuse Me, Can You Give Up Your Seat?",
+   task:"<b>Find</b> 안내견이 자리를 찾은 순서 정리하기",
+   note:["안내견이 젊은 남자 → 어린 소녀 순서로 자리를 부탁한 이야기. 소녀의 행동에 대해 이야기 나누기.","과거형 got on, looked for, went, didn’t stand up, saw, gave / be crowded with / give + 사람 + 물건을 짚어 주세요."],
+   lines:[
+    {en:"<s>A blind man and his dog</s> <v>got on</v> <o>a subway</o>.", ko:"한 시각장애인 남자와 그의 개가 지하철에 탔다.", tip:"get on = (지하철, 버스를) 타다. get-got."},
+    {en:"<s>The subway</s> <v>was</v> <c>crowded with passengers</c>.", ko:"그 지하철은 승객들로 붐볐다.", tip:"be crowded with ~ = ~으로 붐비다."},
+    {en:"<s>The dog</s> <v>looked for</v> <o>a seat</o> / for the blind man.", ko:"그 개는 그 시각장애인 남자를 위한 자리를 찾았다.", tip:"look for = ~을 찾다."},
+    {en:"<s>The dog</s> <v>went</v> to a young man / and <v>looked at</v> <o>him</o>, / but <s>he</s> <v>didn’t stand up</v>.", ko:"그 개는 한 젊은 남자에게 가서 그를 쳐다봤지만, 그는 일어나지 않았다.", tip:"go-went. look at = ~을 보다. didn’t + 동사원형."},
+    {en:"<s>The dog</s> <v>moved</v> to a little girl / and <v>looked at</v> <o>her</o>.", ko:"그 개는 한 어린 소녀에게로 이동하여 그녀를 바라보았다.", tip:"move to = ~으로 이동하다."},
+    {en:"<s>The girl</s> <v>saw</v> <o>the blind man and the dog</o> / and <v>smiled</v> warmly.", ko:"그 소녀는 그 시각장애인 남자와 그 개를 보고 따뜻하게 미소를 지었다.", tip:"see-saw. warmly = 따뜻하게 (부사)."},
+    {en:"<s>She</s> <v>gave</v> <o>the man</o> <o>her seat</o>.", ko:"그녀는 그 남자에게 자신의 자리를 내주었다.", tip:"give + 사람 + 물건 → gave the man her seat = gave her seat to the man."}
+   ]},
+  {no:"18", ko:"폭탄을 탐지하는 꿀벌들", en:"Bees That Find Bombs",
+   task:"<b>Order</b> 꿀벌을 훈련시키는 과정 정리하기",
+   note:["벌이 폭탄 냄새 → 먹이 → 반복 → 혀를 내밀면 폭탄 발견! 순서대로 정리하세요.","be good at -ing / to find (목적) / learn (that) ~ will / are called / keep + O + 형용사를 짚어 주세요."],
+   lines:[
+    {en:"Did you know / bees can find bombs?", ko:"당신은 벌들이 폭탄을 찾을 수 있다는 것을 알았는가?", tip:"Did you know (that) ~? = ~라는 것을 알았니?"},
+    {en:"<s>It</s><v>’s</v> <c>true</c>!", ko:"그것은 사실이다!", tip:"It’s = It is."},
+    {en:"<s>Bees</s> <v>are</v> <c>very good at smelling</c>.", ko:"벌들은 냄새를 매우 잘 맡는다.", tip:"be good at + 명사/-ing = ~을 잘하다."},
+    {en:"<s>They</s> <v>use</v> <o>their strong sense of smell</o> / to find bombs.", ko:"그들은 폭탄을 찾기 위해서 그들의 강한 후각을 사용한다.", tip:"sense of smell = 후각. to find = 찾기 위해서 (목적)."},
+    {en:"How <v>do</v> <s>people</s> <v>train</v> <o>the bees</o>?", ko:"사람들은 벌들을 어떻게 훈련시킬까?", tip:"How do + 주어 + 동사원형? = 어떻게 ~할까?"},
+    {en:"<s>They</s> <v>give</v> <o>the bees</o> <o>yummy food</o> / when the bees smell a bomb.", ko:"그들은 그 벌들이 폭탄 냄새를 맡을 때 그 벌들에게 맛있는 먹이를 준다.", tip:"give + 대상 + 물건 (4형식). when = ~할 때."},
+    {en:"After doing this exercise a few times, / <s>the bees</s> <v>learn</v> / <o>they will get a treat / when they smell a bomb</o>.", ko:"이 훈련을 여러 번 한 후에, 그 벌들은 그들이 폭탄 냄새를 맡을 때 특별한 먹이를 받을 것이라는 것을 학습한다.", tip:"After + -ing = ~한 후에. learn (that) ~ = ~라는 것을 배우다. a few times = 몇 번."},
+    {en:"When the bees smell a bomb, / <s>they</s> <v>stick out</v> <o>their tongues</o> / because they expect food.", ko:"그 벌들은 폭탄 냄새를 맡을 때, 먹이를 기대하기 때문에 자신들의 혀를 내민다.", tip:"stick out = 내밀다. expect = 기대하다."},
+    {en:"<s>These special bees</s> <v>are called</v> <c>“sniffer bees.”</c>", ko:"이 특별한 벌들은 ‘냄새 탐지 벌’이라고 불린다.", tip:"be called ~ = ~라고 불리다 (수동태)."},
+    {en:"Isn’t that cool?", ko:"그것은 멋지지 않은가?", tip:"Isn’t that ~? = 그거 ~하지 않니? (부정 의문문)"},
+    {en:"<s>These little helpers</s> <v>can keep</v> <o>us</o> <c>safe</c>!", ko:"이 작은 도우미들은 우리를 안전하게 지켜줄 수 있다!", tip:"keep + 목적어 + 형용사 = ~을 …하게 유지하다."}
+   ]}
+ ],
+ riddle:{clues:["I am a small insect.","I am very good at smelling.","I stick out my tongue when I smell a bomb.","People call me a sniffer bee."], answer:"Sniffer bee! 냄새 탐지 벌"},
+ grammar:[
+  {title:"4형식: give · show + 사람 + 물건", sub:"~에게 …을 주다", formula:"주어 + give + <em>사람(~에게)</em> + <em>물건(…을)</em>",
+   ex:[["Their teams <mark>give them numbers</mark>.","그들에게 번호를 준다"],["She <mark>gave the man her seat</mark>.","그 남자에게 자리를 주었다"],["They <mark>give the bees yummy food</mark>.","벌들에게 맛있는 먹이를 준다"]],
+   note:"순서를 바꾸면 to: She gave <b>her seat to the man</b>.<br><b>such as</b> = ~와 같은 → players such as Messi and Neymar",
+   fix:[["She gave her seat the man.","She gave the man her seat.","사람 + 물건 순서"],["Their teams give numbers them.","Their teams give them numbers.","사람 + 물건 순서"],["She gave her seat for the man.","She gave her seat to the man.","give A to B"]]},
+  {title:"과거시제 이야기 · be crowded with", sub:"~했다 / ~으로 붐비다", formula:"불규칙 과거 | <em>be crowded with</em> + 명사",
+   ex:[["A blind man and his dog <mark>got on</mark> a subway.","get on → got on"],["The subway <mark>was crowded with</mark> passengers.","승객들로 붐볐다"],["The girl <mark>saw</mark> the blind man and <mark>smiled</mark> warmly.","see → saw"]],
+   note:"<b>look for</b> = 찾다 · <b>look at</b> = 보다 · <b>stand up</b> = 일어서다<br>부정: he <b>didn’t stand up</b>",
+   fix:[["The dog goed to a young man.","The dog went to a young man.","go-went"],["He didn’t stood up.","He didn’t stand up.","didn’t + 동사원형"],["The subway was crowded of passengers.","The subway was crowded with passengers.","be crowded with"]]},
+  {title:"be good at · be called · keep + O + 형용사", sub:"~을 잘하다 / ~라고 불리다 / ~을 …하게 유지하다", formula:"be good at + <em>-ing</em> | be <em>called</em> ~ | keep + O + <em>형용사</em>",
+   ex:[["Bees are very <mark>good at smelling</mark>.","냄새를 잘 맡는다"],["These special bees <mark>are called</mark> “sniffer bees.”","~라고 불린다"],["These little helpers can <mark>keep us safe</mark>!","우리를 안전하게 지킨다"]],
+   note:"<b>After + -ing</b> = ~한 후에 → After doing this exercise<br><b>learn (that)</b> 주어 + will ~ = ~할 거라는 걸 배우다",
+   fix:[["Bees are good at smell.","Bees are good at smelling.","at 뒤 → -ing"],["These bees call sniffer bees.","These bees are called sniffer bees.","~라고 불리다 → be called"],["They can keep us safely.","They can keep us safe.","keep + O + 형용사"]]}
+ ],
+ acts:[
+  {after:0,type:"flip",lbl:"등번호 카드",title:"Number Flip",sub:"포지션을 보고 등번호를 먼저 말한 뒤 카드를 여세요",
+   cards:[["goalkeepers","number 1","골키퍼"],["defenders","numbers 2 to 6","수비수"],["forwards","numbers 7 to 11","공격수"],["the special number","number 10","최고의 선수"],["Who wears number 10?","Messi and Neymar","such as"],["Who gives players numbers?","their teams","4형식"],["What do the numbers show?","the players’ positions","포지션"],["number 3","defender","함정!"]]},
+  {after:1,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["The subway was crowded with passengers.","O","The subway was crowded with passengers."],["The young man gave his seat to the blind man.","X","he didn’t stand up"],["The dog looked for a seat for the blind man.","O","The dog looked for a seat for the blind man."],["The little girl smiled warmly.","O","smiled warmly"],["The blind man found the seat by himself.","X","She gave the man her seat."]]},
+  {after:2,type:"hunt",lbl:"4형식 헌터",title:"Give Hunter",sub:"give 뒤의 ‘사람(~에게)’과 ‘물건(…을)’을 모두 터치하세요",
+   items:["Their teams give *them* *numbers*.","She gave *the* *man* *her* *seat*.","They give *the* *bees* *yummy* *food*.","Natalia still shows *it* *love* *and* *care*."]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["Their teams give them numbers.","그들의 팀이 그들에게 번호를 준다."],["The subway was crowded with passengers.","그 지하철은 승객들로 붐볐다."],["She gave the man her seat.","그녀는 그 남자에게 자신의 자리를 내주었다."],["Bees are very good at smelling.","벌들은 냄새를 매우 잘 맡는다."],["These little helpers can keep us safe.","이 작은 도우미들은 우리를 안전하게 지켜줄 수 있다."]]}
+ ],
+ battle:[
+  {t:"내용 · 16", q:"골키퍼가 다는 등번호는?", a:"number 1", k:"goalkeepers wear number 1", p:1},
+  {t:"내용 · 16", q:"공격수가 다는 등번호는?", a:"7번에서 11번", k:"They wear numbers 7 to 11.", p:1},
+  {t:"내용 · 17", q:"개가 처음 다가간 사람은?", a:"a young man (젊은 남자)", k:"The dog went to a young man", p:1},
+  {t:"O / X · 17", q:"어린 소녀는 시각장애인에게 자리를 양보했다.", a:"O", k:"She gave the man her seat.", p:1},
+  {t:"내용 · 18", q:"벌들은 폭탄 냄새를 맡으면 무엇을 내미나요?", a:"tongues (혀)", k:"they stick out their tongues", p:1},
+  {t:"내용 · 18", q:"폭탄을 찾는 벌들을 무엇이라고 부르나요?", a:"sniffer bees", k:"These special bees are called “sniffer bees.”", p:1},
+  {t:"문법 · 빈칸", q:"The subway was crowded <span class='en'>___</span> passengers.", a:"with", k:"be crowded with", p:1},
+  {t:"문법 · 빈칸", q:"Bees are very good at <span class='en'>___</span>. (smell)", a:"smelling", k:"be good at + -ing", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>She gave her seat the man.</span>", a:"She gave the man her seat. (= her seat to the man)", k:"give + 사람 + 물건", p:1},
+  {t:"영작", q:"“이 특별한 벌들은 ‘냄새 탐지 벌’이라고 불린다.”", a:"These special bees are called “sniffer bees.”", k:"be called", p:1},
+  {t:"BONUS · 3점", q:"벌들이 폭탄 냄새를 맡으면 혀를 내미는 이유는?", a:"먹이를 기대하기 때문에", k:"because they expect food", p:3}
+ ],
+ exit:[["16 · give + 사람 + 물건","My mom gave me ______.","엄마가 나에게 준 것<br>예) My mom gave me a new bag."],["17 · be crowded with","The ______ was crowded with ______.","붐볐던 장소<br>예) The park was crowded with people."],["18 · be good at","I am good at ______.","내가 잘하는 것<br>예) I am good at singing."]]
+},
+
+/* ---------------- UNIT 07 ---------------- */
+{no:"07",
+ passages:[
+  {no:"19", ko:"한국에도 열대 과일이 자란다", en:"Tropical Fruits Grow in Korea",
+   task:"<b>Find</b> 한국에서 열대 과일이 자랄 수 있게 된 이유",
+   note:["지구 온난화 → 한국 기후가 더워짐 → 열대 과일 재배. 원인-결과를 화살표로 정리하세요.","be getting hotter(점점 ~해지다) / warm enough / make + O + 형용사를 짚어 주세요."],
+   lines:[
+    {en:"<s>Mangoes and papayas</s> <v>are</v> <c>tropical fruits</c>.", ko:"망고와 파파야는 열대 과일들이다.", tip:"mango → mangoes (-o로 끝나면 -es). tropical = 열대의."},
+    {en:"<s>They</s> <v>come from</v> <o>the hot countries of Southeast Asia</o>.", ko:"그것들은 동남아시아의 더운 나라에서 온다.", tip:"come from = ~에서 오다. country → countries."},
+    {en:"But now / <s>Korean farmers</s> <v>can grow</v> <o>them</o>.", ko:"하지만 이제 한국의 농부들은 그것들을 재배할 수 있다.", tip:"grow = 재배하다 (목적어가 있을 때) / 자라다."},
+    {en:"How <v>is</v> <s>this</s> <c>possible</c>?", ko:"어떻게 이것이 가능할까?", tip:"How is ~ possible? = ~이 어떻게 가능할까?"},
+    {en:"<v>Is</v> <s>Korea</s> <c>warm enough</c>?", ko:"한국이 충분히 따뜻한가?", tip:"형용사 + enough = 충분히 ~한 (enough가 뒤에!)."},
+    {en:"Yes, / <s>it</s> <v>is</v>.", ko:"그렇다.", tip:"Is ~? → Yes, it is. / No, it isn’t."},
+    {en:"And / here <v>is</v> <s>the reason</s>.", ko:"그리고 여기에 그 이유가 있다.", tip:"Here is ~ = 여기에 ~이 있다."},
+    {en:"<s>The Earth</s> <v>is getting</v> <c>hotter</c>.", ko:"지구는 점점 더워지고 있다.", tip:"get + 비교급 = 점점 ~해지다. is getting = 현재진행."},
+    {en:"<s>This</s> <v>makes</v> <o>the Korean climate</o> <c>hotter</c>, too.", ko:"이것은 한국의 기후도 더 덥게 만든다.", tip:"make + 목적어 + 형용사(비교급)."},
+    {en:"Now, / <s>some tropical fruits</s> <v>can grow</v> well / in Korea.", ko:"이제 몇몇 열대 과일들은 한국에서 잘 자랄 수 있다.", tip:"grow well = 잘 자라다 (well은 부사)."}
+   ]},
+  {no:"20", ko:"내 기도가 할아버지에게 닿기를!", en:"I Hope Grandpa Hears My Prayer!",
+   task:"<b>Guess</b> John이 큰 소리로 기도한 진짜 이유는?",
+   note:["유머 지문 → 역할극으로! 마지막 줄의 반전(할아버지가 들으라고)을 꼭 이해시키세요.","to make Grandpa happy(목적) / was coming(과거진행) / Why are you -ing? / can hear well을 짚어 주세요."],
+   lines:[
+    {en:"<s>John</s> <v>loved</v> <o>chocolate</o>.", ko:"John은 초콜릿을 아주 좋아했다.", tip:"love-loved."},
+    {en:"But / <s>his mom</s> <v>worried about</v> <o>his teeth</o>.", ko:"하지만 그의 엄마는 그의 치아에 대해 걱정했다.", tip:"worry about = ~에 대해 걱정하다. worry → worried. tooth → teeth."},
+    {en:"Sometimes / <s>Grandpa</s> <v>gave</v> <o>him</o> <o>chocolate</o>.", ko:"때때로 할아버지가 그에게 초콜릿을 주었다.", tip:"give + 사람 + 물건 (4형식). give-gave."},
+    {en:"<s>John’s mom</s> <v>didn’t say</v> <o>anything</o> / to make Grandpa happy.", ko:"John의 엄마는 할아버지를 기쁘게 만들기 위해서 아무 말도 하지 않았다.", tip:"to make = 만들기 위해서. make + O + 형용사. didn’t say anything = 아무 말도 하지 않았다."},
+    {en:"<s>John’s birthday</s> <v>was coming</v> soon.", ko:"John의 생일이 곧 다가오고 있었다.", tip:"was + -ing = ~하고 있었다 (과거진행)."},
+    {en:"In his room, / <s>John</s> <v>prayed</v> loudly, / “God, please <v>give</v> <o>me</o> <o>chocolate</o> / for my birthday!”", ko:"John은 그의 방에서 큰 소리로 기도했다. “하느님, 제 생일에 저에게 초콜릿을 주세요!”", tip:"loudly = 큰 소리로. please + 동사원형 = ~해 주세요."},
+    {en:"<s>His mom</s> <v>asked</v>, / “Why <v>are</v> <s>you</s> <v>shouting</v>, John? / <s>God</s> <v>can hear</v> well.”", ko:"그의 엄마는 물었다. “왜 너는 소리를 지르고 있니, John? 하느님은 잘 들으실 수 있단다.”", tip:"Why are you -ing? = 왜 ~하고 있니? shout = 소리치다."},
+    {en:"<s>John</s> <v>said</v>, / “<s>I</s> <v>know</v>, / but <s>Grandpa / in the next room</s> <v>can’t hear</v> very well.”", ko:"John은 말했다. “저도 알아요, 하지만 옆방에 계신 할아버지는 잘 못 들으세요.”", tip:"주어 = Grandpa (in the next room). can’t hear well = 잘 못 듣다."}
+   ]},
+  {no:"21", ko:"생태계의 순환", en:"The Cycle of Life",
+   task:"<b>Draw</b> 먹이 사슬을 화살표로 그려 보기",
+   note:["옥수수 → 쥐 → 뱀 → 독수리 → 똥 → 흙 → 옥수수. 칠판에 순환 그림을 그리며 읽으세요.","현재진행(is eating, is watching) / love -ing / realize that / keep + O + 형용사 / will go on을 짚어 주세요."],
+   lines:[
+    {en:"<s>A mouse</s> <v>is eating</v> <o>corn</o>.", ko:"쥐 한 마리가 옥수수를 먹고 있다.", tip:"is + -ing = ~하고 있다 (현재진행)."},
+    {en:"Suddenly / <s>a hungry snake</s> <v>comes along</v>.", ko:"갑자기 배고픈 뱀이 나타난다.", tip:"come along = 나타나다. suddenly = 갑자기."},
+    {en:"Yum!", ko:"맛있겠군!", tip:"Yum! = 냠냠, 맛있겠다!"},
+    {en:"<s>The snake</s> <v>loves</v> <o>eating mice</o> / and <v>swallows</v> <o>him</o> quickly.", ko:"그 뱀은 쥐를 잡아먹는 것을 너무 좋아해서 재빨리 그를 삼켜버린다.", tip:"love + -ing. mouse → mice (불규칙 복수). swallow = 삼키다."},
+    {en:"But / <s>the snake</s> <v>doesn’t realize</v> / <o>that an eagle is watching him / from the sky</o>.", ko:"하지만 그 뱀은 독수리 한 마리가 하늘에서 자신을 지켜보고 있다는 것을 깨닫지 못한다.", tip:"realize that ~ = ~라는 것을 깨닫다. is watching = 지켜보고 있다."},
+    {en:"<s>The eagle</s> <v>likes</v> <o>eating snakes</o>.", ko:"그 독수리는 뱀을 잡아먹는 것을 좋아한다.", tip:"like + -ing = ~하는 것을 좋아하다."},
+    {en:"<s>She</s> <v>flies</v> / toward the snake / and <v>eats</v> <o>him</o>.", ko:"그녀는 그 뱀을 향해 날아가서 그를 잡아먹는다.", tip:"fly → flies. toward = ~을 향하여."},
+    {en:"<s>The eagle</s> <v>poops</v> / on the ground.", ko:"그 독수리는 땅 위에 똥을 싼다.", tip:"poop = 똥을 싸다 (동사) / 똥 (명사)."},
+    {en:"<s>The poop</s> <v>keeps</v> <o>the ground</o> <c>good and healthy</c>.", ko:"그 똥은 땅을 좋고 건강하게 유지해 준다.", tip:"keep + 목적어 + 형용사 = ~을 …하게 유지하다."},
+    {en:"<s>New corn</s> <v>grows</v> / from the good soil.", ko:"그 좋은 흙으로부터 새 옥수수가 자란다.", tip:"grow = 자라다. soil = 흙."},
+    {en:"Now / <s>we</s> <v>are back</v> / to the start of the food chain / with new corn.", ko:"이제 우리는 새로운 옥수수와 함께 먹이 사슬의 시작점으로 돌아왔다.", tip:"be back to ~ = ~으로 돌아오다. food chain = 먹이 사슬."},
+    {en:"Soon, / <s>another mouse</s> <v>will come along</v>, / and then a snake, / and then an eagle.", ko:"곧, 또 다른 쥐가 나타날 것이고, 그다음에는 뱀이, 그다음에는 독수리가 나타날 것이다.", tip:"will + 동사원형 = ~할 것이다. another = 또 다른 하나의."},
+    {en:"<s>This cycle of life</s> <v>will go on</v> forever.", ko:"이 생명의 순환은 영원히 계속될 것이다.", tip:"go on = 계속되다. forever = 영원히."}
+   ]}
+ ],
+ riddle:{clues:["I am a boy.","I love chocolate.","I prayed loudly in my room.","I wanted Grandpa to hear me."], answer:"John! 존"},
+ grammar:[
+  {title:"get + 비교급 · 형용사 + enough", sub:"점점 ~해지다 / 충분히 ~한", formula:"be getting + <em>비교급</em> | <em>형용사 + enough</em>",
+   ex:[["The Earth <mark>is getting hotter</mark>.","점점 더워지고 있다"],["Is Korea <mark>warm enough</mark>?","충분히 따뜻한가?"],["This <mark>makes</mark> the Korean climate <mark>hotter</mark>, too.","더 덥게 만든다"]],
+   note:"hot → <b>hotter</b> (자음 하나 더!) · warm → <b>warmer</b><br>enough는 형용사 <b>뒤</b>: warm enough (enough warm ✗)",
+   fix:[["Is Korea enough warm?","Is Korea warm enough?","형용사 + enough"],["The Earth is getting hoter.","The Earth is getting hotter.","hot → hotter"],["This makes the climate hotly.","This makes the climate hotter.","make + O + 형용사"]]},
+  {title:"과거진행 · 현재진행", sub:"~하고 있었다 / ~하고 있다", formula:"<em>was · were</em> + 동사-ing | <em>am · is · are</em> + 동사-ing",
+   ex:[["John’s birthday <mark>was coming</mark> soon.","다가오고 있었다"],["Why <mark>are</mark> you <mark>shouting</mark>, John?","소리를 지르고 있니?"],["A mouse <mark>is eating</mark> corn.","먹고 있다"]],
+   note:"<b>to + 동사원형</b> (목적) → to make Grandpa happy<br><b>worry about</b> = ~에 대해 걱정하다 · tooth → <b>teeth</b>",
+   fix:[["Why do you shouting?","Why are you shouting?","be + -ing"],["His birthday were coming soon.","His birthday was coming soon.","단수 → was"],["She didn’t say anything to makes Grandpa happy.","She didn’t say anything to make Grandpa happy.","to + 동사원형"]]},
+  {title:"realize that · keep + O + 형용사", sub:"~라는 것을 깨닫다 / ~을 …하게 유지하다", formula:"realize (<em>that</em>) 주어 + 동사 | keep + O + <em>형용사</em>",
+   ex:[["The snake doesn’t <mark>realize that</mark> an eagle is watching him.","깨닫지 못한다"],["The poop <mark>keeps</mark> the ground <mark>good and healthy</mark>.","좋고 건강하게 유지한다"],["The snake <mark>loves eating</mark> mice.","love + -ing"]],
+   note:"불규칙 복수: mouse → <b>mice</b> · tooth → <b>teeth</b> · child → <b>children</b><br>fly → <b>flies</b> (자음 + y → ies)",
+   fix:[["The snake loves eating mouses.","The snake loves eating mice.","mouse → mice"],["The poop keeps the ground healthily.","The poop keeps the ground healthy.","keep + O + 형용사"],["She flys toward the snake.","She flies toward the snake.","자음 + y → ies"]]}
+ ],
+ acts:[
+  {after:0,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["Mangoes and papayas are tropical fruits.","O","Mangoes and papayas are tropical fruits."],["They come from the cold countries of Europe.","X","They come from the hot countries of Southeast Asia."],["Korean farmers can grow them now.","O","But now Korean farmers can grow them."],["The Earth is getting colder.","X","The Earth is getting hotter."],["Some tropical fruits can grow well in Korea.","O","Now, some tropical fruits can grow well in Korea."]]},
+  {after:1,type:"role",lbl:"역할극",title:"Role-play: John’s Prayer",sub:"3명이 나와서 역할을 나눠 읽어요 (John은 아주 큰 소리로!)",
+   roles:[["Narrator 해설","var(--muted)"],["John 존","var(--tA)"],["Mom 엄마","var(--tB)"]],
+   script:[[0,"John loved chocolate. But his mom worried about his teeth. Sometimes Grandpa gave him chocolate."],[0,"John’s birthday was coming soon. In his room, John prayed loudly."],[1,"God, please give me chocolate for my birthday!"],[2,"Why are you shouting, John? God can hear well."],[1,"I know, but Grandpa in the next room can’t hear very well."]]},
+  {after:2,type:"flip",lbl:"먹이 사슬 카드",title:"Food Chain Flip",sub:"앞면을 보고 ‘누가 누구를 먹나’ 먼저 말한 뒤 여세요",small:true,
+   cards:[["A mouse is eating ___.","corn","1단계"],["The snake loves eating ___.","mice","2단계"],["Who is watching the snake from the sky?","an eagle","3단계"],["The eagle likes eating ___.","snakes","3단계"],["The eagle ___ on the ground.","poops","4단계"],["The poop keeps the ground ___.","good and healthy","5단계"],["New corn grows from ___.","the good soil","6단계"],["This cycle of life will go on ___.","forever","정리"]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["The Earth is getting hotter.","지구는 점점 더워지고 있다."],["John’s birthday was coming soon.","John의 생일이 곧 다가오고 있었다."],["Why are you shouting, John?","왜 너는 소리를 지르고 있니, John?"],["The snake loves eating mice.","그 뱀은 쥐를 잡아먹는 것을 좋아한다."],["This cycle of life will go on forever.","이 생명의 순환은 영원히 계속될 것이다."]]}
+ ],
+ battle:[
+  {t:"내용 · 19", q:"망고와 파파야는 원래 어디에서 오나요?", a:"동남아시아의 더운 나라", k:"the hot countries of Southeast Asia", p:1},
+  {t:"내용 · 19", q:"한국 기후가 더워진 이유는?", a:"지구가 점점 더워지고 있어서", k:"The Earth is getting hotter.", p:1},
+  {t:"내용 · 20", q:"John의 엄마가 걱정한 것은?", a:"his teeth (그의 치아)", k:"his mom worried about his teeth", p:1},
+  {t:"내용 · 20", q:"John은 생일에 무엇을 달라고 기도했나요?", a:"chocolate", k:"please give me chocolate for my birthday", p:1},
+  {t:"O / X · 21", q:"뱀은 독수리가 자신을 보고 있다는 것을 안다.", a:"X", k:"the snake doesn’t realize that an eagle is watching him", p:1},
+  {t:"내용 · 21", q:"새 옥수수는 무엇으로부터 자라나요?", a:"the good soil (좋은 흙)", k:"New corn grows from the good soil.", p:1},
+  {t:"문법 · 빈칸", q:"Is Korea warm <span class='en'>___</span>? (충분히)", a:"enough", k:"형용사 + enough", p:1},
+  {t:"문법 · 빈칸", q:"Why are you <span class='en'>___</span>, John? (shout)", a:"shouting", k:"be + -ing", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>The snake loves eating mouses.</span>", a:"The snake loves eating mice.", k:"mouse → mice", p:1},
+  {t:"영작", q:"“지구는 점점 더워지고 있다.”", a:"The Earth is getting hotter.", k:"get + 비교급", p:1},
+  {t:"BONUS · 3점", q:"John이 큰 소리로 기도한 진짜 이유는?", a:"옆방 할아버지가 듣고 초콜릿을 주시도록", k:"Grandpa in the next room can’t hear very well.", p:3}
+ ],
+ exit:[["19 · get + 비교급","It is getting ______.","요즘 점점 변하는 것<br>예) It is getting colder."],["20 · 과거진행","Yesterday at 8, I was ______.","어제 8시에 하고 있던 일<br>예) Yesterday at 8, I was eating dinner."],["21 · keep + O + 형용사","______ keeps me healthy.","나를 건강하게 해 주는 것<br>예) Exercise keeps me healthy."]]
+},
+/* ---------------- UNIT 08 ---------------- */
+{no:"08",
+ passages:[
+  {no:"22", ko:"AI로 증명사진 만들기", en:"Making ID Photos with AI",
+   task:"<b>Find</b> AI가 증명사진을 위해 해 주는 일 모두 찾기",
+   note:["실생활 AI 활용. 옷 바꾸기·미소 짓게 하기·배경 바꾸기/지우기를 번호로 정리하세요.","명령문(Just give ~) / give A to B / make you smile / may / even을 짚어 주세요."],
+   lines:[
+    {en:"<v>Do</v> <s>you</s> <v>need</v> <o>a new ID photo</o>?", ko:"당신은 새로운 증명사진이 필요한가?", tip:"Do + 주어 + 동사원형? ID photo = 증명사진."},
+    {en:"Just <v>give</v> <o>one of your pictures</o> / to AI.", ko:"당신의 사진들 중의 하나를 AI에게 주기만 하라.", tip:"명령문: 동사원형으로 시작. one of + 복수 명사 = ~ 중 하나. give A to B."},
+    {en:"<s>AI</s> <v>will look at</v> <o>it</o> / and <v>make</v> <o>a nice ID photo</o> / for you / quickly.", ko:"AI가 그것을 보고 당신에게 멋진 증명사진을 빨리 만들어 줄 것이다.", tip:"will look ~ and (will) make. make A for B = B를 위해 A를 만들다."},
+    {en:"<s>AI</s> <v>can change</v> <o>your clothes</o>.", ko:"AI는 당신의 옷을 바꿔줄 수 있다.", tip:"clothes = 옷 (항상 복수)."},
+    {en:"<s>It</s> <v>can</v> also <v>make</v> <o>you</o> <c>smile</c>.", ko:"그것은 당신이 미소를 짓도록 만들 수도 있다.", tip:"make + 목적어 + 동사원형 = ~가 …하게 만들다."},
+    {en:"<s>You</s> <v>may not like</v> <o>some parts of the background</o>.", ko:"당신은 그 배경의 몇몇 부분들이 마음에 들지 않을지도 모른다.", tip:"may not + 동사원형 = ~하지 않을지도 모른다. background = 배경."},
+    {en:"<s>AI</s> <v>can change</v> or even <v>erase</v> <o>them</o>, too.", ko:"AI가 그것들을 바꾸거나 심지어 지울 수도 있다.", tip:"even = 심지어. erase = 지우다. them = some parts."},
+    {en:"Now / <s>your photo</s> <v>is</v> <c>ready</c>!", ko:"이제 당신의 사진이 준비되었다!", tip:"ready = 준비가 된."},
+    {en:"Just <v>download</v> <o>it</o>.", ko:"그것을 다운로드만 하면 된다.", tip:"Just + 동사원형 = 그냥 ~하기만 해."},
+    {en:"<s>It</s> <v>is</v> <c>quick and simple</c>.", ko:"그것은 빠르고 간단하다.", tip:"형용사 2개가 보어(C)."}
+   ]},
+  {no:"23", ko:"파란색의 다양한 의미", en:"The Many Meanings of Blue",
+   task:"<b>Compare</b> 서양과 중국에서 파란색의 의미",
+   note:["서양: 행운 / 중국: 새로운 시작 또는 죽음. 나라마다 색의 의미가 다르다는 점을 이야기해 주세요.","believed (that) / made them feel happy / wear blue to win / however를 짚어 주세요."],
+   lines:[
+    {en:"Long ago, / <s>people</s> <v>believed</v> / <o>the blue sky was the home of the gods</o>.", ko:"오래전에, 사람들은 파란 하늘이 신들의 집이라고 믿었다.", tip:"believe (that) 주어 + 동사 = ~라고 믿다. 과거라서 was."},
+    {en:"So / <s>blue</s> <v>made</v> <o>them</o> <c>feel happy</c>.", ko:"그래서 파란색은 그들을 행복하게 느끼도록 만들었다.", tip:"make + 목적어 + 동사원형 → made them feel. feel + 형용사(happy)."},
+    {en:"In the West, / <s>many people</s> still <v>think</v> / <o>that blue brings good luck</o>.", ko:"서양에서는 많은 사람들이 파란색이 행운을 가져다 준다고 여전히 생각한다.", tip:"the West = 서양. think that ~ = ~라고 생각하다. blue(단수) → brings."},
+    {en:"<s>Some athletes</s> <v>wear</v> <o>blue</o> / to win.", ko:"몇몇 운동선수들은 우승하기 위해서 파란색을 입는다.", tip:"to win = 이기기 위해서 (목적)."},
+    {en:"In China, however, / <s>blue</s> <v>can mean</v> <o>a new start or death</o>.", ko:"하지만 중국에서는 파란색이 새로운 시작이나 죽음을 의미할 수 있다.", tip:"however = 하지만 (문장 중간에 콤마와 함께). mean = 의미하다."},
+    {en:"So / <s>people</s> sometimes <v>wear</v> <o>blue</o> / at funerals.", ko:"그래서 사람들은 때때로 장례식에서 파란색을 입는다.", tip:"sometimes는 일반동사 앞. funeral = 장례식."},
+    {en:"<s>Blue</s> <v>is</v> <c>a cool color</c>.", ko:"파란색은 멋진 색이다.", tip:"cool = 멋진; 시원한."},
+    {en:"<s>It</s> <v>can mean</v> <o>many things</o> / around the world.", ko:"그것은 전 세계적으로 많은 것을 의미할 수 있다.", tip:"around the world = 전 세계에서."}
+   ]},
+  {no:"24", ko:"새 친구를 사귀려면 눈을 맞추세요", en:"Make Eye Contact to Make Friends",
+   task:"<b>Find</b> 눈 맞춤으로 친구 사귀는 방법 3가지",
+   note:["명령문으로 된 조언 글. Do(하세요) / Don’t(하지 마세요)로 나눠 정리하세요.","명령문 Use / look back / Don’t look / If ~ / make them feel uncomfortable / help them approach를 짚어 주세요."],
+   lines:[
+    {en:"<s>You</s> <v>are</v> / at a party.", ko:"당신은 파티에 있다.", tip:"be + 장소 = ~에 있다."},
+    {en:"There <v>are</v> <s>many boys and girls</s> / around you.", ko:"당신의 주위에 많은 남자아이들과 여자아이들이 있다.", tip:"There are + 복수 명사."},
+    {en:"<s>This</s> <v>is</v> <c>a good chance / to make new friends</c>.", ko:"이것은 새로운 친구들을 사귈 좋은 기회이다.", tip:"a good chance to + 동사원형 = ~할 좋은 기회. make friends = 친구를 사귀다."},
+    {en:"How <v>do</v> <s>you</s> <v>start</v>?", ko:"당신은 어떻게 시작할까?", tip:"How do you + 동사원형? = 어떻게 ~해?"},
+    {en:"<v>Use</v> <o>eye contact</o>.", ko:"눈을 마주쳐라.", tip:"명령문: 동사원형으로 시작. eye contact = 눈 맞춤."},
+    {en:"If people look at you often, / <s>they</s> <v>may be</v> <c>interested in you</c>.", ko:"만약 사람들이 당신을 자주 쳐다보면, 그들은 당신에게 관심이 있을지도 모른다.", tip:"be interested in ~ = ~에 관심이 있다. may be = ~일지도 모른다."},
+    {en:"If you like them, / <v>look back</v> / at them.", ko:"만약 당신이 그들이 마음에 들면, 그들을 다시 바라보라.", tip:"look back at ~ = (응답하여) ~을 바라보다."},
+    {en:"But / <v>don’t look</v> / at them / for too long.", ko:"하지만 그들을 너무 오래 쳐다보지 마라.", tip:"부정 명령문: Don’t + 동사원형 = ~하지 마라. for too long = 너무 오랫동안."},
+    {en:"<s>This</s> <v>can make</v> <o>them</o> <c>feel uncomfortable</c>.", ko:"이것은 그들을 불편하게 느끼도록 만들 수 있다.", tip:"make + O + 동사원형(feel) + 형용사(uncomfortable)."},
+    {en:"<v>Do</v> <s>you</s> <v>want</v> <o>to make your eye contact more friendly</o>?", ko:"당신은 당신의 눈맞춤을 더 다정하게 만들기를 원하는가?", tip:"want to + 동사원형. make + O + 형용사(more friendly)."},
+    {en:"Then / just <v>smile</v> / when you look at people.", ko:"그렇다면 당신이 사람들을 바라볼 때 그저 미소를 지어라.", tip:"명령문 smile. when = ~할 때."},
+    {en:"<s>This</s> <v>will help</v> <o>them</o> <c>approach you</c> / more easily.", ko:"이것은 그들이 당신에게 더 쉽게 다가오도록 도울 것이다.", tip:"help + 목적어 + 동사원형. approach = 다가가다 (to 없이!)."}
+   ]}
+ ],
+ riddle:{clues:["I am a color.","Long ago, people thought the sky of my color was the home of the gods.","In the West, I bring good luck.","In China, I can mean a new start."], answer:"Blue! 파란색"},
+ grammar:[
+  {title:"명령문 (Do / Don’t)", sub:"~해라 / ~하지 마라", formula:"<em>동사원형</em> ~ | <em>Don’t</em> + 동사원형 ~",
+   ex:[["Just <mark>give</mark> one of your pictures to AI.","주기만 해라"],["<mark>Use</mark> eye contact.","눈을 마주쳐라"],["<mark>Don’t look</mark> at them for too long.","너무 오래 보지 마라"]],
+   note:"주어 You 없이 동사원형으로 시작해요.<br><b>one of + 복수 명사</b> → one of your <b>pictures</b>",
+   fix:[["Don’t looks at them for too long.","Don’t look at them for too long.","Don’t + 동사원형"],["Just gives one of your pictures to AI.","Just give one of your pictures to AI.","명령문 → 동사원형"],["Give one of your picture to AI.","Give one of your pictures to AI.","one of + 복수"]]},
+  {title:"사역동사 make + O + 동사원형", sub:"~가 …하게 만들다", formula:"make + O + <em>동사원형</em> | make + O + <em>형용사</em>",
+   ex:[["It can also <mark>make</mark> you <mark>smile</mark>.","미소 짓게 만들다"],["So blue <mark>made</mark> them <mark>feel</mark> happy.","행복하게 느끼게 만들었다"],["This can <mark>make</mark> them <mark>feel</mark> uncomfortable.","불편하게 느끼게 만들다"]],
+   note:"make 뒤에 to를 쓰지 않아요! (make you to smile ✗)<br>help + O + 동사원형 → help them <b>approach</b> you",
+   fix:[["It can make you to smile.","It can make you smile.","make + O + 동사원형"],["Blue made them felt happy.","Blue made them feel happy.","make + O + 동사원형"],["This makes them feel uncomfortably.","This makes them feel uncomfortable.","feel + 형용사"]]},
+  {title:"may · If 조건 · be interested in", sub:"~일지도 모른다 / 만약 ~하면 / ~에 관심이 있다", formula:"<em>may (not)</em> + 동사원형 | <em>If</em> + 주어 + 동사, ~",
+   ex:[["You <mark>may not like</mark> some parts of the background.","마음에 안 들지도 모른다"],["<mark>If</mark> people look at you often, they <mark>may be interested in</mark> you.","관심 있을지도 모른다"],["In China, <mark>however</mark>, blue can mean a new start.","하지만"]],
+   note:"<b>wear blue to win</b> = 이기기 위해 파란색을 입다 (to = 목적)<br><b>a good chance to make friends</b> = 친구를 사귈 좋은 기회",
+   fix:[["They may are interested in you.","They may be interested in you.","may + be"],["They may be interested on you.","They may be interested in you.","be interested in"],["You may not likes the background.","You may not like the background.","may not + 동사원형"]]}
+ ],
+ acts:[
+  {after:0,type:"hunt",lbl:"명령문 헌터",title:"Command Hunter",sub:"명령문을 시작하는 동사를 터치하세요 (Don’t는 함께!)",
+   items:["Just *give* one of your pictures to AI.","Just *download* it.","*Use* eye contact.","But *don’t* *look* at them for too long."]},
+  {after:1,type:"flip",lbl:"파란색의 의미",title:"Blue Around the World",sub:"앞면을 보고 의미를 먼저 말한 뒤 카드를 여세요",small:true,
+   cards:[["Long ago, people believed the blue sky was ___.","the home of the gods","옛날"],["So blue made them feel ___.","happy","옛날"],["In the West, blue brings ___.","good luck","서양"],["Some athletes wear blue ___.","to win","서양"],["In China, blue can mean ___.","a new start or death","중국"],["In China, people sometimes wear blue at ___.","funerals","중국"],["AI can make you ___.","smile","22번 복습"],["AI can change or even ___ the background.","erase","22번 복습"]]},
+  {after:2,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["A party is a good chance to make new friends.","O","This is a good chance to make new friends."],["If people look at you often, they may be interested in you.","O","they may be interested in you"],["You should look at people for a very long time.","X","don’t look at them for too long"],["Smiling makes your eye contact more friendly.","O","Then just smile when you look at people."],["Smiling makes it harder for people to approach you.","X","This will help them approach you more easily."]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["It can also make you smile.","그것은 당신이 미소를 짓도록 만들 수도 있다."],["Blue made them feel happy.","파란색은 그들을 행복하게 느끼도록 만들었다."],["Some athletes wear blue to win.","몇몇 운동선수들은 이기기 위해 파란색을 입는다."],["Don’t look at them for too long.","그들을 너무 오래 쳐다보지 마라."],["This will help them approach you.","이것은 그들이 당신에게 다가오도록 도울 것이다."]]}
+ ],
+ battle:[
+  {t:"내용 · 22", q:"AI가 증명사진에서 바꿔 줄 수 있는 것 2가지는?", a:"옷, 배경 (표정도 OK)", k:"your clothes / the background", p:1},
+  {t:"내용 · 22", q:"사진이 준비되면 마지막으로 할 일은?", a:"download it (다운로드)", k:"Just download it.", p:1},
+  {t:"내용 · 23", q:"옛날 사람들은 파란 하늘을 무엇이라고 믿었나요?", a:"the home of the gods (신들의 집)", k:"the blue sky was the home of the gods", p:1},
+  {t:"O / X · 23", q:"중국에서는 장례식에서 파란색을 입기도 한다.", a:"O", k:"people sometimes wear blue at funerals", p:1},
+  {t:"내용 · 24", q:"친구를 사귀기 위해 처음 사용하라는 것은?", a:"eye contact (눈 맞춤)", k:"Use eye contact.", p:1},
+  {t:"내용 · 24", q:"눈 맞춤을 더 다정하게 하려면?", a:"smile (미소 짓기)", k:"just smile when you look at people", p:1},
+  {t:"문법 · 빈칸", q:"It can also make you <span class='en'>___</span>. (smile)", a:"smile", k:"make + O + 동사원형", p:1},
+  {t:"문법 · 빈칸", q:"They may be interested <span class='en'>___</span> you.", a:"in", k:"be interested in", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>Don’t looks at them for too long.</span>", a:"Don’t look at them for too long.", k:"Don’t + 동사원형", p:1},
+  {t:"영작", q:"“파란색은 그들을 행복하게 느끼도록 만들었다.”", a:"Blue made them feel happy.", k:"make + O + feel + 형용사", p:1},
+  {t:"BONUS · 3점", q:"사람을 너무 오래 쳐다보면 안 되는 이유는?", a:"상대를 불편하게 만들 수 있어서", k:"This can make them feel uncomfortable.", p:3}
+ ],
+ exit:[["22 · make + O + 동사원형","My friend makes me ______.","친구가 나를 ~하게 만든다<br>예) My friend makes me laugh."],["23 · to부정사(목적)","I wear ______ to ______.","무언가를 입는 이유<br>예) I wear a coat to stay warm."],["24 · 명령문","Don’t ______ in class.","수업 시간에 하지 말아야 할 것<br>예) Don’t sleep in class."]]
+},
+/* ---------------- UNIT 09 ---------------- */
+{no:"09",
+ passages:[
+  {no:"25", ko:"누가 아메리카 대륙을 발견했다고?", en:"Who Discovered America?",
+   task:"<b>Guess</b> 반 전체가 웃음을 터뜨린 이유는?",
+   note:["discover의 말장난! 선생님은 ‘콜럼버스’를 기대했지만 Jack은 지도에서 찾은 Ella라고 답함. 역할극으로 읽기.","ask + 사람 + to 동사원형 / start with / point to / with a smile / burst into laughter를 짚어 주세요."],
+   lines:[
+    {en:"<s>It</s><v>’s</v> <c>world history class</c>.", ko:"세계사 수업 시간이다.", tip:"It’s = It is. 시간·상황을 말할 때 It."},
+    {en:"<s>The students</s> <v>gather</v> / around a large map.", ko:"학생들이 큰 지도 주위에 모인다.", tip:"gather = 모이다. around = ~ 주위에."},
+    {en:"<s>The teacher</s> <v>asks</v> <o>the students</o> <c>to find certain countries</c>.", ko:"선생님이 그 학생들에게 특정한 나라들을 찾으라고 요청한다.", tip:"ask + 사람 + to 동사원형 = ~에게 …하라고 요청하다. certain = 특정한."},
+    {en:"<s>He</s> <v>starts</v> / with Ella.", ko:"그는 Ella부터 시작한다.", tip:"start with ~ = ~부터 시작하다."},
+    {en:"“Where <v>is</v> <s>America</s>?”", ko:"“미국은 어디에 있니?”", tip:"Where is ~? = ~은 어디에 있니?"},
+    {en:"<s>Ella</s> <v>points</v> / to a spot on the map / and <v>says</v>, / “<s>It</s><v>’s</v> here.”", ko:"Ella는 지도 위의 한 지점을 가리키며 말한다. “그것은 여기에 있어요.”", tip:"point to ~ = ~을 가리키다. spot = 지점."},
+    {en:"“Very good,” / <v>says</v> <s>the teacher</s> / with a smile.", ko:"“아주 잘했어.” 선생님이 웃으며 말한다.", tip:"인용문 뒤에서 says the teacher (동사 + 주어 순서도 가능). with a smile = 웃으며."},
+    {en:"Then / <s>he</s> <v>asks</v> <o>Jack</o>, / “Who <v>discovered</v> <o>America</o>?”", ko:"그러고 나서 그는 Jack에게 묻는다. “누가 아메리카 대륙을 발견했니?”", tip:"Who가 주어인 의문문 → Who + 동사? discover = 발견하다."},
+    {en:"<s>Jack</s> <v>answers</v>, / “<s>Ella</s> <v>did</v>!”", ko:"Jack은 대답한다. “Ella가 했어요!”", tip:"did = discovered America (앞의 동사를 대신)."},
+    {en:"<s>The whole class</s> <v>bursts into</v> <o>laughter</o>.", ko:"반 전체가 웃음을 터뜨린다.", tip:"burst into laughter = 웃음을 터뜨리다. class(단수) → bursts."}
+   ]},
+  {no:"26", ko:"세계적인 회사 이름은 어떻게 지어졌을까?", en:"How Did Apple Get Its Name?",
+   task:"<b>Find</b> 회사 이름이 Apple이 된 이유",
+   note:["Steve Jobs의 마감 시간 이야기. ‘5시까지 이름이 없으면 Apple!’ → 아무도 못 찾음 → Apple.","ask + 사람 + to / by(~까지) / If you don’t, it’ll ~ / name A B / no one을 짚어 주세요."],
+   lines:[
+    {en:"<s>Steve Jobs</s> <v>started</v> <o>a computer company</o> / in 1976.", ko:"Steve Jobs는 1976년에 컴퓨터 회사를 시작했다.", tip:"in + 연도."},
+    {en:"However, / <s>it</s> <v>did not have</v> <o>a name</o> / in the beginning.", ko:"하지만 처음에 그것은 이름이 없었다.", tip:"did not + 동사원형. in the beginning = 처음에."},
+    {en:"One day, / <s>he</s> <v>asked</v> <o>his team</o> <c>to think of a name for it</c>.", ko:"어느 날, 그는 그의 팀에게 그것을 위한 이름을 생각해 보라고 요청했다.", tip:"ask + 사람 + to 동사원형. think of = ~을 생각하다."},
+    {en:"<s>He</s> <v>said</v>, / “<v>Find</v> <o>a name</o> / by five o’clock.", ko:"그는 말했다. “5시까지 이름을 찾아내세요.", tip:"명령문 Find. by = ~까지 (마감)."},
+    {en:"If you don’t, / <s>it</s><v>’ll be</v> <c>Apple</c>.”", ko:"만약 여러분들이 그러지 않으면, 그것은 Apple이 될 것입니다.”", tip:"If you don’t (find a name). it’ll = it will."},
+    {en:"<s>The team</s> <v>worked</v> hard / to gather ideas.", ko:"그 팀은 아이디어를 모으기 위해 열심히 노력했다.", tip:"to gather = 모으기 위해서 (목적). hard = 열심히."},
+    {en:"However, / <s>no one</s> <v>came up with</v> <o>an idea</o> / by the deadline.", ko:"하지만, 아무도 마감 시간까지 아이디어를 생각해 내지 못했다.", tip:"no one = 아무도 ~않다. come up with = 생각해 내다. deadline = 마감 시간."},
+    {en:"So / <s>Jobs</s> <v>named</v> <o>the company</o> <c>Apple</c>.", ko:"그래서 Jobs는 그 회사에 Apple이라고 이름을 지어 주었다.", tip:"name + 목적어 + 이름 = ~을 …라고 이름 짓다."},
+    {en:"Why Apple?", ko:"왜 Apple일까?", tip:"Why ~? = 왜?"},
+    {en:"<s>Apple</s> <v>was</v> <c>his favorite fruit</c>.", ko:"사과는 그가 가장 좋아하는 과일이었다.", tip:"favorite = 가장 좋아하는."}
+   ]},
+  {no:"27", ko:"미래의 자동차", en:"Cars in the Future",
+   task:"<b>Find</b> 미래 자동차의 특징 4가지",
+   note:["자율주행 자동차. 운전자 없음·카메라와 센서·신호등 없음·거실 같은 차. will로 미래 예측하기.","will / won’t / themselves / want + O + to be / help + O + 동사원형 / when to go를 짚어 주세요."],
+   lines:[
+    {en:"<s>Cars in the future</s> <v>will be</v> <c>very smart</c>.", ko:"미래의 자동차는 매우 똑똑할 것이다.", tip:"will + 동사원형 = ~할 것이다. in the future = 미래에."},
+    {en:"<s>They</s> <v>won’t need</v> <o>a driver</o> / because they will run themselves.", ko:"그것들은 스스로 주행할 것이기 때문에 운전자가 필요하지 않을 것이다.", tip:"won’t = will not. run themselves = 스스로 주행하다."},
+    {en:"<s>People</s> <v>want</v> <o>their cars</o> <c>to be safe</c>.", ko:"사람들은 그들의 자동차가 안전하기를 원한다.", tip:"want + 목적어 + to 동사원형 = ~가 …하기를 원하다."},
+    {en:"<v>Don’t worry</v>!", ko:"걱정하지 마라!", tip:"부정 명령문 Don’t + 동사원형."},
+    {en:"<s>These self-driving cars</s> <v>will not be</v> <c>dangerous</c>.", ko:"이러한 자율주행 자동차는 위험하지 않을 것이다.", tip:"self-driving = 자율주행의. dangerous = 위험한."},
+    {en:"<s>They</s> <v>will use</v> <o>cameras and sensors</o> / while they drive.", ko:"그것들은 운전하는 동안 카메라와 센서를 사용할 것이다.", tip:"while + 주어 + 동사 = ~하는 동안."},
+    {en:"<s>The cars</s> <v>will see</v> <o>the road</o> / and <v>communicate with</v> <o>one another</o>.", ko:"그 자동차들은 도로를 보고 서로 정보를 교환할 것이다.", tip:"communicate with = ~와 소통하다. one another = 서로."},
+    {en:"<s>This</s> <v>will help</v> <o>them</o> <c>avoid accidents</c>.", ko:"이것은 그것들이 사고를 피하는 것을 도울 것이다.", tip:"help + 목적어 + 동사원형. avoid = 피하다."},
+    {en:"There <v>will be</v> <s>no traffic lights</s> / on the streets.", ko:"거리에는 신호등이 없을 것이다.", tip:"There will be ~ = ~이 있을 것이다."},
+    {en:"But / <s>the cars</s> <v>will know</v> <o>when to go and stop</o>.", ko:"하지만 그 자동차들은 언제 가고 멈춰야 하는지 알 것이다.", tip:"when to + 동사원형 = 언제 ~해야 할지."},
+    {en:"<s>Passengers</s> <v>can relax</v> / in the cars.", ko:"승객들은 그 자동차 안에서 편히 쉴 수 있다.", tip:"passenger = 승객. relax = 편히 쉬다."},
+    {en:"<s>They</s> <v>can watch</v> <o>videos</o> / or <v>enjoy</v> <o>snacks</o>.", ko:"그들은 동영상을 보거나 간식을 즐길 수 있다.", tip:"can watch or (can) enjoy."},
+    {en:"<s>The cars</s> <v>will be</v> <c>like their living rooms</c>.", ko:"그 자동차들은 그들의 거실과 같을 것이다.", tip:"like = ~와 같은."},
+    {en:"How convenient!", ko:"얼마나 편리한가!", tip:"How + 형용사! (감탄문). convenient = 편리한."}
+   ]}
+ ],
+ riddle:{clues:["I am a famous company.","Steve Jobs started me in 1976.","No one found a name for me by five o’clock.","My name is a fruit."], answer:"Apple! 애플"},
+ grammar:[
+  {title:"ask + 사람 + to부정사", sub:"~에게 …하라고 요청하다", formula:"ask · want + <em>사람</em> + <em>to 동사원형</em>",
+   ex:[["The teacher <mark>asks</mark> the students <mark>to find</mark> certain countries.","찾으라고 요청한다"],["He <mark>asked</mark> his team <mark>to think</mark> of a name for it.","생각해 보라고 요청했다"],["People <mark>want</mark> their cars <mark>to be</mark> safe.","안전하기를 원한다"]],
+   note:"ask + 사람 + 질문 = ~에게 묻다 → he asks Jack, “Who discovered America?”<br><b>Who</b>가 주어 → Who <b>discovered</b> America? (Who did discover ✗)",
+   fix:[["He asked his team think of a name.","He asked his team to think of a name.","ask + 사람 + to"],["Who did discovered America?","Who discovered America?","Who가 주어 → 바로 동사"],["The teacher asks the students find countries.","The teacher asks the students to find countries.","ask + 사람 + to"]]},
+  {title:"name + O + 이름 · by vs until", sub:"~을 …라고 이름 짓다 / ~까지", formula:"name + <em>목적어</em> + <em>이름</em> | <em>by</em> + 시간 (마감)",
+   ex:[["So Jobs <mark>named</mark> the company <mark>Apple</mark>.","회사를 Apple이라고 이름 지었다"],["Find a name <mark>by</mark> five o’clock.","5시까지 (마감)"],["No one came up with an idea <mark>by</mark> the deadline.","마감 시간까지"]],
+   note:"<b>no one</b> = 아무도 ~않다 (뒤에 not을 또 쓰지 않아요!)<br><b>If you don’t</b>, it’ll be Apple. (If절은 현재형)",
+   fix:[["No one didn’t come up with an idea.","No one came up with an idea.","no one + 긍정 동사"],["Jobs named Apple the company.","Jobs named the company Apple.","name + 대상 + 이름"],["If you won’t, it’ll be Apple.","If you don’t, it’ll be Apple.","If절은 현재형"]]},
+  {title:"미래 will / won’t · when to", sub:"~할 것이다 / 언제 ~해야 할지", formula:"<em>will · won’t</em> + 동사원형 | <em>when to</em> + 동사원형",
+   ex:[["Cars in the future <mark>will be</mark> very smart.","똑똑할 것이다"],["They <mark>won’t need</mark> a driver.","필요하지 않을 것이다"],["The cars will know <mark>when to go</mark> and stop.","언제 가야 할지"]],
+   note:"There <b>will be</b> no traffic lights. = 신호등이 없을 것이다<br><b>while</b> + 주어 + 동사 = ~하는 동안 · <b>help + O + 동사원형</b>",
+   fix:[["Cars will are very smart.","Cars will be very smart.","will + be"],["They won’t needs a driver.","They won’t need a driver.","won’t + 동사원형"],["This will help them to avoiding accidents.","This will help them avoid accidents.","help + O + 동사원형"]]}
+ ],
+ acts:[
+  {after:0,type:"role",lbl:"역할극",title:"Role-play: World History Class",sub:"4명이 나와서 역할을 나눠 읽어요 (마지막에 다 같이 웃기!)",
+   roles:[["Narrator 해설","var(--muted)"],["Teacher 선생님","var(--tA)"],["Ella 엘라","var(--tB)"],["Jack 잭","var(--tC)"]],
+   script:[[0,"It’s world history class. The students gather around a large map."],[1,"Where is America?"],[0,"Ella points to a spot on the map."],[2,"It’s here."],[1,"Very good. Jack, who discovered America?"],[3,"Ella did!"],[0,"The whole class bursts into laughter."]]},
+  {after:1,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["Steve Jobs started a computer company in 1976.","O","Steve Jobs started a computer company in 1976."],["The company had a name in the beginning.","X","it did not have a name in the beginning"],["Jobs asked his team to find a name by five o’clock.","O","Find a name by five o’clock."],["The team came up with many good names.","X","no one came up with an idea by the deadline"],["Apple was Jobs’ favorite fruit.","O","Apple was his favorite fruit."]]},
+  {after:2,type:"flip",lbl:"미래 자동차 카드",title:"Future Car Flip",sub:"앞면의 빈칸을 먼저 말한 뒤 카드를 여세요",small:true,
+   cards:[["They won’t need ___.","a driver","운전자"],["They will run ___.","themselves","스스로"],["They will use ___ while they drive.","cameras and sensors","장치"],["This will help them avoid ___.","accidents","안전"],["There will be no ___ on the streets.","traffic lights","거리"],["The cars will know when to ___.","go and stop","판단"],["Passengers can watch videos or ___.","enjoy snacks","승객"],["The cars will be like their ___.","living rooms","정리"]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["The teacher asks the students to find certain countries.","선생님이 학생들에게 특정한 나라들을 찾으라고 요청한다."],["The whole class bursts into laughter.","반 전체가 웃음을 터뜨린다."],["Jobs named the company Apple.","Jobs는 그 회사를 Apple이라고 이름 지었다."],["People want their cars to be safe.","사람들은 그들의 자동차가 안전하기를 원한다."],["The cars will know when to go and stop.","그 자동차들은 언제 가고 멈춰야 할지 알 것이다."]]}
+ ],
+ battle:[
+  {t:"내용 · 25", q:"선생님이 Ella에게 찾으라고 한 나라는?", a:"America (미국)", k:"Where is America?", p:1},
+  {t:"내용 · 25", q:"“Who discovered America?”에 Jack은 뭐라고 답했나요?", a:"Ella did!", k:"Ella가 지도에서 찾았으니까!", p:1},
+  {t:"내용 · 26", q:"Steve Jobs가 팀에게 준 마감 시간은?", a:"five o’clock (5시)", k:"Find a name by five o’clock.", p:1},
+  {t:"O / X · 26", q:"팀원 한 명이 Apple이라는 이름을 생각해 냈다.", a:"X", k:"no one came up with an idea by the deadline", p:1},
+  {t:"내용 · 27", q:"미래 자동차가 운전할 때 사용하는 것 2가지는?", a:"cameras and sensors", k:"They will use cameras and sensors while they drive.", p:1},
+  {t:"내용 · 27", q:"미래 자동차는 무엇과 같을까요?", a:"their living rooms (거실)", k:"The cars will be like their living rooms.", p:1},
+  {t:"문법 · 빈칸", q:"He asked his team <span class='en'>___</span> think of a name.", a:"to", k:"ask + 사람 + to 동사원형", p:1},
+  {t:"문법 · 빈칸", q:"They <span class='en'>___</span> need a driver. (~하지 않을 것이다)", a:"won’t (will not)", k:"won’t + 동사원형", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>No one didn’t come up with an idea.</span>", a:"No one came up with an idea.", k:"no one + 긍정 동사", p:1},
+  {t:"영작", q:"“그래서 Jobs는 그 회사를 Apple이라고 이름 지었다.”", a:"So Jobs named the company Apple.", k:"name + O + 이름", p:1},
+  {t:"BONUS · 3점", q:"반 전체가 웃음을 터뜨린 이유는?", a:"정답은 콜럼버스인데, 지도에서 찾은 Ella가 발견했다고 해서", k:"discover = 발견하다 (말장난)", p:3}
+ ],
+ exit:[["25 · ask + 사람 + to","My mom asks me to ______.","엄마가 나에게 부탁하는 것<br>예) My mom asks me to clean my room."],["26 · name + O + 이름","I named my ______ ______.","내가 이름 지어 준 것<br>예) I named my dog Coco."],["27 · will","In the future, I will ______.","미래의 나<br>예) In the future, I will be a doctor."]]
+},
+
+/* ---------------- UNIT 10 ---------------- */
+{no:"10",
+ passages:[
+  {no:"28", ko:"외로운 개에게 생긴 뜻밖의 가족", en:"A Lonely Dog’s Surprise Family",
+   task:"<b>Find</b> Daniel과 새끼 오리들이 가족이 된 과정",
+   note:["외로운 개 Daniel + 엄마 없는 새끼 오리들 = 행복한 가족. 따뜻한 이야기로 감정을 나누세요.","지각동사 see + O + 동사원형(saw ducklings swim) / notice (that) / see A as B / like + 주어 + 동사 / not ~ anymore를 짚어 주세요."],
+   lines:[
+    {en:"<s>Daniel</s> <v>was</v> <c>an old, lonely dog</c> / in England.", ko:"Daniel은 잉글랜드에 있는 늙고 외로운 개였다.", tip:"형용사 2개(old, lonely)가 dog를 꾸밈. an + old (모음 발음)."},
+    {en:"<s>He</s> often <v>saw</v> <o>ducklings</o> <c>swim in a pond</c>.", ko:"그는 종종 새끼 오리들이 연못에서 헤엄치는 것을 보았다.", tip:"see + 목적어 + 동사원형 = ~가 …하는 것을 보다 (지각동사). see-saw."},
+    {en:"<s>He</s> <v>noticed</v> / <o>they were without their mother</o>.", ko:"그는 그들이 엄마가 없다는 것을 알아차렸다.", tip:"notice (that) ~ = ~라는 것을 알아차리다. without = ~없이."},
+    {en:"One day, / <s>the ducklings</s> <v>came up to</v> <o>Daniel</o> / and <v>stayed</v> close to him.", ko:"어느 날, 그 새끼 오리들이 Daniel에게 다가와서 그의 가까이에 머물렀다.", tip:"come up to = ~에게 다가가다. stay close to = ~ 가까이 머물다."},
+    {en:"Perhaps / <s>they</s> <v>saw</v> <o>him</o> / as their father.", ko:"아마도 그들은 그를 아빠로 여겼던 것 같다.", tip:"see A as B = A를 B로 여기다. perhaps = 아마도."},
+    {en:"From that day, / <s>they</s> <v>followed</v> <o>him</o> / everywhere.", ko:"그날부터, 그들은 그를 어디에나 따라다녔다.", tip:"From that day = 그날부터. follow = 따라가다."},
+    {en:"<s>Daniel</s> <v>began</v> <o>to care for them</o> / like he was their father.", ko:"Daniel은 마치 그가 그들의 아빠인 것처럼 그들을 돌보기 시작했다.", tip:"begin to + 동사원형. like + 주어 + 동사 = (마치) ~인 것처럼."},
+    {en:"Then / <s>they</s> <v>were not</v> <c>lonely</c> anymore.", ko:"그 이후로 그들은 더 이상 외롭지 않았다.", tip:"not ~ anymore = 더 이상 ~않다."},
+    {en:"<s>Daniel and the ducklings</s> <v>became</v> <c>a happy family</c>.", ko:"Daniel과 그 새끼 오리들은 행복한 가족이 되었다.", tip:"become-became + 명사 = ~이 되다."}
+   ]},
+  {no:"29", ko:"플랫폼이 무엇인가요?", en:"What Is a Platform?",
+   task:"<b>Order</b> ‘platform’의 뜻이 변해 온 순서 정리하기",
+   note:["나무 조각 → 기차 플랫폼(기다리는 곳) → 웹사이트. 단어의 뜻이 시대에 따라 변한다는 점.","became / a place for waiting / see + O + 동사원형(see people talk) / mean을 짚어 주세요."],
+   lines:[
+    {en:"A long time ago, / <s>a “platform”</s> <v>was</v> <c>just a flat piece of wood</c>.", ko:"오래전에, ‘플랫폼’은 그저 평평한 나무 조각이었다.", tip:"a piece of + 명사 = ~ 한 조각. flat = 평평한."},
+    {en:"Later, / <s>trains</s> <v>appeared</v>.", ko:"나중에, 기차가 등장했다.", tip:"appear = 등장하다, 나타나다."},
+    {en:"Then / <s>it</s> <v>became</v> <c>a place for waiting</c>.", ko:"그러고 나서 그것은 기다리기 위한 장소가 되었다.", tip:"전치사(for) 뒤 동사는 -ing → for waiting."},
+    {en:"Today, / <s>a platform</s> <v>means</v> <o>a website</o>.", ko:"오늘날, 플랫폼은 웹사이트를 의미한다.", tip:"mean = 의미하다. 3인칭 단수 → means."},
+    {en:"<s>We</s> <v>can see</v> <o>people</o> <c>talk and search</c> / there.", ko:"우리는 사람들이 그곳에서 이야기하고 검색하는 것을 볼 수 있다.", tip:"see + 목적어 + 동사원형 (지각동사). there = 웹사이트에서."},
+    {en:"<s>Google and YouTube</s> <v>are</v> <c>big platforms</c>.", ko:"구글과 유튜브는 큰 플랫폼이다.", tip:"주어 2개 → are."},
+    {en:"<s>We</s> <v>do</v> <o>many important things</o> / there.", ko:"우리는 그곳에서 많은 중요한 일들을 한다.", tip:"do things = 일들을 하다."},
+    {en:"<s>We</s> <v>share</v> <o>ideas</o> / and <v>watch</v> <o>fun videos</o>.", ko:"우리는 아이디어를 공유하고 재미있는 동영상을 시청한다.", tip:"share = 공유하다. fun = 재미있는 (형용사)."}
+   ]},
+  {no:"30", ko:"앵무새가 말한 숫자의 정체는?", en:"What Did the Parrot’s Numbers Mean?",
+   task:"<b>Guess</b> 앵무새가 말한 숫자는 무엇이었을까요?",
+   note:["미스터리 → 해결 구조. ‘숫자’의 정체(전화번호)를 맞혀 보게 한 뒤 끝까지 읽으세요.","과거진행 was walking / a parrot with ~ / hear + O + 동사원형 / be curious about / keep -ing / thank A for B를 짚어 주세요."],
+   lines:[
+    {en:"<s>John</s> <v>was walking</v> / down a street.", ko:"John은 길을 따라 걸어가고 있었다.", tip:"was + -ing = ~하고 있었다 (과거진행). down a street = 길을 따라."},
+    {en:"Then / <s>he</s> <v>saw</v> <o>a parrot / with a broken wing</o> / under a tree.", ko:"그때 그는 나무 아래에서 날개가 부러진 앵무새 한 마리를 보았다.", tip:"with + 명사 = ~을 가진. broken = 부러진."},
+    {en:"When he stopped and looked at it, / <s>the bird</s> <v>chirped out</v> <o>some numbers</o>.", ko:"그가 멈춰서 그것을 보았을 때, 그 새는 몇 가지 숫자를 짹짹거렸다.", tip:"When ~ = ~했을 때. chirp = 짹짹거리다."},
+    {en:"<s>John</s> <v>was</v> <c>surprised</c>.", ko:"John은 깜짝 놀랐다.", tip:"surprised = (사람이) 놀란."},
+    {en:"<s>He</s> <v>knew</v> / <o>that some parrots could say words</o>.", ko:"그는 몇몇 앵무새들이 단어를 말할 수 있다는 것을 알고 있었다.", tip:"know-knew. know that ~ = ~라는 것을 알다. 과거라서 could."},
+    {en:"But / <s>he</s> never <v>heard</v> <o>parrots</o> <c>say numbers</c>.", ko:"하지만 그는 앵무새가 숫자를 말하는 것을 들어본 적이 없었다.", tip:"hear + 목적어 + 동사원형 (지각동사). never = 한 번도 ~않다."},
+    {en:"<s>He</s> <v>was</v> <c>curious about the numbers</c>, / so <s>he</s> <v>took</v> <o>the bird</o> home.", ko:"그는 그 숫자들에 대해 궁금해서 그 새를 집으로 데려갔다.", tip:"be curious about = ~에 대해 궁금해하다. take-took. take ~ home = ~을 집으로 데려가다."},
+    {en:"<s>It</s> <v>kept</v> <o>saying the same numbers</o>.", ko:"그것은 계속 같은 숫자를 말했다.", tip:"keep + -ing = 계속 ~하다. keep-kept."},
+    {en:"<s>John</s> <v>thought</v>, / “Maybe / <s>it</s><v>’s</v> <c>a phone number</c>.”", ko:"John은 생각했다. “아마도 그것은 전화번호인 것 같은데.”", tip:"think-thought. maybe = 아마도."},
+    {en:"So / <s>he</s> <v>called</v> <o>the number</o> / on his phone.", ko:"그래서 그는 그의 전화기로 그 번호로 전화를 걸었다.", tip:"call = 전화하다. on his phone = 그의 전화기로."},
+    {en:"<s>A woman</s> <v>answered</v> <o>the phone</o> / and <v>said</v>, / “<s>The parrot</s> <v>is</v> <c>mine</c>.", ko:"한 여자가 전화를 받고는 말했다. “그 앵무새는 제 거예요.", tip:"answer the phone = 전화를 받다. mine = 나의 것."},
+    {en:"<s>I</s> <v>taught</v> <o>my phone number</o> / to him.”", ko:"제가 제 전화번호를 그에게 가르쳤어요.”", tip:"teach-taught. teach A to B = B에게 A를 가르치다."},
+    {en:"The next day, / <s>the woman</s> <v>came</v> <c>to pick up her bird</c> / and <v>thanked</v> <o>John</o> / for his help.", ko:"그다음 날, 그 여자는 자신의 새를 데리러 왔고 John에게 그의 도움에 대해 감사했다.", tip:"to pick up = 데리러 (목적). thank A for B = A에게 B에 대해 감사하다."}
+   ]}
+ ],
+ riddle:{clues:["I am a bird.","I had a broken wing.","I kept saying the same numbers.","The numbers were my owner’s phone number."], answer:"The parrot! 앵무새"},
+ grammar:[
+  {title:"지각동사 see · hear + O + 동사원형", sub:"~가 …하는 것을 보다 / 듣다", formula:"see · hear + <em>목적어</em> + <em>동사원형</em>",
+   ex:[["He often <mark>saw</mark> ducklings <mark>swim</mark> in a pond.","오리들이 헤엄치는 것을 보았다"],["We can <mark>see</mark> people <mark>talk</mark> and <mark>search</mark> there.","사람들이 이야기하고 검색하는 것을 보다"],["He never <mark>heard</mark> parrots <mark>say</mark> numbers.","앵무새가 숫자를 말하는 것을 들었다"]],
+   note:"목적어 뒤에 to를 쓰지 않아요! (saw ducklings to swim ✗)<br>동사-ing도 가능: saw ducklings <b>swimming</b> (~하고 있는 것을)",
+   fix:[["He saw ducklings to swim in a pond.","He saw ducklings swim in a pond.","지각동사 + O + 동사원형"],["He never heard parrots said numbers.","He never heard parrots say numbers.","동사원형"],["We can see people talks there.","We can see people talk there.","동사원형"]]},
+  {title:"see A as B · not ~ anymore · for -ing", sub:"A를 B로 여기다 / 더 이상 ~않다", formula:"see <em>A as B</em> | not ~ <em>anymore</em> | 전치사 + <em>-ing</em>",
+   ex:[["Perhaps they <mark>saw</mark> him <mark>as</mark> their father.","그를 아빠로 여겼다"],["Then they were <mark>not</mark> lonely <mark>anymore</mark>.","더 이상 외롭지 않았다"],["It became a place <mark>for waiting</mark>.","기다리기 위한 장소"]],
+   note:"<b>like + 주어 + 동사</b> = (마치) ~인 것처럼 → like he was their father<br><b>a piece of wood</b> = 나무 한 조각",
+   fix:[["They saw him for their father.","They saw him as their father.","see A as B"],["It became a place for wait.","It became a place for waiting.","전치사 뒤 → -ing"],["They were not lonely any more longer.","They were not lonely anymore.","not ~ anymore"]]},
+  {title:"keep -ing · thank A for B · 과거진행", sub:"계속 ~하다 / ~에게 …에 대해 감사하다", formula:"keep + <em>-ing</em> | thank A <em>for</em> B | was + <em>-ing</em>",
+   ex:[["It <mark>kept saying</mark> the same numbers.","계속 말했다"],["She <mark>thanked</mark> John <mark>for</mark> his help.","도움에 대해 감사했다"],["John <mark>was walking</mark> down a street.","걸어가고 있었다"]],
+   note:"<b>be curious about</b> = ~에 대해 궁금해하다<br><b>a parrot with a broken wing</b> = 날개가 부러진 앵무새",
+   fix:[["It kept to say the same numbers.","It kept saying the same numbers.","keep + -ing"],["She thanked John to his help.","She thanked John for his help.","thank A for B"],["He was curious of the numbers.","He was curious about the numbers.","be curious about"]]}
+ ],
+ acts:[
+  {after:0,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["Daniel was a young, happy dog.","X","Daniel was an old, lonely dog in England."],["The ducklings were without their mother.","O","He noticed they were without their mother."],["Daniel went up to the ducklings first.","X","the ducklings came up to Daniel"],["The ducklings followed Daniel everywhere.","O","they followed him everywhere"],["Daniel and the ducklings became a happy family.","O","became a happy family"]]},
+  {after:1,type:"hunt",lbl:"지각동사 헌터",title:"See & Hear Hunter",sub:"지각동사 뒤에 오는 ‘동사원형’을 모두 터치하세요",
+   items:["He often saw ducklings *swim* in a pond.","We can see people *talk* and *search* there.","But he never heard parrots *say* numbers.","I saw a woman *answer* the phone."]},
+  {after:2,type:"flip",lbl:"앵무새 미스터리",title:"Parrot Mystery Flip",sub:"순서대로 앞면의 질문에 먼저 답한 뒤 카드를 여세요",small:true,
+   cards:[["Where did John see the parrot?","under a tree","1"],["What was wrong with the parrot?","It had a broken wing.","2"],["What did the bird chirp out?","some numbers","3"],["Why did John take the bird home?","He was curious about the numbers.","4"],["What did John think the numbers were?","a phone number","5"],["Who answered the phone?","a woman (the parrot’s owner)","6"],["Who taught the numbers to the parrot?","the woman","7"],["What did the woman do the next day?","picked up her bird and thanked John","8"]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["He often saw ducklings swim in a pond.","그는 종종 새끼 오리들이 연못에서 헤엄치는 것을 보았다."],["Perhaps they saw him as their father.","아마도 그들은 그를 아빠로 여겼던 것 같다."],["It became a place for waiting.","그것은 기다리기 위한 장소가 되었다."],["It kept saying the same numbers.","그것은 계속 같은 숫자를 말했다."],["She thanked John for his help.","그녀는 John에게 그의 도움에 대해 감사했다."]]}
+ ],
+ battle:[
+  {t:"내용 · 28", q:"Daniel은 어느 나라에 사는 개인가요?", a:"England (잉글랜드)", k:"an old, lonely dog in England", p:1},
+  {t:"내용 · 28", q:"새끼 오리들은 Daniel을 누구로 여겼나요?", a:"their father (아빠)", k:"they saw him as their father", p:1},
+  {t:"내용 · 29", q:"오래전 platform의 뜻은?", a:"a flat piece of wood (평평한 나무 조각)", k:"just a flat piece of wood", p:1},
+  {t:"내용 · 29", q:"오늘날 platform은 무엇을 의미하나요?", a:"a website", k:"Today, a platform means a website.", p:1},
+  {t:"O / X · 30", q:"John은 앵무새가 숫자를 말하는 것을 자주 들었다.", a:"X", k:"he never heard parrots say numbers", p:1},
+  {t:"내용 · 30", q:"앵무새가 말한 숫자의 정체는?", a:"a phone number (주인의 전화번호)", k:"I taught my phone number to him.", p:1},
+  {t:"문법 · 빈칸", q:"He often saw ducklings <span class='en'>___</span> in a pond. (swim)", a:"swim (swimming)", k:"see + O + 동사원형", p:1},
+  {t:"문법 · 빈칸", q:"It kept <span class='en'>___</span> the same numbers. (say)", a:"saying", k:"keep + -ing", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>She thanked John to his help.</span>", a:"She thanked John for his help.", k:"thank A for B", p:1},
+  {t:"영작", q:"“그 이후로 그들은 더 이상 외롭지 않았다.”", a:"Then they were not lonely anymore.", k:"not ~ anymore", p:1},
+  {t:"BONUS · 3점", q:"platform의 뜻이 변한 순서 3단계를 말하면?", a:"나무 조각 → 기다리는 장소(기차역) → 웹사이트", k:"wood → a place for waiting → a website", p:3}
+ ],
+ exit:[["28 · see + O + 동사원형","I saw my friend ______.","친구가 ~하는 것을 봤다<br>예) I saw my friend dance."],["29 · become","I want to become ______.","되고 싶은 것<br>예) I want to become a singer."],["30 · keep -ing","My little brother keeps ______.","동생이 계속 하는 것<br>예) My little brother keeps crying."]]
+},
+/* ---------------- UNIT 11 ---------------- */
+{no:"11",
+ passages:[
+  {no:"31", ko:"병아리와 트럭 이야기", en:"The Chicks and the Truck",
+   task:"<b>Find</b> 트럭 위의 달걀이 부화한 이유",
+   note:["실제 중국 뉴스. 더운 날씨 → 달걀 부화 → 병아리들이 트럭 곳곳에! 운전자는 모름.","take place / start to / there were / know what was happening / keep -ing를 짚어 주세요."],
+   lines:[
+    {en:"In China, / <s>an interesting thing</s> <v>took place</v> / on a truck.", ko:"중국에서, 한 트럭 위에서 재미있는 일이 벌어졌다.", tip:"take place = 일어나다, 발생하다. take-took."},
+    {en:"<s>The truck</s> <v>was driving</v> / on a road.", ko:"그 트럭은 도로 위를 달리고 있었다.", tip:"was + -ing = ~하고 있었다 (과거진행)."},
+    {en:"<s>It</s> <v>had</v> <o>a lot of eggs</o> / in the back.", ko:"그것은 뒤에 많은 달걀을 싣고 있었다.", tip:"in the back = 뒤쪽에."},
+    {en:"<s>The weather</s> <v>was</v> <c>very hot</c>.", ko:"날씨가 매우 더웠다.", tip:"weather = 날씨."},
+    {en:"So / <s>the eggs</s> <v>started</v> <o>to hatch</o>.", ko:"그래서 그 달걀들이 부화하기 시작했다.", tip:"start to + 동사원형 = ~하기 시작하다. hatch = 부화하다."},
+    {en:"Soon, / there <v>were</v> <s>little chicks</s> / all over the truck.", ko:"곧, 트럭의 곳곳에 작은 병아리들이 있었다.", tip:"There were + 복수 명사. all over ~ = ~의 곳곳에."},
+    {en:"<s>Some chicks</s> even <v>climbed</v> / out of the truck.", ko:"몇몇 병아리들은 심지어 트럭 밖으로 기어올랐다.", tip:"even = 심지어. out of = ~ 밖으로."},
+    {en:"However, / <s>the driver</s> <v>did not know</v> / <o>what was happening</o>.", ko:"하지만, 그 운전수는 무슨 일이 일어나고 있는지 몰랐다.", tip:"what was happening = 무슨 일이 일어나고 있는지 (문장 속 의문문, what이 주어)."},
+    {en:"<s>He</s> just <v>kept</v> <o>driving</o>.", ko:"그는 그냥 계속 운전했다.", tip:"keep + -ing = 계속 ~하다."}
+   ]},
+  {no:"32", ko:"인류의 새로운 보물섬, 달", en:"The Moon, a New Treasure Island",
+   task:"<b>Find</b> 달이 ‘보물의 땅’인 이유",
+   note:["귀금속, 암석, 물 → 보물의 땅. 아직 주인 없음 → 먼저 탐험하면 이점! 각 나라의 우주 탐사 뉴스와 연결해 보세요.","be interested in / Do you know why ~? / Because ~ / imagine -ing / If ~, will을 짚어 주세요."],
+   lines:[
+    {en:"<s>Many countries</s> <v>are</v> <c>interested in the moon</c>.", ko:"많은 나라들이 달에 관심이 있다.", tip:"be interested in ~ = ~에 관심이 있다."},
+    {en:"Do you know / why they care so much?", ko:"당신은 그들이 왜 관심을 그렇게 많이 가지는지 아는가?", tip:"Do you know + why + 주어 + 동사? (문장 속 의문문 → 주어 + 동사 순서)."},
+    {en:"Because / <s>the moon</s> <v>is</v> <c>a land of treasure</c>.", ko:"달이 보물의 땅이기 때문이다.", tip:"Why에 대한 답 → Because ~."},
+    {en:"<s>It</s> <v>has</v> <o>a lot of precious metals and rocks</o>.", ko:"그것은 많은 귀금속과 암석을 가지고 있다.", tip:"precious = 귀중한. metal = 금속."},
+    {en:"<s>Scientists</s> even <v>found</v> <o>water</o> / there!", ko:"과학자들은 심지어 그곳에서 물을 발견하기도 했다!", tip:"find-found. there = 달에서."},
+    {en:"So / <s>some people</s> <v>imagine</v> <o>living there</o> / one day.", ko:"그래서 몇몇 사람들은 언젠가 그곳에 사는 것을 상상한다.", tip:"imagine + -ing = ~하는 것을 상상하다. one day = 언젠가."},
+    {en:"However, / <s>no one</s> <v>owns</v> <o>the moon</o> / now.", ko:"하지만, 지금은 아무도 달을 소유하고 있지 않다.", tip:"no one = 아무도 ~않다 (단수 → owns). own = 소유하다."},
+    {en:"If anyone explores it first, / <s>they</s> <v>will get</v> <o>an advantage</o>.", ko:"만약 누구든지 먼저 그것을 탐험하면, 그들은 이점을 얻게 될 것이다.", tip:"If + 현재(explores), 주어 + will ~. advantage = 이점."}
+   ]},
+  {no:"33", ko:"지진을 감지하는 동물들", en:"Animals That Sense Earthquakes",
+   task:"<b>Order</b> 2009년 이탈리아에서 일어난 일을 순서대로",
+   note:["개들의 이상 행동 → 몇 시간 후 지진. 동물이 지진을 미리 안다는 이야기.","start -ing / figure out why ~ / began to / was happening / understand why ~ / know when ~ will을 짚어 주세요."],
+   lines:[
+    {en:"In 2009, / <s>many dogs / in Italy</s> <v>started</v> <o>barking</o> suddenly.", ko:"2009년, 이탈리아에서 많은 개들이 갑자기 짖기 시작했다.", tip:"start + -ing / to 둘 다 OK = ~하기 시작하다. bark = 짖다."},
+    {en:"<s>Others</s> <v>ran</v> / up the hills.", ko:"다른 개들은 언덕 위로 달려갔다.", tip:"Others = other dogs. run-ran."},
+    {en:"<s>They</s> <v>looked</v> <c>scared</c>.", ko:"그들은 겁에 질려 보였다.", tip:"look + 형용사 = ~하게 보이다. scared = 겁먹은."},
+    {en:"<s>People</s> <v>couldn’t figure out</v> / <o>why the dogs were acting unusually</o>.", ko:"사람들은 왜 그 개들이 특이하게 행동하고 있는지를 알아낼 수 없었다.", tip:"figure out = 알아내다. why + 주어 + 동사 (문장 속 의문문)."},
+    {en:"A few hours later, / <s>everything</s> <v>started</v> <o>to shake</o>.", ko:"몇 시간 후에, 모든 것이 흔들리기 시작했다.", tip:"everything = 모든 것 (단수). shake = 흔들리다."},
+    {en:"<s>The ground</s> <v>was shaking</v>.", ko:"땅이 흔들리고 있었다.", tip:"과거진행 was + -ing."},
+    {en:"<s>Houses and buildings</s> <v>began</v> <o>to fall over</o>.", ko:"집들과 건물들이 넘어지기 시작했다.", tip:"begin-began. fall over = 넘어지다."},
+    {en:"<s>An earthquake</s> <v>was happening</v>!", ko:"지진이 일어나고 있었다!", tip:"earthquake = 지진."},
+    {en:"Soon, / <s>the ground</s> <v>opened up</v>.", ko:"곧, 땅이 벌어졌다.", tip:"open up = (틈이) 벌어지다."},
+    {en:"<s>More buildings</s> <v>fell down</v>.", ko:"더 많은 건물들이 무너졌다.", tip:"fall-fell. fall down = 무너지다."},
+    {en:"Today, / <s>people</s> <v>understand</v> / <o>why the dogs acted so strangely</o>.", ko:"오늘날, 사람들은 그 개들이 왜 그렇게 이상하게 행동했는지 이해한다.", tip:"why + 주어 + 동사. strangely = 이상하게."},
+    {en:"<s>Humans</s> <v>don’t know</v> / <o>when earthquakes will happen</o>, / but <s>animals</s> <v>do</v>.", ko:"인간들은 언제 지진이 일어날지 모르지만, 동물들은 안다.", tip:"when + 주어 + will ~ = 언제 ~할지. do = know (앞 동사를 대신)."}
+   ]}
+ ],
+ riddle:{clues:["I am in the sky at night.","I have precious metals and rocks.","Scientists found water on me.","No one owns me now."], answer:"The moon! 달"},
+ grammar:[
+  {title:"start · begin · keep + -ing / to", sub:"~하기 시작하다 / 계속 ~하다", formula:"start · begin + <em>-ing / to 동사원형</em> | keep + <em>-ing</em>",
+   ex:[["So the eggs <mark>started to hatch</mark>.","부화하기 시작했다"],["Many dogs in Italy <mark>started barking</mark> suddenly.","짖기 시작했다"],["He just <mark>kept driving</mark>.","계속 운전했다"]],
+   note:"start, begin → -ing와 to 둘 다 OK<br>keep, enjoy → <b>-ing만</b> (kept to drive ✗)",
+   fix:[["He just kept to drive.","He just kept driving.","keep + -ing"],["The eggs started hatch.","The eggs started to hatch.","start + to / -ing"],["Houses began fall over.","Houses began to fall over.","begin + to / -ing"]]},
+  {title:"간접의문문 (의문사 + 주어 + 동사)", sub:"문장 속에 들어간 의문문", formula:"know · understand + <em>의문사 + 주어 + 동사</em>",
+   ex:[["Do you know <mark>why they care</mark> so much?","왜 관심을 가지는지"],["People couldn’t figure out <mark>why the dogs were acting</mark> unusually.","왜 개들이 그렇게 행동하는지"],["Humans don’t know <mark>when earthquakes will happen</mark>.","언제 지진이 일어날지"]],
+   note:"의문문 순서(Why do they care?) → 문장 속에서는 <b>주어 + 동사</b> 순서!<br>what이 주어일 땐 바로 동사: <b>what was happening</b>",
+   fix:[["Do you know why do they care so much?","Do you know why they care so much?","의문사 + 주어 + 동사"],["Humans don’t know when will earthquakes happen.","Humans don’t know when earthquakes will happen.","주어 + will"],["People understand why did the dogs act strangely.","People understand why the dogs acted strangely.","did 빼고 과거형"]]},
+  {title:"be interested in · imagine -ing · If ~, will", sub:"~에 관심이 있다 / ~하는 것을 상상하다", formula:"be <em>interested in</em> | imagine + <em>-ing</em> | <em>If</em> + 현재, will ~",
+   ex:[["Many countries <mark>are interested in</mark> the moon.","달에 관심이 있다"],["Some people <mark>imagine living</mark> there one day.","사는 것을 상상한다"],["<mark>If</mark> anyone <mark>explores</mark> it first, they <mark>will get</mark> an advantage.","이점을 얻을 것이다"]],
+   note:"<b>take place</b> = 일어나다 · <b>all over</b> = ~의 곳곳에<br><b>no one · anyone</b>은 단수 → owns, explores",
+   fix:[["Some people imagine to live there.","Some people imagine living there.","imagine + -ing"],["If anyone will explore it first, ...","If anyone explores it first, ...","If절은 현재형"],["No one own the moon now.","No one owns the moon now.","no one → 단수"]]}
+ ],
+ acts:[
+  {after:0,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["The truck had a lot of eggs in the back.","O","It had a lot of eggs in the back."],["The weather was very cold.","X","The weather was very hot."],["Some chicks climbed out of the truck.","O","Some chicks even climbed out of the truck."],["The driver stopped the truck right away.","X","He just kept driving."],["The driver knew what was happening.","X","the driver did not know what was happening"]]},
+  {after:1,type:"hunt",lbl:"-ing 헌터",title:"-ing Hunter",sub:"동사 뒤에 오는 -ing(동명사)를 모두 터치하세요",
+   items:["He just kept *driving*.","So some people imagine *living* there one day.","Many dogs in Italy started *barking* suddenly.","It kept *saying* the same numbers."]},
+  {after:2,type:"flip",lbl:"지진 순서 카드",title:"Earthquake Timeline",sub:"순서대로 앞면의 빈칸을 먼저 말한 뒤 카드를 여세요",small:true,
+   cards:[["In 2009, many dogs in Italy started ___ suddenly.","barking","1"],["Others ran up ___.","the hills","2"],["They looked ___.","scared","3"],["A few hours later, everything started to ___.","shake","4"],["Houses and buildings began to ___.","fall over","5"],["Soon, the ground ___.","opened up","6"],["More buildings ___.","fell down","7"],["Humans don’t know when earthquakes will happen, but ___.","animals do","정리"]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["So the eggs started to hatch.","그래서 그 달걀들이 부화하기 시작했다."],["He just kept driving.","그는 그냥 계속 운전했다."],["Many countries are interested in the moon.","많은 나라들이 달에 관심이 있다."],["Some people imagine living there one day.","몇몇 사람들은 언젠가 그곳에 사는 것을 상상한다."],["Humans don’t know when earthquakes will happen.","인간들은 언제 지진이 일어날지 모른다."]]}
+ ],
+ battle:[
+  {t:"내용 · 31", q:"트럭 위의 달걀이 부화한 이유는?", a:"날씨가 매우 더워서", k:"The weather was very hot.", p:1},
+  {t:"내용 · 31", q:"병아리들이 트럭에 가득할 때 운전수는?", a:"그냥 계속 운전했다", k:"He just kept driving.", p:1},
+  {t:"내용 · 32", q:"달에 있는 보물 3가지는?", a:"귀금속, 암석, 물", k:"precious metals and rocks / water", p:1},
+  {t:"O / X · 32", q:"지금 달은 한 나라가 소유하고 있다.", a:"X", k:"no one owns the moon now", p:1},
+  {t:"내용 · 33", q:"2009년 개들의 이상한 행동이 있었던 나라는?", a:"Italy (이탈리아)", k:"many dogs in Italy started barking suddenly", p:1},
+  {t:"내용 · 33", q:"개들이 짖은 몇 시간 후에 일어난 일은?", a:"an earthquake (지진)", k:"An earthquake was happening!", p:1},
+  {t:"문법 · 빈칸", q:"He just kept <span class='en'>___</span>. (drive)", a:"driving", k:"keep + -ing", p:1},
+  {t:"문법 · 빈칸", q:"Many countries are interested <span class='en'>___</span> the moon.", a:"in", k:"be interested in", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>Do you know why do they care so much?</span>", a:"Do you know why they care so much?", k:"의문사 + 주어 + 동사", p:1},
+  {t:"영작", q:"“몇몇 사람들은 언젠가 그곳에 사는 것을 상상한다.”", a:"Some people imagine living there one day.", k:"imagine + -ing", p:1},
+  {t:"BONUS · 3점", q:"달을 먼저 탐험하는 나라는 무엇을 얻게 될까요?", a:"an advantage (이점)", k:"they will get an advantage", p:3}
+ ],
+ exit:[["31 · keep -ing","I kept ______ all day.","하루 종일 계속 한 일<br>예) I kept studying all day."],["32 · imagine -ing","I imagine ______ in the future.","미래에 상상하는 것<br>예) I imagine living on the moon in the future."],["33 · 간접의문문","I don’t know why ______.","이유를 모르는 것<br>예) I don’t know why she is angry."]]
+},
+/* ---------------- UNIT 12 ---------------- */
+{no:"12",
+ passages:[
+  {no:"34", ko:"잠을 깨워주는 마법의 침대", en:"The Magic Bed That Wakes You Up",
+   task:"<b>Find</b> Bed Shaker가 작동하는 방법",
+   note:["아침에 일어나기 힘든 학생들의 경험부터! Bed Shaker는 일어날 때까지 계속 흔들려요.","may / called / help + O + 동사원형 / When it is time to ~ / keep -ing until을 짚어 주세요."],
+   lines:[
+    {en:"<v>Do</v> <s>you</s> <v>get up</v> easily / in the morning?", ko:"당신은 아침에 쉽게 일어나는가?", tip:"get up = 일어나다. easily = 쉽게 (부사)."},
+    {en:"<s>It</s> <v>may not be</v> <c>easy</c>.", ko:"그것은 쉽지 않을 수 있다.", tip:"may not = ~하지 않을지도 모른다. easy = 쉬운 (형용사)."},
+    {en:"Sometimes / <s>you</s> <v>may wake up</v> late / and <v>rush</v> to school.", ko:"때때로 당신은 늦게 깨서 서둘러 학교에 갈지도 모른다.", tip:"wake up = 잠에서 깨다. rush to ~ = ~에 서둘러 가다."},
+    {en:"Thankfully, / <s>an inventor</s> <v>solved</v> <o>this problem</o>.", ko:"다행히도, 한 발명가가 이 문제를 해결했다.", tip:"thankfully = 다행히도. solve = 해결하다."},
+    {en:"<s>He</s> <v>made</v> <o>an amazing bed / called the Bed Shaker</o>.", ko:"그는 Bed Shaker라고 불리는 놀라운 침대를 만들었다.", tip:"called ~ = ~라고 불리는 (bed를 뒤에서 꾸밈)."},
+    {en:"<s>It</s> <v>helps</v> <o>you</o> <c>wake up easily</c>.", ko:"그것은 당신이 쉽게 일어나는 것을 돕는다.", tip:"help + 목적어 + 동사원형."},
+    {en:"When it is time to get up, / <s>the bed</s> <v>starts</v> <o>to shake</o>.", ko:"일어날 시간이 되면, 침대가 흔들리기 시작한다.", tip:"It is time to + 동사원형 = ~할 시간이다. start to = ~하기 시작하다."},
+    {en:"<s>The bed</s> <v>keeps</v> <o>shaking</o> / until you get out of bed.", ko:"그 침대는 당신이 침대 밖으로 나올 때까지 계속 흔들린다.", tip:"keep + -ing = 계속 ~하다. until = ~할 때까지."}
+   ]},
+  {no:"35", ko:"Van Gogh와 Theo: 어려움을 이긴 형제애", en:"Van Gogh and Theo: Brothers’ Love",
+   task:"<b>Find</b> Theo가 형 Vincent를 위해 한 일",
+   note:["고흐의 그림(별이 빛나는 밤 등)을 보여 주며 시작. 살아 있는 동안 가난했지만 동생 Theo가 평생 도왔어요.","while / make a living / for his entire life / six months after / Even after / beside를 짚어 주세요."],
+   lines:[
+    {en:"<s>Vincent van Gogh</s> <v>is</v> <c>a famous painter</c> / today.", ko:"Vincent van Gogh는 오늘날 유명한 화가이다.", tip:"famous = 유명한. painter = 화가."},
+    {en:"But / <s>he</s> <v>did not earn</v> <o>any money</o> / while he was alive.", ko:"하지만 그는 살아 있었던 동안 돈을 벌지 못했다.", tip:"earn = (돈을) 벌다. while = ~하는 동안. alive = 살아 있는."},
+    {en:"Then / how <v>did</v> <s>he</s> <v>make</v> <o>a living</o>?", ko:"그렇다면 그는 어떻게 생계를 유지했을까?", tip:"make a living = 생계를 꾸리다."},
+    {en:"<s>His younger brother Theo</s> <v>supported</v> <o>him</o>.", ko:"그의 남동생 Theo가 그를 부양했다.", tip:"His younger brother = Theo (동격). support = 부양하다, 돕다."},
+    {en:"<s>He</s> <v>loved</v> <o>poor Vincent</o>.", ko:"그는 가난한 Vincent를 사랑했다.", tip:"poor = 가난한; 불쌍한."},
+    {en:"<s>Theo</s> <v>sent</v> <o>him</o> <o>money</o> / for his entire life.", ko:"Theo는 평생 동안 그에게 돈을 보냈다.", tip:"send + 사람 + 물건 (4형식). send-sent. for one’s entire life = 평생 동안."},
+    {en:"<s>Theo</s> <v>died</v> / six months after Vincent died.", ko:"Theo는 Vincent가 죽고 6개월 후에 죽었다.", tip:"시간 + after + 주어 + 동사 = ~하고 … 후에."},
+    {en:"Even after they died, / <s>they</s> <v>are</v> still <c>close to each other</c>.", ko:"그들은 죽은 후에도 여전히 서로에게 가까이 있다.", tip:"Even after ~ = ~한 후에도. each other = 서로."},
+    {en:"<s>Theo’s grave</s> <v>is</v> / right beside his brother’s.", ko:"Theo의 무덤은 그의 형의 무덤 바로 옆에 있다.", tip:"beside = ~옆에. his brother’s = his brother’s grave (반복 생략)."}
+   ]},
+  {no:"36", ko:"동영상으로 볼까, 책으로 읽을까?", en:"Watch a Video or Read a Book?",
+   task:"<b>Compare</b> 동영상을 볼 때 vs 책을 읽을 때 뇌의 차이",
+   note:["동영상: 보고 듣기 동시 → 빨리 이해, 모두 같은 것 기억 / 책: 머릿속 이미지 → 사람마다 다름, 상상력.","When ~ / at the same time / help us understand / If ~, will / while / let us use / make + O + 형용사를 짚어 주세요."],
+   lines:[
+    {en:"When we watch a video, / <s>we</s> <v>understand</v> <o>it</o> fast.", ko:"우리는 동영상을 볼 때 그것을 빨리 이해한다.", tip:"When = ~할 때. fast = 빨리 (부사도 fast!)."},
+    {en:"Do you know why?", ko:"당신은 그 이유를 아는가?", tip:"Do you know why? = 왜 그런지 알아?"},
+    {en:"Because / <s>we</s> <v>see</v> and <v>hear</v> <o>things</o> / at the same time.", ko:"우리가 내용을 동시에 보고 듣기 때문이다.", tip:"at the same time = 동시에."},
+    {en:"<s>This</s> <v>helps</v> <o>us</o> <c>understand it easily</c>.", ko:"이것은 우리가 그것을 쉽게 이해하는 것을 돕는다.", tip:"help + 목적어 + 동사원형."},
+    {en:"If people watch the same video, / <s>they</s> <v>will remember</v> <o>the same things</o>.", ko:"만약 사람들이 똑같은 동영상을 본다면, 그들은 똑같은 것들을 기억할 것이다.", tip:"If + 현재, 주어 + will ~. the same = 똑같은."},
+    {en:"When we read a book, however, / <s>our brains</s> <v>work</v> differently.", ko:"하지만 우리가 책을 읽을 때, 우리의 뇌는 다르게 작동한다.", tip:"however = 하지만. work = 작동하다. differently = 다르게."},
+    {en:"While we read words, / <s>we</s> <v>make</v> <o>images</o> / in our minds.", ko:"우리가 단어들을 읽는 동안, 우리는 마음속에 이미지를 만든다.", tip:"while = ~하는 동안. in our minds = 마음속에."},
+    {en:"<s>These images</s> <v>are</v> <c>different</c> / for each person.", ko:"이 이미지들은 사람마다 다르다.", tip:"each + 단수 명사 = 각각의 ~."},
+    {en:"What <v>will happen</v> / when people read the same book?", ko:"사람들이 같은 책을 읽을 때 무슨 일이 일어날까?", tip:"What이 주어 → What will happen?"},
+    {en:"<s>They</s> <v>may think of</v> <o>different things</o>.", ko:"그들은 다른 것들을 생각할 수 있다.", tip:"may = ~할지도 모른다. think of = ~을 생각하다."},
+    {en:"<s>Books</s> <v>let</v> <o>us</o> <c>use our imagination</c>.", ko:"책은 우리가 우리의 상상력을 사용하도록 한다.", tip:"let + 목적어 + 동사원형 = ~가 …하게 하다."},
+    {en:"<s>This</s> <v>makes</v> <o>everyone’s reading experience</o> <c>unique</c>.", ko:"이것이 모두의 독서 경험을 독특하게 만든다.", tip:"make + 목적어 + 형용사. unique = 독특한."}
+   ]}
+ ],
+ riddle:{clues:["I am a bed.","An inventor made me.","I start to shake when it is time to get up.","I keep shaking until you get out of bed."], answer:"The Bed Shaker! 베드 셰이커"},
+ grammar:[
+  {title:"keep -ing until · It is time to", sub:"~할 때까지 계속 …하다 / ~할 시간이다", formula:"keep + <em>-ing</em> + <em>until</em> 주어 + 동사 | <em>It is time to</em> + 동사원형",
+   ex:[["The bed <mark>keeps shaking until</mark> you get out of bed.","나올 때까지 계속 흔들린다"],["When <mark>it is time to get up</mark>, the bed starts to shake.","일어날 시간이 되면"],["He made an amazing bed <mark>called</mark> the Bed Shaker.","~라고 불리는 침대"]],
+   note:"until절도 미래 대신 <b>현재형</b>: until you <b>get</b> out (will get ✗)<br><b>easy</b>(형용사) vs <b>easily</b>(부사) → It may not be easy. / get up easily",
+   fix:[["The bed keeps shake until you get up.","The bed keeps shaking until you get up.","keep + -ing"],["It helps you wake up easy.","It helps you wake up easily.","동사 꾸밈 → 부사"],["When it is time getting up, ...","When it is time to get up, ...","It is time to + 동사원형"]]},
+  {title:"while · 시간 + after · Even after", sub:"~하는 동안 / ~하고 … 후에", formula:"<em>while</em> + 주어 + 동사 | 시간 + <em>after</em> + 주어 + 동사",
+   ex:[["He did not earn any money <mark>while</mark> he was alive.","살아 있는 동안"],["Theo died <mark>six months after</mark> Vincent died.","Vincent가 죽고 6개월 후"],["<mark>Even after</mark> they died, they are still close to each other.","죽은 후에도"]],
+   note:"<b>send + 사람 + 물건</b> → Theo sent <b>him money</b>.<br><b>make a living</b> = 생계를 꾸리다 · <b>each other</b> = 서로",
+   fix:[["He didn’t earned any money.","He didn’t earn any money.","didn’t + 동사원형"],["Theo sent money him.","Theo sent him money.","사람 + 물건 순서"],["Theo died after six months Vincent died.","Theo died six months after Vincent died.","시간 + after"]]},
+  {title:"help · let + O + 동사원형 · make + O + 형용사", sub:"~가 …하도록 돕다·하게 하다 / ~을 …하게 만들다", formula:"help · let + O + <em>동사원형</em> | make + O + <em>형용사</em>",
+   ex:[["This <mark>helps</mark> us <mark>understand</mark> it easily.","이해하도록 돕는다"],["Books <mark>let</mark> us <mark>use</mark> our imagination.","상상력을 사용하게 한다"],["This <mark>makes</mark> everyone’s reading experience <mark>unique</mark>.","독특하게 만든다"]],
+   note:"<b>at the same time</b> = 동시에 · <b>each person</b> = 각 사람 (each + 단수)<br><b>If</b> people watch the same video, they <b>will remember</b> the same things.",
+   fix:[["Books let us to use our imagination.","Books let us use our imagination.","let + O + 동사원형"],["This makes reading experience uniquely.","This makes reading experience unique.","make + O + 형용사"],["These images are different for each persons.","These images are different for each person.","each + 단수"]]}
+ ],
+ acts:[
+  {after:0,type:"hunt",lbl:"부사 헌터",title:"Adverb Hunter",sub:"동사를 꾸며 주는 부사(-ly, fast, late)를 모두 터치하세요",
+   items:["Do you get up *easily* in the morning?","Sometimes you may wake up *late* and rush to school.","*Thankfully*, an inventor solved this problem.","When we watch a video, we understand it *fast*."]},
+  {after:1,type:"ox",lbl:"O/X 퀴즈",title:"O / X Quiz",
+   items:[["Van Gogh earned a lot of money while he was alive.","X","he did not earn any money while he was alive"],["Theo was Vincent’s younger brother.","O","His younger brother Theo supported him."],["Theo sent Vincent money for his entire life.","O","Theo sent him money for his entire life."],["Theo died six years after Vincent died.","X","six months after Vincent died"],["Theo’s grave is right beside Vincent’s.","O","Theo’s grave is right beside his brother’s."]]},
+  {after:2,type:"flip",lbl:"동영상 vs 책",title:"Video vs Book",sub:"앞면을 보고 ‘동영상’인지 ‘책’인지 먼저 말한 뒤 여세요",small:true,
+   cards:[["We see and hear things at the same time.","동영상 🎬","Video"],["We understand it fast.","동영상 🎬","Video"],["People will remember the same things.","동영상 🎬","Video"],["Our brains work differently.","책 📖","Book"],["We make images in our minds.","책 📖","Book"],["These images are different for each person.","책 📖","Book"],["It lets us use our imagination.","책 📖","Book"],["It makes everyone’s experience unique.","책 📖","Book"]]},
+  {after:2,type:"scramble",lbl:"문장 만들기",title:"Sentence Builder",
+   items:[["It helps you wake up easily.","그것은 당신이 쉽게 일어나는 것을 돕는다."],["The bed keeps shaking until you get out of bed.","그 침대는 당신이 침대 밖으로 나올 때까지 계속 흔들린다."],["Theo sent him money for his entire life.","Theo는 평생 동안 그에게 돈을 보냈다."],["We see and hear things at the same time.","우리는 내용을 동시에 보고 듣는다."],["Books let us use our imagination.","책은 우리가 상상력을 사용하도록 한다."]]}
+ ],
+ battle:[
+  {t:"내용 · 34", q:"발명가가 만든 침대의 이름은?", a:"the Bed Shaker", k:"an amazing bed called the Bed Shaker", p:1},
+  {t:"내용 · 34", q:"Bed Shaker는 언제까지 흔들리나요?", a:"침대 밖으로 나올 때까지", k:"until you get out of bed", p:1},
+  {t:"내용 · 35", q:"Van Gogh의 생계를 도운 사람은?", a:"Theo (남동생)", k:"His younger brother Theo supported him.", p:1},
+  {t:"O / X · 35", q:"Theo는 Vincent보다 먼저 죽었다.", a:"X", k:"Theo died six months after Vincent died.", p:1},
+  {t:"내용 · 36", q:"동영상을 빨리 이해하는 이유는?", a:"보고 듣기를 동시에 해서", k:"we see and hear things at the same time", p:1},
+  {t:"내용 · 36", q:"책을 읽을 때 우리는 마음속에 무엇을 만드나요?", a:"images (이미지)", k:"we make images in our minds", p:1},
+  {t:"문법 · 빈칸", q:"The bed keeps <span class='en'>___</span> until you get out of bed. (shake)", a:"shaking", k:"keep + -ing", p:1},
+  {t:"문법 · 빈칸", q:"He did not earn any money <span class='en'>___</span> he was alive.", a:"while", k:"while = ~하는 동안", p:1},
+  {t:"문법 · 고치기", q:"<span class='en'>Books let us to use our imagination.</span>", a:"Books let us use our imagination.", k:"let + O + 동사원형", p:1},
+  {t:"영작", q:"“이것은 우리가 그것을 쉽게 이해하는 것을 돕는다.”", a:"This helps us understand it easily.", k:"help + O + 동사원형", p:1},
+  {t:"BONUS · 3점", q:"같은 책을 읽어도 사람마다 생각이 다른 이유는?", a:"사람마다 마음속에 만드는 이미지가 달라서", k:"These images are different for each person.", p:3}
+ ],
+ exit:[["34 · keep -ing until","I keep studying until ______.","~할 때까지 계속 공부한다<br>예) I keep studying until 10 p.m."],["35 · while","While I was sleeping, ______.","내가 자는 동안 일어난 일<br>예) While I was sleeping, it snowed."],["36 · let + O + 동사원형","My teacher lets us ______.","선생님이 허락해 주시는 것<br>예) My teacher lets us play games."]]
+}
+
+];
+const WORDS_EXTRA={"01": {"01": [["Africa", "아프리카"], ["lay", "(알을) 낳다"], ["care for", "~을 돌보다"], ["unusual", "특이한, 색다른"], ["way", "방법"], ["keep", "두다, 보관하다"], ["mouth", "입"], ["in this way", "이러한 방법으로"], ["protect", "보호하다"], ["be full of", "~으로 가득 차다"], ["turn into", "~으로 변하다"], ["come out of", "~밖으로 나오다"], ["free", "자유로운"], ["rest", "쉬다"], ["safe", "안전한"]], "02": [["secret", "비밀"], ["close", "가까운, 친밀한"], ["busy", "붐비는; 바쁜"], ["cafe", "카페"], ["whisper", "속삭이다"], ["quietly", "조용하게"], ["important", "중요한"], ["recently", "최근에"], ["meet", "만나다 (과거형 met)"], ["begin", "시작하다 (과거형 began)"], ["response", "대답; 반응"], ["shocking", "충격적인, 놀란 만한"], ["hopeful", "희망적인"], ["surprised", "놀란"], ["pleased", "기쁜"], ["excited", "신이 난"], ["thankful", "고마워하는"], ["library", "도서관"]], "03": [["named", "~라는 이름의"], ["think of", "~을 생각하다"], ["teach", "가르치다 (과거형 taught)"], ["program", "(컴퓨터) 프로그램을 짜다"], ["college", "대학"], ["own", "자신의"], ["company", "회사"], ["together", "함께"], ["called", "~라고 불리는"], ["human", "인간"], ["technology", "기술"], ["lead", "이끌다, 주도하다"], ["helper", "도와주는 사람이나 도구"], ["head", "책임자"], ["task", "과업, 일"]]}, "02": {"04": [["plant", "식물"], ["imitate", "따라 하다, 모방하다"], ["around", "~의 주위에"], ["change", "바꾸다"], ["shape", "모양"], ["hide", "숨다"], ["come from", "~에서 오다"], ["Argentina", "아르헨티나"], ["Chile", "칠레"], ["skill", "기술"], ["survive", "생존하다"], ["truly", "정말, 확실히"], ["chameleon", "카멜레온"], ["act like", "~처럼 행동하다"]], "05": [["get", "받다 (과거형 got)"], ["dollar", "(미국 화폐) 달러"], ["a week", "일주일마다"], ["parents", "부모"], ["favorite", "가장[매우] 좋아하는"], ["allowance", "용돈"], ["come up with", "~을 생각해 내다"], ["idea", "생각, 아이디어"], ["mind", "마음"], ["decide", "결정하다"], ["raise", "(가격 등을) 올리다"], ["now", "이제"], ["glad", "기쁜"], ["amazingly", "놀랍게도"], ["work", "효과가 있다"]], "06": [["change", "바뀌다; 바꾸다"], ["in the past", "과거에"], ["simple", "단순한, 간단한"], ["fixed", "고정된, 정해진"], ["rule", "규칙"], ["not ~ at all", "전혀 ~아닌"], ["different", "다른; 다양한"], ["player", "(게임) 플레이어"], ["part", "부분"], ["for example", "예를 들면"], ["superhero", "슈퍼히어로, 영웅"], ["anyone", "누구든지"], ["in addition", "게다가"], ["build", "짓다, 만들다"], ["city", "도시 (복수형 cities)"], ["visit", "방문하다"], ["in short", "요약하면"], ["anywhere", "어디든지"], ["be late for", "~에 늦다"], ["important", "중요한"]]}, "03": {"07": [["party", "파티 (복수형 parties)"], ["invite", "초대하다"], ["sleep over", "(남의 집에서) 자고 가다"], ["way", "방법"], ["spend", "(시간을) 보내다; (돈을) 쓰다"], ["fight", "싸우다"], ["with", "~을 가지고"], ["pillow", "베개"], ["scary", "무서운"], ["movie", "영화"], ["delicious", "맛있는"], ["activity", "활동 (복수형 activities)"], ["lie", "눕다"], ["fall asleep", "잠이 들다"], ["asleep", "잠이 든, 자고 있는"], ["clothes", "옷"]], "08": [["match", "경기, 시합 (복수형 matches)"], ["natural", "자연의, 천연의"], ["sugar", "당; 설탕"], ["give", "주다"], ["quick", "빠른"], ["energy", "에너지, 힘"], ["plenty of", "많은"], ["mineral", "(영양소) 미네랄"], ["muscle", "근육"], ["work", "움직이다; 일하다"], ["easy", "쉬운"], ["digest", "(음식을) 소화하다"], ["break down", "분해하다"]], "09": [["trick", "속임수; 묘기"], ["between", "(둘) ~사이에"], ["leg", "다리"], ["the other side", "반대쪽"], ["smart", "똑똑한"], ["avoid", "피하다"], ["step on", "~을 밟다"], ["pretend", "~인 체하다"], ["push", "밀다"], ["roll", "굴리다"], ["forward", "앞으로"], ["surprise", "놀라게 하다; 놀라움"], ["backward", "뒤로"], ["be full of", "~으로 가득 차다"], ["exciting", "흥미진진한"], ["rich", "부자인"], ["act like", "~처럼 행동하다"]]}, "04": {"10": [["India", "인도"], ["bathe", "목욕하다"], ["during", "~동안"], ["event", "행사"], ["clean", "깨끗이 하다"], ["heart", "마음; 심장"], ["put", "놓다"], ["candle", "양초"], ["by", "~옆에"], ["river", "강"], ["then", "그다음에"], ["pray", "기도하다"], ["god", "신"], ["blessing", "축복"]], "11": [["useful", "쓸모 있는, 유용한"], ["technology", "기술"], ["bad side", "나쁜 면"], ["lie", "거짓말하다"], ["face", "얼굴"], ["voice", "목소리"], ["video", "비디오, 동영상"], ["fake", "가짜의"], ["online", "온라인에서; 온라인의"], ["cause", "일으키다, 유발하다"], ["trouble", "문제"], ["helpful", "도움이 되는"], ["in the right way", "올바른 방법으로"], ["way", "방법"], ["fun", "재미있는"]], "12": [["enter", "들어가다"], ["bedroom", "침실"], ["find", "알아차리다; 찾다 (과거형 found)"], ["broken", "깨진"], ["dead", "죽은"], ["floor", "바닥"], ["poor", "불쌍한"], ["sad", "슬픈"], ["happen", "발생하다, 일어나다"], ["several times", "여러 번"], ["next to", "~옆에"], ["fly", "날다 (과거형 flew)"], ["decide", "결정하다"], ["paint", "그리다, 칠하다"], ["colorful", "형형색색의"], ["hit", "부딪히다; 때리다"], ["raindrop", "빗방울"], ["roof", "지붕"], ["wrong", "잘못된, 나쁜"]]}, "05": {"13": [["Spain", "스페인"], ["chimpanzee", "침팬지"], ["baby", "아기"], ["die", "죽다"], ["later", "~후에"], ["surprisingly", "놀랍게도"], ["still", "여전히"], ["show", "보여주다"], ["care", "관심; 돌봄"], ["carry", "데리고 있다, 들고 가다"], ["everywhere", "모든 곳에, 어디나"], ["touch", "만지다"], ["kiss", "입을 맞추다"], ["understand", "이해하다"], ["feeling", "감정"], ["sad", "슬픈"], ["put", "놓다"]], "14": [["white", "흰색의"], ["flower", "꽃"], ["yellow", "노란색의"], ["more", "더 많이"], ["beautiful", "아름다운"], ["than", "~보다"], ["right", "옳은"], ["color", "색깔"], ["make a difference", "중요하다"], ["difference", "차이"], ["equally", "동등하게, 똑같이"], ["in the same way", "마찬가지로"], ["same", "똑같은"], ["lovely", "사랑스러운"], ["child", "어린이 (복수형 children)"], ["age", "나이"], ["important", "중요한"]], "15": [["Earth", "지구"], ["empty", "텅 빈"], ["oxygen", "산소"], ["stove", "난로"], ["life", "생명체; 생명"], ["tiny", "아주 작은"], ["appear", "나타나다"], ["completely", "완전히"], ["as a result", "그 결과"], ["show up", "나타나다"], ["Mars", "화성"], ["young", "초기의; 젊은"], ["air", "공기"], ["planet", "행성"], ["comfortable", "편한, 쾌적한"], ["human", "인간"], ["turn A into B", "A를 B로 바꾸다"], ["same", "같은"], ["seatbelt", "안전벨트"]]}, "06": {"16": [["sport", "스포츠, 운동"], ["wear", "(번호를) 달다; (옷을) 입다"], ["number", "번호"], ["uniform", "유니폼"], ["team", "팀"], ["goalkeeper", "골키퍼"], ["special", "특별한"], ["best", "최고의, 가장 좋은"], ["such as", "~같은"], ["skill", "기술"], ["record", "기록"], ["position", "(선수의) 위치"], ["score", "점수"]], "17": [["blind", "눈이 먼, 시각 장애의"], ["get on", "~을 타다 (과거형 got on)"], ["subway", "지하철"], ["be crowded with", "~으로 붐비다"], ["crowded", "붐비는, 꽉 찬"], ["passenger", "승객"], ["look for", "~을 찾다"], ["seat", "좌석, 자리"], ["stand up", "일어서다"], ["move to", "~으로 이동하다"], ["smile", "미소 짓다"], ["warmly", "따뜻하게"], ["guide", "안내하다, 인도하다"], ["kind", "친절한"], ["smart", "똑똑한"]], "18": [["bomb", "폭탄"], ["true", "사실인"], ["be good at", "~을 잘하다"], ["strong", "강한; 힘센"], ["sense of smell", "후각"], ["train", "훈련시키다"], ["exercise", "훈련; 운동"], ["a few", "약간의, 몇 개의"], ["treat", "(음식 등의) 특별한 대접"], ["stick out", "내밀다"], ["tongue", "혀"], ["expect", "기대하다"], ["helper", "도와주는 사람"], ["keep", "(~한 상태로) 유지하다"], ["safe", "안전한"], ["stay", "유지하다"], ["calm", "침착한"], ["self-control", "자제력"]]}, "07": {"19": [["mango", "망고"], ["papaya", "파파야"], ["fruit", "과일; 열매"], ["come from", "~에서 오다"], ["country", "나라 (복수형 countries)"], ["Southeast Asia", "동남아시아"], ["Korean", "한국 (인)의"], ["farmer", "농부"], ["grow", "재배하다; 자라다"], ["possible", "가능한"], ["warm", "따뜻한"], ["enough", "충분히"], ["reason", "이유"], ["Earth", "지구"], ["get hotter", "점점 더워지다"], ["climate", "기후"]], "20": [["chocolate", "초콜릿"], ["worry about", "~에 대해 걱정하다 (과거형 worried)"], ["tooth", "이, 치아 (복수형 teeth)"], ["sometimes", "때때로"], ["grandpa", "할아버지"], ["come", "(때가) 오다"], ["pray", "기도하다"], ["loudly", "큰 소리로"], ["God", "하느님"], ["shout", "소리치다"], ["hear", "듣다"], ["know", "알다"], ["next", "옆의; 다음의"]], "21": [["mouse", "생쥐 (복수형 mice)"], ["suddenly", "갑자기"], ["snake", "뱀"], ["come along", "나타나다"], ["yum", "냠냠 (맛있다는 감탄사)"], ["swallow", "삼키다"], ["realize", "깨닫다"], ["eagle", "독수리"], ["fly", "날다 (3인칭 단수형 flies)"], ["toward", "~을 향하여"], ["poop", "똥; 똥을 싸다"], ["ground", "땅"], ["be back", "돌아오다"], ["food chain", "먹이 사슬"], ["cycle", "순환"], ["life", "생명"], ["go on", "계속되다"], ["forever", "영원히"], ["stomach", "위장"]]}, "08": {"22": [["ID photo", "증명사진"], ["picture", "사진"], ["look at", "~을 보다"], ["quickly", "빨리"], ["change", "바꾸다"], ["clothes", "옷"], ["smile", "미소 짓다"], ["part", "부분"], ["background", "배경"], ["even", "심지어"], ["erase", "지우다"], ["popular", "인기 있는"], ["ready", "준비가 된"], ["download", "다운로드하다"], ["quick", "빠른"], ["simple", "간단한"]], "23": [["long ago", "옛날에"], ["believe", "믿다"], ["sky", "하늘"], ["god", "신"], ["the West", "서양"], ["still", "여전히"], ["bring", "가져오다"], ["luck", "운, 행운"], ["athlete", "운동선수"], ["win", "우승하다"], ["however", "하지만"], ["mean", "의미하다"], ["start", "시작"], ["death", "죽음"], ["funeral", "장례식"], ["cool", "멋진"], ["around the world", "전 세계에서"]], "24": [["around", "~의 주위에"], ["chance", "기회"], ["make a friend", "친구를 사귀다"], ["use", "이용하다"], ["often", "자주"], ["be interested in", "~에 관심이 있다"], ["interested", "관심이 있는"], ["look back", "(응답하여) 바라보다"], ["uncomfortable", "불편한"], ["friendly", "다정한"], ["approach", "다가가다"], ["easily", "쉽게"], ["for too long", "너무 오랫동안"]]}, "09": {"25": [["world history", "세계사"], ["history", "역사"], ["class", "수업; 반"], ["gather", "모이다; 모으다"], ["map", "지도"], ["ask", "요청하다; 묻다"], ["certain", "특정한"], ["point", "가리키다"], ["spot", "장소, 지점"], ["with a smile", "웃으며"], ["discover", "발견하다"], ["America", "미국; 아메리카 대륙"], ["answer", "대답하다"], ["whole", "전체의"], ["burst into laughter", "웃음을 터뜨리다"]], "26": [["company", "회사"], ["name", "이름; 이름을 지어 주다"], ["in the beginning", "처음에"], ["team", "팀"], ["think of", "~을 생각하다"], ["by", "~까지"], ["o'clock", "(정각) ~시"], ["idea", "생각, 아이디어"], ["no one", "아무도 ~않다"], ["come up with", "~을 생각해 내다"], ["deadline", "마감 시간"], ["life", "인생"], ["favorite", "가장 좋아하는"], ["birth", "탄생, 출생"]], "27": [["in the future", "미래에"], ["driver", "운전자"], ["run", "주행한다"], ["safe", "안전한"], ["worry", "걱정하다"], ["sensor", "센서, 감지기"], ["communicate with", "~와 정보를 교환하다"], ["avoid", "피하다"], ["accident", "사고"], ["traffic light", "신호등"], ["passenger", "승객"], ["relax", "편히 쉬다"], ["convenient", "편리한"], ["dangerous", "위험한"], ["design", "디자인"], ["expensive", "값비싼"], ["danger", "위험"], ["harm", "해, 피해"]]}, "10": {"28": [["lonely", "외로운"], ["England", "잉글랜드"], ["duckling", "새끼 오리"], ["pond", "연못"], ["notice", "알아차리다"], ["without", "~없이"], ["come up to", "~에게 다가가다"], ["stay close", "가까이 머물다"], ["see A as B", "A를 B라고 여기다 (과거형 saw)"], ["follow", "따라가다"], ["everywhere", "모든 곳에, 어디나"], ["care for", "~을 돌보다"], ["not ~ anymore", "더 이상 ~아닌"], ["puppy", "강아지 (복수형 puppies)"]], "29": [["a long time ago", "오래전에"], ["flat", "평평한, 납작한"], ["piece", "조각"], ["wood", "나무, 목재"], ["later", "나중에"], ["appear", "등장하다"], ["place", "장소"], ["wait", "기다리다"], ["mean", "의미하다"], ["website", "웹사이트"], ["search", "검색하다"], ["important", "중요한"], ["share", "공유하다"], ["importance", "중요성"]], "30": [["parrot", "앵무새"], ["broken", "부러진"], ["wing", "날개"], ["look at", "~을 보다"], ["chirp", "짹짹거리다"], ["same", "똑같은"], ["phone number", "전화번호"], ["call", "전화하다"], ["be curious about", "~에 대해 궁금해하다"], ["curious", "궁금한"], ["take", "데리고 가다 (과거형 took)"], ["answer", "(전화를) 받다; 대답하다"], ["teach", "가르치다 (과거형 taught)"], ["pick up", "(차로) 데리러 가다"], ["thank A for B", "A에게 B에 대해 감사하다"]]}, "11": {"31": [["interesting", "흥미로운, 재미있는"], ["take place", "발생하다, 일어나다 (과거형 took place)"], ["truck", "트럭"], ["road", "도로, 길"], ["back", "뒤, 뒤쪽"], ["weather", "날씨"], ["hatch", "(알이) 부화하다"], ["little", "작은"], ["chick", "병아리"], ["all over", "~의 곳곳에"], ["climb", "기어오르다"], ["out of", "~밖으로"], ["happen", "발생하다, 일어나다"], ["just", "그냥"]], "32": [["be interested in", "~에 관심이 있다"], ["moon", "달"], ["care", "관심을 가지다; 돌봄"], ["land", "땅"], ["treasure", "보물"], ["precious", "귀중한"], ["metal", "금속"], ["rock", "암석, 바위"], ["find", "찾다 (과거형 found)"], ["imagine", "상상하다"], ["own", "소유하다"], ["explore", "탐험하다"], ["first", "먼저"], ["advantage", "이점, 유리한 점"]], "33": [["bark", "(개가) 짖다"], ["suddenly", "갑자기"], ["hill", "언덕"], ["scared", "겁먹은"], ["figure out", "알아내다"], ["act", "행동하다"], ["unusually", "평소와 달리, 특이하게"], ["a few hours later", "몇 시간 후에"], ["shake", "흔들리다"], ["ground", "땅"], ["fall over", "넘어지다, 쓰러지다"], ["earthquake", "지진"], ["open up", "(틈이) 벌어지다"], ["strangely", "이상하게"], ["human", "인간"]]}, "12": {"34": [["get up", "(잠자리에서) 일어나다"], ["easily", "쉽게"], ["easy", "쉬운"], ["wake up", "(잠에서) 깨다"], ["late", "늦게"], ["rush", "서두르다, 급히 가다"], ["thankfully", "다행히도"], ["inventor", "발명가"], ["solve", "해결하다; 풀다"], ["called", "~라고 불리는"], ["shake", "흔들리다"], ["until", "~할 때까지"], ["make the bed", "잠자리를 정리하다"], ["from side to side", "좌우로"], ["up and down", "위아래로"]], "35": [["famous", "유명한"], ["painter", "화가"], ["earn", "(돈을) 벌다"], ["alive", "살아 있는"], ["make a living", "생계를 꾸리다"], ["younger brother", "남동생"], ["support", "부양하다"], ["poor", "가난한; 불쌍한"], ["send", "보내다 (과거형 sent)"], ["one's entire life", "~의 평생"], ["entire", "전체의, 온"], ["die", "죽다"], ["close", "가까운"], ["each other", "서로"], ["grave", "무덤"], ["beside", "~옆에"], ["get", "받다"]], "36": [["understand", "이해하다"], ["at the same time", "동시에"], ["same", "똑같은"], ["remember", "기억하다"], ["however", "하지만"], ["work", "작동하다"], ["differently", "다르게"], ["mind", "마음"], ["image", "이미지; 그림"], ["each", "각각의"], ["imagination", "상상력"], ["experience", "경험"], ["unique", "독특한; 유일한"], ["forget", "잊다"], ["comfortable", "편안한"], ["more", "더 많은 (many의 비교급)"], ["only", "유일한"]]}};
+UNITS.forEach(u=>{if(!u.words&&WORDS_EXTRA[u.no])u.words=WORDS_EXTRA[u.no]});
+UNITS.forEach(u=>u.acts.forEach(a=>{if(a.type==="hunt")a.items=a.items.map(it=>{if(typeof it!=="string")return it;const w=it.split(" ");return{w:w.map(x=>x.replace(/\*/g,"")),v:w.map((x,i)=>x.includes("*")?i:-1).filter(i=>i>=0)}})}));
+
+/* =====================================================================
+   SLIDE BUILDER
+   ===================================================================== */
+const ACT_META={
+ hunt:{sec:a=>"Come Up! "+a.title, min:"2분", comeup:true,
+  note:a=>["팀별 대표 1명이 나와서 해당 단어를 모두 터치한 뒤 '정답 확인'을 누릅니다.","모두 맞히면 +2, 하나라도 놓치면 +1, 틀린 단어를 고르면 0점.","점선 테두리는 놓친 정답, 빨간 줄은 잘못 고른 단어예요."]},
+ flip:{sec:a=>"Team Game · "+a.title, min:"2분", team:true,
+  note:a=>["팀이 돌아가며 카드 번호를 고릅니다. 카드를 열기 전에 답을 말해야 해요.","맞히면 +1. '함정!' 카드는 맞히면 +1 보너스.","카드를 다시 누르면 뒤집혀서 처음 상태로 돌아가요."]},
+ ox:{sec:()=>"Team Game · O/X Quiz", min:"2분", team:true,
+  note:()=>["팀 전원이 손으로 O 또는 X를 만들어 동시에 듭니다.","정답 공개 후 근거 문장을 같이 읽어 주세요. 맞힌 팀 +1.","X 문제는 '어떻게 고치면 O가 될까?'를 물어보면 좋아요."]},
+ role:{sec:()=>"Come Up! Role-play", min:"2분", comeup:true,
+  note:()=>["3명이 나와서 역할을 나눠 읽습니다. 랜덤 뽑기로 정해도 좋아요.","표정 연기까지 하면 팀 +1."]},
+ scramble:{sec:a=>"Come Up! "+a.title, min:"2분", comeup:true,
+  note:()=>["팀 대표가 나와서 단어를 순서대로 터치해 문장을 완성합니다. 30초 타이머를 같이 켜세요.","정답 +2. 시간 안에 못 하면 다른 팀에게 기회.","틀리면 '되돌리기'로 한 단어씩 뺄 수 있어요."]}
+};
+function buildSlides(u){
+ const P=u.passages, L=[];
+ L.push({type:"title",sec:"Start",min:"",note:[`오늘은 리더스뱅크 Level 2 Unit ${u.no}의 지문 ${P.map(p=>p.no).join(", ")}를 다룹니다.`,"인사 후 바로 팀을 나눠 주세요. 오늘 활동은 모두 팀 점수로 이어집니다.","다른 유닛은 아래 유닛 선택이나 첫 화면의 유닛 버튼으로 바꿀 수 있어요."]});
+ L.push({type:"plan",sec:"Today's Flow",min:"1분",note:["\"오늘 50분 동안 이렇게 진행해요. 노란색 칸은 게임이에요.\"","팀 수를 정하고 팀 이름을 학생들과 빠르게 정합니다. 점수판은 화면 오른쪽 위에 계속 떠 있어요.","규칙: ① 영어로 대답하면 +1 보너스 ② 손 들고 지목받은 팀만 정답 인정 ③ 나와서 하는 학생은 팀 대표."]});
+ L.push({type:"riddle",sec:"Warm-up",min:"3분",team:true,note:[`"오늘 첫 지문의 주인공이 누구인지 맞혀 볼까요? 힌트를 하나씩 열 때마다 점수가 줄어요."`,"첫 힌트에서 맞히면 4점, 마지막 힌트면 1점. 틀린 팀은 그 라운드 기회 끝.","정답 공개 후: \"지문에서 정답 단어가 직접 나오나요? 어떻게 알았어요?\" → 단서로 추론하는 것이 독해!"]});
+ L.push({type:"vocab",sec:"Words",min:"4분",note:["지문별 탭을 바꾸며 단어 카드를 봅니다. 카드를 누르면 뜻이 보여요.","선생님이 먼저 읽고 → 학생 따라 읽기 2회. 뜻은 학생이 먼저 말하게 한 뒤 카드를 뒤집으세요.","시간이 부족하면 첫 지문 탭만 집중하고 나머지는 지문 읽을 때 다룹니다."]});
+ L.push({type:"speed",sec:"Words Game",min:"3분",team:true,note:["스피드 퀴즈: 우리말 뜻이 나오면 가장 먼저 손 든 팀이 영어로 말합니다. 정답 +1.","타이머 60초를 켜고 진행하면 긴장감이 올라가요.","철자까지 말하면 +1 보너스를 줄 수 있어요."]});
+ P.forEach((p,i)=>{
+  L.push({type:"passage",sec:"Reading "+p.no,min:"5분",p:i,note:["① 원문 모드로 한 번 소리 내어 같이 읽기.","② 끊어읽기 모드: 빗금(/)마다 끊어서 선생님 → 학생 따라 읽기.","③ 구문분석 모드: 문장을 누르면 오른쪽에 포인트가 나와요. S(주어)·V(동사) 색을 짚으며 설명.",...(p.note||[])]});
+  L.push({type:"grammar",sec:"Grammar "+p.no,min:"2분",g:i,note:[`핵심 공식 → 지문 예문 → Quick Fix 순서로 진행합니다.`,"Quick Fix 카드는 먼저 학생에게 어디가 틀렸는지 물어본 뒤 눌러 정답을 공개하세요."]});
+  u.acts.filter(a=>a.after===i).forEach(a=>{const m=ACT_META[a.type];L.push({type:a.type,act:a,sec:m.sec(a),min:m.min,comeup:m.comeup,team:m.team,note:m.note(a)})});
+ });
+ L.push({type:"battle",sec:"Team Battle",min:"8분",team:true,note:["문제 번호를 누르고 문제를 읽어 줍니다. 손 든 팀이 답하고, 정답 공개 후 아래 팀 버튼으로 점수를 줍니다.","내용 이해 + 문법 + 보너스. 보너스(★)는 3점!","시간이 부족하면 짝수 번호만 진행해도 됩니다."]});
+ L.push({type:"exit",sec:"Exit Ticket",min:"3분",note:["오늘의 우승팀을 발표합니다.","나가기 전에 한 명씩 세 문장 중 하나를 골라 자기 이야기로 말하게 하세요. 말한 학생부터 퇴실.",`숙제: Unit ${u.no} 단어 복습 + 지문 3개 끊어읽기 소리 내어 3번 읽기.`]});
+ return L;
+}
+
+/* ========== STATE ========== */
+const TEAM_COLORS=["var(--tA)","var(--tB)","var(--tC)","var(--tD)"];
+let S={u:0,i:0,teams:[{n:"Team A",s:0},{n:"Team B",s:0},{n:"Team C",s:0},{n:"Team D",s:0}],count:3,notes:false,scoreOn:true};
+try{const raw=localStorage.getItem("rb_lv2");if(raw){const o=JSON.parse(raw);if(o&&o.teams)S={...S,teams:o.teams,count:o.count||3,u:Math.min(UNITS.length-1,o.u||0)};}}catch(e){}
+function save(){try{localStorage.setItem("rb_lv2",JSON.stringify({teams:S.teams,count:S.count,u:S.u}))}catch(e){}}
+let U=UNITS[S.u], SLIDES=buildSlides(U);
+
+const stage=document.getElementById("stage");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const LBL={s:"S",v:"V",o:"O",c:"C"};
+function markup(en){
+  return en.replace(/<(s|v|o|c)>(.*?)<\/\1>/g,(m,t,x)=>`<span class="t-${t}" data-l="${LBL[t]}">${x}</span>`)
+           .replace(/ \/ /g,' <i class="sl">/</i> ');
+}
+const plain=en=>en.replace(/<[^>]+>/g,"").replace(/ \/ /g," ");
+function head(sl,title){
+  const tag=sl.comeup?'<span class="comeup">COME UP!</span>':(sl.team?'<span class="team-tag">TEAM GAME</span>':'');
+  return `<div class="top"><span class="sec">${esc(sl.sec)}</span>${sl.min?`<span class="min">${sl.min}</span>`:""}${tag}</div>${title?`<h2>${title}</h2>`:""}`;
+}
+const shuffle=a=>{const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b};
+
+/* ========== RENDERERS ========== */
+const R={
+ title(sl){
+  const ps=U.passages.map(p=>`<div class="ttl-item"><div class="n">${p.no}</div><div class="k">${p.ko}</div><div class="e">${p.en}</div></div>`).join("");
+  const us=UNITS.map((x,i)=>`<button class="chip ${i===S.u?"on":""}" data-unit="${i}">Unit ${x.no}</button>`).join("");
+  return `<div class="slide title-slide">
+   <div class="ttl-book">${BOOK.book} · Reading & Grammar Class</div>
+   <div class="ttl-main">${BOOK.level}<br><span>Unit ${U.no}</span></div>
+   <div class="ttl-units"><b>유닛 선택</b>${us}</div>
+   <div class="ttl-list">${ps}</div>
+   <div class="credit">Made by 스텔라원장 · English Eye Stella</div></div>`;
+ },
+ plan(sl){
+  const P=U.passages,lab=i=>U.acts.filter(a=>a.after===i).map(a=>a.lbl).join(" + ");
+  const T=[["3'","Warm-up",1],["7'","Words + 스피드퀴즈",1],["9'",`Reading ${P[0].no} + ${lab(0)}`,0],["11'",`Reading ${P[1].no} + ${lab(1)}`,0],["9'",`Reading ${P[2].no} + ${lab(2)}`,0],["8'","Team Battle",1],["3'","Exit Ticket",0]];
+  const tl=T.map(([m,l,g])=>`<div class="tl ${g?"game":""}" style="flex:${parseInt(m)}"><div class="m">${m}</div><div class="l">${l}</div></div>`).join("");
+  const counts=[2,3,4].map(n=>`<button class="chip ${S.count===n?"on":""}" data-cnt="${n}">${n}팀</button>`).join("");
+  return `<div class="slide">${head(sl,`오늘 50분 수업 흐름<small>Unit ${U.no} · 지문 3개 · 문법 3개 · 활동 ${U.acts.length+3}개</small>`)}
+   <div class="timeline">${tl}</div>
+   <div class="teamset"><b style="font-size:24px">팀 수</b><div class="row">${counts}</div>
+     <button class="ghost" id="resetScore">점수 0으로</button>
+     <span style="font-size:19px;color:var(--muted)">점수판의 팀 이름을 누르면 이름을 바꿀 수 있어요</span></div>
+   <div class="rules"><div><b>English Bonus</b>영어로 대답하면 +1 보너스</div><div><b>Hands Up</b>손 들고 지목받은 팀만 정답 인정</div><div><b>Come Up!</b>나와서 하는 학생은 팀 대표, 팀원은 조용히 응원</div></div></div>`;
+ },
+ riddle(sl){
+  const C=U.riddle.clues;
+  return `<div class="slide">${head(sl,"Who Am I?<small>힌트를 열수록 점수가 줄어요</small>")}
+   <div class="body" style="flex-direction:column">
+    <div class="clues">${C.map((c,i)=>`<div class="clue hide"><span class="pts">${4-i}점</span><span>${c}</span></div>`).join("")}</div>
+    <div class="row" style="justify-content:flex-start;align-items:center;gap:20px">
+     <button class="big-btn" id="nextClue">다음 힌트 열기</button>
+     <button class="ghost" id="showAns">정답 공개</button>
+     <span class="answer" id="ans" hidden>${U.riddle.answer}</span></div></div></div>`;
+ },
+ vocab(sl){
+  return `<div class="slide">${head(sl,"Key Words")}
+   <div class="tabs">${U.passages.map((p,i)=>`<button class="tab ${i===0?"on":""}" data-tab="${p.no}">${p.no} ${p.ko}</button>`).join("")}
+    <button class="tab" id="flipAll" style="margin-left:auto">뜻 모두 보기</button></div>
+   <div class="vgrid" id="vgrid"></div></div>`;
+ },
+ speed(sl){
+  return `<div class="slide">${head(sl,"Speed Quiz<small>뜻을 보고 영어 단어를 가장 먼저 말하는 팀이 +1</small>")}
+   <div class="speed"><div class="from" id="spFrom"></div><div class="q" id="spQ">시작을 누르세요</div><div class="a" id="spA"></div>
+   <div class="row"><button class="ghost" id="spReveal">정답 보기</button><button class="big-btn" id="spNext">다음 단어</button></div></div></div>`;
+ },
+ passage(sl){
+  const p=U.passages[sl.p];let txt="";
+  if(p.head)txt+=`<span class="ln">${p.head}</span>`;
+  p.lines.forEach((l,i)=>{txt+=`<span class="sn" data-i="${i}">${markup(l.en)}</span> <span class="ko-line" data-k="${i}" hidden>${l.ko}</span>`;});
+  if(p.foot)txt+=`<span class="ln" style="margin-top:14px">${p.foot.replace(" / ","<br>")}</span>`;
+  const n=p.lines.length, fs=n<=9?36:n<=13?32:29;
+  return `<div class="slide">${head(sl,`${p.no} ${p.ko}`)}
+   <div class="pwrap">
+    <div class="ptext mode-plain" id="ptext" style="font-size:${fs}px">${txt}</div>
+    <div class="side">
+     <div class="seg" role="group" aria-label="읽기 모드"><button class="on" data-m="plain">원문</button><button data-m="chunk">끊어읽기</button><button data-m="sv">구문분석</button></div>
+     <div class="tools"><button id="koAll">전체 해석</button><button id="fsDown" aria-label="글자 작게">A−</button><button id="fsUp" aria-label="글자 크게">A+</button></div>
+     <div class="legend"><span><i style="background:var(--s)"></i>S 주어</span><span><i style="background:var(--v)"></i>V 동사</span><span><i style="background:var(--o)"></i>O 목적어</span><span><i style="background:var(--c)"></i>C 보어</span></div>
+     <div class="tip" id="tip"><h5>구문 포인트</h5>문장을 누르면 해석과 구문 포인트가 여기에 나와요.</div>
+     <div class="task">${p.task}</div>
+    </div></div></div>`;
+ },
+ grammar(sl){
+  const g=U.grammar[sl.g];
+  return `<div class="slide">${head(sl,`${g.title}<small>${g.sub}</small>`)}
+   <div class="gwrap">
+    <div class="gcol"><div class="formula">${g.formula}</div>
+     ${g.ex.map(e=>`<div class="ex">${e[0]}<span class="k">${e[1]}</span></div>`).join("")}
+     <div class="gnote">${g.note}</div></div>
+    <div class="gcol"><div style="font-family:var(--f-display);font-weight:800;font-size:28px">Quick Fix! <span style="font-family:var(--f-ko);font-size:19px;font-weight:500;color:var(--muted)">틀린 곳을 찾아 말한 뒤 카드를 누르세요</span></div>
+     ${g.fix.map(f=>`<button class="fix"><span class="w">${f[0]}</span><span class="r">${f[1]}</span><span class="why">${f[2]}</span><span class="hint">눌러서 정답 보기</span></button>`).join("")}</div>
+   </div></div>`;
+ },
+ hunt(sl){
+  const a=sl.act;
+  return `<div class="slide">${head(sl,`${a.title}<small>${a.sub}</small>`)}
+   <div class="hunt"><div class="hs" id="hs"></div>
+    <div class="hctl"><button class="big-btn" id="hCheck">정답 확인</button><button class="ghost" id="hNext">다음 문장</button><span class="verdict" id="hV"></span><span style="margin-left:auto;font-size:20px;color:var(--muted)" id="hN"></span></div></div></div>`;
+ },
+ flip(sl){
+  const a=sl.act;
+  return `<div class="slide">${head(sl,`${a.title}<small>${a.sub}</small>`)}
+   <div class="fgrid ${a.small?"small":""}">${a.cards.map((f,i)=>`<button class="fc"><span class="no">${i+1}</span><span class="p">${f[0]}</span><span class="pa">${f[1]}</span><span class="kind">${f[2]}</span></button>`).join("")}</div></div>`;
+ },
+ role(sl){
+  const a=sl.act;
+  return `<div class="slide">${head(sl,`${a.title}<small>${a.sub}</small>`)}
+   <div class="roles">${a.roles.map(r=>`<span class="role" style="background:${r[1]}">${r[0]}</span>`).join("")}
+   <span style="font-size:19px;color:var(--muted);align-self:center">표정 연기 성공하면 팀 +1</span></div>
+   <div class="script">${a.script.map(l=>`<div style="border-color:${a.roles[l[0]][1]}"><small>${a.roles[l[0]][0]}</small>${l[1]}</div>`).join("")}</div></div>`;
+ },
+ ox(sl){
+  return `<div class="slide">${head(sl,"O or X?<small>팀 전원이 손으로 O 또는 X를 만들어 동시에 드세요</small>")}
+   <div class="oxw"><div class="qtype" id="oxN"></div><div class="oxq" id="oxQ"></div>
+    <div class="oxa" id="oxA"></div>
+    <div class="hctl"><button class="big-btn" id="oxReveal">정답 공개</button><button class="ghost" id="oxNext">다음 문제</button></div></div></div>`;
+ },
+ scramble(sl){
+  const a=sl.act;
+  return `<div class="slide">${head(sl,`${a.title}<small>단어를 순서대로 터치해서 문장을 완성하세요</small>`)}
+   <div class="scr"><div class="ko" id="scKo"></div><div class="slot" id="scSlot"></div><div class="pool" id="scPool"></div>
+    <div class="hctl"><button class="ghost" id="scUndo">되돌리기</button><button class="big-btn" id="scCheck">정답 확인</button><button class="ghost" id="scNext">다음 문장</button><button class="ghost" id="scT">30초 타이머</button><span class="verdict" id="scV"></span><span style="margin-left:auto;font-size:20px;color:var(--muted)" id="scN"></span></div></div></div>`;
+ },
+ battle(sl){
+  const B=U.battle;
+  return `<div class="slide">${head(sl,"")}
+   <div class="bwrap"><div class="qnav" id="qnav">${B.map((b,i)=>`<button data-q="${i}">${i===B.length-1?"★":i+1}</button>`).join("")}</div>
+   <div class="qbox"><div class="qtype" id="qT"></div><div class="qtext" id="qQ">문제 번호를 고르세요</div><div class="qans" id="qA"></div>
+    <div class="row" style="justify-content:flex-start"><button class="ghost" id="qReveal">정답 공개</button></div>
+    <div class="award" id="qAward"></div></div></div></div>`;
+ },
+ exit(sl){
+  const ts=S.teams.slice(0,S.count).map((t,i)=>({...t,c:TEAM_COLORS[i]}));
+  const mx=Math.max(1,...ts.map(t=>t.s));
+  const pod=ts.map(t=>`<div class="pod"><div class="bar" style="background:${t.c};height:${40+Math.round(t.s/mx*150)}px">${t.s}</div>${esc(t.n)}</div>`).join("");
+  return `<div class="slide">${head(sl,"Exit Ticket<small>하나를 골라 나의 이야기로 말하고 퇴실!</small>")}
+   <div class="body" style="flex-direction:column;gap:26px">
+   <div class="exits">${U.exit.map(e=>`<div class="exit"><div class="g">${e[0]}</div><div class="f">${e[1]}</div><div class="k">${e[2]}</div></div>`).join("")}</div>
+   <div class="podium">${pod}</div></div></div>`;
+ }
+};
+
+/* ========== INITS ========== */
+const INIT={
+ title(el){el.querySelectorAll("[data-unit]").forEach(b=>b.onclick=()=>setUnit(+b.dataset.unit,0))},
+ plan(el){
+  el.querySelectorAll("[data-cnt]").forEach(b=>b.onclick=()=>{S.count=+b.dataset.cnt;save();renderScore();go(S.i)});
+  el.querySelector("#resetScore").onclick=()=>{S.teams.forEach(t=>t.s=0);save();renderScore()};
+ },
+ riddle(el){
+  let k=0;const cl=el.querySelectorAll(".clue");
+  el.querySelector("#nextClue").onclick=()=>{if(k<cl.length){cl[k].classList.remove("hide");k++}};
+  el.querySelector("#showAns").onclick=()=>{cl.forEach(c=>c.classList.remove("hide"));k=cl.length;el.querySelector("#ans").hidden=false};
+ },
+ vocab(el){
+  const grid=el.querySelector("#vgrid");let all=false;
+  const show=no=>{grid.innerHTML=(U.words[no]||[]).map(w=>`<button class="vc ${all?"flip":""}"><span class="en">${w[0]}</span><span class="ko" ${all?"":"hidden"}>${w[1]}</span></button>`).join("");
+    grid.querySelectorAll(".vc").forEach(c=>c.onclick=()=>{const k=c.querySelector(".ko");k.hidden=!k.hidden;c.classList.toggle("flip",!k.hidden)});};
+  el.querySelectorAll("[data-tab]").forEach(b=>b.onclick=()=>{el.querySelectorAll("[data-tab]").forEach(x=>x.classList.remove("on"));b.classList.add("on");show(b.dataset.tab)});
+  el.querySelector("#flipAll").onclick=e=>{all=!all;e.currentTarget.classList.toggle("on",all);show(el.querySelector("[data-tab].on").dataset.tab)};
+  show(U.passages[0].no);
+ },
+ speed(el){
+  const pool=[];Object.entries(U.words).forEach(([no,ws])=>ws.forEach(w=>pool.push([...w,no])));
+  const order=shuffle(pool.map((_,i)=>i));let k=-1,cur=null;
+  el.querySelector("#spNext").onclick=()=>{k=(k+1)%order.length;cur=pool[order[k]];
+    el.querySelector("#spQ").textContent=cur[1];el.querySelector("#spA").textContent="";el.querySelector("#spFrom").textContent=`지문 ${cur[2]} · ${k+1}번째`;};
+  el.querySelector("#spReveal").onclick=()=>{if(cur)el.querySelector("#spA").textContent=cur[0]};
+ },
+ passage(el,sl){
+  const pt=el.querySelector("#ptext"),p=U.passages[sl.p],tip=el.querySelector("#tip");let koAll=false;
+  el.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{el.querySelectorAll("[data-m]").forEach(x=>x.classList.remove("on"));b.classList.add("on");pt.className="ptext mode-"+b.dataset.m});
+  pt.querySelectorAll(".sn").forEach(s=>s.onclick=()=>{
+    const i=+s.dataset.i,k=pt.querySelector(`[data-k="${i}"]`),was=s.classList.contains("sel");
+    pt.querySelectorAll(".sn").forEach(x=>x.classList.remove("sel"));
+    if(!koAll)pt.querySelectorAll(".ko-line").forEach(x=>x.hidden=true);
+    if(!was){s.classList.add("sel");k.hidden=false;
+      tip.innerHTML=`<h5>구문 포인트 · 문장 ${i+1}</h5><div class="en">${esc(plain(p.lines[i].en))}</div>${p.lines[i].tip}`;}
+  });
+  const kb=el.querySelector("#koAll");
+  kb.onclick=()=>{koAll=!koAll;kb.classList.toggle("on",koAll);pt.querySelectorAll(".ko-line").forEach(x=>x.hidden=!koAll)};
+  let fs=parseInt(pt.style.fontSize);
+  while(pt.scrollHeight>pt.clientHeight+2&&fs>20){fs--;pt.style.fontSize=fs+"px"}
+  el.querySelector("#fsUp").onclick=()=>{fs=Math.min(48,fs+2);pt.style.fontSize=fs+"px"};
+  el.querySelector("#fsDown").onclick=()=>{fs=Math.max(18,fs-2);pt.style.fontSize=fs+"px"};
+ },
+ grammar(el){el.querySelectorAll(".fix").forEach(f=>f.onclick=()=>{f.classList.toggle("show");f.querySelector(".hint").hidden=f.classList.contains("show")})},
+ hunt(el,sl){
+  const H=sl.act.items;let k=0;const hs=el.querySelector("#hs"),V=el.querySelector("#hV");
+  const load=()=>{const h=H[k];hs.innerHTML=h.w.map((w,i)=>`<button class="tok" data-i="${i}">${w}</button>`).join("");V.textContent="";
+    el.querySelector("#hN").textContent=`${k+1} / ${H.length}`;
+    hs.querySelectorAll(".tok").forEach(t=>t.onclick=()=>t.classList.toggle("pick"));};
+  el.querySelector("#hCheck").onclick=()=>{const h=H[k];let wrong=0,miss=0;
+    hs.querySelectorAll(".tok").forEach(t=>{const i=+t.dataset.i,isV=h.v.includes(i),p=t.classList.contains("pick");
+      t.classList.remove("pick");if(isV&&p)t.classList.add("ok");else if(isV){t.classList.add("miss");miss++}else if(p){t.classList.add("no");wrong++}});
+    V.style.color=(wrong||miss)?"var(--bad)":"var(--good)";
+    V.textContent=wrong?"아쉬워요! 정답이 아닌 단어를 골랐어요 (0점)":miss?"점선 단어도 정답이에요 (+1)":"Perfect! (+2)";};
+  el.querySelector("#hNext").onclick=()=>{k=(k+1)%H.length;load()};
+  load();
+ },
+ role(el){const sc=el.querySelector(".script");let fs=36;while(sc.scrollHeight>sc.clientHeight+2&&fs>18){fs--;sc.style.fontSize=fs+"px";if(fs<30)sc.style.gap="6px"}},
+ flip(el){el.querySelectorAll(".fc").forEach(c=>c.onclick=()=>c.classList.toggle("open"))},
+ ox(el,sl){
+  const X=sl.act.items;let k=0;
+  const load=()=>{el.querySelector("#oxN").textContent=`Q${k+1} / ${X.length}`;el.querySelector("#oxQ").textContent=X[k][0];el.querySelector("#oxA").innerHTML=""};
+  el.querySelector("#oxReveal").onclick=()=>{const x=X[k];el.querySelector("#oxA").innerHTML=`<span class="mk" style="color:${x[1]==="O"?"var(--good)":"var(--bad)"}">${x[1]}</span><span class="why">근거 문장<br><b style="color:var(--ink);font-family:var(--f-read)">${esc(x[2])}</b></span>`};
+  el.querySelector("#oxNext").onclick=()=>{k=(k+1)%X.length;load()};
+  load();
+ },
+ scramble(el,sl){
+  const SC=sl.act.items;let k=0,picked=[],words=[];const slot=el.querySelector("#scSlot"),pool=el.querySelector("#scPool"),V=el.querySelector("#scV");
+  const draw=()=>{slot.className="slot";slot.innerHTML=picked.map(i=>`<span class="tok">${words[i]}</span>`).join("");
+    pool.querySelectorAll(".tok").forEach(t=>t.disabled=picked.includes(+t.dataset.i));};
+  const load=()=>{const it=SC[k];words=it[0].split(" ");picked=[];V.textContent="";
+    el.querySelector("#scKo").textContent=it[1];el.querySelector("#scN").textContent=`${k+1} / ${SC.length}`;
+    let ord;do{ord=shuffle(words.map((_,i)=>i))}while(ord.every((v,i)=>v===i)&&words.length>1);
+    pool.innerHTML=ord.map(i=>`<button class="tok" data-i="${i}">${words[i]}</button>`).join("");
+    pool.querySelectorAll(".tok").forEach(t=>t.onclick=()=>{picked.push(+t.dataset.i);draw()});draw();};
+  el.querySelector("#scUndo").onclick=()=>{picked.pop();draw();V.textContent=""};
+  el.querySelector("#scCheck").onclick=()=>{const ok=picked.map(i=>words[i]).join(" ")===SC[k][0];
+    slot.classList.add(ok?"ok":"bad");V.style.color=ok?"var(--good)":"var(--bad)";V.textContent=ok?"정답! (+2)":"다시 해 볼까요?"};
+  el.querySelector("#scNext").onclick=()=>{k=(k+1)%SC.length;load()};
+  el.querySelector("#scT").onclick=()=>openTimer(30,true);
+  load();
+ },
+ battle(el){
+  const B=U.battle,nav=el.querySelectorAll("[data-q]");let cur=-1;
+  const pick=i=>{cur=i;const b=B[i];nav.forEach(x=>x.classList.remove("cur"));nav[i].classList.add("cur","done");
+    el.querySelector("#qT").textContent=`Q${i===B.length-1?"★":i+1} · ${b.t} · ${b.p}점`;
+    el.querySelector("#qQ").innerHTML=b.q;el.querySelector("#qA").innerHTML="";
+    el.querySelector("#qAward").innerHTML=`<span>정답 팀:</span>`+S.teams.slice(0,S.count).map((t,j)=>`<button data-aw="${j}" style="background:${TEAM_COLORS[j]}">${esc(t.n)} +${b.p}</button>`).join("");
+    el.querySelectorAll("[data-aw]").forEach(a=>a.onclick=()=>{addScore(+a.dataset.aw,b.p);a.disabled=true;a.style.opacity=.4});};
+  nav.forEach(n=>n.onclick=()=>pick(+n.dataset.q));
+  el.querySelector("#qReveal").onclick=()=>{if(cur<0)return;const b=B[cur];el.querySelector("#qA").innerHTML=`${esc(b.a)}<small>${b.k}</small>`};
+ }
+};
+
+/* ========== SCOREBOARD ========== */
+function renderScore(){
+  let box=document.getElementById("score");
+  if(!box){box=document.createElement("div");box.id="score";stage.appendChild(box)}
+  box.hidden=!S.scoreOn;
+  box.innerHTML=S.teams.slice(0,S.count).map((t,i)=>`<div class="tm" id="tm${i}" style="border-color:${TEAM_COLORS[i]}"><span class="dot" style="background:${TEAM_COLORS[i]}"></span><b contenteditable="true" spellcheck="false" data-nm="${i}">${esc(t.n)}</b><span class="pt">${t.s}</span><button data-d="${i}" aria-label="${esc(t.n)} 점수 빼기">−</button><button data-u="${i}" aria-label="${esc(t.n)} 점수 더하기">+</button></div>`).join("");
+  box.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>addScore(+b.dataset.u,1));
+  box.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>addScore(+b.dataset.d,-1));
+  box.querySelectorAll("[data-nm]").forEach(b=>{b.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();b.blur()}e.stopPropagation()};
+    b.onblur=()=>{S.teams[+b.dataset.nm].n=b.textContent.trim().slice(0,12)||`Team ${"ABCD"[+b.dataset.nm]}`;save();renderScore()}});
+  document.getElementById("bScore").classList.toggle("on",S.scoreOn);
+}
+function addScore(i,d){S.teams[i].s=Math.max(0,S.teams[i].s+d);save();renderScore();const el=document.getElementById("tm"+i);if(el&&d>0)el.classList.add("bump");
+  if(SLIDES[S.i].type==="exit")go(S.i);}
+
+/* ========== TIMER ========== */
+let tInt=null;
+function openTimer(sec,autostart){
+  closeOv();const ov=document.createElement("div");ov.className="ov";ov.id="ov";
+  ov.innerHTML=`<button class="ov-x" id="ovx">닫기 ✕</button><div class="ov-card"><div id="tDigits">0:00</div>
+   <div class="row">${[30,60,90,120,180].map(s=>`<button class="chip" data-s="${s}">${s<60?s+"초":s/60+"분"}</button>`).join("")}</div>
+   <div class="row"><button class="big-btn" id="tGo">시작</button><button class="ghost" id="tStop">일시정지</button></div></div>`;
+  stage.appendChild(ov);let left=sec||60,run=false;const D=ov.querySelector("#tDigits");
+  const paint=()=>{D.textContent=`${Math.floor(left/60)}:${String(left%60).padStart(2,"0")}`;D.classList.toggle("urgent",left<=5)};
+  const stop=()=>{clearInterval(tInt);tInt=null;run=false};
+  const start=()=>{if(run||left<=0)return;run=true;tInt=setInterval(()=>{left--;paint();if(left<=0){stop();beep()}},1000)};
+  ov.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{stop();left=+b.dataset.s;paint()});
+  ov.querySelector("#tGo").onclick=start;ov.querySelector("#tStop").onclick=stop;ov.querySelector("#ovx").onclick=closeOv;
+  paint();if(autostart)start();
+}
+function beep(){try{const a=new (window.AudioContext||window.webkitAudioContext)();[0,.35,.7].forEach(t=>{const o=a.createOscillator(),g=a.createGain();o.frequency.value=880;o.connect(g);g.connect(a.destination);g.gain.setValueAtTime(.25,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t+.3);o.start(a.currentTime+t);o.stop(a.currentTime+t+.3)})}catch(e){}}
+
+/* ========== RANDOM PICKER ========== */
+let classSize=12;
+function openPick(){
+  closeOv();const ov=document.createElement("div");ov.className="ov";ov.id="ov";
+  ov.innerHTML=`<button class="ov-x" id="ovx">닫기 ✕</button><div class="ov-card"><div id="pickOut">?</div><div id="pickSub" style="font-size:22px;color:var(--muted)">팀 또는 번호를 뽑아요</div>
+   <div class="row"><button class="big-btn" id="pkTeam">팀 뽑기</button><button class="big-btn" id="pkNum">번호 뽑기</button></div>
+   <div class="row" style="align-items:center;font-size:20px"><span>학생 수</span><button class="chip" id="cMinus">−</button><b id="cSize" style="font-size:28px;min-width:44px;text-align:center">${classSize}</b><button class="chip" id="cPlus">+</button></div></div>`;
+  stage.appendChild(ov);const out=ov.querySelector("#pickOut"),sub=ov.querySelector("#pickSub");
+  const roll=(list,colorFn)=>{let n=0;const it=setInterval(()=>{const r=Math.floor(Math.random()*list.length);out.textContent=list[r];out.style.color=colorFn?colorFn(r):"";if(++n>14)clearInterval(it)},70)};
+  ov.querySelector("#pkTeam").onclick=()=>{sub.textContent="이번 차례 팀";roll(S.teams.slice(0,S.count).map(t=>t.n),r=>TEAM_COLORS[r])};
+  ov.querySelector("#pkNum").onclick=()=>{sub.textContent="나와 주세요!";roll(Array.from({length:classSize},(_,i)=>i+1+"번"))};
+  ov.querySelector("#cMinus").onclick=()=>{classSize=Math.max(2,classSize-1);ov.querySelector("#cSize").textContent=classSize};
+  ov.querySelector("#cPlus").onclick=()=>{classSize=Math.min(40,classSize+1);ov.querySelector("#cSize").textContent=classSize};
+  ov.querySelector("#ovx").onclick=closeOv;
+}
+function closeOv(){const o=document.getElementById("ov");if(o)o.remove();clearInterval(tInt);tInt=null}
+
+/* ========== NOTES ========== */
+function renderNotes(){
+  let n=document.getElementById("notes");
+  if(!S.notes){if(n)n.remove();document.getElementById("bNotes").classList.remove("on");return}
+  if(!n){n=document.createElement("div");n.id="notes";stage.appendChild(n)}
+  const sl=SLIDES[S.i];n.innerHTML=`<h4>강사 노트 · Unit ${U.no} · ${esc(sl.sec)} ${sl.min?"· "+sl.min:""}</h4>`+sl.note.map(x=>`<p>${esc(x)}</p>`).join("");
+  document.getElementById("bNotes").classList.add("on");
+}
+
+/* ========== NAV ========== */
+const sel=document.getElementById("unitSel");
+sel.innerHTML=UNITS.map((x,i)=>`<option value="${i}">Unit ${x.no}</option>`).join("");
+sel.onchange=()=>setUnit(+sel.value,0);
+function setUnit(u,i){S.u=u;U=UNITS[u];SLIDES=buildSlides(U);sel.value=u;save();go(i)}
+function go(i){
+  S.i=Math.max(0,Math.min(SLIDES.length-1,i));const sl=SLIDES[S.i];
+  closeOv();
+  stage.innerHTML=R[sl.type](sl);
+  const el=stage.querySelector(".slide");if(INIT[sl.type])INIT[sl.type](el,sl);
+  renderScore();renderNotes();
+  document.getElementById("counter").textContent=`${S.i+1} / ${SLIDES.length}`;
+  try{history.replaceState(null,"",`#u${U.no.replace(/^0/,"")}-s${S.i+1}`)}catch(e){}
+}
+function fit(){const vp=document.getElementById("viewport");const s=Math.min(vp.clientWidth/1600,vp.clientHeight/900);stage.style.transform=`translate(-50%,-50%) scale(${s})`}
+addEventListener("resize",fit);
+document.getElementById("bPrev").onclick=()=>go(S.i-1);
+document.getElementById("bNext").onclick=()=>go(S.i+1);
+document.getElementById("bScore").onclick=()=>{S.scoreOn=!S.scoreOn;renderScore()};
+document.getElementById("bTimer").onclick=()=>openTimer(60,false);
+document.getElementById("bPick").onclick=openPick;
+document.getElementById("bNotes").onclick=()=>{S.notes=!S.notes;renderNotes()};
+document.getElementById("bFull").onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen().catch(()=>{})}catch(e){}};
+addEventListener("keydown",e=>{
+  if(e.target.isContentEditable||e.target.tagName==="SELECT")return;
+  if(["ArrowRight","PageDown"].includes(e.key)){go(S.i+1);e.preventDefault()}
+  else if(["ArrowLeft","PageUp"].includes(e.key)){go(S.i-1);e.preventDefault()}
+  else if(e.key==="n"||e.key==="N"){S.notes=!S.notes;renderNotes()}
+  else if(e.key==="Escape")closeOv();
+});
+const hm=location.hash.match(/^#u(\d+)-s(\d+)$/), hs1=location.hash.match(/^#s(\d+)$/);
+if(hm){const ui=UNITS.findIndex(x=>+x.no===+hm[1]);setUnit(ui<0?S.u:ui,+hm[2]-1)}
+else setUnit(S.u,hs1?+hs1[1]-1:0);
+fit();
+</script>
+</body></html>
