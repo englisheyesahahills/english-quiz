@@ -290,7 +290,7 @@ ul.tl li{margin:5px 0}
 
 <script>
 /* =========================================================
-   중등문법1 · STELLA GRAMMAR LAB (UNIT 01 be동사 · UNIT 02 일반동사)
+   중등문법1 · STELLA GRAMMAR LAB (UNIT 01 be동사 · 02 일반동사 · 03 시제 · 04 조동사)
    Created by 스텔라원장 (잉글리시아이스텔라)
    - 학생 전용 링크: 파일주소 뒤에 ?student 를 붙이면 교사용 입구가 숨겨집니다.
    - 교사용 비밀번호: 아래 TEACHER_PIN 값을 바꾸세요.
@@ -1572,12 +1572,962 @@ const U02_MISSIONS=[
 ]}
 ];
 
+/* ================= UNIT 03 시제 (개념 09~12) ================= */
+const U03_CONCEPTS=[
+{ no:'09', title:'현재 시제, 과거 시제', short:'현재·과거 시제',
+  student:{
+    core:'<b>현재 시제</b>는 지금의 사실·습관·변하지 않는 진리를, <b>과거 시제</b>는 이미 끝난 일·역사적 사실을 말해요. <span style="color:#ffd27a">시간 표현</span>을 보고 시제를 골라요!',
+    table:`<table class="t"><tr><th>현재 시제</th><th>과거 시제</th></tr>
+      <tr><td class="l">현재 상태: I <b>am</b> fifteen.</td><td class="l">과거의 일: I <b>visited</b> Jeju last year.</td></tr>
+      <tr><td class="l">습관·반복: I <b>get</b> up at 7 every day.</td><td class="l">과거의 습관: I <b>played</b> outside a lot.</td></tr>
+      <tr><td class="l">진리·사실: Water <b>boils</b> at 100°C.</td><td class="l">역사적 사실: King Sejong <b>created</b> Hangeul.</td></tr></table>
+      <table class="t"><tr><th>현재와 함께 쓰는 말</th><th>과거와 함께 쓰는 말</th></tr>
+      <tr><td class="l">every day, always, usually, often, sometimes, never, on Sundays</td><td class="l">yesterday, last ~, ~ ago, in 2020, then, at that time</td></tr></table>`,
+    points:[
+      ['<b>진리·과학적 사실</b>은 언제나 현재 시제', ['The earth goes around the sun.','지구는 태양 주위를 돈다.']],
+      ['<b>역사적 사실</b>은 언제나 과거 시제', ['World War II ended in 1945.','제2차 세계대전은 1945년에 끝났다.']],
+    ],
+    tips:[
+      '<b>always, usually, often</b>(빈도부사)가 보이면 습관 → 현재 시제!',
+      '<b>The sun rose in the east ✗</b> → 진리는 과거 이야기 속에서도 <b>rises</b>',
+      '<b>yesterday, ago, last</b>가 보이면 무조건 과거 시제',
+      '3인칭 단수 현재(-s)와 과거(-ed)를 헷갈리지 않기 → He <b>plays</b> (현재) / He <b>played</b> (과거)'
+    ],
+    examples:[
+      ['I usually get up at seven.','나는 보통 7시에 일어난다.'],
+      ['My dad reads the newspaper every morning.','아빠는 매일 아침 신문을 읽으신다.'],
+      ['Water boils at 100°C.','물은 100°C에서 끓는다.'],
+      ['The moon goes around the earth.','달은 지구 주위를 돈다.'],
+      ['Penguins live in cold places.','펭귄은 추운 곳에 산다.'],
+      ['I went to Gyeongju last year.','나는 작년에 경주에 갔다.'],
+      ['She finished her homework an hour ago.','그녀는 한 시간 전에 숙제를 끝냈다.'],
+      ['Edison invented the light bulb.','에디슨은 전구를 발명했다.'],
+      ['The Korean War started in 1950.','한국전쟁은 1950년에 시작되었다.'],
+      ['We were in the same class two years ago.','우리는 2년 전에 같은 반이었다.']
+    ],
+    ox:[['The sun rose in the east every day.',false,'진리 + every day → <b>rises</b>'],
+        ['Columbus discovered America in 1492.',true,'역사적 사실 → 과거 시제']]
+  },
+  teacher:{
+    board:`시제 고르기 = 시간 표현 + 문장의 성격
+
+ 현재  지금 상태 · 습관 · 진리 / 사실
+       every day, always, usually, often, never
+       The sun rises in the east.
+
+ 과거  끝난 일 · 역사적 사실
+       yesterday, last ~, ~ ago, in 1950, then
+       King Sejong created Hangeul.
+
+★ 진리 = 항상 현재 / 역사 = 항상 과거`,
+    intro:['"해는 동쪽에서 떴다" vs "해는 동쪽에서 뜬다" — 어느 쪽이 자연스러울까? → 진리는 현재로 말한다는 감각 끌어내기',
+           'UNIT 01·02에서 배운 is/was, plays/played를 빠르게 상기 → 오늘은 "언제 어떤 시제를 쓰는가"에 집중'],
+    script:['① 시제 = 동사로 시간을 표현하는 방법. UNIT 03은 현재·과거·미래·진행을 정리한다.',
+            '② 현재 시제 쓰임 3가지: 현재 상태, 습관·반복(빈도부사), 진리·일반적 사실.',
+            '③ 과거 시제 쓰임: 이미 끝난 일, 역사적 사실. 시간 표현이 결정적 단서.',
+            '④ 내신 포인트: 진리·과학적 사실은 항상 현재, 역사적 사실은 항상 과거.',
+            '⑤ 빈도부사 위치 예고: be동사 뒤, 일반동사 앞 (UNIT 07에서 확장) → She is always kind. / She always walks.',
+            '⑥ 글 속 시제 판단 문제: 문장마다 시간 표현에 밑줄 → 시제 결정.'],
+    examples:[
+      ['I often go to the library after school.','나는 방과 후에 종종 도서관에 간다.'],
+      ['My mom never drinks coffee.','엄마는 절대 커피를 드시지 않는다.'],
+      ['Light travels faster than sound.','빛은 소리보다 빠르게 이동한다.'],
+      ['Two and two make four.','2 더하기 2는 4이다.'],
+      ['The Earth is round.','지구는 둥글다.'],
+      ['Time is money.','시간은 돈이다. (속담)'],
+      ['We moved to Busan two years ago.','우리는 2년 전에 부산으로 이사했다.'],
+      ['The Wright brothers flew the first airplane in 1903.','라이트 형제는 1903년에 첫 비행기를 날렸다.'],
+      ['I lost my umbrella yesterday.','나는 어제 우산을 잃어버렸다.'],
+      ['My grandfather was a soldier.','할아버지는 군인이셨다.'],
+      ['She usually takes the bus, but she walked yesterday.','그녀는 보통 버스를 타지만 어제는 걸었다.'],
+      ['Our class starts at nine every day.','우리 수업은 매일 9시에 시작한다.']
+    ],
+    mistakes:[['The sun rose in the east.','The sun rises in the east.','진리 → 현재'],
+              ['King Sejong creates Hangeul.','King Sejong created Hangeul.','역사 → 과거'],
+              ['I meet him two days ago.','I met him two days ago.','ago → 과거'],
+              ['She usually walked to school.','She usually walks to school.','usually 습관 → 현재'],
+              ['Water boiled at 100°C.','Water boils at 100°C.','과학적 사실 → 현재']],
+    exam:['진리·과학적 사실 = 현재 / 역사적 사실 = 과거','시간 표현(ago, usually, every day)에 맞는 시제 고르기','글 속 밑줄 친 동사의 시제 오류 찾기','같은 동사의 현재·과거 대비 (usually walks / walked yesterday)'],
+    activity:'【Fact or History? 시제 판정단 · 5분】 교사가 문장을 읽으면 진리·습관이면 손바닥을 앞으로(현재), 역사·지난 일이면 손을 뒤로 넘기기(과거). 틀린 학생은 그 문장을 바른 시제로 읽기.',
+    check:[['The moon ___ (go) around the earth.','goes — 진리'],['Edison ___ (invent) the light bulb.','invented — 역사'],['He usually ___ (walk) to school.','walks — 습관']]
+  }
+},
+{ no:'10', title:'미래 시제', short:'미래 시제',
+  student:{
+    core:'앞으로 일어날 일은 <b>will + 동사원형</b> 또는 <b>be going to + 동사원형</b>으로 말해요. "~할 것이다, ~할 예정이다"라는 뜻이에요.',
+    table:`<table class="t"><tr><th></th><th>will</th><th>be going to</th></tr>
+      <tr><td>긍정</td><td class="l">I <b>will</b> go.<br><small>주어와 상관없이 will</small></td><td class="l">I <b>am going to</b> go.<br><small>be동사는 주어에 맞게</small></td></tr>
+      <tr><td>부정</td><td class="l">I <b>won't</b> go. (will not)</td><td class="l">I'm <b>not going to</b> go.</td></tr>
+      <tr><td>의문</td><td class="l"><b>Will</b> you go?<br>Yes, I will. / No, I won't.</td><td class="l"><b>Are</b> you <b>going to</b> go?<br>Yes, I am. / No, I'm not.</td></tr></table>
+      <table class="t"><tr><th colspan="2">미래를 알려주는 신호 단어</th></tr>
+      <tr><td class="l">tomorrow, tonight, soon</td><td class="l">next week / month / year, this weekend, in the future</td></tr></table>`,
+    points:[
+      ['will: <b>주어 상관없이 will + 원형</b>', ['She will visit her grandma tomorrow.','그녀는 내일 할머니 댁을 방문할 것이다.']],
+      ['be going to: <b>be동사는 주어에 맞게</b> + going to + 원형', ['We are going to have a party next week.','우리는 다음 주에 파티를 할 예정이다.']],
+    ],
+    tips:[
+      '<b>will 뒤에는 원형!</b> → She will <s>goes</s> <b>go</b>.',
+      '<b>be동사의 원형은 be</b> → I will <s>am</s> <b>be</b> busy tomorrow.',
+      '<b>going to 뒤에도 원형!</b> → He is going to <s>visits</s> <b>visit</b> Seoul.',
+      '<b>I\'m going to school.</b>은 "학교에 가고 있다"(진행), <b>I\'m going to go</b>는 "갈 예정이다"(미래)!'
+    ],
+    examples:[
+      ['I will call you tonight.','오늘 밤에 너에게 전화할게.'],
+      ['It will rain tomorrow.','내일 비가 올 것이다.'],
+      ['She will be fifteen next year.','그녀는 내년에 열다섯 살이 될 것이다.'],
+      ["He won't come to the party.",'그는 파티에 오지 않을 것이다.'],
+      ['Will you help me? — Sure, I will.','나 좀 도와줄래? — 물론이지.'],
+      ['I am going to study tonight.','나는 오늘 밤에 공부할 예정이다.'],
+      ['They are going to play soccer.','그들은 축구를 할 예정이다.'],
+      ["We aren't going to eat out.",'우리는 외식하지 않을 예정이다.'],
+      ['Is she going to join the club?','그녀는 그 동아리에 가입할 예정이니?'],
+      ['Yes, she is.','응, 그럴 거야.']
+    ],
+    ox:[['She will goes to the library.',false,'will 뒤에는 원형 → <b>will go</b>'],
+        ['They are going to visit Busan.',true,'be going to + 원형']]
+  },
+  teacher:{
+    board:`미래 시제 = will / be going to + 동사원형
+
+ will          I · You · He · They + will + 원형
+               부정 won't   의문 Will + 주어 + 원형?
+               ★ will be (will is ✗)
+
+ be going to   am / is / are + going to + 원형
+               부정 be + not going to
+               의문 Be + 주어 + going to + 원형?
+
+ 신호: tomorrow / next ~ / soon / this weekend`,
+    intro:['"이번 주말에 뭐 할 거야?" — 학생 3명에게 묻고 답을 칠판에 우리말로 받아 적기 → 영어로 바꾸는 방법 2가지 소개',
+           '예고: will은 "즉석 결정·예측", be going to는 "미리 정한 계획" 느낌 (중1 내신은 같은 뜻으로 바꿔 쓰기가 주로 출제)'],
+    script:['① will + 원형: 주어에 상관없이 will. 3인칭 단수 -s 없음.',
+            '② be going to + 원형: be동사(am/is/are)는 주어에 맞춰 변화.',
+            '③ 부정: won\'t (= will not) / be동사 + not going to.',
+            '④ 의문: Will + 주어 + 원형? → Yes, 주어 will. / No, 주어 won\'t. — Be + 주어 + going to + 원형? → be동사로 대답.',
+            '⑤ 함정: will am/is/are ✗ → will be. 조동사 뒤 be동사는 원형 be!',
+            '⑥ 전환 서술형: will ↔ be going to 같은 뜻으로 바꿔 쓰기가 단골.'],
+    examples:[
+      ['I will finish it by tomorrow.','내일까지 그것을 끝낼게.'],
+      ['The movie will start soon.','영화가 곧 시작할 것이다.'],
+      ['You will be a great teacher.','너는 훌륭한 선생님이 될 거야.'],
+      ["I won't forget your kindness.",'너의 친절을 잊지 않을게.'],
+      ['Will it be sunny this weekend?','이번 주말에 날씨가 맑을까?'],
+      ["Will you be at home? — No, I won't.",'집에 있을 거니? — 아니.'],
+      ['My parents are going to buy a new car.','부모님은 새 차를 사실 예정이다.'],
+      ['I am going to learn Chinese.','나는 중국어를 배울 예정이다.'],
+      ["He isn't going to take the bus.",'그는 버스를 타지 않을 예정이다.'],
+      ['Are you going to watch the game?','너는 그 경기를 볼 거니?'],
+      ['Look at the clouds! It is going to rain.','구름 좀 봐! 비가 오겠어.'],
+      ['We are going to have a test next Monday.','우리는 다음 주 월요일에 시험이 있다.']
+    ],
+    mistakes:[['She will goes there.','She will go there.','will + 원형'],
+              ['I will am busy.','I will be busy.','be동사 원형 be'],
+              ['He is going to plays.','He is going to play.','going to + 원형'],
+              ['They going to visit us.','They are going to visit us.','be동사 빠뜨림'],
+              ['Will you come? — Yes, I do.','Yes, I will.','will로 대답']],
+    exam:['will / be going to + 동사원형 (will be 포함)','will ↔ be going to 같은 뜻 전환','부정 won\'t / 의문문과 대답','미래 시간 표현에 맞는 시제 고르기'],
+    activity:'【Fortune Teller 점쟁이 · 5분】 짝 중 한 명이 점쟁이가 되어 친구의 미래를 will로 3개 예언 (In 10 years, you will ~). 친구는 Yes, I will! / No way, I won\'t!로 반응. 가장 재미있는 예언을 발표하고 반 투표.',
+    check:[['He will help us. → 부정문',"He won't help us."],['We will have a test. → be going to','We are going to have a test.'],['Are you going to join? (Yes)','Yes, I am.']]
+  }
+},
+{ no:'11', title:'진행 시제 1 (현재진행형)', short:'현재진행',
+  student:{
+    core:'지금 하고 있는 일은 <b>am / is / are + 동사-ing</b>로 말해요. 뜻은 <b>"~하고 있다, ~하는 중이다"</b>예요.',
+    table:`<table class="t"><tr><th>주어</th><th>현재진행형</th></tr>
+      <tr><td>I</td><td class="l"><b>am</b> + 동사-ing</td></tr>
+      <tr><td>You / We / They / 복수</td><td class="l"><b>are</b> + 동사-ing</td></tr>
+      <tr><td>He / She / It / 단수</td><td class="l"><b>is</b> + 동사-ing</td></tr></table>
+      <table class="t"><tr><th>-ing 만드는 법</th><th>예</th></tr>
+      <tr><td class="l">대부분 <b>+ing</b></td><td class="l">play → playing, read → reading</td></tr>
+      <tr><td class="l">-e로 끝나면 <b>e를 빼고 +ing</b></td><td class="l">make → making, write → writing</td></tr>
+      <tr><td class="l">단모음 + 단자음 → <b>자음 하나 더 +ing</b></td><td class="l">run → running, swim → swimming, sit → sitting</td></tr>
+      <tr><td class="l">-ie로 끝나면 <b>ie를 y로 바꾸고 +ing</b></td><td class="l">lie → lying, die → dying, tie → tying</td></tr></table>`,
+    points:[
+      ['긍정: <b>be동사 + -ing</b>', ['Look! The baby is sleeping.','봐! 아기가 자고 있어.']],
+      ['부정·의문: <b>be동사</b>로 만들어요', ["They aren't watching TV. / Are you listening?",'그들은 TV를 보고 있지 않다. / 너 듣고 있니?']],
+    ],
+    tips:[
+      '<b>be동사를 꼭 써요!</b> → She <s>playing</s> <b>is playing</b> the piano.',
+      '<b>now, right now, at the moment, Look!, Listen!</b>이 보이면 현재진행형!',
+      '부정·의문은 be동사 문장과 똑같이 → <b>Is</b> he reading? / He <b>isn\'t</b> reading.',
+      '<b>현재형 vs 현재진행형</b> → I <b>play</b> soccer every day. (습관) / I <b>am playing</b> soccer now. (지금)'
+    ],
+    examples:[
+      ['I am doing my homework now.','나는 지금 숙제를 하고 있다.'],
+      ['She is playing the piano.','그녀는 피아노를 치고 있다.'],
+      ['The children are running in the park.','아이들이 공원에서 뛰고 있다.'],
+      ['He is writing a letter.','그는 편지를 쓰고 있다.'],
+      ['My dog is lying on the sofa.','우리 개가 소파에 누워 있다.'],
+      ['It is raining outside.','밖에 비가 오고 있다.'],
+      ["We aren't watching TV.",'우리는 TV를 보고 있지 않다.'],
+      ["I'm not sleeping.",'나 자고 있지 않아.'],
+      ['Are you listening to me?','내 말 듣고 있니?'],
+      ["Is he swimming? — No, he isn't.",'그는 수영하고 있니? — 아니.']
+    ],
+    ox:[['She is swiming in the pool.',false,'swim → 자음 하나 더 → <b>swimming</b>'],
+        ['They are making a cake now.',true,'make → e 빼고 + ing']]
+  },
+  teacher:{
+    board:`현재진행형 = am / is / are + 동사-ing
+            "지금 ~하고 있다"
+
+ +ing        play → playing
+ e 빼고      make → making   write → writing
+ 자음 추가   run → running   swim → swimming
+ ie → y      lie → lying     die → dying
+
+ 부정  be + not + -ing   (isn't playing)
+ 의문  Be + 주어 + -ing? (Is she playing?)
+
+★ 신호: now / right now / Look! / Listen!`,
+    intro:['교사가 교실에서 동작을 하며 "What am I doing?" → 학생이 우리말로 답하면 "I am writing / I am walking"으로 바꿔 판서',
+           '"I play soccer."와 "I am playing soccer."의 차이를 그림 없이 상황으로만 질문 (매일 vs 지금)'],
+    script:['① 형태: be동사(am/is/are) + 동사-ing. be동사는 주어에 맞춘다 (UNIT 01 연계).',
+            '② 의미: 말하는 지금 진행 중인 동작. now, right now, at the moment, Look!, Listen!',
+            '③ -ing 규칙 4가지: +ing / e 빼고 +ing / 자음 추가(run, swim, sit, cut, stop, begin) / ie → y(lie, die, tie).',
+            '④ 부정·의문은 be동사 문장 규칙 그대로 → isn\'t playing / Is he playing? — Yes, he is.',
+            '⑤ 현재형(습관)과 현재진행형(지금) 대비 문제 다수.',
+            '⑥ 예고: 진행형으로 쓰지 않는 동사(know, like, want, have=소유)는 개념 12에서.'],
+    examples:[
+      ['Listen! Someone is singing.','들어 봐! 누군가 노래하고 있어.'],
+      ['My mom is cooking dinner now.','엄마는 지금 저녁을 요리하고 계신다.'],
+      ['The boys are playing basketball.','소년들이 농구를 하고 있다.'],
+      ['I am waiting for the bus.','나는 버스를 기다리고 있다.'],
+      ['She is sitting next to me.','그녀는 내 옆에 앉아 있다.'],
+      ['He is cutting the paper.','그는 종이를 자르고 있다.'],
+      ['The leaves are dying.','나뭇잎들이 시들고 있다.'],
+      ["My brother isn't studying. He's playing games.",'남동생은 공부하고 있지 않다. 게임을 하고 있다.'],
+      ["We're not talking about you.",'우리는 너에 대해 이야기하고 있지 않아.'],
+      ['Are they coming now?','그들이 지금 오고 있니?'],
+      ['Is it snowing? — Yes, it is.','눈이 오고 있니? — 응.'],
+      ['I usually walk, but today I am taking the bus.','나는 보통 걷지만 오늘은 버스를 타고 있다.']
+    ],
+    mistakes:[['She playing the piano.','She is playing the piano.','be동사 필수'],
+              ['He is swiming.','He is swimming.','자음 추가'],
+              ['She is makeing a cake.','She is making a cake.','e 빼고 ing'],
+              ['They is dancing.','They are dancing.','be동사 수일치'],
+              ['Are you listen?','Are you listening?','-ing 필수']],
+    exam:['-ing 철자 (running, making, lying)','be동사 수일치 + -ing','현재형 vs 현재진행형 구별 (now / every day)','부정·의문 전환 + 대답'],
+    activity:'【Charades 몸으로 말해요 · 5분】 학생 1명이 동작 카드를 보고 몸으로 표현 → 반 친구들이 "Is she dancing?"으로 질문, 맞히면 "Yes, I am!" 대답 후 "She is dancing!" 전체 복창. 맞힌 팀 +1.',
+    check:[['make / run / lie의 -ing형','making / running / lying'],['She plays tennis. → now','She is playing tennis now.'],['Is he reading? (No)',"No, he isn't."]]
+  }
+},
+{ no:'12', title:'진행 시제 2 (과거진행형 · 진행형 불가 동사)', short:'과거진행',
+  student:{
+    core:'과거의 어느 순간에 하고 있던 일은 <b>was / were + 동사-ing</b>로 말해요. 뜻은 <b>"~하고 있었다"</b>예요. 단, <b>know, like, want</b>처럼 상태를 나타내는 동사는 진행형으로 쓰지 않아요!',
+    table:`<table class="t"><tr><th>주어</th><th>과거진행형</th></tr>
+      <tr><td>I / He / She / It / 단수</td><td class="l"><b>was</b> + 동사-ing</td></tr>
+      <tr><td>You / We / They / 복수</td><td class="l"><b>were</b> + 동사-ing</td></tr>
+      <tr><td>부정</td><td class="l">wasn't / weren't + -ing</td></tr>
+      <tr><td>의문</td><td class="l">Was / Were + 주어 + -ing?</td></tr></table>
+      <table class="t"><tr><th colspan="2">⚠️ 진행형으로 쓰지 않는 동사 (상태 동사)</th></tr>
+      <tr><td class="l">know, understand, believe</td><td class="l">like, love, hate, want, need</td></tr>
+      <tr><td class="l">have (가지고 있다)</td><td class="l">→ have가 "먹다"이면 진행형 OK!<br>I'm having lunch. (O)</td></tr></table>`,
+    points:[
+      ['과거진행: <b>was / were + -ing</b>', ['I was watching TV at 9 last night.','나는 어젯밤 9시에 TV를 보고 있었다.']],
+      ['상태 동사는 <b>현재형·과거형</b>으로', ['I know the answer. (I am knowing ✗)','나는 그 답을 안다.']],
+    ],
+    tips:[
+      '<b>at 9 last night, then, at that time</b>(그때) → 과거진행형과 자주 함께!',
+      '<b>was / were 구별</b> → We <s>was</s> <b>were</b> playing.',
+      '<b>I am having a dog. ✗</b> → I <b>have</b> a dog. (소유의 have)',
+      '<b>I am having lunch. (O)</b> → have가 "먹다"라는 동작이면 진행형 가능'
+    ],
+    examples:[
+      ['I was sleeping at that time.','나는 그때 자고 있었다.'],
+      ['They were playing soccer then.','그들은 그때 축구를 하고 있었다.'],
+      ['She was cooking dinner at 6.','그녀는 6시에 저녁을 요리하고 있었다.'],
+      ['We were waiting for the bus.','우리는 버스를 기다리고 있었다.'],
+      ["He wasn't watching TV.",'그는 TV를 보고 있지 않았다.'],
+      ['Were you studying at 10 last night?','어젯밤 10시에 공부하고 있었니?'],
+      ['Yes, I was. / No, I wasn\'t.','응. / 아니.'],
+      ['I know his phone number.','나는 그의 전화번호를 안다.'],
+      ['She wants a new bike.','그녀는 새 자전거를 원한다.'],
+      ['We are having dinner now.','우리는 지금 저녁을 먹고 있다.']
+    ],
+    ox:[['We was playing games then.',false,'We → <b>were</b> playing'],
+        ['I am knowing the answer.',false,'know는 진행형 ✗ → <b>I know the answer.</b>']]
+  },
+  teacher:{
+    board:`과거진행형 = was / were + 동사-ing
+            "(그때) ~하고 있었다"
+
+ I · He · She · It  → was  + -ing
+ You · We · They    → were + -ing
+ 부정 wasn't / weren't + -ing
+ 의문 Was / Were + 주어 + -ing?
+
+★ 진행형 ✗ 상태 동사
+  know · like · love · want · need · have(소유)
+  have = 먹다 → I'm having lunch. (O)`,
+    intro:['"어젯밤 9시에 뭐 하고 있었어?" 체인 질문으로 시작 → 학생 답을 "I was ~ing"로 판서',
+           '"I am having a dog."를 보여주고 무엇이 어색한지 토론 → 상태 동사 개념 도입'],
+    script:['① 과거진행 = 과거의 특정 시점에 진행 중이던 동작. was/were는 주어에 맞춘다 (UNIT 01 과거형 연계).',
+            '② 함께 쓰는 표현: at 9 last night, then, at that time, when I called you(예고).',
+            '③ 부정·의문은 be동사 과거 규칙 그대로 → wasn\'t playing / Were you playing? — Yes, I was.',
+            '④ 진행형 불가 동사: 지식(know, understand, believe), 감정(like, love, hate), 욕구(want, need), 소유(have, own).',
+            '⑤ 같은 동사라도 뜻에 따라: have(소유 ✗ / 먹다·보내다 ○) → I\'m having a good time. (O)',
+            '⑥ UNIT 03 종합: 현재·과거·미래·현재진행·과거진행을 한 문장으로 바꿔 쓰는 서술형 대비.'],
+    examples:[
+      ['I was taking a shower at 8.','나는 8시에 샤워를 하고 있었다.'],
+      ['My parents were watching the news.','부모님은 뉴스를 보고 계셨다.'],
+      ['It was snowing all day.','하루 종일 눈이 오고 있었다.'],
+      ['She was talking on the phone then.','그녀는 그때 통화하고 있었다.'],
+      ["We weren't sleeping. We were studying.",'우리는 자고 있지 않았다. 공부하고 있었다.'],
+      ['Was he running in the park?','그는 공원에서 뛰고 있었니?'],
+      ["Were they having lunch? — No, they weren't.",'그들은 점심을 먹고 있었니? — 아니.'],
+      ['I understand the rule now.','나는 이제 그 규칙을 이해한다.'],
+      ['He loves his dog very much.','그는 그의 개를 매우 사랑한다.'],
+      ['They need more time.','그들은 시간이 더 필요하다.'],
+      ['I have two brothers.','나는 남자 형제가 둘 있다.'],
+      ['We were having a great time at the beach.','우리는 해변에서 즐거운 시간을 보내고 있었다.']
+    ],
+    mistakes:[['We was playing.','We were playing.','복수 → were'],
+              ['I was watch TV.','I was watching TV.','-ing 필수'],
+              ['I am knowing him.','I know him.','know 진행형 ✗'],
+              ['She is having a cat.','She has a cat.','소유 have 진행형 ✗'],
+              ['Were you sleep?','Were you sleeping?','-ing 필수']],
+    exam:['was / were 수일치 + -ing','진행형 불가 동사 고르기 (know, want, like, have=소유)','현재진행 → 과거진행 전환 (now → then)','시제 종합 표 해석 (yesterday / now / tomorrow)'],
+    activity:'【Witness Report 목격자 진술 · 5분】 교사가 장면 설명을 30초 보여주고 가림 → 짝과 기억나는 장면을 "A man was walking his dog."처럼 과거진행으로 말하기 → 많이 기억한 팀 +1.',
+    check:[['I was watch TV then. → 고치기','I was watching TV then.'],['He was studying. → 의문문','Was he studying?'],['She is having a cat. → 고치기','She has a cat.']]
+  }
+}];
+
+const U03_RUN={
+'09':[
+ {k:'prompt',who:'S',min:3,icon:'👋',title:'Warm-up · Always & Yesterday',guide:'짝에게 나의 습관 1개, 어제 한 일 1개, 내가 아는 신기한 사실 1개를 말하기. 교사는 시제 실수를 메모 → 판서 재료로.',
+  frames:['I <b>always</b> ______ in the morning.','Yesterday, I <b>______</b> ______.','Fun fact: ______ <b>live / is / go</b> ______.'],model:['I always drink water in the morning.','Yesterday, I watched a soccer game.','Fun fact: Koalas sleep 20 hours a day.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'학생들이 말한 "Fun fact" 문장으로 "진리는 현재"를 이끌어 내세요. 역사 문장은 학생이 과거형으로 바꿔 보게 해요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 분단별 → 🎲 개인. 현재 문장은 손바닥 앞으로, 과거 문장은 손을 뒤로 넘기는 동작과 함께!',
+  items:[['나는 보통 7시에 일어난다.','I usually get up at seven.'],['지구는 둥글다.','The earth is round.'],['물은 100도에서 끓는다.','Water boils at 100°C.'],['우리 아빠는 매일 신문을 읽으신다.','My dad reads the newspaper every day.'],['나는 작년에 제주도에 갔다.','I went to Jeju last year.'],['세종대왕은 한글을 만들었다.','King Sejong created Hangeul.'],['그녀는 어제 숙제를 끝냈다.','She finished her homework yesterday.'],['그들은 2년 전에 부산으로 이사했다.','They moved to Busan two years ago.']]},
+ {k:'cards',who:'S',min:6,icon:'⚖️',title:'Game · 시제 판정단',guide:'문장이 뜨면 팀별로 괄호 속 동사를 알맞은 시제로 바꿔 외치기 → 맞힌 팀 +1. 정답 공개 때 "진리 / 습관 / 역사 / 지난 일" 이유까지 말하면 보너스 +1.',
+  hint:'NOW · ALWAYS · 진리 → 현재 / YESTERDAY · AGO · 역사 → 과거',
+  items:[['The sun (rise) in the east.','rises — 진리는 현재'],['Columbus (discover) America in 1492.','discovered — 역사는 과거'],['I (get) up at 7 every day.','get — 습관은 현재'],['World War II (end) in 1945.','ended — 역사는 과거'],['Light (travel) faster than sound.','travels — 과학적 사실은 현재'],['My mom (buy) a new car last month.','bought — last month는 과거'],['Penguins (live) in cold places.','live — 일반적 사실은 현재'],['The Korean War (start) in 1950.','started — 역사는 과거'],['She usually (walk) to school.','walks — usually는 습관'],['We (visit) Gyeongju two years ago.','visited — ago는 과거']]},
+ {k:'prompt',who:'S',min:5,icon:'👥',title:'Pair Talk · Then & Now',guide:'짝과 "예전의 나 vs 지금의 나"를 비교해서 말하기 → 🎲로 뽑힌 학생이 짝에 대해 발표 (He/She liked ~, but now he/she likes ~).',
+  frames:['A: When I was seven, I <b>liked</b> ______.','B: Now I <b>like</b> ______.','A: Last year, I <b>was</b> ______. Now I <b>am</b> ______.','발표: (짝 이름) <b>liked</b> ______, but now he/she <b>likes</b> ______.'],model:['A: When I was seven, I liked dinosaurs.','B: Now I like K-pop.','A: Last year, I was short. Now I am tall.','발표: Jiho liked robots, but now he likes soccer.']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['Water ___ (boil) at 100°C.','boils — 과학적 사실'],['I ___ (meet) her two days ago.','met — ago는 과거'],['He usually ___ (go) to bed at 11.','goes — 습관 + 3인칭 단수'],['King Sejong ___ (create) Hangeul.','created — 역사적 사실']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 09 문제 + Writing Mission 1 (시간 여행 일기).',
+  items:['The moon ___ (go) around the earth.','My family ___ (visit) Seoul last month.','"나는 매일 아침 우유를 마신다"를 영어로 쓰기'],answers:['goes','visited','I drink milk every morning.']}
+],
+'10':[
+ {k:'prompt',who:'S',min:3,icon:'👋',title:'Warm-up · Weekend Plans',guide:'체인 질문: "What will you do this weekend?" → 대답한 학생이 다음 친구에게 질문. 교사는 "will goes" 같은 실수를 메모.',
+  frames:['A: What <b>will</b> you do this weekend?','B: I <b>will</b> ______. / I\'m <b>going to</b> ______.','(watch a movie / visit my grandma / play games / sleep a lot)'],model:['A: What will you do this weekend?','B: I will visit my grandma.','B: I\'m going to watch a movie.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up 대답을 will / be going to로 나눠 판서. will am 같은 오류는 학생에게 먼저 고치게 하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어 (미래)',guide:'반 전체 → 개인(🎲). will 문장은 손가락으로 앞을 가리키며 말하기!',
+  items:[['나는 내일 너에게 전화할 것이다.','I will call you tomorrow.'],['그녀는 내년에 열다섯 살이 될 것이다.','She will be fifteen next year.'],['우리는 이번 주말에 캠핑을 갈 예정이다.','We are going to go camping this weekend.'],['그는 그 파티에 오지 않을 것이다.',"He won't come to the party."],['곧 비가 올 것이다.','It will rain soon.'],['너는 내일 바쁠 거니?','Will you be busy tomorrow?'],['그들은 축구를 할 예정이니?','Are they going to play soccer?'],['나는 그 영화를 보지 않을 예정이다.',"I'm not going to watch the movie."]]},
+ {k:'cards',who:'S',min:5,icon:'🧩',title:'Game · Future Builder',guide:'카드의 단어로 미래 문장 만들기 → 먼저 손 든 팀이 말하고 맞으면 +1. be going to 카드는 be동사 수일치까지 맞아야 정답!',
+  hint:'will + 원형 / am·is·are + going to + 원형',
+  items:[['I / visit Jeju / next summer','I will visit Jeju next summer.'],['She / be / 16 / next year','She will be 16 next year.'],['We / not / be late / tomorrow (will)',"We won't be late tomorrow."],['They / going to / play baseball','They are going to play baseball.'],['He / going to / not / eat out',"He isn't going to eat out."],['you / help me / ? (will)','Will you help me?'],['it / snow / tomorrow / ? (will)','Will it snow tomorrow?'],['your sister / going to / study abroad / ?','Is your sister going to study abroad?']]},
+ {k:'prompt',who:'S',min:5,icon:'🔮',title:'Pair Talk · Fortune Teller',guide:'A가 점쟁이가 되어 짝의 미래를 will로 3개 예언 → B는 Yes, I will! / No way, I won\'t!로 반응 → 역할 교대 → 가장 재미있는 예언 발표 + 반 투표.',
+  frames:['A: In 10 years, you <b>will</b> ______.','B: Yes, I <b>will</b>! / No way, I <b>won\'t</b>!','A: Next year, you <b>are going to</b> ______.','B: Really? <b>Will</b> I ______?'],model:['A: In 10 years, you will be a famous chef.',"B: No way, I won't!",'A: Next year, you are going to grow 10 cm.','B: Really? Will I be taller than my dad?']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'틀린 문장을 바르게 고쳐 쓰고 동시에 들기.',
+  items:[['She will goes to Seoul.','She will go to Seoul.'],['I will am busy tomorrow.','I will be busy tomorrow.'],['They are going to visits Busan.','They are going to visit Busan.'],['Will you come? (No로 대답)',"No, I won't."]]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 10 문제 + 이번 주말 계획 3문장 쓰기.',
+  items:['He will help us. → 부정문 (축약형)','We will have a test. → be going to로 바꾸기','Are you going to join the club? (Yes로 대답)'],answers:["He won't help us.",'We are going to have a test.','Yes, I am.']}
+],
+'11':[
+ {k:'prompt',who:'S',min:4,icon:'🎭',title:'Warm-up · Charades 몸으로 말해요',guide:'학생 1명이 동작(춤, 요리, 독서, 수영…)을 하면 나머지가 "Is she dancing?"으로 질문. 맞히면 모두 "She is dancing!" 복창. 아직 규칙을 배우기 전이니 틀려도 OK!',
+  frames:['Q: <b>Is</b> she <b>swimming</b>?','A: No, she <b>isn\'t</b>. / Yes, she <b>is</b>!','다 같이: She <b>is</b> ______<b>ing</b>!','(dancing / cooking / reading / sleeping / playing the guitar)'],model:['Q: Is he cooking?',"A: No, he isn't.",'Q: Is he playing the guitar?','A: Yes, he is! → He is playing the guitar!']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Charades에서 나온 동사들(dancing, swimming, sitting)을 -ing 규칙별로 분류하며 판서. 학생이 규칙을 먼저 찾게 하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 분단별 → 🎲 개인. "지금!"이라고 교사가 외치면 학생은 현재진행형으로.',
+  items:[['나는 지금 숙제를 하고 있다.','I am doing my homework now.'],['그녀는 피아노를 치고 있다.','She is playing the piano.'],['아이들이 운동장에서 뛰고 있다.','The children are running in the playground.'],['그는 편지를 쓰고 있다.','He is writing a letter.'],['우리 개가 바닥에 누워 있다.','My dog is lying on the floor.'],['그들은 TV를 보고 있지 않다.',"They aren't watching TV."],['너는 음악을 듣고 있니?','Are you listening to music?'],['비가 오고 있다.','It is raining.']]},
+ {k:'cards',who:'S',min:5,icon:'🎲',title:'Game · -ing 스피드',guide:'동사가 뜨면 팀별로 -ing형 철자를 손가락으로 허공에 쓰며 외치기 → 맞힌 팀 +1. 🎲로 뽑힌 학생은 그 동사로 현재진행 문장 만들기 (보너스 +1).',
+  hint:'+ing ☝️ &nbsp; e 빼고 ✌️ &nbsp; 자음 추가 🤟 &nbsp; ie→y ✊',
+  items:[['play','playing (+ing)'],['make','making (e 빼고)'],['run','running (자음 추가)'],['lie','lying (ie → y)'],['swim','swimming (자음 추가)'],['write','writing (e 빼고)'],['sit','sitting (자음 추가)'],['study','studying (+ing)'],['come','coming (e 빼고)'],['die','dying (ie → y)'],['cut','cutting (자음 추가)'],['dance','dancing (e 빼고)']]},
+ {k:'prompt',who:'S',min:5,icon:'📞',title:'Pair Talk · 전화 생중계',guide:'A가 B에게 전화를 건 상황. B는 지금 집(또는 상상 속 장소)에서 가족이 무엇을 하고 있는지 생중계하기. 역할 바꿔 반복 후 🎲 발표.',
+  frames:['A: Hi! What <b>are</b> you <b>doing</b> now?','B: I <b>am</b> ______<b>ing</b>. My mom <b>is</b> ______<b>ing</b>.','A: <b>Is</b> your brother ______<b>ing</b>?','B: Yes, he <b>is</b>. / No, he <b>isn\'t</b>. He is ______<b>ing</b>.'],model:['A: Hi! What are you doing now?','B: I am eating snacks. My mom is watching a drama.','A: Is your brother studying?',"B: No, he isn't. He is playing games."]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'틀린 문장을 바르게 고쳐 쓰고 동시에 들기.',
+  items:[['She is swiming.','She is swimming.'],['They is dancing.','They are dancing.'],['He watching TV now.','He is watching TV now.'],['Are you sleeping? (No로 대답)',"No, I'm not."]]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 11 문제 + Writing Mission 2 (교실 생중계).',
+  items:['make / run / lie의 -ing형','She plays tennis. → now를 넣어 현재진행형으로','Is he reading? (No로 대답)'],answers:['making / running / lying','She is playing tennis now.',"No, he isn't."]}
+],
+'12':[
+ {k:'prompt',who:'S',min:3,icon:'👋',title:'Warm-up · Last night at 9',guide:'체인 질문: "What were you doing at 9 last night?" → 대답한 학생이 다음 친구에게 질문. 시간을 바꿔 가며 계속!',
+  frames:['A: What <b>were</b> you doing at ______ last night?','B: I <b>was</b> ______<b>ing</b>.','(watching TV / studying / taking a shower / sleeping)'],model:['A: What were you doing at 9 last night?','B: I was taking a shower.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'체인 대답을 was / were로 나눠 판서. 이어서 "I am having a dog." 문장을 보여주고 상태 동사로 연결하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'앞 6개는 과거진행, 뒤 2개는 진행형으로 쓰지 않는 동사! 함정에 빠지지 않게 천천히.',
+  items:[['나는 그때 자고 있었다.','I was sleeping then.'],['그들은 축구를 하고 있었다.','They were playing soccer.'],['그녀는 저녁을 요리하고 있었다.','She was cooking dinner.'],['우리는 버스를 기다리고 있었다.','We were waiting for the bus.'],['그는 TV를 보고 있지 않았다.',"He wasn't watching TV."],['너는 그때 공부하고 있었니?','Were you studying then?'],['나는 그 답을 안다. (진행형 ✗)','I know the answer.'],['그녀는 새 휴대폰을 원한다. (진행형 ✗)','She wants a new phone.']]},
+ {k:'cards',who:'S',min:5,icon:'⭕',title:'Game · 진행형 OX',guide:'문장이 뜨면 맞으면 ⭕(팔 동그라미), 틀리면 ❌(팔 엑스)를 동시에! 틀린 문장은 🎲로 뽑힌 학생이 바르게 고쳐 말하면 팀 +1.',
+  hint:'O면 ⭕ 팔 동그라미 / X면 ❌ 팔 엑스!',
+  items:[['I am having lunch now.','⭕ — have가 "먹다"일 때는 진행형 OK'],['I am having a dog.','❌ — 소유의 have → I have a dog.'],['She is knowing the answer.','❌ — know → She knows the answer.'],['They were playing tennis.','⭕'],['He is wanting a bike.','❌ — want → He wants a bike.'],['We are liking pizza.','❌ — like → We like pizza.'],['I was reading a comic book.','⭕'],['My mom is loving flowers.','❌ — love → My mom loves flowers.']]},
+ {k:'prompt',who:'S',min:5,icon:'🕵️',title:'Pair Talk · Witness Report 목격자 진술',guide:'아래 장면을 30초 동안 보여준 뒤 "예시 대화 보기"를 닫고 장면을 가려요(화면 내리기). 짝과 기억나는 장면을 과거진행형으로 말하고, 더 많이 기억한 팀 +1!',
+  frames:['🕘 Last night at 9, in the park…','A man <b>was walking</b> his dog.','Two girls <b>were riding</b> bikes.','A boy <b>was eating</b> ice cream.','An old woman <b>was reading</b> a book on a bench.'],model:['Q: What was the man doing?','A: He was walking his dog.','Q: Were the girls running?',"A: No, they weren't. They were riding bikes."]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['We was playing. 고치기','We were playing.'],['I am knowing him. 고치기','I know him.'],['Were they sleeping? (No로 대답)',"No, they weren't."],['She is cooking. → at 6 yesterday로','She was cooking at 6 yesterday.']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 실전 모의고사 + Writing Mission 3 (어젯밤 9시).',
+  items:['I was watch TV then. → 고치기','He was studying. → 의문문','She is having a cat. → 고치기'],answers:['I was watching TV then.','Was he studying?','She has a cat.']}
+]};
+
+const U03_Q=[
+{id:'cm01',c:'09',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'The sun ______ in the east.',opts:['rise','rises','rose','is rise','will rose'],ans:1,
+ exp:'해가 동쪽에서 뜨는 것은 변하지 않는 <b>진리</b> → 항상 현재 시제. 주어 The sun은 3인칭 단수 → <b>rises</b>.'},
+{id:'cm02',c:'09',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'We ______ to Gyeongju on a school trip last year.',opts:['go','goes','went','will go','are going'],ans:2,
+ exp:'<b>last year</b> → 과거. go의 과거형 <b>went</b>.'},
+{id:'cm03',c:'09',type:'mc',q:'다음 중 어법상 <u>어색한</u> 문장은?',opts:['I usually get up at seven.','Water boils at 100°C.','King Sejong creates Hangeul in 1443.','She visited her uncle last week.','My dad goes jogging every morning.'],ans:2,
+ exp:'역사적 사실(in 1443)은 항상 과거 → King Sejong <b>created</b> Hangeul.'},
+{id:'cm04',c:'09',type:'mc',q:'빈칸에 알맞은 말이 순서대로 짝지어진 것은?',box:'• My brother ______ (play) soccer every Saturday.<br>• He ______ (play) soccer yesterday, too.',opts:['plays – played','played – plays','play – played','plays – plays','is playing – played'],ans:0,
+ exp:'every Saturday(습관) + 3인칭 단수 → <b>plays</b> / yesterday(과거) → <b>played</b>.'},
+{id:'cm05',c:'10',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'I ______ my grandparents next weekend.',opts:['visit','visited','will visit','will visits','am visit'],ans:2,
+ exp:'next weekend → 미래. <b>will + 동사원형</b> → will visit.'},
+{id:'cm06',c:'10',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장은?',opts:['She will goes to the library.','They are going to play tennis tomorrow.','I will am busy tomorrow.','He is going to visits Busan.','We will went camping next week.'],ans:1,
+ exp:'② be going to + 원형 (O).<br>① will go ③ will be ④ going to visit ⑤ will go'},
+{id:'cm07',c:'10',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: Will you come to my party?<br>B: No, ______. I have to study.',opts:['I will',"I won't","I don't","I'm not","I wasn't"],ans:1,
+ exp:'<b>Will</b>로 물으면 will로 대답 → No, I <b>won\'t</b>.'},
+{id:'cm08',c:'10',type:'mc',q:'다음 문장과 의미가 같은 것은?',box:'I am going to see a movie tonight.',opts:['I saw a movie tonight.','I will see a movie tonight.','I see a movie every night.','I was seeing a movie.','I am seeing a movie now.'],ans:1,
+ exp:'be going to + 원형 = <b>will + 원형</b> (미래).'},
+{id:'cm09',c:'11',type:'mc',q:'동사와 -ing형이 <u>잘못</u> 짝지어진 것은?',opts:['play – playing','make – making','run – runing','lie – lying','study – studying'],ans:2,
+ exp:'run은 단모음 + 단자음 → 자음을 하나 더 → <b>running</b>.'},
+{id:'cm10',c:'11',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'Look! The baby ______.',opts:['sleep','sleeps','is sleeping','slept','will sleep'],ans:2,
+ exp:'<b>Look!</b> → 지금 눈앞에서 일어나는 일 → 현재진행형 <b>is sleeping</b>.'},
+{id:'cm11',c:'11',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장은?',opts:['She playing the piano now.','Are you listen to music?',"He isn't watching TV now.",'They is running in the park.','I am siting on the bench.'],ans:2,
+ exp:'③ isn\'t + -ing (O).<br>① is playing ② Are you listening ④ They are ⑤ sitting'},
+{id:'cm12',c:'11',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: What are you doing now?<br>B: ______',opts:['I do my homework.','I am doing my homework.','I did my homework.','I will do my homework.','I was doing my homework.'],ans:1,
+ exp:'now + What are you doing? → 현재진행형으로 대답 → <b>I am doing</b> my homework.'},
+{id:'cm13',c:'12',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'I ______ TV at 9 last night.',opts:['watch','am watching','was watching','were watching','will watch'],ans:2,
+ exp:'at 9 last night(과거의 한 시점) + I → <b>was watching</b>.'},
+{id:'cm14',c:'12',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: Were you sleeping when I called you?<br>B: No, ______. I was taking a shower.',opts:['I was',"I wasn't","I didn't","I'm not","you weren't"],ans:1,
+ exp:'Were you ~?로 물으면 I로 대답. 샤워 중이었으니 → No, I <b>wasn\'t</b>.'},
+{id:'cm15',c:'12',type:'mc',q:'빈칸에 알맞은 말이 순서대로 짝지어진 것은?',box:'• They ______ playing soccer then.<br>• My mom ______ cooking at that time.',opts:['was – was','were – was','were – were','are – is','was – were'],ans:1,
+ exp:'They(복수) → <b>were</b> / My mom(단수) → <b>was</b>.'},
+{id:'cm16',c:'12',type:'mc',q:'다음 중 진행형으로 쓸 수 <u>없는</u> 동사는?',opts:['eat','know','run','write','swim'],ans:1,
+ exp:'<b>know</b>는 "알고 있다"라는 상태를 나타내는 동사 → 진행형 ✗.'},
+{id:'cm17',c:'12',type:'mc',q:'다음 중 어법상 <u>어색한</u> 문장은?',opts:['She is reading a book now.','They are swimming in the pool.','I am liking this song.','He is writing a letter.','We are having lunch now.'],ans:2,
+ exp:'like는 상태 동사 → <b>I like this song.</b> ⑤ have가 "먹다"이면 진행형 가능 (O).'},
+{id:'co01',c:'09',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'지구는 태양 주위를 돈다.',words:['the earth','goes','around','the sun'],end:'.',ans:'the earth goes around the sun',
+ exp:'진리 → 현재 시제 <b>goes</b>.'},
+{id:'co02',c:'10',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'나는 내일 일찍 일어날 것이다.',words:['will','I','get up','early','tomorrow'],end:'.',ans:'I will get up early tomorrow',
+ exp:'I + <b>will + get up(원형)</b> + early + tomorrow.'},
+{id:'co03',c:'10',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그들은 다음 주에 부산을 방문할 예정이다.',words:['are','they','going','to','visit','Busan','next week'],end:'.',ans:'they are going to visit Busan next week',
+ exp:'They + <b>are going to + visit</b> + Busan + next week.'},
+{id:'co04',c:'11',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그녀는 지금 음악을 듣고 있다.',words:['is','she','listening','to','music','now'],end:'.',ans:'she is listening to music now',
+ exp:'She + <b>is listening</b> to music + now.'},
+{id:'co05',c:'11',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'너는 지금 숙제를 하고 있니?',words:['you','are','doing','your homework','now'],end:'?',ans:'are you doing your homework now',
+ exp:'<b>Are + you + doing</b> ~ now?'},
+{id:'co06',c:'12',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'우리는 그때 공원에서 걷고 있었다.',words:['were','we','walking','in the park','then'],end:'.',ans:'we were walking in the park then',
+ exp:'We + <b>were walking</b> + in the park + then.'},
+{id:'co07',c:'12',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그는 어젯밤 10시에 자고 있지 않았다.',words:["wasn't",'he','sleeping','at 10','last night'],end:'.',ans:"he wasn't sleeping at 10 last night",
+ exp:'He + <b>wasn\'t sleeping</b> + at 10 + last night.'},
+{id:'cf01',c:'09',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Water boiled at 100°C.',w:1,fix:['boils'],full:'Water boils at 100°C.',exp:'과학적 사실 → 항상 현재 → <b>boils</b>.'},
+{id:'cf02',c:'09',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'I meet my uncle two days ago.',w:1,fix:['met'],full:'I met my uncle two days ago.',exp:'two days ago → 과거 → <b>met</b>.'},
+{id:'cf03',c:'10',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'She will visits her aunt tomorrow.',w:2,fix:['visit'],full:'She will visit her aunt tomorrow.',exp:'will 뒤에는 <b>동사원형</b> → visit.'},
+{id:'cf04',c:'10',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'They are going to plays soccer.',w:4,fix:['play'],full:'They are going to play soccer.',exp:'be going to 뒤에는 <b>동사원형</b> → play.'},
+{id:'cf05',c:'10',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:"I won't am late again.",w:2,fix:['be'],full:"I won't be late again.",exp:'won\'t(= will not) 뒤에는 원형 → be동사의 원형 <b>be</b>.'},
+{id:'cf06',c:'11',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'He is swiming in the river now.',w:2,fix:['swimming'],full:'He is swimming in the river now.',exp:'swim → 자음 하나 더 → <b>swimming</b>.'},
+{id:'cf07',c:'11',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Listen! Somebody sing a song.',w:2,fix:['is singing'],full:'Listen! Somebody is singing a song.',exp:'Listen! → 지금 들리는 일 → 현재진행형 <b>is singing</b>.'},
+{id:'cf08',c:'12',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'We was watching a movie at that time.',w:1,fix:['were'],full:'We were watching a movie at that time.',exp:'We(복수) → <b>were</b> + -ing.'},
+{id:'cf09',c:'12',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Were they played basketball then?',w:2,fix:['playing'],full:'Were they playing basketball then?',exp:'과거진행 의문문 = Were + 주어 + <b>-ing</b>.'},
+{id:'cw01',c:'09',type:'blank',q:'괄호 안의 동사를 알맞은 형태로 바꿔 쓰시오.',text:'• The moon (go) [0] around the earth.<br>• Edison (invent) [1] the light bulb.<br>• My sister usually (walk) [2] to school.',accept:[['goes'],['invented'],['walks']],
+ exp:'① 진리 → <b>goes</b> ② 역사적 사실 → <b>invented</b> ③ usually(습관) + 3인칭 단수 → <b>walks</b>'},
+{id:'cw02',c:'10',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 이번 주말에 내 방을 청소할 것이다.',cond:'will, clean, this weekend를 사용할 것',accept:['I will clean my room this weekend','This weekend I will clean my room',"I'll clean my room this weekend"],
+ exp:'I + <b>will clean</b> + my room + this weekend.'},
+{id:'cw03',c:'10',type:'write',q:'다음 문장을 be going to를 사용하여 같은 뜻으로 바꿔 쓰시오.',box:'We will have a party tomorrow.',cond:'be going to를 사용할 것',accept:['We are going to have a party tomorrow',"We're going to have a party tomorrow"],
+ exp:'will have = <b>are going to have</b> (We → are).'},
+{id:'cw04',c:'10',type:'write',q:'다음 문장을 부정문으로 바꿔 쓰시오.',box:'He will join the club.',cond:'축약형을 사용할 것',accept:["He won't join the club"],
+ exp:'will not → 축약형 <b>won\'t</b>.'},
+{id:'cw05',c:'10',type:'write',q:'다음 문장을 의문문으로 바꾸고, Yes로 대답하시오.',box:'You will be at home tonight.',cond:'의문문과 대답을 모두 쓸 것',accept:['Will you be at home tonight? Yes, I will'],
+ exp:'<b>Will you be</b> at home tonight? / 대답: <b>Yes, I will.</b>'},
+{id:'cw06',c:'11',type:'blank',q:'괄호 안의 동사를 -ing형으로 바꿔 쓰시오.',text:'• The children are (run) [0] in the playground.<br>• She is (make) [1] a cake.<br>• My dog is (lie) [2] on the sofa.',accept:[['running'],['making'],['lying']],
+ exp:'① 자음 추가 <b>running</b> ② e 빼고 <b>making</b> ③ ie → y <b>lying</b>'},
+{id:'cw07',c:'11',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그들은 지금 축구를 하고 있지 않다.',cond:'축약형을 사용할 것 / now를 사용할 것',accept:["They aren't playing soccer now","They're not playing soccer now"],
+ exp:'They + <b>aren\'t playing</b> + soccer + now.'},
+{id:'cw08',c:'11',type:'write',q:'다음 문장을 의문문으로 바꾸고, No로 대답하시오.',box:'Your brother is using the computer.',cond:'의문문과 대답을 모두 쓸 것 (대답은 축약형)',accept:["Is your brother using the computer? No, he isn't","Is your brother using the computer? No, he's not"],
+ exp:'<b>Is your brother using</b> ~? / your brother → he → <b>No, he isn\'t.</b>'},
+{id:'cw09',c:'12',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 그때 피아노를 치고 있었다.',cond:'play, the piano, then을 사용할 것 (필요하면 형태 변형)',accept:['I was playing the piano then','Then I was playing the piano'],
+ exp:'I + <b>was playing</b> + the piano + then.'},
+{id:'cw10',c:'12',type:'write',q:'B의 대답을 보고, 괄호 안의 말을 활용하여 A의 질문을 완성하시오.',box:'A: ______________ at 8 last night? (you / study)<br>B: Yes, I was. I was studying math.',cond:'과거진행형 의문문으로 쓸 것',accept:['Were you studying at 8 last night'],
+ exp:'대답이 Yes, I was → 과거진행 의문문 → <b>Were you studying</b> at 8 last night?'}
+];
+
+const U03_ADV=[
+{id:'d01',c:'09',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장을 모두 고른 것은?',box:'ⓐ The earth goes around the sun.<br>ⓑ Columbus discovers America in 1492.<br>ⓒ I went to bed late last night.<br>ⓓ My dad usually takes the subway.<br>ⓔ Light traveled faster than sound.',opts:['ⓐ, ⓑ','ⓐ, ⓒ, ⓓ','ⓑ, ⓓ','ⓒ, ⓔ','ⓐ, ⓓ, ⓔ'],ans:1,
+ exp:'ⓑ 역사적 사실 → <b>discovered</b> ⓔ 과학적 사실 → <b>travels</b>'},
+{id:'d02',c:'09',type:'mc',q:'다음 글의 밑줄 친 ⓐ~ⓔ 중 어법상 <u>틀린</u> 것은?',box:'Last summer, my family ⓐ<u>went</u> to Jeju. We ⓑ<u>climbed</u> Hallasan. My dad ⓒ<u>said</u>, "The air ⓓ<u>is</u> so clean here." Now I ⓔ<u>missed</u> Jeju a lot.',opts:['ⓐ','ⓑ','ⓒ','ⓓ','ⓔ'],ans:4,
+ exp:'<b>Now</b> → 현재 → I <b>miss</b> Jeju. ⓓ는 아빠가 그때 말한 내용을 그대로 옮긴 것이라 is (O).'},
+{id:'d03',c:'10',type:'mc',q:'빈칸에 will이 들어갈 수 <u>없는</u> 것은?',opts:['I ______ call you tonight.','It ______ rain tomorrow.','She ______ go to the concert next week.','They ______ going to watch a movie.','We ______ be fifteen next year.'],ans:3,
+ exp:'④ be going to 구문 → They <b>are</b> going to watch a movie.'},
+{id:'d04',c:'10',type:'mc',q:'다음 중 어법상 옳은 문장의 개수는?',box:"ⓐ Will you help me?<br>ⓑ He will can swim soon.<br>ⓒ We're going to visit Seoul.<br>ⓓ She is going to buys a bag.<br>ⓔ I won't be late.",opts:['1개','2개','3개','4개','5개'],ans:2,
+ exp:'옳은 문장: ⓐ ⓒ ⓔ → <b>3개</b>.<br>ⓑ 조동사 두 개 ✗ → will be able to swim ⓓ going to <b>buy</b>'},
+{id:'d05',c:'10',type:'mc',q:'대화의 빈칸 (A), (B)에 들어갈 말이 바르게 짝지어진 것은?',box:"A: (A) ______ you going to join the art club?<br>B: No, I'm not. I (B) ______ join the music club.",opts:['Are – am going to','Will – am going','Do – will','Are – going to','Is – will'],ans:0,
+ exp:'(A) be going to 의문문 → <b>Are</b> you going to ~? (B) I <b>am going to</b> join (= will join). ②는 to가 빠졌고, ④는 am이 빠졌어요.'},
+{id:'d06',c:'11',type:'mc',q:'-ing형을 만들 때 <u>자음을 하나 더</u> 쓰는 것끼리 묶은 것은?',box:'ⓐ run &nbsp; ⓑ make &nbsp; ⓒ swim &nbsp; ⓓ sit &nbsp; ⓔ lie',opts:['ⓐ, ⓑ, ⓒ','ⓐ, ⓒ, ⓓ','ⓑ, ⓓ, ⓔ','ⓒ, ⓓ, ⓔ','ⓐ, ⓓ, ⓔ'],ans:1,
+ exp:'running, swimming, sitting. ⓑ making(e 빼고) ⓔ lying(ie → y)'},
+{id:'d07',c:'12',type:'mc',q:'밑줄 친 부분을 현재진행형으로 바꿀 수 <u>없는</u> 것은?',opts:['She <u>reads</u> a book.','They <u>play</u> soccer.','I <u>know</u> his name.','He <u>washes</u> the dishes.','We <u>eat</u> lunch.'],ans:2,
+ exp:'<b>know</b>는 상태 동사 → 진행형 ✗ (I am knowing ✗).'},
+{id:'d08',c:'11',type:'mc',q:'다음 글의 밑줄 친 부분 중 어법상 <u>틀린</u> 것은?',box:"It's Sunday afternoon. My dad ⓐ<u>is washing</u> the car. My mom ⓑ<u>is reading</u> a newspaper. My sister and I ⓒ<u>is playing</u> a board game. Our dog ⓓ<u>is sleeping</u> under the table. We ⓔ<u>are having</u> a great time.",opts:['ⓐ','ⓑ','ⓒ','ⓓ','ⓔ'],ans:2,
+ exp:'My sister and I(복수) → <b>are playing</b>. ⓔ have a great time(즐거운 시간을 보내다)은 동작 → 진행형 가능.'},
+{id:'d09',c:'12',type:'mc',q:'대화의 빈칸 (A)~(C)에 들어갈 말이 바르게 짝지어진 것은?',box:'A: What (A) ______ you doing at 7 last night?<br>B: I (B) ______ having dinner. What about you?<br>A: I (C) ______ doing my homework.',opts:['were – was – was','was – was – was','were – were – was','are – was – am','were – was – were'],ans:0,
+ exp:'(A) you → <b>were</b> (B) I → <b>was</b> (C) I → <b>was</b>. having dinner는 "먹다"라서 진행형 가능!'},
+{id:'d10',c:'12',type:'mc',q:'다음 중 어법상 <u>어색한</u> 것을 모두 고른 것은?',box:'ⓐ I am wanting a new phone.<br>ⓑ She is having lunch now.<br>ⓒ He was knowing the answer.<br>ⓓ They are listening to music.<br>ⓔ We are loving this song.',opts:['ⓐ, ⓑ','ⓐ, ⓒ','ⓐ, ⓒ, ⓔ','ⓑ, ⓓ','ⓒ, ⓓ, ⓔ'],ans:2,
+ exp:'want, know, love는 상태 동사 → 진행형 ✗. ⓑ have = 먹다 → 진행형 가능 (O).'},
+{id:'d11',c:'12',type:'mc',q:'표의 내용과 <u>일치하지 않는</u> 것은?',box:'<table><tr><th>어제 오후 3시</th><th>지금</th><th>내일</th></tr><tr><td>swim</td><td>study</td><td>visit her grandma</td></tr></table><div style="margin-top:4px">(Mina의 일정)</div>',opts:['Mina was swimming at 3 p.m. yesterday.','Mina is studying now.','Mina will visit her grandma tomorrow.','Mina is going to visit her grandma tomorrow.','Mina was studying at 3 p.m. yesterday.'],ans:4,
+ exp:'어제 오후 3시에 Mina는 <b>수영하고 있었어요</b> (was swimming). 공부는 지금 하고 있는 일이에요.'},
+{id:'d12',c:'11',type:'mc',q:'대화의 흐름상 빈칸에 알맞은 것은?',box:"A: Can you talk now?<br>B: Sorry, I can't. ________",opts:['I am taking a math class now.','I took a math class yesterday.','I will take a math class next year.','I was taking a math class last year.','I took a math class an hour ago.'],ans:0,
+ exp:'"지금" 통화할 수 없는 이유 → 지금 하고 있는 일 → 현재진행형 <b>I am taking</b> a math class now.'},
+{id:'e01',c:'09',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'물은 0°C에서 언다.',
+ conds:[{t:'water, freeze를 활용할 것 (필요하면 형태 변형)',re:'water freezes'},{t:'at 0°C를 포함할 것',re:'at (0|zero)'}],
+ core:[['^water freezes at (0|zero)','Water + freezes + at 0°C'],['\\b(froze|freezed)\\b','과학적 사실은 항상 현재형!','not']],model:['Water freezes at 0°C.'],
+ exp:'과학적 사실 → 현재 시제 + 3인칭 단수 → freeze + s → <b>freezes</b>.'},
+{id:'e02',c:'09',type:'cwrite',q:'두 번째 문장에서 어법상 틀린 부분을 고쳐 다시 쓰시오.',box:'Every day I walk to school. But yesterday I take the bus.',
+ conds:[{t:'take의 형태를 알맞게 바꿀 것',re:'\\btook\\b'}],
+ core:[['yesterday,? i took the bus','But yesterday I took the bus.'],['\\btaked\\b','take의 과거형은 took!','not']],model:['But yesterday I took the bus.'],
+ exp:'yesterday → 과거 → take의 과거형 <b>took</b> (불규칙).'},
+{id:'e03',c:'10',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그녀는 내년에 열다섯 살이 될 것이다.',
+ conds:[{t:'will을 사용할 것',re:'\\bwill\\b'},{t:'be동사를 알맞은 형태로 쓸 것',re:'will be'},{t:'6단어로 쓸 것 (years old 없이)',w:6}],
+ core:[['^she will be (fifteen|15) next year','She + will be + fifteen + next year'],['will (is|are|am)\\b','will 뒤에는 be!','not']],model:['She will be fifteen next year.'],
+ exp:'will 뒤에는 원형 → be동사의 원형 <b>be</b>. She(1) will(2) be(3) fifteen(4) next(5) year(6).'},
+{id:'e04',c:'10',type:'cwrite',q:'다음 문장을 be going to를 사용하여 같은 뜻으로 바꿔 쓰시오.',box:'I will not watch TV tonight.',
+ conds:[{t:'be going to를 사용할 것',re:'going to watch'},{t:"축약형(I'm)을 사용할 것",re:"i'm not"}],
+ core:[["^i'm not going to watch tv tonight","I'm not going to watch TV tonight."]],model:["I'm not going to watch TV tonight."],
+ exp:'will not = <b>am not going to</b> → 축약 <b>I\'m not going to</b>.'},
+{id:'e05',c:'10',type:'cwrite',q:'다음 대화를 <조건>에 맞게 영작하시오.',box:'A: 너는 내일 그 박물관을 방문할 거니?<br>B: 응, 그럴 거야.',
+ conds:[{t:'will, visit, the museum, tomorrow를 사용할 것',re:'will.*visit the museum tomorrow'},{t:'B는 Yes로 대답할 것',re:'yes,? i will'},{t:'A와 B의 말을 모두 쓸 것',sent:2}],
+ core:[['^will you visit the museum tomorrow\\s*\\?','A: Will you visit the museum tomorrow?']],model:['Will you visit the museum tomorrow?','Yes, I will.'],
+ exp:'Will + 주어 + 원형 ~? / 대답: <b>Yes, I will.</b>'},
+{id:'e06',c:'11',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'내 남동생(brother)은 지금 소파에 누워 있다.',
+ conds:[{t:'lie, on the sofa, now를 활용할 것 (필요하면 형태 변형)',re:'\\blying on the sofa\\b'},{t:'현재진행형으로 쓸 것',re:'\\bis lying\\b'},{t:'8단어로 쓸 것',w:8}],
+ core:[['^my brother is lying on the sofa now','My brother + is lying + on the sofa + now'],['\\b(lieing|laying)\\b','lie → lying (ie를 y로 바꾸고 -ing)','not']],model:['My brother is lying on the sofa now.'],
+ exp:'lie → <b>lying</b> (ie → y + ing). My(1) brother(2) is(3) lying(4) on(5) the(6) sofa(7) now(8).'},
+{id:'e07',c:'11',type:'cwrite',q:'다음 글에서 어법상 <u>틀린 문장 2개</u>를 찾아 바르게 고쳐 쓰시오.',box:'ⓐ Look at the sky! ⓑ The birds is flying high. ⓒ The wind is blowing. ⓓ My friends are siting on the grass. ⓔ We are enjoying the day.',
+ conds:[{t:'틀린 문장 2개를 모두 고쳐 쓸 것 (기호 없이 문장만)',sent:2}],
+ core:[['the birds are flying high','ⓑ The birds are flying high.'],['my friends are sitting on the grass','ⓓ My friends are sitting on the grass.']],model:['The birds are flying high.','My friends are sitting on the grass.'],
+ exp:'ⓑ The birds(복수) → <b>are</b> flying ⓓ sit → 자음 추가 → <b>sitting</b>'},
+{id:'e08',c:'11',type:'cwrite',q:'표를 보고, 각 사람이 지금 하고 있는 일을 현재진행형 문장으로 쓰시오.',box:'<table><tr><th>Dad</th><td>cook dinner</td></tr><tr><th>Mom</th><td>read a book</td></tr><tr><th>Tom</th><td>play the guitar</td></tr></table>',
+ conds:[{t:'3문장 이상 쓸 것',sent:3},{t:'현재진행형(be + -ing)으로 쓸 것',re:'\\b(is|are) \\w+ing\\b'}],
+ core:[['dad is cooking dinner','Dad is cooking dinner.'],['mom is reading a book','Mom is reading a book.'],['tom is playing the guitar','Tom is playing the guitar.']],
+ model:['Dad is cooking dinner.','Mom is reading a book.','Tom is playing the guitar.'],
+ exp:'세 사람 모두 단수 → <b>is</b> + -ing. cook → cooking, read → reading, play → playing.'},
+{id:'e09',c:'12',type:'cwrite',q:'다음 문장의 now를 at 9 last night으로 바꿔 다시 쓰시오.',box:'I am doing my homework now.',
+ conds:[{t:'be동사를 과거형으로 바꿀 것',re:'\\bwas doing\\b'},{t:'at 9 last night을 쓸 것',re:'at (9|nine) last night'}],
+ core:[['^i was doing my homework at (9|nine) last night','I was doing my homework at 9 last night.'],['\\bnow\\b','now는 빼고 at 9 last night으로!','not']],model:['I was doing my homework at 9 last night.'],
+ exp:'현재진행 am doing → 과거진행 <b>was doing</b>.'},
+{id:'e10',c:'12',type:'cwrite',q:'다음 대화를 <조건>에 맞게 영작하시오.',box:'A: 그들은 그때 테니스를 치고 있었니?<br>B: 아니, 그렇지 않았어.',
+ conds:[{t:'play, tennis, then을 사용할 것 (필요하면 형태 변형)',re:'playing tennis then'},{t:'B의 대답은 대명사와 축약형으로',re:"no,? they weren't"},{t:'A와 B의 말을 모두 쓸 것',sent:2}],
+ core:[['^were they playing tennis then\\s*\\?','A: Were they playing tennis then?']],model:['Were they playing tennis then?',"No, they weren't."],
+ exp:'Were + they + <b>playing</b> ~? / 대답: <b>No, they weren\'t.</b>'},
+{id:'e11',c:'12',type:'cwrite',q:'다음 두 문장을 어법에 맞게 고쳐 쓰시오.',box:'ⓐ I am knowing her phone number.<br>ⓑ He is wanting some water.',
+ conds:[{t:'두 문장을 모두 고쳐 쓸 것 (기호 없이)',sent:2}],
+ core:[['i know her phone number','ⓐ I know her phone number.'],['he wants some water','ⓑ He wants some water.'],['\\b(knowing|wanting)\\b','know, want는 진행형으로 쓰지 않아요!','not']],
+ model:['I know her phone number.','He wants some water.'],
+ exp:'상태 동사(know, want) → 현재형으로. He + want → <b>wants</b> (3인칭 단수).'},
+{id:'e12',c:'10',type:'cwrite',q:'이번 주말 계획 2문장과 지금 하고 있는 일 1문장을 <조건>에 맞게 자유롭게 쓰시오.',
+ conds:[{t:'주어는 I로 쓸 것',re:'^i\\b'},{t:'미래 문장 2개 (will 또는 be going to)',sent:2,re:"\\bwill\\b|going to|i'll"},{t:"현재진행 문장 1개 (I'm ~ing)",re:"(i am|i'm) (?!going to)\\w+ing\\b"}],
+ core:[['will (is|am|are|goes|plays|went|watches)\\b','will 뒤에는 동사원형!','not'],['going to (\\w+s|went)\\b(?<!\\b(is|was|has|does|this|bus|class|glass|guess|kiss|miss|pass))','going to 뒤에는 동사원형!','not']],
+ model:['I will clean my room this weekend.',"I'm going to meet my friends on Sunday.","I'm studying English now."],
+ exp:'정답이 정해지지 않은 자유 영작. 미래는 <b>will / be going to + 원형</b>, 지금 하는 일은 <b>am + -ing</b>.'},
+{id:'e13',c:'12',type:'cwrite',q:'다음 문장을 <조건>에 맞게 세 문장으로 바꿔 쓰시오. (주어는 모두 Jiho)',box:'Jiho plays basketball.',
+ conds:[{t:'① now를 넣은 현재진행형',re:'jiho is playing basketball now'},{t:'② at that time을 넣은 과거진행형',re:'jiho was playing basketball at that time'},{t:'③ tomorrow를 넣은 미래형 (will)',re:'jiho will play basketball tomorrow'}],
+ core:[],model:['Jiho is playing basketball now.','Jiho was playing basketball at that time.','Jiho will play basketball tomorrow.'],
+ exp:'UNIT 03 시제 종합! 현재진행 <b>is playing</b> / 과거진행 <b>was playing</b> / 미래 <b>will play</b>.'}
+].map(q=>(q.set='adv',q));
+
+const U03_MISSIONS=[
+{id:'m1',icon:'⏳',title:'나의 시간 여행 일기',desc:'같은 일을 현재 → 과거 → 미래로 바꿔 써요 (개념 09·10)',steps:[
+ {inst:'현재(습관): "나는 매일 아침 8시에 학교에 간다."',given:['go to school','at 8','every morning'],must:[['^i go to school at (8|eight) every morning','I + go to school + at 8 + every morning']],not:[['\\bgoes\\b','I 뒤에는 원형 go!']],model:'I go to school at 8 every morning.'},
+ {inst:'과거: "어제 나는 9시에 학교에 갔다." (Yesterday로 시작)',given:['Yesterday','at 9'],must:[['^yesterday,? i went to school at (9|nine)','Yesterday, I + went to school + at 9']],not:[['\\bgoed\\b','go의 과거형은 went!']],model:'Yesterday, I went to school at 9.'},
+ {inst:'미래(will): "내일 나는 7시 30분에 학교에 갈 것이다." (Tomorrow로 시작)',given:['Tomorrow','will','at 7:30'],must:[["^tomorrow,? i('ll| will) go to school at (7:30|seven thirty)",'Tomorrow, I + will go to school + at 7:30']],not:[['will (goes|went)','will 뒤에는 원형 go!']],model:'Tomorrow, I will go to school at 7:30.'},
+ {inst:'미래 부정(be going to): "나는 이번 토요일에 학교에 가지 않을 예정이다."',given:['be going to','this Saturday'],must:[["^i('m| am) not going to go to school this saturday","I'm not going to go to school this Saturday."]],not:[['going to goes','going to 뒤에는 원형!']],model:"I'm not going to go to school this Saturday."},
+ {free:true,inst:'자유 영작: 나의 과거·현재·미래를 3문장 이상 써 보세요.',cond:'과거 1문장, 현재 1문장, 미래(will / be going to) 1문장 이상',minSent:3,
+  must:[['\\b(\\w+ed|was|were|went|ate|saw|had|got|made|did|met|took)\\b','과거 문장을 하나 넣어 주세요.'],["\\b(am|is|are)\\b|i'm|\\bi (like|have|go|play|live|love|study|want|get)\\b",'현재 문장을 하나 넣어 주세요.'],["\\bwill\\b|going to|i'll",'미래 문장(will / be going to)을 하나 넣어 주세요.']],not:[['will (is|am|are|goes|went)\\b','will 뒤에는 원형!']],
+  model:"When I was ten, I lived in Seoul. Now I live in Busan. I am a middle school student. Next year, I will be a second grader."}
+]},
+{id:'m2',icon:'📺',title:'지금 교실 생중계',desc:'현재진행형으로 지금 이 순간을 중계해요 (개념 11)',steps:[
+ {inst:'"선생님은 지금 칠판에 글씨를 쓰고 계신다."',given:['my teacher','write','on the board'],must:[['^my teacher is writing on the board','My teacher + is writing + on the board']],not:[['\\bwriteing\\b','write → writing (e 빼고 -ing)'],['\\bwrites\\b','지금 하고 있는 일 → is writing']],model:'My teacher is writing on the board now.'},
+ {inst:'"내 친구들은 필기를 하고 있다."',given:['my friends','take notes'],must:[['^my friends are taking notes','My friends + are taking + notes']],not:[['\\btakeing\\b','take → taking'],['friends is','My friends는 복수 → are!']],model:'My friends are taking notes.'},
+ {inst:'부정(축약형): "지호는 자고 있지 않다."',given:['Jiho','sleep'],must:[["^jiho (isn't|is not) sleeping",'Jiho + isn\'t + sleeping']],not:[["\\bdoesn't\\b",'진행형 부정은 be동사 + not!']],model:"Jiho isn't sleeping."},
+ {inst:'질문 + No 대답: "미나는 지금 휴대폰을 사용하고 있니?"',given:['Mina','use her phone','now'],must:[['^is mina using her phone( now)?\\s*\\?','Is + Mina + using + her phone (now)?'],["no,? she (isn't|'s not)",'대답: No, she isn\'t.']],not:[['\\buseing\\b','use → using (e 빼고)'],['^does mina','진행형 의문문은 Is로 시작!']],model:"Is Mina using her phone now? No, she isn't."},
+ {free:true,inst:'자유 영작: 지금 우리 집(또는 교실) 모습을 3문장 이상 중계해 보세요.',cond:'현재진행형(be + -ing) 사용, 부정문 1개 이상',minSent:3,
+  must:[['\\b(is|are|am) \\w+ing\\b','현재진행형(is/are + -ing)을 사용해 주세요.'],["(isn't|aren't|'m not|is not|are not|am not) \\w+ing",'부정문(isn\'t + -ing)을 하나 넣어 주세요.']],not:[],
+  model:"My mom is cooking dinner. My dad is reading the news. My little sister isn't sleeping. She is dancing in the living room."}
+]},
+{id:'m3',icon:'🕘',title:'어젯밤 9시 알리바이',desc:'과거진행형으로 어젯밤 9시를 기록해요 (개념 12)',steps:[
+ {inst:'"나는 어젯밤 9시에 영화를 보고 있었다."',given:['watch a movie','at 9 last night'],must:[['^i was watching a movie at (9|nine) last night','I + was watching + a movie + at 9 last night']],not:[['^i were','I → was!']],model:'I was watching a movie at 9 last night.'},
+ {inst:'"우리 부모님은 설거지를 하고 계셨다."',given:['my parents','do the dishes'],must:[['^my parents were doing the dishes','My parents + were doing + the dishes']],not:[['parents was','My parents는 복수 → were!']],model:'My parents were doing the dishes.'},
+ {inst:'부정(축약형): "내 남동생은 숙제를 하고 있지 않았다."',given:['my brother','do his homework'],must:[["^my brother (wasn't|was not) doing his homework",'My brother + wasn\'t + doing + his homework']],not:[["\\bdidn't\\b",'과거진행 부정은 wasn\'t + -ing!']],model:"My brother wasn't doing his homework."},
+ {inst:'질문 + Yes 대답: "너는 그때 음악을 듣고 있었니?"',given:['listen to music','then'],must:[['^were you listening to music then\\s*\\?','Were + you + listening to music + then?'],['yes,? i was\\.?$','대답: Yes, I was.']],not:[['^did you','과거진행 의문문은 Were로 시작!']],model:'Were you listening to music then? Yes, I was.'},
+ {free:true,inst:'자유 영작: 어젯밤 9시에 우리 가족이 하고 있던 일을 3문장 이상 써 보세요.',cond:'was/were + -ing 사용, 부정문 1개 이상, 상태 동사(know, like, want)는 진행형 ✗',minSent:3,
+  must:[['\\b(was|were) \\w+ing\\b','과거진행형(was/were + -ing)을 사용해 주세요.'],["(wasn't|weren't|was not|were not) \\w+ing",'부정문(wasn\'t + -ing)을 하나 넣어 주세요.']],not:[['\\b(knowing|wanting|liking|loving)\\b','know, want, like, love는 진행형으로 쓰지 않아요!']],
+  model:"At 9 last night, my dad was watching a soccer game. My mom was talking on the phone. I wasn't studying. I was playing with my cat."}
+]}
+];
+
+/* ================= UNIT 04 조동사 (개념 13~14) ================= */
+const U04_CONCEPTS=[
+{ no:'13', title:'can / may / will', short:'can·may·will',
+  student:{
+    core:'<b>조동사</b>는 동사 앞에서 뜻을 더해 주는 말이에요. <span style="color:#ffd27a">조동사 + 동사원형</span>! 주어가 누구든 조동사 모양은 그대로예요.',
+    table:`<table class="t"><tr><th>조동사</th><th>뜻</th><th>예</th></tr>
+      <tr><td rowspan="2" class="be">can</td><td>능력: ~할 수 있다<br><small>= be able to</small></td><td class="l">She <b>can</b> swim.</td></tr>
+      <tr><td>허가: ~해도 된다</td><td class="l"><b>Can</b> I use your pen?</td></tr>
+      <tr><td rowspan="2" class="be">may</td><td>허가: ~해도 된다 (공손)</td><td class="l"><b>May</b> I come in?</td></tr>
+      <tr><td>추측: ~일지도 모른다</td><td class="l">It <b>may</b> rain tomorrow.</td></tr>
+      <tr><td rowspan="2" class="be">will</td><td>미래: ~할 것이다</td><td class="l">I <b>will</b> call you.</td></tr>
+      <tr><td>요청: ~해 줄래?</td><td class="l"><b>Will</b> you help me?</td></tr></table>
+      <table class="t"><tr><th>부정</th><th>의문 · 대답</th></tr>
+      <tr><td class="l">can't (cannot) / may not / won't</td><td class="l">Can you ~? — Yes, I can. / No, I can't.</td></tr></table>`,
+    points:[
+      ['조동사 + <b>동사원형</b> (주어와 상관없이)', ['He can play the guitar.','그는 기타를 칠 수 있다.']],
+      ['같은 조동사도 <b>뜻이 여러 개</b>', ['You may go home. / She may be sick.','너는 집에 가도 된다. / 그녀는 아플지도 모른다.']],
+    ],
+    tips:[
+      '<b>조동사 뒤에는 원형!</b> → She can <s>swims</s> <b>swim</b>.',
+      '<b>조동사에는 -s를 붙이지 않아요</b> → He <s>cans</s> <b>can</b> run.',
+      '<b>조동사 두 개를 연달아 쓰지 않아요</b> → <s>will can</s> → <b>will be able to</b>',
+      '<b>can = be able to</b> (be동사는 주어에 맞게) → She <b>is able to</b> swim.'
+    ],
+    examples:[
+      ['I can ride a bike.','나는 자전거를 탈 수 있다.'],
+      ["My brother can't swim.",'내 남동생은 수영을 못 한다.'],
+      ['Can you speak Chinese? — Yes, I can.','너 중국어 할 수 있니? — 응.'],
+      ['You can use my phone.','너는 내 휴대폰을 써도 된다.'],
+      ['May I open the window?','창문을 열어도 될까요?'],
+      ['It may snow tonight.','오늘 밤 눈이 올지도 모른다.'],
+      ['She may not be at home.','그녀는 집에 없을지도 모른다.'],
+      ['Will you close the door?','문 좀 닫아 줄래?'],
+      ['He is able to fix computers.','그는 컴퓨터를 고칠 수 있다.'],
+      ['I will be able to drive someday.','나는 언젠가 운전할 수 있을 것이다.']
+    ],
+    ox:[['She can speaks English.',false,'조동사 뒤에는 원형 → <b>can speak</b>'],
+        ['It may rain this afternoon.',true,'may = 추측 (~일지도 모른다)']]
+  },
+  teacher:{
+    board:`조동사 = 동사에 뜻을 더해 주는 말
+        조동사 + 동사원형 (주어 상관 ✗)
+
+ can   능력 ~할 수 있다 (= be able to)
+       허가 ~해도 된다
+ may   허가 ~해도 된다 (공손)
+       추측 ~일지도 모른다
+ will  미래 ~할 것이다 / 요청 Will you ~?
+
+ 부정  can't · may not · won't
+ 의문  Can / May / Will + 주어 + 원형?
+
+★ cans ✗  can swims ✗  will can ✗ → will be able to`,
+    intro:['"I swim." vs "I can swim." — 뜻 차이는? → 조동사가 동사에 "능력"이라는 뜻을 더해 준다는 개념 잡기',
+           '교실 상황 연기: 학생이 "May I go to the restroom?"이라고 말해야 화장실에 갈 수 있는 규칙을 오늘부터 시작!'],
+    script:['① 조동사의 3대 규칙: 뒤에 동사원형 / -s 없음 / 두 개 연속 ✗.',
+            '② can: 능력(= be able to)과 허가. 부정 can\'t (cannot은 붙여 쓰기).',
+            '③ may: 허가(can보다 공손)와 추측. 부정 may not (축약 ✗).',
+            '④ will: 미래(개념 10 복습)와 요청(Will you ~?). Can you ~?도 요청 가능.',
+            '⑤ be able to: be동사는 주어·시제에 맞게 → is able to / was able to / will be able to.',
+            '⑥ 내신 단골: 밑줄 친 조동사의 의미가 다른 것 고르기 (능력 vs 허가, 허가 vs 추측).'],
+    examples:[
+      ['Penguins can swim, but they can\'t fly.','펭귄은 수영은 할 수 있지만 날 수는 없다.'],
+      ['Can I borrow your eraser?','지우개 좀 빌려도 될까?'],
+      ["You can't park here.",'여기에 주차하면 안 됩니다.'],
+      ['May I ask you a question?','질문 하나 해도 될까요?'],
+      ['You may leave now.','이제 가도 됩니다.'],
+      ['He may know the answer.','그는 답을 알지도 모른다.'],
+      ['The story may not be true.','그 이야기는 사실이 아닐지도 모른다.'],
+      ['Will you pass me the salt?','소금 좀 건네줄래?'],
+      ['Can you help me with this box?','이 상자 좀 도와줄 수 있니?'],
+      ['She was able to pass the test.','그녀는 시험에 통과할 수 있었다.'],
+      ['They are able to speak three languages.','그들은 세 개의 언어를 말할 수 있다.'],
+      ['You will be able to do it!','너는 그것을 할 수 있을 거야!']
+    ],
+    mistakes:[['She can swims.','She can swim.','조동사 + 원형'],
+              ['He cans run fast.','He can run fast.','조동사에 -s ✗'],
+              ['I will can go.','I will be able to go.','조동사 두 개 ✗'],
+              ['Can you to help me?','Can you help me?','조동사 뒤 to ✗'],
+              ['May I come in? — Yes, I may.','Yes, you may.','대답의 주어 바꾸기']],
+    exam:['밑줄 친 can / may의 의미가 다른 것 고르기','조동사 + 원형, 조동사 두 개 연속 오류','can = be able to 전환 (be동사 수일치)','허가 요청 대화 (May I ~? — Sure.)'],
+    activity:'【Talent Show · 5분】 짝에게 Can you ~? 질문 5개 → 짝의 능력을 "Jiho can ~, but he can\'t ~."로 발표. 반에서 가장 특이한 능력을 가진 친구를 투표로 선정!',
+    check:[['"그는 영어를 말할 수 있다"를 영어로','He can speak English.'],['It ___ rain tomorrow. (추측)','may'],['Can you swim? (No)',"No, I can't."]]
+  }
+},
+{ no:'14', title:'must / have to / should', short:'must·have to·should',
+  student:{
+    core:'<b>must / have to</b>는 "~해야 한다"(의무), <b>should</b>는 "~하는 게 좋겠다"(충고)예요. <span style="color:#ffd27a">must not(금지)</span>과 <span style="color:#ffd27a">don\'t have to(불필요)</span>의 뜻 차이가 가장 중요해요!',
+    table:`<table class="t"><tr><th>표현</th><th>뜻</th><th>예</th></tr>
+      <tr><td class="be">must</td><td>~해야 한다 (의무)<br>~임에 틀림없다 (강한 추측)</td><td class="l">You <b>must</b> wear a helmet.<br>She <b>must</b> be tired.</td></tr>
+      <tr><td class="be">have to<br><small>(he/she → has to)</small></td><td>~해야 한다 (의무)</td><td class="l">He <b>has to</b> get up early.</td></tr>
+      <tr><td class="be">must not</td><td>~하면 안 된다 (<b>금지</b>)</td><td class="l">You <b>must not</b> run here.</td></tr>
+      <tr><td class="be">don't have to</td><td>~할 필요가 없다 (<b>불필요</b>)</td><td class="l">You <b>don't have to</b> hurry.</td></tr>
+      <tr><td class="be">should</td><td>~하는 게 좋겠다 (충고)</td><td class="l">You <b>should</b> see a doctor.</td></tr>
+      <tr><td class="be">had to</td><td>~해야 했다 (must·have to의 과거)</td><td class="l">I <b>had to</b> wait.</td></tr></table>`,
+    points:[
+      ['<b>must not</b> = 하면 안 돼! (금지)', ['You must not use your phone in class.','수업 중에 휴대폰을 쓰면 안 된다.']],
+      ['<b>don\'t have to</b> = 안 해도 돼 (불필요)', ["You don't have to bring lunch.",'점심을 가져올 필요는 없다.']],
+    ],
+    tips:[
+      '<b>must not ≠ don\'t have to</b> → 금지 vs 불필요 (내신 단골!)',
+      '<b>3인칭 단수 → has to</b> → She <s>have to</s> <b>has to</b> study.',
+      '<b>must는 과거형이 없어요</b> → 과거는 <b>had to</b> (I must go yesterday ✗)',
+      '<b>should / must 뒤에도 원형!</b> → You should <s>goes</s> <b>go</b> to bed.'
+    ],
+    examples:[
+      ['You must be quiet in the library.','도서관에서는 조용히 해야 한다.'],
+      ['We must follow the rules.','우리는 규칙을 따라야 한다.'],
+      ['She has to clean her room.','그녀는 방을 청소해야 한다.'],
+      ['You must not swim here.','여기서 수영하면 안 된다.'],
+      ["You don't have to wear a uniform today.",'오늘은 교복을 입을 필요가 없다.'],
+      ["He doesn't have to work on Sundays.",'그는 일요일에 일할 필요가 없다.'],
+      ['You should drink more water.','물을 더 마시는 게 좋겠다.'],
+      ["You shouldn't stay up late.",'늦게까지 깨어 있지 않는 게 좋겠다.'],
+      ['I had to finish my report last night.','나는 어젯밤에 보고서를 끝내야 했다.'],
+      ['He worked all night. He must be tired.','그는 밤새 일했다. 피곤한 게 틀림없다.']
+    ],
+    ox:[['She have to study for the test.',false,'3인칭 단수 → <b>has to</b>'],
+        ["You don't have to hurry. = 서두르면 안 된다.",false,"don't have to = <b>~할 필요가 없다</b> (금지는 must not)"]]
+  },
+  teacher:{
+    board:`의무 · 금지 · 불필요 · 충고
+
+ must / have to   ~해야 한다 (의무)
+                  he · she → has to
+ must not         ~하면 안 된다 (금지)
+ don't have to    ~할 필요 없다 (불필요)
+ should           ~하는 게 좋겠다 (충고)
+ had to           ~해야 했다 (과거)
+
+★ must not ≠ don't have to
+★ must = ~임에 틀림없다 (강한 추측)
+★ must, should + 동사원형`,
+    intro:['"수업 중에 휴대폰 쓰면 안 돼" vs "내일은 교복 안 입어도 돼" — 둘 다 "안 ~"인데 뜻이 같을까? → 금지 vs 불필요 개념 대비',
+           '학생들에게 "우리 학원에 꼭 필요한 규칙"을 우리말로 3개 받기 → 오늘 영어로 바꿀 재료'],
+    script:['① must = have to (의무). have to는 일반동사처럼 변화 → has to / had to / don\'t have to / Do you have to ~?',
+            '② must not(금지) ≠ don\'t have to(불필요). 내신 1순위 출제 포인트.',
+            '③ must의 과거는 had to, 미래는 will have to.',
+            '④ must의 두 번째 뜻: 강한 추측(~임에 틀림없다) → He must be tired. (be와 자주 함께)',
+            '⑤ should: 충고·조언. shouldn\'t: ~하지 않는 게 좋겠다. must보다 약한 느낌.',
+            '⑥ 표지판·규칙 문제: NO SMOKING → must not / FREE → don\'t have to.'],
+    examples:[
+      ['Drivers must wear seat belts.','운전자는 안전벨트를 매야 한다.'],
+      ['You have to show your ticket.','표를 보여 주셔야 합니다.'],
+      ['My sister has to wear glasses.','내 여동생은 안경을 써야 한다.'],
+      ['Do I have to wait? — No, you don\'t.','기다려야 하나요? — 아니요.'],
+      ['You must not touch the paintings.','그림을 만지면 안 됩니다.'],
+      ["We don't have to pay. It's free.",'돈을 낼 필요가 없어. 무료야.'],
+      ['You should say sorry to her.','그녀에게 사과하는 게 좋겠다.'],
+      ["We shouldn't waste water.",'우리는 물을 낭비하지 않는 게 좋다.'],
+      ['I had to take the bus yesterday.','나는 어제 버스를 타야 했다.'],
+      ['You will have to study harder.','너는 더 열심히 공부해야 할 것이다.'],
+      ['That must be Jiho\'s bag.','저건 지호의 가방임에 틀림없다.'],
+      ['Students must not run in the hallway.','학생들은 복도에서 뛰면 안 된다.']
+    ],
+    mistakes:[['He have to go.','He has to go.','3인칭 단수 has to'],
+              ['I must go yesterday.','I had to go yesterday.','과거는 had to'],
+              ['You must to study.','You must study.','must 뒤 to ✗'],
+              ['You should goes home.','You should go home.','should + 원형'],
+              ["You don't have to run here. (금지)",'You must not run here.','금지는 must not']],
+    exam:['must not(금지) vs don\'t have to(불필요) 의미 구별','has to / had to 형태','표지판·규칙 보고 알맞은 문장 고르기','must의 의미(의무 vs 강한 추측) 구별'],
+    activity:'【Class Rules 만들기 · 6분】 모둠별로 우리 반 규칙을 must / must not / don\'t have to / should로 하나씩 작성 → 발표 → 반 투표로 "베스트 규칙" 선정해 교실에 게시.',
+    check:[['She ___ to wear glasses. (have)','has'],['"너는 여기서 사진을 찍으면 안 된다"를 영어로','You must not take pictures here.'],["You don't have to come. 뜻",'너는 올 필요가 없다.']]
+  }
+}];
+
+const U04_RUN={
+'13':[
+ {k:'prompt',who:'S',min:4,icon:'🌟',title:'Warm-up · Talent Show',guide:'짝에게 Can you ~? 질문 4개 → 대답 메모 → 🎲로 뽑힌 학생이 짝의 능력을 발표. 교사는 "can swims" 같은 실수를 메모.',
+  frames:['A: <b>Can</b> you ______? (swim / cook / play the piano / speak Chinese)','B: Yes, I <b>can</b>. / No, I <b>can\'t</b>.','발표: (짝 이름) <b>can</b> ______, but he/she <b>can\'t</b> ______.'],model:['A: Can you cook ramen?','B: Yes, I can.','A: Can you play the piano?',"B: No, I can't.",'발표: Minji can cook ramen, but she can\'t play the piano.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Talent Show 발표 문장으로 can 규칙부터 시작하고, may·will은 상황 연기(May I come in?)로 소개하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 분단별 → 🎲 개인. 허가 표현은 공손한 목소리로, 추측은 고개를 갸웃하며 말하기!',
+  items:[['나는 수영을 할 수 있다.','I can swim.'],['그녀는 일본어를 말하지 못한다.',"She can't speak Japanese."],['제가 창문을 열어도 될까요?','May I open the window?'],['너는 내 펜을 써도 된다.','You can use my pen.'],['내일 비가 올지도 모른다.','It may rain tomorrow.'],['그는 늦을지도 모른다.','He may be late.'],['나 좀 도와줄래?','Will you help me?'],['그는 피아노를 칠 수 있다. (be able to)','He is able to play the piano.']]},
+ {k:'cards',who:'S',min:5,icon:'🤔',title:'Game · 뜻 맞히기 손 신호',guide:'문장이 뜨면 조동사의 뜻을 손 신호로 동시에! 능력=💪 / 허가=🙆 / 추측=🤔 / 요청=🙏 / 미래=👉. 맞힌 팀 +1.',
+  hint:'능력 💪 &nbsp; 허가 🙆 &nbsp; 추측 🤔 &nbsp; 요청 🙏 &nbsp; 미래 👉',
+  items:[['You may go home now.','허가 🙆 (~해도 된다)'],['It may snow tonight.','추측 🤔 (~일지도 모른다)'],['Can I use your phone?','허가 🙆 (~해도 되니?)'],['She can run very fast.','능력 💪 (~할 수 있다)'],['Will you close the door?','요청 🙏 (~해 줄래?)'],['He will be 15 next year.','미래 👉 (~할 것이다)'],['She may be at home.','추측 🤔'],["I can't find my key.",'능력 💪 (~할 수 없다)']]},
+ {k:'prompt',who:'S',min:5,icon:'🎭',title:'Pair Talk · Polite Requests 역할극',guide:'짝과 상황별로 A는 부탁, B는 대답. 상황마다 역할 교대 → 가장 실감 나는 팀이 앞에서 시연!',
+  frames:['🏫 교실: <b>May I</b> go to the restroom?','🏪 가게: <b>Can I</b> try this on?','🏠 집: <b>Will you</b> turn off the TV?','대답: Sure. / Of course. / Sorry, you <b>can\'t</b>.'],model:['A: May I go to the restroom?','B: Sure. Go ahead.','A: Can I try this jacket on?',"B: Sorry, you can't. It's for display."]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['She can swims. 고치기','She can swim.'],['He will can drive. 고치기','He will be able to drive.'],['May I come in? 에 대한 긍정 대답','Yes, you may. / Sure.'],['I can play the guitar.<br>= I ___ ___ ___ play the guitar.','am able to']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 13 문제 + Writing Mission 1 (나의 능력 소개).',
+  items:['"그는 영어를 말할 수 있다"를 영어로 쓰기','It ___ rain tomorrow. (추측)','Can you swim? (No로 대답)'],answers:['He can speak English.','may',"No, I can't."]}
+],
+'14':[
+ {k:'prompt',who:'S',min:5,icon:'📜',title:'Warm-up · Class Rules 만들기',guide:'모둠별로 우리 반 규칙 4개 작성(틀 사용) → 모둠 대표 발표 → 반 투표로 베스트 규칙 선정. 아직 배우기 전이니 뜻을 추측하며 써 보게 해요.',
+  frames:['We <b>must</b> ______ in class. (be quiet / listen carefully)','We <b>must not</b> ______. (run / use phones)','We <b>should</b> ______. (help friends / say hello)','We <b>don\'t have to</b> ______. (wear uniforms on Fridays)'],model:['We must listen carefully in class.','We must not eat snacks in class.','We should help each other.',"We don't have to stand up to answer."]},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'모둠 규칙 중 must not과 don\'t have to를 나란히 적고 "뜻이 같을까?" 질문하며 시작하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). must not은 팔로 ❌, don\'t have to는 어깨를 으쓱하는 동작과 함께!',
+  items:[['너는 숙제를 해야 한다.','You must do your homework.'],['그는 일찍 일어나야 한다.','He has to get up early.'],['너는 여기서 뛰면 안 된다.','You must not run here.'],['너는 서두를 필요가 없다.',"You don't have to hurry."],['너는 물을 많이 마시는 게 좋겠다.','You should drink a lot of water.'],['우리는 늦게 자지 않는 게 좋다.',"We shouldn't stay up late."],['나는 어제 병원에 가야 했다.','I had to go to the hospital yesterday.'],['그녀는 피곤한 게 틀림없다.','She must be tired.']]},
+ {k:'cards',who:'S',min:5,icon:'🚸',title:'Game · Sign Reader 표지판 읽기',guide:'표지판을 보고 팀별로 You로 시작하는 문장을 먼저 말하기 → 맞으면 +1. must / must not / don\'t have to / should 중 알맞은 것을 골라야 해요!',
+  hint:"must · must not · don't have to · should 중 골라서!",
+  items:[['🚭 NO SMOKING','You must not smoke here.'],['📵 NO PHONES','You must not use your phone.'],['🏃 NO RUNNING','You must not run here.'],['🪖 WEAR A HELMET','You must wear a helmet.'],['🆓 FREE ENTRY',"You don't have to pay."],['🤫 LIBRARY: BE QUIET','You must be quiet.'],['🧼 WASH YOUR HANDS','You should wash your hands.'],['👕 NO UNIFORM DAY',"You don't have to wear a uniform."]]},
+ {k:'prompt',who:'S',min:5,icon:'💌',title:'Pair Talk · 고민 상담소',guide:'A가 고민을 말하면 B가 should / shouldn\'t로 조언 2개. 역할 교대 후 🎲로 뽑힌 팀이 가장 좋은 조언 발표.',
+  frames:["A: I'm always tired. / I have a test tomorrow. / I fight with my sister.",'B: You <b>should</b> ______.','B: You <b>shouldn\'t</b> ______.','A: Thanks! I <b>will</b> try.'],model:["A: I'm always tired.",'B: You should go to bed early.',"B: You shouldn't play games late at night.",'A: Thanks! I will try.']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['He have to study. 고치기','He has to study.'],["You must not eat here.<br>You don't have to eat here.<br>뜻의 차이는?",'먹으면 안 된다(금지) / 먹을 필요 없다(불필요)'],['I must go yesterday. 고치기','I had to go yesterday.'],['You should goes to bed. 고치기','You should go to bed.']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 14 문제 + Writing Mission 2 (우리 반 규칙).',
+  items:['She ___ to wear glasses. (have의 알맞은 형태)','"너는 여기서 사진을 찍으면 안 된다"를 영어로 쓰기',"You don't have to come. 의 뜻"],answers:['has','You must not take pictures here.','너는 올 필요가 없다.']}
+]};
+
+const U04_Q=[
+{id:'gm01',c:'13',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'She ______ play the violin very well.',opts:['can','cans','can to','is can','coulds'],ans:0,
+ exp:'조동사는 주어와 상관없이 모양이 같아요 → <b>can</b> + 원형. cans ✗, can to ✗'},
+{id:'gm02',c:'13',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장은?',opts:['He can swims fast.','Can you help me?','She cans speak English.','They can to come.','I will can go there.'],ans:1,
+ exp:'② Can + 주어 + 원형 (O).<br>① can swim ③ can speak ④ can come ⑤ will be able to go'},
+{id:'gm03',c:'13',type:'mc',q:'밑줄 친 can의 의미가 나머지 넷과 <u>다른</u> 것은?',opts:['I <u>can</u> ride a bike.','She <u>can</u> speak three languages.','<u>Can</u> I use your pen?','He <u>can</u> run 100m in 13 seconds.','My dog <u>can</u> swim.'],ans:2,
+ exp:'③은 "~해도 되니?"라는 <b>허가</b>. 나머지는 "~할 수 있다"라는 <b>능력</b>.'},
+{id:'gm04',c:'13',type:'mc',q:'밑줄 친 may와 의미가 <u>같은</u> 것은?',box:'It <u>may</u> rain this afternoon.',opts:['You <u>may</u> sit here.','<u>May</u> I come in?','She <u>may</u> be at the library.','You <u>may</u> use my phone.','<u>May</u> I ask a question?'],ans:2,
+ exp:'박스의 may는 "~일지도 모른다"(<b>추측</b>). ③만 추측이고 나머지는 허가예요.'},
+{id:'gm05',c:'13',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: May I borrow your eraser?<br>B: ______ Here you are.',opts:['Sure.',"No, you may not.",'Yes, I may.',"Sorry, I can't.",'No, thanks.'],ans:0,
+ exp:'뒤에 "Here you are(여기 있어)"라고 했으니 허락 → <b>Sure.</b> (Yes, you may.도 가능)'},
+{id:'gm06',c:'13',type:'mc',q:'다음 문장과 의미가 같은 것은?',box:'Tom can fix computers.',opts:['Tom is able to fix computers.','Tom may fix computers.','Tom will fix computers.','Tom must fix computers.','Tom has to fix computers.'],ans:0,
+ exp:'능력의 can = <b>be able to</b>. Tom(단수) → <b>is</b> able to.'},
+{id:'gm07',c:'13',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:"A: Will you go to the concert?<br>B: No, I ______. I'm busy.",opts:['will',"won't",'can',"don't","am not"],ans:1,
+ exp:'Will로 물으면 will로 대답 → No, I <b>won\'t</b>.'},
+{id:'gm08',c:'14',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은? (의무)',box:'You ______ wear a seat belt in the car.',opts:['must','may',"can't","don't have to",'will not'],ans:0,
+ exp:'"~해야 한다"(의무) → <b>must</b>.'},
+{id:'gm09',c:'14',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'My brother ______ get up early tomorrow.',opts:['have to','has to','have','must to','musts'],ans:1,
+ exp:'My brother(3인칭 단수) → <b>has to</b>. must to ✗, musts ✗'},
+{id:'gm10',c:'14',type:'mc',q:'밑줄 친 부분의 의미로 알맞은 것은?',box:"You <u>don't have to</u> bring lunch.",opts:['점심을 가져와야 한다','점심을 가져오면 안 된다','점심을 가져올 필요가 없다','점심을 가져와도 된다','점심을 가져올지도 모른다'],ans:2,
+ exp:"<b>don't have to</b> = ~할 필요가 없다 (불필요). 금지는 must not이에요."},
+{id:'gm11',c:'14',type:'mc',q:'다음 표지판의 의미로 알맞은 것은?',box:'📷❌ NO PHOTOS',opts:['You must take photos.',"You don't have to take photos.",'You must not take photos.','You should take photos.','You can take photos.'],ans:2,
+ exp:'사진 촬영 금지 → <b>must not</b> (~하면 안 된다).'},
+{id:'gm12',c:'14',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: I have a bad cold.<br>B: You ______ see a doctor.',opts:['should',"shouldn't","don't have to",'may not',"can't"],ans:0,
+ exp:'감기가 심한 친구에게 하는 충고 → "병원에 가 보는 게 좋겠다" → <b>should</b>.'},
+{id:'gm13',c:'14',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'I ______ finish my report last night.',opts:['must','have to','had to','has to','musted'],ans:2,
+ exp:'last night(과거) → must의 과거는 없어요 → <b>had to</b>.'},
+{id:'gm14',c:'14',type:'mc',q:'밑줄 친 must의 의미가 나머지 넷과 <u>다른</u> 것은?',opts:['You <u>must</u> be quiet here.','We <u>must</u> follow the rules.','She <u>must</u> be very hungry.','You <u>must</u> wear a helmet.','Students <u>must</u> wear uniforms.'],ans:2,
+ exp:'③은 "~임에 틀림없다"(<b>강한 추측</b>). 나머지는 "~해야 한다"(의무).'},
+{id:'gm15',c:'14',type:'mc',q:'다음 중 어법상 <u>어색한</u> 문장은?',opts:['You should study harder.','He has to go now.',"She doesn't have to worry.",'We must to leave now.','You must not touch it.'],ans:3,
+ exp:'must 뒤에는 바로 원형 → We must <b>leave</b> now. (must to ✗)'},
+{id:'go01',c:'13',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'나는 기타를 칠 수 있다.',words:['can','I','play','the guitar'],end:'.',ans:'I can play the guitar',exp:'I + <b>can + play</b> + the guitar.'},
+{id:'go02',c:'13',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'제가 창문을 열어도 될까요?',words:['may','I','open','the window'],end:'?',ans:'may I open the window',exp:'<b>May + I + open</b> ~? (허가 요청)'},
+{id:'go03',c:'13',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그녀는 내일 오지 않을지도 모른다.',words:['may','she','not','come','tomorrow'],end:'.',ans:'she may not come tomorrow',exp:'She + <b>may not + come</b> + tomorrow. may not은 줄여 쓰지 않아요.'},
+{id:'go04',c:'14',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'너는 여기서 수영하면 안 된다.',words:['must','you','not','swim','here'],end:'.',ans:'you must not swim here',exp:'You + <b>must not</b>(금지) + swim + here.'},
+{id:'go05',c:'14',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그는 오늘 일할 필요가 없다.',words:["doesn't",'he','have','to','work','today'],end:'.',ans:"he doesn't have to work today",exp:"He + <b>doesn't have to</b>(불필요) + work + today."},
+{id:'go06',c:'14',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'너는 매일 운동하는 게 좋겠다.',words:['should','you','exercise','every day'],end:'.',ans:'you should exercise every day',exp:'You + <b>should + exercise</b> + every day.'},
+{id:'gf01',c:'13',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'He can speaks Chinese.',w:2,fix:['speak'],full:'He can speak Chinese.',exp:'조동사 뒤에는 <b>원형</b> → speak.'},
+{id:'gf02',c:'13',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'She will can pass the test.',w:2,fix:['be able to'],full:'She will be able to pass the test.',exp:'조동사 두 개를 연달아 쓸 수 없어요 → will <b>be able to</b>.'},
+{id:'gf03',c:'13',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Can he plays soccer?',w:2,fix:['play'],full:'Can he play soccer?',exp:'Can + 주어 + <b>원형</b> → play.'},
+{id:'gf04',c:'14',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'She have to clean her room.',w:1,fix:['has'],full:'She has to clean her room.',exp:'She(3인칭 단수) → <b>has</b> to.'},
+{id:'gf05',c:'14',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'You must wearing a helmet.',w:2,fix:['wear'],full:'You must wear a helmet.',exp:'must 뒤에는 <b>원형</b> → wear.'},
+{id:'gf06',c:'14',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'I must finish it yesterday.',w:1,fix:['had to'],full:'I had to finish it yesterday.',exp:'must는 과거형이 없어요 → yesterday와 함께 <b>had to</b>.'},
+{id:'gf07',c:'14',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'You should goes to bed early.',w:2,fix:['go'],full:'You should go to bed early.',exp:'should 뒤에는 <b>원형</b> → go.'},
+{id:'gw01',c:'13',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'너는 내 자전거를 타도 된다.',cond:'can, ride, my bike를 사용할 것',accept:['You can ride my bike'],exp:'허가의 can → You <b>can ride</b> my bike.'},
+{id:'gw02',c:'13',type:'write',q:'다음 문장을 부정문으로 바꿔 쓰시오.',box:'My sister can drive a car.',cond:'축약형을 사용할 것',accept:["My sister can't drive a car"],exp:'can not → <b>can\'t</b> (cannot).'},
+{id:'gw03',c:'13',type:'write',q:'다음 문장을 의문문으로 바꾸고, No로 대답하시오.',box:'Your brother can speak French.',cond:'의문문과 대답을 모두 쓸 것 (대답은 축약형)',accept:["Can your brother speak French? No, he can't"],exp:'<b>Can your brother speak</b> French? / <b>No, he can\'t.</b>'},
+{id:'gw04',c:'13',type:'write',q:'다음 문장을 be able to를 사용하여 같은 뜻으로 바꿔 쓰시오.',box:'She can solve the problem.',cond:'be able to를 사용할 것',accept:['She is able to solve the problem'],exp:'can = <b>be able to</b> → She <b>is</b> able to solve the problem.'},
+{id:'gw05',c:'14',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'너는 수업 중에 휴대폰을 사용하면 안 된다.',cond:'must, use, your phone, in class를 사용할 것',accept:['You must not use your phone in class',"You mustn't use your phone in class"],exp:'금지 → <b>must not</b> + use.'},
+{id:'gw06',c:'14',type:'write',q:'다음 문장을 have to를 사용하여 같은 뜻으로 바꿔 쓰시오.',box:'Mina must study for the test.',cond:'have to를 알맞은 형태로 사용할 것',accept:['Mina has to study for the test'],exp:'must = have to → Mina(3인칭 단수) → <b>has to</b>.'},
+{id:'gw07',c:'14',type:'blank',q:"빈칸에 must not, don't have to, should 중 알맞은 말을 쓰시오.",text:"• It's Saturday. You [0] go to school.<br>• This is a library. You [1] talk loudly.<br>• You look tired. You [2] take a rest.",accept:[["don't have to","do not have to"],["must not","mustn't"],['should']],
+ exp:"① 토요일 → 갈 필요 없다 → <b>don't have to</b><br>② 도서관 → 떠들면 안 된다 → <b>must not</b><br>③ 피곤해 보여 → 쉬는 게 좋겠다 → <b>should</b>"},
+{id:'gw08',c:'14',type:'write',q:'다음 문장에 yesterday를 넣어 과거 문장으로 바꿔 쓰시오.',box:'I have to clean my room.',cond:'yesterday를 사용할 것',accept:['I had to clean my room yesterday','Yesterday I had to clean my room'],exp:'have to의 과거 → <b>had to</b>.'}
+];
+
+const U04_ADV=[
+{id:'k01',c:'13',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장을 모두 고른 것은?',box:'ⓐ She can plays tennis.<br>ⓑ May I use your phone?<br>ⓒ He will be able to come.<br>ⓓ They cans swim.<br>ⓔ It may rain later.',opts:['ⓐ, ⓑ','ⓑ, ⓒ, ⓔ','ⓒ, ⓓ','ⓐ, ⓓ, ⓔ','ⓑ, ⓔ'],ans:1,
+ exp:'ⓐ can <b>play</b> ⓓ They <b>can</b> swim (조동사에 -s ✗)'},
+{id:'k02',c:'13',type:'mc',q:"밑줄 친 may의 의미가 '추측'인 것끼리 묶은 것은?",box:'ⓐ You <u>may</u> go now.<br>ⓑ He <u>may</u> be sick.<br>ⓒ <u>May</u> I sit here?<br>ⓓ She <u>may</u> know the answer.<br>ⓔ It <u>may</u> be true.',opts:['ⓐ, ⓒ','ⓑ, ⓓ, ⓔ','ⓐ, ⓑ, ⓒ','ⓒ, ⓓ','ⓐ, ⓔ'],ans:1,
+ exp:'ⓑⓓⓔ "~일지도 모른다"(추측) / ⓐⓒ "~해도 된다"(허가)'},
+{id:'k03',c:'13',type:'mc',q:'대화의 빈칸 (A)~(C)에 들어갈 말이 바르게 짝지어진 것은?',box:'A: (A) ______ you swim?<br>B: Yes, I (B) ______. But I (C) ______ swim fast.',opts:["Can – can – can't","Do – do – can't","Can – can't – can","Are – am – can't","Can – can – don't"],ans:0,
+ exp:"(A) Can you ~? (B) Yes, I <b>can</b>. (C) But(하지만) → 빠르게는 못 한다 → <b>can't</b>"},
+{id:'k04',c:'14',type:'mc',q:'빈칸 ⓐ, ⓑ에 들어갈 말이 바르게 짝지어진 것은?',box:'ⓐ The test is easy. You ______ worry.<br>ⓑ This is a hospital. You ______ make noise.',opts:["don't have to – must not","must not – don't have to",'must – should',"don't have to – don't have to",'should – must not'],ans:0,
+ exp:"ⓐ 시험이 쉬우니 걱정할 <b>필요 없다</b> → don't have to<br>ⓑ 병원에서는 떠들면 <b>안 된다</b> → must not"},
+{id:'k05',c:'14',type:'mc',q:'다음 글의 밑줄 친 ⓐ~ⓔ 중 어법상 <u>틀린</u> 것은?',box:"Here are our class rules. We ⓐ<u>must be</u> on time. We ⓑ<u>must not</u> eat in class. We ⓒ<u>should help</u> each other. Our teacher ⓓ<u>have to</u> check our homework. We ⓔ<u>don't have to</u> stand up when we answer.",opts:['ⓐ','ⓑ','ⓒ','ⓓ','ⓔ'],ans:3,
+ exp:'Our teacher(3인칭 단수) → <b>has to</b>.'},
+{id:'k06',c:'14',type:'mc',q:'두 문장의 의미가 <u>같지 않은</u> 것은?',opts:['You must study. = You have to study.','He must go. = He has to go.','I had to wait. = I must wait.',"You must not run. = Don't run.","You should rest. = It's a good idea to rest."],ans:2,
+ exp:'had to는 <b>과거</b>(기다려야 했다), must wait는 <b>현재</b>(기다려야 한다) → 시제가 달라요.'},
+{id:'k07',c:'14',type:'mc',q:'다음 중 어법상 옳은 문장의 개수는?',box:"ⓐ You should eat vegetables.<br>ⓑ He has to leaves now.<br>ⓒ We must not to be late.<br>ⓓ She doesn't have to come.<br>ⓔ They will can win.",opts:['1개','2개','3개','4개','5개'],ans:1,
+ exp:'옳은 문장: ⓐ ⓓ → <b>2개</b>.<br>ⓑ has to <b>leave</b> ⓒ must not <b>be</b> ⓔ will <b>be able to</b> win'},
+{id:'k08',c:'14',type:'mc',q:'밑줄 친 must와 쓰임이 <u>같은</u> 것은?',box:'He worked all night. He <u>must</u> be tired.',opts:['You <u>must</u> stop here.','We <u>must</u> recycle.',"That <u>must</u> be Jiho's bag.",'You <u>must</u> finish it today.','Drivers <u>must</u> wear seat belts.'],ans:2,
+ exp:'박스의 must는 "~임에 틀림없다"(<b>강한 추측</b>). ③도 추측, 나머지는 의무예요.'},
+{id:'k09',c:'14',type:'mc',q:'수영장 규칙표의 내용과 <u>일치하지 않는</u> 것은?',box:'<table><tr><th>규칙</th><th></th></tr><tr><td>wear a swim cap</td><td>⭕ 필수</td></tr><tr><td>run around the pool</td><td>❌ 금지</td></tr><tr><td>bring your own towel</td><td>➖ 필요 없음</td></tr></table>',opts:['You must wear a swim cap.','You must not run around the pool.',"You don't have to bring your own towel.",'You have to wear a swim cap.','You must bring your own towel.'],ans:4,
+ exp:'수건은 "필요 없음" → <b>don\'t have to</b> bring. must(해야 한다)는 표와 맞지 않아요.'},
+{id:'k10',c:'14',type:'mc',q:'대화의 흐름상 빈칸에 알맞은 것은?',box:'A: I have a big test tomorrow, but I want to play games.<br>B: ________',opts:['You should study for the test.',"You don't have to study.",'You must play games.','You may not study.','You should play games all night.'],ans:0,
+ exp:'내일 큰 시험이 있는 친구에게 하는 알맞은 충고 → <b>You should study</b> for the test.'},
+{id:'n01',c:'13',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'내 남동생(brother)은 아직 자전거를 탈 수 없다.',
+ conds:[{t:'can의 부정 축약형을 사용할 것',re:"can't"},{t:'ride, bike, yet을 사용할 것',re:'ride a bike yet'},{t:'7단어로 쓸 것',w:7}],
+ core:[["^my brother can't ride a bike yet","My brother + can't + ride + a bike + yet"],['\\brides\\b','조동사 뒤에는 원형!','not']],model:["My brother can't ride a bike yet."],
+ exp:"My(1) brother(2) can't(3) ride(4) a(5) bike(6) yet(7). 조동사 뒤 원형 ride!"},
+{id:'n02',c:'13',type:'cwrite',q:'next year를 넣어 미래 문장으로 바꿔 쓰시오. (be able to 사용)',box:'I can speak English well.',
+ conds:[{t:'will be able to를 사용할 것',re:'will be able to'},{t:'next year를 포함할 것',re:'next year'}],
+ core:[['^i will be able to speak english well next year','I will be able to speak English well next year.'],['will can','조동사 두 개를 연달아 쓸 수 없어요 → will be able to','not']],model:['I will be able to speak English well next year.'],
+ exp:'미래의 능력 → will + can ✗ → <b>will be able to</b>.'},
+{id:'n03',c:'13',type:'cwrite',q:'다음 대화를 <조건>에 맞게 영작하시오.',box:'A: 제가 당신의 사전을 빌려도 될까요?<br>B: 물론이죠.',
+ conds:[{t:'May, borrow, dictionary를 사용할 것',re:'^may i borrow your dictionary'},{t:'B의 대답을 쓸 것',re:'(sure|of course|yes,? you (may|can))'},{t:'A와 B의 말을 모두 쓸 것',sent:2}],
+ core:[['^may i borrow your dictionary\\s*\\?','A: May I borrow your dictionary?']],model:['May I borrow your dictionary?','Of course.'],
+ exp:'공손한 허가 요청 → <b>May I</b> + 원형 ~? 대답: Sure. / Of course. / Yes, you may.'},
+{id:'n04',c:'13',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그 소문은 사실이 아닐지도 모른다.',
+ conds:[{t:'may, rumor, true를 사용할 것',re:'rumor.*may not be true'},{t:'6단어로 쓸 것',w:6}],
+ core:[['^the rumor may not be true','The rumor + may not + be true']],model:['The rumor may not be true.'],
+ exp:'추측의 부정 → <b>may not</b> + be. The(1) rumor(2) may(3) not(4) be(5) true(6).'},
+{id:'n05',c:'13',type:'cwrite',q:'다음 글에서 어법상 <u>틀린 문장 2개</u>를 찾아 바르게 고쳐 쓰시오.',box:"ⓐ My sister can play the piano. ⓑ She can sings well, too. ⓒ I can't sing well. ⓓ But I will can sing well someday. ⓔ I will practice hard.",
+ conds:[{t:'틀린 문장 2개를 모두 고쳐 쓸 것 (기호 없이 문장만)',sent:2}],
+ core:[['she can sing well,? too','ⓑ She can sing well, too.'],['i will be able to sing well someday','ⓓ But I will be able to sing well someday.']],model:['She can sing well, too.','But I will be able to sing well someday.'],
+ exp:'ⓑ can + 원형 <b>sing</b> ⓓ will can ✗ → <b>will be able to</b>'},
+{id:'n06',c:'14',type:'cwrite',q:'박물관 규칙을 보고, You로 시작하는 문장 3개를 쓰시오.',box:'<table><tr><td>touch the paintings</td><td>❌ 금지</td></tr><tr><td>buy a ticket</td><td>⭕ 필수</td></tr><tr><td>bring your student ID</td><td>➖ 필요 없음</td></tr></table>',
+ conds:[{t:'You로 시작하는 문장 3개를 쓸 것',sent:3,re:'^you\\b'}],
+ core:[["you (must not|mustn't) touch the paintings",'touch the paintings → 금지: must not'],['you (must|have to) buy a ticket','buy a ticket → 필수: must / have to'],["you (don't|do not) have to bring your student id",'bring your student ID → 불필요: don\'t have to']],
+ model:['You must not touch the paintings.','You must buy a ticket.',"You don't have to bring your student ID."],
+ exp:"금지 <b>must not</b> / 필수 <b>must (have to)</b> / 불필요 <b>don't have to</b> — 세 가지를 구별하는 대표 서술형!"},
+{id:'n07',c:'14',type:'cwrite',q:'주어를 Jisu로 바꾸어 부정문으로 쓰시오. (축약형)',box:'You have to wear a uniform.',
+ conds:[{t:"doesn't have to를 사용할 것",re:"doesn't have to"}],
+ core:[["^jisu doesn't have to wear a uniform","Jisu doesn't have to wear a uniform."],["doesn't has to",'doesn\'t 뒤에는 원형 have!','not']],model:["Jisu doesn't have to wear a uniform."],
+ exp:"Jisu(3인칭 단수) → has to → 부정은 <b>doesn't have to</b> (has ✗)."},
+{id:'n08',c:'14',type:'cwrite',q:'A의 고민을 읽고, B의 조언을 should 1문장, shouldn\'t 1문장으로 쓰시오.',box:'A: I always feel sleepy in class. What should I do?',
+ conds:[{t:'You should ~ 문장 1개',re:'you should \\w+'},{t:"You shouldn't ~ 문장 1개",re:"you shouldn't \\w+"},{t:'두 문장 모두 쓸 것',sent:2}],
+ core:[["should(n't)? (goes|went|going|sleeps|plays|to)\\b",'should 뒤에는 동사원형!','not']],
+ model:['You should go to bed early.',"You shouldn't play games late at night."],
+ exp:'정답이 정해지지 않은 조언 영작. <b>should / shouldn\'t + 동사원형</b>만 지키면 정답!'},
+{id:'n09',c:'14',type:'cwrite',q:'다음 문장에 yesterday를 넣어 과거 문장으로 바꿔 쓰시오.',box:'We must wait for the bus for 30 minutes.',
+ conds:[{t:'must의 과거 표현을 사용할 것',re:'had to'}],
+ core:[['(^we had to wait for the bus for (30|thirty) minutes yesterday|^yesterday,? we had to wait for the bus for (30|thirty) minutes)','We had to wait for the bus for 30 minutes yesterday.'],['\\b(must|musted)\\b','must는 과거형이 없어요 → had to','not']],
+ model:['We had to wait for the bus for 30 minutes yesterday.'],
+ exp:'must의 과거 = <b>had to</b>.'},
+{id:'n10',c:'14',type:'cwrite',q:'다음 대화를 <조건>에 맞게 영작하시오.',box:'A: 너는 오늘 숙제를 끝내야 하니?<br>B: 아니, 그럴 필요 없어.',
+ conds:[{t:'have to, finish, homework, today를 사용할 것',re:'have to finish.*homework today'},{t:"B는 No로 대답할 것 (축약형)",re:"no,? i don't"},{t:'A와 B의 말을 모두 쓸 것',sent:2}],
+ core:[['^do you have to finish your homework today\\s*\\?','A: Do you have to finish your homework today?']],model:['Do you have to finish your homework today?',"No, I don't."],
+ exp:"have to의 의문문은 일반동사처럼 → <b>Do you have to</b> ~? / 대답 <b>No, I don't.</b>"},
+{id:'n11',c:'14',type:'cwrite',q:'우리 학원 규칙 3개를 <조건>에 맞게 자유롭게 쓰시오.',
+ conds:[{t:'3문장 이상 쓸 것',sent:3},{t:'must 또는 have to 문장 1개',re:'\\b(must|have to|has to)\\b(?! not)'},{t:"must not 문장 1개",re:"must not|mustn't"},{t:"don't have to 또는 should 문장 1개",re:"don't have to|\\bshould\\b"}],
+ core:[['\\b(must|should|can) to\\b','조동사 뒤에 to를 쓰지 않아요.','not']],
+ model:['We must be on time.','We must not eat snacks in class.',"We don't have to stand up to answer."],
+ exp:'정답이 정해지지 않은 자유 영작. 의무·금지·불필요(또는 충고)를 모두 써 보는 것이 핵심!'},
+{id:'n12',c:'13',type:'cwrite',q:'다음 문장을 <조건>에 맞게 바꿔 쓰시오.',box:'Minho can fix the bike.',
+ conds:[{t:'① be able to를 사용하여 같은 뜻으로',re:'minho is able to fix the bike'},{t:'② can을 사용한 의문문',re:'can minho fix the bike\\s*\\?'},{t:"③ ②에 대한 No 대답 (대명사, 축약형)",re:"no,? he can't"}],
+ core:[],model:['Minho is able to fix the bike.','Can Minho fix the bike?',"No, he can't."],
+ exp:'can = <b>is able to</b> / 의문문 <b>Can Minho fix</b> ~? / Minho → he → <b>No, he can\'t.</b>'}
+].map(q=>(q.set='adv',q));
+
+const U04_MISSIONS=[
+{id:'m1',icon:'🌟',title:'나의 능력 자기소개',desc:'can / can\'t / be able to로 나를 소개해요 (개념 13)',steps:[
+ {inst:'"나는 수영을 잘할 수 있다."',given:['swim','well'],must:[['^i can swim well','I + can + swim + well']],not:[['can swims','조동사 뒤에는 원형!']],model:'I can swim well.'},
+ {inst:'"하지만 나는 요리는 할 수 없다." (But으로 시작)',given:['But','cook'],must:[["^but,? i (can't|cannot|can not) cook",'But I + can\'t + cook']],not:[["don't cook",'능력 부정 → can\'t!']],model:"But I can't cook."},
+ {inst:'"내 친구 지호는 중국어를 할 수 있다."',given:['my friend Jiho','speak Chinese'],must:[['^my friend jiho can speak chinese','My friend Jiho + can + speak + Chinese']],not:[['can speaks','조동사 뒤에는 원형!'],['\\bcans\\b','조동사에 -s ✗']],model:'My friend Jiho can speak Chinese.'},
+ {inst:'질문 + Yes 대답: "너는 피아노를 칠 수 있니?"',given:['play the piano','Yes'],must:[['^can you play the piano\\s*\\?','Can + you + play + the piano?'],['yes,? i can\\.?$','대답: Yes, I can.']],not:[['^do you','능력 질문 → Can you ~?']],model:'Can you play the piano? Yes, I can.'},
+ {inst:'미래: "나는 언젠가 운전을 할 수 있을 것이다."',given:['be able to','drive','someday'],must:[['^i will be able to drive someday','I + will be able to + drive + someday']],not:[['will can','조동사 두 개 ✗ → will be able to']],model:'I will be able to drive someday.'},
+ {free:true,inst:'자유 영작: 나의 능력을 소개하는 문장을 3개 이상 써 보세요.',cond:"can 1번, can't 1번, will be able to 1번 이상",minSent:3,
+  must:[['\\bcan \\w+','can 문장을 넣어 주세요.'],["can't|cannot",'can\'t 문장을 넣어 주세요.'],['will be able to','will be able to 문장을 넣어 주세요.']],not:[['can (\\w+s)\\b(?<!\\b(is|was|this|class|bus|glass|guess|kiss|miss|pass|dress))','조동사 뒤에는 원형!'],['will can','조동사 두 개 ✗']],
+  model:"I can draw cartoons. I can't sing well. I will be able to speak English fluently someday."}
+]},
+{id:'m2',icon:'📜',title:'우리 반 규칙 만들기',desc:'must / must not / don\'t have to로 규칙을 만들어요 (개념 14)',steps:[
+ {inst:'"우리는 정각에 와야 한다."',given:['must','be on time'],must:[['^we must be on time','We + must + be on time']],not:[['must to','must 뒤에 to ✗'],['must (is|are)','must 뒤에는 원형 be!']],model:'We must be on time.'},
+ {inst:'"우리는 교실에서 뛰면 안 된다."',given:['must not','run','in the classroom'],must:[["^we (must not|mustn't) run in the classroom",'We + must not + run + in the classroom']],not:[["don't have to",'금지는 must not!']],model:'We must not run in the classroom.'},
+ {inst:'"우리는 매일 교복을 입을 필요는 없다."',given:["don't have to",'wear uniforms','every day'],must:[["^we (don't|do not) have to wear uniforms every day","We + don't have to + wear uniforms + every day"]],not:[['must not','불필요는 don\'t have to!']],model:"We don't have to wear uniforms every day."},
+ {inst:'"선생님은 매일 우리 숙제를 확인하셔야 한다."',given:['our teacher','have to','check our homework'],must:[['^our teacher has to check our homework','Our teacher + has to + check + our homework']],not:[['teacher have to','Our teacher(3인칭 단수) → has to!']],model:'Our teacher has to check our homework every day.'},
+ {free:true,inst:'자유 영작: 우리 집 규칙을 3개 이상 써 보세요.',cond:"must 또는 has to 1번, must not 1번, don't have to 1번 이상",minSent:3,
+  must:[['\\b(must|have to|has to)\\b(?! not)','must / have to 규칙을 넣어 주세요.'],["must not|mustn't",'must not 규칙을 넣어 주세요.'],["(don't|doesn't) have to",'don\'t have to 규칙을 넣어 주세요.']],not:[['\\b(must|should) to\\b','조동사 뒤에 to ✗']],
+  model:"We must say hello to each other. We must not use phones at dinner. My sister has to wash the dishes. I don't have to clean on Sundays."}
+]},
+{id:'m3',icon:'💌',title:'고민 상담소',desc:'친구의 고민에 should / shouldn\'t로 조언해요 (개념 13·14)',steps:[
+ {inst:'고민 쓰기: "나는 밤에 잠을 잘 수 없어."',given:["can't",'sleep','at night'],must:[["^i (can't|cannot) sleep at night","I + can't + sleep + at night"]],not:[["don't sleep",'능력 부정 → can\'t']],model:"I can't sleep at night."},
+ {inst:'조언(should): "너는 자기 전에 따뜻한 우유를 마시는 게 좋겠어."',given:['drink warm milk','before bed'],must:[['^you should drink warm milk before bed','You + should + drink warm milk + before bed']],not:[['should drinks','should 뒤에는 원형!']],model:'You should drink warm milk before bed.'},
+ {inst:"조언(shouldn't): \"너는 밤늦게 휴대폰을 보지 않는 게 좋겠어.\"",given:['look at your phone','late at night'],must:[["^you (shouldn't|should not) look at your phone late at night","You + shouldn't + look at your phone + late at night"]],not:[["don't have to",'충고는 shouldn\'t!']],model:"You shouldn't look at your phone late at night."},
+ {inst:'허가 질문: "제가 내일 다시 전화해도 될까요?"',given:['May','call you','again','tomorrow'],must:[['^may i call you( again)? tomorrow\\s*\\?','May + I + call you (again) + tomorrow?']],not:[['^can i','공손하게 May I로 써 보세요.']],model:'May I call you again tomorrow?'},
+ {free:true,inst:'자유 영작: 친구의 고민 1문장과 조언 3문장 이상을 써 보세요.',cond:"should 1번, shouldn't 1번, must 1번 이상",minSent:4,
+  must:[['\\bshould\\b(?!n)','should 조언을 넣어 주세요.'],["shouldn't|should not",'shouldn\'t 조언을 넣어 주세요.'],['\\bmust\\b','must 문장을 넣어 주세요.']],not:[["should(n't)? (\\w+s|went|to)\\b(?<!\\b(is|was|this|class|bus|glass|guess|kiss|miss|pass|dress))",'should 뒤에는 원형!']],
+  model:"My friend can't focus in class. He should sleep more. He shouldn't drink soda at night. He must turn off his phone before bed."}
+]}
+];
+
 /* ================= 단원 등록 · 불러오기 ================= */
 const UNIT_DATA={
  '01':{title:'be동사',range:'개념 01~04',CONCEPTS:U01_CONCEPTS,RUN:U01_RUN,Q:U01_Q,ADV:U01_ADV,MISSIONS:U01_MISSIONS,
    plan:[['1','01 be동사 현재형','개념 01 문제 + Mission 3 (우리 반 소개)'],['2','02 be동사 과거형','개념 02 문제 + Mission 2 (어제 일기)'],['3','03 be동사 부정문','개념 03 문제 + 오답노트 정리'],['4','04 be동사 의문문','실전 모의고사 20문항 + Mission 1 (친구 소개)']]},
  '02':{title:'일반동사',range:'개념 05~08',CONCEPTS:U02_CONCEPTS,RUN:U02_RUN,Q:U02_Q,ADV:U02_ADV,MISSIONS:U02_MISSIONS,
-   plan:[['1','05 일반동사 현재형','개념 05 문제 + Mission 1 (가족의 하루)'],['2','06 현재형 부정문·의문문','개념 06 문제 + Mission 3 (친구 인터뷰)'],['3','07 일반동사 과거형','개념 07 문제 + 불규칙 동사표 암기'],['4','08 과거형 부정문·의문문','실전 모의고사 20문항 + Mission 2 (주말 일기)']]}
+   plan:[['1','05 일반동사 현재형','개념 05 문제 + Mission 1 (가족의 하루)'],['2','06 현재형 부정문·의문문','개념 06 문제 + Mission 3 (친구 인터뷰)'],['3','07 일반동사 과거형','개념 07 문제 + 불규칙 동사표 암기'],['4','08 과거형 부정문·의문문','실전 모의고사 20문항 + Mission 2 (주말 일기)']]},
+ '03':{title:'시제',range:'개념 09~12',CONCEPTS:U03_CONCEPTS,RUN:U03_RUN,Q:U03_Q,ADV:U03_ADV,MISSIONS:U03_MISSIONS,
+   plan:[['1','09 현재 시제, 과거 시제','개념 09 문제 + Mission 1 (시간 여행 일기)'],['2','10 미래 시제','개념 10 문제 + 이번 주말 계획 3문장'],['3','11 진행 시제 1 (현재진행형)','개념 11 문제 + Mission 2 (교실 생중계)'],['4','12 진행 시제 2 (과거진행형)','실전 모의고사 20문항 + Mission 3 (어젯밤 9시)']]},
+ '04':{title:'조동사',range:'개념 13~14',CONCEPTS:U04_CONCEPTS,RUN:U04_RUN,Q:U04_Q,ADV:U04_ADV,MISSIONS:U04_MISSIONS,
+   plan:[['1','13 can / may / will','개념 13 문제 + Mission 1 (나의 능력 소개)'],['2','14 must / have to / should','개념 14 문제 + Mission 2 (우리 반 규칙)'],['3','UNIT 04 종합 복습','실전 심화 22문항 + Mission 3 (고민 상담소)']]}
 };
 let CONCEPTS,RUN,Q,ADV,MISSIONS,UNIT_ID,UNIT;
 function loadUnit(id){
@@ -1789,7 +2739,7 @@ function answerHTML(q){
 }
 function cwCheck(q,text){
   const t=lite(text),tl=t.toLowerCase(),words=t.replace(/[.,!?]/g,' ').split(/\s+/).filter(Boolean).length;
-  const sents=(t.match(/[^.!?]+[.!?]*/g)||[]).map(x=>x.trim()).filter(x=>x.split(/\s+/).length>=2);
+  const sents=(t.match(/[^.!?]+[.!?]*/g)||[]).map(x=>x.trim()).filter(x=>/[a-z]{2,}/i.test(x));
   const joined=sents.join('\n').toLowerCase();
   const conds=q.conds.map(c=>{let ok=true;
     if(c.w)ok=ok&&words===c.w;
@@ -1941,7 +2891,7 @@ function tFlow(){
     <li><b>⏱ 타이머</b> — 단계마다 "○분 시작" 버튼, 끝나면 알림음</li>
     <li><b>🎲 발표자 뽑기</b> — 반 인원을 저장하면 번호를 겹치지 않게 뽑아요 (모든 학생에게 골고루 기회)</li>
     <li><b>🏆 팀 점수</b> — Game · Say it! 단계에서 팀 대항으로 사용</li></ul></div>
-  <div class="card"><div class="h2">📅 UNIT ${UNIT_ID} 권장 진도 (4차시)</div>
+  <div class="card"><div class="h2">📅 UNIT ${UNIT_ID} 권장 진도 (${UNIT.plan.length}차시)</div>
     <table class="t"><tr><th>차시</th><th>개념</th><th>과제 (학생 앱)</th></tr>
     ${UNIT.plan.map(r=>`<tr><td>${r[0]}</td><td class="l">${esc(r[1])}</td><td class="l">${esc(r[2])}</td></tr>`).join('')}</table></div>
   <div class="card"><div class="h2">📲 학생에게 링크 보내기</div>
