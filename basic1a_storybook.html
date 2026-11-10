@@ -116,6 +116,7 @@ button{font-family:inherit;cursor:pointer;border:none;color:inherit}
       <button id="mRead" onclick="setMode('read')">📖 Read</button>
     </div>
     <button class="hb ko" style="font-size:2vh;padding:.9vh .8vw" onclick="togglePanel()">💬 Talk</button>
+    <button class="hb" title="전체 화면" onclick="toggleFS()">⛶</button>
   </div>
   <div class="body">
     <div class="viewer" id="viewer">
@@ -326,6 +327,8 @@ function toggleSpot(){spotOn=!spotOn;sp.classList.toggle('on',spotOn);$('tSpot')
 sp.addEventListener('pointermove',e=>{const r=sp.getBoundingClientRect();sx=(e.clientX-r.left)/r.width;sy=(e.clientY-r.top)/r.height;drawSpot();});
 sp.addEventListener('pointerdown',e=>{const r=sp.getBoundingClientRect();sx=(e.clientX-r.left)/r.width;sy=(e.clientY-r.top)/r.height;drawSpot();});
 
+function toggleFS(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}catch(e){}}
+document.addEventListener('fullscreenchange',()=>setTimeout(()=>{typeof layout==='function'&&layout();typeof fitSoon==='function'&&fitSoon();},200));
 /* random picker */
 let pmax=12;
 function pickNum(){const ov=document.createElement('div');ov.className='ov';let n=1,k=0;
