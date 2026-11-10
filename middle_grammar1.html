@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>중등문법1 | STELLA GRAMMAR LAB</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --navy:#1f2a5a; --navy2:#2e3d7a; --peri:#5b6bb5; --peri-l:#e8ebf8;
+  --burg:#8a1c3b; --burg-l:#fbe9ee; --cream:#fffbea; --paper:#ffffff;
+  --ink:#1d2033; --sub:#5d6380; --line:#e3e1d3;
+  --ok:#1f8a5b; --ok-l:#e5f6ee; --ng:#c0392b; --ng-l:#fdecea; --gold:#e0a526;
+  --r:16px; --shadow:0 2px 10px rgba(31,42,90,.08);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:var(--cream);color:var(--ink);font-size:16px;line-height:1.6;word-break:keep-all}
+button{font-family:inherit;font-size:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea{font-family:inherit;font-size:16px}
+.wrap{max-width:780px;margin:0 auto;padding:0 16px}
+/* header */
+.top{position:sticky;top:0;z-index:20;background:var(--navy);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.top .wrap{display:flex;align-items:center;gap:10px;height:58px}
+.logo{font-weight:900;letter-spacing:.5px;font-size:17px;line-height:1.1}
+.logo small{display:block;font-weight:500;font-size:11px;opacity:.75;letter-spacing:0}
+.top .sp{flex:1}
+.pill{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;background:rgba(255,255,255,.15)}
+.pill.t{background:var(--burg)}
+.iconbtn{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.12);font-size:18px;display:grid;place-items:center}
+main{padding:18px 0 110px}
+/* cards */
+.card{background:var(--paper);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border:1px solid #efeadb}
+.h1{font-size:24px;font-weight:900;margin:0 0 4px;color:var(--navy)}
+.h2{font-size:19px;font-weight:800;margin:0 0 10px;color:var(--navy)}
+.h3{font-size:16px;font-weight:800;margin:14px 0 8px;color:var(--navy2)}
+.muted{color:var(--sub);font-size:14px}
+.tag{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:99px;background:var(--peri-l);color:var(--peri);margin-right:4px}
+.tag.b{background:var(--burg-l);color:var(--burg)}
+.tag.g{background:var(--ok-l);color:var(--ok)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:0 18px;border-radius:14px;font-weight:800;background:var(--navy);color:#fff;transition:transform .08s}
+.btn:active{transform:scale(.97)}
+.btn.burg{background:var(--burg)}
+.btn.ghost{background:var(--peri-l);color:var(--navy)}
+.btn.line{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.4;pointer-events:none}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.row>.btn{flex:1}
+/* hero */
+.hero{background:linear-gradient(135deg,var(--navy),var(--peri));color:#fff;border-radius:22px;padding:24px 20px;margin-bottom:16px;position:relative;overflow:hidden}
+.hero h1{margin:0;font-size:26px;font-weight:900;line-height:1.25}
+.hero p{margin:8px 0 0;opacity:.9;font-size:14px}
+.hero .star{position:absolute;right:-10px;top:-20px;font-size:120px;opacity:.12}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.mode{background:#fff;border-radius:18px;padding:18px 14px;text-align:left;box-shadow:var(--shadow);border:2px solid transparent}
+.mode b{display:block;font-size:18px;color:var(--navy)}
+.mode span{font-size:13px;color:var(--sub)}
+.mode .em{font-size:30px;display:block;margin-bottom:6px}
+.mode.t{border-color:var(--burg-l)}
+.units{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.unit{display:flex;gap:10px;align-items:center;background:#fff;border-radius:12px;padding:10px 12px;border:1px solid var(--line);font-size:14px}
+.unit .n{font-weight:900;color:var(--peri);font-size:18px;min-width:26px}
+.unit.on{border:2px solid var(--navy);background:var(--peri-l)}
+.unit{text-align:left;width:100%}
+.unit.off{opacity:.55}
+.irr{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
+.iv{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px;text-align:left;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;background:#fff;font-size:15px}
+.iv small{width:100%;color:var(--sub);font-size:12px}
+.unitbar .chip.on{background:var(--burg);border-color:var(--burg)}
+.unit .s{margin-left:auto;font-size:11px;color:var(--sub)}
+/* chips & tabs */
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:12px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;padding:9px 14px;border-radius:99px;background:#fff;border:1.5px solid var(--line);font-weight:700;font-size:14px;color:var(--sub)}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.bnav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.bnav .wrap{display:grid;grid-template-columns:repeat(4,1fr);padding:0 4px}
+.bnav button{padding:8px 0 10px;font-size:12px;font-weight:700;color:var(--sub);display:flex;flex-direction:column;align-items:center;gap:2px;position:relative}
+.bnav button i{font-style:normal;font-size:22px;line-height:1.2}
+.bnav button.on{color:var(--navy)}
+.bnav button.on::before{content:"";position:absolute;top:0;left:25%;right:25%;height:3px;border-radius:0 0 3px 3px;background:var(--burg)}
+.badge{position:absolute;top:4px;right:calc(50% - 22px);background:var(--burg);color:#fff;font-size:10px;font-weight:800;border-radius:99px;padding:0 6px;min-width:18px;line-height:18px}
+.ttabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;scrollbar-width:none}
+.ttabs::-webkit-scrollbar{display:none}
+.ttabs button{flex:none;padding:10px 14px;border-radius:12px;background:#fff;border:1.5px solid var(--line);font-weight:800;font-size:14px;color:var(--sub)}
+.ttabs button.on{background:var(--burg);color:#fff;border-color:var(--burg)}
+/* concept */
+.core{background:var(--navy);color:#fff;border-radius:14px;padding:14px 16px;font-weight:700;font-size:16px}
+.core small{display:block;opacity:.7;font-size:12px;font-weight:600;margin-bottom:2px}
+table.t{width:100%;border-collapse:collapse;font-size:15px;margin:6px 0}
+table.t th,table.t td{border:1px solid var(--line);padding:8px 8px;text-align:center}
+table.t th{background:var(--peri-l);color:var(--navy);font-weight:800}
+table.t td.l{text-align:left}
+.be{color:var(--burg);font-weight:900}
+.pt{border-left:4px solid var(--peri);background:#f8f9fe;border-radius:0 12px 12px 0;padding:10px 12px;margin:8px 0}
+.pt b{color:var(--navy)}
+.ex{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px dashed var(--line)}
+.ex:last-child{border-bottom:none}
+.ex .en{font-weight:700;font-size:16px}
+.ex .ko{font-size:14px;color:var(--sub)}
+.ex .tx{flex:1}
+.say{flex:none;width:38px;height:38px;border-radius:50%;background:var(--peri-l);font-size:17px;display:grid;place-items:center}
+.warn{background:var(--burg-l);border-radius:12px;padding:12px 14px;margin:8px 0;font-size:15px}
+.warn b{color:var(--burg)}
+.ox{border:1.5px solid var(--line);border-radius:12px;padding:12px;margin:8px 0}
+.ox .q{font-weight:700;margin-bottom:8px}
+.ox .row button{flex:1;min-height:44px;border-radius:10px;background:var(--peri-l);font-weight:900;font-size:18px}
+.ox .fb{margin-top:8px;font-size:14px}
+/* quiz */
+.prog{height:8px;background:#ece8d8;border-radius:99px;overflow:hidden;margin:6px 0 14px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--peri),var(--burg));border-radius:99px;transition:width .3s}
+.qhead{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.qno{font-weight:900;color:var(--burg);font-size:18px;margin-right:4px}
+.qtext{font-size:17px;font-weight:800;margin:4px 0 10px}
+.box{border:1.5px solid var(--navy2);border-radius:12px;padding:12px 14px;margin:8px 0 12px;background:#fdfdff;font-size:16px;line-height:1.75}
+.box table{width:100%;border-collapse:collapse}
+.box td,.box th{border:1px solid var(--line);padding:6px;text-align:center;font-size:14px}
+.opt{display:flex;gap:10px;width:100%;text-align:left;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;margin-bottom:8px;font-size:16px;line-height:1.45}
+.opt .c{font-weight:900;color:var(--peri);flex:none}
+.opt.sel{border-color:var(--navy);background:var(--peri-l)}
+.opt.right{border-color:var(--ok);background:var(--ok-l)}
+.opt.wrong{border-color:var(--ng);background:var(--ng-l)}
+.slot{min-height:64px;border:2px dashed var(--peri);border-radius:12px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:#f8f9fe;margin-bottom:10px}
+.slot:empty::before{content:"아래 단어를 순서대로 눌러 문장을 만드세요";color:#9aa0bd;font-size:14px;padding-left:4px}
+.pool{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+.w{padding:10px 14px;border-radius:10px;background:#fff;border:1.5px solid var(--navy2);font-weight:700;font-size:16px}
+.slot .w{background:var(--navy);color:#fff}
+.w.used{opacity:.25;pointer-events:none}
+.end{font-weight:900;font-size:20px;color:var(--navy)}
+.tok{display:inline-block;padding:7px 10px;margin:3px 2px;border-radius:9px;border:1.5px solid var(--line);background:#fff;font-weight:700;font-size:16px}
+.tok.sel{border-color:var(--ng);background:var(--ng-l);color:var(--ng);text-decoration:line-through}
+.inp{width:100%;padding:13px 14px;border-radius:12px;border:1.5px solid var(--line);background:#fff;outline:none}
+.inp:focus{border-color:var(--peri)}
+textarea.inp{min-height:92px;resize:vertical;line-height:1.5}
+.bl{display:inline-block;width:110px;padding:6px 8px;margin:0 4px;border-radius:8px;border:1.5px solid var(--peri);text-align:center;font-weight:700}
+.fb-box{border-radius:14px;padding:14px;margin-top:12px}
+.fb-box.ok{background:var(--ok-l);border:1.5px solid var(--ok)}
+.fb-box.ng{background:var(--ng-l);border:1.5px solid var(--ng)}
+.fb-box .t{font-weight:900;font-size:18px;margin-bottom:6px}
+.fb-box.ok .t{color:var(--ok)}
+.fb-box.ng .t{color:var(--ng)}
+.ansl{background:#fff;border-radius:10px;padding:10px 12px;margin:6px 0;font-weight:700}
+.exp{font-size:15px;line-height:1.7}
+.exp b{color:var(--burg)}
+.stick{position:sticky;bottom:72px;padding-top:8px;background:linear-gradient(transparent,var(--cream) 30%)}
+.score{text-align:center;padding:10px 0}
+.score .big{font-size:52px;font-weight:900;color:var(--navy);line-height:1}
+.bar{display:flex;align-items:center;gap:8px;font-size:14px;margin:6px 0}
+.bar .lb{width:92px;flex:none;font-weight:700}
+.bar .tr{flex:1;height:12px;background:#eee8d6;border-radius:99px;overflow:hidden}
+.bar .tr i{display:block;height:100%;background:var(--peri)}
+.bar .v{width:48px;text-align:right;font-weight:800}
+.wl{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin:6px 0;font-size:14px;background:#fff}
+/* mission */
+.mcard{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;box-shadow:var(--shadow);border:1px solid #efeadb}
+.mcard .ic{font-size:30px}
+.mcard b{display:block;color:var(--navy);font-size:16px}
+.step{border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-bottom:10px;background:#fff}
+.step.done{border-color:var(--ok);background:#fbfffd}
+.step.lock{opacity:.45}
+.step .sh{display:flex;gap:8px;align-items:center;font-weight:800;color:var(--navy);margin-bottom:6px}
+.step .num{width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:13px;flex:none}
+.step.done .num{background:var(--ok)}
+.given{display:inline-block;background:var(--peri-l);border-radius:8px;padding:3px 9px;font-weight:700;margin:2px;font-size:14px}
+.myans{background:var(--ok-l);border-radius:10px;padding:9px 12px;font-weight:700;margin:6px 0}
+.rules{margin:8px 0 0;padding:0;list-style:none;font-size:14px}
+.rules li{padding:4px 0}
+/* teacher */
+.board{background:#23463a;color:#f4f1e4;border-radius:16px;padding:20px;border:10px solid #7a5a3a;font-family:"Pretendard",monospace;white-space:pre-wrap;font-size:17px;line-height:1.75;font-weight:600;box-shadow:inset 0 0 40px rgba(0,0,0,.35)}
+.board .hl{color:#ffe27a}
+.board{white-space:pre;overflow-x:auto}
+.bigboard{font-size:clamp(16px,2.3vw,28px)}
+.bigex .row>.btn{flex:1 1 45%}
+.bigex{background:#fff;border-radius:16px;padding:24px;text-align:center;margin-top:14px}
+.bigex .en{font-size:clamp(24px,4.4vw,46px);font-weight:900;color:var(--navy);line-height:1.3}
+.bigex .ko{font-size:clamp(16px,2.4vw,24px);color:var(--sub);margin-top:8px}
+ul.tl{padding-left:20px;margin:6px 0}
+ul.tl li{margin:5px 0}
+.mis{display:grid;grid-template-columns:1fr;gap:6px;font-size:15px}
+.mis div{border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:#fff}
+.mis s{color:var(--ng)}
+.mis .r{color:var(--ok);font-weight:800}
+.flow{border-left:3px solid var(--peri);padding-left:14px;margin:8px 0}
+.flow .it{position:relative;margin-bottom:12px}
+.flow .it::before{content:"";position:absolute;left:-21px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--burg)}
+.flow .tm{font-weight:900;color:var(--burg);font-size:13px}
+.keyq{border-bottom:1px solid var(--line);padding:12px 0}
+.keyq:last-child{border-bottom:none}
+.pinbox{display:flex;gap:8px;margin-top:10px}
+.pinbox .inp{flex:1}
+.foot{text-align:center;font-size:12px;color:var(--sub);padding:24px 0 8px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:99px;font-weight:700;font-size:14px;z-index:50;opacity:0;transition:opacity .25s;pointer-events:none}
+.toast.on{opacity:1}
+.ratio{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:10px;font-size:13px}
+.ratio .r{text-align:right}
+.ratio .rbar{grid-column:1/3;height:10px;border-radius:99px;background:var(--burg);overflow:hidden}
+.ratio .rbar i{display:block;height:100%;background:var(--ok)}
+.stepbar{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.stepbar::-webkit-scrollbar{display:none}
+.stepbar button{flex:none;display:flex;align-items:center;gap:4px;padding:8px 11px;border-radius:12px;background:#fff;border:2px solid var(--line);font-size:17px}
+.stepbar button span{font-size:12px;font-weight:900;color:var(--sub)}
+.stepbar button.s{border-bottom:4px solid var(--ok)}
+.stepbar button.t{border-bottom:4px solid var(--burg)}
+.stepbar button.on{background:var(--navy);border-color:var(--navy)}
+.stepbar button.on span,.stepbar button.on em{color:#fff}
+.stepbar em{font-style:normal;font-size:12px;font-weight:800;color:var(--navy)}
+@media (max-width:600px){.stepbar em{display:none}.stepbar{display:grid;grid-template-columns:repeat(4,1fr)}.stepbar button{justify-content:center}}
+@media (min-width:601px){.chips,.ttabs{flex-wrap:wrap;overflow:visible}}
+.stage{background:#fff;border-radius:20px;padding:18px;box-shadow:var(--shadow);border:1px solid #efeadb}
+.sthead{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.who{font-weight:900;font-size:13px;padding:4px 10px;border-radius:99px}
+.who.s{background:var(--ok-l);color:var(--ok)}
+.who.t{background:var(--burg-l);color:var(--burg)}
+.tguide{background:#fff8e1;border:1px dashed var(--gold);border-radius:12px;padding:10px 12px;margin-bottom:12px;font-size:14px}
+.tguide summary{font-weight:800;cursor:pointer;color:#8a6200}
+.tguide div{margin-top:6px}
+.stagebox{background:#f8f9fe;border-radius:16px;padding:14px}
+.stagebox.model{background:var(--ok-l);margin-top:10px}
+.stagebox.center{text-align:center;padding:26px 14px}
+.frame{font-size:clamp(18px,2.6vw,28px);font-weight:700;padding:10px 4px;border-bottom:1px dashed var(--line);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.frame:last-child{border-bottom:none}
+.frame b{color:var(--burg)}
+.frame.sm{font-size:clamp(16px,2.1vw,22px)}
+.en2{font-size:.85em;color:var(--navy2)}
+.bigq{font-size:clamp(26px,4.6vw,52px);font-weight:900;color:var(--navy);line-height:1.3;margin:10px 0}
+.biga{font-size:clamp(22px,3.6vw,40px);font-weight:900;color:var(--ok);line-height:1.3}
+.biga.sm{font-size:18px;margin-top:4px}
+.hintbar{background:var(--navy);color:#fff;border-radius:12px;padding:10px 14px;font-weight:800;text-align:center;margin-bottom:10px;font-size:clamp(15px,2vw,22px)}
+.bingo{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.bingo>div{border:2px solid var(--navy2);border-radius:12px;padding:10px 8px;font-weight:800;font-size:clamp(13px,1.9vw,19px);min-height:96px;display:flex;flex-direction:column;justify-content:space-between;background:#fff}
+.bingo .nm{font-weight:500;color:var(--sub);font-size:12px;margin-top:6px}
+.tbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--navy);padding-bottom:env(safe-area-inset-bottom)}
+.tbar .wrap{display:grid;grid-template-columns:repeat(3,1fr)}
+.tbar button{color:#fff;padding:9px 0 11px;font-weight:800;font-size:13px;display:flex;flex-direction:column;align-items:center;gap:1px}
+.tbar button i{font-style:normal;font-size:20px}
+.tbar button.on{background:rgba(255,255,255,.14)}
+.tpanel{position:fixed;left:50%;transform:translateX(-50%);bottom:72px;z-index:31;width:min(94vw,520px);background:#fff;border-radius:18px;padding:16px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.pickno{text-align:center;font-size:72px;font-weight:900;color:var(--burg);line-height:1.1;margin:10px 0}
+.pickno small{font-size:20px;color:var(--navy)}
+.scores{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.team{border-radius:14px;padding:12px;text-align:center;font-weight:900}
+.team.A{background:var(--peri-l);color:var(--navy)}
+.team.B{background:var(--burg-l);color:var(--burg)}
+.team.C{background:var(--ok-l);color:var(--ok)}
+.team.D{background:#fff3d6;color:#9a6a00}
+.sc4{font-size:12px;letter-spacing:-.2px}
+.sc4 b{font-size:14px;color:#ffd27a}
+.setsw{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.setsw button{background:#fff;border:2px solid var(--line);border-radius:16px;padding:12px;text-align:left}
+.setsw b{display:block;color:var(--navy);font-size:15px}
+.setsw span{font-size:12px;color:var(--sub)}
+.setsw .on{border-color:var(--navy);background:var(--peri-l)}
+.setsw .on.adv{border-color:var(--burg);background:var(--burg-l)}
+.setsw .on.adv b{color:var(--burg)}
+.anslines{border-bottom:1px solid #999;height:30px;margin:4px 0}
+.team .pt2{font-size:40px;line-height:1.1}
+.team .btn{min-height:40px;padding:0 8px}
+@media (max-width:420px){.bingo{grid-template-columns:1fr 1fr}}
+@media print{.tbar,.tpanel{display:none!important}}
+@media (max-width:420px){
+  .modes{grid-template-columns:1fr}
+  .units{grid-template-columns:1fr}
+  .hero h1{font-size:23px}
+  .card{padding:15px}
+}
+@media print{
+  .top,.bnav,.noprint,.ttabs,.chips{display:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;border:1px solid #ccc;break-inside:avoid}
+  main{padding:0}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="logo">STELLA GRAMMAR LAB<small id="hsub">중등문법1</small></div>
+  <div class="sp"></div>
+  <span class="pill" id="hmode" style="display:none"></span>
+  <button class="iconbtn" id="homeBtn" aria-label="처음으로" data-act="home">🏠</button>
+</div></header>
+<main><div class="wrap" id="app"></div></main>
+<nav class="bnav" id="bnav" style="display:none"><div class="wrap">
+  <button data-tab="learn"><i>📘</i>개념</button>
+  <button data-tab="quiz"><i>📝</i>내신문제</button>
+  <button data-tab="write"><i>✍️</i>Writing</button>
+  <button data-tab="review"><i>🔁</i>오답노트<span class="badge" id="wbadge" style="display:none"></span></button>
+</div></nav>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   중등문법1 · STELLA GRAMMAR LAB (UNIT 01 be동사 · UNIT 02 일반동사)
+   Created by 스텔라원장 (잉글리시아이스텔라)
+   - 학생 전용 링크: 파일주소 뒤에 ?student 를 붙이면 교사용 입구가 숨겨집니다.
+   - 교사용 비밀번호: 아래 TEACHER_PIN 값을 바꾸세요.
+   ========================================================= */
+const TEACHER_PIN = '1234';
+const STUDENT_ONLY = /[?&]student\b/.test(location.search);
+let KEY = 'sgl_u01_';
+
+const UNITS = [
+ ['01','be동사'],['02','일반동사'],['03','시제'],['04','조동사'],['05','명사와 대명사'],['06','to부정사와 동명사'],
+ ['07','형용사와 부사'],['08','의문사'],['09','문장의 종류'],['10','문장의 형식'],['11','비교 구문'],['12','접속사와 전치사']
+];
+
+/* ---------------- 개념 데이터 ---------------- */
+const U01_CONCEPTS = [
+{ no:'01', title:'be동사 현재형',
+  student:{
+    core:'be동사는 <b>"~이다"</b> 또는 <b>"~(에) 있다"</b>라는 뜻이에요. 주어에 따라 <span style="color:#ffd27a">am / are / is</span> 중 하나를 골라요.',
+    table:`<table class="t"><tr><th>주어</th><th>be동사</th><th>줄임말</th></tr>
+      <tr><td>I</td><td class="be">am</td><td>I'm</td></tr>
+      <tr><td>You / We / They<br><small>여러 명·여러 개</small></td><td class="be">are</td><td>you're, we're, they're</td></tr>
+      <tr><td>He / She / It<br><small>한 명·한 개</small></td><td class="be">is</td><td>he's, she's, it's</td></tr></table>`,
+    points:[
+      ['뒤에 <b>명사·형용사</b>가 오면 → "~이다"', ['I am a middle school student.','나는 중학생이다.']],
+      ['뒤에 <b>장소</b>가 오면 → "~에 있다"', ['The cat is under the desk.','고양이는 책상 아래에 있다.']],
+    ],
+    tips:[
+      '<b>두 명 이상이면 무조건 are!</b> → Jiho and I <b>are</b> friends. (지호와 나 = 우리)',
+      '<b>물·우유·돈</b>처럼 셀 수 없는 것은 is → The milk <b>is</b> cold.',
+      '<b>children(아이들), people(사람들)</b>은 s가 없어도 여럿! → The children <b>are</b> noisy.',
+      '주어 뒤에 꾸미는 말이 붙어도 <b>진짜 주어</b>만 보기 → The water <u>in these bottles</u> <b>is</b> cold.'
+    ],
+    examples:[
+      ['I am fourteen years old.','나는 14살이다.'],
+      ['You are my best friend.','너는 나의 가장 친한 친구야.'],
+      ['My mom is a nurse.','우리 엄마는 간호사이다.'],
+      ['It is very hot today.','오늘은 매우 덥다.'],
+      ['We are in the same class.','우리는 같은 반이다.'],
+      ['My books are in my bag.','내 책들은 가방 안에 있다.'],
+      ['Tom and Jerry are good friends.','톰과 제리는 좋은 친구이다.'],
+      ['The money is on the table.','돈은 탁자 위에 있다.'],
+      ['These cookies are delicious.','이 쿠키들은 맛있다.'],
+      ["She's from Canada.",'그녀는 캐나다 출신이다.']
+    ],
+    ox:[['My brother are tall.',false,'My brother는 한 명(3인칭 단수) → <b>is</b>'],
+        ['The books are on the desk.',true,'The books는 여러 권 → are. 뒤에 장소가 있으니 "~에 있다"']]
+  },
+  teacher:{
+    board:`be동사 = ~이다 / ~(에) 있다
+
+ I                    →  am   (I'm)
+ You · We · They · 복수  →  are  (you're …)
+ He · She · It · 단수    →  is   (he's …)
+
+★ 주어 + be + 명사/형용사 → ~이다
+★ 주어 + be + 장소       → ~에 있다
+★ A and B = 복수 → are
+★ 셀 수 없는 명사(water, money) → is`,
+    intro:['칠판에 "나는 학생이다 / 나는 교실에 있다"를 쓰고 질문: "두 문장에 똑같이 들어가는 영어 동사는?" → am',
+           '"그는 키가 크다"를 영어로? He tall? → 무엇이 빠졌을까? (형용사만으로는 동사가 될 수 없음 → is)',
+           '"우리말 \'~이다/~있다\'가 보이면 be동사부터 떠올리자"로 개념 연결'],
+    script:['① be동사의 두 가지 뜻: 뒤에 명사·형용사 → "~이다", 장소 → "~에 있다".',
+            '② 주어가 모양을 결정: I → am / you·복수 → are / 3인칭 단수 → is. "나만 am, 너와 여럿은 are, 나머지 하나는 is"로 리듬 암기.',
+            '③ 복합 주어: A and B는 무조건 복수 → are. "You and I" = we, "You and Tom" = you(복수).',
+            '④ 셀 수 없는 명사(water, milk, money, time, bread)는 단수 취급 → is.',
+            '⑤ 수식어 함정: The water in these bottles is cold. → 전치사구에 괄호 치고 진짜 주어 찾기 훈련.',
+            '⑥ 축약형: I\'m / you\'re / he\'s / she\'s / it\'s / we\'re / they\'re / that\'s. 단, This is는 축약하지 않음.'],
+    examples:[
+      ['I am a member of the soccer club.','나는 축구부 회원이다.'],
+      ['You are really good at drawing.','너는 그림을 정말 잘 그린다.'],
+      ['My father is a firefighter.','우리 아버지는 소방관이시다.'],
+      ['Seoul is the capital of Korea.','서울은 한국의 수도이다.'],
+      ['The bus stop is near my house.','버스 정류장은 우리 집 근처에 있다.'],
+      ['My parents are in the kitchen.','부모님은 부엌에 계신다.'],
+      ['You and I are on the same team.','너와 나는 같은 팀이다.'],
+      ['The people in this town are friendly.','이 마을 사람들은 친절하다.'],
+      ['Time is money.','시간은 돈이다.'],
+      ['The keys on the table are mine.','탁자 위의 열쇠들은 내 것이다.'],
+      ["It's my favorite season.",'그것은 내가 가장 좋아하는 계절이다.'],
+      ['Those shoes are too expensive.','저 신발은 너무 비싸다.']
+    ],
+    mistakes:[['She happy.','She is happy.','형용사는 혼자 동사가 될 수 없음 → be동사 필수'],
+              ['Jiho and I am friends.','Jiho and I are friends.','A and B는 복수 → are (마지막 I에 속지 않기)'],
+              ["I'm am a student.","I'm a student.","I'm 안에 이미 am이 있음 → be동사 중복"],
+              ['The children is noisy.','The children are noisy.','children = child의 복수형'],
+              ['The water in these bottles are cold.','The water in these bottles is cold.','진짜 주어는 water(셀 수 없음) → is']],
+    exam:['주어-be동사 수일치 (A and B / children·people 등 불규칙 복수)','"~이다" vs "~에 있다" 의미가 다른 것 고르기','축약형 오류 고르기 (This\'s ✗)','수식어구가 붙은 주어 찾기 (The books on the desk are ~)'],
+    activity:'【주어 카드 스피드 게임 · 5분】 교사가 주어 카드(I, my dog, Tom and Jerry, the milk, children, you and I…)를 보여주면 학생은 am=손가락 1개, are=2개, is=3개로 즉시 표시. 틀린 주어는 칠판 오른쪽 "함정 주어" 칸에 모아 수업 끝에 다시 확인.',
+    check:[['The people in this town ___ friendly.','are — people은 "사람들"(복수)'],
+           ['My shoes ___ under the bed. (뜻은?)','are — "~에 있다"'],
+           ['Bread and milk ___ on the table.','are — A and B는 복수']]
+  }
+},
+{ no:'02', title:'be동사 과거형',
+  student:{
+    core:'과거의 일을 말할 때는 <b>was / were</b>를 써요. 뜻은 <b>"~였다, ~(에) 있었다"</b>예요.',
+    table:`<table class="t"><tr><th>현재</th><th></th><th>과거</th></tr>
+      <tr><td>am, is</td><td>→</td><td class="be">was</td></tr>
+      <tr><td>are</td><td>→</td><td class="be">were</td></tr></table>
+      <table class="t"><tr><th colspan="2">과거를 알려주는 신호 단어</th></tr>
+      <tr><td class="l">yesterday 어제</td><td class="l">last night/week/year 지난~</td></tr>
+      <tr><td class="l">~ ago ~전에</td><td class="l">then / at that time 그때</td></tr>
+      <tr><td class="l" colspan="2">in 2020 (과거의 연도)</td></tr></table>`,
+    points:[
+      ['I, He, She, It, 한 명·한 개 → <b>was</b>', ['I was sick yesterday.','나는 어제 아팠다.']],
+      ['You, We, They, 여러 명·여러 개 → <b>were</b>', ['They were at the park last Sunday.','그들은 지난 일요일에 공원에 있었다.']],
+    ],
+    tips:[
+      '<b>yesterday, last, ago</b>가 보이면 과거형! → I <b>was</b> busy yesterday.',
+      '<b>now, today</b>가 보이면 현재형! → I <b>am</b> busy now.',
+      '<b>children, people</b>은 여럿이니까 → <b>were</b>',
+      '과거형은 딱 두 개! <b>was</b>와 <b>were</b>만 기억하면 끝.'
+    ],
+    examples:[
+      ['I was in Busan last week.','나는 지난주에 부산에 있었다.'],
+      ['My grandfather was a teacher.','우리 할아버지는 선생님이셨다.'],
+      ['The test was easy.','그 시험은 쉬웠다.'],
+      ['We were classmates two years ago.','우리는 2년 전에 반 친구였다.'],
+      ['You were late this morning.','너는 오늘 아침에 늦었다.'],
+      ['It was rainy yesterday.','어제는 비가 왔다.'],
+      ['The children were happy at the party.','아이들은 파티에서 행복했다.'],
+      ['My parents were at work then.','그때 부모님은 직장에 계셨다.'],
+      ['She was ten years old in 2020.','그녀는 2020년에 열 살이었다.'],
+      ['The movie was really exciting.','그 영화는 정말 흥미진진했다.']
+    ],
+    ox:[['They was at home last night.',false,'They는 여러 명 → <b>were</b>'],
+        ['I was very tired yesterday.',true,'I + 과거 → was, yesterday는 과거 신호']]
+  },
+  teacher:{
+    board:`be동사 과거형 = ~였다 / ~에 있었다
+
+ am, is  →  was
+ are     →  were
+
+과거 신호: yesterday / last ~ / ~ ago
+          then / at that time / in 2020
+
+★ 시간 표현이 시제를 결정한다!
+★ children, people → were`,
+    intro:['"나는 지금 배고프다 / 나는 어제 배고팠다" — 우리말은 어미가 바뀌지만, 영어는 동사 모양이 바뀐다.',
+           '학생 3명에게 "어제 오후 5시에 어디 있었어?" → "I was at the academy." 식으로 답하게 하며 was 노출.',
+           '"과거형은 몇 개일까?" → 단 2개(was/were)! 부담 낮추기.'],
+    script:['① am·is → was / are → were. 현재형 3개 → 과거형 2개로 줄어든다는 점 강조.',
+            '② 과거 시간 표현이 정답의 결정적 단서: yesterday, last night/week/year, ~ ago, then, at that time, in + 과거 연도.',
+            '③ 현재 시간 표현(now, today, these days)과 과거형을 섞지 않기 — "시간 표현에 동그라미" 습관.',
+            '④ 불규칙 복수 주어: children, people, men, women, feet, teeth → were.',
+            '⑤ A and B 주어 + 과거 → were (Tom and I were ~).',
+            '⑥ (예고) There was / There were는 UNIT 10에서 확장 — 오늘은 노출만.'],
+    examples:[
+      ['I was at the library after school.','나는 방과 후에 도서관에 있었다.'],
+      ['My dog was sick last week.','우리 개는 지난주에 아팠다.'],
+      ['The concert was amazing.','그 콘서트는 굉장했다.'],
+      ['We were in the same class last year.','우리는 작년에 같은 반이었다.'],
+      ['Mina and Yuna were at the mall yesterday.','미나와 유나는 어제 쇼핑몰에 있었다.'],
+      ['The weather was cold this morning.','오늘 아침 날씨는 추웠다.'],
+      ['My shoes were dirty after the rain.','비가 온 뒤 내 신발은 더러웠다.'],
+      ['It was my birthday three days ago.','3일 전은 내 생일이었다.'],
+      ['The people at the festival were excited.','축제의 사람들은 신이 났다.'],
+      ['He was a famous singer in the 1990s.','그는 1990년대에 유명한 가수였다.'],
+      ['You were so kind to me then.','그때 너는 나에게 매우 친절했다.'],
+      ['The museum was closed on Monday.','그 박물관은 월요일에 문을 닫았다.']
+    ],
+    mistakes:[['I were busy yesterday.','I was busy yesterday.','I의 과거는 was'],
+              ['They was happy.','They were happy.','복수 주어 → were'],
+              ['She is sick last week.','She was sick last week.','last week → 과거'],
+              ['I was here now.','I am here now.','now → 현재'],
+              ['The children was tired.','The children were tired.','children은 복수']],
+    exam:['시간 부사와 시제 일치 (yesterday/ago ↔ was/were)','빈칸에 들어갈 말이 나머지와 다른 것 (was vs were)','표·그림을 보고 과거 문장 쓰기 (서술형)','현재 문장을 주어진 시간 표현에 맞게 바꿔 쓰기'],
+    activity:'【어제의 나 인터뷰 · 5분】 짝과 "Were you ___ yesterday?" 질문 3개(at home / busy / tired 등)를 주고받은 뒤, 답을 "My partner was / wasn\'t ~" 문장으로 발표. 3인칭 전환(I → he/she)까지 함께 연습.',
+    check:[['My friends ___ at the beach last summer.','were — 복수 + 과거'],
+           ['It ___ sunny now.','is — now는 현재'],
+           ['The children ___ in the garden an hour ago.','were — children 복수, ago 과거']]
+  }
+},
+{ no:'03', title:'be동사 부정문',
+  student:{
+    core:'"~이 아니다, ~에 없다"라고 말할 때는 <b>be동사 바로 뒤에 not</b>을 붙여요.',
+    table:`<table class="t"><tr><th>원래 모양</th><th>줄임말</th></tr>
+      <tr><td>am not</td><td class="be">✗ 줄임말 없음 → I'm not</td></tr>
+      <tr><td>is not</td><td class="be">isn't</td></tr>
+      <tr><td>are not</td><td class="be">aren't</td></tr>
+      <tr><td>was not</td><td class="be">wasn't</td></tr>
+      <tr><td>were not</td><td class="be">weren't</td></tr></table>`,
+    points:[
+      ['현재 부정: <b>am/is/are + not</b>', ['She is not my sister.','그녀는 내 여동생이 아니다.']],
+      ['과거 부정: <b>was/were + not</b>', ["We weren't at home last night.",'우리는 어젯밤에 집에 없었다.']],
+    ],
+    tips:[
+      '<b>amn\'t는 없는 말!</b> → I\'m not hungry. (O)',
+      'be동사 문장에는 <b>don\'t / doesn\'t / didn\'t를 쓰지 않아요</b> → She <s>doesn\'t</s> isn\'t happy.',
+      'not은 항상 <b>be동사 뒤</b>! → They <s>not are</s> are not ~',
+      '두 가지로 줄일 수 있어요 → He\'s not = He isn\'t'
+    ],
+    examples:[
+      ["I'm not hungry now.",'나는 지금 배고프지 않다.'],
+      ['He is not a liar.','그는 거짓말쟁이가 아니다.'],
+      ["This bag isn't mine.",'이 가방은 내 것이 아니다.'],
+      ["We aren't in the same class.",'우리는 같은 반이 아니다.'],
+      ["They're not at school today.",'그들은 오늘 학교에 없다.'],
+      ["The test wasn't difficult.",'그 시험은 어렵지 않았다.'],
+      ["My parents weren't at home yesterday.",'부모님은 어제 집에 안 계셨다.'],
+      ["It wasn't cold last night.",'어젯밤은 춥지 않았다.'],
+      ['I was not late for school.','나는 학교에 늦지 않았다.'],
+      ["The shoes aren't expensive.",'그 신발은 비싸지 않다.']
+    ],
+    ox:[["I amn't tired.",false,'am not은 줄일 수 없어요 → <b>I\'m not tired.</b>'],
+        ["She doesn't happy.",false,'be동사 문장 → <b>She isn\'t happy.</b>']]
+  },
+  teacher:{
+    board:`be동사 부정문 = be동사 + not
+
+ am not   → (축약 ✗)  I'm not
+ is not   → isn't      was not  → wasn't
+ are not  → aren't     were not → weren't
+
+★ 축약 2가지: He's not = He isn't
+★ don't / doesn't / didn't ✗ (일반동사용)
+★ not의 자리: be동사 "바로 뒤"`,
+    intro:['"나는 배고프지 않아"를 영어로 → 학생 답 수집 (I don\'t hungry? I\'m not hungry?) → 오답을 칠판에 남겨 둔 채 수업 시작.',
+           '"be동사는 혼자서 부정도 의문도 만들 수 있는 힘센 동사!" — 개념 04까지 연결되는 키 메시지.'],
+    script:['① 부정문 공식: 주어 + be동사 + not + ~. not의 자리는 be동사 바로 뒤.',
+            '② 축약 두 가지: 주어+be 축약(She\'s not) / be+not 축약(She isn\'t). 의미 동일.',
+            '③ I am not → I\'m not만 가능. amn\'t는 존재하지 않음 (내신 단골 오답).',
+            '④ 일반동사 부정(don\'t/doesn\'t)과 혼동 방지: 문장에 be동사가 보이면 do는 절대 등장하지 않는다.',
+            '⑤ 과거 부정: wasn\'t / weren\'t + 과거 시간 표현.',
+            '⑥ 부정문 전환 문제는 "시제 유지 + 수일치 유지"를 반드시 체크.'],
+    examples:[
+      ["I'm not good at math.",'나는 수학을 잘하지 못한다.'],
+      ["She isn't at home now.",'그녀는 지금 집에 없다.'],
+      ["He's not my cousin.",'그는 내 사촌이 아니다.'],
+      ["These are not my socks.",'이것들은 내 양말이 아니다.'],
+      ["The store isn't open on Sundays.",'그 가게는 일요일에 열지 않는다.'],
+      ["We aren't twins.",'우리는 쌍둥이가 아니다.'],
+      ["The food wasn't spicy.",'그 음식은 맵지 않았다.'],
+      ["I was not at the party.",'나는 파티에 없었다.'],
+      ["The students weren't noisy in class.",'학생들은 수업 시간에 시끄럽지 않았다.'],
+      ["It wasn't my fault.",'그건 내 잘못이 아니었다.'],
+      ["You weren't late yesterday.",'너는 어제 늦지 않았다.'],
+      ["My answer isn't wrong.",'내 답은 틀리지 않았다.']
+    ],
+    mistakes:[["I amn't hungry.","I'm not hungry.",'am not은 축약 불가'],
+              ["She doesn't happy.","She isn't happy.",'be동사 문장에 doesn\'t ✗'],
+              ['They not are busy.','They are not busy.','not은 be동사 뒤'],
+              ["We wasn't late.","We weren't late.",'We → were'],
+              ["He isn't sick yesterday.","He wasn't sick yesterday.",'yesterday → 과거']],
+    exam:['amn\'t 오류 찾기','doesn\'t/didn\'t + 형용사 오류 찾기','부정문 전환 (축약형 조건 서술형)','어법상 옳은 문장의 개수 고르기'],
+    activity:'【거짓말 탐지기 · 5분】 학생이 자기소개 3문장(현재 2 + 과거 1) 중 1문장에 거짓을 섞어 말함 → 친구들이 "You aren\'t ~! / You weren\'t ~!"로 바로잡기. 부정 축약형 발음 연습 효과.',
+    check:[['I am not a robot. → 축약하면?',"I'm not a robot."],
+           ['Kevin doesn\'t busy. → 고치면?',"Kevin isn't busy."],
+           ['The doors were open. → 부정문(축약)',"The doors weren't open."]]
+  }
+},
+{ no:'04', title:'be동사 의문문',
+  student:{
+    core:'질문할 때는 <b>be동사를 주어 앞으로</b> 보내고 끝에 <b>?</b>를 붙여요.',
+    table:`<table class="t"><tr><th>문장</th><th>의문문</th></tr>
+      <tr><td>You <b class="be">are</b> tired.</td><td><b class="be">Are</b> you tired?</td></tr>
+      <tr><td>He <b class="be">was</b> sick.</td><td><b class="be">Was</b> he sick?</td></tr></table>
+      <table class="t"><tr><th>대답</th><th>모양</th></tr>
+      <tr><td>긍정</td><td class="l">Yes, 대명사 + be동사. <b class="be">(줄임말 ✗)</b></td></tr>
+      <tr><td>부정</td><td class="l">No, 대명사 + be동사 + not. (줄임말 ○)</td></tr></table>`,
+    points:[
+      ['대답할 때 주어는 <b>대명사</b>로 바꿔요', ['Is your mom a teacher? — Yes, she is.','너희 엄마는 선생님이니? — 응, 그래.']],
+      ['<b>you</b>로 물으면 <b>I</b>(또는 we)로 대답', ['Were you at home? — No, I wasn\'t.','너 집에 있었니? — 아니, 없었어.']],
+    ],
+    tips:[
+      '<b>Yes, I\'m. ✗ / Yes, she\'s. ✗</b> → 긍정 대답은 줄이지 않아요!',
+      '<b>this / that</b>으로 물으면 <b>it</b>으로 대답 → Is this your pen? — Yes, it is.',
+      '<b>you and Tom</b>처럼 여럿에게 물으면 <b>we</b>로 대답',
+      '<b>Do you hungry? ✗</b> → be동사 문장은 do를 쓰지 않아요 → Are you hungry?'
+    ],
+    examples:[
+      ['Are you ready?','너 준비됐니?'],
+      ['Yes, I am. / No, I\'m not.','응, 됐어. / 아니, 안 됐어.'],
+      ['Is this your umbrella?','이것은 너의 우산이니?'],
+      ['No, it isn\'t.','아니, 그렇지 않아.'],
+      ['Are your parents at home?','부모님 집에 계시니?'],
+      ['Yes, they are.','응, 계셔.'],
+      ['Was the movie fun?','그 영화 재미있었니?'],
+      ['Were you and Jiho at the park?','너와 지호는 공원에 있었니?'],
+      ['Yes, we were.','응, 우리는 거기 있었어.'],
+      ['Is Mr. Lee your teacher?','이 선생님이 너의 선생님이시니?']
+    ],
+    ox:[['Is she your aunt? — Yes, she\'s.',false,'긍정 대답은 줄이지 않아요 → <b>Yes, she is.</b>'],
+        ['Is this your bag? — No, it isn\'t.',true,'this로 물으면 it으로 대답, 부정 대답은 줄임말 OK']]
+  },
+  teacher:{
+    board:`be동사 의문문 = Be동사 + 주어 ~ ?
+
+ You are tired.  →  Are you tired?
+ It was fun.     →  Was it fun?
+
+대답  Yes, 대명사 + be.        (축약 ✗)
+      No,  대명사 + be + not.  (축약 ○)
+
+ your mom → she    this/that → it
+ you → I           you and Tom → we`,
+    intro:['교사가 "You are hungry."라고 말한 뒤 억양만 올려 "You are hungry?" → "영어에서는 어순을 바꿔요!" 로 연결.',
+           '"Do you hungry?"를 칠판에 쓰고 무엇이 틀렸는지 찾게 하기 (일반동사 의문문과의 구별).'],
+    script:['① 의문문 공식: Be동사 + 주어 + ~? (주어와 be동사 자리 바꾸기)',
+            '② 시제·수일치 유지: Your parents are ~ → Are your parents ~? / She was ~ → Was she ~?',
+            '③ 대답의 주어는 반드시 대명사: your brother → he, Mina → she, this/that → it, these/those → they.',
+            '④ you의 대답 함정: 단수 you → I / 복수 you(you and Tom) → we.',
+            '⑤ 긍정 대답 축약 금지(Yes, he\'s ✗), 부정 대답 축약 가능(No, he isn\'t / No, he\'s not).',
+            '⑥ 대화 흐름 파악: No 뒤에 오는 문장(I was at ~)이 단서가 되는 내신 문제 다수.'],
+    examples:[
+      ['Are you a new student here?','너 여기 새로 온 학생이니?'],
+      ['Is your sister in high school?','너희 언니는 고등학생이니?'],
+      ['Is that your bike? — Yes, it is.','저거 네 자전거야? — 응, 맞아.'],
+      ['Are these your glasses? — No, they aren\'t.','이거 네 안경이니? — 아니, 아니야.'],
+      ['Was the bus crowded?','버스가 붐볐니?'],
+      ['Were the students quiet?','학생들은 조용했니?'],
+      ['Was it your idea?','그건 네 아이디어였니?'],
+      ['Are you and your brother twins? — Yes, we are.','너와 남동생은 쌍둥이니? — 응, 맞아.'],
+      ['Is Busan far from Seoul?','부산은 서울에서 멀어?'],
+      ['Were you nervous before the test?','시험 전에 긴장했니?'],
+      ['Is the library open today?','도서관이 오늘 여니?'],
+      ['Was your trip fun? — No, it wasn\'t.','여행 재미있었어? — 아니, 별로였어.']
+    ],
+    mistakes:[['Do you hungry?','Are you hungry?','be동사 문장 → Be동사로 시작'],
+              ["Is she busy? — Yes, she's.",'Yes, she is.','긍정 대답 축약 금지'],
+              ['Is your mom a doctor? — Yes, your mom is.','Yes, she is.','대답은 대명사로'],
+              ['Are you and Tom friends? — Yes, I am.','Yes, we are.','you and Tom → we'],
+              ['Is these your books?','Are these your books?','these → 복수 → Are']],
+    exam:['대답의 대명사 바꾸기 (your mom → she, this → it, you and Tom → we)','긍정 대답 축약 오류 (Yes, she\'s ✗)','의문문 전환 + 대답 서술형','대화 흐름 파악 (No 뒤 정보로 정답 고르기)'],
+    activity:'【Who am I? 스무고개 · 5분】 교사가 동물·인물 카드를 숨기고, 학생들은 be동사 의문문으로만 질문 (Is it big? Is it an animal? Is it in the sea?). 교사는 Yes, it is. / No, it isn\'t.로만 대답 → 대답 패턴 자동 노출.',
+    check:[['Is your brother tall? (긍정 대답)','Yes, he is.'],
+           ['Are you and Mina classmates? (긍정 대답)','Yes, we are.'],
+           ['Is this your notebook? (부정 대답)',"No, it isn't."]]
+  }
+}];
+
+/* ---------------- 수업 진행 모드: 학생 활동 중심 8단계 ---------------- */
+const BOOK_STEP={k:'book',who:'S',min:12,icon:'📗',title:'교재 문제 풀이 · 짝 확인',
+  guide:'교사가 문제를 하나씩 풀어 주지 않고, 학생끼리 먼저 확인하게 해요. 교사는 둘 다 모르는 문제만 해설해요.',
+  frames:['1️⃣ 혼자 풀기 (7분)','2️⃣ 짝과 답 맞춰 보기 — 다른 답에만 ☆ 표시 (2분)','3️⃣ ☆ 문제는 서로 이유 말하기<br><span class="en2">"I think it\'s <b>are</b> because the subject is plural."</span>','4️⃣ 둘 다 모르는 문제만 손 들기 → 선생님 해설 (3분)']};
+const U01_RUN={
+'01':[
+ {k:'prompt',who:'S',min:3,icon:'👋',title:'Warm-up · 나를 소개해요',guide:'짝과 마주 보고 화면의 틀로 3문장씩 말하기. 교사는 돌아다니며 am/is/are 실수만 메모해 두었다가 판서 때 "오늘의 실수"로 활용해요.',
+  frames:['I <b>am</b> ______.','My ______ <b>is</b> ______.','My ______ <b>are</b> ______.'],model:['I am fourteen years old.','My favorite food is tteokbokki.','My friends are funny.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up에서 메모한 학생 실수로 시작하세요. 설명은 8분 안에 끝내고, 예문은 학생이 먼저 읽게 한 뒤 교사가 확인해요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'우리말이 나오면 3초 안에 반 전체가 영어로 외치기 → 정답 공개 → 한 번 더 크게. 후반 4문장은 🎲 발표자 뽑기로 개인 발표.',
+  items:[['나는 배고프다.','I am hungry.'],['너는 키가 크다.','You are tall.'],['그녀는 내 사촌이다.','She is my cousin.'],['우리는 같은 반이다.','We are in the same class.'],['고양이가 소파 위에 있다.','The cat is on the sofa.'],['지호와 나는 친구이다.','Jiho and I are friends.'],['그 물은 차갑다.','The water is cold.'],['아이들이 운동장에 있다.','The children are in the playground.']]},
+ {k:'cards',who:'S',min:5,icon:'🎲',title:'Game · 주어 카드 스피드',guide:'주어 카드가 뜨면 반 전체가 동시에 손가락 들기 (am=☝️ 1개 / are=✌️ 2개 / is=🤟 3개). 정답 공개 후 🎲로 뽑힌 학생이 그 주어로 한 문장 말하기 → 맞으면 팀 +1.',
+  hint:'am = ☝️ &nbsp; are = ✌️ &nbsp; is = 🤟',
+  items:[['I','am'],['My dog','is'],['Tom and Jerry','are'],['The milk','is'],['Children','are'],['You and I','are'],['My money','is'],['These cookies','are'],['The people','are'],['It','is'],['My parents','are'],['Seoul','is']]},
+ {k:'prompt',who:'S',min:5,icon:'👥',title:'Pair Talk · Guess Who?',guide:'A가 가족·친구 1명을 be동사 3문장으로 소개(이름은 말하지 않기) → B가 "Is it your ~?"로 맞히기. 역할 바꿔 반복. 개념 04 의문문을 미리 맛보는 활동이에요.',
+  frames:['A: He / She <b>is</b> ______ years old.','A: He / She <b>is</b> ______. (tall / funny / kind)','A: He / She <b>is</b> in / at ______ now.','B: <b>Is</b> it your ______?'],model:['A: She is forty-five years old.','A: She is kind and funny.','A: She is at home now.','B: Is it your mom? — A: Yes!']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'문제를 보고 화이트보드(또는 공책)에 답을 쓴 뒤 "하나, 둘, 셋!"에 동시에 들기. 교사는 오답 패턴을 바로 확인해요.',
+  items:[['The books on the desk ___ mine.','are — 진짜 주어는 The books'],['Bread and milk ___ on the table.','are — A and B는 복수'],['My sister is a nurse.<br>My bag is on the chair.<br>두 is의 뜻 차이는?','~이다 / ~에 있다'],['This is → 줄여 쓸 수 있을까?',"✗ 줄여 쓰지 않아요 (That's는 가능)"]]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'3문항을 쪽지에 써서 나가면서 제출. 과제: 학생 앱 → 개념 01 문제 + Writing Mission 3 (우리 반 소개).',
+  items:['My friends ___ kind. (am / are / is)','"그 물은 차갑다"를 영어로 쓰기','The children ___ noisy. 빈칸과 이유는?'],answers:['are','The water is cold.','are — children은 child의 복수형']}
+],
+'02':[
+ {k:'prompt',who:'S',min:3,icon:'👋',title:'Warm-up · Where were you?',guide:'체인 질문: 교사가 첫 학생에게 묻고, 대답한 학생이 다음 학생에게 질문을 넘겨요. 시간은 화면에서 골라 바꿔 가며 질문하기.',
+  frames:['A: Where <b>were</b> you yesterday at ______?','B: I <b>was</b> at ______.','시간: 7 p.m. / 3 p.m. / 10 a.m. / last Saturday'],model:['A: Where were you yesterday at 7 p.m.?','B: I was at the academy.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up에서 학생들이 쓴 "I was ~"를 칠판에 모아 was/were 규칙을 학생이 직접 찾게 해 보세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 분단별 → 개인(🎲) 순서로 말하기. 시간 표현을 들으면 손으로 뒤쪽(과거)을 가리키는 동작을 함께 해요.',
+  items:[['나는 어제 피곤했다.','I was tired yesterday.'],['그들은 지난주에 부산에 있었다.','They were in Busan last week.'],['그 영화는 재미있었다.','The movie was fun.'],['우리 할머니는 선생님이셨다.','My grandmother was a teacher.'],['너는 오늘 아침에 늦었다.','You were late this morning.'],['어제는 추웠다.','It was cold yesterday.'],['아이들은 행복했다.','The children were happy.'],['미나와 나는 2년 전에 같은 반이었다.','Mina and I were in the same class two years ago.']]},
+ {k:'cards',who:'S',min:6,icon:'⏳',title:'Game · Time Machine',guide:'카드의 세 단어로 문장 만들기. 시간 표현에 따라 현재/과거를 고르는 게 핵심이에요! 팀별로 먼저 손 든 학생이 말하고, 맞으면 +1.',
+  hint:'시간 표현을 보고 am · is · are / was · were 고르기',
+  items:[['I / tired / now','I am tired now.'],['I / tired / yesterday','I was tired yesterday.'],['My parents / at home / last night','My parents were at home last night.'],['It / sunny / today','It is sunny today.'],['The test / easy / last week','The test was easy last week.'],['We / in Jeju / last summer','We were in Jeju last summer.'],['My dog / sick / two days ago','My dog was sick two days ago.'],['The children / in the classroom / now','The children are in the classroom now.'],['You / busy / yesterday','You were busy yesterday.'],['Tom / ten years old / in 2020','Tom was ten years old in 2020.']]},
+ {k:'prompt',who:'S',min:5,icon:'👥',title:'Pair Talk · Yesterday Interview',guide:'짝에게 질문 3개 → 답을 메모 → 🎲로 뽑힌 학생이 짝에 대해 발표 (I → he/she 바꾸기 연습).',
+  frames:['A: <b>Were</b> you ______ yesterday?','B: Yes, I <b>was</b>. / No, I <b>wasn\'t</b>.','(at home / busy / tired / happy / at the library)','발표: My partner <b>was / wasn\'t</b> ______ yesterday.'],model:['A: Were you busy yesterday?','B: Yes, I was. I was at the academy.','발표: Minji was busy yesterday.']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개. 틀린 학생이 많으면 Say it! 단계로 한 번 더 돌아가요.',
+  items:[['Tom and I ___ at the park yesterday.','were'],['It ___ my birthday three days ago.','was'],['The children ___ tired then.','were — children은 복수'],['I ___ hungry now.<br>I ___ hungry an hour ago.','am / was']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 02 문제 + Writing Mission 2 (어제 일기).',
+  items:['They ___ at home last night.','"그 시험은 쉬웠다"를 영어로 쓰기','현재 신호 단어 2개, 과거 신호 단어 2개 쓰기'],answers:['were','The test was easy.','now, today / yesterday, last ~, ~ ago']}
+],
+'03':[
+ {k:'prompt',who:'S',min:3,icon:'👋',title:"Warm-up · No, I'm not!",guide:'교사가 학생에게 틀린 사실을 말하면, 반 전체가 "No, I\'m not! I\'m ~."로 반박해요. 마지막에는 학생이 교사에게 문장을 만들어 도전!',
+  frames:['T: You <b>are</b> a teacher.','S: No, I<b>\'m not</b>! I\'m a student.','T: You are 20 years old. / You are sleepy. / You were absent yesterday.'],model:["S: No, I'm not! I'm fourteen.","S: No, I'm not! I'm excited.","S: No, I wasn't! I was here."]},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up에서 외친 "I\'m not"을 칠판에 쓰고 시작하세요. amn\'t와 doesn\'t 오류는 학생에게 먼저 찾게 해요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 부정문으로 바꾸기',guide:'문장을 보고 반 전체가 축약형 부정문으로 바꿔 말하기. 남학생/여학생, 분단별로 번갈아 말하면 집중도가 올라가요.',
+  items:[['She is busy. → 부정',"She isn't busy."],['I am hungry. → 부정',"I'm not hungry."],['They are twins. → 부정',"They aren't twins."],['The test was hard. → 부정',"The test wasn't hard."],['We were late. → 부정',"We weren't late."],['It is my bag. → 부정',"It isn't my bag."],['My parents were at home. → 부정',"My parents weren't at home."],['I was sick. → 부정',"I wasn't sick."]]},
+ {k:'prompt',who:'S',min:6,icon:'🕵️',title:'Game · Two Truths and a Lie',guide:'1분 동안 나에 대한 문장 3개 준비(하나는 거짓) → 발표 → 친구들은 거짓 문장을 찾아 "You aren\'t ~! / You weren\'t ~!"로 지적. 맞히면 팀 +1.',
+  frames:['1. I <b>am</b> ______.','2. My ______ <b>is / are</b> ______.','3. I <b>was</b> ______ last ______.','친구: You <b>aren\'t</b> ______! / You <b>weren\'t</b> ______!'],model:['1. I am good at swimming.','2. My sister is twenty years old.','3. I was in Jeju last summer.',"친구: You weren't in Jeju last summer!"]},
+ {k:'cards',who:'S',min:5,icon:'👥',title:'Pair Talk · Correct me!',guide:'짝 활동: A가 카드의 틀린 문장을 읽으면, B가 부정문 + 올바른 문장으로 고쳐 말하기. 카드 4장마다 역할을 바꿔요.',
+  hint:'No, it isn\'t ~. It\'s ~. / No, they aren\'t ~. They\'re ~.',
+  items:[['The sun is cold.',"No, it isn't cold. It's hot."],['Busan is in Japan.',"No, it isn't in Japan. It's in Korea."],['Elephants are small.',"No, they aren't small. They're big."],['Dolphins are fish.',"No, they aren't fish. They're mammals."],['King Sejong was a singer.',"No, he wasn't a singer. He was a king."],['Our classroom is noisy now.',"No, it isn't noisy. It's quiet."],['Penguins are good at flying.',"No, they aren't good at flying. They're good at swimming."],['Yesterday was Christmas.',"No, it wasn't Christmas. It was ______."]]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'틀린 문장을 바르게 고쳐 쓰고 동시에 들기.',
+  items:[["I amn't tired.","I'm not tired. (I am not tired.)"],["She doesn't happy.","She isn't happy."],['We was not late.',"We weren't late."],['He is sick. → 축약 부정 2가지',"He isn't sick. / He's not sick."]]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 03 문제 + 오답노트 정리.',
+  items:['They are busy. → 부정문 (축약형)','I am a liar. → 부정문 (축약형)','"그 영화는 지루하지 않았다"를 영어로 쓰기'],answers:["They aren't busy.","I'm not a liar.","The movie wasn't boring."]}
+],
+'04':[
+ {k:'bingo',who:'S',min:5,icon:'👋',title:'Warm-up · Find someone who…',guide:'교실을 돌아다니며 질문 → Yes라고 답한 친구의 이름을 칸에 써요 (한 친구당 1칸). 한 줄을 완성하면 "Bingo!" 대답은 꼭 Yes, I am. / No, I\'m not.처럼!',
+  cells:['Are you a morning person?','Are you good at cooking?','Are you the oldest child?','Were you born in summer?','Are you afraid of bugs?','Were you sick last week?','Are you a fan of K-pop?','Is your bag black?','Were you at home last Sunday?']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'빙고에서 학생들이 한 질문·대답을 칠판에 옮기며 규칙 정리. "Yes, I\'m." 같은 실제 실수가 나왔다면 바로 활용하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 질문 & 대답',guide:'앞 4개는 의문문 만들기, 뒤 4개는 대답하기. 반을 반으로 나눠 한쪽은 질문, 다른 쪽은 대답하며 주고받아요.',
+  items:[['You are hungry. → 의문문','Are you hungry?'],['She is your sister. → 의문문','Is she your sister?'],['They were at school. → 의문문','Were they at school?'],['It was fun. → 의문문','Was it fun?'],['Is your mom a teacher? (Yes)','Yes, she is.'],['Is this your pen? (No)',"No, it isn't."],['Are you and Tom friends? (Yes)','Yes, we are.'],['Were you tired? (No)',"No, I wasn't."]]},
+ {k:'cards',who:'S',min:6,icon:'❓',title:'Game · Who am I? 스무고개',mystery:true,guide:'술래 1명이 나와서 "정답 보기"로 몰래 확인 → 가린 뒤 앞에 서요. 반 친구들은 Is it ~? / Was it ~? 질문만 할 수 있고, 술래는 Yes, it is. / No, it isn\'t.로만 대답. 10개 안에 맞히면 성공!',
+  hint:'Is it an animal? · Is it big? · Is it in the classroom? · Is it yellow?',
+  items:[['❓ Mystery Card 1','🐧 penguin (펭귄)'],['❓ Mystery Card 2','🍕 pizza (피자)'],['❓ Mystery Card 3','📱 smartphone (스마트폰)'],['❓ Mystery Card 4','🦒 giraffe (기린)'],['❓ Mystery Card 5','🏫 school (학교)'],['❓ Mystery Card 6','⚽ soccer ball (축구공)']]},
+ {k:'prompt',who:'S',min:5,icon:'👥',title:'Pair Talk · Interview',guide:'짝에게 질문 4개 → 대답 메모 → 🎲로 뽑힌 학생이 "Is Minji ~?" 형태로 반 친구들에게 퀴즈 내기.',
+  frames:['<b>Are</b> you ______? (busy / tired / hungry / ready)','<b>Is</b> your ______ ______? (bag / room / mom …)','<b>Were</b> you ______ last ______?','대답: Yes, I am. / No, I\'m not. / Yes, it is. / No, it isn\'t.'],model:['A: Are you ready for the test?','B: No, I\'m not!','A: Is your room clean?','B: Yes, it is.']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['Is your brother tall? (Yes)','Yes, he is.'],["Is she busy? — Yes, she's.<br>무엇이 틀렸나?","긍정 대답은 줄이지 않아요 → Yes, she is."],['Are you and Mina classmates? (Yes)','Yes, we are.'],['Your parents are at home. → 의문문','Are your parents at home?']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 실전 모의고사 20문항 + Writing Mission 1 (친구 소개).',
+  items:['The test was easy. → 의문문','Is this your cap? (No로 대답)','Are you and your sister twins? (Yes로 대답)'],answers:['Was the test easy?',"No, it isn't.",'Yes, we are.']}
+]};
+
+/* ---------------- 내신형 문제 (43문항) ---------------- */
+const TYPE_NAME={cwrite:'조건 서술형',mc:'객관식',order:'문장 배열',fix:'오류 수정',write:'서술형 영작',blank:'서술형 빈칸'};
+const U01_Q = [
+/* ---- 객관식 ---- */
+{id:'m01',c:'01',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'My sister ______ a middle school student.',
+ opts:['am','are','is','be','were'],ans:2,
+ exp:'주어 <b>My sister</b>는 한 사람 → 3인칭 단수이므로 <b>is</b>. 현재의 사실이므로 과거형 were는 오답이고, be는 동사원형이라 주어 뒤에 그대로 쓸 수 없어요.'},
+{id:'m02',c:'01',type:'mc',q:'다음 빈칸에 공통으로 들어갈 말로 알맞은 것은? (대·소문자 무시)',box:'• ______ you ready for the test?<br>• Minsu and Jiwoo ______ in the same class.',
+ opts:['Am','Is','Are','Was','Be'],ans:2,
+ exp:'you와 함께 쓰는 현재 be동사는 <b>are</b>. Minsu and Jiwoo는 두 사람(복수) → <b>are</b>. 두 빈칸 모두 are가 들어가요.'},
+{id:'m03',c:'01',type:'mc',q:'다음 중 어법상 <u>어색한</u> 문장은?',
+ opts:['I am from Busan.','My shoes are new.','Jiho and I am good friends.','The milk is cold.','It is a sunny day.'],ans:2,
+ exp:'<b>Jiho and I</b>는 "지호와 나" = 우리(we) → <b>are</b>를 써야 해요. 바로 앞의 I만 보고 am을 고르면 함정에 빠져요. ④ milk는 셀 수 없는 명사 → is (O).'},
+{id:'m04',c:'01',type:'mc',q:'밑줄 친 is의 의미가 나머지 넷과 <u>다른</u> 것은?',
+ opts:['She <u>is</u> a nurse.','Tom <u>is</u> very tall.','My bag <u>is</u> on the chair.','This <u>is</u> my pencil.','The movie <u>is</u> funny.'],ans:2,
+ exp:'③은 뒤에 장소(<b>on the chair</b>)가 와서 "<b>~에 있다</b>"라는 뜻이에요. 나머지는 뒤에 명사(a nurse, my pencil)나 형용사(tall, funny)가 와서 "~이다"라는 뜻이에요.'},
+{id:'m05',c:'01',type:'mc',q:'주어와 be동사의 연결이 바르지 <u>않은</u> 것은?',
+ opts:['You and Mina – are','My dog – is','These cookies – is','The water – is','We – are'],ans:2,
+ exp:'<b>These cookies</b>는 "이 쿠키들" → 복수이므로 <b>are</b>. these/those + 복수명사는 항상 are예요. ④ water는 셀 수 없는 명사 → is (O).'},
+{id:'m06',c:'01',type:'mc',q:'다음 중 줄임말(축약형)이 <u>잘못된</u> 것은?',
+ opts:["I am → I'm","You are → You're","It is → It's","They are → They're","This is → This's"],ans:4,
+ exp:'<b>This is</b>는 줄여 쓰지 않아요. (That is → That\'s는 가능) 나머지는 모두 올바른 축약형이에요.'},
+{id:'m07',c:'02',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'Yesterday, Tom and I ______ at the library for three hours.',
+ opts:['am','is','are','was','were'],ans:4,
+ exp:'<b>Yesterday</b> → 과거. <b>Tom and I</b> = 우리(we) → 복수 → 과거형 <b>were</b>. was는 I/he/she/it 같은 단수 주어의 과거형이에요.'},
+{id:'m08',c:'02',type:'mc',q:'빈칸에 들어갈 말이 나머지 넷과 <u>다른</u> 것은?',
+ opts:['My grandfather ______ a farmer ten years ago.','The weather ______ great last weekend.','I ______ very sleepy this morning.','The children ______ in the playground an hour ago.','It ______ my birthday yesterday.'],ans:3,
+ exp:'④ <b>The children</b>은 child의 복수형 → <b>were</b>. 나머지는 모두 단수 주어 + 과거 → was. children은 -s가 없어도 복수라는 점이 함정!'},
+{id:'m09',c:'02',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장은?',
+ opts:['He were sick last Monday.','We was in Jeju last summer.','My parents were busy yesterday.','I am at the cinema last night.','She is ten years old two years ago.'],ans:2,
+ exp:'③ My parents(복수) + yesterday(과거) → <b>were</b> (O).<br>① He → was ② We → were ④ last night → was ⑤ two years ago → was'},
+{id:'m10',c:'03',type:'mc',q:'다음 문장을 부정문으로 바르게 바꾼 것은?',box:'The movie was boring.',
+ opts:['The movie not was boring.',"The movie didn't boring.","The movie wasn't boring.","The movie doesn't boring.","The movie isn't boring."],ans:2,
+ exp:'be동사 부정문은 <b>be동사 바로 뒤에 not</b>. was → <b>was not(wasn\'t)</b>. didn\'t/doesn\'t는 일반동사용이고, isn\'t는 시제가 현재로 바뀌어 오답이에요.'},
+{id:'m11',c:'03',type:'mc',q:'빈칸에 알맞은 말이 순서대로 짝지어진 것은?',box:'• I ______ hungry now. (부정)<br>• They ______ at home last night. (부정)',
+ opts:["amn't – weren't","am not – weren't","am not – wasn't","isn't – weren't","don't – didn't"],ans:1,
+ exp:'① <b>am not</b>은 줄여 쓸 수 없어요 (amn\'t ✗). ② They + 과거 → were → <b>weren\'t</b>.'},
+{id:'m12',c:'03',type:'mc',q:'다음 중 어법상 옳은 문장의 개수는?',box:"ⓐ She isn't my sister.<br>ⓑ I'm not a liar.<br>ⓒ We aren't tired yesterday.<br>ⓓ Kevin don't hungry.<br>ⓔ The doors weren't open.",
+ opts:['1개','2개','3개','4개','5개'],ans:2,
+ exp:'옳은 문장: ⓐ ⓑ ⓔ → <b>3개</b>.<br>ⓒ yesterday → 과거 → We <b>weren\'t</b> tired yesterday.<br>ⓓ be동사 문장 → Kevin <b>isn\'t</b> hungry.'},
+{id:'m13',c:'04',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:"A: Were you at home yesterday?<br>B: No, ______. I was at my grandma's house.",
+ opts:['I was',"I wasn't","you weren't","I'm not","I didn't"],ans:1,
+ exp:'<b>Were you ~?</b>로 물으면 <b>I</b>로 대답해요. 뒤에서 할머니 댁에 있었다고 했으니 부정 → 과거 부정 <b>I wasn\'t</b>.'},
+{id:'m14',c:'04',type:'mc',q:'다음 중 대화가 <u>자연스럽지 않은</u> 것은?',
+ opts:["A: Is she your aunt?<br>B: Yes, she's.","A: Are you a new student?<br>B: Yes, I am.","A: Was the test difficult?<br>B: No, it wasn't.","A: Are your sisters twins?<br>B: Yes, they are.","A: Is this your cap?<br>B: No, it isn't."],ans:0,
+ exp:'긍정 대답에서는 주어와 be동사를 <b>줄여 쓰지 않아요</b> → <b>Yes, she is.</b> (부정 대답 No, she isn\'t.는 줄임말 가능) ⑤ this로 물으면 it으로 대답 (O).'},
+{id:'m15',c:'04',type:'mc',q:'다음 문장을 의문문으로 바르게 바꾼 것은?',box:'Your parents are at the park.',
+ opts:['Do your parents at the park?','Are your parents at the park?','Your parents are at the park?','Is your parents at the park?','Are at the park your parents?'],ans:1,
+ exp:'be동사 의문문은 <b>Be동사 + 주어 ~?</b>. Your parents(복수) → <b>Are</b> your parents at the park? ① Do ✗ ④ Is ✗(복수) ⑤ 어순 ✗'},
+{id:'m16',c:'04',type:'mc',q:'다음 질문에 대한 대답으로 알맞은 것은?',box:'Is your brother good at soccer?',
+ opts:['Yes, he does.',"No, he doesn't.",'Yes, your brother is.',"No, he isn't.",'Yes, I am.'],ans:3,
+ exp:'<b>Is</b>로 물었으니 <b>be동사</b>로 대답해요. your brother → 대명사 <b>he</b>. → Yes, he is. / <b>No, he isn\'t.</b> does/doesn\'t는 일반동사 질문의 대답이에요.'},
+{id:'m17',c:'04',type:'mc',q:'빈칸 (A), (B)에 들어갈 말이 바르게 짝지어진 것은?',box:'A: (A) ______ you and your brother at the concert last night?<br>B: Yes, (B) ______.',
+ opts:['Was – I was','Were – we were','Are – we are','Were – they were','Was – we were'],ans:1,
+ exp:'<b>you and your brother</b>는 복수 + last night(과거) → <b>Were</b>. 대답하는 사람 입장에서 "나와 내 동생" = <b>we</b> → <b>Yes, we were.</b>'},
+/* ---- 문장 배열 ---- */
+{id:'o01',c:'01',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'지호와 나는 반 친구이다.',
+ words:['are','Jiho','and','I','classmates'],end:'.',ans:'Jiho and I are classmates',
+ exp:'주어 <b>Jiho and I</b>(복수) + <b>are</b> + 보어 classmates. "A and B"는 하나의 주어 덩어리로 맨 앞에 와요.'},
+{id:'o02',c:'02',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'우리 할아버지는 1990년에 선생님이셨다.',
+ words:['was','my','in','grandfather','a','teacher','1990'],end:'.',ans:'my grandfather was a teacher in 1990',
+ exp:'주어 My grandfather(단수) + 과거 <b>was</b> + a teacher + 시간 표현 <b>in 1990</b>. 시간 표현은 보통 문장 끝에 와요.'},
+{id:'o03',c:'03',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그녀는 나의 영어 선생님이 아니다.',
+ words:['not','she','is','English','my','teacher'],end:'.',ans:'she is not my English teacher',
+ exp:'부정문 공식 <b>주어 + be동사 + not</b> + 보어. not은 반드시 is <b>뒤</b>에 와요. my English teacher 순서(소유격 + 형용사 역할 명사 + 명사)도 주의!'},
+{id:'o04',c:'03',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그들은 어제 체육관에 없었다.',
+ words:['the',"weren't",'they','gym','at','yesterday'],end:'.',ans:"they weren't at the gym yesterday",
+ exp:'They(복수) + 과거 부정 <b>weren\'t</b> + 장소 at the gym + 시간 yesterday. "장소 → 시간" 순서로 써요.'},
+{id:'o05',c:'04',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'너는 어제 피곤했니?',
+ words:['you','were','tired','yesterday'],end:'?',ans:'were you tired yesterday',
+ exp:'의문문은 <b>Be동사 + 주어</b>로 시작 → <b>Were you</b> tired yesterday? yesterday → 과거 were.'},
+{id:'o06',c:'04',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'너의 가방은 책상 위에 있니?',
+ words:['your','is','bag','on','the','desk'],end:'?',ans:'is your bag on the desk',
+ exp:'<b>Is + your bag</b> + on the desk? 여기서 be동사는 "~에 있다"라는 뜻이에요.'},
+{id:'o07',c:'04',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그 수학 시험은 쉬웠니?',
+ words:['the','was','easy','test','math'],end:'?',ans:'was the math test easy',
+ exp:'<b>Was + the math test</b> + easy? 주어 덩어리(the math test)를 통째로 be동사 뒤에 넣어요.'},
+/* ---- 오류 수정 ---- */
+{id:'f01',c:'01',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'My friends is very kind to me.',w:2,fix:['are'],full:'My friends are very kind to me.',
+ exp:'<b>My friends</b>는 여러 명(복수) → <b>are</b>.'},
+{id:'f02',c:'01',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'The water in these bottles are cold.',w:5,fix:['is'],full:'The water in these bottles is cold.',
+ exp:'진짜 주어는 <b>water</b>(셀 수 없는 명사) → <b>is</b>. in these bottles는 주어를 꾸미는 말일 뿐이에요. bottles에 속지 않기!'},
+{id:'f03',c:'02',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'He were sick in bed last week.',w:1,fix:['was'],full:'He was sick in bed last week.',
+ exp:'He(3인칭 단수) + 과거 → <b>was</b>.'},
+{id:'f04',c:'02',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'We was at the beach two days ago.',w:1,fix:['were'],full:'We were at the beach two days ago.',
+ exp:'We(복수) + 과거 → <b>were</b>.'},
+{id:'f05',c:'02',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Mina is at the bookstore yesterday.',w:1,fix:['was'],full:'Mina was at the bookstore yesterday.',
+ exp:'<b>yesterday</b>는 과거 신호 → is를 과거형 <b>was</b>로.'},
+{id:'f06',c:'03',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:"I amn't good at math.",w:1,fix:['am not'],full:"I am not good at math. (= I'm not good at math.)",
+ exp:'<b>am not</b>은 줄여 쓸 수 없어요. amn\'t → <b>am not</b> (또는 I\'m not).'},
+{id:'f07',c:'03',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:"Kevin doesn't busy today.",w:1,fix:["isn't",'is not'],full:"Kevin isn't busy today.",
+ exp:'busy는 형용사 → be동사 문장이에요. be동사 부정은 doesn\'t가 아니라 <b>isn\'t (is not)</b>.'},
+{id:'f08',c:'04',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Are Jenny your cousin?',w:0,fix:['is'],full:'Is Jenny your cousin?',
+ exp:'Jenny는 한 사람(3인칭 단수) → <b>Is</b> Jenny your cousin?'},
+{id:'f09',c:'04',type:'fix',q:'대화에서 어법상 틀린 부분을 찾아 바르게 고치시오.',s:"A: Is Mike from Canada? B: Yes, he's.",w:7,fix:['he is'],full:'A: Is Mike from Canada? B: Yes, he is.',
+ exp:'긍정 대답에서는 줄임말을 쓰지 않아요 → <b>Yes, he is.</b>'},
+/* ---- 서술형 ---- */
+{id:'w01',c:'01',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'이 신발은 나에게 너무 작다.',cond:'these, shoes, too, small을 사용할 것 / 7단어로 쓸 것',
+ accept:['These shoes are too small for me'],
+ exp:'<b>These shoes</b>(복수) → <b>are</b>. "나에게"는 for me. 신발(shoes)은 항상 복수형으로 쓰므로 is가 아니라 are예요.'},
+{id:'w02',c:'02',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 어제 매우 피곤했다.',cond:'tired, very를 사용할 것 / 5단어로 쓸 것',
+ accept:['I was very tired yesterday','Yesterday I was very tired'],
+ exp:'I + 과거 → <b>was</b>. very는 tired 앞에서 꾸며줘요. → I was very tired yesterday.'},
+{id:'w03',c:'02',type:'write',q:'표를 보고 Sora and Yuna에 대한 문장을 완성하시오.',box:'<table><tr><th>이름</th><th>지난 일요일에 있었던 곳</th></tr><tr><td>Minho</td><td>at the park</td></tr><tr><td>Sora and Yuna</td><td>at the museum</td></tr></table><div style="margin-top:6px">예) Minho was at the park last Sunday.</div>',cond:'예시와 같은 형식으로 쓸 것',
+ accept:['Sora and Yuna were at the museum last Sunday','Last Sunday Sora and Yuna were at the museum'],
+ exp:'<b>Sora and Yuna</b>는 두 사람(복수) + last Sunday(과거) → <b>were</b>. 예시의 was를 그대로 따라 쓰면 감점!'},
+{id:'w04',c:'03',type:'write',q:'다음 문장을 부정문으로 바꿔 쓰시오.',box:'Sora and I were late for school.',cond:'축약형을 사용할 것',
+ accept:["Sora and I weren't late for school"],
+ exp:'Sora and I(복수) + 과거 → were not → 축약형 <b>weren\'t</b>.'},
+{id:'w05',c:'03',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그들은 지금 교실에 있지 않다.',cond:'축약형을 사용할 것 / classroom, now를 사용할 것',
+ accept:["They aren't in the classroom now","They're not in the classroom now","Now they aren't in the classroom","They aren't in the classroom right now"],
+ exp:'They + 현재 부정 → are not → <b>aren\'t</b> (또는 They\'re not). "교실에 있다" → be동사 + in the classroom.'},
+{id:'w06',c:'04',type:'write',q:'다음 문장을 의문문으로 바꾸고, No로 대답하시오.',box:'The museum was open yesterday.',cond:'의문문과 대답을 모두 쓸 것 (대답은 축약형)',
+ accept:["Was the museum open yesterday? No, it wasn't"],
+ exp:'의문문: <b>Was the museum</b> open yesterday?<br>대답: the museum → 대명사 <b>it</b> → <b>No, it wasn\'t.</b>'},
+{id:'w07',c:'04',type:'blank',q:'대화의 빈칸에 알맞은 be동사를 쓰시오.',text:'A: [0] you at the concert last night?<br>B: Yes, I [1]. It was amazing!',
+ accept:[['were'],['was']],
+ exp:'last night(과거) + you → <b>Were</b> you ~? / 대답은 I → <b>Yes, I was.</b>'},
+{id:'w08',c:'04',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'너의 남동생은 열 살이니?',cond:'your, brother, ten years old를 사용할 것',
+ accept:['Is your brother ten years old','Is your younger brother ten years old','Is your little brother ten years old'],
+ exp:'your brother(3인칭 단수) → <b>Is</b> your brother ten years old? 나이를 말할 때도 be동사를 써요.'},
+{id:'w09',c:'02',type:'blank',q:'괄호 안의 동사를 알맞은 형태로 바꿔 쓰시오.',text:'• My cat (be) [0] on the sofa now.<br>• My cat (be) [1] under the bed an hour ago.<br>• My cats (be) [2] hungry this morning.',
+ accept:[['is'],['was'],['were']],
+ exp:'① now → 현재, My cat(단수) → <b>is</b><br>② an hour ago → 과거, 단수 → <b>was</b><br>③ this morning(지난 아침) → 과거, My cats(복수) → <b>were</b>'},
+{id:'w10',c:'04',type:'write',q:'대화를 읽고 <조건>에 맞게 B의 대답을 완성하시오.',box:'A: Is your mom a teacher?<br>B: ____________. She is a doctor.',cond:'대명사를 사용할 것 / 축약형을 사용할 것',
+ accept:["No, she isn't","No, she's not"],
+ exp:'뒤에서 의사라고 했으니 <b>No</b>. your mom → 대명사 <b>she</b> → <b>No, she isn\'t.</b>'}
+];
+
+/* ---------------- 🔥 내신 실전 심화 (25문항) ---------------- */
+const U01_ADV = [
+{id:'h01',c:'01',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장끼리 짝지어진 것은?',box:'ⓐ The people in the photo is my cousins.<br>ⓑ My brother and his friend are in the gym.<br>ⓒ The water in the bottles are cold.<br>ⓓ The students in my class are kind.<br>ⓔ Jiho and I am on the same team.',
+ opts:['ⓐ, ⓑ','ⓑ, ⓓ','ⓑ, ⓒ','ⓒ, ⓓ','ⓓ, ⓔ'],ans:1,
+ exp:'ⓐ people(사람들)은 복수 → <b>are</b><br>ⓒ 진짜 주어는 water(셀 수 없음) → <b>is</b> (bottles에 속지 않기)<br>ⓔ Jiho and I = 우리 → <b>are</b><br>→ 옳은 문장은 ⓑ, ⓓ'},
+{id:'h02',c:'01',type:'mc',q:'빈칸에 들어갈 be동사가 <u>같은</u> 것끼리 묶인 것은?',box:'ⓐ My feet ______ cold.<br>ⓑ The bread on the plate ______ fresh.<br>ⓒ Your glasses ______ on the desk.<br>ⓓ Math ______ my favorite subject.<br>ⓔ The children in the park ______ noisy.',
+ opts:['ⓐ, ⓑ, ⓓ','ⓐ, ⓒ, ⓔ','ⓑ, ⓒ, ⓔ','ⓑ, ⓓ, ⓔ','ⓒ, ⓓ, ⓔ'],ans:1,
+ exp:'ⓐ feet(foot의 복수) → are &nbsp; ⓒ glasses(안경, 항상 복수) → are &nbsp; ⓔ children → are<br>ⓑ bread(셀 수 없음) → is &nbsp; ⓓ Math(과목, 단수) → is<br>→ <b>are</b>가 들어가는 ⓐ, ⓒ, ⓔ'},
+{id:'h03',c:'02',type:'mc',q:'다음 글의 밑줄 친 ⓐ~ⓔ 중 어법상 <u>틀린</u> 것은?',box:"Last Saturday ⓐ<u>was</u> my sister's birthday. My parents and I ⓑ<u>were</u> at a nice restaurant. The food ⓒ<u>was</u> delicious. My sister ⓓ<u>were</u> very happy. Now she ⓔ<u>is</u> twelve years old.",
+ opts:['ⓐ','ⓑ','ⓒ','ⓓ','ⓔ'],ans:3,
+ exp:'ⓓ My sister는 한 사람 + 과거 → <b>was</b>.<br>ⓔ는 now가 있으므로 현재형 is가 맞아요. 한 글 안에서도 <b>시간 표현마다</b> 시제가 달라질 수 있어요.'},
+{id:'h04',c:'02',type:'mc',q:'다음 글의 밑줄 친 부분 중 어법상 <u>틀린</u> 것의 개수는?',box:'Two years ago, my best friend and I ⓐ<u>was</u> in the same class. She ⓑ<u>was</u> very shy then. But now she ⓒ<u>is</u> very outgoing. Yesterday we ⓓ<u>are</u> at the library together. It ⓔ<u>was</u> fun.',
+ opts:['1개','2개','3개','4개','5개'],ans:1,
+ exp:'ⓐ my best friend and I(복수) + 과거 → <b>were</b><br>ⓓ Yesterday(과거) + we → <b>were</b><br>ⓑ then(과거) was (O), ⓒ now(현재) is (O), ⓔ was (O) → 틀린 것 <b>2개</b>'},
+{id:'h05',c:'03',type:'mc',q:'다음 중 어법상 옳은 문장을 <u>모두</u> 고른 것은?',box:"ⓐ I'm not hungry now.<br>ⓑ She isn't busy yesterday.<br>ⓒ My parents weren't at home last night.<br>ⓓ He doesn't a doctor.<br>ⓔ It's not my fault.",
+ opts:['ⓐ, ⓑ','ⓐ, ⓒ','ⓑ, ⓓ','ⓐ, ⓒ, ⓔ','ⓒ, ⓓ, ⓔ'],ans:3,
+ exp:"ⓑ yesterday → 과거 → She <b>wasn't</b> busy yesterday.<br>ⓓ be동사 문장 → He <b>isn't</b> a doctor.<br>ⓔ It's not = It isn't (주어+be 축약 후 not) → 옳아요."},
+{id:'h06',c:'03',type:'mc',q:'다음 문장을 부정문으로 <u>바르게</u> 바꾼 학생은?',box:'Tom and his sister were at the zoo last weekend.',
+ opts:["민수: Tom and his sister wasn't at the zoo last weekend.","지아: Tom and his sister didn't at the zoo last weekend.","현우: Tom and his sister weren't at the zoo last weekend.","소라: Tom and his sister aren't at the zoo last weekend.","유나: Tom and his sister not were at the zoo last weekend."],ans:2,
+ exp:'Tom and his sister(복수) + 과거 → were not → <b>weren\'t</b>.<br>민수: 수일치 ✗ / 지아: didn\'t ✗ / 소라: 시제 ✗ / 유나: not 위치 ✗'},
+{id:'h07',c:'04',type:'mc',q:'대화의 빈칸 (A)~(C)에 들어갈 말이 바르게 짝지어진 것은?',box:"A: (A) ______ your brother at home now?<br>B: No, (B) ______. He's at the gym.<br>A: (C) ______ you at the gym with him yesterday?<br>B: Yes, I was.",
+ opts:["Is – he isn't – Were","Is – he's not – Was","Are – he isn't – Were","Is – he is – Were","Was – he wasn't – Were"],ans:0,
+ exp:"(A) your brother(단수) + now → <b>Is</b><br>(B) No 대답 → <b>he isn't</b> (he's not도 가능하지만 ②는 (C)가 틀림)<br>(C) you + yesterday → <b>Were</b>"},
+{id:'h08',c:'04',type:'mc',q:'다음 중 대화가 자연스러운 것을 <u>모두</u> 고른 것은?',box:"ⓐ A: Are you and Jisu classmates? — B: Yes, we are.<br>ⓑ A: Is this your pencil case? — B: Yes, this is.<br>ⓒ A: Were the cookies delicious? — B: No, they weren't.<br>ⓓ A: Is Mr. Kim your teacher? — B: Yes, he's.<br>ⓔ A: Was your mom busy? — B: No, she wasn't.",
+ opts:['ⓐ, ⓑ','ⓐ, ⓒ, ⓔ','ⓑ, ⓒ, ⓓ','ⓒ, ⓓ, ⓔ','ⓐ, ⓑ, ⓒ, ⓔ'],ans:1,
+ exp:'ⓑ this로 물으면 <b>it</b>으로 대답 → Yes, it is.<br>ⓓ 긍정 대답은 축약 ✗ → Yes, <b>he is</b>.'},
+{id:'h09',c:'04',type:'mc',q:'다음 질문에 대한 대답으로 <u>알맞지 않은</u> 것은?',box:'Were you and your sister at the party last night?',
+ opts:['Yes, we were. It was fun.',"No, we weren't.",'No. We were at home.','Yes, they were.',"No, we weren't. We were sick."],ans:3,
+ exp:'you and your sister에 대한 질문이므로 대답하는 사람 입장에서는 <b>we</b>(나와 내 동생)로 답해야 해요. they는 다른 사람들을 가리켜요.'},
+{id:'h10',c:'02',type:'mc',q:'다음 우리말을 영어로 옮길 때, <u>여섯 번째</u>로 오는 단어는?',box:'그 박물관의 그림들은 아름다웠다.',
+ opts:['museum','were','was','beautiful','is'],ans:1,
+ exp:'The(1) paintings(2) in(3) the(4) museum(5) <b>were(6)</b> beautiful(7).<br>주어 핵심은 paintings(복수) + 과거 → were. museum만 보고 was를 쓰면 함정!'},
+{id:'h11',c:'02',type:'mc',q:'표의 내용과 <u>일치하지 않는</u> 것은?',box:'<table><tr><th>이름</th><th>지금 (now)</th><th>어제 (yesterday)</th></tr><tr><td>Minji</td><td>at school</td><td>at home</td></tr><tr><td>Tom & Ben</td><td>in the gym</td><td>at the park</td></tr></table>',
+ opts:['Minji is at school now.',"Minji wasn't at school yesterday.",'Tom and Ben are in the gym now.','Tom and Ben were at the park yesterday.','Minji and Tom were at home yesterday.'],ans:4,
+ exp:'어제 Tom은 공원(at the park)에 있었어요. 어제 집에 있었던 사람은 Minji뿐이므로 ⑤는 표와 맞지 않아요.'},
+{id:'h12',c:'04',type:'mc',q:'대화의 흐름상 빈칸에 알맞은 것은?',box:'A: Was the math test easy?<br>B: ________. I got a bad score.',
+ opts:['Yes, it was.',"No, it wasn't.",'Yes, I was.',"No, I wasn't.","No, it isn't."],ans:1,
+ exp:'점수가 나빴다고 했으니 <b>No</b>. the math test → <b>it</b>, 과거 질문 → <b>No, it wasn\'t.</b>'},
+/* ---- 조건 서술형 ---- */
+{id:'s01',c:'01',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'이 상자 안의 책들은 내 것이 아니다.',
+ conds:[{t:'book, box를 활용할 것 (필요하면 형태를 바꿀 것)',re:'\\bbooks\\b.*\\bbox\\b'},{t:'축약형을 사용할 것',re:"n't"},{t:'7단어로 쓸 것 (축약형은 1단어)',w:7}],
+ core:[["^the books in this box aren't mine",'주어는 The books in this box, "내 것"은 mine이에요.']],model:["The books in this box aren't mine."],
+ exp:'book → <b>books</b>로 형태 변형! 진짜 주어는 books(복수) → are not → <b>aren\'t</b>. in this box는 주어를 꾸미는 말이에요.'},
+{id:'s02',c:'02',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그 아이들은 어젯밤에 매우 졸렸다.',
+ conds:[{t:'child, sleepy를 활용할 것 (필요하면 형태를 바꿀 것)',re:'\\bchildren\\b.*\\bsleepy\\b'},{t:'very를 포함할 것',re:'\\bvery\\b'},{t:'7단어로 쓸 것',w:7}],
+ core:[['^the children were very sleepy last night','The children + were + very sleepy + last night 순서예요.']],model:['The children were very sleepy last night.'],
+ exp:'child → <b>children</b>(불규칙 복수) → 과거 <b>were</b>. 아이들이 여럿이므로 was를 쓰면 감점!'},
+{id:'s03',c:'03',type:'cwrite',q:'다음 문장을 <조건>에 맞게 부정문으로 바꿔 쓰시오.',box:'I am a good singer.',
+ conds:[{t:'축약형을 사용할 것',re:"'m not"},{t:'5단어로 쓸 것',w:5}],
+ core:[["^i'm not a good singer",'I\'m not + a good singer']],model:["I'm not a good singer."],
+ exp:"I am not은 <b>I'm not</b>으로만 줄일 수 있어요 (amn't ✗). I'm(1) not(2) a(3) good(4) singer(5) → 5단어."},
+{id:'s04',c:'04',type:'cwrite',q:'B의 대답을 보고, 괄호 안의 말을 활용하여 A의 질문을 완성하시오.',box:"A: ________________________ (your parents / at the concert / last night)<br>B: No, they weren't. They were at home.",
+ conds:[{t:'괄호 안의 말을 모두 사용할 것',re:'your parents.*at the concert.*last night'},{t:'필요한 be동사를 추가하여 의문문으로 쓸 것',re:'^were\\b.*\\?$'}],
+ core:[['^were your parents at the concert last night\\s*\\?$','Were + your parents + at the concert + last night?']],model:['Were your parents at the concert last night?'],
+ exp:"대답이 No, they weren't → 과거 복수 → 질문은 <b>Were</b> your parents ~? 주어진 말에 be동사가 없으니 직접 추가해야 해요."},
+{id:'s05',c:'02',type:'cwrite',q:'다음 글에서 어법상 <u>틀린 문장 2개</u>를 찾아 바르게 고쳐 쓰시오.',box:'ⓐ Yesterday was Sunday. ⓑ My brother and I was at the beach. ⓒ The weather was perfect. ⓓ The waves is big and exciting. ⓔ We were very happy.',
+ conds:[{t:'틀린 문장 2개를 모두 고쳐 쓸 것 (기호 없이 문장만)',sent:2}],
+ core:[['my brother and i were at the beach','ⓑ 문장: My brother and I(복수) → were'],['the waves were big and exciting','ⓓ 문장: The waves(복수) + 과거 이야기 → were']],
+ model:['My brother and I were at the beach.','The waves were big and exciting.'],
+ exp:'ⓑ My brother and I = 우리 → <b>were</b><br>ⓓ The waves(파도들, 복수) + 어제 이야기(과거) → <b>were</b>. 복수와 시제 두 가지를 모두 따져야 해요.'},
+{id:'s06',c:'04',type:'cwrite',q:'다음 대화를 <조건>에 맞게 영작하시오.',box:'A: 너와 네 친구는 어제 피곤했니?<br>B: 아니, 그렇지 않았어.',
+ conds:[{t:'you, your friend, tired를 사용할 것',re:'\\byou\\b.*your friend.*tired'},{t:'B의 대답은 축약형으로 쓸 것',re:"weren't"},{t:'A와 B의 말을 모두 쓸 것',sent:2}],
+ core:[['^were you and your friend tired yesterday\\s*\\?','A: Were you and your friend tired yesterday?'],["no,? we weren't\\.?$",'B: you and your friend → we로 대답 → No, we weren\'t.']],
+ model:['Were you and your friend tired yesterday?',"No, we weren't."],
+ exp:'"너와 네 친구" → 복수 + 어제 → <b>Were</b>. 대답하는 사람은 "나와 내 친구" → <b>we</b>. No, I wasn\'t.로 쓰면 감점!'},
+{id:'s07',c:'01',type:'cwrite',q:'프로필 카드를 보고, <조건>에 맞게 Sora를 소개하는 글을 쓰시오.',box:'<table><tr><th>Name</th><td>Sora</td></tr><tr><th>Age</th><td>15</td></tr><tr><th>Hometown</th><td>Busan (Seoul ✗)</td></tr><tr><th>Personality</th><td>kind, quiet</td></tr></table>',
+ conds:[{t:'She로 시작하는 문장을 3개 이상 쓸 것',sent:3,re:'^she\\b'},{t:'be동사 is를 사용할 것',re:'\\bis\\b'},{t:"부정문을 1개 포함할 것 (isn't)",re:"isn't|is not"}],
+ core:[['(15|fifteen)','나이(15살) 정보를 넣어 주세요.'],['busan','출신지(Busan) 정보를 넣어 주세요.']],
+ model:['She is fifteen years old.','She is from Busan.',"She isn't from Seoul.",'She is kind and quiet.'],
+ exp:'표의 정보를 be동사 문장으로 바꾸는 문제예요. Seoul ✗ 정보를 활용해 <b>She isn\'t from Seoul.</b>처럼 부정문을 만들면 조건 충족!'},
+{id:'s08',c:'03',type:'cwrite',q:'다음 문장을 <조건>에 맞게 두 문장으로 바꿔 쓰시오.',box:'My cats are in the garden now.',
+ conds:[{t:'① yesterday를 사용한 과거 긍정문',re:'\\bwere\\b.*yesterday'},{t:'② ①을 부정문으로 (축약형)',re:"weren't"},{t:'두 문장을 모두 쓸 것',sent:2}],
+ core:[['my cats were in the garden yesterday','① My cats were in the garden yesterday.'],["(my cats|they) weren't in the garden yesterday",'② My cats weren\'t in the garden yesterday.']],
+ model:['My cats were in the garden yesterday.',"My cats weren't in the garden yesterday."],
+ exp:'now → yesterday로 바꾸면 are → <b>were</b>. 부정문은 were not → <b>weren\'t</b>. now는 반드시 빼야 해요!'},
+{id:'s09',c:'04',type:'cwrite',q:'주어진 단어를 배열하되, <조건>에 맞게 영작하시오.',ko:'그 시험 문제들은 어려웠니?',box:'( the / question / test / difficult )',
+ conds:[{t:'필요한 단어 1개(be동사)를 추가할 것',re:'^were\\b'},{t:'question의 형태를 알맞게 바꿀 것',re:'\\bquestions\\b'}],
+ core:[['^were the test questions difficult\\s*\\?$','Were + the test questions + difficult?']],model:['Were the test questions difficult?'],
+ exp:'"문제들" → question을 <b>questions</b>로 변형 → 복수 + 과거 → <b>Were</b>로 시작. test는 questions를 꾸며요.'},
+{id:'s10',c:'03',type:'cwrite',q:"대화에서 B의 첫 문장에 틀린 부분이 있다. 바르게 고쳐 B의 첫 문장을 다시 쓰시오.",box:"A: Is your sister a middle school student?<br>B: No, she don't. She is a high school student.",
+ conds:[{t:'축약형을 사용할 것',re:"isn't|'s not"}],
+ core:[["^no,? she( isn't|'s not)\\.?$",'Is로 물었으니 be동사로 → No, she isn\'t.']],model:["No, she isn't."],
+ exp:"<b>Is</b>로 물으면 be동사로 대답해요. don't는 일반동사용이고, she와 함께라면 doesn't여야 하므로 이중으로 틀린 표현이에요. → <b>No, she isn't.</b>"},
+{id:'s11',c:'02',type:'cwrite',q:'"작년의 나"와 "지금의 나"를 비교하는 문장 2개를 <조건>에 맞게 자유롭게 쓰시오.',
+ conds:[{t:'주어는 I로 쓸 것',re:'^i\\b'},{t:'과거 문장 1개: last year + was',re:'(\\bwas\\b.*last year|last year.*\\bwas\\b)'},{t:"현재 문장 1개: now + am (I'm)",re:"((\\bam\\b|i'm).*\\bnow\\b|\\bnow\\b.*(\\bam\\b|i'm))"},{t:'2문장 이상 쓸 것',sent:2}],
+ core:[],model:['I was short last year.','I am tall now.'],
+ exp:'정답이 정해지지 않은 자유 영작이에요. 시간 표현과 be동사가 짝을 이루는지가 핵심: <b>last year ↔ was</b>, <b>now ↔ am</b>.'},
+{id:'s12',c:'04',type:'cwrite',q:'대답이 나오도록, 괄호 안의 말을 활용하여 질문을 쓰시오.',box:'Q: ______________________ (the / movie / interesting)<br>A: Yes, it was. I liked it a lot.',
+ conds:[{t:'괄호 안의 말을 모두 사용할 것',re:'the movie interesting'},{t:'필요한 be동사를 추가할 것',re:'^was\\b'}],
+ core:[['^was the movie interesting\\s*\\?$','Was + the movie + interesting?']],model:['Was the movie interesting?'],
+ exp:'대답이 <b>Yes, it was.</b> → 과거 + 단수 → 질문은 <b>Was</b> the movie interesting?'},
+{id:'s13',c:'04',type:'cwrite',q:'다음 문장을 <조건>에 맞게 바꿔 쓰시오.',box:'Mina is in her room now.',
+ conds:[{t:'① yesterday를 사용한 과거 의문문',re:'^was mina\\b.*yesterday\\s*\\?'},{t:'② ①에 대한 부정의 대답 (대명사, 축약형)',re:"no,? she wasn't"},{t:'두 문장을 모두 쓸 것',sent:2}],
+ core:[['^was mina in her room yesterday\\s*\\?','① Was Mina in her room yesterday?']],model:['Was Mina in her room yesterday?',"No, she wasn't."],
+ exp:'is → 과거 <b>was</b>, 주어 앞으로 → <b>Was Mina</b> ~? now는 yesterday로 바꾸기. 대답은 Mina → <b>she</b> → No, she wasn\'t.'}
+].map(q=>(q.set='adv',q));
+
+/* ---------------- Writing Mission ---------------- */
+const U01_MISSIONS = [
+{id:'m1',icon:'👫',title:'내 친구 소개 사다리',desc:'한 문장을 점점 키워 친구를 소개해요 (개념 01·03·04·02)',steps:[
+ {inst:'현재형 문장 만들기: "내 친구는 친절하다."',given:['my friend','kind'],
+  must:[['^my friend is kind','My friend + is + kind 순서로 써 보세요.']],
+  not:[['\\b(am|are)\\b','My friend는 한 명(3인칭 단수) → is!']],model:'My friend is kind.'},
+ {inst:'문장 키우기: very와 and funny를 넣어 "내 친구는 매우 친절하고 재미있다."',given:['very','and','funny'],
+  must:[['^my friend is very kind and funny','very는 kind 앞에, and funny는 맨 뒤에 붙여요.']],not:[],model:'My friend is very kind and funny.'},
+ {inst:'부정문으로: "내 친구는 게으르지 않다."',given:['lazy'],
+  must:[['^my friend','주어 My friend로 시작하세요.'],["\\b(is not|isn't) lazy",'be동사 부정 → is not 또는 isn\'t + lazy']],
+  not:[["\\b(don't|doesn't|do not|does not)\\b",'be동사 문장에는 don\'t/doesn\'t를 쓰지 않아요!'],['not is','not은 be동사 뒤에 와요!']],model:'My friend is not lazy.'},
+ {inst:'의문문 + 대답: 상대에게 "너의 친구는 재미있니?"라고 묻고 Yes로 대답하세요.',given:['your friend','funny','Yes'],
+  must:[['^is your friend funny\\s*\\?','Is + your friend + funny + ? 순서'],['yes,? (he|she) is\\.?$','대답은 Yes, he is. 또는 Yes, she is.']],
+  not:[["yes,? (he|she)'s",'긍정 대답은 he\'s / she\'s로 줄이지 않아요.'],['^do','be동사 의문문은 Do로 시작하지 않아요.']],model:'Is your friend funny? Yes, she is.'},
+ {inst:'과거로 바꾸기: "어제 내 친구는 학교에 없었다."',given:['at school','yesterday'],
+  must:[["^my friend (was not|wasn't) at school yesterday",'My friend + wasn\'t + at school + yesterday']],
+  not:[["\\b(isn't|is not|didn't|did not)\\b",'yesterday → 과거! wasn\'t (was not)를 써야 해요.']],model:"My friend wasn't at school yesterday."},
+ {free:true,inst:'자유 영작: 내 친구를 소개하는 문장을 3개 이상 써 보세요.',cond:'① 현재 be동사(am/is/are) ② 부정문(not) ③ 과거 be동사(was/were)를 각각 1번 이상',minSent:3,
+  must:[["(\\b(am|is|are)\\b|'m\\b|'re\\b|'s\\b)",'현재 be동사(am/is/are) 문장을 넣어 주세요.'],["(\\bnot\\b|n't)",'부정문(not)을 하나 넣어 주세요.'],['\\b(was|were)\\b','과거 be동사(was/were) 문장을 넣어 주세요.']],not:[],
+  model:"My best friend is Yuna. She is tall and smart. She isn't shy at all. We were in the same class last year."}
+]},
+{id:'m2',icon:'📔',title:'어제 일기 쓰기',desc:'was / were로 어제 하루를 기록해요 (개념 02·03·04)',steps:[
+ {inst:'"나는 어제 집에 있었다."',given:['I','at home','yesterday'],
+  must:[['^i was at home yesterday','I + was + at home + yesterday']],not:[['\\bwere\\b','I의 과거 be동사는 was예요.']],model:'I was at home yesterday.'},
+ {inst:'"우리 부모님은 직장에 계셨다."',given:['my parents','at work'],
+  must:[['^my parents were at work','My parents + were + at work']],not:[['\\bwas\\b','My parents는 두 분(복수) → were!']],model:'My parents were at work.'},
+ {inst:'부정문: "날씨가 덥지 않았다."',given:['the weather','hot'],
+  must:[["^the weather (was not|wasn't) hot",'The weather + wasn\'t + hot']],
+  not:[["\\b(didn't|did not|don't|doesn't)\\b",'be동사 문장 → didn\'t 대신 wasn\'t!'],["\\b(isn't|is not)\\b",'어제 일이니까 과거형 wasn\'t!']],model:"The weather wasn't hot."},
+ {inst:'친구에게 질문: "너는 어제 바빴니?" + No로 대답',given:['busy','yesterday','No'],
+  must:[['^were you busy yesterday\\s*\\?','Were + you + busy + yesterday?'],["no,? i (wasn't|was not)\\.?$",'you로 물었으니 대답은 No, I wasn\'t.']],
+  not:[['no,? you','you로 물으면 I로 대답해요.'],['^was you','you는 were와 함께!']],model:"Were you busy yesterday? No, I wasn't."},
+ {free:true,inst:'자유 영작: 나의 어제 하루를 3문장 이상으로 써 보세요.',cond:'was/were를 사용하고, 부정문(wasn\'t/weren\'t)을 1개 이상 넣기',minSent:3,
+  must:[['\\b(was|were)\\b','was 또는 were를 사용해 주세요.'],["(wasn't|weren't|was not|were not)",'과거 부정문(wasn\'t / weren\'t)을 하나 넣어 주세요.']],not:[],
+  model:"I was at the academy yesterday. The class was fun. My friends were very kind. I wasn't tired at all."}
+]},
+{id:'m3',icon:'🏫',title:'우리 반 소개하기',desc:'are · is · 의문문으로 우리 반을 소개해요 (개념 01·03·04)',steps:[
+ {inst:'"우리는 2반이다."',given:['we','in Class 2'],
+  must:[['^we are in class 2','We + are + in Class 2']],not:[['\\b(am|is)\\b','We → are!']],model:'We are in Class 2.'},
+ {inst:'"우리 선생님은 김 선생님이시다."',given:['our teacher','Ms. Kim'],
+  must:[['^our teacher is ms\\.? kim','Our teacher + is + Ms. Kim']],not:[['\\bare\\b','Our teacher는 한 분 → is!']],model:'Our teacher is Ms. Kim.'},
+ {inst:'부정문(축약형): "우리 교실은 크지 않다."',given:['our classroom','big'],
+  must:[["^our classroom isn't big",'Our classroom + isn\'t + big (축약형!)']],
+  not:[["\\b(don't|doesn't)\\b",'be동사 문장에는 doesn\'t를 쓰지 않아요.']],model:"Our classroom isn't big."},
+ {inst:'질문 + 대답: "너의 반 친구들은 친절하니?" + Yes로 대답',given:['your classmates','friendly','Yes'],
+  must:[['^are your classmates friendly\\s*\\?','Are + your classmates + friendly?'],['yes,? they are\\.?$','대답: Yes, they are.']],
+  not:[["yes,? they're",'긍정 대답은 줄이지 않아요.'],['^is your','classmates는 복수 → Are!']],model:'Are your classmates friendly? Yes, they are.'},
+ {free:true,inst:'자유 영작: 우리 반을 소개하는 문장을 3개 이상 써 보세요.',cond:'is와 are를 각각 1번 이상, 의문문(?)을 1개 이상 넣기',minSent:3,
+  must:[["(\\bis\\b|isn't)",'is 문장을 하나 넣어 주세요.'],["(\\bare\\b|aren't)",'are 문장을 하나 넣어 주세요.'],['\\?','의문문(?)을 하나 넣어 주세요.']],not:[],
+  model:"There are 12 students in my class. Our classroom is bright. My classmates are funny. Are you in Class 3?"}
+]}
+];
+
+/* ================= UNIT 02 일반동사 (개념 05~08) ================= */
+const IRREG=[['go','went','가다'],['come','came','오다'],['eat','ate','먹다'],['drink','drank','마시다'],['see','saw','보다'],['do','did','하다'],['have','had','가지다'],['make','made','만들다'],['get','got','얻다'],['take','took','가져가다'],['give','gave','주다'],['write','wrote','쓰다'],['read','read [red]','읽다'],['buy','bought','사다'],['think','thought','생각하다'],['teach','taught','가르치다'],['catch','caught','잡다'],['bring','brought','가져오다'],['run','ran','달리다'],['swim','swam','수영하다'],['sing','sang','노래하다'],['sit','sat','앉다'],['meet','met','만나다'],['leave','left','떠나다'],['sleep','slept','자다'],['feel','felt','느끼다'],['find','found','찾다'],['tell','told','말하다'],['say','said','말하다'],['know','knew','알다'],['fly','flew','날다'],['break','broke','깨다'],['lose','lost','잃다'],['send','sent','보내다'],['wear','wore','입다'],['put','put','놓다'],['cut','cut','자르다'],['hit','hit','치다']];
+const IRREG_TABLE=`<div class="muted" style="margin-bottom:6px">카드를 누르면 발음을 들을 수 있어요.</div><div class="irr">${IRREG.map(v=>`<button class="iv" data-say="${v[0]}, ${v[1].replace(/ \[.*\]/,'')}"><b>${v[0]}</b> → <span class="be">${v[1]}</span><small>${v[2]}</small></button>`).join('')}</div>`;
+
+const U02_CONCEPTS=[
+{ no:'05', title:'일반동사 현재형', short:'현재형',
+  student:{
+    core:'be동사가 아닌 동사(play, like, go…)를 <b>일반동사</b>라고 해요. 주어가 <span style="color:#ffd27a">3인칭 단수(he, she, it, 한 명·한 개)</span>이면 동사 끝에 <b>-s / -es</b>를 붙여요.',
+    table:`<table class="t"><tr><th>주어</th><th>동사 모양</th><th>예</th></tr>
+      <tr><td>I / You / We / They<br><small>여러 명·여러 개</small></td><td class="be">동사원형</td><td>I <b>like</b> pizza.</td></tr>
+      <tr><td>He / She / It<br><small>한 명·한 개</small></td><td class="be">동사 + s/es</td><td>She <b>likes</b> pizza.</td></tr></table>
+      <table class="t"><tr><th>규칙</th><th>예</th></tr>
+      <tr><td class="l">대부분 <b>+s</b></td><td class="l">play → plays, read → reads</td></tr>
+      <tr><td class="l">-s, -x, -ch, -sh, -o로 끝나면 <b>+es</b></td><td class="l">watch → watches, go → goes, fix → fixes</td></tr>
+      <tr><td class="l">자음 + y → <b>y를 i로 바꾸고 +es</b></td><td class="l">study → studies, cry → cries</td></tr>
+      <tr><td class="l">모음 + y → <b>+s</b></td><td class="l">play → plays, buy → buys</td></tr>
+      <tr><td class="l"><b>have → has</b> (특별!)</td><td class="l">He has a dog.</td></tr></table>`,
+    points:[
+      ['I, You, We, They, 복수 주어 → <b>동사원형</b>', ['They play soccer after school.','그들은 방과 후에 축구를 한다.']],
+      ['He, She, It, 단수 주어 → <b>동사 + s/es</b>', ['My brother watches TV every night.','내 남동생은 매일 밤 TV를 본다.']],
+    ],
+    tips:[
+      '<b>be동사와 일반동사를 같이 쓰지 않아요!</b> → She <s>is likes</s> likes music.',
+      '<b>A and B</b>는 복수 → 동사원형 → Tom and Jerry <b>play</b> together.',
+      '현재형은 <b>습관·반복</b>을 말할 때 써요 → every day, always, usually와 자주 함께!',
+      '<b>have의 3인칭 단수는 has</b> → My dad <s>haves</s> <b>has</b> a car.'
+    ],
+    examples:[
+      ['I get up at seven every morning.','나는 매일 아침 7시에 일어난다.'],
+      ['You speak English very well.','너는 영어를 아주 잘한다.'],
+      ['My mom drinks coffee every day.','우리 엄마는 매일 커피를 드신다.'],
+      ['He studies math after dinner.','그는 저녁 식사 후에 수학을 공부한다.'],
+      ['She goes to school by bus.','그녀는 버스로 학교에 간다.'],
+      ['The store opens at ten.','그 가게는 10시에 문을 연다.'],
+      ['My dad has a big car.','우리 아빠는 큰 차가 있으시다.'],
+      ['We play badminton on Sundays.','우리는 일요일마다 배드민턴을 친다.'],
+      ['The baby cries a lot at night.','그 아기는 밤에 많이 운다.'],
+      ['Jiho and Mina like K-pop.','지호와 미나는 K-pop을 좋아한다.']
+    ],
+    ox:[['My brother watchs TV every night.',false,'-ch로 끝나는 동사 → <b>watches</b>'],
+        ['They play soccer after school.',true,'They(복수) → 동사원형 play']]
+  },
+  teacher:{
+    board:`일반동사 현재형 = 습관 · 반복 · 사실
+
+ I · You · We · They · 복수  →  동사원형
+ He · She · It · 단수        →  동사 + s / es
+
+ +s       play → plays   read → reads
+ +es      watch → watches   go → goes
+ y → ies  study → studies   cry → cries
+ ★ have → has
+
+★ be동사 + 일반동사 ✗  (She is likes ✗)`,
+    intro:['"나는 축구를 한다 / 그는 축구를 한다" — 우리말은 똑같은데 영어는 왜 play / plays로 다를까?',
+           '학생 2명에게 매일 하는 일을 묻고 → 다른 학생이 "He / She ___s ~"로 전달하게 하며 -s 필요성을 느끼게 하기'],
+    script:['① 일반동사 = be동사·조동사를 뺀 동사. 동작(run, eat)과 상태(like, have, know) 모두 포함.',
+            '② 현재형은 습관·반복·일반적 사실 → every day, always, usually, on Sundays와 함께.',
+            '③ 3인칭 단수 주어(he, she, it, 단수명사, 이름 한 명)일 때만 -s/-es. I와 you는 3인칭이 아니다!',
+            '④ 철자 규칙: +s / -s·-x·-ch·-sh·-o → +es / 자음+y → ies / 모음+y → +s.',
+            '⑤ have → has (불규칙). do → does, go → goes 발음 주의 [dʌz], [goʊz].',
+            '⑥ be동사와 일반동사 동시 사용 금지: She is likes ✗ → 문장에 동사는 하나!'],
+    examples:[
+      ['I walk to school every day.','나는 매일 걸어서 학교에 간다.'],
+      ['My sister plays the piano well.','내 여동생은 피아노를 잘 친다.'],
+      ['He watches movies on weekends.','그는 주말마다 영화를 본다.'],
+      ['The bus leaves at 8:10.','그 버스는 8시 10분에 출발한다.'],
+      ['My grandma lives in Daegu.','우리 할머니는 대구에 사신다.'],
+      ['She tries her best every time.','그녀는 매번 최선을 다한다.'],
+      ['Our teacher teaches us science.','우리 선생님은 우리에게 과학을 가르쳐 주신다.'],
+      ['My dog has brown eyes.','우리 개는 갈색 눈을 가지고 있다.'],
+      ['It snows a lot in Gangwon-do.','강원도에는 눈이 많이 온다.'],
+      ['Mr. Park fixes computers.','박 선생님은 컴퓨터를 고치신다.'],
+      ['The children enjoy the game.','아이들은 그 게임을 즐긴다.'],
+      ['He does his homework after dinner.','그는 저녁 식사 후에 숙제를 한다.']
+    ],
+    mistakes:[['She is likes music.','She likes music.','be동사와 일반동사 함께 ✗'],
+              ['My brother watchs TV.','My brother watches TV.','-ch → +es'],
+              ['He studys hard.','He studies hard.','자음+y → ies'],
+              ['My dad haves a car.','My dad has a car.','have → has'],
+              ['Tom and Mina plays tennis.','Tom and Mina play tennis.','A and B는 복수 → 원형']],
+    exam:['3인칭 단수 -s/-es/-ies 철자 (watches, studies, has)','A and B 주어 / The children 주어 → 동사원형','be동사 + 일반동사 중복 오류','빈칸에 들어갈 말이 나머지와 다른 것 (does / do)'],
+    activity:'【-s 릴레이 · 5분】 교사가 동사 카드(study, watch, play, have…)를 보여주면 1번 학생이 "I ___", 2번 학생이 "My friend ___s"로 이어 말하기. 철자 규칙별(s / es / ies / has)로 분단을 나눠 맞힐 때마다 팀 점수.',
+    check:[['My mom ___ (wash) the dishes.','washes — -sh로 끝나면 +es'],
+           ['The children ___ (play) outside.','play — children은 복수'],
+           ['He ___ (have) two sisters.','has — have의 3인칭 단수']]
+  }
+},
+{ no:'06', title:'일반동사 현재형 부정문·의문문', short:'현재 부정·의문',
+  student:{
+    core:'일반동사 문장의 부정문은 <b>don\'t / doesn\'t + 동사원형</b>, 의문문은 <b>Do / Does + 주어 + 동사원형 ~?</b>으로 만들어요.',
+    table:`<table class="t"><tr><th>주어</th><th>부정문</th><th>의문문</th></tr>
+      <tr><td>I / You / We / They<br><small>복수</small></td><td class="be">don't + 원형</td><td class="be">Do + 주어 + 원형?</td></tr>
+      <tr><td>He / She / It<br><small>단수</small></td><td class="be">doesn't + 원형</td><td class="be">Does + 주어 + 원형?</td></tr></table>
+      <table class="t"><tr><th>대답</th><th>모양</th></tr>
+      <tr><td>Do you ~?</td><td class="l">Yes, I do. / No, I don't.</td></tr>
+      <tr><td>Does he ~?</td><td class="l">Yes, he does. / No, he doesn't.</td></tr></table>`,
+    points:[
+      ['부정문: <b>doesn\'t</b>가 -s를 가져가요 → 동사는 <b>원형</b>!', ["She doesn't like carrots.",'그녀는 당근을 좋아하지 않는다.']],
+      ['의문문: <b>Does</b>가 -s를 가져가요 → 동사는 <b>원형</b>!', ['Does your brother play the guitar?','너희 형은 기타를 치니?']],
+    ],
+    tips:[
+      '<b>doesn\'t 뒤에 -s ✗</b> → She doesn\'t <s>likes</s> <b>like</b> milk.',
+      '<b>Does 뒤에도 원형!</b> → Does he <s>plays</s> <b>play</b> soccer?',
+      '<b>has도 원형 have로!</b> → Does she <b>have</b> a phone? / He doesn\'t <b>have</b> time.',
+      '<b>be동사 문장과 구별!</b> → <b>Are</b> you hungry? (be동사) / <b>Do</b> you like pizza? (일반동사)'
+    ],
+    examples:[
+      ["I don't eat breakfast.",'나는 아침을 먹지 않는다.'],
+      ["We don't live in Seoul.",'우리는 서울에 살지 않는다.'],
+      ["He doesn't have a bike.",'그는 자전거가 없다.'],
+      ["My sister doesn't wear glasses.",'내 여동생은 안경을 쓰지 않는다.'],
+      ['Do you like spicy food?','너는 매운 음식을 좋아하니?'],
+      ['Yes, I do. / No, I don\'t.','응, 좋아해. / 아니, 안 좋아해.'],
+      ['Does your mom drive?','너희 엄마는 운전하시니?'],
+      ['Yes, she does.','응, 하셔.'],
+      ['Do your friends play games?','너의 친구들은 게임을 하니?'],
+      ["No, they don't.",'아니, 안 해.']
+    ],
+    ox:[["She doesn't likes milk.",false,"doesn't 뒤에는 원형 → <b>She doesn't like milk.</b>"],
+        ['Does your brother have a car?',true,'Does + 주어 + 원형(have)']]
+  },
+  teacher:{
+    board:`일반동사 부정문 · 의문문 = do / does의 도움!
+
+ 부정  I · You · We · They  →  don't   + 원형
+       He · She · It        →  doesn't + 원형
+
+ 의문  Do   + I / you / we / they + 원형 ~?
+       Does + he / she / it       + 원형 ~?
+
+ 대답  Yes, 대명사 + do / does.
+       No,  대명사 + don't / doesn't.
+
+★ doesn't / Does가 -s를 가져간다 → 동사는 원형!`,
+    intro:['"He likes cats."를 부정문으로 → 학생 답 수집 (He not likes? He doesn\'t likes?) → 오답을 남겨 두고 시작',
+           '"Are you hungry?"와 "Do you hungry?" 중 맞는 것은? → be동사 vs 일반동사 구별부터 확인'],
+    script:['① 일반동사는 혼자 부정·의문을 못 만든다 → 조동사 do/does가 도와준다 (be동사와의 차이).',
+            '② 주어가 3인칭 단수면 does / doesn\'t. "-s는 한 문장에 한 번만" → does가 -s를 가져가므로 동사는 원형.',
+            '③ has → 부정·의문에서는 have로 (He doesn\'t have / Does he have).',
+            '④ 대답: Do로 물으면 do로, Does로 물으면 does로. 주어는 대명사로 바꾸기.',
+            '⑤ do가 본동사일 때: Do you do your homework? / He doesn\'t do the dishes. — do가 두 번 나와도 정상!',
+            '⑥ be동사 문장과 섞인 문제가 내신 단골: 문장의 동사가 be인지 일반동사인지 먼저 표시.'],
+    examples:[
+      ["I don't like horror movies.",'나는 공포 영화를 좋아하지 않는다.'],
+      ["They don't know the answer.",'그들은 답을 모른다.'],
+      ["Minho doesn't play computer games.",'민호는 컴퓨터 게임을 하지 않는다.'],
+      ["It doesn't rain much here.",'여기는 비가 많이 오지 않는다.'],
+      ["My dad doesn't have much time.",'우리 아빠는 시간이 많지 않으시다.'],
+      ['Do you walk to school?','너는 걸어서 학교에 가니?'],
+      ['Do they live near here?','그들은 이 근처에 사니?'],
+      ['Does Jisu speak Chinese?','지수는 중국어를 하니?'],
+      ['Does the store open on Sundays?','그 가게는 일요일에 여니?'],
+      ['Does your cat sleep a lot? — Yes, it does.','너희 고양이는 많이 자니? — 응, 그래.'],
+      ["Do you do your homework every day? — No, I don't.",'너는 매일 숙제를 하니? — 아니.'],
+      ["Does he have a brother? — No, he doesn't.",'그는 형이 있니? — 아니, 없어.']
+    ],
+    mistakes:[["She doesn't likes milk.","She doesn't like milk.",'doesn\'t 뒤 원형'],
+              ['Does he plays soccer?','Does he play soccer?','Does 뒤 원형'],
+              ["He don't have a car.","He doesn't have a car.",'3인칭 단수 → doesn\'t'],
+              ['Do you hungry?','Are you hungry?','hungry는 형용사 → be동사 문장'],
+              ['Does Mina like music? — Yes, she likes.','Yes, she does.','대답은 does로']],
+    exam:['doesn\'t / Does 뒤 동사원형 (has → have)','be동사 vs do동사 의문문 구별 (빈칸에 들어갈 말이 다른 것)','부정문·의문문 전환 서술형','표·대화 보고 대답 고르기 (Yes, she does.)'],
+    activity:'【Do / Does / Be? 손 신호 게임 · 5분】 교사가 빈칸 문장(___ your sister like cats? / ___ you tired?)을 띄우면 Do=주먹, Does=보, Be동사=가위를 동시에 내기. 틀린 학생은 그 문장을 완성해 크게 읽기.',
+    check:[['He has a dog. → 부정문',"He doesn't have a dog."],
+           ['Your sister likes cats. → 의문문','Does your sister like cats?'],
+           ['Do your parents cook? (No)',"No, they don't."]]
+  }
+},
+{ no:'07', title:'일반동사 과거형 ★불규칙 동사표', short:'과거형',
+  student:{
+    core:'과거의 일을 말할 때는 동사를 <b>과거형</b>으로 바꿔요. 대부분 <b>-ed</b>를 붙이고, 모양이 바뀌는 <b>불규칙 동사</b>는 외워야 해요. 과거형은 <b>주어에 상관없이 모양이 같아요!</b>',
+    table:`<table class="t"><tr><th>규칙</th><th>예</th></tr>
+      <tr><td class="l">대부분 <b>+ed</b></td><td class="l">play → played, watch → watched</td></tr>
+      <tr><td class="l">-e로 끝나면 <b>+d</b></td><td class="l">like → liked, live → lived</td></tr>
+      <tr><td class="l">자음 + y → <b>y를 i로 바꾸고 +ed</b></td><td class="l">study → studied, cry → cried</td></tr>
+      <tr><td class="l">모음 + y → <b>+ed</b></td><td class="l">play → played, stay → stayed</td></tr>
+      <tr><td class="l">단모음 + 단자음 → <b>자음 하나 더 +ed</b></td><td class="l">stop → stopped, plan → planned</td></tr></table>
+      <div class="h3">★ 불규칙 동사표 (꼭 외우기!)</div>${IRREG_TABLE}`,
+    points:[
+      ['규칙 동사: <b>-ed</b> 붙이기', ['I played soccer yesterday.','나는 어제 축구를 했다.']],
+      ['불규칙 동사: <b>모양이 바뀌어요</b>', ['She went to the library last weekend.','그녀는 지난 주말에 도서관에 갔다.']],
+    ],
+    tips:[
+      '<b>과거형은 주어와 상관없이 같은 모양!</b> → I went / She went / They went',
+      '<b>goed, eated, buyed ✗</b> → went, ate, bought (불규칙 동사표 확인!)',
+      '<b>read의 과거형은 read</b> — 철자는 같고 발음만 [레드]로 달라요.',
+      '<b>put, cut, hit</b>은 현재형과 과거형이 같아요.'
+    ],
+    examples:[
+      ['I watched a movie last night.','나는 어젯밤에 영화를 봤다.'],
+      ['She studied for three hours.','그녀는 3시간 동안 공부했다.'],
+      ['The bus stopped suddenly.','버스가 갑자기 멈췄다.'],
+      ['We lived in Seoul in 2020.','우리는 2020년에 서울에 살았다.'],
+      ['He went to bed early yesterday.','그는 어제 일찍 잠자리에 들었다.'],
+      ['I ate bread for breakfast.','나는 아침으로 빵을 먹었다.'],
+      ['My mom bought a new bag.','우리 엄마는 새 가방을 사셨다.'],
+      ['They met their friends at the park.','그들은 공원에서 친구들을 만났다.'],
+      ['Minsu wrote a letter to his grandma.','민수는 할머니께 편지를 썼다.'],
+      ['I read the book two days ago.','나는 이틀 전에 그 책을 읽었다.']
+    ],
+    ox:[['He goed to the park yesterday.',false,'go의 과거형은 <b>went</b>'],
+        ['We stopped at the store.',true,'stop → 자음 하나 더 + ed → stopped']]
+  },
+  teacher:{
+    board:`일반동사 과거형 = 주어와 상관없이 같은 모양!
+
+ 규칙  +ed        play → played   watch → watched
+       +d         like → liked    live → lived
+       y → ied    study → studied  cry → cried
+       자음 추가  stop → stopped   plan → planned
+
+ 불규칙  go → went   eat → ate   see → saw
+         buy → bought   make → made   have → had
+         read → read [red]   put → put
+
+★ 과거 신호: yesterday / last ~ / ~ ago / in 2020`,
+    intro:['"I play soccer yesterday." — 무엇이 이상할까? 시간 표현과 동사 모양을 연결하는 감각 깨우기',
+           'UNIT 01 was/were를 떠올리게 한 뒤 "일반동사는 과거형을 어떻게 만들까?" 질문'],
+    script:['① 과거형은 주어에 따라 변하지 않는다 (3인칭 단수 -s 고민 끝!).',
+            '② 규칙 변화 5가지: +ed / +d / y→ied / 모음+y는 +ed / 단모음+단자음은 자음 추가(stop, plan, drop, shop).',
+            '③ 불규칙 동사는 소리 패턴으로 묶어 암기: think-thought, buy-bought, bring-brought / teach-taught, catch-caught.',
+            '④ 현재=과거 동사: put, cut, hit, read(발음만 [red]). 3인칭 단수 현재와 구별: He reads (현재) / He read (과거).',
+            '⑤ 과거 시간 표현과 함께: yesterday, last ~, ~ ago, then, in + 과거 연도.',
+            '⑥ 불규칙 동사표는 매 수업 Say it! 단계에서 10개씩 누적 확인 (학생 앱 "불규칙동사" 연계).'],
+    examples:[
+      ['I cleaned my room yesterday.','나는 어제 내 방을 청소했다.'],
+      ['She liked the present.','그녀는 그 선물을 마음에 들어 했다.'],
+      ['The baby cried all night.','아기는 밤새 울었다.'],
+      ['We planned a surprise party.','우리는 깜짝 파티를 계획했다.'],
+      ['He came home late last night.','그는 어젯밤 늦게 집에 왔다.'],
+      ['I saw a rainbow this morning.','나는 오늘 아침 무지개를 봤다.'],
+      ['My dad made pancakes for us.','아빠가 우리에게 팬케이크를 만들어 주셨다.'],
+      ['Ms. Lee taught us English last year.','이 선생님은 작년에 우리에게 영어를 가르치셨다.'],
+      ['They had a great time in Jeju.','그들은 제주도에서 즐거운 시간을 보냈다.'],
+      ['I lost my umbrella on the bus.','나는 버스에서 우산을 잃어버렸다.'],
+      ['She put her phone on the desk.','그녀는 휴대폰을 책상 위에 놓았다.'],
+      ['We swam in the sea two days ago.','우리는 이틀 전에 바다에서 수영했다.']
+    ],
+    mistakes:[['He goed to school.','He went to school.','불규칙 동사'],
+              ['I stoped at the store.','I stopped at the store.','단모음+단자음 → 자음 추가'],
+              ['She studyed hard.','She studied hard.','자음+y → ied'],
+              ['I buyed a cap.','I bought a cap.','buy → bought'],
+              ['He reads a book yesterday.','He read a book yesterday.','yesterday → 과거 read']],
+    exam:['규칙 변화 철자 (stopped, studied, planned)','불규칙 과거형 오류 고르기 (buyed, eated ✗)','시간 표현에 맞는 시제 고르기','현재형·과거형이 같은 동사 (put, cut, read)'],
+    activity:'【불규칙 동사 탁구 · 5분】 두 팀이 마주 보고, A팀이 원형을 외치면 B팀이 3초 안에 과거형으로 받아치기 (go! → went!). 못 받으면 상대 팀 +1. 학생 앱 "불규칙동사"와 연결해 숙제로 이어가기.',
+    check:[['plan → 과거형','planned'],['catch → 과거형','caught'],['She ___ (read) a book last night.','read (발음 [red])']]
+  }
+},
+{ no:'08', title:'일반동사 과거형 부정문·의문문', short:'과거 부정·의문',
+  student:{
+    core:'과거의 부정문은 <b>didn\'t + 동사원형</b>, 의문문은 <b>Did + 주어 + 동사원형 ~?</b>이에요. 주어가 누구든 <b>did</b> 하나면 끝!',
+    table:`<table class="t"><tr><th></th><th>모양</th><th>예</th></tr>
+      <tr><td>부정문</td><td class="be">didn't + 원형</td><td class="l">I didn't go. / She didn't go.</td></tr>
+      <tr><td>의문문</td><td class="be">Did + 주어 + 원형?</td><td class="l">Did you go? / Did he go?</td></tr>
+      <tr><td>대답</td><td class="be">Yes, 주어 did.<br>No, 주어 didn't.</td><td class="l">Yes, I did. / No, he didn't.</td></tr></table>`,
+    points:[
+      ['부정문: <b>didn\'t</b>가 과거를 가져가요 → 동사는 <b>원형</b>!', ["He didn't go to school yesterday.",'그는 어제 학교에 가지 않았다.']],
+      ['의문문: <b>Did</b>가 과거를 가져가요 → 동사는 <b>원형</b>!', ['Did you see the movie?','너는 그 영화를 봤니?']],
+    ],
+    tips:[
+      '<b>didn\'t went ✗</b> → didn\'t <b>go</b> (과거는 한 번만 표시!)',
+      '<b>Did you saw ✗</b> → Did you <b>see</b> ~?',
+      '<b>be동사 과거와 구별!</b> → <b>Were</b> you tired? (형용사) / <b>Did</b> you sleep well? (일반동사)',
+      '대답에 동사를 쓰지 않아요 → Yes, I <s>saw</s>. → <b>Yes, I did.</b>'
+    ],
+    examples:[
+      ["I didn't eat breakfast this morning.",'나는 오늘 아침을 먹지 않았다.'],
+      ["She didn't come to the party.",'그녀는 파티에 오지 않았다.'],
+      ["We didn't have time.",'우리는 시간이 없었다.'],
+      ["They didn't watch the game.",'그들은 그 경기를 보지 않았다.'],
+      ['Did you finish your homework?','너는 숙제를 끝냈니?'],
+      ["Yes, I did. / No, I didn't.",'응, 끝냈어. / 아니, 못 끝냈어.'],
+      ['Did Tom call you last night?','Tom이 어젯밤에 너에게 전화했니?'],
+      ['No, he didn\'t.','아니, 안 했어.'],
+      ['Did your parents go out?','너희 부모님은 외출하셨니?'],
+      ['Did it rain yesterday?','어제 비가 왔니?']
+    ],
+    ox:[["He didn't went to school.",false,"didn't 뒤에는 원형 → <b>He didn't go to school.</b>"],
+        ['Did you sleep well? — Yes, I did.',true,'Did로 물으면 did로 대답']]
+  },
+  teacher:{
+    board:`과거 부정문 · 의문문 = did의 도움!
+
+ 부정  주어 + didn't + 원형
+       I didn't go.   She didn't go.
+
+ 의문  Did + 주어 + 원형 ~?
+       Did you go?   Did he go?
+
+ 대답  Yes, 대명사 + did.
+       No,  대명사 + didn't.
+
+★ did가 과거를 가져간다 → 동사는 원형!
+★ Were you ~? (be)  vs  Did you ~? (일반동사)`,
+    intro:['"He went to school." → 부정문? 학생 답 수집 (He didn\'t went?) → "과거 표시는 몇 번?" 질문으로 시작',
+           '개념 06의 does와 연결: "does가 -s를 가져갔듯, did는 무엇을 가져갈까?"'],
+    script:['① did = do/does의 과거. 주어에 상관없이 did 하나 (3인칭 고민 없음).',
+            '② did/didn\'t가 과거를 가져가므로 동사는 원형 → 과거 표시는 문장에 한 번만.',
+            '③ 대답: Yes, 대명사 + did. / No, 대명사 + didn\'t. 대답에 본동사를 쓰지 않는다.',
+            '④ be동사 과거 의문문과 구별: Were you busy? / Did you study? — 형용사·장소면 be, 동작이면 did.',
+            '⑤ did가 본동사일 때: Did you do your homework? / I didn\'t do it.',
+            '⑥ UNIT 02 종합: 현재(do/does) ↔ 과거(did) 전환 서술형이 내신 단골.'],
+    examples:[
+      ["I didn't see him at school.",'나는 학교에서 그를 보지 못했다.'],
+      ["My brother didn't clean his room.",'내 남동생은 방을 청소하지 않았다.'],
+      ["We didn't go camping last weekend.",'우리는 지난 주말에 캠핑을 가지 않았다.'],
+      ["The bus didn't stop here.",'버스가 여기에 서지 않았다.'],
+      ["She didn't buy anything.",'그녀는 아무것도 사지 않았다.'],
+      ['Did you enjoy the trip?','여행 즐거웠니?'],
+      ['Did she win the race?','그녀가 경주에서 이겼니?'],
+      ['Did they arrive on time?','그들은 제시간에 도착했니?'],
+      ['Did your dad make dinner? — Yes, he did.','아빠가 저녁을 만드셨니? — 응.'],
+      ["Did you do your homework? — No, I didn't.",'숙제했니? — 아니, 안 했어.'],
+      ['Did it snow in Busan last winter?','지난겨울 부산에 눈이 왔니?'],
+      ['Were you tired? — Yes. Did you sleep well? — No.','피곤했니? 잘 잤니? (be vs did 대비)']
+    ],
+    mistakes:[["He didn't went home.","He didn't go home.",'didn\'t 뒤 원형'],
+              ['Did you saw it?','Did you see it?','Did 뒤 원형'],
+              ['Did you tired?','Were you tired?','tired는 형용사 → be동사'],
+              ['Did she call you? — Yes, she called.','Yes, she did.','대답은 did로'],
+              ["She doesn't come yesterday.","She didn't come yesterday.",'yesterday → 과거 didn\'t']],
+    exam:['didn\'t / Did 뒤 동사원형 (went → go, saw → see)','be동사 과거(Was/Were) vs Did 구별','현재 → 과거 부정·의문 전환 서술형','대화 흐름 (No 뒤 정보) 파악'],
+    activity:'【알리바이 게임 · 6분】 용의자 2명이 1분 동안 "어젯밤 7~9시에 한 일"을 맞추고 들어옴 → 반 친구들이 Did you ~? 질문으로 한 명씩 심문 → 두 사람의 대답이 다르면 "Liar!" 질문한 팀 +1.',
+    check:[['She bought a cap. → 부정문',"She didn't buy a cap."],
+           ['He cleaned his room. → 의문문','Did he clean his room?'],
+           ['___ you busy? / ___ you sleep well?','Were / Did']]
+  }
+}];
+
+const U02_RUN={
+'05':[
+ {k:'prompt',who:'S',min:3,icon:'👋',title:'Warm-up · My Daily Routine',guide:'짝에게 나의 하루 루틴을 3문장으로 말하기 → 짝은 들은 내용을 "He/She ___s ~"로 한 문장 전달. 교사는 -s 빠뜨린 실수를 메모해 판서 때 활용.',
+  frames:['I <b>get up</b> at ______.','I <b>eat</b> ______ for breakfast.','I <b>go</b> to school by ______.','짝 전달: He / She <b>gets</b> up at ______.'],model:['I get up at seven.','I eat cereal for breakfast.','I go to school by bus.','짝 전달: Jiho gets up at seven.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up 전달 문장에서 학생이 놓친 -s로 시작하세요. 철자 규칙은 학생이 예시를 보고 먼저 분류해 보게 해요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 분단별 → 🎲 개인 순서. -s/-es 발음을 과장해서 읽게 하면 기억에 오래 남아요.',
+  items:[['그는 매일 축구를 한다.','He plays soccer every day.'],['그녀는 영어를 공부한다.','She studies English.'],['내 남동생은 TV를 본다.','My brother watches TV.'],['그 가게는 9시에 문을 연다.','The store opens at nine.'],['우리 아빠는 차가 있으시다.','My dad has a car.'],['그들은 버스로 학교에 간다.','They go to school by bus.'],['미나는 숙제를 한다.','Mina does her homework.'],['고양이는 잠을 많이 잔다.','The cat sleeps a lot.']]},
+ {k:'cards',who:'S',min:5,icon:'🎲',title:'Game · -s / -es / -ies 스피드',guide:'동사 카드가 뜨면 팀별로 3인칭 단수형을 먼저 외치기 → 맞으면 +1. 정답 공개 후 🎲로 뽑힌 학생이 "My friend ___" 문장 만들기 (+1 보너스).',
+  hint:'+s ☝️ &nbsp; +es ✌️ &nbsp; y→ies 🤟 &nbsp; 특별(has) ✊',
+  items:[['play','plays (+s)'],['watch','watches (+es)'],['study','studies (y→ies)'],['go','goes (+es)'],['have','has (특별!)'],['fix','fixes (+es)'],['buy','buys (모음+y → +s)'],['cry','cries (y→ies)'],['wash','washes (+es)'],['do','does (+es)'],['enjoy','enjoys (+s)'],['fly','flies (y→ies)']]},
+ {k:'prompt',who:'S',min:5,icon:'👥',title:'Pair Talk · Habit Reporter',guide:'짝에게 매일 하는 일 3가지를 묻고 메모 → 🎲로 뽑힌 학생이 짝의 습관을 3인칭으로 발표. 다른 친구들은 -s를 들으면 손뼉 한 번!',
+  frames:['A: I <b>______</b> every morning. (get up early / drink milk / read books)','B: My ______ <b>______s</b> every morning.','발표: (짝 이름) <b>______s</b> ______ every ______.'],model:['A: I drink milk every morning.','B: My sister reads books every morning.','발표: Minji drinks milk every morning.']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → "하나, 둘, 셋!"에 동시에 들기 → 정답 공개.',
+  items:[['Tom ___ (watch) TV after dinner.','watches — ch로 끝나면 +es'],['My parents ___ (have) two cars.','have — 주어가 복수'],['The baby ___ (cry) every night.','cries — 자음+y → ies'],['She is likes music. 고치기','She likes music. (be동사 삭제)']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 05 문제 + Writing Mission 1 (가족의 하루).',
+  items:['My sister ___ (study) hard.','He ___ (have) a dog.','"그는 매일 피아노를 친다"를 영어로 쓰기'],answers:['studies','has','He plays the piano every day.']}
+],
+'06':[
+ {k:'bingo',who:'S',min:5,icon:'👋',title:'Warm-up · Find someone who…',guide:'교실을 돌아다니며 질문 → Yes라고 답한 친구 이름을 칸에 쓰기 (한 친구당 1칸). 대답은 꼭 Yes, I do. / No, I don\'t.로! 한 줄 완성하면 "Bingo!"',
+  cells:['Do you have a pet?','Do you like spicy food?','Do you get up before 7?','Do you play the piano?','Do you read webtoons?','Do you have a brother?','Do you like math?','Do you walk to school?','Do you eat breakfast every day?']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'빙고에서 친구에 대해 알아낸 것을 "Minji doesn\'t have a pet."처럼 말하게 하며 doesn\'t로 연결하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 부정문 · 의문문 만들기',guide:'앞 3개는 부정, 다음 2개는 의문, 마지막 3개는 대답. 반을 둘로 나눠 질문 팀 / 대답 팀으로 주고받기.',
+  items:[['She likes carrots. → 부정',"She doesn't like carrots."],['They play tennis. → 부정',"They don't play tennis."],['He has a bike. → 부정',"He doesn't have a bike."],['You know her. → 의문','Do you know her?'],['Tom lives in Busan. → 의문','Does Tom live in Busan?'],['Does your dad cook? (Yes)','Yes, he does.'],['Do your friends like K-pop? (No)',"No, they don't."],['Does it rain a lot here? (No)',"No, it doesn't."]]},
+ {k:'cards',who:'S',min:5,icon:'✊',title:'Game · Do / Does / Be?',guide:'문장이 뜨면 동시에 손 신호: Do=✊ 주먹 / Does=🖐 보 / be동사=✌️ 가위. 정답 공개 후 맞힌 팀 +1. be동사 함정 문장에 주의!',
+  hint:'Do = ✊ &nbsp; Does = 🖐 &nbsp; Am·Are·Is = ✌️',
+  items:[['___ your sister like cats?','Does'],['___ you play the guitar?','Do'],['___ you tired?','Are — be동사 문장!'],['___ Tom and Mina go to the same school?','Do'],['___ it snow in Busan?','Does'],['___ your dog bark a lot?','Does'],['___ he a teacher?','Is — be동사 문장!'],['___ your parents watch dramas?','Do'],['___ she have a smartphone?','Does'],['___ they at home now?','Are — be동사 문장!']]},
+ {k:'prompt',who:'S',min:5,icon:'👥',title:'Pair Talk · Interview & Report',guide:'짝에게 Do you ~? 질문 4개 → 대답 메모 → 🎲로 뽑힌 학생이 짝에 대해 긍정 1문장 + 부정 1문장으로 발표.',
+  frames:['A: <b>Do</b> you ______? (have a pet / like cats / play games)','B: Yes, I <b>do</b>. / No, I <b>don\'t</b>.','발표: (짝 이름) <b>______s</b> ______.','발표: (짝 이름) <b>doesn\'t</b> ______.'],model:['A: Do you play mobile games?','B: Yes, I do.','발표: Jiho plays mobile games.',"발표: Jiho doesn't have a pet."]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'틀린 문장을 바르게 고쳐 쓰고 동시에 들기.',
+  items:[["She doesn't likes milk.","She doesn't like milk."],['Does he plays soccer?','Does he play soccer?'],['Do your brother have a car?','Does your brother have a car?'],['Does Mina like music? (No로 대답)',"No, she doesn't."]]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 06 문제 + Writing Mission 3 (친구 인터뷰).',
+  items:['He has a cat. → 부정문 (축약형)','They like pizza. → 의문문','Does your mom drive? (Yes로 대답)'],answers:["He doesn't have a cat.",'Do they like pizza?','Yes, she does.']}
+],
+'07':[
+ {k:'prompt',who:'S',min:3,icon:'👋',title:'Warm-up · Yesterday I…',guide:'짝에게 어제 한 일 3가지를 말하기. 모르는 과거형은 화면의 불규칙 동사표를 보며 찾아 말해도 OK! 교사는 goed, eated 같은 실수를 메모.',
+  frames:['Yesterday I <b>___ed</b> ______. (played / watched / studied)','Yesterday I <b>went</b> to ______.','Yesterday I <b>ate</b> ______ for dinner.'],model:['Yesterday I watched a drama.','Yesterday I went to the academy.','Yesterday I ate chicken for dinner.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up에서 나온 학생 과거형을 규칙/불규칙으로 칠판에 나눠 적으며 시작. 규칙 5가지는 학생이 분류하게 하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어 (과거)',guide:'반 전체 → 개인(🎲). 동사 과거형을 말할 때 손을 뒤로 넘기는 동작을 함께 하면 시제 감각이 생겨요.',
+  items:[['나는 어제 축구를 했다.','I played soccer yesterday.'],['그녀는 지난 주말에 영화를 봤다.','She watched a movie last weekend.'],['우리는 2시간 동안 공부했다.','We studied for two hours.'],['그는 버스로 학교에 갔다.','He went to school by bus.'],['나는 아침으로 빵을 먹었다.','I ate bread for breakfast.'],['민수는 편지를 썼다.','Minsu wrote a letter.'],['그들은 공원에서 친구들을 만났다.','They met their friends at the park.'],['버스가 갑자기 멈췄다.','The bus stopped suddenly.']]},
+ {k:'cards',who:'S',min:6,icon:'🏓',title:'Game · 불규칙 동사 탁구',guide:'원형이 뜨면 팀별로 3초 안에 과거형 외치기 → 정답 공개 → 맞힌 팀 +1. 두 번째 라운드는 정답 공개 전에 🎲 개인 도전!',
+  hint:'원형을 보고 과거형을 3초 안에! (go → went)',
+  items:[['go','went'],['eat','ate'],['see','saw'],['buy','bought'],['teach','taught'],['write','wrote'],['come','came'],['make','made'],['take','took'],['think','thought'],['sleep','slept'],['read','read [red]'],['put','put'],['catch','caught']]},
+ {k:'prompt',who:'S',min:5,icon:'👥',title:'Pair Talk · Weekend Story',guide:'짝과 지난 주말에 한 일을 주고받고, 마지막에 둘이 "함께 한 일"을 상상해서 한 문장 만들어 발표 (상상 OK!).',
+  frames:['A: Last weekend, I <b>______</b> ______. (went / ate / saw / bought)','B: Wow! I <b>______</b> ______.','함께: We <b>______</b> ______ together.'],model:['A: Last weekend, I went to Haeundae.','B: Wow! I bought new shoes.','함께: We ate tteokbokki together.']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['stop → 과거형','stopped — 단모음+단자음 → 자음 하나 더'],['study → 과거형','studied — 자음+y → ied'],['He goed to the park. 고치기','He went to the park.'],['She reads a book yesterday. 고치기','She read a book yesterday. (read 과거형은 철자 같고 발음 [red])']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 07 문제 + 불규칙 동사표 10개 암기.',
+  items:['play / cry / stop의 과거형','buy / think / catch의 과거형','"나는 어제 피자를 먹었다"를 영어로 쓰기'],answers:['played / cried / stopped','bought / thought / caught','I ate pizza yesterday.']}
+],
+'08':[
+ {k:'prompt',who:'S',min:3,icon:'👋',title:'Warm-up · Did you…? Chain',guide:'체인 질문: 교사가 첫 학생에게 묻고, 대답한 학생이 다음 학생에게 질문을 넘겨요. 질문 동작은 화면에서 골라 바꿔 가며!',
+  frames:['A: <b>Did</b> you ______ yesterday?','B: Yes, I <b>did</b>. / No, I <b>didn\'t</b>.','(watch TV / eat ramen / play games / go to bed late)'],model:['A: Did you eat ramen yesterday?',"B: No, I didn't.",'A: Did you play games yesterday?','B: Yes, I did.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'체인에서 나온 "Did you ate?" 같은 실수로 시작. "과거 표시는 한 번만!" 규칙을 학생이 직접 말로 정리하게 하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 부정문 · 의문문 (과거)',guide:'앞 3개 부정, 다음 2개 의문, 마지막 3개 대답. 질문 팀 / 대답 팀으로 주고받기.',
+  items:[['He went to school. → 부정',"He didn't go to school."],['I ate breakfast. → 부정',"I didn't eat breakfast."],['They saw the movie. → 부정',"They didn't see the movie."],['She bought a bag. → 의문','Did she buy a bag?'],['You finished your homework. → 의문','Did you finish your homework?'],['Did Tom call you? (Yes)','Yes, he did.'],['Did your parents go out? (No)',"No, they didn't."],['Did it rain yesterday? (No)',"No, it didn't."]]},
+ {k:'prompt',who:'S',min:6,icon:'🕵️',title:'Game · 알리바이 게임',guide:'용의자 2명이 교실 밖에서 1분 동안 "어젯밤 7~9시에 한 일"을 맞추고 들어와요. 반 친구들은 Did you ~?로 한 명씩 심문 → 두 사람의 대답이 다르면 "Liar!" 그 질문을 한 팀 +1.',
+  frames:['Did you <b>eat</b> dinner at home?','Did you <b>watch</b> TV together?','Did you <b>go</b> out after dinner?','Did your mom <b>call</b> you?','용의자: Yes, I <b>did</b>. / No, I <b>didn\'t</b>.'],model:['Q: Did you eat dinner at home?','A: Yes, I did.','Q: Did you go out after dinner?',"A: No, I didn't."]},
+ {k:'cards',who:'S',min:5,icon:'👥',title:'Pair Talk · Say it right!',guide:'짝 활동: A가 카드의 틀린 문장을 읽으면, B가 바르게 고쳐 말하기. 4장마다 역할 교대.',
+  hint:'Did / didn\'t 뒤에는 동사원형!',
+  items:[['Did you went to the park?','Did you go to the park?'],["She didn't came to school.","She didn't come to school."],['Did he eats lunch?','Did he eat lunch?'],["I didn't saw the movie.","I didn't see the movie."],['Did they played soccer?','Did they play soccer?'],["Tom don't call me yesterday.","Tom didn't call me yesterday."],['Do you meet him last week?','Did you meet him last week?'],["We didn't had time.","We didn't have time."]]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['Did she bought a hat? 고치기','Did she buy a hat?'],['Did you see Jiho? (No로 대답)',"No, I didn't."],['They went to the zoo. → 부정',"They didn't go to the zoo."],['___ you tired?<br>___ you sleep well?','Were / Did — 형용사면 be동사, 동작이면 did']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 실전 모의고사 + Writing Mission 2 (주말 일기).',
+  items:['She wrote a letter. → 부정문 (축약형)','He cleaned his room. → 의문문','Did your sister cook dinner? (Yes로 대답)'],answers:["She didn't write a letter.",'Did he clean his room?','Yes, she did.']}
+]};
+
+const U02_Q=[
+{id:'bm01',c:'05',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'My father ______ coffee every morning.',opts:['drink','drinks','drinking','is drink','drinked'],ans:1,
+ exp:'주어 My father는 3인칭 단수 + 습관(every morning) → 현재형 <b>drinks</b>. is drink처럼 be동사와 일반동사를 함께 쓰면 안 돼요.'},
+{id:'bm02',c:'05',type:'mc',q:'동사와 3인칭 단수형이 <u>잘못</u> 짝지어진 것은?',opts:['play – plays','watch – watches','study – studys','go – goes','have – has'],ans:2,
+ exp:'study는 자음 + y로 끝나므로 y를 i로 바꾸고 -es → <b>studies</b>. play는 모음 + y라서 plays가 맞아요.'},
+{id:'bm03',c:'05',type:'mc',q:'다음 중 어법상 <u>어색한</u> 문장은?',opts:['She likes music.','My brother watches TV.','Tom and Jerry plays together.','The store opens at 10.','I have two cats.'],ans:2,
+ exp:'<b>Tom and Jerry</b>는 둘(복수) → 동사원형 <b>play</b>. -s는 주어가 3인칭 <b>단수</b>일 때만 붙여요.'},
+{id:'bm04',c:'05',type:'mc',q:'빈칸에 들어갈 말이 나머지 넷과 <u>다른</u> 것은?',opts:['Mina ______ her homework after dinner.','He ______ the dishes every day.','My friends ______ yoga on Fridays.','She always ______ her best.','My mom ______ the laundry on Sundays.'],ans:2,
+ exp:'③ My friends(복수) → <b>do</b>. 나머지는 3인칭 단수 주어 → <b>does</b>.'},
+{id:'bm05',c:'06',type:'mc',q:'다음 문장을 부정문으로 바르게 바꾼 것은?',box:'Jisu has a younger sister.',opts:["Jisu doesn't has a younger sister.","Jisu don't have a younger sister.","Jisu doesn't have a younger sister.","Jisu isn't have a younger sister.","Jisu not has a younger sister."],ans:2,
+ exp:'3인칭 단수 → <b>doesn\'t + 동사원형</b>. has의 원형은 <b>have</b>! doesn\'t has처럼 -s를 두 번 표시하면 안 돼요.'},
+{id:'bm06',c:'06',type:'mc',q:'빈칸에 알맞은 말이 순서대로 짝지어진 것은?',box:'• ______ your brother like soccer?<br>• ______ you and Tom live near here?',opts:['Do – Do','Does – Does','Does – Do','Is – Are','Do – Does'],ans:2,
+ exp:'your brother(3인칭 단수) → <b>Does</b>. you and Tom(복수) → <b>Do</b>. like, live는 일반동사라 Is/Are는 쓸 수 없어요.'},
+{id:'bm07',c:'06',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: Does your mom work at a hospital?<br>B: Yes, ______. She is a nurse.',opts:['she is','she does','she works','she do','he does'],ans:1,
+ exp:'<b>Does</b>로 물으면 <b>does</b>로 대답해요. your mom → she → <b>Yes, she does.</b> 대답에 본동사(works)를 쓰지 않아요.'},
+{id:'bm08',c:'06',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장은?',opts:["She doesn't likes carrots.",'Does he plays the piano?','Do your sister have a phone?',"They don't eat meat.",'Does you know him?'],ans:3,
+ exp:'④ They(복수) + don\'t + 원형 eat (O).<br>① doesn\'t like ② Does he play ③ Does your sister have ⑤ Do you know'},
+{id:'bm09',c:'06',type:'mc',q:'다음 중 대화가 <u>자연스럽지 않은</u> 것은?',opts:['A: Do you like cats?<br>B: Yes, I do.',"A: Does Tom play tennis?<br>B: No, he doesn't.","A: Are you busy now?<br>B: No, I'm not.",'A: Do your parents cook?<br>B: Yes, they are.','A: Does it snow here?<br>B: Yes, it does.'],ans:3,
+ exp:'<b>Do</b>로 물었으니 <b>Yes, they do.</b>로 대답해야 해요. are는 be동사 질문(Are ~?)의 대답이에요.'},
+{id:'bm10',c:'07',type:'mc',q:'동사와 과거형이 <u>잘못</u> 짝지어진 것은?',opts:['play – played','stop – stoped','study – studied','like – liked','cry – cried'],ans:1,
+ exp:'stop은 단모음(o) + 단자음(p) → 자음을 하나 더 쓰고 -ed → <b>stopped</b>.'},
+{id:'bm11',c:'07',type:'mc',q:'동사와 과거형이 <u>잘못</u> 짝지어진 것은?',opts:['go – went','eat – ate','buy – buyed','see – saw','teach – taught'],ans:2,
+ exp:'buy는 불규칙 동사 → <b>bought</b>. buy-bought, think-thought, bring-brought처럼 묶어서 외워요.'},
+{id:'bm12',c:'07',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'Yesterday my brother ______ a letter to his friend.',opts:['writes','write','wrote','writed','written'],ans:2,
+ exp:'Yesterday → 과거. write는 불규칙 동사 → <b>wrote</b>. written은 과거분사로 혼자 쓸 수 없어요.'},
+{id:'bm13',c:'07',type:'mc',q:'다음 중 어법상 <u>어색한</u> 문장은?',opts:['I went to Jeju last summer.','She read a novel yesterday.','We meet him two days ago.','They played soccer after school.','He bought a new bike last week.'],ans:2,
+ exp:'two days ago(과거) → meet의 과거형 <b>met</b>. ② read는 과거형도 read라서 맞는 문장이에요.'},
+{id:'bm14',c:'08',type:'mc',q:'다음 문장을 의문문으로 바르게 바꾼 것은?',box:'He finished his homework.',opts:['Does he finish his homework?','Did he finished his homework?','Did he finish his homework?','Was he finish his homework?','Do he finished his homework?'],ans:2,
+ exp:'과거 의문문 = <b>Did + 주어 + 동사원형</b>. Did가 과거를 가져가므로 finished → <b>finish</b>.'},
+{id:'bm15',c:'08',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: Did you go to the library yesterday?<br>B: No, ______. I stayed home.',opts:['I did',"I didn't","I don't","I wasn't","you didn't"],ans:1,
+ exp:'Did you ~?로 물으면 I로 대답. 집에 있었다고 했으니 부정 → <b>No, I didn\'t.</b>'},
+{id:'bm16',c:'08',type:'mc',q:'빈칸에 알맞은 말이 순서대로 짝지어진 것은?',box:'• I ______ breakfast this morning. (부정)<br>• ______ she call you last night?',opts:["didn't eat – Did","didn't ate – Did","don't eat – Does","didn't eat – Does","wasn't eat – Was"],ans:0,
+ exp:'① 과거 부정 → <b>didn\'t + 원형 eat</b> ② last night(과거) → <b>Did</b> she call ~?'},
+{id:'bm17',c:'08',type:'mc',q:'다음 질문에 대한 대답으로 알맞은 것은?',box:'Did your parents watch the movie?',opts:['Yes, they were.',"No, they don't.",'Yes, they did.','Yes, you did.',"No, they weren't."],ans:2,
+ exp:'<b>Did</b>로 물었으니 <b>did / didn\'t</b>로 대답. your parents → <b>they</b>.'},
+{id:'bo01',c:'05',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그녀는 매일 아침 우유를 마신다.',words:['milk','drinks','she','every','morning'],end:'.',ans:'she drinks milk every morning',
+ exp:'She(3인칭 단수) + <b>drinks</b> + milk + every morning(시간 표현은 끝에).'},
+{id:'bo02',c:'05',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'내 남동생은 컴퓨터 게임을 매우 좋아한다.',words:['my','computer','likes','brother','games','very much'],end:'.',ans:'my brother likes computer games very much',
+ exp:'My brother + <b>likes</b> + computer games + very much. very much는 문장 끝에 와요.'},
+{id:'bo03',c:'06',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'우리 아빠는 아침을 드시지 않는다.',words:["doesn't",'my','eat','dad','breakfast'],end:'.',ans:"my dad doesn't eat breakfast",
+ exp:'My dad + <b>doesn\'t + eat(원형)</b> + breakfast.'},
+{id:'bo04',c:'06',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'너는 남동생이 있니?',words:['you','have','do','a','brother'],end:'?',ans:'do you have a brother',
+ exp:'<b>Do + you + have</b> + a brother? 의문문은 Do로 시작해요.'},
+{id:'bo05',c:'07',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'나는 어제 공원에서 친구들을 만났다.',words:['met','I','my friends','at the park','yesterday'],end:'.',ans:'I met my friends at the park yesterday',
+ exp:'I + <b>met</b>(meet의 과거) + my friends + 장소(at the park) + 시간(yesterday).'},
+{id:'bo06',c:'08',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그는 숙제를 끝내지 않았다.',words:['finish',"didn't",'he','his','homework'],end:'.',ans:"he didn't finish his homework",
+ exp:'He + <b>didn\'t + finish(원형)</b> + his homework.'},
+{id:'bo07',c:'08',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'너는 지난 주말에 그 영화를 봤니?',words:['you','did','the movie','see','last weekend'],end:'?',ans:'did you see the movie last weekend',
+ exp:'<b>Did + you + see(원형)</b> + the movie + last weekend?'},
+{id:'bf01',c:'05',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'My sister watchs TV every evening.',w:2,fix:['watches'],full:'My sister watches TV every evening.',exp:'-ch로 끝나는 동사 → +es → <b>watches</b>.'},
+{id:'bf02',c:'05',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'He haves a lot of books.',w:1,fix:['has'],full:'He has a lot of books.',exp:'have의 3인칭 단수형은 <b>has</b> (haves ✗).'},
+{id:'bf03',c:'05',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'The baby crys at night.',w:2,fix:['cries'],full:'The baby cries at night.',exp:'자음 + y → y를 i로 바꾸고 +es → <b>cries</b>.'},
+{id:'bf04',c:'06',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:"Mina doesn't likes spicy food.",w:2,fix:['like'],full:"Mina doesn't like spicy food.",exp:'doesn\'t 뒤에는 <b>동사원형</b> → like.'},
+{id:'bf05',c:'06',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Does your brother plays baseball?',w:3,fix:['play'],full:'Does your brother play baseball?',exp:'Does + 주어 + <b>동사원형</b> → play.'},
+{id:'bf06',c:'06',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:"They doesn't live in Seoul.",w:1,fix:["don't",'do not'],full:"They don't live in Seoul.",exp:'They(복수) → <b>don\'t</b>.'},
+{id:'bf07',c:'07',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'We studyed English last night.',w:1,fix:['studied'],full:'We studied English last night.',exp:'자음 + y → y를 i로 바꾸고 -ed → <b>studied</b>.'},
+{id:'bf08',c:'07',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'I eated pizza for lunch.',w:1,fix:['ate'],full:'I ate pizza for lunch.',exp:'eat은 불규칙 동사 → <b>ate</b>.'},
+{id:'bf09',c:'08',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:"He didn't went to school yesterday.",w:2,fix:['go'],full:"He didn't go to school yesterday.",exp:'didn\'t 뒤에는 <b>동사원형</b> → go. 과거 표시는 didn\'t에 이미 있어요.'},
+{id:'bf10',c:'08',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Did you saw the news?',w:2,fix:['see'],full:'Did you see the news?',exp:'Did + 주어 + <b>동사원형</b> → see.'},
+{id:'bw01',c:'05',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'우리 엄마는 매일 저녁 요리를 하신다.',cond:'mom, cook, every evening을 사용할 것 / 5단어로 쓸 것',accept:['My mom cooks every evening'],
+ exp:'My mom(3인칭 단수) → cook + s → <b>cooks</b>.'},
+{id:'bw02',c:'05',type:'blank',q:'괄호 안의 동사를 알맞은 형태로 바꿔 쓰시오.',text:'• My brother (go) [0] to school by bus.<br>• The baby (cry) [1] a lot.<br>• My friends (play) [2] soccer every Friday.',accept:[['goes'],['cries'],['play']],
+ exp:'① go → <b>goes</b> (+es) ② cry → <b>cries</b> (자음+y → ies) ③ My friends(복수) → 원형 <b>play</b>'},
+{id:'bw03',c:'06',type:'write',q:'다음 문장을 부정문으로 바꿔 쓰시오.',box:'My grandparents live in Seoul.',cond:'축약형을 사용할 것',accept:["My grandparents don't live in Seoul"],
+ exp:'My grandparents(복수) → <b>don\'t</b> + live.'},
+{id:'bw04',c:'06',type:'write',q:'다음 문장을 의문문으로 바꾸고, Yes로 대답하시오.',box:'Your sister plays the guitar.',cond:'의문문과 대답을 모두 쓸 것',accept:['Does your sister play the guitar? Yes, she does'],
+ exp:'<b>Does</b> your sister <b>play</b> the guitar? (plays → 원형) / 대답: <b>Yes, she does.</b>'},
+{id:'bw05',c:'06',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그는 휴대폰이 없다.',cond:'have, cell phone을 사용할 것 / 축약형을 사용할 것',accept:["He doesn't have a cell phone"],
+ exp:'"없다" → 가지고 있지 않다 → <b>doesn\'t have</b>. has가 아니라 원형 have!'},
+{id:'bw06',c:'07',type:'blank',q:'괄호 안의 동사를 과거형으로 바꿔 쓰시오.',text:'• I (stop) [0] at the store.<br>• She (buy) [1] a new bag.<br>• We (plan) [2] a party.',accept:[['stopped'],['bought'],['planned']],
+ exp:'① stop → <b>stopped</b> ② buy → <b>bought</b> (불규칙) ③ plan → <b>planned</b> (자음 하나 더)'},
+{id:'bw07',c:'07',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그들은 지난 토요일에 제주도에 갔다.',cond:'go, Jeju, last Saturday를 사용할 것 (필요하면 형태 변형)',accept:['They went to Jeju last Saturday','Last Saturday they went to Jeju'],
+ exp:'go의 과거형 → <b>went</b>. 과거형은 주어와 상관없이 같은 모양이에요.'},
+{id:'bw08',c:'08',type:'write',q:'다음 문장을 부정문으로 바꿔 쓰시오.',box:'Minho ate lunch at school.',cond:'축약형을 사용할 것',accept:["Minho didn't eat lunch at school"],
+ exp:'<b>didn\'t + 원형</b> → ate를 <b>eat</b>으로!'},
+{id:'bw09',c:'08',type:'write',q:'다음 문장을 의문문으로 바꾸고, No로 대답하시오.',box:'Your parents watched the game.',cond:'의문문과 대답을 모두 쓸 것 (대답은 축약형)',accept:["Did your parents watch the game? No, they didn't"],
+ exp:'<b>Did</b> your parents <b>watch</b> the game? / your parents → they → <b>No, they didn\'t.</b>'},
+{id:'bw10',c:'08',type:'write',q:'B의 대답을 보고, 괄호 안의 말을 활용하여 A의 질문을 완성하시오.',box:'A: ____________ (you / do / your homework)<br>B: Yes, I did. I finished it an hour ago.',cond:'필요한 단어를 추가할 것',accept:['Did you do your homework'],
+ exp:'대답이 Yes, I did → 과거 의문문 → <b>Did you do</b> your homework? do가 본동사로 한 번 더 나와도 정상!'}
+];
+
+const U02_ADV=[
+{id:'a01',c:'05',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장끼리 짝지어진 것은?',box:'ⓐ My uncle fixs cars.<br>ⓑ The children play in the park.<br>ⓒ She studys hard every day.<br>ⓓ He enjoys swimming.<br>ⓔ My mom and dad works at a bank.',opts:['ⓐ, ⓑ','ⓑ, ⓓ','ⓒ, ⓓ','ⓑ, ⓔ','ⓓ, ⓔ'],ans:1,
+ exp:'ⓐ fix → <b>fixes</b> ⓒ study → <b>studies</b> ⓔ My mom and dad(복수) → <b>work</b><br>ⓑ children(복수) + 원형 (O), ⓓ 모음+y → enjoys (O)'},
+{id:'a02',c:'05',type:'mc',q:'3인칭 단수형을 만들 때 동사에 <u>-es만</u> 붙이는 것끼리 묶은 것은?',box:'ⓐ wash &nbsp; ⓑ play &nbsp; ⓒ miss &nbsp; ⓓ fly &nbsp; ⓔ catch',opts:['ⓐ, ⓑ, ⓒ','ⓐ, ⓒ, ⓓ','ⓐ, ⓒ, ⓔ','ⓑ, ⓓ, ⓔ','ⓒ, ⓓ, ⓔ'],ans:2,
+ exp:'washes, misses, catches → -sh, -s, -ch로 끝나 <b>-es만</b> 붙여요.<br>ⓑ plays(+s) ⓓ flies(y를 i로 바꾸고 -es) — fly는 철자를 바꾸므로 제외!'},
+{id:'a03',c:'06',type:'mc',q:'다음 글의 밑줄 친 ⓐ~ⓔ 중 어법상 <u>틀린</u> 것은?',box:"My best friend Jiho ⓐ<u>lives</u> next door. He ⓑ<u>doesn't like</u> vegetables, but he ⓒ<u>loves</u> fruit. ⓓ<u>Does</u> he eat apples every day? Yes, he ⓔ<u>do</u>.",opts:['ⓐ','ⓑ','ⓒ','ⓓ','ⓔ'],ans:4,
+ exp:'Does로 물었고 주어가 he → <b>Yes, he does.</b>'},
+{id:'a04',c:'06',type:'mc',q:'다음 중 어법상 옳은 문장의 개수는?',box:"ⓐ Does your dog bark a lot?<br>ⓑ My sister don't wear glasses.<br>ⓒ Do Tom and Mina walk to school?<br>ⓓ He doesn't has time.<br>ⓔ Is she like music?",opts:['1개','2개','3개','4개','5개'],ans:1,
+ exp:'옳은 문장: ⓐ, ⓒ → <b>2개</b>.<br>ⓑ My sister → <b>doesn\'t</b> ⓓ doesn\'t <b>have</b> ⓔ like는 일반동사 → <b>Does</b> she like music?'},
+{id:'a05',c:'06',type:'mc',q:'빈칸에 들어갈 말이 나머지 넷과 <u>다른</u> 것은? (대·소문자 무시)',opts:['______ you like K-pop?','______ your parents work on weekends?','______ you hungry now?','______ they play badminton?','______ we need umbrellas?'],ans:2,
+ exp:'③ hungry는 형용사 → be동사 문장 → <b>Are</b>. 나머지는 일반동사(like, work, play, need) + 복수 주어 → <b>Do</b>.'},
+{id:'a06',c:'07',type:'mc',q:'다음 글의 밑줄 친 부분 중 어법상 <u>틀린</u> 것의 개수는?',box:'Last Sunday, I ⓐ<u>got</u> up late. I ⓑ<u>eated</u> brunch with my family. Then we ⓒ<u>goed</u> to the park. My brother ⓓ<u>played</u> badminton, and I ⓔ<u>read</u> a book.',opts:['1개','2개','3개','4개','5개'],ans:1,
+ exp:'ⓑ eat → <b>ate</b> ⓒ go → <b>went</b> → 틀린 것 <b>2개</b>. ⓔ read는 과거형도 read (O).'},
+{id:'a07',c:'07',type:'mc',q:'과거형을 만들 때 <u>자음을 하나 더 쓰고 -ed</u>를 붙이는 것끼리 묶은 것은?',box:'ⓐ stop &nbsp; ⓑ plan &nbsp; ⓒ study &nbsp; ⓓ drop &nbsp; ⓔ cry',opts:['ⓐ, ⓑ, ⓒ','ⓐ, ⓑ, ⓓ','ⓑ, ⓒ, ⓔ','ⓐ, ⓓ, ⓔ','ⓒ, ⓓ, ⓔ'],ans:1,
+ exp:'단모음 + 단자음 → stopped, planned, dropped. ⓒⓔ는 자음 + y → studied, cried.'},
+{id:'a08',c:'07',type:'mc',q:'현재형과 과거형의 <u>철자가 같은</u> 동사를 모두 고른 것은?',box:'ⓐ put &nbsp; ⓑ cut &nbsp; ⓒ read &nbsp; ⓓ take &nbsp; ⓔ make',opts:['ⓐ, ⓑ','ⓐ, ⓑ, ⓒ','ⓑ, ⓒ, ⓓ','ⓒ, ⓓ, ⓔ','ⓐ, ⓓ, ⓔ'],ans:1,
+ exp:'put-put, cut-cut, read-read(발음만 [red]). take → took, make → made.'},
+{id:'a09',c:'08',type:'mc',q:'대화의 빈칸 (A)~(C)에 들어갈 말이 바르게 짝지어진 것은?',box:"A: (A) ______ you go to Mina's party last night?<br>B: No, I (B) ______. I (C) ______ sick.",opts:["Did – didn't – was","Did – didn't – were","Were – wasn't – was","Did – don't – was","Do – didn't – was"],ans:0,
+ exp:"(A) go는 일반동사 + last night → <b>Did</b> (B) <b>didn't</b> (C) sick은 형용사 → be동사 과거 <b>was</b>. 한 대화 속 be동사와 did를 구별하는 문제!"},
+{id:'a10',c:'08',type:'mc',q:'다음 중 어법상 옳은 문장을 <u>모두</u> 고른 것은?',box:"ⓐ Did she call you yesterday?<br>ⓑ He didn't came home.<br>ⓒ Did they enjoyed the trip?<br>ⓓ I didn't sleep well.<br>ⓔ Did you see Jiho? — Yes, I saw.",opts:['ⓐ, ⓓ','ⓐ, ⓒ','ⓑ, ⓓ','ⓐ, ⓓ, ⓔ','ⓒ, ⓔ'],ans:0,
+ exp:"ⓑ didn't <b>come</b> ⓒ Did they <b>enjoy</b> ⓔ 대답은 <b>Yes, I did.</b>"},
+{id:'a11',c:'06',type:'mc',q:'표의 내용과 <u>일치하지 않는</u> 것은?',box:'<table><tr><th>이름</th><th>좋아하는 것</th><th>싫어하는 것</th></tr><tr><td>Minji</td><td>cats</td><td>spiders</td></tr><tr><td>Tom & Ben</td><td>soccer</td><td>rain</td></tr></table>',opts:['Minji likes cats.',"Minji doesn't like spiders.",'Tom and Ben like soccer.',"Tom doesn't like rain.",'Ben likes rain.'],ans:4,
+ exp:'Ben은 비(rain)를 싫어해요 → <b>Ben doesn\'t like rain.</b>이 맞아요.'},
+{id:'a12',c:'08',type:'mc',q:'대화의 흐름상 빈칸에 알맞은 것은?',box:'A: Did you finish the science report?<br>B: ________. I need more time.',opts:['Yes, I did.',"No, I didn't.","No, I don't.",'Yes, I finished.',"No, I wasn't."],ans:1,
+ exp:'시간이 더 필요하다 → 아직 못 끝냄 → <b>No, I didn\'t.</b>'},
+{id:'c01',c:'05',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'내 남동생(brother)은 매일 밤 9시에 잠자리에 든다.',
+ conds:[{t:'go to bed를 활용할 것 (필요하면 형태를 바꿀 것)',re:'\\bgoes to bed\\b'},{t:'at nine, every night을 포함할 것',re:'(at nine.*every night|every night.*at nine)'},{t:'9단어로 쓸 것',w:9}],
+ core:[['^my brother goes to bed','My brother + goes to bed …'],['\\bgo to bed\\b','3인칭 단수 → goes!','not']],model:['My brother goes to bed at nine every night.'],
+ exp:'go → <b>goes</b>(+es)로 형태 변형! My(1) brother(2) goes(3) to(4) bed(5) at(6) nine(7) every(8) night(9).'},
+{id:'c02',c:'05',type:'cwrite',q:'Jake의 프로필을 보고, <조건>에 맞게 소개하는 글을 쓰시오.',box:'<table><tr><th>Every day</th><td>play soccer</td></tr><tr><th>On weekends</th><td>watch movies</td></tr><tr><th>Favorite food</th><td>pizza (like)</td></tr></table>',
+ conds:[{t:'He로 시작하는 문장을 3개 이상 쓸 것',sent:3,re:'^he\\b'},{t:'동사를 주어에 맞게 바꿀 것',re:'\\b(plays|watches|likes)\\b'}],
+ core:[['plays soccer','"매일 축구" → He plays soccer every day.'],['watches movies','"주말 영화" → He watches movies on weekends.'],['likes pizza','"좋아하는 음식" → He likes pizza.'],['\\bhe (play|watch|like)\\b','He 뒤 동사에 -s/-es를 붙여요!','not']],
+ model:['He plays soccer every day.','He watches movies on weekends.','He likes pizza.'],
+ exp:'표의 동사원형을 3인칭 단수형으로 바꾸는 문제. watch는 <b>watches</b>(+es)!'},
+{id:'c03',c:'06',type:'cwrite',q:'다음 문장을 <조건>에 맞게 바꿔 쓰시오.',box:'My sister has long hair.',
+ conds:[{t:'부정문으로 쓸 것 (축약형)',re:"doesn't"},{t:'has의 형태를 알맞게 바꿀 것',re:'\\bhave\\b'}],
+ core:[["^my sister doesn't have long hair",'My sister + doesn\'t + have + long hair']],model:["My sister doesn't have long hair."],
+ exp:"doesn't 뒤 원형 → has가 아니라 <b>have</b>. doesn't has는 대표 감점 포인트!"},
+{id:'c04',c:'06',type:'cwrite',q:'다음 대화를 <조건>에 맞게 영작하시오.',box:'A: 너의 부모님은 주말에 일하시니?<br>B: 아니, 그렇지 않아.',
+ conds:[{t:'parents, work, on weekends를 사용할 것',re:'parents.*work.*on weekends'},{t:'B의 대답은 대명사와 축약형으로 쓸 것',re:"no,? they don't"},{t:'A와 B의 말을 모두 쓸 것',sent:2}],
+ core:[['^do your parents work on weekends\\s*\\?','A: Do your parents work on weekends?']],model:['Do your parents work on weekends?',"No, they don't."],
+ exp:'your parents(복수) → <b>Do</b>. 대답 주어는 <b>they</b> → No, they don\'t.'},
+{id:'c05',c:'06',type:'cwrite',q:'다음 글에서 어법상 <u>틀린 문장 2개</u>를 찾아 바르게 고쳐 쓰시오.',box:"ⓐ My cousin lives in Canada. ⓑ He don't speak Korean well. ⓒ He loves Korean food. ⓓ Does he likes kimchi? ⓔ Yes, he does.",
+ conds:[{t:'틀린 문장 2개를 모두 고쳐 쓸 것 (기호 없이 문장만)',sent:2}],
+ core:[["he doesn't speak korean well","ⓑ He doesn't speak Korean well."],['does he like kimchi\\s*\\?','ⓓ Does he like kimchi?']],model:["He doesn't speak Korean well.",'Does he like kimchi?'],
+ exp:"ⓑ He → <b>doesn't</b> ⓓ Does 뒤 원형 → <b>like</b>"},
+{id:'c06',c:'06',type:'cwrite',q:'대답이 나오도록, 괄호 안의 말을 활용하여 질문을 쓰시오.',box:'Q: ______________________ (Mina / have / a pet)<br>A: Yes, she does. She has a hamster.',
+ conds:[{t:'괄호 안의 말을 모두 사용할 것',re:'mina.*have.*a pet'},{t:'필요한 단어를 추가하여 의문문으로 쓸 것',re:'^does\\b.*\\?$'}],
+ core:[['^does mina have a pet\\s*\\?$','Does + Mina + have + a pet?']],model:['Does Mina have a pet?'],
+ exp:'대답 Yes, she does → <b>Does</b> Mina <b>have</b> a pet? (has ✗)'},
+{id:'c07',c:'07',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그녀는 어제 도서관에서 책 세 권을 읽었다.',
+ conds:[{t:'read, book을 활용할 것 (필요하면 형태를 바꿀 것)',re:'\\bread\\b.*\\bbooks\\b'},{t:'at the library, yesterday를 포함할 것',re:'at the library.*yesterday'},{t:'8단어로 쓸 것',w:8}],
+ core:[['^she read three books at the library yesterday','She + read + three books + at the library + yesterday'],['\\breaded\\b','read의 과거형은 read (readed ✗)','not']],model:['She read three books at the library yesterday.'],
+ exp:'read 과거형 = <b>read</b>, book → <b>books</b>(복수). She(1) read(2) three(3) books(4) at(5) the(6) library(7) yesterday(8).'},
+{id:'c08',c:'07',type:'cwrite',q:'다음 글을 Yesterday로 시작하는 과거형 글로 바꿔 쓰시오.',box:'I get up at 7. I eat breakfast. I go to school.',
+ conds:[{t:'Yesterday로 시작할 것',re:'^yesterday'},{t:'세 문장 모두 쓸 것',sent:3}],
+ core:[['got up at (7|seven)','get → got'],['ate breakfast','eat → ate'],['went to school','go → went'],['\\b(get|eat|go) ','현재형이 남아 있어요. 모두 과거형으로!','not']],
+ model:['Yesterday, I got up at 7.','I ate breakfast.','I went to school.'],
+ exp:'모두 불규칙 동사! get → <b>got</b>, eat → <b>ate</b>, go → <b>went</b>.'},
+{id:'c09',c:'08',type:'cwrite',q:'다음 두 문장을 각각 부정문으로 바꿔 쓰시오.',box:'Tom bought a cap. He wore it.',
+ conds:[{t:"축약형(didn't)을 사용할 것",re:"didn't"},{t:'두 문장을 모두 쓸 것',sent:2}],
+ core:[["tom didn't buy a cap","① Tom didn't buy a cap."],["(he|tom) didn't wear it","② He didn't wear it."],["didn't (bought|wore)","didn't 뒤에는 동사원형! (bought → buy, wore → wear)",'not']],
+ model:["Tom didn't buy a cap.","He didn't wear it."],
+ exp:'didn\'t + 원형 → bought는 <b>buy</b>, wore는 <b>wear</b>로 되돌려요.'},
+{id:'c10',c:'08',type:'cwrite',q:'다음 대화를 <조건>에 맞게 영작하시오.',box:'A: 너는 지난밤에 잘 잤니?<br>B: 응, 잘 잤어.',
+ conds:[{t:'sleep, well, last night을 사용할 것 (필요하면 형태 변형)',re:'sleep well last night'},{t:'B는 Yes로 대답할 것',re:'yes,? i did'},{t:'A와 B의 말을 모두 쓸 것',sent:2}],
+ core:[['^did you sleep well last night\\s*\\?','A: Did you sleep well last night?']],model:['Did you sleep well last night?','Yes, I did.'],
+ exp:'Did + you + <b>sleep</b>(원형) ~? 대답: <b>Yes, I did.</b>'},
+{id:'c11',c:'08',type:'cwrite',q:'어제 내가 한 일 2가지와 하지 않은 일 1가지를 <조건>에 맞게 자유롭게 쓰시오.',
+ conds:[{t:'주어는 I로 쓸 것',re:'^i\\b'},{t:'과거형 긍정 문장 2개 이상',sent:2,re:'\\b(\\w+ed|went|ate|saw|met|made|had|got|took|read|wrote|bought|came|slept|ran|swam|did|drank|gave|sang|found|left|felt|told|said)\\b'},{t:"didn't + 동사원형 문장 1개",re:"didn't [a-z]+"}],
+ core:[["didn't (\\w+ed|went|ate|saw|met|made|had|got|took|wrote|bought|came|slept|ran|swam|drank)\\b","didn't 뒤에는 동사원형!",'not']],
+ model:['I watched a movie yesterday.','I ate pizza with my family.',"I didn't do my homework."],
+ exp:'정답이 정해지지 않은 자유 영작. 과거 긍정은 과거형, 부정은 <b>didn\'t + 원형</b>이 핵심!'},
+{id:'c12',c:'08',type:'cwrite',q:'다음 문장을 <조건>에 맞게 바꿔 쓰시오.',box:'Jisu walks to school every day.',
+ conds:[{t:"① yesterday를 사용한 과거 부정문 (축약형)",re:"jisu didn't walk to school yesterday"},{t:'② yesterday를 사용한 과거 의문문',re:'did jisu walk to school yesterday\\s*\\?'},{t:'③ ②에 대한 Yes 대답 (대명사)',re:'yes,? she did'}],
+ core:[['every day','every day는 yesterday로 바꿔야 해요.','not'],['\\bwalks\\b|\\bwalked\\b','didn\'t / Did 뒤에는 원형 walk!','not']],
+ model:["Jisu didn't walk to school yesterday.",'Did Jisu walk to school yesterday?','Yes, she did.'],
+ exp:'현재 walks → 과거 부정 <b>didn\'t walk</b>, 과거 의문 <b>Did Jisu walk</b> ~? Jisu → <b>she</b>.'},
+{id:'c13',c:'05',type:'cwrite',q:'주어를 My sister로 바꿔 다시 쓰시오.',box:'I have a dog, and I walk it every day.',
+ conds:[{t:'have, walk의 형태를 주어에 맞게 바꿀 것',re:'\\bhas\\b.*\\bwalks\\b'},{t:'두 번째 I도 알맞은 대명사로 바꿀 것',re:'\\bshe walks\\b'}],
+ core:[['^my sister has a dog,? and she walks it every day','My sister has a dog, and she walks it every day.']],model:['My sister has a dog, and she walks it every day.'],
+ exp:'have → <b>has</b>, walk → <b>walks</b>, 두 번째 I → <b>she</b>. 주어를 바꾸면 동사와 대명사가 함께 바뀌어요.'}
+].map(q=>(q.set='adv',q));
+
+const U02_MISSIONS=[
+{id:'m1',icon:'🏠',title:'나의 하루 → 가족의 하루',desc:'내 루틴을 가족의 루틴으로 바꾸며 -s와 doesn\'t를 연습해요 (개념 05·06)',steps:[
+ {inst:'"나는 7시에 일어난다."',given:['get up','at 7'],must:[['^i get up at (7|seven)','I + get up + at 7']],not:[['\\bgets\\b','I 뒤에는 동사원형!']],model:'I get up at 7.'},
+ {inst:'주어 바꾸기: "우리 언니(누나)는 7시에 일어난다."',given:['my sister'],must:[['^my sister gets up at (7|seven)','My sister + gets up + at 7']],not:[['\\bget up\\b','3인칭 단수 → gets!'],['\\bis gets\\b','be동사와 일반동사를 함께 쓰지 않아요.']],model:'My sister gets up at 7.'},
+ {inst:'부정문: "우리 언니는 아침을 먹지 않는다."',given:['eat breakfast'],must:[["^my sister (doesn't|does not) eat breakfast",'My sister + doesn\'t + eat breakfast']],not:[["(doesn't|does not) eats",'doesn\'t 뒤에는 원형 eat!'],["\\bdon't\\b",'My sister → doesn\'t']],model:"My sister doesn't eat breakfast."},
+ {inst:'질문 + 대답: "너의 언니는 아침을 먹니?" + No로 대답',given:['your sister','eat breakfast','No'],must:[['^does your sister eat breakfast\\s*\\?','Does + your sister + eat + breakfast?'],["no,? she (doesn't|does not)\\.?$",'대답: No, she doesn\'t.']],not:[['^do your sister','your sister → Does!'],['\\beats\\b','Does 뒤에는 원형!']],model:"Does your sister eat breakfast? No, she doesn't."},
+ {free:true,inst:'자유 영작: 가족 한 명의 하루를 3문장 이상 써 보세요.',cond:'3인칭 단수 -s/-es 문장 1개 이상, doesn\'t 문장 1개 이상',minSent:3,
+  must:[["\\b(he|she|my \\w+) (?!is\\b|was\\b)\\w+s\\b",'-s/-es가 붙은 동사 문장을 넣어 주세요. (He plays …)'],["doesn't",'doesn\'t 문장을 하나 넣어 주세요.']],not:[["(doesn't|does not) (likes|has|goes|plays|eats|drinks|watches|studies|does|gets|wants|reads|loves|works)\\b",'doesn\'t 뒤에는 원형!']],
+  model:"My dad gets up at 6. He drinks coffee every morning. He doesn't eat breakfast. He goes to work by subway."}
+]},
+{id:'m2',icon:'📔',title:'지난 주말 일기',desc:'불규칙 과거형과 didn\'t, Did로 주말 이야기를 써요 (개념 07·08)',steps:[
+ {inst:'"나는 지난 토요일에 할머니 댁에 갔다."',given:['go',"my grandma's house",'last Saturday'],must:[["^i went to my grandma's house last saturday",'I + went + to my grandma\'s house + last Saturday']],not:[['\\bgoed\\b','go의 과거형은 went!']],model:"I went to my grandma's house last Saturday."},
+ {inst:'"우리는 함께 저녁을 먹었다."',given:['eat dinner','together'],must:[['^we ate dinner together','We + ate + dinner + together']],not:[['\\beated\\b','eat의 과거형은 ate!']],model:'We ate dinner together.'},
+ {inst:'부정문: "나는 숙제를 하지 않았다."',given:['do my homework'],must:[["^i (didn't|did not) do my homework",'I + didn\'t + do + my homework']],not:[["didn't did",'didn\'t 뒤에는 원형 do!']],model:"I didn't do my homework."},
+ {inst:'친구에게 질문 + Yes로 대답: "너는 지난 주말에 영화를 봤니?"',given:['see / watch','a movie','last weekend'],must:[['^did you (see|watch) a movie last weekend\\s*\\?','Did + you + see(watch) + a movie + last weekend?'],['yes,? i did\\.?$','대답: Yes, I did.']],not:[['did you (saw|watched)','Did 뒤에는 원형!']],model:'Did you see a movie last weekend? Yes, I did.'},
+ {free:true,inst:'자유 영작: 나의 지난 주말을 3문장 이상으로 써 보세요.',cond:'불규칙 과거형 1개 이상, didn\'t 문장 1개 이상',minSent:3,
+  must:[['\\b(went|ate|saw|met|made|had|got|took|read|wrote|bought|came|slept|ran|swam|did|drank|gave|sang)\\b','불규칙 과거형(went, ate, saw …)을 하나 넣어 주세요.'],["didn't",'didn\'t 문장을 하나 넣어 주세요.']],not:[["didn't (went|ate|saw|met|made|had|got|took|wrote|bought|came|\\w+ed)\\b",'didn\'t 뒤에는 원형!']],
+  model:"I met my friends last Saturday. We ate tteokbokki together. I didn't study on Sunday. I watched a movie at home."}
+]},
+{id:'m3',icon:'🎤',title:'친구 인터뷰 리포트',desc:'Do you ~?로 인터뷰하고 3인칭으로 리포트를 써요 (개념 05·06·08)',steps:[
+ {inst:'친구에게 질문: "너는 애완동물이 있니?"',given:['have','a pet'],must:[['^do you have a pet\\s*\\?','Do + you + have + a pet?']],not:[['^are you','have는 일반동사 → Do로 시작!']],model:'Do you have a pet?'},
+ {inst:'친구의 대답 (Yes): "응, 있어. 나는 고양이가 한 마리 있어."',given:['Yes','a cat'],must:[['yes,? i do','Yes, I do.'],['i have a cat','I have a cat.']],not:[],model:'Yes, I do. I have a cat.'},
+ {inst:'리포트: "지호는 고양이가 한 마리 있다." (Jiho)',given:['Jiho','a cat'],must:[['^jiho has a cat','Jiho + has + a cat']],not:[['\\bjiho have\\b','Jiho(3인칭 단수) → has!']],model:'Jiho has a cat.'},
+ {inst:'리포트: "지호는 개를 좋아하지 않는다."',given:['like','dogs'],must:[["^jiho (doesn't|does not) like dogs",'Jiho + doesn\'t + like + dogs']],not:[["(doesn't|does not) likes",'doesn\'t 뒤에는 원형!'],["\\bdon't\\b",'Jiho → doesn\'t']],model:"Jiho doesn't like dogs."},
+ {inst:'과거 질문 + Yes 대답: "너는 어제 고양이에게 밥을 줬니?"',given:['feed your cat','yesterday'],must:[['^did you feed your cat yesterday\\s*\\?','Did + you + feed + your cat + yesterday?'],['yes,? i did\\.?$','대답: Yes, I did.']],not:[['did you fed','Did 뒤에는 원형 feed!']],model:'Did you feed your cat yesterday? Yes, I did.'},
+ {free:true,inst:'자유 영작: 인터뷰한 친구를 소개하는 리포트를 3문장 이상 써 보세요.',cond:'3인칭 단수 -s 1개, doesn\'t 1개, 과거 문장 1개 이상',minSent:3,
+  must:[["\\b(he|she|[a-z]+) (?!is\\b|was\\b)\\w+s\\b",'-s/-es가 붙은 동사 문장을 넣어 주세요.'],["doesn't",'doesn\'t 문장을 넣어 주세요.'],['\\b(\\w+ed|went|ate|saw|met|made|had|got|took|bought|came|did)\\b','과거 문장을 하나 넣어 주세요.']],not:[],
+  model:"Jiho has a cat. He loves his cat very much. He doesn't like dogs. He fed his cat yesterday."}
+]}
+];
+
+/* ================= 단원 등록 · 불러오기 ================= */
+const UNIT_DATA={
+ '01':{title:'be동사',range:'개념 01~04',CONCEPTS:U01_CONCEPTS,RUN:U01_RUN,Q:U01_Q,ADV:U01_ADV,MISSIONS:U01_MISSIONS,
+   plan:[['1','01 be동사 현재형','개념 01 문제 + Mission 3 (우리 반 소개)'],['2','02 be동사 과거형','개념 02 문제 + Mission 2 (어제 일기)'],['3','03 be동사 부정문','개념 03 문제 + 오답노트 정리'],['4','04 be동사 의문문','실전 모의고사 20문항 + Mission 1 (친구 소개)']]},
+ '02':{title:'일반동사',range:'개념 05~08',CONCEPTS:U02_CONCEPTS,RUN:U02_RUN,Q:U02_Q,ADV:U02_ADV,MISSIONS:U02_MISSIONS,
+   plan:[['1','05 일반동사 현재형','개념 05 문제 + Mission 1 (가족의 하루)'],['2','06 현재형 부정문·의문문','개념 06 문제 + Mission 3 (친구 인터뷰)'],['3','07 일반동사 과거형','개념 07 문제 + 불규칙 동사표 암기'],['4','08 과거형 부정문·의문문','실전 모의고사 20문항 + Mission 2 (주말 일기)']]}
+};
+let CONCEPTS,RUN,Q,ADV,MISSIONS,UNIT_ID,UNIT;
+function loadUnit(id){
+  if(!UNIT_DATA[id])id='01';
+  UNIT_ID=id;UNIT=UNIT_DATA[id];
+  CONCEPTS=UNIT.CONCEPTS;RUN=UNIT.RUN;ADV=UNIT.ADV;MISSIONS=UNIT.MISSIONS;Q=[...UNIT.Q,...UNIT.ADV];
+  KEY='sgl_u'+id+'_';
+  try{localStorage.setItem('sgl_unit',id)}catch(e){}
+  const h=document.getElementById('hsub');if(h)h.textContent='중등문법1 · UNIT '+id+' '+UNIT.title;
+  document.title='중등문법1 · UNIT '+id+' '+UNIT.title+' | STELLA GRAMMAR LAB';
+}
+const cShort=c=>c.short||c.title.replace('be동사 ','');
+function unitBar(){return `<div class="chips unitbar noprint">${Object.keys(UNIT_DATA).map(u=>`<button class="chip ${u===UNIT_ID?'on':''}" data-act="pickUnit" data-u="${u}">UNIT ${u} ${UNIT_DATA[u].title}</button>`).join('')}</div>`}
+
+/* ---------------- 공통 유틸 ---------------- */
+const GK=k=>(k==='name'||k==='classN')?'sgl_'+k:KEY+k;
+const S={get(k,d){try{let v=localStorage.getItem(GK(k));if(v==null&&k==='name')v=localStorage.getItem('sgl_u01_name');return v==null?d:JSON.parse(v)}catch(e){return d}},
+         set(k,v){try{localStorage.setItem(GK(k),JSON.stringify(v))}catch(e){}}};
+const SS={get(k){try{return sessionStorage.getItem(KEY+k)}catch(e){return null}},set(k,v){try{sessionStorage.setItem(KEY+k,v)}catch(e){}}};
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function norm(s){return String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/[.,!?;:"]/g,' ').replace(/\s+/g,' ').trim()}
+function lite(s){return String(s).replace(/[’‘`]/g,"'").replace(/\s+/g,' ').trim()}
+function plain(h){return h.replace(/<br\s*\/?>/g,' / ').replace(/<[^>]+>/g,'')}
+function speak(t){try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/—/g,','));u.lang='en-US';u.rate=.88;speechSynthesis.speak(u)}catch(e){toast('이 기기에서는 음성 재생이 지원되지 않아요')}}
+let toastT;function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),1800)}
+function shuffle(a,seed){a=a.slice();let s=0;for(const ch of seed)s=(s*31+ch.charCodeAt(0))%9973;for(let i=a.length-1;i>0;i--){s=(s*9301+49297)%233280;const j=Math.floor(s/233280*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  if(a.every((v,i)=>v===i)&&a.length>1)a.push(a.shift());return a}
+const CIRC=['①','②','③','④','⑤'];
+const qById=id=>Q.find(q=>q.id===id);
+const cTitle=no=>CONCEPTS.find(c=>c.no===no).title;
+
+/* ---------------- 상태 ---------------- */
+const state={qSet:'basic',keyNoAns:false,cwRes:null,mode:'home',tab:'learn',concept:0,tview:'flow',tconcept:0,boardEx:0,keyFilter:'all',
+  qType:'all',tstep:0,titem:0,treveal:false,tpanel:null,guideOpen:true,qCon:'all',quiz:null,result:null,ans:null,oxDone:{},mission:null,mEdit:null,mFb:null,pinOpen:false,clearArm:false};
+
+function wrongSet(){return S.get('wrong',[])}
+function setWrong(a){S.set('wrong',a);updateBadge()}
+function updateBadge(){const n=wrongSet().length,b=document.getElementById('wbadge');if(!b)return;b.style.display=n?'block':'none';b.textContent=n}
+
+/* ---------------- 렌더 ---------------- */
+const app=document.getElementById('app');
+function render(){
+  const bn=document.getElementById('bnav'),hm=document.getElementById('hmode'),hb=document.getElementById('homeBtn');
+  bn.style.display=state.mode==='student'?'block':'none';
+  hb.style.display=(STUDENT_ONLY&&state.mode==='student')?'none':'grid';
+  if(state.mode==='home'){hm.style.display='none';renderHome()}
+  else if(state.mode==='student'){hm.style.display='inline-block';hm.className='pill';hm.textContent='학생용';renderStudent()}
+  else{hm.style.display='inline-block';hm.className='pill t';hm.textContent='교사용';renderTeacher()}
+  document.querySelectorAll('#bnav button').forEach(b=>b.classList.toggle('on',b.dataset.tab===state.tab));
+  updateBadge();
+}
+
+function renderHome(){
+  app.innerHTML=`
+  <div class="hero"><div class="star">★</div>
+    <h1>중등문법1</h1><div style="font-weight:800;letter-spacing:1px;opacity:.85;margin-top:4px">STELLA GRAMMAR LAB</div>
+    <p>판서 강의 → 개념 복습 → 내신 문제 → Writing까지<br>한 곳에서 끝내는 중등 문법 실험실</p></div>
+  <div class="modes">
+    <button class="mode" data-act="goStudent"><span class="em">🧑‍🎓</span><b>학생용</b><span>개념 복습 · 내신 문제 · Writing Mission · 오답노트</span></button>
+    ${STUDENT_ONLY?'':`<button class="mode t" data-act="goTeacher"><span class="em">👩‍🏫</span><b>교사용</b><span>수업 흐름 · 강의안 · 판서 모드 · 정답 해설지</span></button>`}
+  </div>
+  ${state.pinOpen&&!STUDENT_ONLY?`<div class="card"><div class="h2">🔒 교사용 비밀번호</div><div class="muted">학생이 정답지를 미리 보지 않도록 잠겨 있어요.</div>
+     <div class="pinbox"><input class="inp" id="pin" type="password" inputmode="numeric" placeholder="비밀번호 입력"><button class="btn burg" data-act="pinOk">입장</button></div></div>`:''}
+  <div class="card"><div class="h2">📚 CONTENTS</div>
+    <div class="muted" style="margin-bottom:8px">학습할 단원을 누른 뒤 학생용 / 교사용을 선택하세요.</div>
+    <div class="units">${UNITS.map(u=>{const ok=!!UNIT_DATA[u[0]];return `<button class="unit ${u[0]===UNIT_ID?'on':''} ${ok?'':'off'}" ${ok?`data-act="pickUnit" data-u="${u[0]}"`:'disabled'}><span class="n">${u[0]}</span><span>${u[1]}</span><span class="s">${ok?(u[0]===UNIT_ID?'<span class="tag b">선택됨</span>':'<span class="tag g">학습 가능</span>'):'준비 중'}</span></button>`}).join('')}</div>
+  </div>
+  <div class="foot">STELLA GRAMMAR LAB · Created by 스텔라원장</div>`;
+}
+
+/* ===== 학생 ===== */
+function renderStudent(){
+  if(state.tab==='learn')return renderLearn();
+  if(state.tab==='quiz')return state.quiz?renderQuestion():state.result?renderResult():renderQuizSetup();
+  if(state.tab==='write')return state.mission?renderMission():renderMissionList();
+  if(state.tab==='review')return renderReview();
+}
+
+function conceptChips(cur,act){return `<div class="chips">${CONCEPTS.map((c,i)=>`<button class="chip ${i===cur?'on':''}" data-act="${act}" data-i="${i}">개념 ${c.no} ${cShort(c)}</button>`).join('')}</div>`}
+function exRows(list){return list.map(e=>`<div class="ex"><div class="tx"><div class="en">${esc(e[0])}</div><div class="ko">${esc(e[1])}</div></div><button class="say" data-say="${esc(e[0])}" aria-label="듣기">🔊</button></div>`).join('')}
+
+function renderLearn(){
+  const c=CONCEPTS[state.concept],s=c.student,name=S.get('name','');
+  app.innerHTML=`${unitBar()}
+  ${name?'':`<div class="card"><div class="h2">👋 이름을 적어 주세요</div><div class="pinbox"><input class="inp" id="nm" placeholder="예) 김스텔라"><button class="btn" data-act="saveName">저장</button></div><div class="muted" style="margin-top:6px">Writing 결과를 선생님께 보낼 때 이름이 함께 들어가요.</div></div>`}
+  ${conceptChips(state.concept,'pickC')}
+  <div class="card">
+    <span class="tag">UNIT ${UNIT_ID} · 개념 ${c.no}</span>
+    <div class="h1" style="margin-top:6px">${c.title}</div>
+    <div class="core"><small>오늘의 핵심</small>${s.core}</div>
+    <div class="h3">📋 한눈에 정리</div>${s.table}
+    <div class="h3">💡 이렇게 써요</div>
+    ${s.points.map(p=>`<div class="pt"><div>${p[0]}</div><div class="ex" style="border:none;padding:6px 0 0"><div class="tx"><div class="en">${esc(p[1][0])}</div><div class="ko">${esc(p[1][1])}</div></div><button class="say" data-say="${esc(p[1][0])}">🔊</button></div></div>`).join('')}
+    <div class="h3">⚠️ 꼭 기억해요</div>
+    ${s.tips.map(t=>`<div class="warn">${t}</div>`).join('')}
+  </div>
+  <div class="card"><div class="h2">🗣️ 예문 듣고 따라 읽기</div><div class="muted">🔊를 눌러 듣고, 소리 내어 2번씩 따라 읽어요.</div>${exRows(s.examples)}</div>
+  <div class="card"><div class="h2">✅ 1분 확인 (O / X)</div>
+    ${s.ox.map((o,i)=>{const k=c.no+'-'+i,d=state.oxDone[k];return `<div class="ox"><div class="q">${esc(o[0])}</div>
+      ${d===undefined?`<div class="row"><button data-act="ox" data-k="${k}" data-v="1">O</button><button data-act="ox" data-k="${k}" data-v="0">X</button></div>`
+      :`<div class="fb">${(d===o[1])?'<b style="color:var(--ok)">정답! 👍</b>':'<b style="color:var(--ng)">아쉬워요!</b>'} 정답은 <b>${o[1]?'O':'X'}</b> — ${o[2]}</div>`}</div>`}).join('')}
+  </div>
+  <div class="row noprint">
+    ${state.concept>0?`<button class="btn ghost" data-act="pickC" data-i="${state.concept-1}">← 이전 개념</button>`:''}
+    <button class="btn burg" data-act="quizConcept" data-c="${c.no}">개념 ${c.no} 문제 풀기 →</button>
+  </div>
+  ${state.concept<CONCEPTS.length-1?`<div style="margin-top:8px"><button class="btn line block" data-act="pickC" data-i="${state.concept+1}">다음 개념: ${CONCEPTS[state.concept+1].title} →</button></div>`:''}
+  <div class="foot">Created by 스텔라원장</div>`;
+}
+
+const isWrite=q=>q.type==='write'||q.type==='blank'||q.type==='cwrite';
+const setQ=()=>Q.filter(q=>(q.set||'basic')===state.qSet);
+function filteredQ(){return setQ().filter(q=>(state.qType==='all'||(state.qType==='write'?isWrite(q):q.type===state.qType))&&(state.qCon==='all'||q.c===state.qCon))}
+function renderQuizSetup(){
+  const all=setQ(),list=filteredQ(),stats=S.get('stats',{}),adv=state.qSet==='adv';
+  const solved=all.filter(q=>stats[q.id]).length;
+  const types=adv?[['all','전체'],['mc','객관식'],['write','조건 서술형']]:[['all','전체'],['mc','객관식'],['order','문장 배열'],['fix','오류 수정'],['write','서술형']];
+  if(!types.some(t=>t[0]===state.qType))state.qType='all';
+  app.innerHTML=`${unitBar()}
+  <div class="setsw">
+    <button class="${adv?'':'on'}" data-act="qSet" data-v="basic"><b>📘 기본 문제</b><span>${Q.filter(q=>!q.set).length}문항 · 개념 확인</span></button>
+    <button class="${adv?'on adv':''}" data-act="qSet" data-v="adv"><b>🔥 내신 실전 심화</b><span>${ADV.length}문항 · 조건·변형 서술형</span></button>
+  </div>
+  <div class="card"><div class="h1">${adv?'🔥 내신 실전 심화':'📝 중등 내신 기본 문제'}</div>
+    <div class="muted">${adv?'학교 시험에 실제로 나오는 형태: 옳은 것 모두 고르기 · 틀린 개수 · 글 속 어법 · 조건 영작 · 단어 형태 변형 · 문장 전환':'UNIT '+UNIT_ID+' '+UNIT.title+' · 객관식 '+all.filter(q=>q.type==='mc').length+' · 배열 '+all.filter(q=>q.type==='order').length+' · 오류수정 '+all.filter(q=>q.type==='fix').length+' · 서술형 '+all.filter(isWrite).length}</div>
+    ${adv?`<div class="warn" style="margin-top:8px"><b>조건 서술형 채점 방법</b> — 단어 수 · 축약형 · 필수 단어 같은 <조건>을 하나씩 체크해 알려줘요. 조건을 모두 지키고 문장이 맞으면 정답!</div>`:''}
+    <div class="prog"><i style="width:${Math.round(solved/all.length*100)}%"></i></div>
+    <div class="muted">한 번 이상 푼 문제: ${solved} / ${all.length}</div>
+  </div>
+  <div class="card">
+    <div class="h3" style="margin-top:0">문제 유형</div>
+    <div class="chips">${types.map(t=>`<button class="chip ${state.qType===t[0]?'on':''}" data-act="qType" data-v="${t[0]}">${t[1]}</button>`).join('')}</div>
+    <div class="h3">개념</div>
+    <div class="chips"><button class="chip ${state.qCon==='all'?'on':''}" data-act="qCon" data-v="all">전체</button>${CONCEPTS.map(c=>`<button class="chip ${state.qCon===c.no?'on':''}" data-act="qCon" data-v="${c.no}">${c.no} ${cShort(c)}</button>`).join('')}</div>
+    <button class="btn burg block" data-act="startSel" ${list.length?'':'disabled'}>${list.length}문항 풀기 시작</button>
+    ${adv?'':`<div style="margin-top:8px"><button class="btn ghost block" data-act="startMock">🎯 실전 모의고사 (전 유형 랜덤 20문항)</button></div>`}
+  </div>
+  <div class="foot">문제마다 정답과 상세 해설이 나와요. 틀린 문제는 오답노트에 자동 저장!</div>`;
+}
+
+function startQuiz(ids,label){
+  if(!ids.length){toast('풀 문제가 없어요');return}
+  state.quiz={ids,i:0,res:{},answered:false,label};state.result=null;state.tab='quiz';resetAns();render();window.scrollTo(0,0);
+}
+function resetAns(){
+  const q=state.quiz&&qById(state.quiz.ids[state.quiz.i]);if(!q){state.ans=null;return}
+  if(q.type==='order')state.ans={pool:shuffle(q.words.map((_,i)=>i),q.id),picked:[]};
+  else if(q.type==='fix')state.ans={idx:null,text:''};
+  else if(q.type==='blank')state.ans={vals:q.accept.map(()=> '')};
+  else if(q.type==='write'||q.type==='cwrite')state.ans={text:''};
+  else state.ans={sel:null};
+}
+
+function renderQuestion(){
+  const z=state.quiz,q=qById(z.ids[z.i]),A=state.ans,done=z.answered,ok=z.res[q.id];
+  let body='';
+  if(q.ko)body+=`<div class="box"><b>우리말:</b> ${esc(q.ko)}</div>`;
+  if(q.box)body+=`<div class="box">${q.box}</div>`;
+  if(q.cond)body+=`<div class="warn"><b>&lt;조건&gt;</b> ${esc(q.cond)}</div>`;
+  if(q.conds)body+=`<div class="warn"><b>&lt;조건&gt;</b><ul class="rules" style="margin-top:4px">${q.conds.map((c,i)=>{const r=done&&state.cwRes?state.cwRes.conds[i]:null;return `<li>${r===null?'▫️':r?'✅':'❌'} ${esc(c.t)}</li>`}).join('')}</ul></div>`;
+  if(q.type==='mc'){
+    body+=q.opts.map((o,i)=>{let cl='';if(done){if(i===q.ans)cl='right';else if(i===A.sel)cl='wrong'}else if(i===A.sel)cl='sel';
+      return `<button class="opt ${cl}" data-act="mcSel" data-i="${i}" ${done?'disabled':''}><span class="c">${CIRC[i]}</span><span>${o}</span></button>`}).join('');
+  }else if(q.type==='order'){
+    body+=`<div class="slot" id="slot">${A.picked.map((wi,k)=>`<button class="w" data-act="unpick" data-k="${k}" ${done?'disabled':''}>${esc(q.words[wi])}</button>`).join('')}${A.picked.length?`<span class="end">${q.end}</span>`:''}</div>
+      <div class="pool">${A.pool.map(wi=>`<button class="w ${A.picked.includes(wi)?'used':''}" data-act="pick" data-w="${wi}" ${done?'disabled':''}>${esc(q.words[wi])}</button>`).join('')}</div>
+      ${done?'':`<button class="btn ghost" data-act="orderReset" style="min-height:40px">↺ 다시 배열</button>`}`;
+  }else if(q.type==='fix'){
+    const toks=q.s.split(' ');
+    body+=`<div class="muted">① 틀린 단어를 눌러 선택 → ② 고친 말을 입력</div><div class="box">${toks.map((t,i)=>`<button class="tok ${A.idx===i?'sel':''}" data-act="tok" data-i="${i}" ${done?'disabled':''}>${esc(t)}</button>`).join(' ')}</div>
+      <input class="inp" id="fixIn" placeholder="${A.idx===null?'먼저 틀린 단어를 눌러 주세요':'「'+esc(toks[A.idx])+'」 → 바르게 고친 말'}" value="${esc(A.text)}" ${done||A.idx===null?'disabled':''} autocomplete="off" autocapitalize="off">`;
+  }else if(q.type==='write'||q.type==='cwrite'){
+    body+=`<textarea class="inp" id="wIn" placeholder="영어 문장을 쓰세요" ${done?'disabled':''} autocapitalize="sentences" autocomplete="off" spellcheck="false">${esc(A.text)}</textarea>`;
+  }else if(q.type==='blank'){
+    body+=`<div class="box">${q.text.replace(/\[(\d)\]/g,(m,n)=>`<input class="bl" data-b="${n}" value="${esc(A.vals[n])}" ${done?'disabled':''} autocomplete="off" autocapitalize="off">`)}</div>`;
+  }
+  let fb='';
+  if(done){
+    fb=`<div class="fb-box ${ok?'ok':'ng'}"><div class="t">${ok?'⭕ 정답입니다!':'❌ 다시 확인해 봐요'}</div>
+      ${q.type==='cwrite'&&state.cwRes&&!ok?`<ul class="rules" style="margin:0 0 8px">${state.cwRes.conds.map((r,i)=>r?'':`<li>❌ 조건 불충족: ${esc(q.conds[i].t)}</li>`).join('')}${state.cwRes.core.map(m=>`<li>👉 ${esc(m)}</li>`).join('')}</ul>`:''}
+      <div class="muted" style="margin-bottom:4px">${q.type==='cwrite'?'모범 답안':'정답'}</div><div class="ansl">${answerHTML(q)}</div>
+      <div class="muted" style="margin:8px 0 4px">해설</div><div class="exp">${q.exp}</div></div>`;
+  }
+  app.innerHTML=`
+  <div class="qhead"><span class="qno">Q${z.i+1}</span><span class="tag">${TYPE_NAME[q.type]}</span><span class="tag b">개념 ${q.c} ${cTitle(q.c)}</span>
+    <span style="margin-left:auto" class="muted">${z.i+1} / ${z.ids.length}</span></div>
+  <div class="prog"><i style="width:${Math.round((z.i+(done?1:0))/z.ids.length*100)}%"></i></div>
+  <div class="card">
+    ${z.label?`<div class="tag g" style="margin-bottom:6px">${esc(z.label)}</div>`:''}
+    <div class="qtext">${q.q}</div>${body}${fb}
+  </div>
+  <div class="stick noprint">
+    ${done?`<button class="btn burg block" data-act="next">${z.i+1<z.ids.length?'다음 문제 →':'결과 보기 🏁'}</button>`
+          :`<button class="btn block" data-act="submit" id="submitBtn">채점하기</button>`}
+    <div style="text-align:center;margin-top:6px"><button class="muted" data-act="quitQuiz" style="padding:8px;text-decoration:underline">그만 풀기</button></div>
+  </div>`;
+  const fi=document.getElementById('fixIn');if(fi)fi.addEventListener('input',e=>A.text=e.target.value);
+  const wi=document.getElementById('wIn');if(wi)wi.addEventListener('input',e=>A.text=e.target.value);
+  document.querySelectorAll('.bl').forEach(el=>el.addEventListener('input',e=>A.vals[+el.dataset.b]=e.target.value));
+}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function answerHTML(q){
+  if(q.type==='cwrite')return q.model.map(esc).join(' ')+(q.id==='s11'?'<div class="muted" style="font-weight:500;margin-top:4px">(예시 답안 — 조건을 지키면 다른 문장도 정답)</div>':'');
+  if(q.type==='mc')return `${CIRC[q.ans]} ${q.opts[q.ans]}`;
+  if(q.type==='order')return esc(cap(q.ans)+q.end);
+  if(q.type==='fix')return `<span style="color:var(--ng);text-decoration:line-through">${esc(q.s.split(' ')[q.w])}</span> → <span style="color:var(--ok)">${esc(q.fix[0])}</span><div style="font-weight:600;margin-top:4px">${esc(q.full)}</div>`;
+  if(q.type==='write')return esc(q.accept[0]+(/\?$|\.$/.test(q.accept[0])?'':(q.ko&&/니\?|까\?|니$/.test(q.ko)?'?':'.')))+(q.accept.length>1?`<div class="muted" style="font-weight:500;margin-top:4px">다른 정답: ${q.accept.slice(1).map(esc).join(' / ')}</div>`:'');
+  if(q.type==='blank')return q.accept.map((a,i)=>`(${i+1}) ${esc(a[0])}`).join('&nbsp;&nbsp; ');
+}
+function cwCheck(q,text){
+  const t=lite(text),tl=t.toLowerCase(),words=t.replace(/[.,!?]/g,' ').split(/\s+/).filter(Boolean).length;
+  const sents=(t.match(/[^.!?]+[.!?]*/g)||[]).map(x=>x.trim()).filter(x=>x.split(/\s+/).length>=2);
+  const joined=sents.join('\n').toLowerCase();
+  const conds=q.conds.map(c=>{let ok=true;
+    if(c.w)ok=ok&&words===c.w;
+    if(c.sent)ok=ok&&sents.length>=c.sent&&(!c.re||sents.filter(x=>new RegExp(c.re,'i').test(x)).length>=c.sent);
+    else if(c.re)ok=ok&&(c.not?!new RegExp(c.re,'i').test(tl):new RegExp(c.re,'i').test(tl));
+    return ok});
+  const core=q.core.filter(r=>r[2]==='not'?new RegExp(r[0],'im').test(joined):!new RegExp(r[0],'im').test(joined)).map(r=>r[1]);
+  return {conds,core,pass:conds.every(Boolean)&&!core.length};
+}
+function grade(q,A){
+  if(q.type==='cwrite'){const r=cwCheck(q,A.text);state.cwRes=r;return r.pass}
+  if(q.type==='mc')return A.sel===q.ans;
+  if(q.type==='order')return norm(A.picked.map(i=>q.words[i]).join(' '))===norm(q.ans);
+  if(q.type==='fix')return A.idx===q.w&&q.fix.some(f=>norm(f)===norm(A.text));
+  if(q.type==='write')return q.accept.some(a=>norm(a)===norm(A.text));
+  if(q.type==='blank')return q.accept.every((acc,i)=>acc.some(a=>norm(a)===norm(A.vals[i]||'')));
+}
+function canSubmit(q,A){
+  if(q.type==='mc')return A.sel!==null;
+  if(q.type==='order')return A.picked.length===q.words.length;
+  if(q.type==='fix')return A.idx!==null&&A.text.trim()!=='';
+  if(q.type==='write'||q.type==='cwrite')return A.text.trim()!=='';
+  if(q.type==='blank')return A.vals.every(v=>v.trim()!=='');
+}
+function submit(){
+  const z=state.quiz,q=qById(z.ids[z.i]),A=state.ans;
+  if(!canSubmit(q,A)){toast(q.type==='order'?'모든 단어를 배열해 주세요':q.type==='fix'&&A.idx===null?'틀린 단어를 먼저 눌러 주세요':'답을 입력해 주세요');return}
+  const ok=grade(q,A);z.res[q.id]=ok;z.answered=true;
+  const st=S.get('stats',{});st[q.id]=st[q.id]||{t:0,c:0};st[q.id].t++;if(ok)st[q.id].c++;S.set('stats',st);
+  let w=wrongSet();
+  if(!ok&&!w.includes(q.id))w.push(q.id);
+  if(ok&&w.includes(q.id)){w=w.filter(x=>x!==q.id);S.set('mastered',S.get('mastered',0)+1);toast('오답 극복! 오답노트에서 빠졌어요 🎉')}
+  setWrong(w);render();
+}
+function nextQ(){const z=state.quiz;if(z.i+1<z.ids.length){z.i++;z.answered=false;resetAns();render();window.scrollTo(0,0)}else{state.result={ids:z.ids,res:z.res,label:z.label};state.quiz=null;render();window.scrollTo(0,0)}}
+
+function renderResult(){
+  const r=state.result,n=r.ids.length,c=r.ids.filter(id=>r.res[id]).length,wrong=r.ids.filter(id=>!r.res[id]);
+  const pct=Math.round(c/n*100);
+  const by=(key,vals,lab)=>vals.map(v=>{const ids=r.ids.filter(id=>{const q=qById(id);return key==='type'?((v==='write'?['write','blank','cwrite']:[v]).includes(q.type)):q.c===v});if(!ids.length)return '';
+    const cc=ids.filter(id=>r.res[id]).length;return `<div class="bar"><span class="lb">${lab(v)}</span><span class="tr"><i style="width:${cc/ids.length*100}%"></i></span><span class="v">${cc}/${ids.length}</span></div>`}).join('');
+  app.innerHTML=`
+  <div class="card score"><div class="muted">${esc(r.label||'')}</div><div class="big">${c}<span style="font-size:24px;color:var(--sub)"> / ${n}</span></div>
+    <div style="font-weight:800;margin-top:6px">${pct>=90?'🌟 훌륭해요! 내신 준비 완료!':pct>=70?'👍 잘했어요! 틀린 것만 다시 보면 완벽!':'💪 개념을 한 번 더 복습하고 다시 도전!'}</div></div>
+  <div class="card"><div class="h2">유형별 결과</div>${by('type',['mc','order','fix','write'],v=>TYPE_NAME[v]==='서술형 영작'?'서술형':TYPE_NAME[v])}
+    <div class="h2" style="margin-top:14px">개념별 결과</div>${by('c',CONCEPTS.map(x=>x.no),v=>'개념 '+v)}</div>
+  ${wrong.length?`<div class="card"><div class="h2">틀린 문제 ${wrong.length}개</div>${wrong.map(id=>{const q=qById(id);return `<div class="wl"><span class="tag b">${TYPE_NAME[q.type]}</span> ${plain(q.q)}${q.ko?' — '+esc(q.ko):''}${q.s?' — '+esc(q.s):''}</div>`}).join('')}
+    <button class="btn burg block" data-act="retryRun" style="margin-top:8px">🔁 틀린 문제만 다시 풀기</button></div>`:''}
+  <div class="row"><button class="btn ghost" data-act="toSetup">문제 목록으로</button><button class="btn" data-act="tab" data-tab="review">오답노트 보기</button></div>`;
+}
+
+function renderReview(){
+  const w=wrongSet(),st=S.get('stats',{}),m=S.get('mastered',0);
+  const conRows=CONCEPTS.map(c=>{const ids=Q.filter(q=>q.c===c.no).map(q=>q.id).filter(id=>st[id]);const t=ids.reduce((a,id)=>a+st[id].t,0),cc=ids.reduce((a,id)=>a+st[id].c,0);
+    return `<div class="bar"><span class="lb">개념 ${c.no}</span><span class="tr"><i style="width:${t?cc/t*100:0}%"></i></span><span class="v">${t?Math.round(cc/t*100)+'%':'-'}</span></div>`}).join('');
+  app.innerHTML=`${unitBar()}
+  <div class="card"><div class="h1">🔁 오답노트</div><div class="muted">틀린 문제가 자동으로 모여요. 다시 맞히면 목록에서 빠져요.</div>
+    <div class="row" style="margin-top:10px;text-align:center">
+      <div class="card" style="flex:1;margin:0;padding:12px"><div style="font-size:28px;font-weight:900;color:var(--burg)">${w.length}</div><div class="muted">남은 오답</div></div>
+      <div class="card" style="flex:1;margin:0;padding:12px"><div style="font-size:28px;font-weight:900;color:var(--ok)">${m}</div><div class="muted">극복한 오답</div></div></div></div>
+  ${w.length?`<div class="card"><button class="btn burg block" data-act="retryAll">오답 ${w.length}문항 다시 풀기</button>
+    ${CONCEPTS.map(c=>{const ids=w.filter(id=>qById(id).c===c.no);return ids.length?`<div class="h3">개념 ${c.no} ${c.title} <span class="tag b">${ids.length}</span></div>${ids.map(id=>{const q=qById(id);return `<div class="wl"><span class="tag">${TYPE_NAME[q.type]}</span> ${plain(q.q)}${q.ko?'<br><b>'+esc(q.ko)+'</b>':''}${q.s?'<br><b>'+esc(q.s)+'</b>':''}${q.box&&q.type!=='write'?'<br>'+plain(q.box):''}</div>`}).join('')}
+      <button class="btn ghost block" data-act="retryCon" data-c="${c.no}" style="margin-top:4px">개념 ${c.no} 오답만 풀기</button>`:''}).join('')}
+    </div>`:`<div class="card" style="text-align:center"><div style="font-size:44px">🎉</div><div class="h2">남은 오답이 없어요!</div><button class="btn" data-act="tab" data-tab="quiz">문제 풀러 가기</button></div>`}
+  <div class="card"><div class="h2">📊 개념별 정답률</div>${conRows}<div class="muted" style="margin-top:6px">풀었던 모든 시도를 기준으로 계산해요.</div></div>
+  <div class="card"><button class="btn line block" data-act="clearRec">${state.clearArm?'⚠️ 한 번 더 누르면 기록이 모두 지워져요':'학습 기록 초기화'}</button></div>`;
+}
+
+/* ===== Writing Mission ===== */
+function mData(){return S.get('wm',{})}
+function renderMissionList(){
+  const d=mData();
+  app.innerHTML=`${unitBar()}
+  <div class="card"><div class="h1">✍️ Writing Mission</div><div class="muted">be동사로 한 문장을 만들고 → 꾸미고 → 부정·의문·과거로 바꾸며 문장을 키워요. 마지막엔 나만의 문장을 자유롭게!</div></div>
+  ${MISSIONS.map(m=>{const n=Object.keys((d[m.id]||{})).length;return `<button class="mcard" data-act="openM" data-m="${m.id}"><span class="ic">${m.icon}</span><span style="flex:1"><b>${m.title}</b><span class="muted">${m.desc}</span>
+     <div class="prog" style="margin:6px 0 0"><i style="width:${n/m.steps.length*100}%"></i></div></span><span class="tag ${n===m.steps.length?'g':''}">${n}/${m.steps.length}</span></button>`}).join('')}
+  <div class="card"><div class="h2">📤 내 영작 선생님께 보내기</div><div class="muted">완성한 문장을 한 번에 복사해서 카톡으로 보낼 수 있어요.</div>
+    <button class="btn block" data-act="copyW" style="margin-top:8px">📋 내 영작 전체 복사</button></div>`;
+}
+function curStep(m){const a=(mData()[m.id]||{});if(state.mEdit!==null)return state.mEdit;for(let i=0;i<m.steps.length;i++)if(a[i]===undefined)return i;return -1}
+function renderMission(){
+  const m=MISSIONS.find(x=>x.id===state.mission),a=mData()[m.id]||{},cur=curStep(m);
+  app.innerHTML=`
+  <button class="btn ghost" data-act="closeM" style="min-height:40px;margin-bottom:10px">← 미션 목록</button>
+  <div class="card"><div class="h1">${m.icon} ${m.title}</div><div class="muted">${m.desc}</div></div>
+  ${m.steps.map((s,i)=>{const done=a[i]!==undefined&&i!==cur,isCur=i===cur,lock=!done&&!isCur;
+    return `<div class="step ${done?'done':''} ${lock?'lock':''}">
+      <div class="sh"><span class="num">${done?'✓':i+1}</span><span>${s.free?'자유 영작':'STEP '+(i+1)}</span></div>
+      <div>${esc(s.inst)}</div>
+      ${s.given?`<div style="margin-top:6px">${s.given.map(g=>`<span class="given">${esc(g)}</span>`).join('')}</div>`:''}
+      ${s.cond?`<div class="warn" style="margin-top:8px"><b>조건</b> ${esc(s.cond)}</div>`:''}
+      ${done?`<div class="myans">${esc(a[i])}</div><div class="row"><button class="btn ghost" style="min-height:38px" data-act="editStep" data-i="${i}">다시 쓰기</button><button class="btn ghost" style="min-height:38px" data-say="${esc(a[i])}">🔊 듣기</button></div>`:''}
+      ${isCur?`<textarea class="inp" id="mIn" style="margin-top:8px" placeholder="영어로 써 보세요" autocapitalize="sentences" spellcheck="false">${esc(a[i]||'')}</textarea>
+        ${state.mFb?state.mFb:''}
+        <div class="row" style="margin-top:8px"><button class="btn" data-act="checkStep" data-i="${i}">확인하기</button><button class="btn ghost" data-act="hintStep" data-i="${i}">💡 모범 문장</button></div>`:''}
+    </div>`}).join('')}
+  ${cur===-1?`<div class="card" style="text-align:center"><div style="font-size:42px">🏆</div><div class="h2">미션 완료!</div><div class="muted">완성한 문장을 소리 내어 읽어 보세요.</div>
+     <button class="btn block" data-act="sayAll" style="margin-top:8px">🔊 내 문장 전체 듣기</button></div>`:''}`;
+}
+function checkStep(i){
+  const m=MISSIONS.find(x=>x.id===state.mission),s=m.steps[i],el=document.getElementById('mIn'),raw=el?el.value:'',t=lite(raw);
+  if(!t){state.mFb=`<div class="fb-box ng"><div class="t">문장을 먼저 써 주세요</div></div>`;return render()}
+  const tl=t.toLowerCase(),fails=[];
+  if(s.free){const sents=t.split(/[.!?]+/).filter(x=>x.trim().split(' ').length>=2);if(sents.length<s.minSent)fails.push(`문장이 ${sents.length}개예요. ${s.minSent}개 이상 써 주세요. (문장 끝에 . 또는 ? 찍기)`)}
+  s.must.forEach(r=>{if(!new RegExp(r[0],'i').test(tl))fails.push(r[1])});
+  s.not.forEach(r=>{if(new RegExp(r[0],'i').test(tl))fails.push(r[1])});
+  const warns=[];if(!/^[A-Z]/.test(t))warns.push('문장 첫 글자는 대문자로 써요.');if(!/[.?!]$/.test(t))warns.push('문장 끝에 마침표(.)나 물음표(?)를 찍어요.');
+  if(fails.length){state.mFb=`<div class="fb-box ng"><div class="t">조금만 고쳐 볼까요?</div><ul class="rules">${fails.map(f=>`<li>👉 ${esc(f)}</li>`).join('')}</ul></div>`;
+    render();const ne=document.getElementById('mIn');if(ne)ne.value=raw;return}
+  const d=mData();d[m.id]=d[m.id]||{};d[m.id][i]=t;S.set('wm',d);
+  state.mEdit=null;state.mFb=null;
+  toast(warns.length?'통과! 팁: '+warns[0]:'훌륭해요! 다음 단계로 ✨');
+  render();
+}
+
+function copyText(txt){
+  const done=()=>toast('복사됐어요! 카톡에 붙여넣기 하세요');
+  try{navigator.clipboard.writeText(txt).then(done,()=>fallbackCopy(txt,done))}catch(e){fallbackCopy(txt,done)}
+}
+function fallbackCopy(txt,cb){const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy');cb()}catch(e){toast('복사에 실패했어요')}ta.remove()}
+
+/* ===== 교사 ===== */
+function renderTeacher(){
+  const tabs=[['flow','🗂 수업 흐름'],['lesson','📖 개념별 강의안'],['board','🎬 수업 진행'],['key','✅ 정답·해설지']];
+  let h=`${unitBar()}<div class="ttabs noprint">${tabs.map(t=>`<button class="${state.tview===t[0]?'on':''}" data-act="tview" data-v="${t[0]}">${t[1]}</button>`).join('')}</div>`;
+  if(state.tview==='flow')h+=tFlow();
+  if(state.tview==='lesson')h+=tLesson();
+  if(state.tview==='board')h+=tRun();
+  if(state.tview==='key')h+=tKey();
+  if(state.tview==='board')h+=toolbarHTML();
+  app.innerHTML=h;
+}
+function tFlow(){
+  return `<div class="card"><div class="h1">UNIT ${UNIT_ID} ${UNIT.title} 수업 설계</div><div class="muted">${UNIT.range} · 판서식 강의 후 교재 문제 풀이 → STELLA LAB로 마무리</div></div>
+  <div class="card"><div class="h2">⏱ 1차시(50분) 수업 흐름 — 학생 활동 중심</div>
+    <div class="muted">설명은 짧게(8분), 나머지는 학생이 <b>말하고 · 쓰고 · 움직이며</b> 개념을 써 보는 구조예요. "🎬 수업 진행" 탭에서 단계별 화면을 그대로 띄우세요.</div>
+    ${(()=>{const st=RUN[CONCEPTS[0].no],sm=st.filter(x=>x.who==='S').reduce((a,x)=>a+x.min,0),tm=st.filter(x=>x.who==='T').reduce((a,x)=>a+x.min,0);return `<div class="ratio" style="margin-top:10px"><div class="lab">🧑‍🎓 학생 활동 <b>${sm}분</b></div><div class="lab r">🧑‍🏫 교사 설명 <b>${tm}분</b></div><div class="rbar"><i style="width:${sm/(sm+tm)*100}%"></i></div></div>`})()}
+    <div class="flow">
+    <div class="it"><div class="tm">① Warm-up · 3분 · 🧑‍🎓 짝 말하기</div>오늘 개념을 <b>배우기 전에 먼저 말해 보기</b>. 교사는 돌아다니며 실수를 메모 → 판서 재료로</div>
+    <div class="it"><div class="tm">② 판서 강의 · 8분 · 🧑‍🏫</div>Warm-up 실수로 시작. 규칙은 학생이 먼저 찾게 하고, 예문은 학생이 먼저 읽기</div>
+    <div class="it"><div class="tm">③ Say it! · 4분 · 🧑‍🎓 전체 → 개인</div>우리말 보고 3초 안에 영어로 외치기 → 🎲 발표자 뽑기로 개인 확인</div>
+    <div class="it"><div class="tm">④ Game · 5~6분 · 🧑‍🎓 팀 대항</div>주어 카드 스피드 / Time Machine / Two Truths and a Lie / 스무고개 — 🏆 팀 점수판 사용</div>
+    <div class="it"><div class="tm">⑤ Pair Talk · 5분 · 🧑‍🎓 짝 활동</div>문장 틀을 보고 짝과 묻고 답하기 → 짝에 대해 발표 (I → he/she 바꾸기)</div>
+    <div class="it"><div class="tm">⑥ Mini Whiteboard · 4분 · 🧑‍🎓 전원 참여</div>쓰고 → "하나, 둘, 셋!"에 동시에 들기 → 교사는 한눈에 이해도 확인</div>
+    <div class="it"><div class="tm">⑦ 교재 문제 · 12분 · 🧑‍🎓 혼자 → 짝 확인</div>혼자 풀고 짝과 비교, 다른 답만 서로 설명 → 둘 다 모르는 것만 교사 해설</div>
+    <div class="it"><div class="tm">⑧ Exit Ticket · 3분 · 🧑‍🎓</div>3문항 쪽지 제출 → 과제: 학생 앱 내신 문제 + Writing Mission</div>
+  </div></div>
+  <div class="card"><div class="h2">🧰 수업 진행 도구 (화면 하단)</div><ul class="tl">
+    <li><b>⏱ 타이머</b> — 단계마다 "○분 시작" 버튼, 끝나면 알림음</li>
+    <li><b>🎲 발표자 뽑기</b> — 반 인원을 저장하면 번호를 겹치지 않게 뽑아요 (모든 학생에게 골고루 기회)</li>
+    <li><b>🏆 팀 점수</b> — Game · Say it! 단계에서 팀 대항으로 사용</li></ul></div>
+  <div class="card"><div class="h2">📅 UNIT ${UNIT_ID} 권장 진도 (4차시)</div>
+    <table class="t"><tr><th>차시</th><th>개념</th><th>과제 (학생 앱)</th></tr>
+    ${UNIT.plan.map(r=>`<tr><td>${r[0]}</td><td class="l">${esc(r[1])}</td><td class="l">${esc(r[2])}</td></tr>`).join('')}</table></div>
+  <div class="card"><div class="h2">📲 학생에게 링크 보내기</div>
+    <div class="exp">이 파일을 GitHub Pages에 올린 뒤, 주소 끝에 <b>?student</b>를 붙여 보내면 학생 화면으로 바로 열리고 <b>교사용 입구가 보이지 않아요.</b><br>
+    예) <span class="given">…/middle_grammar1.html?student</span><br>특정 단원으로 바로 열기: <span class="given">…/middle_grammar1.html?student&unit=02</span></div>
+    <div class="exp" style="margin-top:8px">학생 기록(오답노트·Writing)은 학생 각자의 휴대폰에 저장돼요. Writing 결과는 학생이 "내 영작 전체 복사"로 카톡 전송.</div>
+    <div class="warn" style="margin-top:8px">교사용 비밀번호 기본값: <b>${esc(TEACHER_PIN)}</b> — 파일 상단 TEACHER_PIN 값을 바꿔 사용하세요.</div></div>`;
+}
+function tLesson(){
+  const c=CONCEPTS[state.tconcept],t=c.teacher;
+  return `${conceptChips(state.tconcept,'tPick')}
+  <div class="card"><span class="tag b">교사용 강의안</span><div class="h1" style="margin-top:6px">개념 ${c.no} ${c.title}</div>
+    <div class="row noprint" style="margin-top:6px"><button class="btn ghost" data-act="toBoard">🎬 이 개념 수업 진행</button><button class="btn ghost" data-act="print">🖨 강의안 인쇄</button></div></div>
+  <div class="card"><div class="h2">🟩 판서 구성</div><div class="board">${esc(t.board)}</div></div>
+  <div class="card"><div class="h2">🎤 도입 발문</div><ul class="tl">${t.intro.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+  <div class="card"><div class="h2">🧑‍🏫 강의 스크립트</div><ul class="tl" style="list-style:none;padding-left:0">${t.script.map(x=>`<li class="pt">${esc(x)}</li>`).join('')}</ul></div>
+  <div class="card"><div class="h2">📚 수업용 예문 ${t.examples.length}개</div><div class="muted">🔊로 원어민 발음 재생 · 판서 모드에서 크게 띄울 수 있어요</div>${exRows(t.examples)}</div>
+  <div class="card"><div class="h2">🚫 학생들이 자주 하는 실수</div><div class="mis">${t.mistakes.map(m=>`<div><s>${esc(m[0])}</s> → <span class="r">${esc(m[1])}</span><div class="muted">${esc(m[2])}</div></div>`).join('')}</div></div>
+  <div class="card"><div class="h2">🎯 내신 출제 포인트</div><ul class="tl">${t.exam.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+  <div class="card"><div class="h2">🎲 5분 수업 활동</div><div class="exp">${esc(t.activity)}</div></div>
+  <div class="card"><div class="h2">❓ 확인 질문 (구두)</div>${t.check.map((q,i)=>`<div class="keyq"><b>Q${i+1}.</b> ${esc(q[0])}<div style="color:var(--ok);font-weight:700;margin-top:4px">→ ${esc(q[1])}</div></div>`).join('')}</div>
+  <div class="card"><div class="h2">🧑‍🎓 학생 화면 개념 설명</div><div class="core"><small>학생용 핵심 문장</small>${c.student.core}</div>${c.student.table}${c.student.tips.map(x=>`<div class="warn">${x}</div>`).join('')}</div>`;
+}
+function runSteps(){return RUN[CONCEPTS[state.tconcept].no]}
+function bigList(arr,cls){return arr.map(x=>`<div class="frame ${cls||''}">${x}</div>`).join('')}
+function tRun(){
+  const c=CONCEPTS[state.tconcept],steps=runSteps(),si=Math.min(state.tstep,steps.length-1),s=steps[si];
+  const sMin=steps.filter(x=>x.who==='S').reduce((a,x)=>a+x.min,0),tMin=steps.filter(x=>x.who==='T').reduce((a,x)=>a+x.min,0);
+  let body='';const it=state.titem;
+  if(s.k==='board'){
+    const ex=c.teacher.examples,k=state.boardEx%ex.length;
+    body=`<div class="board bigboard">${esc(c.teacher.board)}</div>
+    <div class="bigex"><div class="muted">예문 ${k+1} / ${ex.length} · <b>학생이 먼저 읽고</b> → 교사 확인</div><div class="en">${esc(ex[k][0])}</div><div class="ko" style="${state.hideKo?'visibility:hidden':''}">${esc(ex[k][1])}</div>
+    <div class="row noprint" style="margin-top:14px"><button class="btn ghost" data-act="exPrev">← 이전</button><button class="btn" data-say="${esc(ex[k][0])}">🔊 듣기</button><button class="btn ghost" data-act="toggleKo">${state.hideKo?'해석 보기':'해석 가리기'}</button><button class="btn ghost" data-act="exNext">다음 →</button></div></div>`;
+  }else if(s.k==='prompt'||s.k==='book'){
+    body=`<div class="stagebox">${bigList(s.frames)}</div>
+    ${s.model?`<div class="row noprint" style="margin-top:10px"><button class="btn ghost block" data-act="reveal">${state.treveal?'예시 가리기':'💡 예시 대화 보기'}</button></div>
+      ${state.treveal?`<div class="stagebox model">${s.model.map(m=>`<div class="frame sm">${esc(m)} <button class="say" data-say="${esc(m.replace(/^(A|B|S|T|발표|친구|\d\.)\s*:?\s*/,''))}">🔊</button></div>`).join('')}</div>`:''}`:''}`;
+  }else if(s.k==='say'||s.k==='cards'||s.k==='wb'){
+    const n=s.items.length,i=((it%n)+n)%n,cur=s.items[i];
+    body=`${s.hint?`<div class="hintbar">${s.hint}</div>`:''}
+    <div class="stagebox center"><div class="muted">${i+1} / ${n}</div>
+      <div class="bigq">${s.k==='cards'?esc(cur[0]):cur[0]}</div>
+      <div class="biga" style="${state.treveal?'':'visibility:hidden'}">${s.k==='wb'?cur[1]:esc(cur[1])}</div></div>
+    <div class="row noprint" style="margin-top:10px">
+      <button class="btn ghost" data-act="itPrev">← 이전</button>
+      <button class="btn burg" data-act="reveal">${state.treveal?'정답 가리기':(s.mystery?'👀 정답 보기 (술래만)':'정답 공개')}</button>
+      ${s.k!=='wb'&&!s.mystery?`<button class="btn" data-say="${esc(s.k==='say'?cur[1]:(s.k==='cards'&&/[a-z]/.test(cur[1])&&cur[1].length>4?cur[1]:cur[0]))}">🔊</button>`:''}
+      <button class="btn ghost" data-act="itNext">다음 →</button></div>`;
+  }else if(s.k==='bingo'){
+    body=`<div class="bingo">${s.cells.map(x=>`<div><div>${esc(x)}</div><div class="nm">이름: ______</div></div>`).join('')}</div>
+    <div class="row noprint" style="margin-top:10px"><button class="btn ghost" data-act="print">🖨 빙고 활동지 인쇄</button></div>`;
+  }else if(s.k==='exit'){
+    body=`<div class="stagebox">${s.items.map((x,i)=>`<div class="frame"><b>${i+1}.</b> ${esc(x)}${state.treveal?`<div class="biga sm">→ ${esc(s.answers[i])}</div>`:''}</div>`).join('')}</div>
+    <div class="row noprint" style="margin-top:10px"><button class="btn burg block" data-act="reveal">${state.treveal?'정답 가리기':'정답 공개 (제출 후)'}</button></div>`;
+  }
+  return `${conceptChips(state.tconcept,'tPick')}
+  <div class="ratio noprint"><div class="lab">🧑‍🎓 학생 활동 <b>${sMin}분</b></div><div class="lab r">🧑‍🏫 교사 설명 <b>${tMin}분</b></div>
+    <div class="rbar"><i style="width:${sMin/(sMin+tMin)*100}%"></i></div></div>
+  <div class="stepbar noprint">${steps.map((x,i)=>`<button class="${i===si?'on':''} ${x.who==='S'?'s':'t'}" data-act="tStep" data-i="${i}" title="${esc(x.title)}"><span>${i+1}</span>${x.icon}<em>${esc(x.title.split(/ · | \(|!/)[0])}</em></button>`).join('')}</div>
+  <div class="stage">
+    <div class="sthead"><span class="who ${s.who==='S'?'s':'t'}">${s.who==='S'?'🧑‍🎓 학생 활동':'🧑‍🏫 교사 설명'}</span><span class="tag">${s.min}분</span>
+      <button class="btn ghost noprint" style="min-height:36px;margin-left:auto;padding:0 12px" data-act="timerSet" data-m="${s.min}">⏱ ${s.min}분 시작</button></div>
+    <div class="h1" style="margin:6px 0 10px">${s.icon} ${esc(s.title)}</div>
+    <details class="tguide noprint" ${state.guideOpen?'open':''}><summary>🧑‍🏫 진행 가이드 (교사만 보기)</summary><div>${esc(s.guide)}</div></details>
+    ${body}
+  </div>
+  <div class="row noprint" style="margin-top:12px">
+    <button class="btn ghost" data-act="tStep" data-i="${si-1}" ${si===0?'disabled':''}>← 이전 단계</button>
+    <button class="btn" data-act="tStep" data-i="${si+1}" ${si===steps.length-1?'disabled':''}>다음 단계 →</button></div>
+  <div class="row noprint" style="margin-top:8px"><button class="btn line" data-act="fullscreen">${document.fullscreenElement?'✕ 전체화면 닫기':'⛶ 전체화면 (전자칠판용)'}</button></div>`;
+}
+/* ---- 수업 도구: 타이머 · 발표자 뽑기 · 팀 점수 ---- */
+const tool={end:0,tick:null,score:{A:0,B:0,C:0,D:0},used:[],last:null};
+function toolbarHTML(){
+  const p=state.tpanel;
+  let panel='';
+  if(p==='timer')panel=`<div class="tpanel"><div class="h3" style="margin-top:0">⏱ 활동 타이머</div><div class="row">${[1,2,3,5].map(m=>`<button class="btn ghost" data-act="timerSet" data-m="${m}">${m}분</button>`).join('')}</div>
+    <div class="row" style="margin-top:8px"><button class="btn line" data-act="timerAdd">+30초</button><button class="btn burg" data-act="timerStop">정지</button></div></div>`;
+  if(p==='pick'){const N=S.get('classN',12);panel=`<div class="tpanel"><div class="h3" style="margin-top:0">🎲 발표자 뽑기</div>
+    <div class="pinbox" style="margin-top:0"><input class="inp" id="classN" type="number" min="2" max="40" value="${N}"><button class="btn ghost" data-act="setN">인원 저장</button></div>
+    <div class="pickno">${tool.last??'?'}<small>${tool.last?'번 학생!':''}</small></div>
+    <div class="row"><button class="btn burg" data-act="pickOne">뽑기</button><button class="btn line" data-act="pickReset">초기화</button></div>
+    <div class="muted" style="margin-top:6px">이미 뽑힌 번호: ${tool.used.join(', ')||'없음'} (모두 뽑히면 자동 초기화)</div></div>`}
+  if(p==='score')panel=`<div class="tpanel"><div class="h3" style="margin-top:0">🏆 팀 점수</div><div class="scores">
+    ${['A','B','C','D'].map(t=>`<div class="team ${t}"><div>TEAM ${t}</div><div class="pt2">${tool.score[t]}</div><div class="row"><button class="btn ghost" data-act="sc" data-t="${t}" data-v="-1">−1</button><button class="btn" data-act="sc" data-t="${t}" data-v="1">+1</button></div></div>`).join('')}</div>
+    <button class="btn line block" data-act="scReset" style="margin-top:8px">점수 초기화</button></div>`;
+  return `${panel}<div class="tbar"><div class="wrap">
+    <button data-act="tpanel" data-v="timer" class="${p==='timer'?'on':''}"><i>⏱</i><span id="timerTxt">${timerText()}</span></button>
+    <button data-act="tpanel" data-v="pick" class="${p==='pick'?'on':''}"><i>🎲</i>발표자</button>
+    <button data-act="tpanel" data-v="score" class="${p==='score'?'on':''}"><i>🏆</i><span class="sc4">${['A','B','C','D'].map(t=>`${t} <b>${tool.score[t]}</b>`).join(' · ')}</span></button></div></div>`;
+}
+function timerText(){if(!tool.end)return '타이머';const s=Math.max(0,Math.ceil((tool.end-Date.now())/1000));return (s<=0?'⏰ ':'')+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function timerStart(sec){tool.end=Date.now()+sec*1000;clearInterval(tool.tick);tool.tick=setInterval(()=>{const el=document.getElementById('timerTxt');if(el)el.textContent=timerText();
+  if(Date.now()>=tool.end){clearInterval(tool.tick);beep();toast('⏰ 시간 종료!');const e2=document.getElementById('timerTxt');if(e2)e2.textContent='⏰ 0:00'}},250)}
+function beep(){try{const ac=new (window.AudioContext||window.webkitAudioContext)();[0,.35,.7].forEach(t=>{const o=ac.createOscillator(),g=ac.createGain();o.frequency.value=880;o.connect(g);g.connect(ac.destination);g.gain.setValueAtTime(.25,ac.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+t+.3);o.start(ac.currentTime+t);o.stop(ac.currentTime+t+.3)})}catch(e){}}
+function tKey(){
+  const f=state.keyFilter,list=Q.filter(q=>f==='all'?!q.set:f==='adv'?q.set==='adv':(q.c===f&&!q.set)),na=state.keyNoAns;
+  const chip=(v,l)=>`<button class="chip ${f===v?'on':''}" data-act="keyF" data-v="${v}">${l}</button>`;
+  return `<div class="chips noprint">${chip('all','기본 전체 '+Q.filter(q=>!q.set).length)}${CONCEPTS.map(c=>chip(c.no,'개념 '+c.no)).join('')}${chip('adv','🔥 내신 실전 심화 '+ADV.length)}</div>
+  <div class="card"><div class="row" style="align-items:center"><div style="flex:3"><div class="h2" style="margin:0">${na?'중등문법1 · UNIT '+UNIT_ID+' '+UNIT.title+' '+(f==='adv'?'내신 실전 심화':'문제지'):'정답 및 해설지'}</div><div class="muted">${list.length}문항${na?' &nbsp; 이름: ____________ &nbsp; 점수: ______':''}</div></div></div>
+  <div class="row noprint" style="margin:8px 0"><button class="btn ghost" data-act="keyNoAns">${na?'✅ 정답·해설 보기':'📄 학생용 시험지 (정답 숨김)'}</button><button class="btn" data-act="print">🖨 인쇄</button></div>
+  ${list.map((q,n)=>`<div class="keyq"><div><b style="color:var(--burg)">${n+1}.</b> ${na?'':`<span class="tag">${TYPE_NAME[q.type]}</span><span class="tag b">개념 ${q.c}</span>`}</div>
+    <div style="font-weight:700;margin:4px 0">${q.q}</div>
+    ${q.ko?`<div>우리말: ${esc(q.ko)}</div>`:''}${q.box?`<div class="box" style="margin:4px 0">${q.box}</div>`:''}${q.s?`<div class="box" style="margin:4px 0">${esc(q.s)}</div>`:''}${q.text?`<div class="box" style="margin:4px 0">${q.text.replace(/\[(\d)\]/g,'( ____ )')}</div>`:''}
+    ${q.type==='mc'?`<div>${q.opts.map((o,i)=>CIRC[i]+' '+plain(o)).join('<br>')}</div>`:''}
+    ${q.type==='order'?`<div class="muted">( ${q.words.map(esc).join(' / ')} )</div>`:''}
+    ${q.cond?`<div class="muted">&lt;조건&gt; ${esc(q.cond)}</div>`:''}
+    ${q.conds?`<div class="muted">&lt;조건&gt;<br>${q.conds.map(c=>'· '+esc(c.t)).join('<br>')}</div>`:''}
+    ${na?(q.type==='mc'?'':'<div class="anslines"></div><div class="anslines"></div>'):`<div class="ansl" style="background:var(--ok-l)">${q.type==='cwrite'?'모범 답안':'정답'}: ${answerHTML(q)}</div><div class="exp">${q.exp}</div>`}</div>`).join('')}</div>`;
+}
+
+/* ---------------- 이벤트 ---------------- */
+document.addEventListener('click',e=>{
+  const sayEl=e.target.closest('[data-say]');if(sayEl){speak(sayEl.dataset.say);return}
+  const tb=e.target.closest('#bnav [data-tab]');if(tb){state.tab=tb.dataset.tab;state.mission=null;state.mFb=null;state.mEdit=null;state.clearArm=false;render();window.scrollTo(0,0);return}
+  const el=e.target.closest('[data-act]');if(!el)return;
+  const a=el.dataset.act,d=el.dataset;
+  const z=state.quiz;
+  switch(a){
+    case 'home':if(STUDENT_ONLY)return;state.mode='home';state.pinOpen=false;render();window.scrollTo(0,0);break;
+    case 'goStudent':state.mode='student';state.tab='learn';render();window.scrollTo(0,0);break;
+    case 'goTeacher':if(SS.get('t')==='1'){state.mode='teacher';render()}else{state.pinOpen=true;render();setTimeout(()=>{const p=document.getElementById('pin');if(p)p.focus()},50)}break;
+    case 'pinOk':{const v=(document.getElementById('pin')||{}).value;if(v===TEACHER_PIN){SS.set('t','1');state.mode='teacher';state.pinOpen=false;render();window.scrollTo(0,0)}else toast('비밀번호가 맞지 않아요')}break;
+    case 'saveName':{const v=(document.getElementById('nm')||{}).value||'';if(v.trim()){S.set('name',v.trim());toast(v.trim()+' 학생, 반가워요!');render()}else toast('이름을 입력해 주세요')}break;
+    case 'pickC':state.concept=+d.i;render();window.scrollTo(0,0);break;
+    case 'ox':state.oxDone[d.k]=d.v==='1';render();break;
+    case 'quizConcept':startQuiz(Q.filter(q=>q.c===d.c&&!q.set).map(q=>q.id),'개념 '+d.c+' '+cTitle(d.c));break;
+    case 'qType':state.qType=d.v;render();break;
+    case 'qCon':state.qCon=d.v;render();break;
+    case 'startSel':startQuiz(filteredQ().map(q=>q.id),(state.qSet==='adv'?'🔥 내신 실전 심화 · ':'')+(state.qCon==='all'?'UNIT '+UNIT_ID+' 전체':'개념 '+state.qCon)+' · '+(state.qType==='all'?'전 유형':state.qType==='write'?'서술형':TYPE_NAME[state.qType]));break;
+    case 'startMock':startQuiz(shuffle(Q.filter(q=>!q.set).map(q=>q.id),'mock'+Date.now()).slice(0,20),'실전 모의고사 20문항');break;
+    case 'mcSel':if(z&&!z.answered){state.ans.sel=+d.i;render()}break;
+    case 'pick':if(z&&!z.answered){const w=+d.w;if(!state.ans.picked.includes(w))state.ans.picked.push(w);render()}break;
+    case 'unpick':if(z&&!z.answered){state.ans.picked.splice(+d.k,1);render()}break;
+    case 'orderReset':state.ans.picked=[];render();break;
+    case 'tok':if(z&&!z.answered){state.ans.idx=+d.i;render();const f=document.getElementById('fixIn');if(f)f.focus()}break;
+    case 'submit':submit();break;
+    case 'next':nextQ();break;
+    case 'quitQuiz':state.quiz=null;state.result=null;render();break;
+    case 'retryRun':{const r=state.result;startQuiz(r.ids.filter(id=>!r.res[id]),'틀린 문제 다시 풀기')}break;
+    case 'toSetup':state.result=null;state.quiz=null;render();break;
+    case 'tab':state.tab=d.tab;state.result=null;render();window.scrollTo(0,0);break;
+    case 'retryAll':startQuiz(wrongSet().slice(),'오답 다시 풀기');break;
+    case 'retryCon':startQuiz(wrongSet().filter(id=>qById(id).c===d.c),'개념 '+d.c+' 오답 다시 풀기');break;
+    case 'clearRec':if(!state.clearArm){state.clearArm=true;render()}else{['wrong','stats','mastered','wm'].forEach(k=>{try{localStorage.removeItem(KEY+k)}catch(e){}});state.clearArm=false;toast('기록을 초기화했어요');render()}break;
+    case 'openM':state.mission=d.m;state.mEdit=null;state.mFb=null;render();window.scrollTo(0,0);break;
+    case 'closeM':state.mission=null;state.mFb=null;state.mEdit=null;render();break;
+    case 'checkStep':checkStep(+d.i);break;
+    case 'hintStep':{const m=MISSIONS.find(x=>x.id===state.mission),s=m.steps[+d.i];const cur=(document.getElementById('mIn')||{}).value||'';
+      state.mFb=`<div class="fb-box ok"><div class="t">💡 모범 문장</div><div class="ansl">${esc(s.model)}</div><div class="muted">그대로 베끼기보다, 내 문장으로 바꿔 써 보세요!</div></div>`;render();const ne=document.getElementById('mIn');if(ne)ne.value=cur}break;
+    case 'editStep':state.mEdit=+d.i;state.mFb=null;render();break;
+    case 'sayAll':{const m=MISSIONS.find(x=>x.id===state.mission),a2=mData()[m.id]||{};speak(Object.keys(a2).sort().map(k=>a2[k]).join(' '))}break;
+    case 'copyW':{const dd=mData(),nm=S.get('name','이름 미입력');let out=`[중등문법1 · UNIT ${UNIT_ID} ${UNIT.title} Writing Mission]\n학생: ${nm}\n`;let cnt=0;
+      MISSIONS.forEach(m=>{const a2=dd[m.id];if(!a2)return;out+=`\n■ ${m.title}\n`;Object.keys(a2).sort().forEach(k=>{out+=`${+k+1}. ${a2[k]}\n`;cnt++})});
+      if(!cnt){toast('아직 완성한 문장이 없어요');break}copyText(out)}break;
+    case 'tview':state.tview=d.v;state.tpanel=null;render();window.scrollTo(0,0);break;
+    case 'tPick':state.tconcept=+d.i;state.boardEx=0;state.tstep=0;state.titem=0;state.treveal=false;render();break;
+    case 'toBoard':state.tview='board';state.tstep=0;state.titem=0;state.treveal=false;state.boardEx=0;render();window.scrollTo(0,0);break;
+    case 'tStep':{const n=runSteps().length,i=+d.i;if(i<0||i>=n)break;state.tstep=i;state.titem=0;state.treveal=false;state.boardEx=0;render();window.scrollTo(0,0)}break;
+    case 'itNext':state.titem++;state.treveal=false;render();break;
+    case 'itPrev':state.titem--;state.treveal=false;render();break;
+    case 'reveal':state.treveal=!state.treveal;render();break;
+    case 'tpanel':state.tpanel=state.tpanel===d.v?null:d.v;render();break;
+    case 'timerSet':timerStart(+d.m*60);state.tpanel=null;render();toast('⏱ '+d.m+'분 타이머 시작');break;
+    case 'timerAdd':if(tool.end&&tool.end>Date.now())tool.end+=30000;else timerStart(30);render();break;
+    case 'timerStop':clearInterval(tool.tick);tool.end=0;render();break;
+    case 'setN':{const v=+(document.getElementById('classN')||{}).value;if(v>=2&&v<=40){S.set('classN',v);tool.used=[];tool.last=null;toast(v+'명으로 설정했어요');render()}else toast('2~40명 사이로 입력해 주세요')}break;
+    case 'pickOne':{const N=S.get('classN',12);if(tool.used.length>=N)tool.used=[];const left=[];for(let k=1;k<=N;k++)if(!tool.used.includes(k))left.push(k);tool.last=left[Math.floor(Math.random()*left.length)];tool.used.push(tool.last);render()}break;
+    case 'pickReset':tool.used=[];tool.last=null;render();break;
+    case 'sc':tool.score[d.t]=Math.max(0,tool.score[d.t]+(+d.v));render();break;
+    case 'scReset':tool.score={A:0,B:0,C:0,D:0};render();break;
+    case 'pickUnit':{loadUnit(d.u);Object.assign(state,{concept:0,tconcept:0,tstep:0,titem:0,treveal:false,boardEx:0,quiz:null,result:null,mission:null,mEdit:null,mFb:null,qCon:'all',qType:'all',keyFilter:'all',oxDone:{},clearArm:false});
+      if(state.mode==='home')toast('UNIT '+d.u+' '+UNIT.title+' 선택! 학생용 / 교사용을 눌러 주세요');render();window.scrollTo(0,0)}break;
+    case 'qSet':state.qSet=d.v;state.qType='all';render();break;
+    case 'keyNoAns':state.keyNoAns=!state.keyNoAns;render();break;
+    case 'exPrev':{const n=CONCEPTS[state.tconcept].teacher.examples.length;state.boardEx=(state.boardEx-1+n)%n;render()}break;
+    case 'exNext':state.boardEx++;render();break;
+    case 'toggleKo':state.hideKo=!state.hideKo;render();break;
+    case 'fullscreen':{const w=document.documentElement;try{if(document.fullscreenElement)document.exitFullscreen();else if(w.requestFullscreen)w.requestFullscreen();else if(w.webkitRequestFullscreen)w.webkitRequestFullscreen();else toast('이 기기는 전체화면을 지원하지 않아요')}catch(err){toast('전체화면을 열 수 없어요')}}break;
+    case 'keyF':state.keyFilter=d.v;render();break;
+    case 'print':window.print();break;
+  }
+});
+document.addEventListener('toggle',e=>{if(e.target.classList&&e.target.classList.contains('tguide'))state.guideOpen=e.target.open},true);
+document.addEventListener('fullscreenchange',()=>{if(state.mode==='teacher'&&state.tview==='board')render()});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&e.target.id==='pin'){document.querySelector('[data-act="pinOk"]').click()}
+  if(e.key==='Enter'&&e.target.id==='nm'){document.querySelector('[data-act="saveName"]').click()}
+  if(e.key==='Enter'&&(e.target.id==='fixIn'||e.target.classList.contains('bl'))){e.preventDefault();const b=document.getElementById('submitBtn');if(b)b.click()}
+});
+
+(()=>{const m=location.search.match(/[?&]unit=(\d+)/);let u=m?String(m[1]).padStart(2,'0'):null;if(!u){try{u=localStorage.getItem('sgl_unit')}catch(e){}}loadUnit(u||'01')})();
+if(STUDENT_ONLY){state.mode='student'}
+render();
+</script>
+</body>
+</html>
