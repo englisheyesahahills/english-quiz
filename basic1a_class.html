@@ -283,6 +283,7 @@ const UNITS=[
   chant:["I am, I am, I am Sally! 👏👏","You are, you are, you are Danny! 👏👏","She is, she is, she is my sister! 👏👏","He is, he is, he is my brother! 👏👏","They are, they are, they are my parents! 👏👏","Shhh! Shhh! It's a secret! 🤫"],
   story:[["Sally","I am Sally.","🙋‍♀️"],["Sally","I am a student.","🧑‍🎓"],["Sally","I have a secret.","🤫"],["Sally","I have a pet dragon!","🐉"],["Sally","You are Danny.","🐉"],["Sally","You are a dragon.","🐲"],["Sally","We are best friends!","🤝"],["Sally","This is the living room.","🛋️"],["Sally","She is my sister.","👧"],["Sally","She likes mirrors.","🪞"],["Sally","He is my brother.","👦"],["Sally","He likes games.","🎮"],["Sally","Shhh! They do not know about Danny.","🤫"],["Sally","Danny and I are in the living room.","🛋️"],["Sally","They are my parents.","👨‍👩"],["Sally","Shhh! My mom and dad do not know about Danny.","🤫"],["Sally","Danny and I are going to school.","🏫"],["Sally","It is my bag.","🎒"],["Sally","Now, we can go to school!","🚶‍♀️"]],
   puzzles:["I am a student.","You are a dragon.","We are best friends.","She is my sister.","He is my brother.","They are my parents.","It is my bag."],
+  tip:"I/You/She/He/They/It ↔ am/are/is 짝을 손동작으로 (나: 가슴, 너: 가리키기, 그녀/그: 옆사람)",
   special:{name:"Who is it?",emo:"🔍",desc:"그림 보고 알맞은 주어 고르기",opts:["I am","You are","She is","He is","They are","It is"],fixed:true,
     items:[["🙋‍♀️","___ Sally.","I am"],["🐉👈","___ Danny.","You are"],["👧","___ my sister.","She is"],["👦","___ my brother.","He is"],["👨‍👩","___ my parents.","They are"],["🎒","___ my bag.","It is"],["👩","___ my mom.","She is"],["👨","___ my dad.","He is"]]}
 },
@@ -302,6 +303,7 @@ const UNITS=[
   chant:["I am happy, happy, happy! 😊","We are excited, excited! 🤩","She is fast! Zoom, zoom, zoom! 🐆","He is slow... slow... slow... 🐢","They are busy, busy, busy! 🏃","It is cute! So cute! 🐶"],
   story:[["Sally","I am happy.","😊"],["Sally","I go to school.","🏫"],["Sally","You are happy.","🐉"],["Sally","You go to school with me.","🐉"],["Sally","We are excited.","🤩"],["Sally","We go to school together.","👫"],["Sally","Look at my sister!","👀"],["Sally","She is fast.","🐆"],["Sally","Look at my brother!","👀"],["Sally","He is slow.","🐢"],["Sally","Danny is here.","🐉"],["Sally","He walks with me.","🚶"],["Sally","We walk together.","👫"],["Sally","Danny and I go to school.","🏫"],["Sally","We see many things.","👀"],["Sally","They are students.","🧑‍🎓"],["Sally","They are cheerful.","😄"],["Sally","They are neighbors.","🏘️"],["Sally","They are busy.","🏃"],["Sally","It is a dog.","🐶"],["Sally","It is cute.","🥰"]],
   puzzles:["I am happy.","We go to school together.","She is fast.","He is slow.","They are busy.","It is cute.","He walks with me."],
+  tip:"am·is·are 를 색으로 구분해서 보여주기. go/walks 문장은 동작으로",
   special:{name:"am · is · are",emo:"🧩",desc:"빈칸에 알맞은 be동사 고르기",opts:["am","is","are"],fixed:true,
     items:[["😊","I ___ happy.","am"],["🐉","You ___ happy.","are"],["🤩","We ___ excited.","are"],["🐆","She ___ fast.","is"],["🐢","He ___ slow.","is"],["😄","They ___ cheerful.","are"],["🏃","They ___ busy.","are"],["🥰","It ___ cute.","is"]]}
 },
@@ -321,7 +323,8 @@ const UNITS=[
   chant:["Strong, strong — weak, weak! 💪😮‍💨","Tall, tall — short, short! 🦒🧒","Old, old — young, young! 👵👶","Hungry, hungry — full, full! 🤤😌","Big, big — small, small! 🐘🐭","We are NOT the same! But we are best friends! 🤝"],
   story:[["Sally","You are strong.","💪"],["Sally","I am not strong.","🙅‍♀️"],["Sally","I am weak.","😮‍💨"],["Sally","We are not the same.","🔀"],["Sally","I am short.","🧒"],["Sally","You are not short.","🙅"],["Sally","You are tall.","🦒"],["Sally","We are not the same.","🔀"],["Sally","But we are best friends.","🤝"],["Sally","She is an old woman.","👵"],["Sally","He is a young boy.","👦"],["Sally","She is old.","👵"],["Sally","He is not old.","🙅"],["Sally","He is young.","👶"],["Sally","He is hungry.","🤤"],["Sally","She is not hungry.","🙅‍♀️"],["Sally","She is full.","😌"],["Sally","They are not the same.","🔀"],["Sally","People are waiting for the bus.","🚏"],["Sally","It is late.","⏰"],["Sally","They are angry.","😠"],["Sally","They are not happy.","😞"],["Sally","It is my bus!","🚌"],["Sally","It is very big.","🐘"],["Sally","It is not small.","🙅"],["Sally","Everyone gets on the bus.","🚌"],["Sally","They do not know about Danny.","🤫"]],
   puzzles:["I am not strong.","You are tall.","He is not old.","She is full.","It is very big.","We are not the same.","They are angry."],
-  special:{name:"Opposite!",emo:"🔄",desc:"반대말 찾기 → 문장으로 말하기",fixed:false,
+  tip:"not 블록(보라색)을 크게 읽으며 고개 젓기 동작 함께", bonus:"'I am not strong. I am weak.' 처럼 not 문장으로 말하면 +1",
+  special:{name:"Opposite!",pair:true,emo:"🔄",desc:"반대말 찾기 → 문장으로 말하기",fixed:false,
     items:[["💪","strong ↔ ?","weak",["weak","tall","late"]],["🦒","tall ↔ ?","short",["short","full","old"]],["👵","old ↔ ?","young",["young","big","angry"]],["🤤","hungry ↔ ?","full",["full","weak","small"]],["🐘","big ↔ ?","small",["small","young","strong"]],["😮‍💨","weak ↔ ?","strong",["strong","short","hungry"]],["👶","young ↔ ?","old",["old","tall","full"]],["🐭","small ↔ ?","big",["big","late","weak"]]]}
 },
 { id:4, title:"Is It Your School?", ko:"너희 학교니?", emo:"🚌❓", color:"#54A0FF",
@@ -340,9 +343,12 @@ const UNITS=[
   chant:["Are you a teacher? No, I am not! 🙅‍♀️","Are you a student? Yes, I am! 🙋‍♀️","Is she a musician? Yes, she is! 🎻","Is he a pilot? No, he is not! 🙅","Are they farmers? Yes, they are! 🧑‍🌾","Is it your school? Yes, it is! Yay! 🏫"],
   story:[["Narrator","Sally and Danny are on the bus.","🚌"],["Narrator","There is a little boy.","👦"],["Little Boy","Are you a teacher?","🧑‍🏫"],["Sally","Am I a teacher?","🤔"],["Sally","No, I am not.","🙅‍♀️"],["Little Boy","Are you a student?","🧑‍🎓"],["Sally","Am I a student?","🤔"],["Sally","Yes, I am a student.","🙋‍♀️"],["Little Boy","Are you friends?","🤝"],["Sally","Are we friends?","🤔"],["Sally","Yes, we are best friends!","🤝"],["Little Boy","Is she a cook?","🧑‍🍳"],["Sally","No, she is not.","🙅‍♀️"],["Little Boy","Is she a musician?","🎻"],["Sally","Yes, she is a musician.","🎻"],["Little Boy","Is he a pilot?","🧑‍✈️"],["Sally","No, he is not.","🙅"],["Little Boy","Is he an artist?","🧑‍🎨"],["Sally","Yes, he is an artist.","🎨"],["Little Boy","Are they doctors?","🧑‍⚕️"],["Sally","No, they are not.","🙅"],["Little Boy","Are they farmers?","🧑‍🌾"],["Sally","Yes, they are farmers.","🚜"],["Little Boy","Is it your school?","🏦"],["Sally","No, it is not.","🙅‍♀️"],["Sally","It is a bank.","🏦"],["Little Boy","Is it your school?","🏫"],["Sally","Yes, it is my school.","🏫"],["Sally","Yay! Now, we can study!","📚"]],
   puzzles:["Are you a teacher?","No, I am not.","Is she a musician?","Yes, he is an artist.","Are they farmers?","Is it your school?","Yes, it is my school."],
+  tip:"질문은 끝을 올려서 ↗, 대답은 Yes 끄덕 / No 고개 젓기", bonus:"반대 팀이 질문 읽고, 차례 팀이 대답하기", roleKo:"Little Boy = Team A, Sally = Team B, Narrator = 선생님 (3~4팀이면 다음 회차에 C·D가 이어서)", roleMap:{Sally:"🙋‍♀️ Sally = Team B","Little Boy":"👦 Little Boy = Team A",Narrator:"👩‍🏫 선생님이 읽어요"},
   special:{name:"Yes or No?",emo:"🙆🙅",desc:"그림 보고 Yes / No로 대답하기",fixed:false,
     items:[["🧑‍✈️","Is he a pilot?","Yes, he is.",["Yes, he is.","No, he is not."]],["👩‍🍳","Is she a doctor?","No, she is not.",["Yes, she is.","No, she is not."]],["🎻👩","Is she a musician?","Yes, she is.",["Yes, she is.","No, she is not."]],["👨‍🎨","Is he a cook?","No, he is not.",["Yes, he is.","No, he is not."]],["🧑‍🌾🧑‍🌾","Are they farmers?","Yes, they are.",["Yes, they are.","No, they are not."]],["🧑‍⚕️🧑‍⚕️","Are they pilots?","No, they are not.",["Yes, they are.","No, they are not."]],["🏦","Is it a school?","No, it is not.",["Yes, it is.","No, it is not."]],["🏫","Is it a school?","Yes, it is.",["Yes, it is.","No, it is not."]]]}
 }];
+
+
 
 /* ================= LESSON FLOW ================= */
 const STEPS=[
@@ -412,7 +418,7 @@ const GUIDE={
   <li>색깔 블록 = 문장 덩어리. 앞 블록(주어+be)을 강조해서 읽기</li>
   <li>문장 클릭 → 🔊 → 따라 말하기. 그림 가리키며 손가락 포인팅</li>
   <li><b>짝 연습:</b> 교사가 그림만 가리키면 학생이 문장 말하기 (교사→전체→팀→개인 순)</li>
-  <li>${u.id===1?"I/You/She/He/They/It ↔ am/are/is 짝을 손동작으로 (나: 가슴, 너: 가리키기, 그녀/그: 옆사람)":u.id===2?"am·is·are 를 색으로 구분해서 보여주기. go/walks 문장은 동작으로":u.id===3?"not 블록(보라색)을 크게 읽으며 고개 젓기 동작 함께":"질문은 끝을 올려서 ↗, 대답은 Yes 끄덕 / No 고개 젓기"}</li></ul></div>`,
+  <li>${u.tip}</li></ul></div>`,
  chant:u=>`<h3>👏 패턴 ② 챈트 (3분)</h3><div class="ko"><ul>
   <li><b>▶ 전체 재생</b>: 한 줄씩 노란색으로 표시됨 → 박수 치며 따라하기</li>
   <li>2회차: 팀별로 한 줄씩 번갈아 (Team A → B → C → D)</li>
@@ -420,7 +426,7 @@ const GUIDE={
   <div class="say"><b>T:</b> Clap with me! One more time, faster!</div>`,
  story:u=>`<h3>📖 스토리 (8분)</h3><div class="ko"><ul>
   <li><b>1회차 [듣기]</b>: ▶ 자동재생으로 전체 듣기 — 그림 보며 이해 (교사 중심)</li>
-  <li><b>2회차 [역할 읽기]</b>: ${u.id===4?"Little Boy = Team A, Sally = Team B, Narrator = 선생님 (3~4팀이면 다음 회차에 C·D가 이어서)":"줄마다 선생님 / 학생 / 팀 번갈아 읽기"} (교사+학생)</li>
+  <li><b>2회차 [역할 읽기]</b>: ${u.roleKo||"줄마다 선생님 / 다 같이 / 팀 번갈아 읽기"} (교사+학생)</li>
   <li><b>3회차 [빈칸]</b>: 핵심 단어가 가려짐 → 학생이 채워 읽기 → 클릭하면 정답 공개 (학생 중심)</li>
   <li>중간 질문: "Who is she?" "Is Danny happy?" 등 그림 보고 짧게 묻기</li></ul></div>
   <div class="say"><b>T:</b> Let's listen first. / Now you read Sally's part!</div>`,
@@ -431,7 +437,7 @@ const GUIDE={
   <li>팀원 도움 허용 (단, 터치는 대표만) → 전원 참여 유도</li></ul></div>`,
  pquiz:u=>`<h3>🖼️ Picture Quiz</h3><div class="ko"><ul><li>그림 보고 알맞은 단어 터치 → 정답이면 단어를 문장으로 말하면 보너스(+ 버튼)</li><li>예: 🐉 → "dragon!" → "You are a dragon!"</li></ul></div>`,
  puzzle:u=>`<h3>🧩 Sentence Puzzle</h3><div class="ko"><ul><li>단어 블록을 순서대로 터치해 문장 완성 → Check</li><li>잘못 누르면 위 칸의 블록을 다시 터치해서 빼기</li><li>완성 후 팀 전체가 문장 크게 읽기</li></ul></div>`,
- special:u=>`<h3>${u.special.emo} ${u.special.name}</h3><div class="ko"><ul><li>${u.special.desc}</li><li>정답 후 전체가 완성 문장 따라 말하기 (자동 🔊)</li>${u.id===3?"<li>보너스: 'I am not strong. I am weak.' 처럼 not 문장으로 말하면 +1</li>":""}${u.id===4?"<li>보너스: 반대 팀이 질문 읽고, 차례 팀이 대답하기</li>":""}</ul></div>`,
+ special:u=>`<h3>${u.special.emo} ${u.special.name}</h3><div class="ko"><ul><li>${u.special.desc}</li><li>정답 후 전체가 완성 문장 따라 말하기 (자동 🔊)</li>${u.bonus?"<li>보너스: "+u.bonus+"</li>":""}</ul></div>`,
  eggs:u=>`<h3>🥚 Lucky Dragon Eggs (2분)</h3><div class="ko"><ul><li>팀 대표가 알 하나 선택 → 미션 성공 시 점수</li><li>⭐ 보너스 알, 🐉 드래곤 알(다 같이 포효!)도 숨어 있음</li><li>시간 남으면 계속, 부족하면 2~3개만</li></ul></div>`,
  winner:u=>`<h3>🎉 마무리</h3><div class="ko"><ul><li>우승팀 박수 → 오늘 배운 패턴 다 같이 한 번 더 말하기</li><li>칭찬 포인트 1가지씩 짚어주기</li></ul></div><div class="say"><b>T:</b> Great job, everyone! What did we learn today?</div>`,
  book:u=>`<h3>📚 교재 풀이 (10분)</h3><div class="ko"><ul><li>타이머 시작 후 교재 Unit ${u.id} 문제 풀기</li><li>순회하며 개별 확인 — 패턴 문장을 소리 내어 읽게 하기</li><li>먼저 끝난 학생: 스토리 문장 짝과 함께 읽기</li><li>숙제: 단어 쓰기(W.T07), 영상 스크립트 읽기(V.T02)</li></ul></div>`
@@ -520,6 +526,7 @@ function turnBox(){return `<div class="turnbox" style="background:var(--${turn})
 /* ================= SLIDES ================= */
 const R={};
 const C=()=>$('content');
+function emoSize(e){let n=1;try{n=[...new Intl.Segmenter().segment(e)].length;}catch(x){n=[...e].length>2?2:1;}return n<=1?'24vh':(n===2?'14vh':'10vh');}
 /* auto-fit: shrink the activity if it would be cut off on any screen */
 function fitNow(){const w=$('contentWrap'),f=$('content');if(!w||!f)return;f.style.zoom=1;
   const H=w.clientHeight,W=w.clientWidth,h=f.scrollHeight,ww=f.scrollWidth;
@@ -666,13 +673,13 @@ R.story=()=>{
   let html=line;const m=line.match(kwRegex());
   if(m){const w=m[0];html=line.replace(w,s.mode==='blank'?`<span class="blank ${s.shown?'show':''}" onclick="S.story.shown=true;R.story()">${w}</span>`:`<span class="kw">${w}</span>`);}
   let role='';
-  if(s.mode==='role'){const a=activeTeams();role=U.id===4?({Sally:'🙋‍♀️ Sally = Team B','Little Boy':'👦 Little Boy = Team A',Narrator:'👩‍🏫 선생님이 읽어요'}[sp]):(s.i%3===0?'👩‍🏫 선생님이 읽어요':(s.i%3===1?'🙋 다 같이 읽어요':`Team ${a[Math.floor(s.i/3)%a.length]}이 읽어요`));}
+  if(s.mode==='role'){const a=activeTeams();role=(U.roleMap&&U.roleMap[sp])?U.roleMap[sp]:(s.i%3===0?'👩‍🏫 선생님이 읽어요':(s.i%3===1?'🙋 다 같이 읽어요':`Team ${a[Math.floor(s.i/3)%a.length]}이 읽어요`));}
   C().innerHTML=`<div class="row" style="margin-bottom:2vh"><div class="seg">
      <button class="${s.mode==='read'?'on':''}" onclick="stMode('read')">🎧 Listen</button>
      <button class="${s.mode==='role'?'on':''}" onclick="stMode('role')">🎭 Role Read</button>
      <button class="${s.mode==='blank'?'on':''}" onclick="stMode('blank')">❓ Blank</button></div>
      <button class="btn ${s.auto?'o':'c'}" onclick="stAuto()">${s.auto?'⏸ Stop':'▶ Auto Play'}</button></div>
-   <div class="story"><div class="scene card"><span>${em}</span></div><div style="flex:1">
+   <div class="story"><div class="scene card"><span style="white-space:nowrap;font-size:${emoSize(em)}">${em}</span></div><div style="flex:1">
      <span class="spk" style="background:${SPK_COLOR[sp]||'#9B6BFF'}">${sp}</span>
      <div class="line">${html}</div><div class="role ko">${role}</div>
      <div class="row" style="justify-content:flex-start;margin-top:2.4vh">
@@ -750,7 +757,7 @@ R.special=()=>{
   S.special=S.special||{q:shuffle(U.special.items),i:0};S.special.lock=false;
   const s=S.special,it=s.q[s.i%s.q.length];
   const opts=U.special.fixed?U.special.opts:shuffle(it[3]);
-  const sayText=it[1].includes('___')?it[1].replace('___',it[2]):(U.id===3?`${it[1].split(' ')[0]} and ${it[2]}`:`${it[1]} ${it[2]}`);
+  const sayText=it[1].includes('___')?it[1].replace('___',it[2]):(U.special.pair?`${it[1].split(' ')[0]} and ${it[2]}`:`${it[1]} ${it[2]}`);
   mcRender('special',it[1],it[0],opts,it[2],sayText);
 };
 R.puzzle=()=>{
