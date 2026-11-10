@@ -290,7 +290,7 @@ ul.tl li{margin:5px 0}
 
 <script>
 /* =========================================================
-   중등문법1 · STELLA GRAMMAR LAB (UNIT 01 be동사 · 02 일반동사 · 03 시제 · 04 조동사)
+   중등문법1 · STELLA GRAMMAR LAB (UNIT 01~07)
    Created by 스텔라원장 (잉글리시아이스텔라)
    - 학생 전용 링크: 파일주소 뒤에 ?student 를 붙이면 교사용 입구가 숨겨집니다.
    - 교사용 비밀번호: 아래 TEACHER_PIN 값을 바꾸세요.
@@ -2518,6 +2518,1699 @@ const U04_MISSIONS=[
 ]}
 ];
 
+/* ================= UNIT 05 명사와 대명사 (개념 15~18) ================= */
+const U05_CONCEPTS=[
+{ no:'15', title:'명사', short:'명사',
+  student:{
+    core:'명사는 사람·사물·장소의 이름이에요. <b>셀 수 있는 명사</b>는 a/an 또는 복수형(-s)을 쓰고, <b>셀 수 없는 명사</b>는 a/an과 -s를 붙이지 않고 <span style="color:#ffd27a">단위(a glass of …)</span>로 세요.',
+    table:`<table class="t"><tr><th>복수형 규칙</th><th>예</th></tr>
+      <tr><td class="l">대부분 <b>+s</b></td><td class="l">book → books, apple → apples</td></tr>
+      <tr><td class="l">-s, -x, -ch, -sh, -o → <b>+es</b></td><td class="l">box → boxes, potato → potatoes</td></tr>
+      <tr><td class="l">자음 + y → <b>ies</b></td><td class="l">baby → babies, city → cities</td></tr>
+      <tr><td class="l">-f, -fe → <b>ves</b></td><td class="l">leaf → leaves, knife → knives</td></tr>
+      <tr><td class="l"><b>불규칙</b></td><td class="l">man → men, child → children, foot → feet, tooth → teeth, mouse → mice</td></tr>
+      <tr><td class="l"><b>단수 = 복수</b></td><td class="l">sheep → sheep, fish → fish, deer → deer</td></tr></table>
+      <table class="t"><tr><th>셀 수 없는 명사</th><th>세는 방법 (단위)</th></tr>
+      <tr><td class="l">water, milk, juice</td><td class="l">a <b>glass</b> of / a <b>bottle</b> of / a <b>cup</b> of</td></tr>
+      <tr><td class="l">bread, cake, pizza, paper</td><td class="l">a <b>piece</b> of / a <b>slice</b> of / a <b>loaf</b> of bread</td></tr>
+      <tr><td class="l">money, information, advice</td><td class="l">a/an, -s ✗ (some money)</td></tr>
+      <tr><td class="l" colspan="2">★ 복수는 단위를 복수로: two <b>glasses</b> of milk (milks ✗)</td></tr></table>`,
+    points:[
+      ['<b>a / an</b>은 첫 <b>소리</b>로 결정', ['an apple, an hour / a uniform, a university','모음 소리 앞 an, 자음 소리 앞 a']],
+      ['셀 수 없는 명사는 <b>단위를 복수로</b>', ['I drink three glasses of water a day.','나는 하루에 물 세 잔을 마신다.']],
+    ],
+    tips:[
+      '<b>an hour</b> (h 소리가 안 남) / <b>a uniform</b> ([유] 소리) → 철자가 아니라 소리!',
+      '<b>child → children, foot → feet</b> → -s를 붙이지 않는 불규칙 복수',
+      '<b>a bread ✗, breads ✗</b> → a loaf of bread / some bread',
+      '<b>two glass of milk ✗</b> → two <b>glasses</b> of milk'
+    ],
+    examples:[
+      ['I have an apple and two bananas.','나는 사과 한 개와 바나나 두 개가 있다.'],
+      ['She has three children.','그녀는 아이가 셋이다.'],
+      ['My feet are cold.','내 발이 차갑다.'],
+      ['There are many leaves on the ground.','땅에 나뭇잎이 많다.'],
+      ['I saw five sheep on the farm.','나는 농장에서 양 다섯 마리를 봤다.'],
+      ['Can I have a glass of water?','물 한 잔 주시겠어요?'],
+      ['He ate two slices of pizza.','그는 피자 두 조각을 먹었다.'],
+      ['We need a loaf of bread.','우리는 빵 한 덩어리가 필요하다.'],
+      ['Please give me a piece of paper.','종이 한 장 주세요.'],
+      ['I need some money.','나는 돈이 좀 필요하다.']
+    ],
+    ox:[['I bought two breads.',false,'bread는 셀 수 없어요 → <b>two loaves of bread</b>'],
+        ['The children are playing.',true,'child의 복수형 children']]
+  },
+  teacher:{
+    board:`명사 = 셀 수 있는 명사 / 셀 수 없는 명사
+
+ 셀 수 있음  a / an + 단수   복수 -s / -es / -ies / -ves
+            불규칙 man-men child-children foot-feet
+                   tooth-teeth mouse-mice sheep-sheep
+
+ 셀 수 없음  water milk bread money advice
+            a/an ✗  -s ✗  → 단위로 세기
+            a glass of / a piece of / a slice of
+            a bottle of / a cup of / a loaf of
+
+★ two glasses of milk (단위만 복수!)
+★ a / an은 소리로: an hour, a uniform`,
+    intro:['"사과 두 개 / 물 두 개" — 어색한 것은? → 물은 그릇으로 센다는 점에서 셀 수 없는 명사 개념 도입',
+           '교실 물건(책, 펜, 물병, 종이)을 들고 영어로 세어 보게 하며 a / an / -s / 단위 표현 오류를 수집'],
+    script:['① 명사의 두 종류: 셀 수 있는 명사(a/an, 복수형) / 셀 수 없는 명사(물질·추상·고유).',
+            '② a / an은 철자가 아니라 첫 소리로: an hour, an honest boy / a uniform, a university, a European.',
+            '③ 복수형 규칙: +s / +es(s, x, ch, sh, o) / 자음+y → ies / f, fe → ves (예외 roof-roofs).',
+            '④ 불규칙 복수와 단·복수 동형(sheep, fish, deer)은 암기 카드로 반복.',
+            '⑤ 셀 수 없는 명사는 단위로: a glass of milk → two glasses of milk (단위만 복수).',
+            '⑥ 내신 포인트: a/an 고르기, 복수형 오류, 셀 수 없는 명사 + 단위 표현 서술형.'],
+    examples:[
+      ['An owl is sitting on the tree.','부엉이 한 마리가 나무에 앉아 있다.'],
+      ['It takes an hour by bus.','버스로 한 시간 걸린다.'],
+      ['He wears a uniform at school.','그는 학교에서 교복을 입는다.'],
+      ['The babies are sleeping.','아기들이 자고 있다.'],
+      ['Wolves live in groups.','늑대는 무리 지어 산다.'],
+      ['Brush your teeth after meals.','식사 후에 이를 닦아라.'],
+      ['Two men are talking.','두 남자가 이야기하고 있다.'],
+      ['There are some fish in the pond.','연못에 물고기 몇 마리가 있다.'],
+      ['I had a cup of tea and two pieces of cake.','나는 차 한 잔과 케이크 두 조각을 먹었다.'],
+      ['Mom bought two bottles of juice.','엄마는 주스 두 병을 사셨다.'],
+      ['Can you give me some advice?','조언을 좀 해 줄 수 있니?'],
+      ['Time is money.','시간은 돈이다.']
+    ],
+    mistakes:[['an uniform','a uniform','소리 [유] → a'],
+              ['three childs','three children','불규칙 복수'],
+              ['two knifes','two knives','fe → ves'],
+              ['a bread / breads','a loaf of bread / some bread','셀 수 없는 명사'],
+              ['two glass of milks','two glasses of milk','단위만 복수']],
+    exam:['a / an 고르기 (an hour, a uniform)','복수형 규칙·불규칙 오류 찾기','셀 수 없는 명사 고르기 / 개수 세기','단위 표현 서술형 (two pieces of bread)'],
+    activity:'【What\'s in my bag? · 5분】 짝에게 가방 속 물건을 a/an/숫자로 소개 → 짝은 듣고 공책에 목록 작성 → 가장 정확하게 받아 적은 팀 +1. 물병·간식은 단위 표현으로!',
+    check:[['knife / tooth / baby의 복수형','knives / teeth / babies'],['"물 두 잔"을 영어로','two glasses of water'],['___ egg / ___ university','an / a']]
+  }
+},
+{ no:'16', title:'인칭대명사', short:'인칭대명사',
+  student:{
+    core:'인칭대명사는 명사를 대신하는 말이에요. 문장 속 <b>역할</b>에 따라 <span style="color:#ffd27a">주격(~은/는) · 소유격(~의) · 목적격(~을/를) · 소유대명사(~의 것)</span>로 모양이 바뀌어요.',
+    table:`<table class="t"><tr><th>주격<br><small>~은/는</small></th><th>소유격<br><small>~의</small></th><th>목적격<br><small>~을/를</small></th><th>소유대명사<br><small>~의 것</small></th></tr>
+      <tr><td>I</td><td>my</td><td>me</td><td>mine</td></tr>
+      <tr><td>you</td><td>your</td><td>you</td><td>yours</td></tr>
+      <tr><td>he</td><td>his</td><td>him</td><td>his</td></tr>
+      <tr><td>she</td><td>her</td><td>her</td><td>hers</td></tr>
+      <tr><td>it</td><td>its</td><td>it</td><td class="be">✗</td></tr>
+      <tr><td>we</td><td>our</td><td>us</td><td>ours</td></tr>
+      <tr><td>they</td><td>their</td><td>them</td><td>theirs</td></tr></table>
+      <table class="t"><tr><th>명사의 소유격</th><th>예</th></tr>
+      <tr><td class="l">사람·동물 + <b>'s</b></td><td class="l">Tom's bag, my sister's room</td></tr>
+      <tr><td class="l">-s로 끝나는 복수 + <b>'</b></td><td class="l">the students' books</td></tr>
+      <tr><td class="l">-s로 끝나지 않는 복수 + <b>'s</b></td><td class="l">the children's toys</td></tr></table>`,
+    points:[
+      ['소유격은 <b>명사 앞</b>, 소유대명사는 <b>혼자</b>', ['This is my bag. = This bag is mine.','이것은 내 가방이다. = 이 가방은 내 것이다.']],
+      ['동사·전치사 뒤에는 <b>목적격</b>', ['I like him. / Come with us.','나는 그를 좋아한다. / 우리와 함께 가자.']],
+    ],
+    tips:[
+      '<b>its</b>(그것의) vs <b>it\'s</b>(= it is) → The dog wagged <b>its</b> tail.',
+      '<b>This is my. ✗</b> → This is <b>mine</b>. (명사가 없으면 소유대명사)',
+      '<b>A and I</b>는 주어 자리 → <b>we</b> / 목적어 자리 → <b>us</b>',
+      '<b>the students\'</b> (s 뒤에는 \'만) / <b>the children\'s</b>'
+    ],
+    examples:[
+      ['She is my best friend.','그녀는 나의 가장 친한 친구이다.'],
+      ['I see her every day.','나는 그녀를 매일 본다.'],
+      ['This is their house.','이것은 그들의 집이다.'],
+      ['The pen is mine.','그 펜은 내 것이다.'],
+      ['Our teacher loves us.','우리 선생님은 우리를 사랑하신다.'],
+      ['The dog is wagging its tail.','개가 꼬리를 흔들고 있다.'],
+      ['Is this bag yours?','이 가방 네 것이니?'],
+      ["Tom's bike is red.",'Tom의 자전거는 빨간색이다.'],
+      ["The students' classroom is clean.",'학생들의 교실은 깨끗하다.'],
+      ['Please call me later.','나중에 나에게 전화해 줘.']
+    ],
+    ox:[['This book is her.',false,'"그녀의 것" → <b>hers</b>'],
+        ['The cat is licking its paw.',true,'its = 그것의 (it\'s ✗)']]
+  },
+  teacher:{
+    board:`인칭대명사 = 역할에 따라 모양이 바뀐다
+
+        주격  소유격  목적격  소유대명사
+ 1인칭  I      my     me     mine
+        we     our    us     ours
+ 2인칭  you    your   you    yours
+ 3인칭  he     his    him    his
+        she    her    her    hers
+        it     its    it     ✗
+        they   their  them   theirs
+
+★ 소유격 + 명사 / 소유대명사 = 혼자
+★ its(그것의) ≠ it's(it is)
+★ Tom's / students' / children's`,
+    intro:['학생의 물건을 하나 들고 "Whose pen is this?" → "It\'s mine! / It\'s his!" 반응 유도',
+           '"나는 그를 좋아한다"를 "I like he."라고 쓰면 무엇이 틀렸을까? → 자리(역할)에 따라 모양이 바뀐다'],
+    script:['① 대명사는 앞에 나온 명사를 대신 → 반복 피하기.',
+            '② 주격(주어 자리) / 소유격(명사 앞) / 목적격(동사·전치사 뒤) / 소유대명사(소유격 + 명사).',
+            '③ 리듬 암기: I-my-me-mine, you-your-you-yours, he-his-him-his …',
+            '④ it의 소유격 its에는 아포스트로피가 없다. it은 소유대명사가 없다.',
+            '⑤ 명사의 소유격: \'s / 복수 -s 뒤 \' / 불규칙 복수 \'s (children\'s, men\'s).',
+            '⑥ 내신 포인트: 밑줄 친 her의 역할(소유격 vs 목적격) 구별, 반복 명사를 대명사로 바꿔 쓰기.'],
+    examples:[
+      ['He is my cousin. I visit him on weekends.','그는 내 사촌이다. 나는 주말에 그를 방문한다.'],
+      ['Her name is Sora. I like her.','그녀의 이름은 소라다. 나는 그녀를 좋아한다.'],
+      ['We love our school.','우리는 우리 학교를 사랑한다.'],
+      ['They invited us to their party.','그들은 우리를 그들의 파티에 초대했다.'],
+      ['That car is ours.','저 차는 우리 것이다.'],
+      ['Is this umbrella yours or hers?','이 우산은 네 것이니, 그녀의 것이니?'],
+      ['The bird built its nest.','새가 둥지를 지었다.'],
+      ["It's my sister's birthday today.",'오늘은 내 여동생의 생일이다.'],
+      ["The girls' uniforms are blue.",'소녀들의 교복은 파란색이다.'],
+      ["Where is the men's room?",'남자 화장실은 어디인가요?'],
+      ['Jiho and I are friends. We sit together.','지호와 나는 친구다. 우리는 같이 앉는다.'],
+      ['Mom made cookies for Jiho and me.','엄마가 지호와 나를 위해 쿠키를 만들어 주셨다.']
+    ],
+    mistakes:[['I like he.','I like him.','목적격'],
+              ['This is my.','This is mine.','소유대명사'],
+              ["The dog wagged it's tail.",'The dog wagged its tail.','its (소유격)'],
+              ['Me and Tom are friends.','Tom and I are friends.','주어 자리 → 주격'],
+              ["the students's books","the students' books",'복수 -s 뒤 \'만']],
+    exam:['인칭대명사 격 변화 표 (it은 소유대명사 ✗)','밑줄 친 her / his의 역할 구별','반복되는 명사를 대명사로 바꾸기','명사의 소유격 (\'s / s\' / children\'s)'],
+    activity:'【Lost and Found 분실물 센터 · 5분】 학생 물건 5~6개를 모아 바구니에 담기 → "Is this your ~?" "No, it isn\'t mine. I think it\'s Jiho\'s." 대화로 주인 찾기. 맞게 돌려준 팀 +1.',
+    check:[['she / they의 목적격','her / them'],['"그 가방은 그녀의 것이다"를 영어로','The bag is hers.'],['the boys + 소유격',"the boys'"]]
+  }
+},
+{ no:'17', title:'비인칭 주어 it', short:'비인칭 it',
+  student:{
+    core:'<b>시간·날짜·요일·날씨·거리·명암</b>을 말할 때는 주어로 <b>it</b>을 써요. 이 it은 <span style="color:#ffd27a">"그것"이라고 해석하지 않아요!</span>',
+    table:`<table class="t"><tr><th>쓰임</th><th>예</th></tr>
+      <tr><td>시간</td><td class="l"><b>It's</b> 3 o'clock. / <b>It's</b> 7:30.</td></tr>
+      <tr><td>날짜</td><td class="l"><b>It's</b> May 5th.</td></tr>
+      <tr><td>요일</td><td class="l"><b>It's</b> Monday today.</td></tr>
+      <tr><td>날씨</td><td class="l"><b>It's</b> sunny. / <b>It's</b> raining.</td></tr>
+      <tr><td>거리</td><td class="l"><b>It's</b> 2 km from here to school.</td></tr>
+      <tr><td>명암 · 계절</td><td class="l"><b>It's</b> dark outside. / <b>It's</b> winter.</td></tr></table>
+      <table class="t"><tr><th>비인칭 주어 it</th><th>대명사 it (그것)</th></tr>
+      <tr><td class="l">It's cold. (해석 ✗)</td><td class="l">I have a cap. It's blue. (그것 = 모자)</td></tr></table>`,
+    points:[
+      ['비인칭 it: <b>해석하지 않는</b> 형식상의 주어', ["It's very windy today.",'오늘은 바람이 많이 분다.']],
+      ['대명사 it: 앞에 나온 <b>그것</b>', ["I found a wallet. It's brown.",'나는 지갑을 찾았다. 그것은 갈색이다.']],
+    ],
+    tips:[
+      '<b>This is sunny ✗</b> → <b>It\'s</b> sunny. (날씨는 it!)',
+      '질문할 때도 it → What time is <b>it</b>? / What day is <b>it</b>? / How far is <b>it</b>?',
+      '밑줄 친 it의 쓰임 구별 문제가 단골! "그것"으로 해석되는지 확인해요.',
+      '날씨 동사 → It <b>rains</b> a lot. / It <b>is snowing</b>.'
+    ],
+    examples:[
+      ["It's three o'clock.",'3시 정각이다.'],
+      ["It's Monday today.",'오늘은 월요일이다.'],
+      ["It's May 5th.",'5월 5일이다.'],
+      ["It's cold outside.",'밖이 춥다.'],
+      ["It's raining now.",'지금 비가 오고 있다.'],
+      ["It's 1 km from here to the station.",'여기서 역까지 1km이다.'],
+      ["It's dark in the room.",'방 안이 어둡다.'],
+      ["It's spring now.",'이제 봄이다.'],
+      ['What time is it? — It\'s 4:20.','몇 시니? — 4시 20분이야.'],
+      ['How far is it to the park? — It\'s 500 meters.','공원까지 얼마나 머니? — 500미터야.']
+    ],
+    ox:[['This is very hot today.',false,'날씨 → <b>It\'s</b> very hot today.'],
+        ["It's Friday today.",true,'요일 → 비인칭 주어 it']]
+  },
+  teacher:{
+    board:`비인칭 주어 it = 해석하지 않는 주어
+
+ 시간  It's 3 o'clock.
+ 날짜  It's May 5th.
+ 요일  It's Monday.
+ 날씨  It's sunny. / It's raining.
+ 거리  It's 2 km to school.
+ 명암  It's dark outside.
+
+ Q  What time is it?   What day is it?
+    What's the date?   How's the weather?
+    How far is it?
+
+★ 대명사 it(그것)과 구별!`,
+    intro:['창밖을 가리키며 "How\'s the weather?" → 학생들이 "Sunny!" → "It\'s sunny."로 문장 완성',
+           '"비가 온다"의 주어는 무엇일까? → 영어는 주어가 꼭 필요해서 형식상 it을 쓴다는 점 설명'],
+    script:['① 영어 문장은 주어가 반드시 필요 → 날씨·시간처럼 주어가 애매할 때 it을 쓴다.',
+            '② 비인칭 it은 해석하지 않는다. 쓰임 6가지: 시간·날짜·요일·날씨·거리·명암(계절).',
+            '③ 질문 패턴: What time is it? / What day is it? / What\'s the date today? / How\'s the weather? / How far is it?',
+            '④ 날씨는 형용사(sunny, cloudy)와 동사(rain, snow) 모두 가능 → It\'s rainy. / It\'s raining.',
+            '⑤ 대명사 it(그것)과 구별: 앞 문장에 가리키는 명사가 있으면 대명사.',
+            '⑥ 내신 포인트: 밑줄 친 It의 쓰임이 다른 것 고르기.'],
+    examples:[
+      ["It's half past seven.",'7시 반이다.'],
+      ["It's my birthday today.",'오늘은 내 생일이다.'],
+      ["It's Christmas Day.",'크리스마스이다.'],
+      ["It's sunny and warm.",'화창하고 따뜻하다.'],
+      ['It snows a lot in winter here.','여기는 겨울에 눈이 많이 온다.'],
+      ["It's getting dark.",'어두워지고 있다.'],
+      ["It's about ten minutes on foot.",'걸어서 약 10분이다.'],
+      ["It's far from my house to the library.",'우리 집에서 도서관까지는 멀다.'],
+      ["What's the date today? — It's November 10th.",'오늘 며칠이야? — 11월 10일이야.'],
+      ["How's the weather in Busan? — It's cloudy.",'부산 날씨 어때? — 흐려.'],
+      ["I bought a new phone. It's very light.",'새 휴대폰을 샀다. 그것은 매우 가볍다. (대명사)'],
+      ['Where is my book? — It\'s on the desk.','내 책 어디 있어? — 책상 위에 있어. (대명사)']
+    ],
+    mistakes:[['This is sunny.',"It's sunny.",'날씨 → it'],
+              ['That is 5 o\'clock.',"It's 5 o'clock.",'시간 → it'],
+              ['Is raining.',"It's raining.",'주어 필수'],
+              ['What time is this?','What time is it?','질문도 it'],
+              ['It is very rain.',"It rains a lot. / It's very rainy.",'rain은 동사·명사']],
+    exam:['밑줄 친 It의 쓰임이 다른 것 (비인칭 vs 대명사)','시간·날짜·요일 질문과 대답 짝짓기','날씨·거리 영작','This/That으로 잘못 쓴 문장 고치기'],
+    activity:'【Weather Reporter 기상 캐스터 · 4분】 학생 1명이 캐스터가 되어 오늘 날짜·요일·시간·날씨를 It\'s로 발표 → 다음 학생은 "내일의 부산" 가상 예보. 가장 캐스터다운 학생 +1.',
+    check:[['"오늘은 목요일이다"를 영어로',"It's Thursday today."],['"눈이 오고 있다"를 영어로',"It's snowing."],["I lost my key. It's small. — It의 뜻",'그것 (열쇠) — 대명사']]
+  }
+},
+{ no:'18', title:'부정 대명사 one', short:'부정대명사 one',
+  student:{
+    core:'앞에 나온 명사와 <b>같은 종류의 아무거나 하나</b>는 <b>one</b>(복수는 <b>ones</b>), <b>바로 그것</b>은 <b>it</b>으로 받아요. 둘 중 하나는 <b>one</b>, 나머지 하나는 <b>the other</b>!',
+    table:`<table class="t"><tr><th>표현</th><th>뜻</th><th>예</th></tr>
+      <tr><td class="be">one</td><td>같은 종류의 (아무) 하나</td><td class="l">I need a pen. Do you have <b>one</b>?</td></tr>
+      <tr><td class="be">ones</td><td>같은 종류의 여러 개</td><td class="l">I like the red <b>ones</b>.</td></tr>
+      <tr><td class="be">it</td><td>앞에 나온 바로 그것</td><td class="l">I lost my pen. I can't find <b>it</b>.</td></tr></table>
+      <table class="t"><tr><th>여럿 중 나누기</th><th>예</th></tr>
+      <tr><td class="l">둘 중: <b>one</b> ~, <b>the other</b> ~</td><td class="l">One is red, and the other is blue.</td></tr>
+      <tr><td class="l">셋 이상: <b>one</b> ~, <b>the others</b> ~</td><td class="l">One is a dog, and the others are cats.</td></tr>
+      <tr><td class="l">막연한 여럿: <b>some</b> ~, <b>others</b> ~</td><td class="l">Some like soccer, and others like baseball.</td></tr></table>`,
+    points:[
+      ['<b>one</b> = 같은 종류 / <b>it</b> = 바로 그것', ["My bike is old. I want a new one.",'내 자전거는 낡았다. 새것을 원한다.']],
+      ['둘 중 하나는 <b>one</b>, 나머지는 <b>the other</b>', ['I have two cats. One is black, and the other is white.','고양이 두 마리 중 한 마리는 검고 나머지는 하얗다.']],
+    ],
+    tips:[
+      '<b>"아무거나 하나" → one</b> / <b>"그 물건 자체" → it</b>',
+      '앞 명사가 복수면 <b>ones</b> → These shoes are small. Do you have bigger <b>ones</b>?',
+      '<b>the other</b>는 "남은 하나" → the 빠뜨리지 않기!',
+      '<b>a new one, a big one</b> → 형용사와 함께 자주 써요.'
+    ],
+    examples:[
+      ["I don't have a pencil. Can you lend me one?",'연필이 없어. 하나 빌려줄래?'],
+      ['This cup is dirty. Give me a clean one.','이 컵은 더러워. 깨끗한 것 줘.'],
+      ['I lost my umbrella. I have to find it.','우산을 잃어버렸어. 그것을 찾아야 해.'],
+      ['I need new shoes. I like these red ones.','새 신발이 필요해. 이 빨간 것들이 좋아.'],
+      ['I like this bag. I will buy it.','이 가방이 마음에 들어. 그것을 살게.'],
+      ['Do you have a pencil? — Yes, I have one.','연필 있니? — 응, 하나 있어.'],
+      ['I have two dogs. One is white, and the other is black.','개가 두 마리 있다. 한 마리는 흰색, 나머지는 검은색.'],
+      ['I have three pens. One is red, and the others are blue.','펜이 세 개 있다. 하나는 빨강, 나머지는 파랑.'],
+      ['Some students walk to school, and others take the bus.','어떤 학생들은 걸어가고, 다른 학생들은 버스를 탄다.'],
+      ['My phone is too old. I want a new one.','내 휴대폰은 너무 낡았다. 새것을 원한다.']
+    ],
+    ox:[["I need an eraser. Can I borrow it?",false,'아무 지우개 하나 → <b>one</b>'],
+        ['I have two sisters. One is 10, and the other is 15.',true,'둘 중 나머지 하나 → the other']]
+  },
+  teacher:{
+    board:`부정 대명사 one = 같은 종류의 불특정한 것
+
+ one   아무거나 하나   I need a pen. Do you have one?
+ ones  여러 개         Do you have bigger ones?
+ it    바로 그것       I lost my pen. I can't find it.
+
+ 둘 중      one ~, the other ~
+ 셋 이상    one ~, the others ~
+ 막연한 여럿 some ~, others ~
+
+★ one = 같은 "종류" / it = 같은 "물건"`,
+    intro:['교사가 "I need a pen."이라고 하며 학생에게 펜을 빌린 뒤, 학생 펜을 떨어뜨리고 "I dropped ___." → one과 it 차이 체험',
+           '쇼핑 상황 질문: "이 티셔츠 파란 것도 있어요?" → Do you have a blue one?'],
+    script:['① one: 앞에 나온 명사와 같은 종류의 불특정한 하나 (a + 명사).',
+            '② it: 앞에 나온 바로 그 대상 (the + 명사).',
+            '③ ones: 같은 종류의 복수. 형용사와 함께 → a new one, the red ones.',
+            '④ 나누어 말하기: 둘 중 one / the other, 셋 이상 one / the others, 막연한 여럿 some / others.',
+            '⑤ the other는 정해진 나머지 하나라서 the가 필수. other만 쓰면 감점.',
+            '⑥ 내신 포인트: one / it / ones 빈칸, the other / the others 구별.'],
+    examples:[
+      ['I want a sandwich. Can I have one?','샌드위치 먹고 싶어. 하나 먹어도 돼?'],
+      ['My watch is broken. I need a new one.','시계가 고장 났어. 새것이 필요해.'],
+      ['I bought a watch. My dad gave me the money for it.','시계를 샀다. 아빠가 그 돈을 주셨다.'],
+      ['These apples are rotten. Give me fresh ones.','이 사과들은 썩었어. 싱싱한 것들 줘.'],
+      ['Which one do you like?','어느 것이 좋아?'],
+      ['The blue one is mine.','파란 것이 내 거야.'],
+      ['I have two uncles. One lives in Seoul, and the other lives in Jeju.','삼촌이 두 분 계시다. 한 분은 서울, 다른 한 분은 제주에 사신다.'],
+      ['There are four balls. One is yellow, and the others are white.','공이 네 개 있다. 하나는 노랑, 나머지는 하양.'],
+      ['Some people like summer, and others like winter.','어떤 사람들은 여름을, 다른 사람들은 겨울을 좋아한다.'],
+      ['I lost my key yesterday, but I found it today.','어제 열쇠를 잃어버렸는데 오늘 찾았다.'],
+      ['This shirt is too big. Do you have a smaller one?','이 셔츠는 너무 커요. 더 작은 것 있나요?'],
+      ['I have a cat. It is very cute.','나는 고양이가 있다. 그것은 매우 귀엽다.']
+    ],
+    mistakes:[['I need a pen. Can I borrow it?','Can I borrow one?','불특정 → one'],
+              ['I lost my bag. I must find one.','I must find it.','바로 그것 → it'],
+              ['Do you have bigger one? (shoes)','bigger ones','복수 → ones'],
+              ['One is red, and other is blue.','the other','the 필수'],
+              ['One is a dog, and the other are cats.','the others','나머지 여럿 → the others']],
+    exam:['one / it / ones 빈칸 고르기','둘 중 one ~ the other ~','셋 이상 the others / 막연한 others','쇼핑 대화 속 one 쓰임'],
+    activity:'【Shop Talk 쇼핑 역할극 · 5분】 짝 중 한 명은 점원, 한 명은 손님. 손님은 "Do you have a bigger one / red ones?"로 요청, 점원은 "Here\'s a bigger one." 응답. 3가지 물건을 사면 역할 교대.',
+    check:[['My bike is old. I want a new ___.','one'],["I lost my key. I can't find ___.",'it'],['I have two cats. One is black, and ___ is white.','the other']]
+  }
+}];
+
+const U05_RUN={
+'15':[
+ {k:'prompt',who:'S',min:4,icon:'🎒',title:"Warm-up · What's in my bag?",guide:'짝에게 가방(책상) 속 물건을 3문장으로 소개 → 짝은 듣고 목록 작성. 교사는 a/an, 복수형, 단위 실수를 메모 → 판서 재료로.',
+  frames:['In my bag, I have <b>a</b> ______ and <b>an</b> ______.','I have <b>two</b> ______<b>s</b>.','I also have <b>a bottle of</b> ______.'],model:['In my bag, I have a pencil case and an eraser.','I have two notebooks.','I also have a bottle of water.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up에서 나온 "an uniform", "two waters" 같은 실수로 시작하세요. 복수형 규칙은 학생이 먼저 분류하게 해요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 분단별 → 🎲 개인. 단위 표현은 손으로 컵·조각 모양을 만들며 말하기!',
+  items:[['사과 한 개','an apple'],['책 세 권','three books'],['아이 두 명','two children'],['물 한 잔','a glass of water'],['피자 두 조각','two slices of pizza'],['빵 한 덩어리','a loaf of bread'],['우유 두 병','two bottles of milk'],['종이 한 장','a piece of paper']]},
+ {k:'cards',who:'S',min:5,icon:'🎲',title:'Game · 복수형 스피드',guide:'단수 명사가 뜨면 팀별로 복수형을 먼저 외치기 → 맞힌 팀 +1. 불규칙·단복수 동형 카드는 보너스 +1!',
+  hint:'+s / +es / y→ies / f→ves / 불규칙 / 같음',
+  items:[['box','boxes (+es)'],['baby','babies (y→ies)'],['knife','knives (fe→ves)'],['child','children (불규칙)'],['foot','feet (불규칙)'],['tooth','teeth (불규칙)'],['mouse','mice (불규칙)'],['sheep','sheep (같음!)'],['potato','potatoes (+es)'],['leaf','leaves (f→ves)'],['man','men (불규칙)'],['city','cities (y→ies)']]},
+ {k:'prompt',who:'S',min:5,icon:'🛒',title:'Pair Talk · Shopping List',guide:'짝과 마트 장보기 계획 세우기 → 단위 표현 3개 이상 사용 → 🎲로 뽑힌 팀이 장보기 목록 발표.',
+  frames:['A: What do we need?','B: We need <b>a bottle of</b> ______ and <b>two loaves of</b> ______.','A: How about ______?','B: Let\'s buy <b>three pieces of</b> ______.'],model:['A: What do we need?','B: We need a bottle of milk and two loaves of bread.','A: How about fruit?',"B: Let's buy five apples and three pieces of cake."]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['a / an: ___ hour, ___ uniform','an hour / a uniform (소리 기준!)'],['two glass of milk 고치기','two glasses of milk'],['three childs 고치기','three children'],['I want a bread. 고치기','I want a loaf of bread. / I want some bread.']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 15 문제 + Writing Mission 1 (장보기 리스트).',
+  items:['knife / tooth / baby의 복수형','"물 두 잔"을 영어로 쓰기','a / an: ___ egg, ___ university'],answers:['knives / teeth / babies','two glasses of water','an egg / a university']}
+],
+'16':[
+ {k:'prompt',who:'S',min:4,icon:'🕵️',title:'Warm-up · Who is it?',guide:'학생 1명이 반 친구 한 명을 대명사로 설명(이름 X) → 다른 친구들이 맞히기. He/She, His/Her, him/her를 모두 써야 해요.',
+  frames:['<b>He / She</b> is in our class.','<b>His / Her</b> bag is ______.','I like <b>him / her</b> because ______.','Q: Who is it?'],model:['She is in our class.','Her bag is pink.','I like her because she is funny.','Q: Who is it? — Is it Minji?']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up 문장에서 He / His / him을 찾아 표의 칸에 학생이 직접 채우게 하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). 소유대명사 문장은 그 물건을 들고 말하면 더 실감 나요!',
+  items:[['그는 나의 형이다.','He is my brother.'],['나는 그녀를 매일 본다.','I see her every day.'],['이것은 그들의 집이다.','This is their house.'],['그 펜은 내 것이다.','The pen is mine.'],['우리 선생님은 우리를 사랑하신다.','Our teacher loves us.'],['그 개는 꼬리를 흔들고 있다.','The dog is wagging its tail.'],['저 가방은 그의 것이다.','That bag is his.'],['Tom의 자전거는 빨간색이다.',"Tom's bike is red."]]},
+ {k:'cards',who:'S',min:5,icon:'🔄',title:'Game · 대명사 변신 스피드',guide:'카드의 대명사를 지시한 격으로 바꿔 팀별로 외치기 → 맞힌 팀 +1. its / students\' 같은 철자 카드는 칠판에 써야 정답!',
+  hint:'주격 → 소유격 / 목적격 / 소유대명사',
+  items:[['I → 목적격','me'],['she → 소유격','her'],['they → 소유대명사','theirs'],['we → 목적격','us'],['he → 소유대명사','his'],["it → 소유격","its (it's ✗)"],['you → 소유대명사','yours'],['Mina → 소유격',"Mina's"],['the students → 소유격',"the students' (s 뒤에는 '만)"],['they → 목적격','them']]},
+ {k:'prompt',who:'S',min:5,icon:'📦',title:'Pair Talk · Lost and Found',guide:'교사가 학생 물건 5~6개를 바구니에 모아 두기 → 짝과 대화로 주인 찾기 → 맞게 돌려준 팀 +1.',
+  frames:['A: Is this <b>your</b> pencil case?',"B: No, it isn't <b>mine</b>. I think it's <b>Jiho's</b>.",'A: Are these <b>her</b> glasses?',"B: Yes, they're <b>hers</b>."],model:['A: Is this your pencil case?',"B: No, it isn't mine. I think it's Jiho's.",'A: Is this eraser his?',"B: Yes, it's his. His name is on it."]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'틀린 부분을 고쳐 쓰고 동시에 들기.',
+  items:[['This is my. 고치기','This is mine.'],['I like he. 고치기','I like him.'],["The cat licked it's paw. 고치기",'The cat licked its paw.'],['Sora and I → 주격 / 목적격 대명사','we / us']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 16 문제 + Writing Mission 2 (분실물 센터).',
+  items:['she / they의 목적격','"그 가방은 그녀의 것이다"를 영어로 쓰기','the boys의 소유격'],answers:['her / them','The bag is hers.',"the boys'"]}
+],
+'17':[
+ {k:'prompt',who:'S',min:4,icon:'🌤️',title:'Warm-up · Weather Reporter',guide:'학생 1명이 기상 캐스터가 되어 오늘의 날짜·요일·시간·날씨를 발표 → 다음 학생은 "내일의 부산" 가상 예보. 모두 It\'s로 시작!',
+  frames:["<b>It's</b> ______ today. (sunny / cloudy / rainy / windy)","<b>It's</b> ______ degrees.","<b>It's</b> ______day, ______ ___th.","<b>It's</b> ______ now. (시간)"],model:["Good morning! It's sunny today.","It's 15 degrees.","It's Tuesday, November 10th.","It's 7:30 p.m. now."]},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'캐스터 발표 문장을 쓰임별(시간·날짜·요일·날씨·거리·명암)로 분류하며 판서. 대명사 it과의 구별은 학생에게 예문을 만들게 해요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). 모두 It\'s로 시작하는 문장이에요!',
+  items:[['3시 정각이다.',"It's three o'clock."],['오늘은 월요일이다.',"It's Monday today."],['5월 5일이다.',"It's May 5th."],['밖이 춥다.',"It's cold outside."],['비가 오고 있다.',"It's raining."],['여기서 역까지 1km이다.',"It's 1 km from here to the station."],['밖이 어둡다.',"It's dark outside."],['겨울이다.',"It's winter."]]},
+ {k:'cards',who:'S',min:5,icon:'🔍',title:'Game · 비인칭 it vs 그것 it',guide:'문장이 뜨면 비인칭 it이면 ☝️, 대명사 it(그것)이면 ✌️를 동시에! 맞힌 팀 +1.',
+  hint:'비인칭(해석 ✗) = ☝️ &nbsp; 대명사(그것) = ✌️',
+  items:[["It's 5 o'clock.",'☝️ 비인칭 (시간) — 해석 ✗'],["It's my new phone.",'✌️ 대명사 (그것)'],["It's very windy today.",'☝️ 비인칭 (날씨)'],["I bought a cap. It's blue.",'✌️ 대명사 (그것 = 모자)'],["It's two kilometers to the park.",'☝️ 비인칭 (거리)'],["It's Friday!",'☝️ 비인칭 (요일)'],["Where is my bag? It's on the desk.",'✌️ 대명사 (그것 = 가방)'],["It's getting dark.",'☝️ 비인칭 (명암)']]},
+ {k:'prompt',who:'S',min:5,icon:'👥',title:'Pair Talk · Q&A Interview',guide:'짝과 질문·대답을 주고받기 → 역할 교대 → 🎲로 뽑힌 팀이 시연. 대답은 모두 It\'s로!',
+  frames:['A: What time is it?',"B: <b>It's</b> ______.",'A: What day is it today?',"B: <b>It's</b> ______.","A: How's the weather?","B: <b>It's</b> ______.",'A: How far is it to your house?',"B: <b>It's</b> about ______."],model:['A: What time is it?',"B: It's 4:20.","A: How's the weather?","B: It's cloudy.",'A: How far is it to your house?',"B: It's about 1 km."]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['"7시 30분이다"를 영어로',"It's seven thirty. / It's 7:30."],['This is sunny today. 고치기',"It's sunny today."],["It's my birthday today. — it의 쓰임은?",'비인칭 (날짜)'],["Is it far from here? — it의 쓰임은?",'비인칭 (거리)']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 17 문제 + Writing Mission 3 (기상 캐스터 & 쇼핑).',
+  items:['"오늘은 목요일이다"를 영어로 쓰기','"눈이 오고 있다"를 영어로 쓰기',"I lost my key. It's small. — 밑줄 It의 뜻"],answers:["It's Thursday today.","It's snowing.",'그것 (열쇠) — 대명사']}
+],
+'18':[
+ {k:'prompt',who:'S',min:4,icon:'🛍️',title:'Warm-up · Which one? 쇼핑 역할극',guide:'짝 중 한 명은 점원, 한 명은 손님. 아직 규칙을 배우기 전이니 틀을 보고 따라 말해 보며 one의 느낌 잡기!',
+  frames:['A: I like this T-shirt. Do you have a blue <b>one</b>?',"B: Sure. Here's a blue <b>one</b>.",'A: I like these shoes. Do you have white <b>ones</b>?',"B: Sorry, we don't."],model:['A: I like this cap. Do you have a black one?',"B: Sure. Here's a black one.",'A: These socks are small. Do you have bigger ones?',"B: Yes. Here are bigger ones."]},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'펜을 빌리고 떨어뜨리는 연기로 one과 it의 차이를 먼저 보여 준 뒤 판서하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). one인지 it인지 먼저 손으로 표시(one=☝️, it=👉)하고 말하기!',
+  items:[["나는 펜이 없어. 하나 빌려줄래?","I don't have a pen. Can you lend me one?"],['이 컵은 더러워. 깨끗한 것을 줘.','This cup is dirty. Give me a clean one.'],['우산을 잃어버렸어. 그것을 찾아야 해.','I lost my umbrella. I have to find it.'],['새 신발이 필요해. 이 빨간 것들이 좋아.','I need new shoes. I like these red ones.'],['이 가방이 마음에 들어. 그것을 살게.','I like this bag. I will buy it.'],['연필 있니? — 응, 하나 있어.','Do you have a pencil? — Yes, I have one.'],['개가 두 마리 있다. 한 마리는 희고 나머지는 검다.','I have two dogs. One is white, and the other is black.'],['어떤 학생들은 축구를, 다른 학생들은 농구를 좋아한다.','Some students like soccer, and others like basketball.']]},
+ {k:'cards',who:'S',min:5,icon:'❓',title:'Game · one or it?',guide:'빈칸 문장이 뜨면 팀별로 one / it / ones / the other 중 하나를 외치기 → 맞힌 팀 +1. 이유까지 말하면 보너스!',
+  hint:'one = 같은 종류 아무거나 / it = 바로 그것 / the other = 나머지 하나',
+  items:[['I need a pencil. Do you have ___?','one (아무 연필 하나)'],['I bought a cap. I love ___.','it (산 바로 그 모자)'],['My phone is old. I want a new ___.','one'],["Where is my bag? I can't find ___.",'it'],['These shoes are small. Do you have bigger ___?','ones (복수)'],['I have two sisters. One is 10, and ___ is 15.','the other'],['This cake is delicious. Can I have ___ more piece?','one'],["I lost my watch. I'm looking for ___.",'it']]},
+ {k:'prompt',who:'S',min:5,icon:'👯',title:'Pair Talk · Two of a Kind',guide:'짝에게 나에게 두 개(두 명) 있는 것을 one / the other로 설명 → 이어서 반 친구들을 some / others로 설명. 🎲 발표.',
+  frames:['I have two ______. (brothers / pets / bags)','<b>One</b> is ______, and <b>the other</b> is ______.','In our class, <b>some</b> students like ______, and <b>others</b> like ______.'],model:['I have two pets.','One is a dog, and the other is a hamster.','In our class, some students like K-pop, and others like webtoons.']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'어색한 부분을 고쳐 쓰고 동시에 들기.',
+  items:[['I need an eraser. Can I borrow it?','it → one (아무 지우개 하나)'],['I have two pens. One is red, and other is blue.','other → the other'],['These jeans are tight. Do you have bigger one?','one → ones'],['I bought a book. I read one yesterday.','one → it (산 바로 그 책)']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 실전 모의고사 + 오답노트 정리.',
+  items:['My bike is old. I want a new ___.',"I lost my key. I can't find ___.",'I have two cats. One is black, and ___ is white.'],answers:['one','it','the other']}
+]};
+
+const U05_Q=[
+{id:'pm01',c:'15',type:'mc',q:'다음 중 a / an의 쓰임이 <u>잘못된</u> 것은?',opts:['an apple','an hour','an umbrella','an uniform','an egg'],ans:3,
+ exp:'uniform은 [유]로 시작하는 <b>자음 소리</b> → <b>a</b> uniform. an hour는 h 소리가 나지 않아 모음 소리로 시작해요.'},
+{id:'pm02',c:'15',type:'mc',q:'명사의 단수형과 복수형이 <u>잘못</u> 짝지어진 것은?',opts:['box – boxes','baby – babies','knife – knifes','child – children','foot – feet'],ans:2,
+ exp:'-fe로 끝나는 명사 → f를 v로 바꾸고 -es → <b>knives</b>.'},
+{id:'pm03',c:'15',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'I drink two ______ of milk every day.',opts:['glass','glasses','glasss','piece','pieces'],ans:1,
+ exp:'셀 수 없는 명사(milk)는 단위로 세고, 복수일 때는 <b>단위를 복수로</b> → two <b>glasses</b> of milk.'},
+{id:'pm04',c:'15',type:'mc',q:'셀 수 없는 명사로만 짝지어진 것은?',opts:['water, book, pen','money, bread, information','apple, juice, egg','advice, chair, rice','milk, cup, sugar'],ans:1,
+ exp:'money, bread, information 모두 셀 수 없는 명사. book, pen, apple, egg, chair, cup은 셀 수 있어요.'},
+{id:'pm05',c:'15',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장은?',opts:['I need a money.','She has three childs.','I want two pieces of cake.','He bought a bread.','There are five sheeps.'],ans:2,
+ exp:'③ two pieces of cake (O).<br>① some money ② children ④ a loaf of bread ⑤ sheep (단·복수 동형)'},
+{id:'pm06',c:'16',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'This is Mina. ______ is my best friend.',opts:['She','Her','Hers','He','It'],ans:0,
+ exp:'주어 자리 + 여자 한 명 → 주격 <b>She</b>.'},
+{id:'pm07',c:'16',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'Look at the bird. ______ wings are beautiful.',opts:['It','Its',"It's",'Itself','They'],ans:1,
+ exp:'"그것의" 날개 → 소유격 <b>Its</b>. It\'s는 It is의 줄임말이에요.'},
+{id:'pm08',c:'16',type:'mc',q:'인칭대명사의 변화(주격–소유격–목적격–소유대명사)가 <u>바르지 않은</u> 것은?',opts:['I – my – me – mine','he – his – him – his','she – her – her – hers','it – its – it – its','they – their – them – theirs'],ans:3,
+ exp:'<b>it은 소유대명사가 없어요</b>. it – its – it – ✗'},
+{id:'pm09',c:'16',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'Jiho and I are friends. ______ play soccer together.',opts:['We','Us','Our','They','Them'],ans:0,
+ exp:'Jiho and I = 우리 + 주어 자리 → <b>We</b>.'},
+{id:'pm10',c:'16',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:"A: Is this your bag?<br>B: No, it isn't ______. It's Tom's.",opts:['my','me','mine','I','Tom'],ans:2,
+ exp:'"내 것" → 소유대명사 <b>mine</b>. 뒤에 명사가 없으므로 my는 쓸 수 없어요.'},
+{id:'pm11',c:'17',type:'mc',q:'밑줄 친 It의 쓰임이 나머지 넷과 <u>다른</u> 것은?',opts:['<u>It</u> is Sunday today.','<u>It</u> is very hot.',"<u>It</u> is 10 o'clock.",'<u>It</u> is my new bike.','<u>It</u> is dark outside.'],ans:3,
+ exp:'④는 "그것은 내 새 자전거이다"의 <b>대명사 it</b>. 나머지는 요일·날씨·시간·명암의 <b>비인칭 주어</b>.'},
+{id:'pm12',c:'17',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: What time is it?<br>B: ______',opts:["It's 3:30.",'This is 3:30.','It is Monday.',"That's three.","I'm 3:30."],ans:0,
+ exp:'시간은 비인칭 주어 it → <b>It\'s 3:30.</b> ③은 요일이라 질문과 맞지 않아요.'},
+{id:'pm13',c:'18',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:"I don't have a pencil. Can you lend me ______?",opts:['it','one','ones','the other','them'],ans:1,
+ exp:'아무 연필 하나 → 같은 종류의 불특정한 하나 → <b>one</b>.'},
+{id:'pm14',c:'18',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'I have two brothers. One is a doctor, and ______ is a teacher.',opts:['other','another','the other','others','the others'],ans:2,
+ exp:'둘 중 하나는 one, 나머지 하나는 <b>the other</b>.'},
+{id:'pm15',c:'18',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:"I lost my cap. I'm looking for ______.",opts:['one','it','ones','other','them'],ans:1,
+ exp:'잃어버린 <b>바로 그</b> 모자 → <b>it</b>.'},
+{id:'po01',c:'15',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'나는 아침으로 우유 한 잔을 마신다.',words:['drink','I','a glass of','milk','for breakfast'],end:'.',ans:'I drink a glass of milk for breakfast',exp:'I + drink + <b>a glass of milk</b> + for breakfast.'},
+{id:'po02',c:'16',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그녀는 그녀의 개와 함께 산책한다.',words:['her','walks','she','with','dog'],end:'.',ans:'she walks with her dog',exp:'She(주격) + walks + with + <b>her</b>(소유격) dog.'},
+{id:'po03',c:'16',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그 노트북은 그의 것이 아니다.',words:['his','the laptop','is','not'],end:'.',ans:'the laptop is not his',exp:'The laptop + is not + <b>his</b>(소유대명사).'},
+{id:'po04',c:'17',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'오늘은 바람이 많이 분다.',words:['windy','it','is','very','today'],end:'.',ans:'it is very windy today',exp:'날씨 → 비인칭 주어 <b>It</b> + is + very windy + today.'},
+{id:'po05',c:'17',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'여기서 학교까지 2km이다.',words:['it','two kilometers','is','from here','to school'],end:'.',ans:'it is two kilometers from here to school',exp:'거리 → 비인칭 주어 <b>It</b> + is + 2 km + from here + to school.'},
+{id:'po06',c:'18',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'저에게 더 작은 것을 보여 주세요.',words:['show','me','a smaller','one','please'],end:'.',ans:'please show me a smaller one',exp:'Please + show + me + <b>a smaller one</b>. one은 형용사와 자주 함께 써요.'},
+{id:'pf01',c:'15',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'I have two boxs of cookies.',w:3,fix:['boxes'],full:'I have two boxes of cookies.',exp:'-x로 끝나는 명사 → +es → <b>boxes</b>.'},
+{id:'pf02',c:'15',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'She bought three loaf of bread.',w:3,fix:['loaves'],full:'She bought three loaves of bread.',exp:'단위를 복수로 → loaf → <b>loaves</b> (f → ves).'},
+{id:'pf03',c:'15',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'There are many leafs on the ground.',w:3,fix:['leaves'],full:'There are many leaves on the ground.',exp:'leaf → <b>leaves</b> (f → ves).'},
+{id:'pf04',c:'16',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'This book is her.',w:3,fix:['hers'],full:'This book is hers.',exp:'"그녀의 것" → 소유대명사 <b>hers</b>.'},
+{id:'pf05',c:'16',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Please help I with this box.',w:2,fix:['me'],full:'Please help me with this box.',exp:'동사(help) 뒤 목적어 자리 → 목적격 <b>me</b>.'},
+{id:'pf06',c:'16',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:"The bird is building it's nest.",w:4,fix:['its'],full:'The bird is building its nest.',exp:'"그것의" 둥지 → 소유격 <b>its</b> (it\'s = it is).'},
+{id:'pf07',c:'17',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'This is rainy today.',w:0,fix:['it'],full:"It is rainy today. (= It's rainy today.)",exp:'날씨를 말할 때는 비인칭 주어 <b>It</b>.'},
+{id:'pf08',c:'18',type:'fix',q:'어법상 어색한 부분을 찾아 바르게 고치시오.',s:'I need a ruler. Do you have it?',w:7,fix:['one'],full:'I need a ruler. Do you have one?',exp:'아무 자 하나 → 불특정 → <b>one</b>.'},
+{id:'pw01',c:'15',type:'blank',q:'빈칸에 알맞은 단위 표현을 쓰시오.',text:'• a [0] of water<br>• two [1] of cake<br>• three [2] of bread',accept:[['glass','cup','bottle'],['pieces','slices'],['loaves','slices','pieces']],
+ exp:'① 물 → <b>glass</b> (cup, bottle) ② 케이크 → <b>pieces</b> (slices) ③ 빵 → <b>loaves</b> (slices, pieces) — 복수일 땐 단위를 복수로!'},
+{id:'pw02',c:'15',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 매일 물 다섯 잔을 마신다.',cond:'glass, water, every day를 사용할 것 (필요하면 형태 변형)',accept:['I drink five glasses of water every day'],
+ exp:'glass → <b>glasses</b> (+es). water는 그대로!'},
+{id:'pw03',c:'16',type:'blank',q:'빈칸에 알맞은 대명사를 쓰시오.',text:"• Mina has a cat. [0] cat is white.<br>• I know Tom. I like [1].<br>• This pen is not mine. It's [2]. (너의 것)",accept:[['her'],['him'],['yours']],
+ exp:'① 미나의 → 소유격 <b>Her</b> ② 동사 뒤 → 목적격 <b>him</b> ③ 너의 것 → <b>yours</b>'},
+{id:'pw04',c:'16',type:'write',q:'다음 문장을 mine을 사용하여 같은 뜻으로 바꿔 쓰시오.',box:'This is my bike.',cond:'mine을 사용할 것',accept:['This bike is mine'],
+ exp:'my bike(내 자전거) = <b>mine</b>(내 것) → This bike is mine.'},
+{id:'pw05',c:'17',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'오늘은 11월 10일이다.',cond:'it, November 10th를 사용할 것',accept:["It's November 10th today","It is November 10th today","It's November 10th","It is November 10th","Today it's November 10th"],
+ exp:'날짜 → 비인칭 주어 <b>It</b>.'},
+{id:'pw06',c:'17',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'밖에 눈이 오고 있다.',cond:'it, snow, outside를 사용할 것 / 현재진행형으로 쓸 것',accept:["It's snowing outside","It is snowing outside"],
+ exp:'날씨 → <b>It</b> + is snowing (현재진행형).'},
+{id:'pw07',c:'18',type:'blank',q:'빈칸에 one / it / ones 중 알맞은 말을 쓰시오.',text:'• My phone is broken. I need a new [0].<br>• I bought a cake. I put [1] in the fridge.<br>• These socks are dirty. Give me clean [2].',accept:[['one'],['it'],['ones']],
+ exp:'① 새 휴대폰 아무거나 → <b>one</b> ② 산 바로 그 케이크 → <b>it</b> ③ 양말(복수) 같은 종류 → <b>ones</b>'},
+{id:'pw08',c:'18',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 고양이 두 마리가 있다. 한 마리는 검고, 나머지 한 마리는 하얗다.',cond:'One, the other를 사용할 것 / 두 문장으로 쓸 것',accept:['I have two cats. One is black, and the other is white','I have two cats. One is black and the other is white'],
+ exp:'둘 중 하나 <b>One</b>, 나머지 하나 <b>the other</b>.'}
+];
+
+const U05_ADV=[
+{id:'q01',c:'15',type:'mc',q:'다음 중 어법상 <u>옳은</u> 표현을 모두 고른 것은?',box:'ⓐ two pieces of paper<br>ⓑ three glass of juice<br>ⓒ a slice of pizza<br>ⓓ four bottles of waters<br>ⓔ two cups of tea',opts:['ⓐ, ⓑ','ⓐ, ⓒ, ⓔ','ⓑ, ⓓ','ⓒ, ⓓ, ⓔ','ⓐ, ⓓ'],ans:1,
+ exp:'ⓑ three <b>glasses</b> of juice ⓓ four bottles of <b>water</b> (water에 -s ✗)'},
+{id:'q02',c:'15',type:'mc',q:'다음 중 셀 수 없는 명사의 개수는?',box:'apple, water, money, child, bread, advice, chair',opts:['2개','3개','4개','5개','6개'],ans:2,
+ exp:'water, money, bread, advice → <b>4개</b>. apple, child, chair는 셀 수 있어요.'},
+{id:'q03',c:'16',type:'mc',q:'다음 글의 밑줄 친 ⓐ~ⓔ 중 어법상 <u>틀린</u> 것은?',box:"This is my friend Sora. ⓐ<u>She</u> lives near ⓑ<u>my</u> house. I often visit ⓒ<u>her</u> house. ⓓ<u>Her</u> dog is very cute. ⓔ<u>It's</u> name is Bori.",opts:['ⓐ','ⓑ','ⓒ','ⓓ','ⓔ'],ans:4,
+ exp:'"그것의" 이름 → 소유격 <b>Its</b>. It\'s는 It is예요.'},
+{id:'q04',c:'16',type:'mc',q:'밑줄 친 her와 쓰임이 <u>같은</u> 것은?',box:'I met <u>her</u> at the park.',opts:['<u>Her</u> name is Mina.','This is <u>her</u> bag.','I like <u>her</u> very much.','<u>Her</u> eyes are big.','Is that <u>her</u> phone?'],ans:2,
+ exp:'박스의 her는 동사 met 뒤 <b>목적격</b>(그녀를). ③도 목적격, 나머지는 명사 앞 <b>소유격</b>(그녀의).'},
+{id:'q05',c:'16',type:'mc',q:'명사의 소유격이 <u>바르게</u> 쓰인 것의 개수는?',box:"ⓐ Mina's bag<br>ⓑ the students' books<br>ⓒ the childrens' toys<br>ⓓ my parents' car<br>ⓔ his's pen",opts:['1개','2개','3개','4개','5개'],ans:2,
+ exp:"ⓐ ⓑ ⓓ → <b>3개</b>. ⓒ children은 -s로 끝나지 않으므로 <b>children's</b> ⓔ his 자체가 소유격"},
+{id:'q06',c:'17',type:'mc',q:'밑줄 친 It이 <u>비인칭 주어</u>인 것끼리 묶은 것은?',box:"ⓐ <u>It</u> is my sister's book.<br>ⓑ <u>It</u> is getting dark.<br>ⓒ <u>It</u> is far from here.<br>ⓓ I have a dog. <u>It</u> is cute.<br>ⓔ <u>It</u> is September 1st.",opts:['ⓐ, ⓑ','ⓑ, ⓒ, ⓔ','ⓐ, ⓓ','ⓒ, ⓓ, ⓔ','ⓑ, ⓓ'],ans:1,
+ exp:'ⓑ 명암 ⓒ 거리 ⓔ 날짜 → 비인칭 주어. ⓐⓓ는 "그것"으로 해석되는 대명사.'},
+{id:'q07',c:'17',type:'mc',q:'질문과 대답이 <u>어울리지 않는</u> 것은?',opts:["A: What day is it?<br>B: It's Wednesday.","A: What's the date today?<br>B: It's May 3rd.","A: How's the weather?<br>B: It's sunny.","A: What time is it?<br>B: It's Friday.","A: How far is it?<br>B: It's 5 km."],ans:3,
+ exp:'시간을 물었는데 요일(Friday)로 대답했어요. → It\'s 3 o\'clock. 처럼 시간으로 대답해야 해요.'},
+{id:'q08',c:'18',type:'mc',q:'빈칸 ⓐ, ⓑ에 들어갈 말이 바르게 짝지어진 것은?',box:'ⓐ This apple is rotten. Give me a fresh ______.<br>ⓑ I made a cake. Do you want to try ______?',opts:['one – it','it – one','one – one','it – it','ones – it'],ans:0,
+ exp:'ⓐ 아무 싱싱한 사과 하나 → <b>one</b> ⓑ 내가 만든 바로 그 케이크 → <b>it</b>'},
+{id:'q09',c:'18',type:'mc',q:'빈칸 (A), (B)에 들어갈 말이 바르게 짝지어진 것은?',box:'I have three pets. (A) ______ is a dog, and (B) ______ are cats.',opts:['One – the others','One – the other','One – others','It – the others','One – another'],ans:0,
+ exp:'셋 중 하나 <b>One</b>, 나머지 둘(정해진 여럿) <b>the others</b>. 동사 are를 보고 복수임을 확인!'},
+{id:'q10',c:'15',type:'mc',q:'다음 중 어법상 <u>어색한</u> 문장은?',opts:['I drank two cups of coffee.','The man has three children.','Their house is bigger than ours.','I need some informations.','The wolf showed its teeth.'],ans:3,
+ exp:'information은 셀 수 없는 명사 → -s ✗ → some <b>information</b>.'},
+{id:'r01',c:'15',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 오늘 아침에 빵 두 조각과 우유 한 잔을 먹었다.',
+ conds:[{t:'piece, bread, glass, milk를 활용할 것 (필요하면 형태 변형)',re:'two pieces of bread.*a glass of milk'},{t:'have의 과거형을 사용할 것',re:'\\bhad\\b'}],
+ core:[['^i had two pieces of bread and a glass of milk','I had two pieces of bread and a glass of milk (this morning).'],['\\bbreads\\b|\\bmilks\\b','bread, milk는 셀 수 없어요 → -s ✗','not']],
+ model:['I had two pieces of bread and a glass of milk this morning.'],
+ exp:'단위 piece → <b>pieces</b>로 형태 변형. bread·milk는 그대로!'},
+{id:'r02',c:'15',type:'cwrite',q:'a child를 three children으로 바꿔 두 문장을 다시 쓰시오.',box:'There is a child in the park. He has a toy.',
+ conds:[{t:'There are three children으로 시작할 것',re:'^there are three children'},{t:'두 번째 문장의 주어와 동사도 알맞게 바꿀 것',re:'\\bthey have\\b'},{t:'두 문장 모두 쓸 것',sent:2}],
+ core:[['there are three children in the park','There are three children in the park.'],['they have (toys|three toys)','They have toys.']],model:['There are three children in the park.','They have toys.'],
+ exp:'child → <b>children</b>, is → <b>are</b>, He has → <b>They have</b>, a toy → <b>toys</b>. 명사의 수가 바뀌면 동사·대명사도 함께 바뀌어요.'},
+{id:'r03',c:'16',type:'cwrite',q:'밑줄 친 부분을 알맞은 대명사로 바꿔 두 문장을 다시 쓰시오.',box:"<u>Mina and I</u> visited Tom. Tom showed <u>Mina and me</u> <u>Tom's</u> new room.",
+ conds:[{t:'두 문장 모두 쓸 것',sent:2}],
+ core:[['^we visited tom','첫 문장: Mina and I → We'],['showed us his new room','두 번째 문장: Mina and me → us, Tom\'s → his']],model:['We visited Tom.','Tom showed us his new room.'],
+ exp:'주어 자리 → <b>We</b> / 목적어 자리 → <b>us</b> / 소유격 → <b>his</b>.'},
+{id:'r04',c:'16',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'저 빨간 우산은 내 것이 아니다. 그것은 그녀의 것이다.',
+ conds:[{t:'mine, hers를 사용할 것',re:'mine.*hers'},{t:'부정문을 쓸 것',re:"\\bnot\\b|n't"}],
+ core:[["^that red umbrella (is not|isn't) mine[.,]?\\s*(but )?(it's |it is )?hers","That red umbrella isn't mine. It's hers."]],model:["That red umbrella isn't mine.","It's hers."],
+ exp:'"내 것" <b>mine</b>, "그녀의 것" <b>hers</b>. 뒤에 명사가 없으니 소유대명사!'},
+{id:'r05',c:'17',type:'cwrite',q:'표를 보고, It으로 시작하는 문장 3개를 쓰시오.',box:'<table><tr><th>날짜</th><td>Friday, May 5th</td></tr><tr><th>시간</th><td>2:30 p.m.</td></tr><tr><th>날씨</th><td>sunny and warm</td></tr></table>',
+ conds:[{t:"It으로 시작하는 문장 3개를 쓸 것",sent:3,re:"^it('s| is)\\b"}],
+ core:[['friday|may (5|fifth)','요일 또는 날짜를 넣어 주세요.'],['(2:30|two thirty)','시간(2:30)을 넣어 주세요.'],['sunny','날씨(sunny)를 넣어 주세요.']],
+ model:["It's Friday, May 5th.","It's 2:30 p.m.","It's sunny and warm."],
+ exp:'날짜·시간·날씨 모두 <b>비인칭 주어 It</b>으로 시작해요.'},
+{id:'r06',c:'17',type:'cwrite',q:'B의 대답을 보고, far를 사용하여 A의 질문을 쓰시오.',box:"A: ________________________<br>B: It's about 3 km from here to the museum.",
+ conds:[{t:'How far를 사용할 것',re:'^how far is it'}],
+ core:[['^how far is it( from here)? to the museum\\s*\\?','How far is it (from here) to the museum?']],model:['How far is it from here to the museum?'],
+ exp:'거리를 묻는 질문도 비인칭 주어 <b>it</b> → How far is it ~?'},
+{id:'r07',c:'18',type:'cwrite',q:'두 문장에서 어색한 부분을 각각 고쳐 다시 쓰시오.',box:"ⓐ I don't have an umbrella. Can I borrow it?<br>ⓑ I lost my wallet. I have to find one.",
+ conds:[{t:'ⓐ, ⓑ의 두 번째 문장을 모두 고쳐 쓸 것',sent:2}],
+ core:[['can i borrow one','ⓐ Can I borrow one? (아무 우산 하나)'],['i have to find it','ⓑ I have to find it. (잃어버린 바로 그 지갑)']],model:['Can I borrow one?','I have to find it.'],
+ exp:'ⓐ 불특정한 우산 하나 → <b>one</b> ⓑ 잃어버린 바로 그 지갑 → <b>it</b>'},
+{id:'r08',c:'18',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나에게는 친구가 두 명 있다. 한 명은 키가 크고, 다른 한 명은 키가 작다.',
+ conds:[{t:'One, the other를 사용할 것',re:'\\bone is tall.*the other is short'},{t:'두 문장으로 쓸 것',sent:2}],
+ core:[['^i have two friends','I have two friends.'],['\\bone is tall,? and the other is short','One is tall, and the other is short.']],model:['I have two friends.','One is tall, and the other is short.'],
+ exp:'둘 중 하나 <b>One</b>, 나머지 하나 <b>the other</b> (the 필수!).'},
+{id:'r09',c:'15',type:'cwrite',q:'내 가방 속 물건을 소개하는 문장을 <조건>에 맞게 3개 이상 쓰시오.',
+ conds:[{t:'3문장 이상 쓸 것',sent:3},{t:'a 또는 an + 명사 1개 이상',re:'\\b(a|an) [a-z]+'},{t:'숫자 + 복수 명사 1개 이상 (two books …)',re:'\\b(two|three|four|five|six|many|some) [a-z]+(s|es|ren|men|eth)\\b'},{t:'소유격 1개 이상 (my, his, her …)',re:'\\b(my|his|her|our|their|your)\\b'}],
+ core:[['\\ban (b|c|d|f|g|j|k|l|m|n|p|q|r|s|t|v|w|x|y|z)[a-z]','an은 모음 소리 앞에만 써요!','not'],['\\ba (apple|egg|orange|eraser|umbrella|ice|old|english)\\b','모음 소리 앞에는 an!','not']],
+ model:['I have a pencil case in my bag.','There are three books in it.','I also have an eraser and my phone.'],
+ exp:'정답이 정해지지 않은 자유 영작. a/an, 복수형, 소유격을 정확히 쓰는 것이 핵심!'},
+{id:'r10',c:'18',type:'cwrite',q:'B의 말을 이어서, One과 the other를 사용하여 두 모자를 설명하는 문장을 쓰시오. (색깔 자유)',box:"A: It's very cold today. I need a hat.<br>B: I have two hats. ________________",
+ conds:[{t:'One으로 시작하는 설명',re:'\\bone is [a-z]+'},{t:'the other를 사용한 설명',re:'the other is [a-z]+'}],
+ core:[['\\band other is\\b','"나머지 하나"는 the other!','not']],model:['One is red, and the other is black.'],
+ exp:'두 개 중 하나 <b>One</b>, 나머지 하나 <b>the other</b>.'}
+].map(q=>(q.set='adv',q));
+
+const U05_MISSIONS=[
+{id:'m1',icon:'🛒',title:'장보기 리스트',desc:'단위 표현과 복수형으로 장보기 목록을 만들어요 (개념 15)',steps:[
+ {inst:'"우리는 우유 두 병이 필요하다."',given:['need','bottle','milk'],must:[['^we need two bottles of milk','We need + two bottles of milk']],not:[['two bottle of','단위를 복수로 → bottles'],['\\bmilks\\b','milk는 셀 수 없어요 → -s ✗']],model:'We need two bottles of milk.'},
+ {inst:'"그리고 우리는 빵 한 덩어리도 필요하다."',given:['And','loaf','bread'],must:[['^(and,? )?we (also )?need a loaf of bread','(And) we need a loaf of bread.']],not:[['\\bbreads\\b|\\ba bread\\b','bread는 a loaf of bread로!']],model:'And we need a loaf of bread, too.'},
+ {inst:'"사과 다섯 개와 감자 세 개를 사자."',given:["Let's buy",'apple','potato'],must:[["^let's buy five apples and three potatoes","Let's buy + five apples + and three potatoes"]],not:[['\\bpotatos\\b','potato → potatoes (+es)']],model:"Let's buy five apples and three potatoes."},
+ {inst:'"아이들을 위해 피자 두 조각도 사자."',given:['slice','pizza','for the children'],must:[['two slices of pizza for the children','two slices of pizza + for the children']],not:[['\\bchilds\\b','child → children'],['\\bpizzas\\b','pizza는 slices of pizza로!']],model:"Let's buy two slices of pizza for the children."},
+ {free:true,inst:'자유 영작: 우리 가족의 장보기 목록을 3문장 이상 써 보세요.',cond:'단위 표현(a glass of, a piece of …) 1개 이상, 숫자 + 복수 명사 1개 이상',minSent:3,
+  must:[['\\b(glass|glasses|bottle|bottles|piece|pieces|slice|slices|loaf|loaves|cup|cups|bowl|bowls|bag|bags|can|cans) of\\b','단위 표현(a bottle of …)을 넣어 주세요.'],['\\b(two|three|four|five|six|ten|some|many) [a-z]+(s|es|ren|men|eth)\\b','숫자 + 복수 명사를 넣어 주세요.']],not:[['\\b(breads|milks|waters|juices|moneys)\\b','셀 수 없는 명사에는 -s를 붙이지 않아요.']],
+  model:"We need three bottles of water. My mom wants a bag of rice. Let's buy six eggs and two pieces of cake."}
+]},
+{id:'m2',icon:'📦',title:'분실물 센터',desc:'인칭대명사의 격을 바꿔 가며 주인을 찾아요 (개념 16)',steps:[
+ {inst:'"이것은 너의 필통이니?"',given:['your','pencil case'],must:[['^is this your pencil case\\s*\\?','Is this + your + pencil case?']],not:[],model:'Is this your pencil case?'},
+ {inst:'"아니, 그것은 내 것이 아니야."',given:['No','mine'],must:[["^no,? it('s not| isn't| is not) mine","No, it isn't mine."]],not:[['\\bmy\\.?$','명사가 없으니 소유대명사 mine!']],model:"No, it isn't mine."},
+ {inst:'"그것은 지호의 것인 것 같아."',given:['I think',"Jiho's"],must:[["^i think (it's|it is) jiho's","I think it's Jiho's."]],not:[],model:"I think it's Jiho's."},
+ {inst:'"그의 이름이 그 위에 있어."',given:['His name','on it'],must:[['^his name is on it','His name is on it.']],not:[['^he name','"그의" → His']],model:'His name is on it.'},
+ {inst:'"그에게 그것을 돌려주자."',given:["Let's give",'back','him'],must:[["^let's give it back to him","Let's give it back to him."]],not:[['to he\\b','전치사 뒤에는 목적격 him!']],model:"Let's give it back to him."},
+ {free:true,inst:'자유 영작: 분실물을 주인에게 찾아 주는 이야기를 3문장 이상 써 보세요.',cond:'소유격(my, his …) 1개, 목적격(me, him …) 1개, 소유대명사(mine, hers …) 1개 이상',minSent:3,
+  must:[['\\b(my|your|his|her|its|our|their)\\b','소유격을 넣어 주세요.'],['\\b(me|him|her|us|them)\\b','목적격을 넣어 주세요.'],['\\b(mine|yours|hers|ours|theirs)\\b','소유대명사를 넣어 주세요.']],not:[["\\bit's (bag|pen|book|name|tail)\\b",'"그것의"는 its!']],
+  model:"I found a black cap in my classroom. It wasn't mine. Minho said, \"It's mine!\" I gave it to him."}
+]},
+{id:'m3',icon:'🌦️',title:'기상 캐스터 & 쇼핑',desc:'비인칭 it으로 날씨를 전하고 one으로 쇼핑해요 (개념 17·18)',steps:[
+ {inst:'"오늘은 화요일이다."',given:['It','Tuesday'],must:[["^it('s| is) tuesday","It's Tuesday (today)."]],not:[['^(this|that|today is)','비인칭 주어 It으로 시작해 보세요.']],model:"It's Tuesday today."},
+ {inst:'"지금은 오전 8시이다."',given:['It','8 a.m.'],must:[["^it('s| is) (8|eight)","It's 8 a.m. now."]],not:[],model:"It's 8 a.m. now."},
+ {inst:'"밖은 춥고 바람이 분다."',given:['cold','windy','outside'],must:[["^it('s| is) cold and windy","It's cold and windy (outside)."]],not:[['^(this|that)','날씨는 It으로!']],model:"It's cold and windy outside."},
+ {inst:'"나는 장갑이 필요하다. 따뜻한 것들을 살 것이다."',given:['gloves','warm ones'],must:[['i need gloves','I need gloves.'],["i('ll| will) buy warm ones","I will buy warm ones."]],not:[['warm one\\b','장갑(gloves)은 복수 → ones!']],model:"I need gloves. I will buy warm ones."},
+ {free:true,inst:'자유 영작: 날씨 리포트 + 쇼핑 계획을 3문장 이상 써 보세요.',cond:"It's로 시작하는 날씨·시간 문장 1개 이상, one 또는 ones 1개 이상",minSent:3,
+  must:[["(^|\\.\\s*)it('s| is) ",'It\'s로 시작하는 날씨·시간 문장을 넣어 주세요.'],['\\bones?\\b','one 또는 ones를 넣어 주세요.']],not:[['^(this|that) is (sunny|cold|hot|rainy|windy|cloudy)','날씨는 It으로!']],
+  model:"It's rainy and cold today. My umbrella is broken. I will buy a new one after school."}
+]}
+];
+
+/* ================= UNIT 06 to부정사와 동명사 (개념 19~22) ================= */
+const U06_CONCEPTS=[
+{ no:'19', title:'to부정사와 동명사', short:'to부정사·동명사',
+  student:{
+    core:'동사를 <b>"~하는 것"</b>이라는 명사처럼 쓰고 싶을 때 <b>to + 동사원형</b>(to부정사) 또는 <b>동사원형 + -ing</b>(동명사)로 바꿔요. 문장의 <span style="color:#ffd27a">주어·목적어·보어</span> 자리에 올 수 있어요.',
+    table:`<table class="t"><tr><th></th><th>to부정사</th><th>동명사</th></tr>
+      <tr><td>형태</td><td class="l">to + 동사원형<br>to swim, to read</td><td class="l">동사원형 + -ing<br>swimming, reading</td></tr>
+      <tr><td>주어</td><td class="l"><b>To swim</b> is fun.</td><td class="l"><b>Swimming</b> is fun.</td></tr>
+      <tr><td>목적어</td><td class="l">I like <b>to swim</b>.</td><td class="l">I like <b>swimming</b>.</td></tr>
+      <tr><td>보어</td><td class="l">My hobby is <b>to swim</b>.</td><td class="l">My hobby is <b>swimming</b>.</td></tr>
+      <tr><td>부정</td><td class="l"><b>not</b> to swim</td><td class="l"><b>not</b> swimming</td></tr></table>`,
+    points:[
+      ['주어로 쓰이면 <b>단수 취급</b> → is', ['Reading books is fun.','책 읽는 것은 재미있다. (books에 속지 않기!)']],
+      ['<b>-ing 철자</b>는 진행형과 같아요', ['swim → swimming, make → making, lie → lying','자음 추가 / e 빼기 / ie → y']],
+    ],
+    tips:[
+      '<b>Swim is fun. ✗</b> → <b>Swimming</b> is fun. (동사는 주어가 될 수 없어요!)',
+      '<b>Playing games are ✗</b> → Playing games <b>is</b> fun. (동명사 주어 = 단수)',
+      '<b>not의 위치</b> → not to go / not going (to나 -ing 바로 앞)',
+      '<b>He is cooking.</b>(진행형) vs <b>His hobby is cooking.</b>(동명사 보어) 구별!'
+    ],
+    examples:[
+      ['Swimming is my favorite sport.','수영은 내가 가장 좋아하는 운동이다.'],
+      ['To learn English is not easy.','영어를 배우는 것은 쉽지 않다.'],
+      ['Reading comics is fun.','만화책 읽는 것은 재미있다.'],
+      ['I like drawing pictures.','나는 그림 그리는 것을 좋아한다.'],
+      ['I like to draw pictures.','나는 그림 그리는 것을 좋아한다.'],
+      ['My hobby is taking photos.','내 취미는 사진 찍는 것이다.'],
+      ['Getting up early is good for your health.','일찍 일어나는 것은 건강에 좋다.'],
+      ['Her job is teaching children.','그녀의 일은 아이들을 가르치는 것이다.'],
+      ['Not being late is important.','늦지 않는 것이 중요하다.'],
+      ['Making new friends is exciting.','새 친구를 사귀는 것은 신난다.']
+    ],
+    ox:[['Playing computer games are fun.',false,'동명사 주어는 단수 → <b>is</b>'],
+        ['My hobby is cooking.',true,'cooking = 요리하는 것 (동명사 보어)']]
+  },
+  teacher:{
+    board:`to부정사 / 동명사 = 동사를 명사처럼 ("~하는 것")
+
+          to부정사         동명사
+ 형태     to + 원형         원형 + -ing
+ 주어     To swim is fun.   Swimming is fun.
+ 목적어   I like to swim.   I like swimming.
+ 보어     My hobby is to swim. / swimming.
+
+★ 주어로 쓰면 단수 취급 → is
+★ 부정: not to ~ / not -ing
+★ He is cooking. (진행)
+  His hobby is cooking. (동명사)`,
+    intro:['"수영 재미있어"를 영어로? → Swim is fun? 학생 답 수집 → "동사는 주어가 될 수 없다"로 도입',
+           '학생들의 취미를 묻고 "My hobby is ___." 빈칸에 동사를 그대로 넣었을 때 어색함 느끼기'],
+    script:['① 동사를 명사처럼 쓰는 두 가지 방법: to + 원형(to부정사) / 원형 + -ing(동명사).',
+            '② 명사 자리 3곳: 주어 / 목적어 / 보어(be동사 뒤).',
+            '③ 주어로 쓰인 to부정사·동명사는 단수 취급 → is (Reading books is ~).',
+            '④ -ing 철자 규칙은 현재진행형과 동일 → 개념 11 복습.',
+            '⑤ 부정은 not을 to·-ing 바로 앞에: not to go / not going.',
+            '⑥ 내신 단골: be + -ing가 진행형인지 동명사 보어인지 구별 (주어가 사람이면 진행, hobby/job/dream이면 동명사).'],
+    examples:[
+      ['Running every morning is good for you.','매일 아침 달리기는 너에게 좋다.'],
+      ['To keep a diary is a good habit.','일기를 쓰는 것은 좋은 습관이다.'],
+      ['Learning new words is important.','새 단어를 배우는 것은 중요하다.'],
+      ['I love singing in the shower.','나는 샤워하면서 노래하는 것을 좋아한다.'],
+      ['She likes to play the violin.','그녀는 바이올린 연주하는 것을 좋아한다.'],
+      ['My job is helping sick people.','내 일은 아픈 사람들을 돕는 것이다.'],
+      ['His dream is to become an astronaut.','그의 꿈은 우주비행사가 되는 것이다.'],
+      ['Watching movies makes me happy.','영화를 보는 것은 나를 행복하게 한다.'],
+      ['Eating too much candy is bad for your teeth.','사탕을 너무 많이 먹는 것은 이에 나쁘다.'],
+      ['Not sleeping enough is a big problem.','잠을 충분히 자지 않는 것은 큰 문제다.'],
+      ['He is swimming now. (진행형)','그는 지금 수영하고 있다.'],
+      ['His favorite activity is swimming. (동명사)','그가 가장 좋아하는 활동은 수영이다.']
+    ],
+    mistakes:[['Swim is fun.','Swimming is fun.','동사는 주어 ✗'],
+              ['Reading books are fun.','Reading books is fun.','동명사 주어 = 단수'],
+              ['My hobby is take pictures.','My hobby is taking pictures.','보어 → 동명사'],
+              ['Swiming is good.','Swimming is good.','-ing 철자'],
+              ['Not to late is important.','Not being late is important.','not + 동명사/to부정사 형태']],
+    exam:['동명사·to부정사 주어 + 단수 동사 (is)','밑줄 친 -ing가 진행형인지 동명사인지 구별','동사를 알맞은 형태로 바꿔 주어 만들기','부정형 not의 위치'],
+    activity:'【Hobby Twin 찾기 · 5분】 교실을 돌아다니며 "What do you like doing?" 질문 → 나와 같은 취미를 가진 친구를 찾으면 함께 "Our hobby is ___ing!" 외치기. 가장 먼저 찾은 짝 +1.',
+    check:[['"달리는 것은 건강에 좋다"를 동명사로','Running is good for your health.'],['Playing games ___ fun.','is'],['My dream is ___ a doctor. (be)','to be']]
+  }
+},
+{ no:'20', title:'to부정사의 명사적 용법', short:'명사적 용법',
+  student:{
+    core:'to부정사는 문장에서 <b>"~하는 것, ~하기"</b>라는 명사처럼 <span style="color:#ffd27a">주어 · 목적어 · 보어</span>로 쓰여요. 주어가 길면 <b>It ~ to …</b>로 바꿔 쓸 수 있어요.',
+    table:`<table class="t"><tr><th>역할</th><th>예</th></tr>
+      <tr><td>주어</td><td class="l"><b>To learn Chinese</b> is hard.<br>= <b>It</b> is hard <b>to learn Chinese</b>. (가주어 It)</td></tr>
+      <tr><td>목적어</td><td class="l">I <b>want to be</b> a doctor.<br><small>want, hope, plan, decide, need, learn, promise + to</small></td></tr>
+      <tr><td>보어</td><td class="l">My dream is <b>to travel</b> the world.</td></tr></table>`,
+    points:[
+      ['<b>It ~ to …</b>: 가주어 It, 진짜 주어는 to부정사', ['It is fun to play soccer.','축구를 하는 것은 재미있다.']],
+      ['목적어: <b>want / hope / plan / decide + to</b>', ['He decided to study harder.','그는 더 열심히 공부하기로 결심했다.']],
+    ],
+    tips:[
+      '<b>I want be ✗</b> → I want <b>to be</b> a singer.',
+      '가주어 <b>It</b>은 "그것"이라고 해석하지 않아요! (This ✗, That ✗)',
+      '<b>My plan is visit ✗</b> → My plan is <b>to visit</b> Seoul.',
+      '<b>to not go ✗</b> → <b>not to go</b> (not은 to 앞에)'
+    ],
+    examples:[
+      ['To swim in the sea is fun.','바다에서 수영하는 것은 재미있다.'],
+      ['It is fun to swim in the sea.','바다에서 수영하는 것은 재미있다.'],
+      ['It is important to exercise every day.','매일 운동하는 것은 중요하다.'],
+      ['I want to be a doctor.','나는 의사가 되고 싶다.'],
+      ['She hopes to see you again.','그녀는 너를 다시 보기를 바란다.'],
+      ['We plan to go to Jeju next week.','우리는 다음 주에 제주에 갈 계획이다.'],
+      ['He decided not to eat fast food.','그는 패스트푸드를 먹지 않기로 결심했다.'],
+      ['My dream is to travel the world.','내 꿈은 세계를 여행하는 것이다.'],
+      ['Her goal is to win the contest.','그녀의 목표는 대회에서 우승하는 것이다.'],
+      ['I need to finish my homework.','나는 숙제를 끝내야 한다.']
+    ],
+    ox:[['I want be a singer.',false,'want 뒤에는 to부정사 → <b>want to be</b>'],
+        ['It is hard to get up early.',true,'가주어 It + 진주어 to get up early']]
+  },
+  teacher:{
+    board:`to부정사의 명사적 용법 = ~하는 것, ~하기
+
+ 주어    To learn Chinese is hard.
+         → It is hard to learn Chinese.
+           (가주어 It, 진주어 to ~)
+ 목적어  want / hope / plan / decide
+         need / learn / promise + to ~
+ 보어    My dream is to be a pilot.
+
+★ It ~ to … : It은 해석 ✗
+★ not to ~ (to not ✗)`,
+    intro:['학생들에게 "내 꿈은 ___하는 것이다"를 우리말로 말하게 한 뒤 → My dream is to ~로 바꿔 판서',
+           '"To learn English is fun."이 너무 머리가 무겁다(주어가 길다) → It으로 바꾸는 이유 설명'],
+    script:['① 명사적 용법 = "~하는 것, ~하기". 주어·목적어·보어 자리.',
+            '② 주어 자리의 to부정사는 보통 뒤로 보내고 가주어 It을 쓴다 → It is + 형용사 + to부정사.',
+            '③ to부정사만 목적어로 쓰는 동사: want, hope, plan, decide, need, learn, promise, expect, wish (미래·계획 느낌).',
+            '④ 보어: My dream / goal / plan / job is to ~.',
+            '⑤ 부정: not to ~ → He decided not to go.',
+            '⑥ 내신 포인트: To ~ is … ↔ It is … to ~ 전환 / 밑줄 친 to부정사의 역할 구별.'],
+    examples:[
+      ['To ride a horse is exciting.','말을 타는 것은 신난다.'],
+      ['It is exciting to ride a horse.','말을 타는 것은 신난다.'],
+      ['It is not easy to make new friends.','새 친구를 사귀는 것은 쉽지 않다.'],
+      ['It is dangerous to swim here.','여기서 수영하는 것은 위험하다.'],
+      ['I hope to visit Paris someday.','나는 언젠가 파리를 방문하기를 바란다.'],
+      ['They decided to move to Busan.','그들은 부산으로 이사하기로 결정했다.'],
+      ['She learned to ride a bike at six.','그녀는 여섯 살 때 자전거 타는 법을 배웠다.'],
+      ['He promised to come early.','그는 일찍 오겠다고 약속했다.'],
+      ['My plan is to read 30 books this year.','내 계획은 올해 책 30권을 읽는 것이다.'],
+      ['Her job is to take care of animals.','그녀의 일은 동물들을 돌보는 것이다.'],
+      ['I decided not to watch TV on weekdays.','나는 평일에 TV를 보지 않기로 결심했다.'],
+      ['Do you want to join our club?','우리 동아리에 들어올래?']
+    ],
+    mistakes:[['I want be a singer.','I want to be a singer.','want + to'],
+              ['This is fun to swim.','It is fun to swim.','가주어는 It'],
+              ['My plan is visit Seoul.','My plan is to visit Seoul.','보어 → to부정사'],
+              ['He decided to not go.','He decided not to go.','not to'],
+              ['I hope seeing you.','I hope to see you.','hope + to']],
+    exam:['To ~ is … ↔ It is … to ~ 전환','want / hope / plan / decide + to부정사','밑줄 친 to부정사의 역할(주어·목적어·보어) 구별','not to의 위치'],
+    activity:'【Dream Board 꿈 발표 · 5분】 각자 포스트잇에 "My dream is to ~ / I want to ~ / It is fun to ~" 세 문장 작성 → 칠판 꿈 보드에 붙이기 → 교사가 무작위로 읽고 누구의 꿈인지 맞히기.',
+    check:[['"나는 가수가 되고 싶다"를 영어로','I want to be a singer.'],['To swim is fun. → It으로','It is fun to swim.'],['She plans ___ (visit) her aunt.','to visit']]
+  }
+},
+{ no:'21', title:'to부정사의 형용사적 · 부사적 용법', short:'형용사·부사적',
+  student:{
+    core:'to부정사는 명사 뒤에서 <b>"~할"</b>(형용사적)이라는 뜻으로 명사를 꾸미기도 하고, <b>"~하기 위해"</b>(목적), <b>"~해서"</b>(감정의 원인)라는 뜻으로 문장에 의미를 더하기도 해요(부사적).',
+    table:`<table class="t"><tr><th>용법</th><th>뜻</th><th>예</th></tr>
+      <tr><td>형용사적</td><td>~할 (명사 꾸밈)</td><td class="l">I need something <b>to drink</b>.<br>It's time <b>to go</b>.</td></tr>
+      <tr><td>부사적 (목적)</td><td>~하기 위해</td><td class="l">I went to the library <b>to study</b>.</td></tr>
+      <tr><td>부사적 (감정의 원인)</td><td>~해서</td><td class="l">I'm happy <b>to see</b> you.<br><small>happy, glad, sad, sorry, surprised + to</small></td></tr></table>`,
+    points:[
+      ['형용사적: <b>명사 + to부정사</b> (뒤에서 꾸밈)', ['I have a lot of homework to do.','나는 할 숙제가 많다.']],
+      ['부사적: <b>목적</b> / <b>감정의 원인</b>', ["She runs every day to stay healthy. / I'm glad to meet you.",'건강을 유지하기 위해 / 만나서 반가워']],
+    ],
+    tips:[
+      '<b>something to drink</b> → -thing 뒤에 to부정사 (마실 것)',
+      '<b>"~하기 위해"</b> → to + 동사원형 (for buy ✗)',
+      '<b>happy / sad / sorry + to</b> → I\'m sorry <b>to hear</b> that.',
+      '용법 구별: 앞에 <b>명사</b>가 있고 "~할"로 해석되면 형용사적!'
+    ],
+    examples:[
+      ['I need something to drink.','나는 마실 것이 필요하다.'],
+      ['I have a lot of homework to do.','나는 할 숙제가 많다.'],
+      ['It is time to go to bed.','잠자리에 들 시간이다.'],
+      ['He bought a book to read on the train.','그는 기차에서 읽을 책을 샀다.'],
+      ['There is nothing to eat in the fridge.','냉장고에 먹을 것이 없다.'],
+      ['I went to the library to borrow books.','나는 책을 빌리기 위해 도서관에 갔다.'],
+      ['She saved money to buy a laptop.','그녀는 노트북을 사기 위해 돈을 모았다.'],
+      ['I am glad to meet you.','만나서 반가워.'],
+      ['We were surprised to hear the news.','우리는 그 소식을 듣고 놀랐다.'],
+      ["I'm sorry to be late.",'늦어서 미안해.']
+    ],
+    ox:[['I need something drink.',false,'"마실 것" → something <b>to drink</b>'],
+        ['He went to the store to buy milk.',true,'to buy = 사기 위해 (목적)']]
+  },
+  teacher:{
+    board:`to부정사의 형용사적 · 부사적 용법
+
+ 형용사적  명사 + to부정사 = ~할
+           something to drink
+           homework to do / time to go
+
+ 부사적    목적      ~하기 위해
+           I went out to buy milk.
+           감정 원인  ~해서
+           happy / glad / sad / sorry
+           surprised + to ~
+
+★ 용법 구별 = 해석으로!
+  ~하는 것(명사) / ~할(형용사) / ~하기 위해·~해서(부사)`,
+    intro:['"배고파. 먹을 것 있어?" → Do you have something ___? 빈칸을 학생에게 추측하게 하기',
+           '"왜 도서관에 갔어?" → "공부하려고" → I went to the library to study.로 목적 표현 연결'],
+    script:['① 형용사적 용법: 명사(대명사) 뒤에서 "~할"로 꾸밈. -thing + to부정사가 대표 (something to eat).',
+            '② 부사적 용법 ①목적: "~하기 위해" (= in order to, 중2 예고).',
+            '③ 부사적 용법 ②감정의 원인: 감정 형용사 + to부정사 "~해서".',
+            '④ 명사적(개념 20)과 함께 세 가지 용법 비교표 → 해석으로 구별하는 훈련.',
+            '⑤ 함정: "~하기 위해"를 for + 동사로 쓰는 실수 (for buy ✗).',
+            '⑥ 내신 포인트: 밑줄 친 to부정사와 용법이 같은 것 고르기 / 두 문장을 to부정사로 연결하기.'],
+    examples:[
+      ['Give me something cold to drink.','차가운 마실 것 좀 줘.'],
+      ['I have no time to play games.','나는 게임을 할 시간이 없다.'],
+      ['She has many friends to help her.','그녀는 그녀를 도와줄 친구가 많다.'],
+      ['This is the best way to learn English.','이것이 영어를 배우는 가장 좋은 방법이다.'],
+      ['He gets up early to catch the first bus.','그는 첫차를 타기 위해 일찍 일어난다.'],
+      ['We went to the park to fly kites.','우리는 연을 날리러 공원에 갔다.'],
+      ['I called him to say thank you.','나는 고맙다고 말하려고 그에게 전화했다.'],
+      ['They were excited to visit Disneyland.','그들은 디즈니랜드를 방문하게 되어 신이 났다.'],
+      ['I was sad to leave my old school.','나는 옛 학교를 떠나서 슬펐다.'],
+      ["I'm sorry to hear that.",'그 말을 들으니 유감이다.'],
+      ['She was happy to win the prize.','그녀는 상을 타서 행복했다.'],
+      ['I want to go there. (명사적)','나는 거기에 가고 싶다.']
+    ],
+    mistakes:[['something drink','something to drink','형용사적 to'],
+              ['I went there for buy milk.','I went there to buy milk.','목적 → to'],
+              ["I'm happy see you.","I'm happy to see you.",'감정 원인 → to'],
+              ['I have homework doing.','I have homework to do.','명사 꾸밈 → to'],
+              ['time going to bed','time to go to bed','time + to부정사']],
+    exam:['밑줄 친 to부정사와 용법이 같은 것 고르기','-thing + to부정사 (something to eat)','두 문장을 목적·감정 원인 to부정사로 연결','글 속 to부정사 형태 오류'],
+    activity:'【Errand Run 심부름 · 5분】 교사가 장소 카드(bakery, library, bank…)를 보여주면 학생은 "I went to the bakery to buy bread."처럼 목적을 붙여 말하기 → 다음 학생은 "I bought something to eat."처럼 형용사적으로 이어 말하기.',
+    check:[['"나는 먹을 것이 필요하다"를 영어로','I need something to eat.'],['I saved money ___ ___ a bike.','to buy'],['I am glad ___ ___ you.','to meet']]
+  }
+},
+{ no:'22', title:'to부정사와 동명사를 목적어로 쓰는 동사', short:'목적어 동사',
+  student:{
+    core:'동사에 따라 목적어로 <b>to부정사만</b>, <b>동명사만</b>, 또는 <b>둘 다</b> 쓸 수 있어요. 어떤 동사가 무엇과 짝인지 외워 두어야 해요!',
+    table:`<table class="t"><tr><th>목적어</th><th>동사</th><th>예</th></tr>
+      <tr><td class="be">to부정사만</td><td class="l">want, hope, plan, decide, need, learn, promise, expect, wish</td><td class="l">I want <b>to go</b>.</td></tr>
+      <tr><td class="be">동명사만</td><td class="l">enjoy, finish, mind, keep, give up, practice, avoid</td><td class="l">I enjoy <b>reading</b>.</td></tr>
+      <tr><td class="be">둘 다</td><td class="l">like, love, hate, start, begin</td><td class="l">I like <b>to swim</b>.<br>I like <b>swimming</b>.</td></tr></table>
+      <table class="t"><tr><th colspan="2">⚠️ stop은 뜻이 달라져요</th></tr>
+      <tr><td class="l">stop <b>-ing</b></td><td class="l">~하는 것을 멈추다<br>He stopped <b>talking</b>.</td></tr>
+      <tr><td class="l">stop <b>to ~</b></td><td class="l">~하기 위해 멈추다<br>He stopped <b>to talk</b>.</td></tr></table>`,
+    points:[
+      ['<b>미래·계획</b> 느낌의 동사 → to부정사', ['We decided to study together.','우리는 함께 공부하기로 결정했다.']],
+      ['<b>즐기다·끝내다·꺼리다</b> → 동명사', ['She finished doing her homework.','그녀는 숙제하는 것을 끝냈다.']],
+    ],
+    tips:[
+      '<b>enjoy to ✗ / finish to ✗ / mind to ✗</b> → enjoy·finish·mind + <b>-ing</b>',
+      '<b>want -ing ✗ / decide -ing ✗</b> → want·decide + <b>to</b>',
+      '암기 팁: <b>"즐기고(enjoy) 끝내고(finish) 꺼리고(mind) 계속하고(keep) 포기하는(give up)" → -ing</b>',
+      '<b>Do you mind ~ing?</b> = ~해도 될까요? / ~해 주시겠어요? → 대답 Not at all.(괜찮아요)'
+    ],
+    examples:[
+      ['I enjoy listening to music.','나는 음악 듣는 것을 즐긴다.'],
+      ['He finished doing his homework.','그는 숙제를 끝냈다.'],
+      ['She wants to learn swimming.','그녀는 수영을 배우고 싶어 한다.'],
+      ['We decided to study together.','우리는 함께 공부하기로 결정했다.'],
+      ['Do you mind opening the window?','창문을 열어 주시겠어요?'],
+      ['He gave up eating fast food.','그는 패스트푸드 먹는 것을 포기했다.'],
+      ['It started raining. / It started to rain.','비가 오기 시작했다.'],
+      ['I promised to call him.','나는 그에게 전화하겠다고 약속했다.'],
+      ['They kept talking in class.','그들은 수업 중에 계속 이야기했다.'],
+      ['I hate getting up early.','나는 일찍 일어나는 것을 싫어한다.']
+    ],
+    ox:[['I enjoy to swim.',false,'enjoy + 동명사 → <b>I enjoy swimming.</b>'],
+        ['She decided to buy a new bag.',true,'decide + to부정사']]
+  },
+  teacher:{
+    board:`목적어 짝꿍 동사
+
+ to부정사만  want hope plan decide need
+            learn promise expect wish
+            (미래 · 계획 · 바람)
+ 동명사만    enjoy finish mind keep
+            give up practice avoid
+            (즐기다 · 끝내다 · 꺼리다 · 계속)
+ 둘 다       like love hate start begin
+
+★ stop -ing  ~하는 것을 멈추다
+  stop to ~  ~하기 위해 멈추다
+★ Do you mind -ing? → Not at all. (괜찮아요)`,
+    intro:['"I enjoy to swim." vs "I enjoy swimming." — 학생 투표 → 동사마다 짝꿍이 정해져 있다는 개념 도입',
+           '"계획하다 / 즐기다" 중 어느 쪽이 아직 안 한 일(미래)일까? → to부정사는 미래 지향, 동명사는 경험·진행 느낌'],
+    script:['① to부정사만: want, hope, plan, decide, need, learn, promise, expect, wish — 앞으로 할 일(미래).',
+            '② 동명사만: enjoy, finish, mind, keep, give up, practice, avoid — 이미 하고 있거나 한 일.',
+            '③ 둘 다(뜻 같음): like, love, hate, start, begin.',
+            '④ 둘 다(뜻 다름): stop -ing(멈추다) / stop to(~하려고 멈추다) — remember, forget은 중2에서.',
+            '⑤ Do you mind -ing? 대답: Not at all. / Of course not. (괜찮다) — No가 긍정!',
+            '⑥ 내신 포인트: 빈칸에 들어갈 수 없는 동사 고르기, 글 속 목적어 형태 오류 찾기.'],
+    examples:[
+      ['I hope to see you soon.','곧 다시 보길 바라.'],
+      ['She plans to study abroad.','그녀는 유학할 계획이다.'],
+      ['He needs to see a doctor.','그는 병원에 가 봐야 한다.'],
+      ['We expect to win the game.','우리는 경기에서 이길 것으로 기대한다.'],
+      ['They enjoyed playing board games.','그들은 보드게임을 즐겼다.'],
+      ['Please keep trying.','계속 노력해.'],
+      ['I practice playing the piano every day.','나는 매일 피아노 연습을 한다.'],
+      ['He avoided answering the question.','그는 그 질문에 대답하는 것을 피했다.'],
+      ['I love to cook. / I love cooking.','나는 요리하는 것을 아주 좋아한다.'],
+      ['The baby began to cry.','아기가 울기 시작했다.'],
+      ['He stopped playing games.','그는 게임하는 것을 멈췄다.'],
+      ['He stopped to buy some water.','그는 물을 사려고 멈춰 섰다.']
+    ],
+    mistakes:[['I enjoy to dance.','I enjoy dancing.','enjoy + -ing'],
+              ['She wants going home.','She wants to go home.','want + to'],
+              ['He finished to read it.','He finished reading it.','finish + -ing'],
+              ['We decided taking a taxi.','We decided to take a taxi.','decide + to'],
+              ['Do you mind to open the door?','Do you mind opening the door?','mind + -ing']],
+    exam:['빈칸에 들어갈 수 없는 동사 고르기','to부정사만 / 동명사만 / 둘 다 동사 분류','stop -ing vs stop to 의미 구별','Do you mind ~ing? 대화와 대답'],
+    activity:'【to? -ing? 둘 다? 손 신호 · 5분】 교사가 동사를 외치면 to만=☝️, -ing만=✌️, 둘 다=🤟를 동시에! 틀린 학생은 그 동사로 문장 하나 만들기. 이어서 짝과 Weekend Survey(enjoy / want / hate) 인터뷰.',
+    check:[['I enjoy ___ (read) comics.','reading'],['We decided ___ (stay) home.','to stay'],['Do you mind ___ (close) the door?','closing']]
+  }
+}];
+
+const U06_RUN={
+'19':[
+ {k:'prompt',who:'S',min:4,icon:'🎨',title:'Warm-up · My Hobby is…',guide:'짝에게 내가 좋아하는 일 3가지를 말하기. 아직 규칙을 배우기 전이니 틀을 보고 따라 말하며 "~하는 것"의 느낌 잡기!',
+  frames:['I like <b>to</b> ______. (draw / sing / cook)','I enjoy ______<b>ing</b>.','<b>______ing</b> is fun.','My hobby is ______<b>ing</b>.'],model:['I like to draw.','I enjoy watching dramas.','Dancing is fun.','My hobby is taking photos.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up 문장을 주어·목적어·보어 자리로 나눠 판서하세요. "Swim is fun." 같은 실수가 나왔다면 바로 활용!'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 분단별 → 🎲 개인. 동명사 주어 문장은 is를 크게 강조하며 읽기!',
+  items:[['수영하는 것은 재미있다.','Swimming is fun.'],['영어를 배우는 것은 쉽지 않다.','Learning English is not easy.'],['나는 그림 그리는 것을 좋아한다.','I like drawing. / I like to draw.'],['내 취미는 책 읽기이다.','My hobby is reading books.'],['늦지 않는 것이 중요하다.','Not being late is important.'],['일찍 일어나는 것은 건강에 좋다.','Getting up early is good for your health.'],['나는 춤추는 것을 아주 좋아한다.','I love dancing.'],['책 읽는 것은 나의 취미이다.','Reading books is my hobby.']]},
+ {k:'cards',who:'S',min:5,icon:'🔄',title:'Game · to부정사 / 동명사 변신',guide:'동사가 뜨면 팀별로 to부정사와 동명사를 모두 외치기 → 철자까지 맞으면 +1. 🎲로 뽑힌 학생은 동명사 주어 문장 만들기 (보너스 +1).',
+  hint:'to + 원형 / 원형 + -ing (철자 규칙은 진행형과 같아요!)',
+  items:[['swim','to swim / swimming'],['make','to make / making'],['run','to run / running'],['study','to study / studying'],['write','to write / writing'],['lie','to lie / lying'],['dance','to dance / dancing'],['sit','to sit / sitting'],['play','to play / playing'],['come','to come / coming']]},
+ {k:'prompt',who:'S',min:5,icon:'👯',title:'Pair Talk · Find your Hobby Twin',guide:'교실을 돌아다니며 같은 취미를 가진 친구 찾기 → 찾으면 둘이 함께 "Our hobby is ___ing!" 외치기 → 가장 먼저 찾은 짝 +1.',
+  frames:['A: What do you like doing?','B: I like ______<b>ing</b>. What about you?','A: My hobby is ______<b>ing</b>, too!','함께: Our hobby is ______<b>ing</b>!'],model:['A: What do you like doing?','B: I like playing badminton. What about you?','A: My hobby is playing badminton, too!','함께: Our hobby is playing badminton!']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'틀린 부분을 고쳐 쓰고 동시에 들기.',
+  items:[['Swim is fun.','Swimming is fun.'],['Reading books are fun.','Reading books is fun. (동명사 주어 = 단수)'],['I decided ___ ___ go. (가지 않기로)','not to'],['My hobby is take pictures.','My hobby is taking pictures.']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 19 문제 + Writing Mission 1 (나의 꿈 발표).',
+  items:['"달리는 것은 건강에 좋다"를 동명사 주어로 쓰기','Playing games ___ fun. (be동사)','My dream is ___ ___ a doctor. (to부정사)'],answers:['Running is good for your health.','is','to be']}
+],
+'20':[
+ {k:'prompt',who:'S',min:4,icon:'🌠',title:'Warm-up · My Dream Board',guide:'포스트잇에 나의 꿈과 바람을 써서 칠판 꿈 보드에 붙이기 → 교사가 무작위로 읽고 누구의 꿈인지 맞히기!',
+  frames:['My dream is <b>to</b> ______.','I want <b>to</b> ______ someday.','I hope <b>to</b> ______.','<b>It</b> is fun <b>to</b> ______.'],model:['My dream is to be a game designer.','I want to visit New York someday.','I hope to have a dog.','It is fun to play games with friends.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'꿈 보드 문장으로 주어·목적어·보어를 구분하고, "To ~ is fun"을 It으로 바꾸는 과정을 학생에게 먼저 시켜 보세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). It ~ to 문장은 It을 작게, to부정사를 크게 읽기!',
+  items:[['나는 의사가 되고 싶다.','I want to be a doctor.'],['내 꿈은 세계를 여행하는 것이다.','My dream is to travel the world.'],['영어를 말하는 것은 재미있다. (It)','It is fun to speak English.'],['그는 새 자전거를 사기로 결심했다.','He decided to buy a new bike.'],['우리는 다음 주에 제주에 갈 계획이다.','We plan to go to Jeju next week.'],['그녀는 피아노를 배우기를 원한다.','She wants to learn the piano.'],['매일 운동하는 것은 중요하다. (It)','It is important to exercise every day.'],['나는 너를 다시 만나기를 바란다.','I hope to see you again.']]},
+ {k:'cards',who:'S',min:5,icon:'🔁',title:'Game · It ~ to 변신',guide:'To ~ 문장이 뜨면 팀별로 It으로 시작하는 문장으로 바꿔 말하기 → 맞힌 팀 +1. 마지막 2장은 반대로 It → To로!',
+  hint:'To ~ is … → It is … to ~ (가주어 It)',
+  items:[['To swim in the sea is fun.','It is fun to swim in the sea.'],['To get up early is hard.','It is hard to get up early.'],['To help others is important.','It is important to help others.'],['To read comics is interesting.','It is interesting to read comics.'],['To ride a bike is easy.','It is easy to ride a bike.'],['To keep a diary is good.','It is good to keep a diary.'],['It is useful to learn English. (→ To)','To learn English is useful.'],['It is healthy to eat vegetables. (→ To)','To eat vegetables is healthy.']]},
+ {k:'prompt',who:'S',min:5,icon:'🎤',title:'Pair Talk · Future Interview',guide:'짝을 인터뷰하고 답을 메모 → 🎲로 뽑힌 학생이 "Jiho wants to ~. His dream is to ~."로 발표.',
+  frames:['A: What do you want to do this year?','B: I want <b>to</b> ______.','A: What is your dream?','B: My dream is <b>to</b> ______.','A: Is it easy <b>to</b> ______?',"B: No, it's hard, but I'll try!"],model:['A: What do you want to do this year?','B: I want to read 20 books.','A: What is your dream?','B: My dream is to be a vet.','A: Is it easy to be a vet?',"B: No, it's hard, but I'll try!"]},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['I want be a singer. 고치기','I want to be a singer.'],['To learn Chinese is hard. → It으로 시작','It is hard to learn Chinese.'],['My plan is visit Seoul. 고치기','My plan is to visit Seoul.'],['He decided to not go. 고치기','He decided not to go.']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 20 문제.',
+  items:['"나는 가수가 되고 싶다"를 영어로 쓰기','To swim is fun. → It으로 시작하는 문장으로','She plans ___ (visit) her aunt.'],answers:['I want to be a singer.','It is fun to swim.','to visit']}
+],
+'21':[
+ {k:'prompt',who:'S',min:4,icon:'❓',title:'Warm-up · Why? 이유 대기',guide:'짝에게 내가 자주 가는 장소와 그 이유를 말하기. "왜?"라고 물으면 to ~로 대답!',
+  frames:['A: Why do you go to the library?','B: I go to the library <b>to</b> ______.','A: Why do you go to the academy?','B: I go there <b>to</b> ______.',"I'm happy <b>to</b> ______."],model:['A: Why do you go to the library?','B: I go to the library to read comics.','B: I go to the academy to study English.',"I'm happy to meet my friends there."]},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up의 "to read / to study"가 무엇을 나타내는지 학생에게 물으며 목적 용법부터 정리하고, 형용사적·감정 원인으로 확장하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'앞 4개는 형용사적(~할), 다음 2개는 목적(~하기 위해), 마지막 2개는 감정의 원인(~해서)!',
+  items:[['나는 마실 것이 필요하다.','I need something to drink.'],['나는 할 숙제가 많다.','I have a lot of homework to do.'],['잠잘 시간이다.','It is time to go to bed.'],['그는 읽을 책을 샀다.','He bought a book to read.'],['나는 책을 빌리기 위해 도서관에 갔다.','I went to the library to borrow books.'],['그녀는 건강해지기 위해 매일 달린다.','She runs every day to be healthy.'],['만나서 반가워.','I am glad to meet you.'],['그 소식을 듣고 슬펐다.','I was sad to hear the news.']]},
+ {k:'cards',who:'S',min:5,icon:'⚖️',title:'Game · 용법 판정단',guide:'문장이 뜨면 용법을 손 신호로! 형용사적 = 👉📦 / 목적 = 🎯 / 감정 원인 = 😊 / 명사적 = 🅰️. 맞힌 팀 +1.',
+  hint:'형용사적(~할) 👉 / 목적(~하기 위해) 🎯 / 감정 원인(~해서) 😊 / 명사적(~하는 것) 🅰️',
+  items:[['I have some books to read.','형용사적 👉 — books를 꾸밈 (읽을 책)'],['I went to the store to buy milk.','목적 🎯 — 사기 위해'],["I'm happy to see you.",'감정 원인 😊 — 만나서'],['Give me something to eat.','형용사적 👉 — something을 꾸밈'],['She studies hard to pass the test.','목적 🎯 — 합격하기 위해'],['It is time to say goodbye.','형용사적 👉 — time을 꾸밈'],['We were surprised to hear the news.','감정 원인 😊 — 듣고 놀람'],['I want to be a teacher.','명사적 🅰️ — want의 목적어 (개념 20)']]},
+ {k:'prompt',who:'S',min:5,icon:'🏃',title:'Pair Talk · Errand Run 심부름',guide:'짝과 심부름 상황 대화 → 장소를 바꿔 3번 반복 → 🎲로 뽑힌 팀 시연.',
+  frames:['A: Where are you going?',"B: I'm going to the ______ <b>to</b> ______.",'A: Do you need anything <b>to</b> ______?','B: Yes, I need something <b>to</b> ______.'],model:['A: Where are you going?',"B: I'm going to the bakery to buy bread.",'A: Do you need anything to drink?','B: Yes, I need something to drink. Milk, please!']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'틀린 문장을 바르게 고쳐 쓰고 동시에 들기.',
+  items:[['I need something drink.','I need something to drink.'],['I went to the bakery buy bread.','I went to the bakery to buy bread.'],["I'm sorry hear that.","I'm sorry to hear that."],['I have a lot of things doing.','I have a lot of things to do.']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 21 문제 + Writing Mission 2 (심부름 리포트).',
+  items:['"나는 먹을 것이 필요하다"를 영어로 쓰기','I saved money ___ ___ a bike. (사기 위해)','I am glad ___ ___ you. (만나서)'],answers:['I need something to eat.','to buy','to meet']}
+],
+'22':[
+ {k:'prompt',who:'S',min:4,icon:'❤️',title:'Warm-up · Love it or Hate it?',guide:'짝에게 내가 즐기는 일, 하고 싶은 일, 싫어하는 일을 말하기. 틀을 그대로 따라 하며 동사별 짝꿍 느끼기!',
+  frames:['I <b>enjoy</b> ______<b>ing</b>.','I <b>want to</b> ______.','I <b>hate</b> ______<b>ing</b>.','I <b>finished</b> ______<b>ing</b> my homework.'],model:['I enjoy playing soccer.','I want to go to Japan.','I hate cleaning my room.','I finished doing my homework.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Warm-up 동사들을 to만 / -ing만 / 둘 다 세 칸으로 학생이 분류하게 하며 판서하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). 동사를 말하기 전에 to(☝️)인지 -ing(✌️)인지 손으로 먼저 표시!',
+  items:[['나는 음악 듣는 것을 즐긴다.','I enjoy listening to music.'],['그는 숙제하는 것을 끝냈다.','He finished doing his homework.'],['그녀는 수영을 배우기를 원한다.','She wants to learn swimming.'],['우리는 함께 공부하기로 결정했다.','We decided to study together.'],['창문 좀 열어 주시겠어요? (mind)','Do you mind opening the window?'],['그는 패스트푸드 먹는 것을 포기했다.','He gave up eating fast food.'],['비가 오기 시작했다.','It started raining. / It started to rain.'],['나는 그에게 전화하겠다고 약속했다.','I promised to call him.']]},
+ {k:'cards',who:'S',min:5,icon:'🤟',title:'Game · to? -ing? 둘 다?',guide:'동사가 뜨면 동시에 손 신호! to만 = ☝️ / -ing만 = ✌️ / 둘 다 = 🤟. 맞힌 팀 +1, 예문까지 말하면 보너스!',
+  hint:'to만 = ☝️ &nbsp; -ing만 = ✌️ &nbsp; 둘 다 = 🤟',
+  items:[['enjoy','✌️ -ing만 (enjoy reading)'],['want','☝️ to만 (want to go)'],['finish','✌️ -ing만 (finish eating)'],['decide','☝️ to만 (decide to stay)'],['like','🤟 둘 다 (like to swim / swimming)'],['hope','☝️ to만 (hope to see)'],['mind','✌️ -ing만 (mind waiting)'],['plan','☝️ to만 (plan to visit)'],['start','🤟 둘 다 (start to rain / raining)'],['give up','✌️ -ing만 (give up eating)'],['promise','☝️ to만 (promise to come)'],['keep','✌️ -ing만 (keep trying)']]},
+ {k:'prompt',who:'S',min:5,icon:'📊',title:'Pair Talk · Weekend Survey',guide:'짝에게 설문 질문 3개 → 답을 메모 → 🎲로 뽑힌 학생이 "Jiho enjoys ~, wants to ~, but hates ~."로 발표.',
+  frames:['A: What do you <b>enjoy</b> doing on weekends?','B: I enjoy ______<b>ing</b>.','A: What do you <b>want to</b> do this weekend?','B: I want <b>to</b> ______.','A: What do you <b>hate</b> doing?','B: I hate ______<b>ing</b>.'],model:['A: What do you enjoy doing on weekends?','B: I enjoy watching movies.','A: What do you want to do this weekend?','B: I want to go to the beach.','A: What do you hate doing?','B: I hate doing the dishes.']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['I enjoy to swim. 고치기','I enjoy swimming.'],['She wants going home. 고치기','She wants to go home.'],['He finished to read the book. 고치기','He finished reading the book.'],['He stopped talking.<br>He stopped to talk.<br>뜻의 차이는?','이야기하는 것을 멈췄다 / 이야기하기 위해 멈췄다']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 실전 모의고사 + Writing Mission 3 (주말 설문 리포트).',
+  items:['I enjoy ___ (read) comics.','We decided ___ (stay) home.','Do you mind ___ (close) the door?'],answers:['reading','to stay','closing']}
+]};
+
+const U06_Q=[
+{id:'tm01',c:'19',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'______ is my favorite sport.',opts:['Swim','Swimming','Swims','Swam','To swimming'],ans:1,
+ exp:'주어 자리에는 동사를 그대로 쓸 수 없어요 → 동명사 <b>Swimming</b> (또는 To swim).'},
+{id:'tm02',c:'19',type:'mc',q:'밑줄 친 부분의 쓰임이 나머지 넷과 <u>다른</u> 것은?',opts:['<u>Reading</u> is fun.','My hobby is <u>cooking</u>.','He is <u>cooking</u> now.','I like <u>cooking</u>.','<u>Playing</u> games is exciting.'],ans:2,
+ exp:'③은 "요리하고 있다"는 <b>현재진행형</b>. 나머지는 "~하는 것"이라는 <b>동명사</b>예요.'},
+{id:'tm03',c:'19',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'Learning foreign languages ______ interesting.',opts:['are','is','am','were','be'],ans:1,
+ exp:'동명사 주어(Learning ~)는 <b>단수 취급</b> → <b>is</b>. languages에 속지 않기!'},
+{id:'tm04',c:'20',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'I want ______ a famous singer.',opts:['be','being','to be','to being','am'],ans:2,
+ exp:'want는 to부정사를 목적어로 써요 → want <b>to be</b>.'},
+{id:'tm05',c:'20',type:'mc',q:'다음 문장과 의미가 같은 것은?',box:'To ride a bike is easy.',opts:['It is easy to ride a bike.','It is easy ride a bike.','That is easy to ride a bike.','It is easy riding a bike to.','This is easy to ride a bike.'],ans:0,
+ exp:'To ~ is … → <b>It is … to ~</b> (가주어 It). This·That은 가주어로 쓸 수 없어요.'},
+{id:'tm06',c:'20',type:'mc',q:'밑줄 친 부분과 역할(보어)이 <u>같은</u> 것은?',box:'My dream is <u>to become</u> a pilot.',opts:['I want <u>to go</u> home.','I have a book <u>to read</u>.','Her plan is <u>to study</u> abroad.','I went out <u>to buy</u> milk.',"I'm happy <u>to see</u> you."],ans:2,
+ exp:'be동사 뒤에서 주어를 설명하는 <b>보어</b> → ③. ① 목적어 ② 형용사적 ④ 목적 ⑤ 감정의 원인'},
+{id:'tm07',c:'21',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'I need something ______.',opts:['drink','drinking','to drink','drinks','to drinking'],ans:2,
+ exp:'"마실 것" → something을 뒤에서 꾸미는 형용사적 용법 → <b>to drink</b>.'},
+{id:'tm08',c:'21',type:'mc',q:'밑줄 친 to부정사와 의미(목적)가 <u>같은</u> 것은?',box:'He went to the library <u>to study</u>.',opts:['I want <u>to sleep</u>.','She saved money <u>to buy</u> a laptop.',"It's time <u>to go</u>.",'I have nothing <u>to say</u>.','My goal is <u>to win</u>.'],ans:1,
+ exp:'"~하기 위해"(<b>목적</b>) → ② 노트북을 사기 위해. ① 명사적 ③④ 형용사적 ⑤ 명사적(보어)'},
+{id:'tm09',c:'21',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'I was surprised ______ the news.',opts:['hear','to hear','hearing','heard','hears'],ans:1,
+ exp:'감정 형용사(surprised) + <b>to부정사</b> → "~해서"(감정의 원인).'},
+{id:'tm10',c:'22',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'She enjoys ______ in the park.',opts:['walk','to walk','walking','walks','walked'],ans:2,
+ exp:'enjoy는 동명사만 목적어로 → enjoys <b>walking</b>.'},
+{id:'tm11',c:'22',type:'mc',q:'빈칸에 들어갈 말의 형태가 나머지 넷과 <u>다른</u> 것은?',opts:['I want ______ (eat) pizza.','We decided ______ (stay) home.','He hopes ______ (see) you.','They finished ______ (clean) the room.','She plans ______ (visit) Jeju.'],ans:3,
+ exp:'④ finish + 동명사 → <b>cleaning</b>. 나머지(want, decide, hope, plan)는 to부정사.'},
+{id:'tm12',c:'22',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장은?',opts:['I enjoy to dance.','He finished reading the book.','She wants going there.','We decided taking a taxi.','Do you mind to open the door?'],ans:1,
+ exp:'② finish + 동명사 (O).<br>① enjoy dancing ③ wants to go ④ decided to take ⑤ mind opening'},
+{id:'tm13',c:'22',type:'mc',q:'빈칸에 들어갈 수 있는 동사는?',box:'I ______ to read books. / I ______ reading books.',opts:['enjoy','want','like','finish','decide'],ans:2,
+ exp:'to부정사와 동명사를 <b>둘 다</b> 목적어로 쓰는 동사 → <b>like</b>.'},
+{id:'tm14',c:'22',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:"A: What are you going to do this weekend?<br>B: I'm planning ______ my grandma.",opts:['to visit','visiting','visit','visited','to visiting'],ans:0,
+ exp:'plan은 to부정사를 목적어로 → planning <b>to visit</b>.'},
+{id:'to01',c:'19',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'일찍 일어나는 것은 쉽지 않다.',words:['getting up','early','is','not','easy'],end:'.',ans:'getting up early is not easy',exp:'동명사 주어 <b>Getting up early</b> + is not easy.'},
+{id:'to02',c:'20',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그녀의 꿈은 수의사가 되는 것이다.',words:['her dream','is','to be','a vet'],end:'.',ans:'her dream is to be a vet',exp:'Her dream is + <b>to be</b> a vet (보어).'},
+{id:'to03',c:'20',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'외국어를 배우는 것은 재미있다.',words:['it','is','fun','to learn','foreign languages'],end:'.',ans:'it is fun to learn foreign languages',exp:'가주어 <b>It</b> + is fun + 진주어 <b>to learn</b> foreign languages.'},
+{id:'to04',c:'21',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'나는 할 일이 많다.',words:['I','have','a lot of','things','to do'],end:'.',ans:'I have a lot of things to do',exp:'things + <b>to do</b> (형용사적: 할 일).'},
+{id:'to05',c:'21',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그는 시험에 합격하기 위해 열심히 공부했다.',words:['he','studied','hard','to pass','the test'],end:'.',ans:'he studied hard to pass the test',exp:'He studied hard + <b>to pass</b> the test (목적: 합격하기 위해).'},
+{id:'to06',c:'22',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'우리는 그 영화를 보는 것을 즐겼다.',words:['we','enjoyed','watching','the movie'],end:'.',ans:'we enjoyed watching the movie',exp:'enjoy + <b>동명사</b> → enjoyed watching.'},
+{id:'tf01',c:'19',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Read books is my hobby.',w:0,fix:['reading','to read'],full:'Reading books is my hobby.',exp:'주어 자리 → 동명사 <b>Reading</b> (또는 To read).'},
+{id:'tf02',c:'19',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Playing computer games are fun.',w:3,fix:['is'],full:'Playing computer games is fun.',exp:'동명사 주어는 <b>단수</b> → is.'},
+{id:'tf03',c:'20',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'I hope seeing you again.',w:2,fix:['to see'],full:'I hope to see you again.',exp:'hope는 to부정사를 목적어로 → <b>to see</b>.'},
+{id:'tf04',c:'20',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'Her plan is travel to Europe.',w:3,fix:['to travel','traveling'],full:'Her plan is to travel to Europe.',exp:'be동사 뒤 보어 자리 → <b>to travel</b> (동명사 traveling도 가능).'},
+{id:'tf05',c:'21',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'I have no time play games.',w:4,fix:['to play'],full:'I have no time to play games.',exp:'time을 꾸미는 형용사적 용법 → <b>to play</b>.'},
+{id:'tf06',c:'21',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:"I'm happy hear that.",w:2,fix:['to hear'],full:"I'm happy to hear that.",exp:'감정 형용사 + <b>to부정사</b> → to hear.'},
+{id:'tf07',c:'22',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'She finished write the report.',w:2,fix:['writing'],full:'She finished writing the report.',exp:'finish + <b>동명사</b> → writing.'},
+{id:'tf08',c:'22',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'We enjoyed swim in the sea.',w:2,fix:['swimming'],full:'We enjoyed swimming in the sea.',exp:'enjoy + <b>동명사</b> → swimming.'},
+{id:'tw01',c:'19',type:'blank',q:'괄호 안의 동사를 동명사로 바꿔 쓰시오.',text:'• [0] (swim) is good exercise.<br>• My hobby is [1] (take) pictures.<br>• I like [2] (dance).',accept:[['swimming'],['taking'],['dancing']],
+ exp:'① 자음 추가 <b>Swimming</b> ② e 빼고 <b>taking</b> ③ e 빼고 <b>dancing</b>'},
+{id:'tw02',c:'20',type:'write',q:'다음 문장을 It으로 시작하여 같은 뜻으로 바꿔 쓰시오.',box:'To keep a diary in English is difficult.',cond:'It으로 시작할 것',accept:['It is difficult to keep a diary in English',"It's difficult to keep a diary in English"],
+ exp:'가주어 <b>It</b> + is difficult + 진주어 <b>to keep</b> a diary in English.'},
+{id:'tw03',c:'20',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 내년에 중국어를 배우고 싶다.',cond:'want, learn Chinese, next year를 사용할 것',accept:['I want to learn Chinese next year','Next year I want to learn Chinese'],
+ exp:'want + <b>to learn</b>.'},
+{id:'tw04',c:'21',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 마실 물이 필요하다.',cond:'need, water, drink를 사용할 것',accept:['I need water to drink','I need some water to drink'],
+ exp:'water를 뒤에서 꾸미는 형용사적 용법 → water <b>to drink</b>.'},
+{id:'tw05',c:'21',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그는 버스를 타기 위해 뛰었다.',cond:'run, catch the bus를 사용할 것 (필요하면 형태 변형)',accept:['He ran to catch the bus'],
+ exp:'run의 과거 <b>ran</b> + 목적 <b>to catch</b> the bus.'},
+{id:'tw06',c:'21',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'너를 다시 보게 되어 기뻐.',cond:'glad, see, again을 사용할 것',accept:["I'm glad to see you again",'I am glad to see you again'],
+ exp:'감정 형용사 glad + <b>to see</b> (감정의 원인).'},
+{id:'tw07',c:'22',type:'blank',q:'괄호 안의 동사를 알맞은 형태로 바꿔 쓰시오.',text:'• I want [0] (go) to the concert.<br>• He finished [1] (do) his homework.<br>• Do you mind [2] (wait) here?',accept:[['to go'],['doing'],['waiting']],
+ exp:'① want + <b>to go</b> ② finish + <b>doing</b> ③ mind + <b>waiting</b>'},
+{id:'tw08',c:'22',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그들은 함께 축구를 하기로 결정했다.',cond:'decide, play soccer, together를 사용할 것 (필요하면 형태 변형)',accept:['They decided to play soccer together'],
+ exp:'decide + <b>to play</b>.'}
+];
+
+const U06_ADV=[
+{id:'v01',c:'19',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장을 모두 고른 것은?',box:'ⓐ Watching movies is fun.<br>ⓑ Eating vegetables are good for you.<br>ⓒ To learn new things is exciting.<br>ⓓ Swimming in the sea are dangerous.<br>ⓔ Making friends is not easy.',opts:['ⓐ, ⓑ','ⓐ, ⓒ, ⓔ','ⓑ, ⓓ','ⓒ, ⓓ, ⓔ','ⓐ, ⓓ'],ans:1,
+ exp:'동명사·to부정사 주어는 <b>단수</b> → ⓑⓓ는 <b>is</b>로 고쳐야 해요.'},
+{id:'v02',c:'19',type:'mc',q:'밑줄 친 부분이 문장에서 <u>주어</u> 역할을 하는 것끼리 묶은 것은?',box:'ⓐ <u>Cooking</u> is my hobby.<br>ⓑ I like <u>cooking</u>.<br>ⓒ <u>To exercise</u> every day is hard.<br>ⓓ My job is <u>teaching</u> kids.<br>ⓔ <u>Reading</u> comics makes me happy.',opts:['ⓐ, ⓑ','ⓐ, ⓒ, ⓔ','ⓑ, ⓓ','ⓒ, ⓓ','ⓑ, ⓒ, ⓔ'],ans:1,
+ exp:'ⓐⓒⓔ 문장 맨 앞 주어. ⓑ 목적어 ⓓ 보어.'},
+{id:'v03',c:'20',type:'mc',q:'It으로 시작하는 문장으로 <u>잘못</u>바꾼 것은?',opts:['To swim is fun. → It is fun to swim.','To be kind is important. → It is important to be kind.','To learn Chinese is hard. → It is hard learning Chinese.','To help others is good. → It is good to help others.','To ride a horse is exciting. → It is exciting to ride a horse.'],ans:2,
+ exp:'가주어 It 구문은 진주어를 <b>to부정사</b>로 → It is hard <b>to learn</b> Chinese.'},
+{id:'v04',c:'21',type:'mc',q:'밑줄 친 to부정사가 <u>형용사적 용법</u>인 것끼리 묶은 것은?',box:"ⓐ I need a chair <u>to sit</u> on.<br>ⓑ He went out <u>to get</u> some air.<br>ⓒ There is no time <u>to waste</u>.<br>ⓓ I'm sad <u>to leave</u> you.<br>ⓔ Give me something <u>to write</u> with.",opts:['ⓐ, ⓑ','ⓐ, ⓒ, ⓔ','ⓑ, ⓓ','ⓒ, ⓓ, ⓔ','ⓑ, ⓒ'],ans:1,
+ exp:'ⓐ chair ⓒ time ⓔ something을 꾸미는 형용사적 용법. ⓑ 목적 ⓓ 감정의 원인.'},
+{id:'v05',c:'21',type:'mc',q:'다음 글의 밑줄 친 ⓐ~ⓔ 중 어법상 <u>틀린</u> 것은?',box:'Last weekend, I went to the market ⓐ<u>to buy</u> some fruit. I wanted something ⓑ<u>to eat</u>. I was happy ⓒ<u>finding</u> fresh strawberries. I bought two boxes ⓓ<u>to share</u> with my family. We had a great time ⓔ<u>eating</u> them.',opts:['ⓐ','ⓑ','ⓒ','ⓓ','ⓔ'],ans:2,
+ exp:'감정 형용사(happy) + <b>to부정사</b> → happy <b>to find</b>. ⓔ have a great time + -ing는 맞는 표현이에요.'},
+{id:'v06',c:'22',type:'mc',q:'빈칸에 들어갈 수 <u>없는</u> 것은?',box:'I ______ playing basketball.',opts:['enjoy','finished','like','want','kept'],ans:3,
+ exp:'want는 to부정사만 목적어로 → want <b>to play</b>. enjoy, finish, like, keep은 동명사 가능.'},
+{id:'v07',c:'22',type:'mc',q:'빈칸 (A)~(C)에 들어갈 말이 바르게 짝지어진 것은?',box:'A: What did you decide (A) ______ (do) for the summer vacation?<br>B: I decided (B) ______ (learn) to swim. I really enjoy (C) ______ (be) in the water.',opts:['to do – to learn – being','doing – learning – to be','to do – learning – being','doing – to learn – being','to do – to learn – to be'],ans:0,
+ exp:'(A)(B) decide + <b>to부정사</b> (C) enjoy + <b>동명사</b> → being.'},
+{id:'v08',c:'22',type:'mc',q:'다음 중 어법상 옳은 문장의 개수는?',box:'ⓐ He gave up eating sweets.<br>ⓑ I hope to see you soon.<br>ⓒ She avoided to meet him.<br>ⓓ They kept talking in class.<br>ⓔ We planned going camping.',opts:['1개','2개','3개','4개','5개'],ans:2,
+ exp:'옳은 문장: ⓐ ⓑ ⓓ → <b>3개</b>. ⓒ avoid + <b>meeting</b> ⓔ plan + <b>to go</b>'},
+{id:'v09',c:'22',type:'mc',q:'밑줄 친 부분의 의미로 알맞은 것은?',box:'He <u>stopped to talk</u> to his friend.',opts:['친구와 이야기하는 것을 멈췄다','친구와 이야기하기 위해 멈췄다','친구와 이야기하기 시작했다','친구와 계속 이야기했다','친구와 이야기하는 것을 즐겼다'],ans:1,
+ exp:'stop + <b>to부정사</b> = "~하기 위해 멈추다" (목적). stop + -ing는 "~하는 것을 멈추다".'},
+{id:'v10',c:'22',type:'mc',q:'다음 중 어법상 <u>어색한</u> 문장은?',opts:['I want to be a vet.','It is important to wear a helmet.','She enjoys painting.','I need a pen to write with.','He finished to clean his room.'],ans:4,
+ exp:'finish + 동명사 → He finished <b>cleaning</b> his room.'},
+{id:'w01',c:'19',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'매일 아침 일찍 일어나는 것은 쉽지 않다.',
+ conds:[{t:'동명사 주어로 시작할 것',re:'^getting up early'},{t:'every morning을 포함할 것',re:'every morning'},{t:'부정문으로 쓸 것',re:"(is not|isn't) easy"}],
+ core:[["^getting up early every morning (is not|isn't) easy",'Getting up early every morning is not easy.'],["(are not|aren't) easy",'동명사 주어는 단수 → is!','not']],
+ model:["Getting up early every morning isn't easy."],
+ exp:'get up → <b>Getting up</b>(동명사 주어) + 단수 동사 <b>is</b>.'},
+{id:'w02',c:'20',type:'cwrite',q:'다음 문장을 It으로 시작하여 같은 뜻으로 바꿔 쓰시오.',box:'To use your phone in class is not good.',
+ conds:[{t:'It으로 시작할 것',re:'^it\\b'},{t:'to부정사를 문장 뒤로 보낼 것',re:'to use your phone in class'}],
+ core:[["^it('s not| is not| isn't) good to use your phone in class",'It is not good to use your phone in class.']],model:['It is not good to use your phone in class.'],
+ exp:'가주어 <b>It</b> + is not good + 진주어 <b>to use</b> your phone in class.'},
+{id:'w03',c:'20',type:'cwrite',q:'나의 꿈과 올해 하고 싶은 일을 <조건>에 맞게 쓰시오.',
+ conds:[{t:'My dream is to ~ 문장',re:'my dream is to [a-z]+'},{t:'I want to ~ 문장',re:'i want to [a-z]+'},{t:'두 문장 모두 쓸 것',sent:2}],
+ core:[['\\bto (being|becoming|playing|making|doing|going|learning|traveling|helping)\\b','to 뒤에는 동사원형!','not']],model:['My dream is to become a game designer.','I want to learn coding this year.'],
+ exp:'정답이 정해지지 않은 자유 영작. 보어·목적어 자리 모두 <b>to + 동사원형</b>!'},
+{id:'w04',c:'21',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 오늘 끝내야 할 숙제가 많다.',
+ conds:[{t:'a lot of homework, finish, today를 사용할 것',re:'a lot of homework.*finish.*today'},{t:'to부정사로 homework를 꾸밀 것',re:'homework to finish'}],
+ core:[['^i have a lot of homework to finish today','I have a lot of homework to finish today.']],model:['I have a lot of homework to finish today.'],
+ exp:'homework를 뒤에서 꾸미는 형용사적 용법 → homework <b>to finish</b>.'},
+{id:'w05',c:'21',type:'cwrite',q:'두 문장을 to부정사를 사용하여 한 문장으로 쓰시오.',box:'I went to the bakery. I wanted to buy some bread.',
+ conds:[{t:'to buy를 사용할 것',re:'to buy'}],
+ core:[['^i went to the bakery to buy (some )?bread','I went to the bakery to buy some bread.']],model:['I went to the bakery to buy some bread.'],
+ exp:'"~하기 위해"(목적) → I went to the bakery <b>to buy</b> some bread.'},
+{id:'w06',c:'21',type:'cwrite',q:'두 문장을 to부정사를 사용하여 한 문장으로 쓰시오.',box:'I heard the news. I was very sad.',
+ conds:[{t:'to hear를 사용할 것',re:'to hear'}],
+ core:[['^i was very sad to hear the news','I was very sad to hear the news.']],model:['I was very sad to hear the news.'],
+ exp:'감정의 원인 → I was very sad <b>to hear</b> the news.'},
+{id:'w07',c:'22',type:'cwrite',q:'다음 글에서 어법상 <u>틀린 문장 2개</u>를 찾아 바르게 고쳐 쓰시오.',box:'ⓐ I enjoy drawing cartoons. ⓑ I want becoming a webtoon artist. ⓒ I practice drawing every day. ⓓ Yesterday I finished to draw my first story. ⓔ I hope to show it to you.',
+ conds:[{t:'틀린 문장 2개를 모두 고쳐 쓸 것 (기호 없이 문장만)',sent:2}],
+ core:[['i want to become a webtoon artist','ⓑ I want to become a webtoon artist.'],['finished drawing my first story','ⓓ Yesterday I finished drawing my first story.']],
+ model:['I want to become a webtoon artist.','Yesterday I finished drawing my first story.'],
+ exp:'ⓑ want + <b>to become</b> ⓓ finish + <b>drawing</b>'},
+{id:'w08',c:'22',type:'cwrite',q:'표를 보고 Mina에 대한 문장 3개를 쓰시오.',box:'<table><tr><th>enjoy</th><td>dance</td></tr><tr><th>want</th><td>be a singer</td></tr><tr><th>hate</th><td>get up early</td></tr></table>',
+ conds:[{t:'3문장 이상 쓸 것',sent:3}],
+ core:[['(mina|she) enjoys dancing','enjoy + 동명사: Mina enjoys dancing.'],['(mina|she) wants to be a singer','want + to부정사: She wants to be a singer.'],['(mina|she) hates (getting up|to get up) early','hate + 동명사/to부정사: She hates getting up early.']],
+ model:['Mina enjoys dancing.','She wants to be a singer.','She hates getting up early.'],
+ exp:'enjoy → <b>-ing</b> / want → <b>to</b> / hate → <b>둘 다 가능</b>. Mina는 3인칭 단수 → 동사에 -s!'},
+{id:'w09',c:'22',type:'cwrite',q:'다음 대화를 <조건>에 맞게 영작하시오.',box:'A: 문 좀 닫아 주시겠어요?<br>B: 물론이죠(전혀 꺼리지 않아요).',
+ conds:[{t:'mind, close, the door를 사용할 것 (필요하면 형태 변형)',re:'mind closing the door'},{t:'B의 대답을 쓸 것 (Not at all. / Of course not.)',re:'not at all|of course not'},{t:'A와 B의 말을 모두 쓸 것',sent:2}],
+ core:[['^(would|do) you mind closing the door\\s*\\?','A: Would you mind closing the door?'],['mind to close','mind 뒤에는 동명사!','not']],
+ model:['Would you mind closing the door?','Not at all.'],
+ exp:'mind + <b>-ing</b>. "꺼리세요?"라고 물었으니 승낙은 <b>Not at all.</b>(전혀 안 꺼려요).'},
+{id:'w10',c:'22',type:'cwrite',q:'나의 취미와 계획을 <조건>에 맞게 3문장 이상 자유롭게 쓰시오.',
+ conds:[{t:'3문장 이상 쓸 것',sent:3},{t:'My hobby is -ing 또는 동명사 주어 문장 1개',re:'my hobby is [a-z]+ing|(^|[.!?] )[a-z]+ing\\b'},{t:'enjoy + -ing 문장 1개',re:'\\benjoy(s|ed)? [a-z]+ing\\b'},{t:'want / hope / plan + to 문장 1개',re:'\\b(want|wants|hope|hopes|plan|plans|decided) to [a-z]+'}],
+ core:[['\\benjoy(s|ed)? to\\b','enjoy 뒤에는 동명사!','not'],['\\b(want|wants|hope|hopes|plan|plans|decided) (playing|going|being|becoming|learning|making|doing|watching|reading)\\b','want / hope / plan 뒤에는 to부정사!','not']],
+ model:['My hobby is playing the guitar.','I enjoy singing with my friends.','I want to join a band next year.'],
+ exp:'정답이 정해지지 않은 자유 영작. 동사마다 짝꿍(to / -ing)을 맞게 쓰는 것이 핵심!'}
+].map(q=>(q.set='adv',q));
+
+const U06_MISSIONS=[
+{id:'m1',icon:'🌠',title:'나의 꿈 발표',desc:'to부정사와 동명사로 꿈을 소개해요 (개념 19·20)',steps:[
+ {inst:'"내 꿈은 웹툰 작가가 되는 것이다."',given:['be / become','a webtoon artist'],must:[['^my dream is to (be|become) a webtoon artist','My dream is + to be + a webtoon artist']],not:[['dream is (be|become)\\b','보어 자리 → to부정사!']],model:'My dream is to become a webtoon artist.'},
+ {inst:'"나는 그림 그리는 것을 정말 좋아한다."',given:['like','draw'],must:[['^i (really )?like (drawing|to draw)','I really like + drawing (to draw)']],not:[['like draw\\b','like + -ing / to ~']],model:'I really like drawing pictures.'},
+ {inst:'"매일 그림을 그리는 것은 쉽지 않다." (It ~ to 사용)',given:['It','easy','draw','every day'],must:[["^it('s not| is not| isn't) easy to draw( pictures)? every day","It is not easy to draw (pictures) every day."]],not:[['^(this|that)','가주어는 It!']],model:"It isn't easy to draw pictures every day."},
+ {inst:'"나는 미술 학원에 다니기를 원한다."',given:['want','go to an art academy'],must:[['^i want to go to an art academy','I want + to go + to an art academy']],not:[['want going','want 뒤에는 to부정사!']],model:'I want to go to an art academy.'},
+ {free:true,inst:'자유 영작: 나의 꿈을 소개하는 문장을 3개 이상 써 보세요.',cond:'My dream is to ~ 1번, want/hope to ~ 1번, It is ~ to ~ 1번 이상',minSent:3,
+  must:[['my dream is to [a-z]+','My dream is to ~ 문장을 넣어 주세요.'],['\\b(want|hope|plan) to [a-z]+','want / hope to ~ 문장을 넣어 주세요.'],["\\bit('s| is) [a-z]+ to [a-z]+",'It is ~ to ~ 문장을 넣어 주세요.']],not:[['\\b(want|hope|plan) (going|being|becoming|playing|making)\\b','want / hope / plan 뒤에는 to부정사!']],
+  model:"My dream is to be a chef. I hope to open my own restaurant. It is fun to cook for my family."}
+]},
+{id:'m2',icon:'🛍️',title:'심부름 리포트',desc:'목적·형용사적·감정의 원인 to부정사로 심부름 이야기를 써요 (개념 21)',steps:[
+ {inst:'"나는 우유를 사기 위해 마트에 갔다."',given:['go','the mart','buy milk'],must:[['^i went to the (mart|supermarket) to buy milk','I went to the mart + to buy milk']],not:[['for buy','"~하기 위해" → to + 원형']],model:'I went to the mart to buy milk.'},
+ {inst:'"나는 마실 것을 좀 원했다."',given:['something','drink'],must:[['^i wanted something to drink','I wanted + something to drink']],not:[['something drink','something + to부정사!']],model:'I wanted something to drink.'},
+ {inst:'"나는 거기서 친구를 만나서 놀랐다."',given:['surprised','meet my friend','there'],must:[['^i was surprised to (meet|see) my friend there','I was surprised + to meet my friend + there']],not:[['surprised (meeting|meet)\\b','감정 + to부정사!']],model:'I was surprised to meet my friend there.'},
+ {inst:'"우리는 이야기할 시간이 많지 않았다."',given:['have much time','talk'],must:[["^we (didn't|did not) have much time to talk","We didn't have much time + to talk"]],not:[['time talking','time + to부정사!']],model:"We didn't have much time to talk."},
+ {free:true,inst:'자유 영작: 나의 심부름(외출) 이야기를 3문장 이상 써 보세요.',cond:'목적의 to(~하기 위해), 형용사적 to(~할), 감정의 to(~해서)를 1번 이상씩',minSent:3,
+  must:[['\\bwent to (the |a )?[a-z]+ to [a-z]+','목적의 to (I went to ~ to …)를 넣어 주세요.'],['\\b(something|anything|nothing|time|homework|things?|books?|place) to [a-z]+','형용사적 to (something to …)를 넣어 주세요.'],['\\b(happy|glad|sad|sorry|surprised|excited) to [a-z]+','감정의 to (happy to …)를 넣어 주세요.']],not:[],
+  model:"I went to the bookstore to buy a comic book. I wanted something to read on the bus. I was happy to find the new one."}
+]},
+{id:'m3',icon:'📊',title:'주말 설문 리포트',desc:'동사별 짝꿍(to / -ing)을 맞춰 친구를 소개해요 (개념 22)',steps:[
+ {inst:'"나는 주말에 영화 보는 것을 즐긴다."',given:['enjoy','watch movies','on weekends'],must:[['^i enjoy watching movies on weekends','I enjoy + watching movies + on weekends']],not:[['enjoy to','enjoy 뒤에는 동명사!']],model:'I enjoy watching movies on weekends.'},
+ {inst:'"내 짝은 이번 주말에 등산을 가고 싶어 한다."',given:['my partner','want','go hiking','this weekend'],must:[['^my partner wants to go hiking( this weekend)?','My partner wants + to go hiking (this weekend)']],not:[['wants? going','want 뒤에는 to부정사!'],['partner want to','My partner(3인칭 단수) → wants']],model:'My partner wants to go hiking this weekend.'},
+ {inst:'"그는 어제 숙제하는 것을 끝냈다."',given:['finish','do his homework','yesterday'],must:[['^he finished doing his homework','He finished + doing his homework']],not:[['finished to','finish 뒤에는 동명사!']],model:'He finished doing his homework yesterday.'},
+ {inst:'"우리는 함께 공부하기로 결정했다."',given:['decide','study together'],must:[['^we decided to study together','We decided + to study together']],not:[['decided studying','decide 뒤에는 to부정사!']],model:'We decided to study together.'},
+ {free:true,inst:'자유 영작: 친구의 주말 설문 결과를 3문장 이상으로 써 보세요.',cond:'enjoy -ing 1번, want/plan to 1번, finish/give up -ing 또는 decide/hope to 1번 이상',minSent:3,
+  must:[['\\benjoy(s|ed)? [a-z]+ing\\b','enjoy + -ing 문장을 넣어 주세요.'],['\\b(want|wants|plan|plans) to [a-z]+','want / plan + to 문장을 넣어 주세요.'],['\\b(finish|finished|finishes|gave up|give up|gives up) [a-z]+ing\\b|\\b(decide|decided|decides|hope|hopes) to [a-z]+','finish / give up + -ing 또는 decide / hope + to 문장을 넣어 주세요.']],not:[['\\benjoy(s|ed)? to\\b','enjoy 뒤에는 동명사!']],
+  model:"Minji enjoys playing tennis on weekends. She wants to visit her grandma this Sunday. She finished reading a long novel last week."}
+]}
+];
+
+/* ================= UNIT 07 형용사와 부사 (개념 23~26) ================= */
+const U07_CONCEPTS=[
+{ no:'23', title:'형용사의 쓰임과 형태', short:'형용사',
+  student:{
+    core:'형용사는 사람·사물의 <b>모양·성질·상태</b>를 나타내요. <span style="color:#ffd27a">명사 앞</span>에서 꾸미거나, <span style="color:#ffd27a">be동사·감각동사 뒤</span>에서 주어를 설명해요.',
+    table:`<table class="t"><tr><th>쓰임</th><th>예</th></tr>
+      <tr><td>명사 앞에서 꾸밈</td><td class="l">a <b>tall</b> boy, a <b>cute</b> puppy</td></tr>
+      <tr><td>be동사 뒤 (보어)</td><td class="l">The boy is <b>tall</b>.</td></tr>
+      <tr><td>감각동사 뒤 (보어)<br><small>look, sound, taste, smell, feel</small></td><td class="l">You <b>look tired</b>. / It <b>tastes sweet</b>.</td></tr>
+      <tr><td>-thing, -one, -body 뒤</td><td class="l"><b>something new</b>, <b>anything cold</b></td></tr></table>
+      <table class="t"><tr><th>형용사를 만드는 꼬리</th><th>예</th></tr>
+      <tr><td class="l">명사 + <b>-y</b></td><td class="l">sun → sunny, wind → windy</td></tr>
+      <tr><td class="l">명사 + <b>-ful</b> / <b>-less</b></td><td class="l">care → careful / careless, help → helpful</td></tr>
+      <tr><td class="l">명사 + <b>-ous</b></td><td class="l">fame → famous, danger → dangerous</td></tr>
+      <tr><td class="l">명사 + <b>-al</b> / 동사 + <b>-ive</b></td><td class="l">nation → national / act → active</td></tr></table>`,
+    points:[
+      ['감각동사 뒤에는 <b>형용사</b> (부사 ✗)', ['The cake looks delicious.','그 케이크는 맛있어 보인다.']],
+      ['<b>-thing + 형용사</b> (순서 주의!)', ['I want something new.','나는 새로운 무언가를 원한다.']],
+    ],
+    tips:[
+      '<b>You look happily. ✗</b> → You look <b>happy</b>. (감각동사 + 형용사)',
+      '<b>new something ✗</b> → <b>something new</b> (형용사가 뒤로!)',
+      '<b>It sounds well? ✗</b> → It sounds <b>good</b>.',
+      '<b>friendly, lovely, lonely</b>는 -ly로 끝나지만 <b>형용사</b>예요!'
+    ],
+    examples:[
+      ['It is a cute puppy.','그것은 귀여운 강아지이다.'],
+      ['The cake looks delicious.','그 케이크는 맛있어 보인다.'],
+      ['You look tired today.','너 오늘 피곤해 보인다.'],
+      ['The song sounds good.','그 노래는 좋게 들린다.'],
+      ['This soup tastes salty.','이 수프는 짠 맛이 난다.'],
+      ['The flowers smell sweet.','꽃들이 달콤한 냄새가 난다.'],
+      ['I feel happy with you.','나는 너와 있으면 행복하다.'],
+      ['I want something new.','나는 새로운 무언가를 원한다.'],
+      ['He is a famous singer.','그는 유명한 가수이다.'],
+      ['Be careful!','조심해!']
+    ],
+    ox:[['The soup tastes well.',false,'감각동사 뒤 → 형용사 <b>good</b>'],
+        ['I want something cold.',true,'-thing + 형용사 순서']]
+  },
+  teacher:{
+    board:`형용사 = 명사의 모양 · 성질 · 상태
+
+ ① 명사 앞     a tall boy / a cute dog
+ ② 보어        be동사 + 형용사
+               look · sound · taste · smell · feel
+               + 형용사  (You look happy.)
+ ③ -thing + 형용사   something new
+
+ 형태  -y (sunny)   -ful (careful)   -less (careless)
+       -ous (famous)  -al (national)  -ive (active)
+
+★ 감각동사 + 형용사 (happily ✗)
+★ friendly · lovely = 형용사`,
+    intro:['학생 1명의 표정을 보며 "He looks ___." 빈칸을 채우게 하기 → happy? happily? 투표',
+           '"차가운 마실 것"을 영어로? cold something? something cold? → 순서 규칙 도입'],
+    script:['① 형용사 = 명사의 모양·성질·상태. 쓰임 2가지: 명사 수식(한정) / 보어(서술).',
+            '② 감각동사(look, sound, taste, smell, feel) + 형용사 → "~하게 보이다/들리다/맛이 나다".',
+            '③ -thing, -one, -body는 형용사가 뒤에서 꾸민다 → something special, anything wrong.',
+            '④ 형용사 만드는 접미사: -y, -ful, -less, -ous, -al, -ive.',
+            '⑤ -ly로 끝나는 형용사(friendly, lovely, lonely, lively, ugly) → 부사와 혼동 금지.',
+            '⑥ 내신 포인트: 감각동사 + 부사 오류, -thing + 형용사 순서, 명사 → 형용사 변환.'],
+    examples:[
+      ['She has long brown hair.','그녀는 긴 갈색 머리를 가지고 있다.'],
+      ['The movie was very exciting.','그 영화는 매우 흥미진진했다.'],
+      ['Your idea sounds great.','네 아이디어 좋은데.'],
+      ['The milk smells bad.','우유에서 나쁜 냄새가 난다.'],
+      ['This blanket feels soft.','이 담요는 부드럽다.'],
+      ['He looks like a movie star.','그는 영화배우처럼 보인다. (look like + 명사)'],
+      ['Is there anything wrong?','뭐 잘못된 거 있어?'],
+      ['I met someone famous.','나는 유명한 누군가를 만났다.'],
+      ['It is a sunny day.','화창한 날이다.'],
+      ['Thank you for your helpful advice.','유용한 조언 고마워.'],
+      ['Driving fast is dangerous.','빠르게 운전하는 것은 위험하다.'],
+      ['She is a friendly girl.','그녀는 친절한 소녀이다.']
+    ],
+    mistakes:[['You look happily.','You look happy.','감각동사 + 형용사'],
+              ['I want new something.','I want something new.','-thing + 형용사'],
+              ['The soup tastes well.','The soup tastes good.','good (형용사)'],
+              ['a danger road','a dangerous road','danger → dangerous'],
+              ['He looks a doctor.','He looks like a doctor.','look like + 명사']],
+    exam:['감각동사 + 형용사 (부사 ✗)','-thing + 형용사 어순','명사 → 형용사 형태 변화','-ly로 끝나는 형용사(friendly) 품사 구별'],
+    activity:'【Describe it! 형용사 스무고개 · 5분】 학생 1명이 동물·물건을 생각하고 형용사로만 힌트 (It is big and gray. It looks strong.) → 반 친구들이 Is it ~?으로 맞히기. 형용사 3개 안에 맞히면 출제자 팀 +1.',
+    check:[['The pizza ___ delicious. (냄새가 나다)','smells'],['"차가운 무언가"를 영어로','something cold'],['care → 형용사 2개','careful / careless']]
+  }
+},
+{ no:'24', title:'수량 형용사', short:'수량 형용사',
+  student:{
+    core:'수나 양이 <b>얼마나 많은지</b> 나타내는 형용사예요. 뒤에 오는 명사가 <span style="color:#ffd27a">셀 수 있는지, 셀 수 없는지</span>에 따라 골라 써요!',
+    table:`<table class="t"><tr><th>뜻</th><th>셀 수 있는 명사<br><small>(복수)</small></th><th>셀 수 없는 명사</th></tr>
+      <tr><td>많은</td><td class="be">many</td><td class="be">much</td></tr>
+      <tr><td>많은 (둘 다)</td><td colspan="2" class="be">a lot of / lots of</td></tr>
+      <tr><td>조금 있는</td><td class="be">a few</td><td class="be">a little</td></tr>
+      <tr><td>거의 없는</td><td class="be">few</td><td class="be">little</td></tr></table>
+      <table class="t"><tr><th>some</th><th>any</th></tr>
+      <tr><td class="l">긍정문 · 권유 (약간의, 몇몇의)<br>I have <b>some</b> cookies.<br>Would you like <b>some</b> tea?</td><td class="l">부정문 · 의문문 (조금도, 하나도)<br>I don't have <b>any</b> money.<br>Do you have <b>any</b> questions?</td></tr></table>`,
+    points:[
+      ['<b>a few / a little</b> = 조금 있는 (긍정)', ['I have a few friends here.','여기에 친구가 몇 명 있다.']],
+      ['<b>few / little</b> = 거의 없는 (부정)', ['There is little water in the bottle.','병에 물이 거의 없다.']],
+    ],
+    tips:[
+      '<b>much friends ✗</b> → <b>many</b> friends (셀 수 있음)',
+      '<b>a few water ✗</b> → <b>a little</b> water (셀 수 없음)',
+      '<b>a</b>가 있으면 "조금 있다", <b>a</b>가 없으면 "거의 없다"!',
+      '<b>Would you like some ~?</b> → 권유하는 의문문에는 some!'
+    ],
+    examples:[
+      ['I have many friends.','나는 친구가 많다.'],
+      ["We don't have much time.",'우리는 시간이 많지 않다.'],
+      ['There are a lot of people here.','여기에 사람들이 많다.'],
+      ['She bought a few books.','그녀는 책을 몇 권 샀다.'],
+      ['There is a little milk in the cup.','컵에 우유가 조금 있다.'],
+      ['He has few friends.','그는 친구가 거의 없다.'],
+      ['There is little hope.','희망이 거의 없다.'],
+      ['Would you like some cookies?','쿠키 좀 먹을래?'],
+      ["I don't have any money.",'나는 돈이 하나도 없다.'],
+      ['Do you have any questions?','질문 있나요?']
+    ],
+    ox:[['I have much homework today.',true,'homework는 셀 수 없음 → much (O)'],
+        ['There is a few water.',false,'셀 수 없는 water → <b>a little</b> water']]
+  },
+  teacher:{
+    board:`수량 형용사 = 셀 수 있나? 없나?
+
+            셀 수 있음(복수)   셀 수 없음
+ 많은       many               much
+            ── a lot of / lots of ──
+ 조금 있는  a few              a little
+ 거의 없는  few                little
+
+ some  긍정문 · 권유 (Would you like some ~?)
+ any   부정문 · 의문문
+
+★ a가 있으면 "있다", 없으면 "거의 없다"
+★ people = 복수 → many people`,
+    intro:['"친구가 많다 / 돈이 많다" → many friends, much money? 두 단어가 다른 이유 질문',
+           '물병을 들고 물이 조금 있을 때 / 거의 없을 때 → a little vs little 시각적으로 보여 주기'],
+    script:['① 수량 형용사 선택 기준 = 뒤 명사가 셀 수 있는가 (개념 15 연계).',
+            '② many(수) / much(양) / a lot of, lots of(둘 다). much는 주로 부정문·의문문에서.',
+            '③ a few / a little = 조금 있는(긍정적), few / little = 거의 없는(부정적).',
+            '④ some: 긍정문, 권유·요청 의문문 / any: 부정문, 일반 의문문.',
+            '⑤ 함정: people(복수) → many people, information·advice·homework(셀 수 없음) → much.',
+            '⑥ 내신 포인트: 빈칸 고르기, few vs a few 의미 구별, 글 속 수량 형용사 오류.'],
+    examples:[
+      ['How many students are in your class?','너희 반에는 학생이 몇 명이니?'],
+      ['How much water do you drink a day?','하루에 물을 얼마나 마시니?'],
+      ['He has lots of comic books.','그는 만화책이 많다.'],
+      ['I need a few more minutes.','몇 분만 더 필요해.'],
+      ['Add a little sugar, please.','설탕을 조금 넣어 주세요.'],
+      ['Few people came to the party.','파티에 온 사람이 거의 없었다.'],
+      ['I had little sleep last night.','어젯밤에 잠을 거의 못 잤다.'],
+      ['She has some good ideas.','그녀는 좋은 아이디어가 몇 가지 있다.'],
+      ['Can I have some water?','물 좀 마실 수 있을까요?'],
+      ["There aren't any eggs in the fridge.",'냉장고에 달걀이 하나도 없다.'],
+      ['Is there any juice left?','주스 남은 거 있어?'],
+      ["I didn't get much information.",'나는 많은 정보를 얻지 못했다.']
+    ],
+    mistakes:[['much friends','many friends','셀 수 있음 → many'],
+              ['many money','much money','셀 수 없음 → much'],
+              ['a few water','a little water','셀 수 없음 → a little'],
+              ["I don't have some money.","I don't have any money.",'부정문 → any'],
+              ['much people','many people','people = 복수']],
+    exam:['many / much / a few / a little 빈칸','few vs a few, little vs a little 의미 구별','some / any (권유 의문문 some)','글 속 수량 형용사 오류 찾기'],
+    activity:'【Fridge Check 냉장고 털기 · 5분】 교사가 냉장고 속 그림(텍스트 목록)을 제시하면 모둠별로 "There are a few eggs. There is a little milk. There isn\'t any juice." 문장 만들기 → 가장 많이 맞게 만든 모둠 +1.',
+    check:[['___ (많은) people','many / a lot of'],['There is ___ ___ (조금) milk.','a little'],['"나는 돈이 하나도 없다"를 영어로',"I don't have any money."]]
+  }
+},
+{ no:'25', title:'부사의 쓰임과 형태', short:'부사',
+  student:{
+    core:'부사는 <b>동사 · 형용사 · 다른 부사 · 문장 전체</b>를 꾸며서 "어떻게, 얼마나"를 알려 줘요. 대부분 <span style="color:#ffd27a">형용사 + -ly</span>로 만들어요.',
+    table:`<table class="t"><tr><th>꾸미는 대상</th><th>예</th></tr>
+      <tr><td>동사</td><td class="l">He walks <b>slowly</b>.</td></tr>
+      <tr><td>형용사</td><td class="l">It is <b>very</b> cold.</td></tr>
+      <tr><td>다른 부사</td><td class="l">She runs <b>really</b> fast.</td></tr>
+      <tr><td>문장 전체</td><td class="l"><b>Luckily</b>, I found my key.</td></tr></table>
+      <table class="t"><tr><th>부사 만드는 법</th><th>예</th></tr>
+      <tr><td class="l">대부분 <b>+ly</b></td><td class="l">quick → quickly, careful → carefully</td></tr>
+      <tr><td class="l">자음 + y → <b>ily</b></td><td class="l">happy → happily, easy → easily</td></tr>
+      <tr><td class="l">-le → <b>ly</b></td><td class="l">gentle → gently, simple → simply</td></tr>
+      <tr><td class="l"><b>good → well</b> (특별!)</td><td class="l">She sings well.</td></tr>
+      <tr><td class="l">형용사 = 부사</td><td class="l">fast, hard, early, late, high</td></tr>
+      <tr><td class="l">-ly 붙으면 뜻이 달라짐</td><td class="l">hardly (거의 ~않다), lately (최근에)</td></tr></table>`,
+    points:[
+      ['동사를 꾸밀 때는 <b>부사</b>', ['She sings beautifully.','그녀는 아름답게 노래한다.']],
+      ['<b>hard</b> = 열심히 / <b>hardly</b> = 거의 ~않다', ['He works hard. / He hardly works.','그는 열심히 일한다. / 그는 거의 일하지 않는다.']],
+    ],
+    tips:[
+      '<b>She speaks English good. ✗</b> → speaks English <b>well</b>',
+      '<b>fastly ✗</b> → <b>fast</b> (형용사와 부사 모양이 같아요)',
+      '<b>He works hardly. (열심히) ✗</b> → He works <b>hard</b>.',
+      '<b>friendly, lovely</b>는 형용사! 부사가 아니에요.'
+    ],
+    examples:[
+      ['He walks slowly.','그는 천천히 걷는다.'],
+      ['She sings beautifully.','그녀는 아름답게 노래한다.'],
+      ['The children are playing happily.','아이들이 행복하게 놀고 있다.'],
+      ['He runs very fast.','그는 매우 빨리 달린다.'],
+      ['I studied hard for the test.','나는 시험을 위해 열심히 공부했다.'],
+      ['She speaks English well.','그녀는 영어를 잘한다.'],
+      ['Please hold the baby gently.','아기를 부드럽게 안아 주세요.'],
+      ['Unfortunately, it rained.','불행하게도, 비가 왔다.'],
+      ['He hardly smiles.','그는 거의 웃지 않는다.'],
+      ['I got up early this morning.','나는 오늘 아침 일찍 일어났다.']
+    ],
+    ox:[['She dances good.',false,'동사를 꾸미는 부사 → <b>well</b>'],
+        ['He drives carefully.',true,'drive(동사)를 꾸미는 부사 carefully']]
+  },
+  teacher:{
+    board:`부사 = 어떻게? 얼마나?
+       동사 · 형용사 · 다른 부사 · 문장을 꾸밈
+
+ +ly      quick → quickly   careful → carefully
+ y → ily  happy → happily   easy → easily
+ le → ly  gentle → gently
+ ★ good → well
+
+ 형용사 = 부사  fast · hard · early · late · high
+ 뜻이 달라짐    hard 열심히 / hardly 거의 ~않다
+               late 늦게 / lately 최근에
+
+★ friendly · lovely · lonely = 형용사!`,
+    intro:['교사가 천천히 / 빠르게 걸으며 "How am I walking?" → slow? slowly? 학생 답 수집',
+           '"그는 good 가수다 / 그는 노래를 good 한다" — 우리말로는 둘 다 "잘"인데 영어는 왜 다를까?'],
+    script:['① 형용사는 명사를, 부사는 그 외(동사·형용사·부사·문장)를 꾸민다.',
+            '② 형태 규칙: +ly / 자음+y → ily / -le → ly / -ue → uly(true → truly).',
+            '③ good의 부사는 well (특별). well은 형용사로 "건강한"의 뜻도 (I\'m well.).',
+            '④ 형용사·부사 동형: fast, hard, early, late, high, near → a fast car / run fast.',
+            '⑤ -ly가 붙으면 뜻이 달라지는 부사: hardly(거의 ~않다), lately(최근에), nearly(거의), highly(매우).',
+            '⑥ 내신 포인트: 밑줄 친 단어 품사 구별(friendly), hard vs hardly, good vs well.'],
+    examples:[
+      ['Please speak slowly.','천천히 말해 주세요.'],
+      ['He answered the question easily.','그는 그 질문에 쉽게 대답했다.'],
+      ['The dog is barking loudly.','개가 시끄럽게 짖고 있다.'],
+      ['She smiled happily.','그녀는 행복하게 웃었다.'],
+      ['This is a really good book.','이것은 정말 좋은 책이다.'],
+      ['He came home late.','그는 집에 늦게 왔다.'],
+      ['The bird flew high.','새가 높이 날았다.'],
+      ['She is a good cook. She cooks well.','그녀는 훌륭한 요리사다. 그녀는 요리를 잘한다.'],
+      ['I could hardly hear you.','네 말이 거의 안 들렸어.'],
+      ['Have you seen him lately?','최근에 그를 본 적 있니?'],
+      ['Luckily, nobody was hurt.','다행히도, 아무도 다치지 않았다.'],
+      ['He is a friendly man. (형용사)','그는 친절한 사람이다.']
+    ],
+    mistakes:[['She speaks English good.','She speaks English well.','good → well'],
+              ['He runs fastly.','He runs fast.','fast = 부사'],
+              ['He drives careful.','He drives carefully.','동사 수식 → 부사'],
+              ['He works hardly. (열심히)','He works hard.','hardly = 거의 ~않다'],
+              ['They played happy.','They played happily.','동사 수식 → 부사']],
+    exam:['형용사 → 부사 형태 변화 (happily, gently, well)','hard vs hardly, late vs lately 의미 구별','밑줄 친 단어의 품사 구별 (friendly = 형용사)','부사가 꾸미는 대상 찾기'],
+    activity:'【Adverb Charades 부사 연기 · 5분】 학생 1명이 "동작 + 부사" 카드(walk slowly, eat quickly, talk loudly)를 몰래 보고 연기 → 반 친구들이 "He is eating quickly!"로 맞히기. 맞힌 팀 +1.',
+    check:[['easy → 부사','easily'],['"그는 매우 빨리 달린다"를 영어로','He runs very fast.'],['She is a ___ singer. / She sings ___. (good)','good / well']]
+  }
+},
+{ no:'26', title:'빈도부사', short:'빈도부사',
+  student:{
+    core:'빈도부사는 어떤 일을 <b>얼마나 자주</b> 하는지 나타내요. 위치가 중요해요! <span style="color:#ffd27a">be동사 · 조동사 뒤, 일반동사 앞</span>!',
+    table:`<table class="t"><tr><th>빈도부사</th><th>얼마나 자주?</th></tr>
+      <tr><td class="be">always</td><td>100% 항상</td></tr>
+      <tr><td class="be">usually</td><td>80~90% 보통, 대개</td></tr>
+      <tr><td class="be">often</td><td>60~70% 자주</td></tr>
+      <tr><td class="be">sometimes</td><td>40~50% 가끔</td></tr>
+      <tr><td class="be">never</td><td>0% 절대 ~않다</td></tr></table>
+      <table class="t"><tr><th>위치</th><th>예</th></tr>
+      <tr><td>be동사 <b>뒤</b></td><td class="l">She is <b>always</b> kind.</td></tr>
+      <tr><td>조동사 <b>뒤</b></td><td class="l">You should <b>always</b> be honest.</td></tr>
+      <tr><td>일반동사 <b>앞</b></td><td class="l">I <b>usually</b> get up at 7.</td></tr></table>
+      <table class="t"><tr><th colspan="2">How often ~? (얼마나 자주?) 대답</th></tr>
+      <tr><td class="l">once a week (일주일에 한 번)</td><td class="l">twice a month (한 달에 두 번)</td></tr>
+      <tr><td class="l">three times a day (하루에 세 번)</td><td class="l">every day (매일)</td></tr></table>`,
+    points:[
+      ['일반동사 <b>앞</b>', ['We often play soccer after school.','우리는 방과 후에 자주 축구를 한다.']],
+      ['be동사 · 조동사 <b>뒤</b>', ["He is never late. / I can always help you.",'그는 절대 늦지 않는다. / 나는 언제나 너를 도울 수 있다.']],
+    ],
+    tips:[
+      '<b>I go always ✗</b> → I <b>always go</b> (일반동사 앞)',
+      '<b>She never is late ✗</b> → She <b>is never</b> late (be동사 뒤)',
+      '빈도부사가 있어도 3인칭 단수 -s는 그대로! → He usually <b>goes</b>.',
+      '<b>never</b>는 이미 부정의 뜻 → don\'t never ✗'
+    ],
+    examples:[
+      ['I always get up at 7.','나는 항상 7시에 일어난다.'],
+      ['He usually goes to school by bus.','그는 보통 버스로 학교에 간다.'],
+      ['We often play soccer.','우리는 자주 축구를 한다.'],
+      ['She is sometimes late.','그녀는 가끔 늦는다.'],
+      ['I never skip breakfast.','나는 절대 아침을 거르지 않는다.'],
+      ['He is always kind to others.','그는 항상 다른 사람들에게 친절하다.'],
+      ['You should always be honest.','너는 항상 정직해야 한다.'],
+      ['I can never forget that day.','나는 그날을 절대 잊을 수 없다.'],
+      ['How often do you exercise?','얼마나 자주 운동하니?'],
+      ['I swim twice a week.','나는 일주일에 두 번 수영한다.']
+    ],
+    ox:[['I go always to school by bus.',false,'일반동사 앞 → <b>I always go</b>'],
+        ['She is never late.',true,'be동사 뒤 → is never']]
+  },
+  teacher:{
+    board:`빈도부사 = 얼마나 자주?
+
+ always    100%
+ usually    80%
+ often      60%
+ sometimes  40%
+ never       0%
+
+ 위치  be동사 · 조동사 뒤   She is always kind.
+                            You can always call me.
+       일반동사 앞          I usually walk to school.
+
+ How often ~?  once a week / twice a month
+               three times a day / every day
+
+★ He usually goes (빈도부사가 있어도 -s 유지)`,
+    intro:['손으로 퍼센트 막대를 만들어 "100%는 always, 0%는 never" — 학생들과 몸으로 빈도 순서 정하기',
+           '"나는 항상 늦어"를 영어로 → I always am late? I am always late? 위치 투표'],
+    script:['① 빈도 순서: always > usually > often > sometimes > never.',
+            '② 위치 규칙: be동사·조동사 뒤, 일반동사 앞 ("be는 뒤, 일반은 앞").',
+            '③ sometimes는 문장 앞·끝에도 올 수 있다 (Sometimes I ~).',
+            '④ never는 부정어 → not과 함께 쓰지 않는다.',
+            '⑤ How often ~? 대답: once / twice / three times + a day / a week / a month.',
+            '⑥ 내신 포인트: 빈도부사 위치 오류, 표를 보고 빈도 문장 일치 판단.'],
+    examples:[
+      ['My mom always drinks coffee in the morning.','엄마는 아침에 항상 커피를 드신다.'],
+      ['I usually do my homework after dinner.','나는 보통 저녁 식사 후에 숙제를 한다.'],
+      ['They often visit their grandparents.','그들은 자주 조부모님을 방문한다.'],
+      ['Sometimes I eat ramen for lunch.','가끔 나는 점심으로 라면을 먹는다.'],
+      ['He never tells a lie.','그는 절대 거짓말을 하지 않는다.'],
+      ['The bus is usually crowded.','버스는 보통 붐빈다.'],
+      ['We are often busy on Mondays.','우리는 월요일에 자주 바쁘다.'],
+      ['You must always wear a helmet.','너는 항상 헬멧을 써야 한다.'],
+      ['I will never give up.','나는 절대 포기하지 않을 것이다.'],
+      ['How often do you go to the library? — Once a week.','도서관에 얼마나 자주 가니? — 일주일에 한 번.'],
+      ['I brush my teeth three times a day.','나는 하루에 세 번 이를 닦는다.'],
+      ['She usually walks, but she sometimes takes the bus.','그녀는 보통 걷지만, 가끔 버스를 탄다.']
+    ],
+    mistakes:[['I go always to school.','I always go to school.','일반동사 앞'],
+              ['She never is late.','She is never late.','be동사 뒤'],
+              ['He usually go to school.','He usually goes to school.','3인칭 단수 -s 유지'],
+              ["I don't never eat it.",'I never eat it.','never = 부정'],
+              ['I can swim always.','I can always swim.','조동사 뒤']],
+    exam:['빈도부사 위치 (be동사·조동사 뒤 / 일반동사 앞)','빈도 순서 (always > usually > often > sometimes > never)','How often ~? 질문과 대답','표의 빈도 정보와 일치하지 않는 문장'],
+    activity:'【Human Percentage Line · 5분】 교실 벽 한쪽 끝을 always(100%), 반대쪽을 never(0%)로 정하고 교사가 "I eat breakfast."를 외치면 학생들이 자신의 빈도 위치에 서기 → 선 자리의 빈도부사로 문장 말하기.',
+    check:[['He is late. (never) → 넣어 쓰기','He is never late.'],['We eat pizza. (sometimes) → 넣어 쓰기','We sometimes eat pizza.'],['"나는 항상 아침을 먹는다"를 영어로','I always eat breakfast.']]
+  }
+}];
+
+const U07_RUN={
+'23':[
+ {k:'prompt',who:'S',min:4,icon:'🔍',title:'Warm-up · Describe it! 형용사 스무고개',guide:'학생 1명이 동물·물건을 하나 생각하고 형용사로만 힌트를 주면, 반 친구들이 Is it ~?으로 맞히기. 형용사 3개 안에 맞히면 출제자 팀 +1.',
+  frames:['It is <b>big</b> and <b>gray</b>.','It looks <b>______</b>.','It feels <b>soft</b> / <b>hard</b>.','Q: Is it an elephant?'],model:['It is small and white.','It looks cute.','It feels soft.','Q: Is it a rabbit? — Yes!']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'스무고개에서 나온 "It looks cute"를 시작으로 감각동사 + 형용사 규칙을 정리하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). 감각동사 문장은 표정·동작과 함께!',
+  items:[['그것은 귀여운 강아지다.','It is a cute puppy.'],['그 케이크는 맛있어 보인다.','The cake looks delicious.'],['너 피곤해 보여.','You look tired.'],['그 노래는 좋게 들린다.','The song sounds good.'],['이 수프는 짠 맛이 난다.','This soup tastes salty.'],['나는 새로운 무언가를 원한다.','I want something new.'],['그는 유명한 가수이다.','He is a famous singer.'],['조심해!','Be careful!']]},
+ {k:'cards',who:'S',min:5,icon:'🧩',title:'Game · 형용사 만들기',guide:'명사가 뜨면 팀별로 형용사형을 외치기 → 철자까지 맞으면 +1. 🎲로 뽑힌 학생은 그 형용사로 문장 만들기 (보너스).',
+  hint:'-y / -ful / -less / -ous / -al / -ive',
+  items:[['sun','sunny (-y)'],['care','careful (-ful) / careless (-less)'],['fame','famous (-ous)'],['nation','national (-al)'],['help','helpful (-ful)'],['wind','windy (-y)'],['danger','dangerous (-ous)'],['act','active (-ive)'],['beauty','beautiful (-ful)'],['friend','friendly (-ly로 끝나는 형용사!)']]},
+ {k:'prompt',who:'S',min:5,icon:'🍰',title:'Pair Talk · Food Critic 맛 평론가',guide:'짝이 상상 속 음식을 내밀면 감각동사 + 형용사로 평가하기 → 역할 교대 → 🎲로 뽑힌 팀이 가장 웃긴 리뷰 발표.',
+  frames:['A: How does it <b>look</b>?','B: It looks <b>______</b>.','A: How does it <b>smell</b>?','B: It smells <b>______</b>.','A: How does it <b>taste</b>?','B: It tastes <b>______</b>. (sweet / salty / spicy)'],model:['A: How does it look?','B: It looks delicious.','A: How does it smell?','B: It smells sweet.','A: How does it taste?','B: It tastes too spicy!']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'틀린 부분을 고쳐 쓰고 동시에 들기.',
+  items:[['You look happily.','You look happy.'],['I want new something.','I want something new.'],['danger → 형용사','dangerous'],['The music sounds well.','The music sounds good.']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 23 문제 + Writing Mission 1 (맛집 리뷰).',
+  items:['The pizza ___ delicious. (냄새가 나다)','"차가운 무언가"를 영어로 쓰기','care → 형용사 2개'],answers:['smells','something cold','careful / careless']}
+],
+'24':[
+ {k:'prompt',who:'S',min:4,icon:'🧊',title:'Warm-up · Fridge Check 냉장고 털기',guide:'모둠별로 우리 집 냉장고를 상상해 수량 문장 4개 만들기 → 발표. 아직 규칙 전이니 틀을 보며 자유롭게!',
+  frames:['There are <b>many</b> / <b>a few</b> ______s.','There is <b>much</b> / <b>a little</b> ______.',"There aren't <b>any</b> ______s.",'Do we have <b>any</b> ______?'],model:['There are a few eggs.','There is a little milk.',"There aren't any apples.",'Do we have any cheese?']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'물병(물 조금 / 거의 없음)으로 a little vs little을 보여 주고, 모둠 문장을 셀 수 있음/없음으로 분류하며 판서하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). 셀 수 있으면 손가락 ✋, 셀 수 없으면 두 손 🤲를 먼저 보여 주고 말하기!',
+  items:[['나는 친구가 많다.','I have many friends.'],['우리는 시간이 많지 않다.',"We don't have much time."],['그녀는 책을 몇 권 샀다.','She bought a few books.'],['컵에 우유가 조금 있다.','There is a little milk in the cup.'],['그는 친구가 거의 없다.','He has few friends.'],['병에 물이 거의 없다.','There is little water in the bottle.'],['쿠키 좀 먹을래?','Would you like some cookies?'],['나는 돈이 하나도 없다.',"I don't have any money."]]},
+ {k:'cards',who:'S',min:5,icon:'🤲',title:'Game · many or much? few or little?',guide:'명사가 뜨면 셀 수 있으면 ✋ many / a few, 셀 수 없으면 🤲 much / a little을 외치기 → 맞힌 팀 +1.',
+  hint:'셀 수 있음 → many / a few ✋ &nbsp; 셀 수 없음 → much / a little 🤲',
+  items:[['___ students','many / a few ✋ (셀 수 있음)'],['___ water','much / a little 🤲 (셀 수 없음)'],['___ money','much / a little 🤲'],['___ books','many / a few ✋'],['___ time','much / a little 🤲'],['___ friends','many / a few ✋'],['___ homework','much / a little 🤲'],['___ people','many / a few ✋ (people은 복수!)'],['___ information','much / a little 🤲'],['___ eggs','many / a few ✋']]},
+ {k:'prompt',who:'S',min:5,icon:'📋',title:'Pair Talk · How many? How much?',guide:'짝에게 How many / How much 질문 3개 → 대답 메모 → 🎲로 뽑힌 학생이 짝에 대해 발표.',
+  frames:['A: How <b>many</b> ______ do you have?','B: I have <b>a lot of</b> / <b>a few</b> ______.','A: How <b>much</b> ______ do you drink a day?','B: I drink <b>a lot of</b> / <b>a little</b> ______.'],model:['A: How many comic books do you have?','B: I have a lot of comic books.','A: How much water do you drink a day?','B: I drink a little water. Not much!']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['I have much friends. 고치기','I have many friends.'],['There is a few water. 고치기','There is a little water.'],['Do you have some questions? → 자연스럽게','Do you have any questions?'],['few와 a few의 뜻 차이','거의 없는 / 조금 있는']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 24 문제.',
+  items:['___ (많은) people','There is ___ ___ (조금) milk.','"나는 돈이 하나도 없다"를 영어로 쓰기'],answers:['many / a lot of','a little',"I don't have any money."]}
+],
+'25':[
+ {k:'prompt',who:'S',min:4,icon:'🎭',title:'Warm-up · Adverb Charades 부사 연기',guide:'교사가 "동작 + 부사" 카드를 학생 1명에게 몰래 보여 주면 연기 → 반 친구들이 맞히기. 맞히면 모두 문장 복창!',
+  frames:['Q: Is she walking <b>slowly</b>?','A: Yes! / No!','다 같이: She is ______ing <b>______ly</b>!','(slowly / quickly / loudly / quietly / happily / carefully)'],model:['Q: Is he eating quickly?','A: No!','Q: Is he eating slowly?','A: Yes! → He is eating slowly!']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'Charades의 slowly, quickly에서 출발해 -ly 규칙 → good/well → fast/hard 순서로 판서하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). 부사를 말할 때 그 느낌대로(천천히, 크게) 말하기!',
+  items:[['그는 천천히 걷는다.','He walks slowly.'],['그녀는 노래를 아름답게 부른다.','She sings beautifully.'],['아이들이 행복하게 놀고 있다.','The children are playing happily.'],['그는 매우 빨리 달린다.','He runs very fast.'],['나는 열심히 공부했다.','I studied hard.'],['그녀는 영어를 잘한다.','She speaks English well.'],['불행하게도, 비가 왔다.','Unfortunately, it rained.'],['그는 거의 웃지 않는다.','He hardly smiles.']]},
+ {k:'cards',who:'S',min:5,icon:'🔄',title:'Game · 형용사 → 부사 변신',guide:'형용사가 뜨면 팀별로 부사형을 외치기 → 맞힌 팀 +1. 함정 카드(friendly)에 주의!',
+  hint:'+ly / y→ily / le→ly / good→well / 같은 모양 / 함정!',
+  items:[['quick','quickly (+ly)'],['happy','happily (y → ily)'],['gentle','gently (le → ly)'],['careful','carefully (+ly)'],['easy','easily (y → ily)'],['good','well (특별!)'],['fast','fast (같은 모양!)'],['hard','hard (같은 모양! hardly는 "거의 ~않다")'],['early','early (같은 모양!)'],['real','really (+ly)'],['loud','loudly (+ly)'],['friendly','✗ — friendly는 이미 형용사!']]},
+ {k:'prompt',who:'S',min:5,icon:'⭐',title:'Pair Talk · Talent Judge 심사위원',guide:'짝과 오디션 심사위원이 되어 참가자(반 친구·연예인 상상)의 실력을 부사로 평가하기 → 🎲 발표.',
+  frames:['A: How does she sing?','B: She sings <b>______ly</b>.','A: How does he dance?','B: He dances very <b>well</b> / <b>badly</b>.','A: How does he run?','B: He runs really <b>fast</b>!'],model:['A: How does she sing?','B: She sings beautifully.','A: How does he dance?','B: He dances very well.','A: How does he run?','B: He runs really fast!']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 고쳐 쓰기',guide:'틀린 부분을 고쳐 쓰고 동시에 들기.',
+  items:[['She speaks English good.','She speaks English well.'],['He drives careful.','He drives carefully.'],['He works hardly. (열심히)','He works hard.'],['happy → 부사 / gentle → 부사','happily / gently']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 개념 25 문제 + Writing Mission 2 (스포츠 중계).',
+  items:['easy → 부사','"그는 매우 빨리 달린다"를 영어로 쓰기','She is a ___ singer. / She sings ___. (good)'],answers:['easily','He runs very fast.','good / well']}
+],
+'26':[
+ {k:'prompt',who:'S',min:4,icon:'📈',title:'Warm-up · Human Percentage Line',guide:'교실 한쪽 벽 = always(100%), 반대쪽 = never(0%). 교사가 "I eat breakfast."를 외치면 학생들이 자기 빈도 위치에 서서 그 빈도부사로 문장 말하기!',
+  frames:['I <b>always</b> ______. (100%)','I <b>usually</b> ______. (80%)','I <b>often</b> ______. (60%)','I <b>sometimes</b> ______. (40%)','I <b>never</b> ______. (0%)'],model:['I always eat breakfast.','I usually walk to school.','I often play games.','I sometimes read books.','I never drink coffee.']},
+ {k:'board',who:'T',min:8,icon:'🟩',title:'판서 강의 (짧고 굵게)',guide:'퍼센트 라인 활동 문장을 판서 → be동사 문장(I am never late.)을 추가해 위치 규칙을 학생이 직접 찾게 하세요.'},
+ {k:'say',who:'S',min:4,icon:'🗣️',title:'Say it! 우리말 → 영어',guide:'반 전체 → 개인(🎲). 빈도부사 위치에서 손뼉 한 번!',
+  items:[['나는 항상 7시에 일어난다.','I always get up at 7.'],['그는 보통 버스로 학교에 간다.','He usually goes to school by bus.'],['우리는 자주 축구를 한다.','We often play soccer.'],['그녀는 가끔 늦는다.','She is sometimes late.'],['나는 절대 아침을 거르지 않는다.','I never skip breakfast.'],['그는 항상 친절하다.','He is always kind.'],['너는 항상 정직해야 한다.','You should always be honest.'],['나는 일주일에 한 번 수영한다.','I swim once a week.']]},
+ {k:'cards',who:'S',min:5,icon:'📍',title:'Game · 빈도부사 자리 찾기',guide:'문장과 빈도부사가 뜨면 팀별로 알맞은 위치에 넣어 말하기 → 맞힌 팀 +1.',
+  hint:'be동사 · 조동사 뒤 / 일반동사 앞!',
+  items:[['I get up early. (always)','I always get up early.'],['She is late. (never)','She is never late.'],['We play tennis. (often)','We often play tennis.'],['He is busy. (usually)','He is usually busy.'],['I can sleep well. (always)','I can always sleep well.'],['They eat out. (sometimes)','They sometimes eat out.'],['My dad drinks coffee. (never)','My dad never drinks coffee.'],['You should wear a helmet. (always)','You should always wear a helmet.']]},
+ {k:'prompt',who:'S',min:5,icon:'🗓️',title:'Pair Talk · Habit Interview',guide:'짝에게 How often 질문 3개 → 대답 메모 → 🎲로 뽑힌 학생이 짝의 습관을 3인칭으로 발표 (-s 주의!).',
+  frames:['A: How often do you ______?','B: I <b>always / usually / often / sometimes / never</b> ______.','B: I ______ <b>once / twice / three times</b> a week.','발표: (짝 이름) <b>often</b> ______s.'],model:['A: How often do you play soccer?','B: I play soccer twice a week.','A: How often do you eat fast food?','B: I sometimes eat fast food.','발표: Jiho sometimes eats fast food.']},
+ {k:'wb',who:'S',min:4,icon:'✋',title:'Mini Whiteboard · 다 같이 들어요',guide:'쓰고 → 동시에 들기 → 정답 공개.',
+  items:[['I go always to school by bus. 고치기','I always go to school by bus.'],['She never is late. 고치기','She is never late.'],['빈도 순서로 배열: often, always, never, usually, sometimes','always > usually > often > sometimes > never'],['"나는 일주일에 두 번 운동한다"를 영어로','I exercise twice a week.']]},
+ BOOK_STEP,
+ {k:'exit',who:'S',min:3,icon:'🎫',title:'Exit Ticket',guide:'제출 후 퇴실. 과제: 학생 앱 → 실전 모의고사 + Writing Mission 3 (생활 습관 보고서).',
+  items:['He is late. (never) → 넣어 다시 쓰기','We eat pizza. (sometimes) → 넣어 다시 쓰기','"나는 항상 아침을 먹는다"를 영어로 쓰기'],answers:['He is never late.','We sometimes eat pizza.','I always eat breakfast.']}
+]};
+
+const U07_Q=[
+{id:'am01',c:'23',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'You look ______ today.',opts:['happy','happily','happiness','to be happily','happied'],ans:0,
+ exp:'감각동사 look 뒤에는 <b>형용사</b> → look <b>happy</b>.'},
+{id:'am02',c:'23',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장은?',opts:['I want new something.','The soup tastes well.','She is a kind girl.','He looks sadly.','The flower smells sweetly.'],ans:2,
+ exp:'③ 형용사 kind가 명사 girl을 꾸밈 (O).<br>① something new ② tastes good ④ looks sad ⑤ smells sweet'},
+{id:'am03',c:'23',type:'mc',q:'명사와 형용사가 <u>잘못</u> 짝지어진 것은?',opts:['sun – sunny','care – careful','fame – famous','danger – dangerful','help – helpful'],ans:3,
+ exp:'danger의 형용사는 <b>dangerous</b> (-ous).'},
+{id:'am04',c:'24',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:"There isn't ______ milk in the fridge.",opts:['many','much','a few','few','a lot'],ans:1,
+ exp:'milk는 셀 수 없는 명사 + 부정문 → <b>much</b>.'},
+{id:'am05',c:'24',type:'mc',q:'빈칸에 공통으로 들어갈 말로 알맞은 것은?',box:'• I have ______ friends.<br>• She drinks ______ water.',opts:['many','much','a lot of','a few','a little'],ans:2,
+ exp:'<b>a lot of</b>는 셀 수 있는 명사(friends)와 셀 수 없는 명사(water) 모두에 쓸 수 있어요.'},
+{id:'am06',c:'24',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'He has ______ friends. He is lonely.',opts:['a few','few','a little','little','many'],ans:1,
+ exp:'외로우니까 친구가 "거의 없는" → friends(셀 수 있음) → <b>few</b>.'},
+{id:'am07',c:'24',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: Would you like ______ cookies?<br>B: Yes, please.',opts:['some','any','much','a little','few'],ans:0,
+ exp:'권유하는 의문문(Would you like ~?)에는 <b>some</b>.'},
+{id:'am08',c:'25',type:'mc',q:'형용사와 부사가 <u>잘못</u> 짝지어진 것은?',opts:['quick – quickly','happy – happily','good – well','gentle – gently','fast – fastly'],ans:4,
+ exp:'fast는 형용사와 부사의 모양이 같아요 → fast – <b>fast</b>.'},
+{id:'am09',c:'25',type:'mc',q:'다음 빈칸에 들어갈 말로 알맞은 것은?',box:'She sings very ______.',opts:['beautiful','beautifully','beauty','more beautiful','beautifuly'],ans:1,
+ exp:'동사 sings를 꾸미는 <b>부사</b> → beautifully.'},
+{id:'am10',c:'25',type:'mc',q:'밑줄 친 hard의 쓰임이 나머지 넷과 <u>다른</u> 것은?',opts:['He works <u>hard</u>.','She studied <u>hard</u>.','The test was <u>hard</u>.','They practiced <u>hard</u>.','It rained <u>hard</u>.'],ans:2,
+ exp:'③은 "어려운"이라는 <b>형용사</b>(보어). 나머지는 "열심히, 세게"라는 <b>부사</b>.'},
+{id:'am11',c:'25',type:'mc',q:'다음 중 어법상 <u>어색한</u> 문장은?',opts:['He drives carefully.','She speaks English well.','I can run fast.','He is a friendly boy.','They played happy.'],ans:4,
+ exp:'동사 played를 꾸미는 부사 → They played <b>happily</b>.'},
+{id:'am12',c:'26',type:'mc',q:'빈도부사의 위치가 <u>바른</u> 문장은?',opts:['I go always to school by bus.','She never is late.','He usually gets up at 7.','We see often him.','They sometimes are busy.'],ans:2,
+ exp:'③ 일반동사 앞 (O).<br>① always go ② is never ④ often see ⑤ are sometimes'},
+{id:'am13',c:'26',type:'mc',q:'빈도가 높은 순서대로 바르게 배열한 것은?',opts:['always – usually – often – sometimes – never','always – often – usually – sometimes – never','usually – always – often – never – sometimes','always – sometimes – often – usually – never','often – always – usually – sometimes – never'],ans:0,
+ exp:'always(100%) > usually > often > sometimes > never(0%).'},
+{id:'am14',c:'26',type:'mc',q:'대화의 빈칸에 들어갈 말로 알맞은 것은?',box:'A: How often do you play soccer?<br>B: ______',opts:['I play soccer at the park.','I play soccer twice a week.','I play soccer with Tom.','I played soccer yesterday.','I like soccer.'],ans:1,
+ exp:'How often(얼마나 자주) → 횟수로 대답 → <b>twice a week</b>.'},
+{id:'ao01',c:'23',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'나는 오늘 특별한 무언가를 원한다.',words:['I','want','something','special','today'],end:'.',ans:'I want something special today',exp:'<b>something + 형용사</b> → something special.'},
+{id:'ao02',c:'23',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그 이야기는 흥미롭게 들린다.',words:['the story','sounds','interesting'],end:'.',ans:'the story sounds interesting',exp:'감각동사 sounds + <b>형용사</b> interesting.'},
+{id:'ao03',c:'24',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그녀는 사과 몇 개를 샀다.',words:['she','bought','a few','apples'],end:'.',ans:'she bought a few apples',exp:'셀 수 있는 apples → <b>a few</b>(몇 개의).'},
+{id:'ao04',c:'25',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그는 그 상자를 조심스럽게 옮겼다.',words:['he','carried','the box','carefully'],end:'.',ans:'he carried the box carefully',exp:'동사 carried를 꾸미는 부사 <b>carefully</b>는 보통 문장 끝에.'},
+{id:'ao05',c:'26',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'나는 보통 일찍 잠자리에 든다.',words:['I','usually','go to bed','early'],end:'.',ans:'I usually go to bed early',exp:'빈도부사는 일반동사 <b>앞</b> → I usually go.'},
+{id:'ao06',c:'26',type:'order',q:'우리말과 같도록 주어진 단어를 바르게 배열하시오.',ko:'그녀는 수업에 절대 늦지 않는다.',words:['she','is','never','late','for class'],end:'.',ans:'she is never late for class',exp:'빈도부사는 be동사 <b>뒤</b> → She is never late.'},
+{id:'af01',c:'23',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'This cake tastes sweetly.',w:3,fix:['sweet'],full:'This cake tastes sweet.',exp:'감각동사 tastes 뒤에는 <b>형용사</b> → sweet.'},
+{id:'af02',c:'23',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'He is a famously singer.',w:3,fix:['famous'],full:'He is a famous singer.',exp:'명사 singer를 꾸미는 것은 <b>형용사</b> → famous.'},
+{id:'af03',c:'24',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'There are much books on the shelf.',w:2,fix:['many','a lot of','lots of'],full:'There are many books on the shelf.',exp:'셀 수 있는 books → <b>many</b>.'},
+{id:'af04',c:'24',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'I have a few money.',w:3,fix:['little'],full:'I have a little money.',exp:'셀 수 없는 money → a <b>little</b>.'},
+{id:'af05',c:'25',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'He runs very quick.',w:3,fix:['quickly','fast'],full:'He runs very quickly. (= He runs very fast.)',exp:'동사 runs를 꾸미는 <b>부사</b> → quickly.'},
+{id:'af06',c:'25',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'She did her homework good.',w:4,fix:['well'],full:'She did her homework well.',exp:'good의 부사는 <b>well</b>.'},
+{id:'af07',c:'25',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'The baby is sleeping peaceful.',w:4,fix:['peacefully'],full:'The baby is sleeping peacefully.',exp:'동사 sleeping을 꾸미는 <b>부사</b> → peacefully.'},
+{id:'af08',c:'26',type:'fix',q:'어법상 틀린 부분을 찾아 바르게 고치시오.',s:'He usually go to school by bus.',w:2,fix:['goes'],full:'He usually goes to school by bus.',exp:'빈도부사가 있어도 3인칭 단수 현재 → <b>goes</b>.'},
+{id:'aw01',c:'23',type:'blank',q:'괄호 안에서 알맞은 말을 골라 쓰시오.',text:'• You look [0]. (tired / tiredly)<br>• This song sounds [1]. (beautiful / beautifully)<br>• The soup smells [2]. (great / greatly)',accept:[['tired'],['beautiful'],['great']],
+ exp:'감각동사(look, sound, smell) 뒤에는 모두 <b>형용사</b>!'},
+{id:'aw02',c:'23',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 먹을 맛있는 무언가가 필요하다.',cond:'something, delicious, eat을 사용할 것',accept:['I need something delicious to eat'],
+ exp:'<b>something + 형용사 + to부정사</b> → something delicious to eat.'},
+{id:'aw03',c:'24',type:'blank',q:'빈칸에 many / much / a little 중 알맞은 말을 쓰시오.',text:"• How [0] eggs do we need?<br>• I don't have [1] time.<br>• There is [2] juice in the bottle. (조금 있음)",accept:[['many'],['much'],['a little']],
+ exp:'① eggs(셀 수 있음) → <b>many</b> ② time(셀 수 없음) + 부정문 → <b>much</b> ③ juice 조금 → <b>a little</b>'},
+{id:'aw04',c:'24',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그는 질문이 하나도 없었다.',cond:'any, question을 사용할 것 (필요하면 형태 변형) / 축약형을 사용할 것',accept:["He didn't have any questions"],
+ exp:'부정문 + <b>any</b> + 복수 명사 questions.'},
+{id:'aw05',c:'25',type:'blank',q:'괄호 안의 형용사를 부사로 바꿔 쓰시오.',text:'• She smiled [0]. (happy)<br>• He solved the problem [1]. (easy)<br>• Please close the door [2]. (quiet)',accept:[['happily'],['easily'],['quietly']],
+ exp:'① y → ily <b>happily</b> ② y → ily <b>easily</b> ③ +ly <b>quietly</b>'},
+{id:'aw06',c:'25',type:'write',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그녀는 피아노를 아주 잘 친다.',cond:'play the piano, very를 사용할 것',accept:['She plays the piano very well'],
+ exp:'"잘" → good이 아닌 부사 <b>well</b>.'},
+{id:'aw07',c:'26',type:'write',q:'괄호 안의 빈도부사를 넣어 문장을 다시 쓰시오.',box:'My brother is hungry. (always)',cond:'빈도부사를 알맞은 위치에 넣을 것',accept:['My brother is always hungry'],
+ exp:'be동사 <b>뒤</b> → is always hungry.'},
+{id:'aw08',c:'26',type:'write',q:'괄호 안의 빈도부사를 넣어 문장을 다시 쓰시오.',box:'We go camping in summer. (often)',cond:'빈도부사를 알맞은 위치에 넣을 것',accept:['We often go camping in summer','In summer we often go camping'],
+ exp:'일반동사 <b>앞</b> → We often go camping.'}
+];
+
+const U07_ADV=[
+{id:'x01',c:'23',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장을 모두 고른 것은?',box:'ⓐ You look nervous.<br>ⓑ It sounds greatly.<br>ⓒ This milk smells bad.<br>ⓓ She feels sadly.<br>ⓔ The cake tastes sweet.',opts:['ⓐ, ⓑ','ⓐ, ⓒ, ⓔ','ⓑ, ⓓ','ⓒ, ⓓ, ⓔ','ⓐ, ⓓ'],ans:1,
+ exp:'감각동사 뒤에는 형용사 → ⓑ sounds <b>great</b> ⓓ feels <b>sad</b>'},
+{id:'x02',c:'23',type:'mc',q:'다음 중 어법상 <u>옳은</u> 문장은?',opts:['I want something cold.','Is there wrong anything?','I have special nothing.','Tell me interesting something.',"Let's eat delicious something."],ans:0,
+ exp:'-thing으로 끝나는 말은 형용사가 <b>뒤에서</b> 꾸며요 → something cold, anything wrong, nothing special …'},
+{id:'x03',c:'24',type:'mc',q:'다음 글의 밑줄 친 ⓐ~ⓔ 중 어법상 <u>틀린</u> 것은?',box:"I went to the market with ⓐ<u>a little</u> money. I bought ⓑ<u>a few</u> apples and ⓒ<u>a little</u> cheese. There were ⓓ<u>much</u> people there. I didn't see ⓔ<u>any</u> friends.",opts:['ⓐ','ⓑ','ⓒ','ⓓ','ⓔ'],ans:3,
+ exp:'people은 복수 → <b>many</b> people.'},
+{id:'x04',c:'24',type:'mc',q:"'거의 없는'의 의미가 들어 있는 문장은?",opts:['I have a few friends.','There is little water.','She has a little money.','I bought a few books.','He drank a little milk.'],ans:1,
+ exp:'a가 없는 <b>little</b> = 거의 없는. a few / a little은 "조금 있는".'},
+{id:'x05',c:'24',type:'mc',q:'빈칸 ⓐ, ⓑ에 들어갈 말이 바르게 짝지어진 것은?',box:"ⓐ Do you have ______ brothers?<br>ⓑ I'd like ______ orange juice, please.",opts:['any – some','some – any','any – any','some – some','much – many'],ans:0,
+ exp:"ⓐ 일반 의문문 → <b>any</b> ⓑ 요청(I'd like) → <b>some</b>"},
+{id:'x06',c:'25',type:'mc',q:'밑줄 친 부사가 <u>형용사</u>를 꾸미는 것은?',opts:['She runs <u>fast</u>.','It is <u>very</u> cold.','He speaks <u>slowly</u>.','<u>Luckily</u>, I found it.','They work <u>hard</u>.'],ans:1,
+ exp:'② very가 형용사 cold를 꾸며요. ①③⑤ 동사 수식 ④ 문장 전체 수식.'},
+{id:'x07',c:'25',type:'mc',q:'밑줄 친 단어의 품사가 나머지 넷과 <u>다른</u> 것은?',opts:['He drives <u>slowly</u>.','She smiled <u>happily</u>.','He is a <u>friendly</u> man.','Speak <u>quietly</u>.','She sang <u>beautifully</u>.'],ans:2,
+ exp:'friendly는 -ly로 끝나지만 명사 man을 꾸미는 <b>형용사</b>. 나머지는 부사.'},
+{id:'x08',c:'25',type:'mc',q:'빈칸에 hardly가 들어가기에 알맞은 것은?',opts:['He studied ______ for the test.','I could ______ hear you. It was too noisy.','It rained ______ last night.','This is a ______ question.','They worked ______ all day.'],ans:1,
+ exp:'"너무 시끄러워서 거의 안 들렸다" → <b>hardly</b>(거의 ~않다). 나머지는 hard(열심히, 세게, 어려운).'},
+{id:'x09',c:'26',type:'mc',q:'빈도부사의 위치가 <u>틀린</u> 문장의 개수는?',box:'ⓐ I always eat breakfast.<br>ⓑ She is often tired.<br>ⓒ We usually are busy.<br>ⓓ He can never forget it.<br>ⓔ They play sometimes games.',opts:['1개','2개','3개','4개','5개'],ans:1,
+ exp:'ⓒ be동사 뒤 → We are usually busy. ⓔ 일반동사 앞 → They sometimes play games. → 틀린 것 <b>2개</b>'},
+{id:'x10',c:'26',type:'mc',q:"표의 내용과 <u>일치하지 않는</u> 것은?",box:'<table><tr><th>Jiho의 습관</th><th>빈도</th></tr><tr><td>exercise</td><td>매일 (100%)</td></tr><tr><td>eat fast food</td><td>안 함 (0%)</td></tr><tr><td>read books</td><td>일주일에 두 번</td></tr></table>',opts:['Jiho always exercises.','Jiho never eats fast food.','Jiho reads books twice a week.','Jiho often eats fast food.','Jiho exercises every day.'],ans:3,
+ exp:'패스트푸드는 0% → <b>never</b>. often(자주)은 표와 맞지 않아요.'},
+{id:'y01',c:'23',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'너는 오늘 아주 행복해 보인다.',
+ conds:[{t:'look, happy를 활용할 것',re:'\\blook (very )?happy\\b'},{t:'very, today를 포함할 것',re:'very.*today'},{t:'5단어로 쓸 것',w:5}],
+ core:[['^you look very happy today','You look very happy today.'],['\\bhappily\\b','look 뒤에는 형용사!','not']],model:['You look very happy today.'],
+ exp:'감각동사 look + <b>형용사</b> happy. You(1) look(2) very(3) happy(4) today(5).'},
+{id:'y02',c:'23',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'냉장고 안에 마실 차가운 무언가가 있니?',
+ conds:[{t:'anything(something), cold, drink를 사용할 것',re:'(anything|something) cold to drink'},{t:'in the fridge를 포함할 것',re:'in the fridge'}],
+ core:[['^is there (anything|something) cold to drink in the fridge\\s*\\?','Is there anything cold to drink in the fridge?'],['cold (anything|something)','-thing + 형용사 순서!','not']],
+ model:['Is there anything cold to drink in the fridge?'],
+ exp:'<b>anything + 형용사 + to부정사</b> → anything cold to drink. 의문문에는 보통 anything!'},
+{id:'y03',c:'24',type:'cwrite',q:'표를 보고, There로 시작하는 문장 3개를 쓰시오.',box:'<table><tr><th>eggs</th><td>2개 (조금 있음)</td></tr><tr><th>milk</th><td>조금 있음</td></tr><tr><th>bread</th><td>하나도 없음</td></tr></table>',
+ conds:[{t:'There로 시작하는 문장 3개를 쓸 것',sent:3,re:'^there'}],
+ core:[['there are (only )?a few eggs','eggs → There are a few eggs.'],['there is (only )?a little milk','milk → There is a little milk.'],["there (isn't|is not) any bread",'bread → There isn\'t any bread.']],
+ model:['There are a few eggs.','There is a little milk.',"There isn't any bread."],
+ exp:'셀 수 있음 → <b>a few</b> / 셀 수 없음 → <b>a little</b> / 부정문 → <b>any</b>.'},
+{id:'y04',c:'24',type:'cwrite',q:'다음 글에서 어법상 <u>틀린 문장 2개</u>를 찾아 바르게 고쳐 쓰시오.',box:"ⓐ I have many homework today. ⓑ There are a lot of students in the library. ⓒ We don't have much time. ⓓ I need a few information.",
+ conds:[{t:'틀린 문장 2개를 모두 고쳐 쓸 것 (기호 없이 문장만)',sent:2}],
+ core:[['i have (much|a lot of|lots of) homework today','ⓐ I have much (a lot of) homework today.'],['i need (a little|some) information','ⓓ I need a little information.']],
+ model:['I have a lot of homework today.','I need a little information.'],
+ exp:'homework, information은 셀 수 없는 명사 → many ✗ → <b>much / a lot of</b>, a few ✗ → <b>a little</b>'},
+{id:'y05',c:'25',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'그는 매우 빠르고 조심스럽게 운전한다.',
+ conds:[{t:'drive, fast, careful을 활용할 것 (필요하면 형태 변형)',re:'fast and carefully'},{t:'very를 포함할 것',re:'very fast'}],
+ core:[['^he drives very fast and carefully','He drives very fast and carefully.'],['\\bfastly\\b|\\bcareful\\b','fast는 그대로, careful은 carefully로!','not']],
+ model:['He drives very fast and carefully.'],
+ exp:'fast는 부사도 <b>fast</b>, careful → <b>carefully</b>. drive → drives(3인칭 단수).'},
+{id:'y06',c:'25',type:'cwrite',q:'다음 문장을 She dances로 시작하여 같은 뜻으로 바꿔 쓰시오.',box:'She is a good dancer.',
+ conds:[{t:'She dances로 시작할 것',re:'^she dances'}],
+ core:[['^she dances well','She dances well.'],['\\bgood\\b','동사를 꾸미니까 good → well!','not']],model:['She dances well.'],
+ exp:'a good dancer(형용사) = dances <b>well</b>(부사).'},
+{id:'y07',c:'25',type:'cwrite',q:'다음 우리말을 <조건>에 맞게 영작하시오.',ko:'나는 어젯밤에 거의 잠을 자지 못했다.',
+ conds:[{t:'hardly를 사용할 것',re:'\\bhardly\\b'},{t:'sleep을 알맞은 형태로 바꿀 것',re:'\\bslept\\b'}],
+ core:[['^i hardly slept last night','I hardly slept last night.'],["\\b(didn't|not)\\b",'hardly 자체가 부정의 뜻! not과 함께 쓰지 않아요.','not']],
+ model:['I hardly slept last night.'],
+ exp:'<b>hardly</b> = 거의 ~않다 (이미 부정 의미). sleep의 과거형 slept.'},
+{id:'y08',c:'26',type:'cwrite',q:'괄호 안의 빈도부사를 넣어 두 문장을 다시 쓰시오.',box:'ⓐ Tom is late for school. (never)<br>ⓑ Tom gets up early. (always)',
+ conds:[{t:'두 문장 모두 쓸 것',sent:2}],
+ core:[['tom is never late for school','ⓐ Tom is never late for school.'],['tom always gets up early','ⓑ Tom always gets up early.']],
+ model:['Tom is never late for school.','Tom always gets up early.'],
+ exp:'ⓐ be동사 <b>뒤</b> → is never ⓑ 일반동사 <b>앞</b> → always gets'},
+{id:'y09',c:'26',type:'cwrite',q:'나의 생활 습관을 <조건>에 맞게 3문장 이상 쓰시오.',
+ conds:[{t:'always를 사용한 문장',re:'\\balways\\b'},{t:'sometimes를 사용한 문장',re:'\\bsometimes\\b'},{t:'never를 사용한 문장',re:'\\bnever\\b'},{t:'3문장 이상 쓸 것',sent:3}],
+ core:[['\\b(always|usually|often|never) (am|is|are)\\b','be동사 뒤에 빈도부사를 써요!','not'],['\\b(go|eat|play|get|drink|watch|read|brush|study|walk) (always|usually|often|never)\\b','일반동사 앞에 빈도부사를 써요!','not']],
+ model:['I always brush my teeth after meals.','I sometimes play games at night.','I am never late for school.'],
+ exp:'정답이 정해지지 않은 자유 영작. 빈도부사의 <b>위치</b>(be동사 뒤 / 일반동사 앞)가 핵심!'},
+{id:'y10',c:'25',type:'cwrite',q:'다음 글에서 어법상 <u>틀린 문장 2개</u>를 찾아 바르게 고쳐 쓰시오.',box:'ⓐ My grandma is a very kindly woman. ⓑ She always cooks delicious food. ⓒ Her soup smells well. ⓓ I love visiting her on weekends.',
+ conds:[{t:'틀린 문장 2개를 모두 고쳐 쓸 것 (기호 없이 문장만)',sent:2}],
+ core:[['my grandma is a very kind woman','ⓐ My grandma is a very kind woman.'],['her soup smells good','ⓒ Her soup smells good.']],
+ model:['My grandma is a very kind woman.','Her soup smells good.'],
+ exp:'ⓐ 명사 woman을 꾸미는 것은 형용사 <b>kind</b> ⓒ 감각동사 smells + 형용사 <b>good</b>'}
+].map(q=>(q.set='adv',q));
+
+const U07_MISSIONS=[
+{id:'m1',icon:'🍕',title:'맛집 리뷰',desc:'감각동사 + 형용사와 수량 형용사로 리뷰를 써요 (개념 23·24)',steps:[
+ {inst:'"이 식당의 피자는 정말 맛있어 보인다."',given:['the pizza at this restaurant','look','delicious'],must:[['^the pizza at this restaurant looks (really |very )?delicious','The pizza at this restaurant + looks + delicious']],not:[['\\bdeliciously\\b','look 뒤에는 형용사!']],model:'The pizza at this restaurant looks really delicious.'},
+ {inst:'"그것은 냄새도 좋다."',given:['smell','good','too'],must:[['^it smells good,? too','It smells good, too.']],not:[['smells well','smell 뒤에는 형용사 good!']],model:'It smells good, too.'},
+ {inst:'"식당에 사람들이 많았다."',given:['There were','people'],must:[['^there were (many|a lot of|lots of) people','There were + many people']],not:[['much people','people은 복수 → many!']],model:'There were many people in the restaurant.'},
+ {inst:'"하지만 주스는 조금밖에 없었다."',given:['But','a little','juice'],must:[['^but there (was|is) (only )?a little juice','But there was only a little juice.']],not:[['a few juice','juice는 셀 수 없어요 → a little!']],model:'But there was only a little juice.'},
+ {free:true,inst:'자유 영작: 내가 좋아하는 식당(음식) 리뷰를 3문장 이상 써 보세요.',cond:'look/taste/smell + 형용사 1번, many/much/a few/a little 1번 이상',minSent:3,
+  must:[['\\b(looks?|tastes?|smells?|looked|tasted|smelled) (really |very |so )?[a-z]+','감각동사 + 형용사 문장을 넣어 주세요.'],['\\b(many|much|a few|a little|a lot of|lots of|few|little)\\b','수량 형용사를 넣어 주세요.']],not:[['\\b(looks?|tastes?|smells?|looked|tasted|smelled) (deliciously|nicely|sweetly|badly|well|greatly)\\b','감각동사 뒤에는 형용사!']],
+  model:"The tteokbokki at Mina's Kitchen tastes amazing. It looks spicy, but it's not too hot. There are many students there after school."}
+]},
+{id:'m2',icon:'⚽',title:'스포츠 중계',desc:'부사로 생생하게 경기를 중계해요 (개념 25)',steps:[
+ {inst:'"그는 공을 아주 빠르게 찬다."',given:['kick the ball','very','quick'],must:[['^he kicks the ball very quickly','He kicks the ball + very quickly']],not:[['very quick\\b','동사를 꾸미니까 quickly!']],model:'He kicks the ball very quickly.'},
+ {inst:'"그녀는 조심스럽게 패스한다."',given:['pass','careful'],must:[['^she passes (the ball )?carefully','She passes (the ball) + carefully']],not:[['\\bcareful\\.?$','동사를 꾸미니까 carefully!']],model:'She passes the ball carefully.'},
+ {inst:'"우리 팀은 열심히 경기했다."',given:['our team','play','hard'],must:[['^our team played hard','Our team + played + hard']],not:[['\\bhardly\\b','hardly는 "거의 ~않다"! 열심히 = hard']],model:'Our team played hard.'},
+ {inst:'"운 좋게도, 우리가 이겼다."',given:['Luckily','win'],must:[['^luckily,? we won','Luckily, we won.']],not:[['^lucky,','문장 전체를 꾸미는 부사 Luckily!']],model:'Luckily, we won!'},
+ {free:true,inst:'자유 영작: 우리 반 체육 시간(또는 경기)을 3문장 이상 중계해 보세요.',cond:'-ly 부사 1번, fast / hard / well 중 1번 이상',minSent:3,
+  must:[['\\b[a-z]{3,}ly\\b','-ly 부사를 넣어 주세요.'],['\\b(fast|hard|well)\\b','fast / hard / well 중 하나를 넣어 주세요.']],not:[['\\b(fastly|goodly)\\b','fast, good의 부사형은 fast, well!']],
+  model:"Minho runs really fast. He passes the ball to Jiho quickly. Jiho shoots well. Amazingly, our class wins the game!"}
+]},
+{id:'m3',icon:'🗓️',title:'나의 생활 습관 보고서',desc:'빈도부사의 위치를 지켜 나의 습관을 소개해요 (개념 26)',steps:[
+ {inst:'"나는 항상 7시에 일어난다."',given:['always','get up','at 7'],must:[['^i always get up at (7|seven)','I + always + get up + at 7']],not:[['get always','빈도부사는 일반동사 앞!']],model:'I always get up at 7.'},
+ {inst:'"나는 보통 걸어서 학교에 간다."',given:['usually','walk to school'],must:[['^i usually walk to school','I + usually + walk to school']],not:[['walk usually','빈도부사는 일반동사 앞!']],model:'I usually walk to school.'},
+ {inst:'"나는 학교에 절대 늦지 않는다."',given:['never','be late for school'],must:[["^i('m| am) never late for school","I am never late for school."]],not:[['never am','빈도부사는 be동사 뒤!'],["don't never|not never",'never 자체가 부정!']],model:'I am never late for school.'},
+ {inst:'"나는 일주일에 두 번 수영하러 간다."',given:['go swimming','twice a week'],must:[['^i go swimming twice a week','I go swimming + twice a week']],not:[['two times in a week','"일주일에 두 번" = twice a week']],model:'I go swimming twice a week.'},
+ {free:true,inst:'자유 영작: 나의 생활 습관을 3문장 이상 써 보세요.',cond:'always/usually 1번, often/sometimes 1번, never 1번 이상',minSent:3,
+  must:[['\\b(always|usually)\\b','always 또는 usually를 넣어 주세요.'],['\\b(often|sometimes)\\b','often 또는 sometimes를 넣어 주세요.'],['\\bnever\\b','never를 넣어 주세요.']],not:[['\\b(always|usually|often|never) (am|is|are)\\b','be동사 뒤에 빈도부사!'],["(don't|doesn't|not) never",'never 자체가 부정!']],
+  model:"I usually go to bed at 11. I often read webtoons before bed. I never skip breakfast. I am always busy on Mondays."}
+]}
+];
+
 /* ================= 단원 등록 · 불러오기 ================= */
 const UNIT_DATA={
  '01':{title:'be동사',range:'개념 01~04',CONCEPTS:U01_CONCEPTS,RUN:U01_RUN,Q:U01_Q,ADV:U01_ADV,MISSIONS:U01_MISSIONS,
@@ -2527,7 +4220,13 @@ const UNIT_DATA={
  '03':{title:'시제',range:'개념 09~12',CONCEPTS:U03_CONCEPTS,RUN:U03_RUN,Q:U03_Q,ADV:U03_ADV,MISSIONS:U03_MISSIONS,
    plan:[['1','09 현재 시제, 과거 시제','개념 09 문제 + Mission 1 (시간 여행 일기)'],['2','10 미래 시제','개념 10 문제 + 이번 주말 계획 3문장'],['3','11 진행 시제 1 (현재진행형)','개념 11 문제 + Mission 2 (교실 생중계)'],['4','12 진행 시제 2 (과거진행형)','실전 모의고사 20문항 + Mission 3 (어젯밤 9시)']]},
  '04':{title:'조동사',range:'개념 13~14',CONCEPTS:U04_CONCEPTS,RUN:U04_RUN,Q:U04_Q,ADV:U04_ADV,MISSIONS:U04_MISSIONS,
-   plan:[['1','13 can / may / will','개념 13 문제 + Mission 1 (나의 능력 소개)'],['2','14 must / have to / should','개념 14 문제 + Mission 2 (우리 반 규칙)'],['3','UNIT 04 종합 복습','실전 심화 22문항 + Mission 3 (고민 상담소)']]}
+   plan:[['1','13 can / may / will','개념 13 문제 + Mission 1 (나의 능력 소개)'],['2','14 must / have to / should','개념 14 문제 + Mission 2 (우리 반 규칙)'],['3','UNIT 04 종합 복습','실전 심화 22문항 + Mission 3 (고민 상담소)']]},
+ '05':{title:'명사와 대명사',range:'개념 15~18',CONCEPTS:U05_CONCEPTS,RUN:U05_RUN,Q:U05_Q,ADV:U05_ADV,MISSIONS:U05_MISSIONS,
+   plan:[['1','15 명사','개념 15 문제 + Mission 1 (장보기 리스트)'],['2','16 인칭대명사','개념 16 문제 + Mission 2 (분실물 센터)'],['3','17 비인칭 주어 it','개념 17 문제 + Mission 3 (기상 캐스터)'],['4','18 부정 대명사 one','실전 모의고사 20문항 + 오답노트 정리']]},
+ '06':{title:'to부정사와 동명사',range:'개념 19~22',CONCEPTS:U06_CONCEPTS,RUN:U06_RUN,Q:U06_Q,ADV:U06_ADV,MISSIONS:U06_MISSIONS,
+   plan:[['1','19 to부정사와 동명사','개념 19 문제 + Mission 1 (나의 꿈 발표)'],['2','20 to부정사의 명사적 용법','개념 20 문제'],['3','21 형용사적 · 부사적 용법','개념 21 문제 + Mission 2 (심부름 리포트)'],['4','22 목적어로 쓰는 동사','실전 모의고사 20문항 + Mission 3 (주말 설문)']]},
+ '07':{title:'형용사와 부사',range:'개념 23~26',CONCEPTS:U07_CONCEPTS,RUN:U07_RUN,Q:U07_Q,ADV:U07_ADV,MISSIONS:U07_MISSIONS,
+   plan:[['1','23 형용사의 쓰임과 형태','개념 23 문제 + Mission 1 (맛집 리뷰)'],['2','24 수량 형용사','개념 24 문제'],['3','25 부사의 쓰임과 형태','개념 25 문제 + Mission 2 (스포츠 중계)'],['4','26 빈도부사','실전 모의고사 20문항 + Mission 3 (생활 습관 보고서)']]}
 };
 let CONCEPTS,RUN,Q,ADV,MISSIONS,UNIT_ID,UNIT;
 function loadUnit(id){
