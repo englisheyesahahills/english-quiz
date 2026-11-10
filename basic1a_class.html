@@ -248,6 +248,7 @@ button{font-family:inherit;cursor:pointer;border:none}
     <div class="tcount ko" title="팀 수">팀<select id="tsel" onchange="setTeams(+this.value)"><option>2</option><option>3</option><option>4</option></select></div>
     <div class="score" id="score"></div>
     <button class="tgbtn ko" onclick="toggleGuide()">📋 교사 가이드</button>
+    <button class="homebtn" title="전체 화면" onclick="toggleFS()">⛶</button>
   </div>
   <div class="actbar" id="steps"></div>
   <div class="stage">
@@ -811,6 +812,8 @@ R.book=()=>{
    <div class="checklist ko card" style="padding:2vh 3vw">✅ 교재 Unit ${U.id} 문제 풀기<br>✅ 문장은 소리 내어 읽으면서 풀기<br>✅ 다 풀면 짝과 스토리 문장 읽기 🤝</div>`;
 };
 
+function toggleFS(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}catch(e){}}
+document.addEventListener('fullscreenchange',()=>setTimeout(()=>{typeof layout==='function'&&layout();typeof fitSoon==='function'&&fitSoon();},200));
 buildHome();
 </script>
 </body>
