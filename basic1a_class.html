@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basic 1A 패턴 스토리북 수업 | Sally & Danny</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Jua&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFF8EC; --ink:#2B2340; --sub:#6B6386;
+  --red:#FF6B6B; --orange:#FF9F43; --yellow:#FECA57; --green:#1DD1A1; --blue:#54A0FF; --purple:#9B6BFF; --pink:#FF7EB6;
+  --A:#FF6B6B; --B:#54A0FF; --C:#10AC84; --D:#9B6BFF; --uc:#1DD1A1;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:'Fredoka','Jua',system-ui,sans-serif;background:var(--bg);color:var(--ink);overflow:hidden;user-select:none}
+.ko{font-family:'Jua',sans-serif}
+button{font-family:inherit;cursor:pointer;border:none}
+
+/* ---------- HOME ---------- */
+#home{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3vh 3vw;
+  background:radial-gradient(circle at 15% 20%,#FFE3E3 0,transparent 30%),radial-gradient(circle at 85% 80%,#DDEBFF 0,transparent 30%),var(--bg)}
+.home-title{text-align:center;margin-bottom:4vh}
+.home-title .dragon{font-size:9vh;display:inline-block;animation:bob 2.4s ease-in-out infinite}
+.home-title h1{font-size:6vh;font-weight:700;letter-spacing:1px}
+.home-title h1 span{color:var(--green)}
+.home-title p{font-size:2.6vh;color:var(--sub);margin-top:.6vh}
+.unit-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2.4vw;width:min(1400px,94vw)}
+.unit-card{background:#fff;border-radius:28px;padding:3.5vh 1.5vw;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.08),0 14px 30px rgba(0,0,0,.06);
+  border:5px solid var(--c);transition:transform .15s}
+.unit-card:hover{transform:translateY(-6px) rotate(-1deg)}
+.unit-card .big{font-size:9vh;line-height:1.2}
+.unit-card .u{display:inline-block;background:var(--c);color:#fff;border-radius:99px;padding:.4vh 1.4vw;font-size:2.4vh;font-weight:700}
+.unit-card h2{font-size:3.4vh;margin:1.4vh 0 .6vh}
+.unit-card .pat{font-size:2.3vh;color:var(--sub)}
+.home-foot{margin-top:4vh;color:var(--sub);font-size:2vh}
+
+/* ---------- LESSON ---------- */
+#lesson{display:none;height:100%;flex-direction:column}
+.topbar{display:flex;align-items:center;gap:1vw;padding:1vh 1.2vw;background:#fff;box-shadow:0 3px 0 rgba(0,0,0,.06);z-index:5}
+.homebtn{background:var(--bg);border-radius:14px;font-size:3vh;padding:.6vh 1vw}
+.ubadge{background:var(--uc);color:#fff;border-radius:14px;padding:.8vh 1vw;font-size:2.4vh;font-weight:700;white-space:nowrap}
+.steps{display:flex;gap:.5vw;flex:1;overflow:hidden}
+.step{flex:1;min-width:3.6vw;background:#F2EEFA;border-radius:14px;padding:.7vh .4vw;text-align:center;font-size:1.9vh;color:var(--sub);line-height:1.25}
+.step b{display:block;font-size:2vh;color:var(--ink);white-space:nowrap}
+.step .tag{font-size:1.5vh}
+.step.on{background:var(--uc);color:#fff}
+.step.on b{color:#fff}
+.actbar{display:flex;flex-wrap:wrap;justify-content:center;gap:.6vh .5vw;padding:.8vh 1vw;background:#F7F3FF;border-bottom:2px solid #ECE5FA;z-index:4}
+.grp{display:flex;align-items:center;gap:.3vw;background:#fff;border-radius:16px;padding:.4vh .4vw;flex-shrink:0;border:3px solid transparent}
+.grp.on{border-color:var(--uc)}
+.grp .gl{font-family:'Jua',sans-serif;font-size:1.9vh;color:var(--sub);padding:0 .4vw;text-align:center;line-height:1.2}
+.grp .gl small{display:block;font-size:1.4vh}
+.act{background:#F2EEFA;border-radius:12px;padding:.7vh .55vw;font-size:1.85vh;font-weight:600;color:var(--ink);white-space:nowrap}
+.act.on{background:var(--uc);color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.15)}
+.act.done{background:#E2FBF3}
+.timer{display:flex;align-items:center;gap:.4vw;background:#2B2340;color:#fff;border-radius:14px;padding:.5vh .8vw}
+.timer .t{font-size:3vh;font-weight:700;min-width:5.2vw;text-align:center;font-variant-numeric:tabular-nums}
+.timer button{background:rgba(255,255,255,.15);color:#fff;border-radius:10px;font-size:2vh;padding:.4vh .5vw}
+.timer.over .t{color:var(--yellow);animation:blink 1s infinite}
+.score{display:flex;gap:.5vw}
+.team{border-radius:14px;padding:.4vh .7vw;color:#fff;display:flex;align-items:center;gap:.4vw;font-size:2.1vh;border:4px solid transparent}
+.team>span:first-child{font-size:2.4vh;font-weight:700}
+.team.A{background:var(--A)} .team.B{background:var(--B)} .team.C{background:var(--C)} .team.D{background:var(--D)}
+.tcount{display:flex;align-items:center;gap:.3vw;font-size:1.9vh;color:var(--sub)}
+.tcount select{font-family:inherit;font-size:2.1vh;border-radius:8px;border:2px solid #E3DCF2;padding:.2vh .2vw}
+.team.turn{border-color:#2B2340;box-shadow:0 0 0 3px #fff inset}
+.team .pts{font-size:3.2vh;font-weight:700;min-width:2.4vw;text-align:center}
+.team button{background:rgba(255,255,255,.25);color:#fff;border-radius:8px;font-size:2vh;width:2.2vw;height:3.4vh}
+.tgbtn{background:var(--yellow);border-radius:14px;padding:.8vh .8vw;font-size:2vh;font-weight:700}
+
+.stage{flex:1;position:relative;overflow:hidden;display:flex}
+.main{flex:1;display:flex;flex-direction:column;padding:2vh 2.5vw 1vh;min-width:0}
+.slide-head{display:flex;align-items:center;gap:1vw;margin-bottom:1.5vh}
+.slide-head h2{font-size:4.2vh}
+.mode{border-radius:99px;padding:.5vh 1.1vw;font-size:2vh;color:#fff;font-weight:600}
+.mode.T{background:var(--purple)} .mode.S{background:var(--orange)} .mode.TS{background:linear-gradient(90deg,var(--purple),var(--orange))}
+.slide-head .sub{color:var(--sub);font-size:2.4vh;margin-left:auto}
+.content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:0;overflow:hidden}
+.fit{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;flex-shrink:0}
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:1vh 0 0}
+.navbtn{background:#fff;border-radius:18px;font-size:2.6vh;padding:1.1vh 2vw;box-shadow:0 5px 0 rgba(0,0,0,.1);font-weight:600}
+.navbtn.next{background:var(--uc);color:#fff}
+.dots{display:flex;gap:.6vw}
+.dots i{width:1.4vh;height:1.4vh;border-radius:50%;background:#DDD5EE}
+.dots i.on{background:var(--uc);transform:scale(1.3)}
+
+.guide{width:0;overflow:hidden;background:#FFFBEA;border-left:5px solid var(--yellow);transition:width .25s}
+.guide.open{width:28vw}
+.guide-in{width:28vw;padding:2.2vh 1.4vw;height:100%;overflow:auto}
+.guide h3{font-size:2.7vh;margin-bottom:1vh}
+.guide .ko{font-size:2.15vh;line-height:1.6;color:#4A4260}
+.guide .ko li{margin-left:1.2vw;margin-bottom:.6vh}
+.guide .say{background:#fff;border-radius:12px;padding:1vh .8vw;margin:1vh 0;font-size:2.1vh;border:2px dashed var(--yellow)}
+.guide .say b{color:var(--purple)}
+
+/* generic UI */
+.btn{border-radius:18px;padding:1.2vh 1.8vw;font-size:2.6vh;font-weight:600;background:#fff;box-shadow:0 5px 0 rgba(0,0,0,.12);color:var(--ink)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.12)}
+.btn.c{background:var(--uc);color:#fff}
+.btn.y{background:var(--yellow)}
+.btn.p{background:var(--purple);color:#fff}
+.btn.o{background:var(--orange);color:#fff}
+.row{display:flex;gap:1vw;align-items:center;justify-content:center;flex-wrap:wrap}
+.card{background:#fff;border-radius:30px;box-shadow:0 8px 0 rgba(0,0,0,.07),0 14px 30px rgba(0,0,0,.05)}
+.emo{line-height:1.1}
+
+.ce{width:100%;max-width:1500px;display:grid;grid-template-columns:repeat(2,1fr);gap:1.4vh 1.6vw}
+.qa{background:#fff;border-radius:22px;padding:1.4vh 1.4vw;box-shadow:0 5px 0 rgba(0,0,0,.06)}
+.qa .tq,.qa .sa{display:flex;align-items:center;gap:.8vw;font-size:3.4vh;font-weight:600;padding:.4vh .4vw;border-radius:14px;cursor:pointer}
+.qa .tq:active,.qa .sa:active{background:#FFF4CC}
+.who{font-size:1.9vh;border-radius:99px;padding:.3vh .8vw;color:#fff;flex-shrink:0;font-family:'Jua',sans-serif}
+.who.t{background:var(--purple)} .who.s{background:var(--orange)}
+.sa b{color:var(--uc)}
+.picks{display:flex;gap:.4vw;flex-wrap:wrap;margin-top:.6vh}
+.pk{background:#F2EEFA;border-radius:12px;padding:.5vh .6vw;font-size:2.1vh}
+.pk.on{background:var(--uc);color:#fff}
+.byebig{font-size:7.4vh;font-weight:700;line-height:1.3;text-align:center}
+.byebig b{color:var(--uc)}
+/* mission */
+.mission{display:flex;gap:4vw;align-items:center}
+.mission .scene{font-size:22vh;animation:bob 2.6s ease-in-out infinite}
+.mission h1{font-size:7vh;line-height:1.15}
+.mission .goal{margin-top:2vh;font-size:3.4vh;background:#fff;border-radius:20px;padding:1.6vh 1.6vw;border:4px dashed var(--uc)}
+.mission .goal b{color:var(--uc)}
+.hello{margin-top:2vh;font-size:3vh;color:var(--sub)}
+
+/* peekaboo */
+.peek{width:46vh;height:46vh;display:flex;align-items:center;justify-content:center;font-size:30vh;overflow:hidden}
+.peek span{transition:filter .4s,transform .4s}
+.answer{font-size:7vh;font-weight:700;color:var(--uc);min-height:9vh;margin:1vh 0}
+
+/* flashcards */
+.fgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:1.4vw;width:100%}
+.fc{background:#fff;border-radius:22px;padding:1.6vh .5vw;text-align:center;box-shadow:0 6px 0 rgba(0,0,0,.08);border:4px solid transparent}
+.fc .emo{font-size:9vh}
+.fc .w{font-size:3vh;font-weight:600;margin-top:.6vh}
+.fc .k{font-size:2.1vh;color:var(--sub);min-height:2.6vh}
+.fc.seen{border-color:var(--uc)}
+.bigcard{display:flex;gap:4vw;align-items:center;padding:4vh 4vw}
+.bigcard .emo{font-size:30vh}
+.bigcard .w{font-size:12vh;font-weight:700}
+.bigcard .k{font-size:5vh;color:var(--sub);min-height:6vh}
+.voice{font-size:4vh;margin-top:2vh;background:var(--bg);border-radius:20px;padding:1.2vh 1.4vw;display:inline-block}
+
+/* missing game */
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6vw;position:relative}
+.mgrid .fc .emo{font-size:12vh}
+.curtain{position:absolute;inset:-1.5vh;background:var(--purple);border-radius:26px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:7vh;z-index:2}
+
+/* pattern */
+.pboard{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4vh 2vw;width:100%}
+.prow{display:flex;align-items:center;gap:1vw;background:#fff;border-radius:22px;padding:1.4vh 1.2vw;box-shadow:0 5px 0 rgba(0,0,0,.07);text-align:left}
+.prow .emo{font-size:7vh}
+.prow .s{font-size:4.2vh;font-weight:600}
+.chip{display:inline-block;border-radius:12px;padding:0 .6vw;margin-right:.3vw}
+.c1{background:#FFE0E0;color:#D94848} .c2{background:#DDEBFF;color:#2F72D6} .c3{background:#FFF1C9;color:#B37E00} .c4{background:#E3D9FF;color:#6B3FD6}
+.prow .k{font-size:2.2vh;color:var(--sub)}
+.prow.hl{outline:5px solid var(--yellow)}
+.chant{width:100%;max-width:1100px}
+.cline{font-size:5vh;padding:1.2vh 1.6vw;border-radius:20px;margin:.8vh 0;background:#fff;box-shadow:0 5px 0 rgba(0,0,0,.06);transition:.2s}
+.cline.on{background:var(--yellow);transform:scale(1.04)}
+.cline .clap{float:right}
+.beatdot{font-size:3.2vh;font-weight:700;color:var(--uc);min-width:8vw}
+
+/* story */
+.story{display:flex;gap:3vw;align-items:center;width:100%;max-width:1400px}
+.story .scene{flex:0 0 38vh;height:38vh;display:flex;align-items:center;justify-content:center;font-size:24vh;border-radius:40px;background:#fff}
+.story .scene span{animation:pop .35s}
+.spk{display:inline-block;border-radius:99px;padding:.6vh 1.4vw;font-size:2.8vh;color:#fff;margin-bottom:1.6vh}
+.line{font-size:7.4vh;font-weight:600;line-height:1.25}
+.line .blank{display:inline-block;min-width:16vw;border-bottom:6px solid var(--uc);color:transparent;transition:.3s}
+.line .blank.show{color:var(--uc)}
+.line .kw{color:var(--uc)}
+.role{font-size:3.4vh;margin-top:2vh;color:var(--sub)}
+.pbar{height:1.4vh;background:#EEE8F7;border-radius:99px;overflow:hidden;width:100%;margin-top:2vh}
+.pbar i{display:block;height:100%;background:var(--uc);transition:width .3s}
+.seg{display:flex;background:#fff;border-radius:16px;padding:.5vh;box-shadow:0 3px 0 rgba(0,0,0,.06)}
+.seg button{background:none;border-radius:12px;padding:.8vh 1.2vw;font-size:2.2vh;color:var(--sub)}
+.seg button.on{background:var(--uc);color:#fff}
+
+
+/* games */
+.turnbox{font-size:3.4vh;font-weight:700;color:#fff;border-radius:99px;padding:.8vh 2vw;margin-bottom:1.5vh}
+.qemo{font-size:24vh}
+.qtext{font-size:6.4vh;font-weight:600;margin:1vh 0 2.4vh;text-align:center}
+.opts{display:flex;gap:1.4vw;flex-wrap:wrap;justify-content:center;max-width:1300px}
+.opt{background:#fff;border-radius:22px;font-size:4.4vh;font-weight:600;padding:2vh 2.6vw;box-shadow:0 6px 0 rgba(0,0,0,.1);min-width:14vw}
+.opt.ok{background:var(--green);color:#fff}
+.opt.no{background:#ddd;color:#999;animation:shake .4s}
+.tiles{display:flex;gap:1vw;flex-wrap:wrap;justify-content:center;min-height:11vh}
+.tile{background:#fff;border-radius:18px;font-size:5vh;font-weight:600;padding:1.4vh 1.8vw;box-shadow:0 6px 0 rgba(0,0,0,.1)}
+.tile.used{visibility:hidden}
+.slot{min-height:12vh;width:min(1300px,90%);border:5px dashed #D6CCEA;border-radius:26px;display:flex;gap:1vw;align-items:center;justify-content:center;flex-wrap:wrap;padding:1vh;margin-bottom:3vh;background:rgba(255,255,255,.5)}
+.slot .tile{background:var(--yellow)}
+.slot.ok{border-color:var(--green);background:#E2FBF3}
+.slot.no{border-color:var(--red);animation:shake .4s}
+.gamepick{display:grid;grid-template-columns:repeat(3,1fr);gap:2vw;width:100%;max-width:1300px}
+.gp{padding:4vh 1vw;text-align:center;border-radius:30px;background:#fff;box-shadow:0 8px 0 rgba(0,0,0,.08);border:5px solid var(--uc)}
+.gp .emo{font-size:12vh}
+.gp h3{font-size:4vh;margin:1vh 0}
+.gp p{font-size:2.2vh;color:var(--sub)}
+
+/* eggs */
+.eggs{display:grid;grid-template-columns:repeat(5,1fr);gap:2vw}
+.egg{font-size:13vh;background:none;transition:transform .2s;position:relative}
+.egg:hover{transform:rotate(-8deg) scale(1.05)}
+.egg.done{opacity:.25;pointer-events:none}
+.egg small{position:absolute;bottom:1vh;left:50%;transform:translateX(-50%);font-size:3vh;font-weight:700;color:var(--ink)}
+.overlay{position:fixed;inset:0;background:rgba(43,35,64,.55);display:flex;align-items:center;justify-content:center;z-index:50}
+.pop{background:#fff;border-radius:36px;padding:5vh 4vw;text-align:center;max-width:80vw;animation:pop .3s}
+.pop .emo{font-size:20vh}
+.pop h2{font-size:6vh;margin:1vh 0}
+.pop p{font-size:3.4vh;color:var(--sub);margin-bottom:2.4vh}
+
+/* winner / book */
+.trophy{font-size:24vh;animation:bob 2s ease-in-out infinite}
+.bigtime{font-size:22vh;font-weight:700;font-variant-numeric:tabular-nums;line-height:1}
+.checklist{font-size:3.2vh;text-align:left;margin-top:2vh;line-height:1.8}
+
+.fx{position:fixed;pointer-events:none;font-size:6vh;z-index:99;animation:fly 1.2s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),var(--dy)) rotate(360deg);opacity:0}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+@keyframes blink{50%{opacity:.4}}
+</style>
+</head>
+<body>
+
+<div id="home">
+  <div class="home-title">
+    <div class="dragon">🐉</div>
+    <h1>Basic 1A <span>Pattern Storybook</span></h1>
+    <p class="ko">Sally &amp; Danny와 함께하는 패턴 스토리북 수업 · 유닛을 골라 주세요</p>
+  </div>
+  <div class="unit-grid" id="unitGrid"></div>
+  <div class="home-foot ko">50분 수업 = 도입 5 · 단어 8 · 패턴 7 · 스토리 8 · 게임 10 · 정리 2 · 교재 10 &nbsp;|&nbsp; Created by 스텔라원장</div>
+</div>
+
+<div id="lesson">
+  <div class="topbar">
+    <button class="homebtn" onclick="goHome()">🏠</button>
+    <div class="ubadge" id="ubadge"></div>
+    <div style="flex:1"></div>
+    <div class="timer" id="timer"><span class="t" id="tval">05:00</span>
+      <button onclick="toggleTimer()" id="tplay">▶</button><button onclick="resetTimer()">↺</button></div>
+    <div class="tcount ko" title="팀 수">팀<select id="tsel" onchange="setTeams(+this.value)"><option>2</option><option>3</option><option>4</option></select></div>
+    <div class="score" id="score"></div>
+    <button class="tgbtn ko" onclick="toggleGuide()">📋 교사 가이드</button>
+  </div>
+  <div class="actbar" id="steps"></div>
+  <div class="stage">
+    <div class="main">
+      <div class="slide-head"><span class="mode" id="mode"></span><h2 id="stitle"></h2><span class="sub" id="ssub"></span></div>
+      <div class="content" id="contentWrap"><div id="content" class="fit"></div></div>
+      <div class="navbar">
+        <button class="navbtn" onclick="prev()">◀ Back</button>
+        <div class="dots" id="dots"></div>
+        <button class="navbtn next" onclick="next()">Next ▶</button>
+      </div>
+    </div>
+    <aside class="guide" id="guide"><div class="guide-in" id="guideIn"></div></aside>
+  </div>
+</div>
+
+<script>
+/* ================= DATA ================= */
+const UNITS=[
+{ id:1, title:"Sally's Secret", ko:"샐리의 비밀", emo:"🤫🐉", color:"#FF6B6B",
+  goal:"<b>I am</b> / <b>You are</b> / <b>She is</b> / <b>He is</b> / <b>They are</b> / <b>It is</b>",
+  goalKo:"나·너·그녀·그·그들·그것을 소개해요",
+  words:[["student","학생","🧑‍🎓"],["pet","애완동물","🐹"],["dragon","용","🐉"],["friend","친구","🤝"],["living room","거실","🛋️"],["sister","언니·누나·여동생","👧"],["brother","형·오빠·남동생","👦"],["mirror","거울","🪞"],["mom","엄마","👩"],["dad","아빠","👨"],["parents","부모님","👨‍👩"],["bag","가방","🎒"]],
+  pattern:[
+    {e:"🙋‍♀️",c:["I am","Sally."],k:"나는 샐리야."},
+    {e:"🐉",c:["You are","Danny."],k:"너는 대니야."},
+    {e:"🤝",c:["We are","best friends."],k:"우리는 단짝이야."},
+    {e:"👧",c:["She is","my sister."],k:"그녀는 내 여동생이야."},
+    {e:"👦",c:["He is","my brother."],k:"그는 내 남동생이야."},
+    {e:"👨‍👩",c:["They are","my parents."],k:"그들은 우리 부모님이야."},
+    {e:"🎒",c:["It is","my bag."],k:"그것은 내 가방이야."}],
+  chant:["I am, I am, I am Sally! 👏👏","You are, you are, you are Danny! 👏👏","She is, she is, she is my sister! 👏👏","He is, he is, he is my brother! 👏👏","They are, they are, they are my parents! 👏👏","Shhh! Shhh! It's a secret! 🤫"],
+  story:[["Sally","I am Sally.","🙋‍♀️"],["Sally","I am a student.","🧑‍🎓"],["Sally","I have a secret.","🤫"],["Sally","I have a pet dragon!","🐉"],["Sally","You are Danny.","🐉"],["Sally","You are a dragon.","🐲"],["Sally","We are best friends!","🤝"],["Sally","This is the living room.","🛋️"],["Sally","She is my sister.","👧"],["Sally","She likes mirrors.","🪞"],["Sally","He is my brother.","👦"],["Sally","He likes games.","🎮"],["Sally","Shhh! They do not know about Danny.","🤫"],["Sally","Danny and I are in the living room.","🛋️"],["Sally","They are my parents.","👨‍👩"],["Sally","Shhh! My mom and dad do not know about Danny.","🤫"],["Sally","Danny and I are going to school.","🏫"],["Sally","It is my bag.","🎒"],["Sally","Now, we can go to school!","🚶‍♀️"]],
+  puzzles:["I am a student.","You are a dragon.","We are best friends.","She is my sister.","He is my brother.","They are my parents.","It is my bag."],
+  special:{name:"Who is it?",emo:"🔍",desc:"그림 보고 알맞은 주어 고르기",opts:["I am","You are","She is","He is","They are","It is"],fixed:true,
+    items:[["🙋‍♀️","___ Sally.","I am"],["🐉👈","___ Danny.","You are"],["👧","___ my sister.","She is"],["👦","___ my brother.","He is"],["👨‍👩","___ my parents.","They are"],["🎒","___ my bag.","It is"],["👩","___ my mom.","She is"],["👨","___ my dad.","He is"]]}
+},
+{ id:2, title:"Going to School", ko:"학교 가는 길", emo:"🏫🚶‍♀️", color:"#FF9F43",
+  goal:"<b>I am</b> happy. / <b>She is</b> fast. / <b>They are</b> busy.",
+  goalKo:"기분과 모습을 말해요 (am · is · are)",
+  words:[["happy","행복한","😊"],["school","학교","🏫"],["excited","신난","🤩"],["together","함께","👫"],["look","보다","👀"],["fast","빠른","🐆"],["slow","느린","🐢"],["walk","걷다","🚶"],["cheerful","쾌활한","😄"],["busy","바쁜","🏃"],["dog","개","🐶"],["cute","귀여운","🥰"]],
+  pattern:[
+    {e:"😊",c:["I am","happy."],k:"나는 행복해."},
+    {e:"🤩",c:["We are","excited."],k:"우리는 신나."},
+    {e:"🐆",c:["She is","fast."],k:"그녀는 빨라."},
+    {e:"🐢",c:["He is","slow."],k:"그는 느려."},
+    {e:"🏃",c:["They are","busy."],k:"그들은 바빠."},
+    {e:"🥰",c:["It is","cute."],k:"그것은 귀여워."},
+    {e:"🏫",c:["I","go to school."],k:"나는 학교에 가."},
+    {e:"🚶",c:["He","walks with me."],k:"그는 나와 함께 걸어."}],
+  chant:["I am happy, happy, happy! 😊","We are excited, excited! 🤩","She is fast! Zoom, zoom, zoom! 🐆","He is slow... slow... slow... 🐢","They are busy, busy, busy! 🏃","It is cute! So cute! 🐶"],
+  story:[["Sally","I am happy.","😊"],["Sally","I go to school.","🏫"],["Sally","You are happy.","🐉"],["Sally","You go to school with me.","🐉"],["Sally","We are excited.","🤩"],["Sally","We go to school together.","👫"],["Sally","Look at my sister!","👀"],["Sally","She is fast.","🐆"],["Sally","Look at my brother!","👀"],["Sally","He is slow.","🐢"],["Sally","Danny is here.","🐉"],["Sally","He walks with me.","🚶"],["Sally","We walk together.","👫"],["Sally","Danny and I go to school.","🏫"],["Sally","We see many things.","👀"],["Sally","They are students.","🧑‍🎓"],["Sally","They are cheerful.","😄"],["Sally","They are neighbors.","🏘️"],["Sally","They are busy.","🏃"],["Sally","It is a dog.","🐶"],["Sally","It is cute.","🥰"]],
+  puzzles:["I am happy.","We go to school together.","She is fast.","He is slow.","They are busy.","It is cute.","He walks with me."],
+  special:{name:"am · is · are",emo:"🧩",desc:"빈칸에 알맞은 be동사 고르기",opts:["am","is","are"],fixed:true,
+    items:[["😊","I ___ happy.","am"],["🐉","You ___ happy.","are"],["🤩","We ___ excited.","are"],["🐆","She ___ fast.","is"],["🐢","He ___ slow.","is"],["😄","They ___ cheerful.","are"],["🏃","They ___ busy.","are"],["🥰","It ___ cute.","is"]]}
+},
+{ id:3, title:"Not the Same", ko:"우린 달라요", emo:"💪🦒", color:"#1DD1A1",
+  goal:"I am <b>not</b> strong. I am weak.",
+  goalKo:"반대말로 '~가 아니야'를 말해요",
+  words:[["strong","힘센","💪"],["weak","약한","😮‍💨"],["short","키가 작은","🧒"],["tall","키가 큰","🦒"],["old","나이 든","👵"],["young","어린","👶"],["hungry","배고픈","🤤"],["full","배부른","😌"],["late","늦은","⏰"],["angry","화난","😠"],["big","큰","🐘"],["small","작은","🐭"]],
+  pattern:[
+    {e:"💪",c:["You are","strong."],k:"너는 힘이 세."},
+    {e:"😮‍💨",c:["I am","not","strong."],k:"나는 힘이 세지 않아."},
+    {e:"🦒",c:["You are","not","short."],k:"너는 키가 작지 않아."},
+    {e:"👶",c:["He is","not","old."],k:"그는 나이 들지 않았어."},
+    {e:"😌",c:["She is","not","hungry."],k:"그녀는 배고프지 않아."},
+    {e:"😠",c:["They are","not","happy."],k:"그들은 행복하지 않아."},
+    {e:"🚌",c:["It is","not","small."],k:"그것은 작지 않아."},
+    {e:"🔀",c:["We are","not","the same."],k:"우리는 같지 않아."}],
+  chant:["Strong, strong — weak, weak! 💪😮‍💨","Tall, tall — short, short! 🦒🧒","Old, old — young, young! 👵👶","Hungry, hungry — full, full! 🤤😌","Big, big — small, small! 🐘🐭","We are NOT the same! But we are best friends! 🤝"],
+  story:[["Sally","You are strong.","💪"],["Sally","I am not strong.","🙅‍♀️"],["Sally","I am weak.","😮‍💨"],["Sally","We are not the same.","🔀"],["Sally","I am short.","🧒"],["Sally","You are not short.","🙅"],["Sally","You are tall.","🦒"],["Sally","We are not the same.","🔀"],["Sally","But we are best friends.","🤝"],["Sally","She is an old woman.","👵"],["Sally","He is a young boy.","👦"],["Sally","She is old.","👵"],["Sally","He is not old.","🙅"],["Sally","He is young.","👶"],["Sally","He is hungry.","🤤"],["Sally","She is not hungry.","🙅‍♀️"],["Sally","She is full.","😌"],["Sally","They are not the same.","🔀"],["Sally","People are waiting for the bus.","🚏"],["Sally","It is late.","⏰"],["Sally","They are angry.","😠"],["Sally","They are not happy.","😞"],["Sally","It is my bus!","🚌"],["Sally","It is very big.","🐘"],["Sally","It is not small.","🙅"],["Sally","Everyone gets on the bus.","🚌"],["Sally","They do not know about Danny.","🤫"]],
+  puzzles:["I am not strong.","You are tall.","He is not old.","She is full.","It is very big.","We are not the same.","They are angry."],
+  special:{name:"Opposite!",emo:"🔄",desc:"반대말 찾기 → 문장으로 말하기",fixed:false,
+    items:[["💪","strong ↔ ?","weak",["weak","tall","late"]],["🦒","tall ↔ ?","short",["short","full","old"]],["👵","old ↔ ?","young",["young","big","angry"]],["🤤","hungry ↔ ?","full",["full","weak","small"]],["🐘","big ↔ ?","small",["small","young","strong"]],["😮‍💨","weak ↔ ?","strong",["strong","short","hungry"]],["👶","young ↔ ?","old",["old","tall","full"]],["🐭","small ↔ ?","big",["big","late","weak"]]]}
+},
+{ id:4, title:"Is It Your School?", ko:"너희 학교니?", emo:"🚌❓", color:"#54A0FF",
+  goal:"<b>Are you</b> a teacher? — <b>No, I am not.</b>",
+  goalKo:"묻고 대답해요 (Yes / No)",
+  words:[["teacher","선생님","🧑‍🏫"],["study","공부하다","📚"],["bank","은행","🏦"],["farmer","농부","🧑‍🌾"],["doctor","의사","🧑‍⚕️"],["pilot","조종사","🧑‍✈️"],["artist","화가","🧑‍🎨"],["musician","음악가","🎻"],["cook","요리사","🧑‍🍳"],["boy","소년","👦"],["little","작은·어린","🤏"],["bus","버스","🚌"]],
+  pattern:[
+    {e:"🧑‍🏫",c:["Are you","a teacher?"],k:"너는 선생님이니?"},
+    {e:"🙅‍♀️",c:["No,","I am not."],k:"아니, 그렇지 않아."},
+    {e:"🎻",c:["Is she","a musician?"],k:"그녀는 음악가니?"},
+    {e:"🙆‍♀️",c:["Yes,","she is."],k:"응, 맞아."},
+    {e:"🧑‍✈️",c:["Is he","a pilot?"],k:"그는 조종사니?"},
+    {e:"🙅",c:["No,","he is not."],k:"아니, 그렇지 않아."},
+    {e:"🧑‍🌾",c:["Are they","farmers?"],k:"그들은 농부니?"},
+    {e:"🏫",c:["Is it","your school?"],k:"그것은 너희 학교니?"}],
+  chant:["Are you a teacher? No, I am not! 🙅‍♀️","Are you a student? Yes, I am! 🙋‍♀️","Is she a musician? Yes, she is! 🎻","Is he a pilot? No, he is not! 🙅","Are they farmers? Yes, they are! 🧑‍🌾","Is it your school? Yes, it is! Yay! 🏫"],
+  story:[["Narrator","Sally and Danny are on the bus.","🚌"],["Narrator","There is a little boy.","👦"],["Little Boy","Are you a teacher?","🧑‍🏫"],["Sally","Am I a teacher?","🤔"],["Sally","No, I am not.","🙅‍♀️"],["Little Boy","Are you a student?","🧑‍🎓"],["Sally","Am I a student?","🤔"],["Sally","Yes, I am a student.","🙋‍♀️"],["Little Boy","Are you friends?","🤝"],["Sally","Are we friends?","🤔"],["Sally","Yes, we are best friends!","🤝"],["Little Boy","Is she a cook?","🧑‍🍳"],["Sally","No, she is not.","🙅‍♀️"],["Little Boy","Is she a musician?","🎻"],["Sally","Yes, she is a musician.","🎻"],["Little Boy","Is he a pilot?","🧑‍✈️"],["Sally","No, he is not.","🙅"],["Little Boy","Is he an artist?","🧑‍🎨"],["Sally","Yes, he is an artist.","🎨"],["Little Boy","Are they doctors?","🧑‍⚕️"],["Sally","No, they are not.","🙅"],["Little Boy","Are they farmers?","🧑‍🌾"],["Sally","Yes, they are farmers.","🚜"],["Little Boy","Is it your school?","🏦"],["Sally","No, it is not.","🙅‍♀️"],["Sally","It is a bank.","🏦"],["Little Boy","Is it your school?","🏫"],["Sally","Yes, it is my school.","🏫"],["Sally","Yay! Now, we can study!","📚"]],
+  puzzles:["Are you a teacher?","No, I am not.","Is she a musician?","Yes, he is an artist.","Are they farmers?","Is it your school?","Yes, it is my school."],
+  special:{name:"Yes or No?",emo:"🙆🙅",desc:"그림 보고 Yes / No로 대답하기",fixed:false,
+    items:[["🧑‍✈️","Is he a pilot?","Yes, he is.",["Yes, he is.","No, he is not."]],["👩‍🍳","Is she a doctor?","No, she is not.",["Yes, she is.","No, she is not."]],["🎻👩","Is she a musician?","Yes, she is.",["Yes, she is.","No, she is not."]],["👨‍🎨","Is he a cook?","No, he is not.",["Yes, he is.","No, he is not."]],["🧑‍🌾🧑‍🌾","Are they farmers?","Yes, they are.",["Yes, they are.","No, they are not."]],["🧑‍⚕️🧑‍⚕️","Are they pilots?","No, they are not.",["Yes, they are.","No, they are not."]],["🏦","Is it a school?","No, it is not.",["Yes, it is.","No, it is not."]],["🏫","Is it a school?","Yes, it is.",["Yes, it is.","No, it is not."]]]}
+}];
+
+/* ================= LESSON FLOW ================= */
+const STEPS=[
+ {key:"warm",name:"Warm-up",ko:"도입",min:5,slides:["hello","mission","peek"]},
+ {key:"word",name:"Words",ko:"단어",min:8,slides:["cards","missing"]},
+ {key:"pat",name:"Pattern",ko:"패턴",min:7,slides:["board","chant"]},
+ {key:"story",name:"Story",ko:"스토리",min:8,slides:["story"]},
+ {key:"game",name:"Game",ko:"게임",min:10,slides:["gmenu","pquiz","puzzle","special"]},
+ {key:"wrap",name:"Wrap-up",ko:"정리",min:2,slides:["eggs","winner"]},
+ {key:"book",name:"Book",ko:"교재·인사",min:10,slides:["book","bye"]}
+];
+const ACT_NAME={hello:"👋 Hello!",bye:"👋 Goodbye",mission:"🎯 Mission",peek:"👀 Peek-a-boo",cards:"🃏 Word Cards",missing:"🙈 What's Missing",board:"🧱 Pattern Board",chant:"🥁 Chant",story:"📖 Story",gmenu:"🏆 Game Menu",pquiz:"🖼️ Picture Quiz",puzzle:"🧩 Puzzle",special:"",eggs:"🥚 Lucky Eggs",winner:"🎉 Winner",book:"📚 Book Time"};
+const VISITED={};
+const SLIDE_META={
+ hello:{t:"Hello, everyone!",m:"TS",mk:"교사+학생"},
+ bye:{t:"See you next time!",m:"TS",mk:"교사+학생"},
+ mission:{t:"Today's Mission",m:"T",mk:"교사 중심"},
+ peek:{t:"Peek-a-boo!",m:"S",mk:"학생 참여"},
+ cards:{t:"Word Cards",m:"T",mk:"교사 중심"},
+ missing:{t:"What's Missing?",m:"S",mk:"학생 참여"},
+ board:{t:"Pattern Board",m:"T",mk:"교사 중심"},
+ chant:{t:"Pattern Chant",m:"TS",mk:"교사+학생"},
+ story:{t:"Story Time",m:"TS",mk:"교사+학생"},
+ gmenu:{t:"Team Game Time!",m:"S",mk:"학생 중심"},
+ pquiz:{t:"Picture Quiz",m:"S",mk:"팀 대결"},
+ puzzle:{t:"Sentence Puzzle",m:"S",mk:"팀 대결"},
+ special:{t:"",m:"S",mk:"팀 대결"},
+ eggs:{t:"Lucky Dragon Eggs",m:"S",mk:"학생 중심"},
+ winner:{t:"Great Job!",m:"T",mk:"마무리"},
+ book:{t:"Book Time",m:"S",mk:"개별 활동"}
+};
+
+/* ================= TEACHER GUIDE ================= */
+const GUIDE={
+ hello:u=>`<h3>👋 도입 ⓪ 인사 · 날씨 · 날짜 (2분)</h3><div class="ko"><ul>
+  <li>매 수업 같은 순서로 <b>선생님이 묻고 → 학생이 다 같이 외치기</b></li>
+  <li>① 인사 ② 기분 ③ 날씨 ④ 요일·날짜 — 각 질문 줄을 누르면 🔊</li>
+  <li>기분·날씨는 아이들이 고른 버튼을 누르면 대답 문장이 바뀜</li>
+  <li>날짜·요일은 오늘 날짜로 자동 표시</li>
+  <li>익숙해지면 학생 한 명이 '선생님 역할'로 질문하기</li></ul></div>
+  <div class="say"><b>T:</b> Hello, everyone! <b>Ss:</b> Hello, teacher!<br><b>T:</b> How are you today? <b>Ss:</b> I'm happy!</div>`,
+ bye:u=>`<h3>👋 마무리 인사</h3><div class="ko"><ul><li>교재 풀이 후 다 같이 일어나서 크게 외치기</li><li>선생님 줄 → 학생 줄 순서로 🔊 눌러 따라 하기</li><li>하이파이브 하며 인사하고 끝내기 ✋</li></ul></div>`,
+ mission:u=>`<h3>🎯 도입 ① 오늘의 미션 (2분)</h3><div class="ko"><ul>
+  <li>Hello 인사 → 오늘 기분 묻기 (손 들기로 응답)</li>
+  <li>그림을 가리키며 "Who is this? What's happening?" 으로 오늘 이야기 예측하게 하기</li>
+  <li>오늘 패턴 문장을 🔊로 들려주고 다 같이 1번 따라 말하기</li>
+  <li>팀 나누기: 상단 <b>팀 ▾</b>에서 2~4팀 선택 (Team A·B·C·D) — 점수는 상단에서 관리</li></ul></div>
+  <div class="say"><b>T:</b> Hello, everyone! How are you today?<br><b>T:</b> Look! Who is this? Let's guess!</div>
+  <div class="ko">💡 오늘 목표: ${u.goalKo}</div>`,
+ peek:u=>`<h3>👀 도입 ② Peek-a-boo (3분)</h3><div class="ko"><ul>
+  <li>흐릿한 그림을 한 번씩 선명하게 → 먼저 손 든 팀이 단어 말하기</li>
+  <li>맞히면 <b>Answer</b>로 정답 확인 후 상단 + 버튼으로 1점</li>
+  <li>아직 안 배운 단어라 틀려도 OK! 호기심 자극이 목적</li></ul></div>
+  <div class="say"><b>T:</b> What is it? Hands up!<br><b>T:</b> Good guess! / Close!</div>`,
+ cards:u=>`<h3>🃏 단어 ① 단어 카드 (5분)</h3><div class="ko"><ul>
+  <li>카드 클릭 → 큰 카드로 보기. 🔊 듣고 2번 따라 말하기</li>
+  <li><b>🎭 목소리 챌린지</b> 버튼: 생쥐(속삭이기)·사자(크게)·드래곤·로봇 목소리로 반복 → 아이들이 가장 좋아하는 부분</li>
+  <li>뜻 보기는 아이들이 먼저 말한 뒤 공개</li>
+  <li>제스처 함께하기: strong 💪, fast 손 빠르게, slow 느리게 등</li></ul></div>
+  <div class="say"><b>T:</b> Listen and repeat!<br><b>T:</b> Now, say it like a mouse! 🐭</div>`,
+ missing:u=>`<h3>🙈 단어 ② What's Missing? (3분)</h3><div class="ko"><ul>
+  <li>카드 8장을 함께 읽기 → <b>Close your eyes!</b> → 1장 사라짐</li>
+  <li>Open your eyes! → 사라진 단어를 먼저 말한 팀 1점</li>
+  <li>2~3라운드 진행 (라운드마다 New Round)</li></ul></div>
+  <div class="say"><b>T:</b> Close your eyes! ... Open your eyes!<br><b>T:</b> What's missing?</div>`,
+ board:u=>`<h3>🧱 패턴 ① 패턴 보드 (4분)</h3><div class="ko"><ul>
+  <li>색깔 블록 = 문장 덩어리. 앞 블록(주어+be)을 강조해서 읽기</li>
+  <li>문장 클릭 → 🔊 → 따라 말하기. 그림 가리키며 손가락 포인팅</li>
+  <li><b>짝 연습:</b> 교사가 그림만 가리키면 학생이 문장 말하기 (교사→전체→팀→개인 순)</li>
+  <li>${u.id===1?"I/You/She/He/They/It ↔ am/are/is 짝을 손동작으로 (나: 가슴, 너: 가리키기, 그녀/그: 옆사람)":u.id===2?"am·is·are 를 색으로 구분해서 보여주기. go/walks 문장은 동작으로":u.id===3?"not 블록(보라색)을 크게 읽으며 고개 젓기 동작 함께":"질문은 끝을 올려서 ↗, 대답은 Yes 끄덕 / No 고개 젓기"}</li></ul></div>`,
+ chant:u=>`<h3>👏 패턴 ② 챈트 (3분)</h3><div class="ko"><ul>
+  <li><b>▶ 전체 재생</b>: 한 줄씩 노란색으로 표시됨 → 박수 치며 따라하기</li>
+  <li>2회차: 팀별로 한 줄씩 번갈아 (Team A → B → C → D)</li>
+  <li>3회차: 점점 빠르게! 가장 큰 목소리 팀 +1점</li></ul></div>
+  <div class="say"><b>T:</b> Clap with me! One more time, faster!</div>`,
+ story:u=>`<h3>📖 스토리 (8분)</h3><div class="ko"><ul>
+  <li><b>1회차 [듣기]</b>: ▶ 자동재생으로 전체 듣기 — 그림 보며 이해 (교사 중심)</li>
+  <li><b>2회차 [역할 읽기]</b>: ${u.id===4?"Little Boy = Team A, Sally = Team B, Narrator = 선생님 (3~4팀이면 다음 회차에 C·D가 이어서)":"줄마다 선생님 / 학생 / 팀 번갈아 읽기"} (교사+학생)</li>
+  <li><b>3회차 [빈칸]</b>: 핵심 단어가 가려짐 → 학생이 채워 읽기 → 클릭하면 정답 공개 (학생 중심)</li>
+  <li>중간 질문: "Who is she?" "Is Danny happy?" 등 그림 보고 짧게 묻기</li></ul></div>
+  <div class="say"><b>T:</b> Let's listen first. / Now you read Sally's part!</div>`,
+ gmenu:u=>`<h3>🏆 팀 게임 (10분)</h3><div class="ko"><ul>
+  <li>3개 게임 중 시간에 맞춰 선택 (각 3분 내외)</li>
+  <li>차례 팀이 상단에 테두리로 표시 — 정답이면 자동 +1점, 차례 자동 교대</li>
+  <li>팀 대표가 전자칠판 앞으로 나와서 터치! 매번 다른 친구가 나오게 하기</li>
+  <li>팀원 도움 허용 (단, 터치는 대표만) → 전원 참여 유도</li></ul></div>`,
+ pquiz:u=>`<h3>🖼️ Picture Quiz</h3><div class="ko"><ul><li>그림 보고 알맞은 단어 터치 → 정답이면 단어를 문장으로 말하면 보너스(+ 버튼)</li><li>예: 🐉 → "dragon!" → "You are a dragon!"</li></ul></div>`,
+ puzzle:u=>`<h3>🧩 Sentence Puzzle</h3><div class="ko"><ul><li>단어 블록을 순서대로 터치해 문장 완성 → Check</li><li>잘못 누르면 위 칸의 블록을 다시 터치해서 빼기</li><li>완성 후 팀 전체가 문장 크게 읽기</li></ul></div>`,
+ special:u=>`<h3>${u.special.emo} ${u.special.name}</h3><div class="ko"><ul><li>${u.special.desc}</li><li>정답 후 전체가 완성 문장 따라 말하기 (자동 🔊)</li>${u.id===3?"<li>보너스: 'I am not strong. I am weak.' 처럼 not 문장으로 말하면 +1</li>":""}${u.id===4?"<li>보너스: 반대 팀이 질문 읽고, 차례 팀이 대답하기</li>":""}</ul></div>`,
+ eggs:u=>`<h3>🥚 Lucky Dragon Eggs (2분)</h3><div class="ko"><ul><li>팀 대표가 알 하나 선택 → 미션 성공 시 점수</li><li>⭐ 보너스 알, 🐉 드래곤 알(다 같이 포효!)도 숨어 있음</li><li>시간 남으면 계속, 부족하면 2~3개만</li></ul></div>`,
+ winner:u=>`<h3>🎉 마무리</h3><div class="ko"><ul><li>우승팀 박수 → 오늘 배운 패턴 다 같이 한 번 더 말하기</li><li>칭찬 포인트 1가지씩 짚어주기</li></ul></div><div class="say"><b>T:</b> Great job, everyone! What did we learn today?</div>`,
+ book:u=>`<h3>📚 교재 풀이 (10분)</h3><div class="ko"><ul><li>타이머 시작 후 교재 Unit ${u.id} 문제 풀기</li><li>순회하며 개별 확인 — 패턴 문장을 소리 내어 읽게 하기</li><li>먼저 끝난 학생: 스토리 문장 짝과 함께 읽기</li><li>숙제: 단어 쓰기(W.T07), 영상 스크립트 읽기(V.T02)</li></ul></div>`
+};
+
+/* ================= STATE ================= */
+let U=null, si=0, ssi=0, pts={A:0,B:0,C:0,D:0}, turn='A', nTeams=2, guideOpen=false;
+const TEAM_IDS=['A','B','C','D'];
+const activeTeams=()=>TEAM_IDS.slice(0,nTeams);
+let tLeft=300, tRun=false, tInt=null;
+const S={}; // per-slide state
+
+/* ================= SPEECH & SOUND ================= */
+let voice=null;
+function pickVoice(){const v=speechSynthesis.getVoices();voice=v.find(x=>/en-US/i.test(x.lang)&&/female|samantha|google us/i.test(x.name))||v.find(x=>/en-US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null;}
+if('speechSynthesis' in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+function say(t,rate=0.85,cb){if(!('speechSynthesis' in window)){cb&&cb();return;}speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(t.replace(/[^\x00-\x7F]/g,'').replace(/___/g,'blank'));u.lang='en-US';u.rate=rate;if(voice)u.voice=voice;if(cb)u.onend=cb;speechSynthesis.speak(u);}
+let AC=null;
+function tone(f,d,type='sine',when=0){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=type;o.frequency.value=f;o.connect(g);g.connect(AC.destination);const t=AC.currentTime+when;g.gain.setValueAtTime(.2,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.start(t);o.stop(t+d);}catch(e){}}
+function ding(){tone(784,.15);tone(1047,.3,'sine',.12);}
+function buzz(){tone(180,.3,'square');}
+function burst(x,y,set="🎉⭐✨🐉💖"){for(let i=0;i<14;i++){const d=document.createElement('div');d.className='fx';d.textContent=[...set][i%[...set].length];
+  d.style.left=x+'px';d.style.top=y+'px';d.style.setProperty('--dx',(Math.random()*500-250)+'px');d.style.setProperty('--dy',(Math.random()*-400-50)+'px');document.body.appendChild(d);setTimeout(()=>d.remove(),1300);}}
+function burstCenter(){burst(innerWidth/2,innerHeight/2);}
+
+/* ================= UTIL ================= */
+const $=id=>document.getElementById(id);
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const esc=s=>s.replace(/'/g,"\\'");
+const mmss=s=>{const a=Math.abs(s);return (s<0?'-':'')+String(Math.floor(a/60)).padStart(2,'0')+':'+String(a%60).padStart(2,'0');};
+
+/* ================= HOME ================= */
+function buildHome(){
+  $('unitGrid').innerHTML=UNITS.map((u,i)=>`<button class="unit-card" style="--c:${u.color}" onclick="startUnit(${i})">
+    <div class="big">${u.emo}</div><span class="u">UNIT ${u.id}</span><h2>${u.title}</h2>
+    <div class="pat ko">${u.ko}</div><div class="pat" style="margin-top:.6vh">${u.goal.replace(/<\/?b>/g,'')}</div></button>`).join('');
+}
+function startUnit(i){U=UNITS[i];si=0;ssi=0;for(const k in VISITED)delete VISITED[k];pts={A:0,B:0,C:0,D:0};turn='A';for(const k in S)delete S[k];
+  document.documentElement.style.setProperty('--uc',U.color);
+  $('home').style.display='none';$('lesson').style.display='flex';
+  $('ubadge').textContent='UNIT '+U.id;updScore();setTimerFor();render();}
+function goHome(){speechSynthesis&&speechSynthesis.cancel();stopBeat();stopTimer();$('lesson').style.display='none';$('home').style.display='flex';}
+
+/* ================= NAV ================= */
+function renderSteps(){
+  $('steps').innerHTML=STEPS.map((st,i)=>`<div class="grp ${i===si?'on':''}"><div class="gl">${i+1} ${st.ko}<small>${st.min}분</small></div>${
+    st.slides.map((k,j)=>`<button class="act ${i===si&&j===ssi?'on':(VISITED[i+'-'+j]?'done':'')}" onclick="goAct(${i},${j})">${k==='special'?U.special.emo+' '+U.special.name:ACT_NAME[k]}</button>`).join('')}</div>`).join('');
+  const on=$('steps').querySelector('.act.on');if(on)on.scrollIntoView({block:'nearest',inline:'nearest'});
+}
+function goAct(i,j){if(i!==si){si=i;setTimerFor();}ssi=j;render();}
+function jump(i){si=i;ssi=0;setTimerFor();render();}
+function next(){const st=STEPS[si];if(ssi<st.slides.length-1){ssi++;}else if(si<STEPS.length-1){si++;ssi=0;setTimerFor();}render();}
+function prev(){if(ssi>0)ssi--;else if(si>0){si--;ssi=STEPS[si].slides.length-1;setTimerFor();}render();}
+document.addEventListener('keydown',e=>{if($('lesson').style.display!=='flex')return;if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev();});
+
+function render(){
+  speechSynthesis&&speechSynthesis.cancel();if(typeof stopBeat==='function')stopBeat();
+  VISITED[si+'-'+ssi]=1;renderSteps();
+  const st=STEPS[si], key=st.slides[ssi], meta=SLIDE_META[key];
+  $('mode').className='mode '+meta.m;$('mode').textContent=meta.mk;
+  $('stitle').textContent=key==='special'?U.special.emo+' '+U.special.name:meta.t;
+  $('ssub').textContent=`${U.title}`;
+  $('dots').innerHTML=st.slides.map((_,i)=>`<i class="${i===ssi?'on':''}"></i>`).join('');
+  $('guideIn').innerHTML=GUIDE[key](U);
+  R[key]();
+}
+function toggleGuide(){guideOpen=!guideOpen;$('guide').classList.toggle('open',guideOpen);}
+
+/* ================= TIMER ================= */
+function setTimerFor(){stopTimer();tLeft=STEPS[si].min*60;showT();}
+function showT(){$('tval').textContent=mmss(tLeft);$('timer').classList.toggle('over',tLeft<=0);}
+function toggleTimer(){if(tRun)stopTimer();else{tRun=true;$('tplay').textContent='⏸';tInt=setInterval(()=>{tLeft--;showT();if(tLeft===0){tone(660,.4);tone(880,.6,'sine',.4);}if($('bigT'))$('bigT').textContent=mmss(tLeft);},1000);}}
+function stopTimer(){tRun=false;clearInterval(tInt);$('tplay').textContent='▶';}
+function resetTimer(){setTimerFor();if($('bigT'))$('bigT').textContent=mmss(tLeft);}
+
+/* ================= SCORE ================= */
+function updScore(){
+  $('score').innerHTML=activeTeams().map(t=>`<div class="team ${t} ${t===turn?'turn':''}"><span>${t}</span><span class="pts">${pts[t]}</span><button onclick="addPt('${t}',1)">+</button><button onclick="addPt('${t}',-1)">−</button></div>`).join('');
+  $('tsel').value=nTeams;}
+function setTeams(n){nTeams=n;if(!activeTeams().includes(turn))turn='A';updScore();const k=STEPS[si].slides[ssi];if(['gmenu','pquiz','puzzle','special','eggs','winner'].includes(k))R[k]();}
+function addPt(t,n){pts[t]=Math.max(0,pts[t]+n);updScore();if(n>0)ding();}
+function swapTurn(){const a=activeTeams();turn=a[(a.indexOf(turn)+1)%a.length];updScore();}
+function turnBox(){return `<div class="turnbox" style="background:var(--${turn})">Team ${turn}'s turn!</div>`;}
+
+/* ================= SLIDES ================= */
+const R={};
+const C=()=>$('content');
+/* auto-fit: shrink the activity if it would be cut off on any screen */
+function fitNow(){const w=$('contentWrap'),f=$('content');if(!w||!f)return;f.style.zoom=1;
+  const H=w.clientHeight,W=w.clientWidth,h=f.scrollHeight,ww=f.scrollWidth;
+  const z=Math.min(1,(H-4)/h,(W-4)/ww);f.style.zoom=z<1?z.toFixed(3):1;}
+let fitRAF=0;function fitSoon(){cancelAnimationFrame(fitRAF);fitRAF=requestAnimationFrame(fitNow);}
+new MutationObserver(fitSoon).observe(document.getElementById('content'),{childList:true,subtree:true,characterData:true});
+addEventListener('resize',fitSoon);document.fonts&&document.fonts.ready.then(fitSoon);
+
+R.mission=()=>{
+  const p=U.pattern[0];
+  C().innerHTML=`<div class="mission"><div class="scene">${U.emo}</div><div>
+   <div class="ko" style="font-size:3vh;color:var(--sub)">Unit ${U.id} · ${U.ko}</div>
+   <h1>${U.title}</h1>
+   <div class="goal">🎯 Today's Pattern<br><span style="font-size:4.2vh">${U.goal}</span>
+   <div class="ko" style="font-size:2.4vh;color:var(--sub);margin-top:.6vh">${U.goalKo}</div></div>
+   <div class="row" style="justify-content:flex-start;margin-top:2vh">
+    <button class="btn c" onclick="say('${esc(U.goal.replace(/<\/?b>/g,''))}')">🔊 Listen</button>
+    <button class="btn y" onclick="say('Hello, everyone! How are you today?')">👋 Hello!</button></div>
+   </div></div>`;
+};
+
+R.peek=()=>{
+  S.peek=S.peek||{order:shuffle(U.words),i:0,blur:28};
+  const s=S.peek,w=s.order[s.i%s.order.length];
+  C().innerHTML=`<div class="peek card"><span id="pk" style="filter:blur(${s.blur}px);transform:scale(${1+s.blur/40})">${w[2]}</span></div>
+   <div class="answer" id="pans"></div>
+   <div class="row"><button class="btn p" onclick="peekClear()">🔍 More!</button>
+   <button class="btn c" onclick="peekShow()">✅ Answer</button>
+   <button class="btn" onclick="peekNext()">Next ▶</button></div>`;
+};
+function peekClear(){const s=S.peek;s.blur=Math.max(0,s.blur-8);const el=$('pk');el.style.filter=`blur(${s.blur}px)`;el.style.transform=`scale(${1+s.blur/40})`;tone(500+(28-s.blur)*15,.12);}
+function peekShow(){const s=S.peek,w=s.order[s.i%s.order.length];s.blur=0;$('pk').style.filter='none';$('pk').style.transform='scale(1)';$('pans').innerHTML=`${w[0]} <span class="ko" style="font-size:3.4vh;color:var(--sub)">${w[1]}</span>`;say(w[0]);burstCenter();}
+function peekNext(){S.peek.i++;S.peek.blur=28;R.peek();}
+
+R.cards=()=>{
+  S.cards=S.cards||{seen:{},big:-1,ko:false,v:0};
+  const s=S.cards;
+  if(s.big<0){
+    C().innerHTML=`<div class="fgrid">${U.words.map((w,i)=>`<button class="fc ${s.seen[i]?'seen':''}" onclick="bigCard(${i})"><div class="emo">${w[2]}</div><div class="w">${w[0]}</div><div class="k ko">${s.ko?w[1]:''}</div></button>`).join('')}</div>
+    <div class="row" style="margin-top:2.4vh"><button class="btn y ko" onclick="S.cards.ko=!S.cards.ko;R.cards()">🇰🇷 뜻 ${s.ko?'숨기기':'보기'}</button><button class="btn c" onclick="readAll()">🔊 Read all</button></div>`;
+  }else{
+    const w=U.words[s.big];
+    C().innerHTML=`<div class="bigcard card"><div class="emo">${w[2]}</div><div>
+      <div class="w">${w[0]}</div><div class="k ko" id="bk">${s.ko?w[1]:''}</div>
+      <div class="row" style="justify-content:flex-start;margin-top:2vh">
+       <button class="btn c" onclick="say('${esc(w[0])}')">🔊</button><button class="btn" onclick="say('${esc(w[0])}',.5)">🐢 Slow</button>
+       <button class="btn y ko" onclick="$('bk').textContent='${w[1]}'">뜻</button>
+       <button class="btn p ko" onclick="voiceCh()">🎭 목소리 챌린지</button></div>
+      <div class="voice ko" id="vch">Listen &amp; Repeat ×2</div></div></div>
+     <div class="row" style="margin-top:2vh"><button class="btn" onclick="bigCard(${(s.big-1+U.words.length)%U.words.length})">◀</button>
+      <button class="btn" onclick="S.cards.big=-1;R.cards()">▦ All cards</button>
+      <button class="btn" onclick="bigCard(${(s.big+1)%U.words.length})">▶</button></div>`;
+    say(w[0]);
+  }
+};
+function bigCard(i){S.cards.big=i;S.cards.seen[i]=1;R.cards();}
+const VOICES=["🐭 Mouse voice! (속삭이듯)","🦁 Lion voice! (크게!)","🐉 Dragon voice! (낮고 굵게)","🤖 Robot voice! (로봇처럼)","👶 Baby voice! (아기처럼)","🧙 Witch voice! (마녀처럼)"];
+function voiceCh(){const s=S.cards;$('vch').textContent=VOICES[s.v%VOICES.length];s.v++;const w=U.words[s.big][0];say(w,.75);}
+function readAll(){let i=0;const go=()=>{if(i>=U.words.length)return;document.querySelectorAll('.fc').forEach((e,j)=>e.style.borderColor=j===i?'var(--yellow)':'');say(U.words[i][0],.85,()=>{i++;setTimeout(go,700);});};go();}
+
+R.missing=()=>{
+  if(!S.miss)newMiss();
+  const s=S.miss;
+  C().innerHTML=`<div class="mgrid" id="mg">${s.show.map(w=>`<div class="fc"><div class="emo">${w[2]}</div><div class="w">${w[0]}</div></div>`).join('')}
+    ${s.cover?'<div class="curtain">🙈 Close your eyes!</div>':''}</div>
+    <div class="answer" id="mans">${s.reveal?`${s.gone[2]} ${s.gone[0]}!`:''}</div>
+    <div class="row">${s.phase===0?`<button class="btn p" onclick="missHide()">🙈 Close your eyes!</button>`:''}
+    ${s.phase===1?`<button class="btn o" onclick="missOpen()">👀 Open your eyes!</button>`:''}
+    ${s.phase===2?`<button class="btn c" onclick="missReveal()">✅ Answer</button>`:''}
+    <button class="btn" onclick="newMiss();R.missing()">🔄 New Round</button></div>`;
+};
+function newMiss(){const pick=shuffle(U.words).slice(0,8);S.miss={all:pick,show:pick,phase:0,cover:false,reveal:false,gone:null};}
+function missHide(){const s=S.miss;s.cover=true;s.phase=1;const g=Math.floor(Math.random()*s.all.length);s.gone=s.all[g];s.show=shuffle(s.all.filter((_,i)=>i!==g));R.missing();}
+function missOpen(){S.miss.cover=false;S.miss.phase=2;R.missing();say("What's missing?");}
+function missReveal(){S.miss.reveal=true;S.miss.phase=0;R.missing();say(S.miss.gone[0]);burstCenter();}
+
+function chunks(c){return c.map((x,i)=>{let cls=i===0?'c1':(c.length===3&&i===1?'c4':'c2');if(/^(Yes|No),$/.test(c[0])&&i===1)cls='c3';return `<span class="chip ${cls}">${x}</span>`;}).join('');}
+R.board=()=>{
+  C().innerHTML=`<div class="pboard">${U.pattern.map((p,i)=>`<button class="prow" id="pr${i}" onclick="sayRow(${i})"><span class="emo">${p.e}</span><div><div class="s">${chunks(p.c)}</div><div class="k ko">${p.k}</div></div></button>`).join('')}</div>
+  <div class="row" style="margin-top:2vh"><button class="btn c" onclick="playBoard()">🔊 Read all</button></div>`;
+};
+function sayRow(i){document.querySelectorAll('.prow').forEach(e=>e.classList.remove('hl'));$('pr'+i).classList.add('hl');say(U.pattern[i].c.join(' '));}
+function playBoard(){let i=0;const go=()=>{if(i>=U.pattern.length||!$('pr0'))return;document.querySelectorAll('.prow').forEach(e=>e.classList.remove('hl'));$('pr'+i).classList.add('hl');say(U.pattern[i].c.join(' '),.8,()=>{i++;setTimeout(go,1500);});};go();}
+
+R.chant=()=>{
+  C().innerHTML=`<div class="chant">${U.chant.map((l,i)=>{const k=l.lastIndexOf(' ');return `<div class="cline" id="cl${i}" onclick="chantLine(${i})">${l.slice(0,k)} <span class="clap">${l.slice(k+1)}</span></div>`;}).join('')}</div>
+  <div class="row" style="margin-top:1.6vh">
+   <button class="btn c" onclick="playChant(92,true)">🎵 Beat + Voice</button>
+   <button class="btn o" onclick="playChant(112,true)">⚡ Faster!</button>
+   <button class="btn p ko" onclick="playChant(96,false)">🥁 비트만 (우리가 불러요!)</button>
+   <button class="btn" onclick="stopBeat()">⏹ Stop</button>
+   <span class="beatdot" id="beatdot"></span></div>`;
+};
+function chantLine(i){stopBeat();document.querySelectorAll('.cline').forEach(e=>e.classList.remove('on'));$('cl'+i).classList.add('on');say(U.chant[i],.85);}
+
+/* ---- Beat engine (Web Audio, no files) ---- */
+let BEAT={on:false,timer:null,uiTimers:[]};
+let NOISE=null;
+function noiseBuf(){if(NOISE)return NOISE;const b=AC.createBuffer(1,AC.sampleRate*0.5,AC.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;return NOISE=b;}
+function kick(t){const o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(150,t);o.frequency.exponentialRampToValueAtTime(42,t+.18);g.gain.setValueAtTime(.9,t);g.gain.exponentialRampToValueAtTime(.001,t+.35);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.36);}
+function clap(t){for(const dt of [0,.012,.024]){const n=AC.createBufferSource();n.buffer=noiseBuf();const f=AC.createBiquadFilter();f.type='bandpass';f.frequency.value=1600;f.Q.value=.8;const g=AC.createGain();g.gain.setValueAtTime(.55,t+dt);g.gain.exponentialRampToValueAtTime(.001,t+dt+.13);n.connect(f);f.connect(g);g.connect(AC.destination);n.start(t+dt);n.stop(t+dt+.14);}}
+function hat(t,v=.18){const n=AC.createBufferSource();n.buffer=noiseBuf();const f=AC.createBiquadFilter();f.type='highpass';f.frequency.value=7500;const g=AC.createGain();g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+.05);n.connect(f);f.connect(g);g.connect(AC.destination);n.start(t);n.stop(t+.06);}
+function bass(t,f,d){const o=AC.createOscillator(),g=AC.createGain(),lp=AC.createBiquadFilter();o.type='sawtooth';o.frequency.value=f;lp.type='lowpass';lp.frequency.value=500;g.gain.setValueAtTime(.22,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(lp);lp.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+d);}
+function bell(t,f){const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.18,t);g.gain.exponentialRampToValueAtTime(.001,t+.25);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+.26);}
+// bass line per bar (C - A - F - G feel), 8th-note steps
+const BASS=[[65.4,0,65.4,0,65.4,0,98,0],[55,0,55,0,55,0,82.4,0],[43.7,0,43.7,0,43.7,0,65.4,0],[49,0,49,0,49,0,73.4,0]];
+function stopBeat(){BEAT.on=false;clearInterval(BEAT.timer);BEAT.uiTimers.forEach(clearTimeout);BEAT.uiTimers=[];
+  document.querySelectorAll('.cline').forEach(e=>e.classList.remove('on'));const d=$('beatdot');if(d)d.textContent='';}
+function playChant(bpm,voiceOn){
+  stopBeat();speechSynthesis&&speechSynthesis.cancel();
+  AC=AC||new (window.AudioContext||window.webkitAudioContext)();AC.resume();
+  BEAT.on=true;const spb=60/bpm, step=spb/2; // 8th notes
+  const LINE_BARS=2, n=U.chant.length, totalBars=1+n*LINE_BARS+1; // count-in + lines + ending
+  const t0=AC.currentTime+.15; let idx=0; const total=totalBars*8;
+  const ui=(t,fn)=>BEAT.uiTimers.push(setTimeout(fn,Math.max(0,(t-AC.currentTime)*1000)));
+  BEAT.timer=setInterval(()=>{
+    if(!BEAT.on)return;
+    while(idx<total && t0+idx*step < AC.currentTime+.12){
+      const t=t0+idx*step, bar=Math.floor(idx/8), pos=idx%8;
+      if(bar===0){ // count-in: 1 2 3 4
+        if(pos%2===0){bell(t,pos===0?1046:784);const c=pos/2+1;ui(t,()=>{const d=$('beatdot');if(d)d.textContent=['1','2','3','4'][c-1]+'…';});}
+      }else if(bar<=n*LINE_BARS){
+        if(pos===0||pos===3||pos===4)kick(t);
+        if(pos===2||pos===6)clap(t);
+        hat(t,pos%2?.1:.2);
+        const b=BASS[(bar-1)%4][pos]; if(b)bass(t,b,step*.9);
+        if(pos===0&&(bar-1)%LINE_BARS===0){const li=(bar-1)/LINE_BARS;
+          ui(t,()=>{if(!BEAT.on||!$('cl0'))return stopBeat();document.querySelectorAll('.cline').forEach(e=>e.classList.remove('on'));$('cl'+li).classList.add('on');
+            const d=$('beatdot');if(d)d.textContent='🎵 '+(li+1)+' / '+n;
+            if(voiceOn)say(U.chant[li],bpm>100?1.05:.95);});}
+      }else{ if(pos===0){kick(t);clap(t);bell(t,1046);bell(t+.12,1318);} if(pos===0)ui(t+spb*2,()=>{stopBeat();burstCenter();});}
+      idx++;
+    }
+    if(idx>=total)clearInterval(BEAT.timer);
+  },25);
+}
+
+/* story */
+const SPK_COLOR={Sally:'#FF7EB6',Narrator:'#9B6BFF','Little Boy':'#54A0FF'};
+function kwRegex(){const ws=U.words.map(w=>w[0]).sort((a,b)=>b.length-a.length).map(w=>w.replace(/ /g,'\\s'));return new RegExp('\\b('+ws.join('|')+')(s|es)?\\b','i');}
+R.story=()=>{
+  S.story=S.story||{i:0,mode:'read',shown:false,auto:false};
+  const s=S.story,n=U.story.length,[sp,line,em]=U.story[s.i];
+  let html=line;const m=line.match(kwRegex());
+  if(m){const w=m[0];html=line.replace(w,s.mode==='blank'?`<span class="blank ${s.shown?'show':''}" onclick="S.story.shown=true;R.story()">${w}</span>`:`<span class="kw">${w}</span>`);}
+  let role='';
+  if(s.mode==='role'){const a=activeTeams();role=U.id===4?({Sally:'🙋‍♀️ Sally = Team B','Little Boy':'👦 Little Boy = Team A',Narrator:'👩‍🏫 선생님이 읽어요'}[sp]):(s.i%3===0?'👩‍🏫 선생님이 읽어요':(s.i%3===1?'🙋 다 같이 읽어요':`Team ${a[Math.floor(s.i/3)%a.length]}이 읽어요`));}
+  C().innerHTML=`<div class="row" style="margin-bottom:2vh"><div class="seg">
+     <button class="${s.mode==='read'?'on':''}" onclick="stMode('read')">🎧 Listen</button>
+     <button class="${s.mode==='role'?'on':''}" onclick="stMode('role')">🎭 Role Read</button>
+     <button class="${s.mode==='blank'?'on':''}" onclick="stMode('blank')">❓ Blank</button></div>
+     <button class="btn ${s.auto?'o':'c'}" onclick="stAuto()">${s.auto?'⏸ Stop':'▶ Auto Play'}</button></div>
+   <div class="story"><div class="scene card"><span>${em}</span></div><div style="flex:1">
+     <span class="spk" style="background:${SPK_COLOR[sp]||'#9B6BFF'}">${sp}</span>
+     <div class="line">${html}</div><div class="role ko">${role}</div>
+     <div class="row" style="justify-content:flex-start;margin-top:2.4vh">
+      <button class="btn" onclick="stGo(-1)">◀</button><button class="btn c" onclick="say('${esc(line)}')">🔊</button>
+      <button class="btn" onclick="say('${esc(line)}',.55)">🐢</button><button class="btn" onclick="stGo(1)">▶</button>
+      <span style="font-size:2.6vh;color:var(--sub);margin-left:1vw">${s.i+1} / ${n}</span></div>
+     <div class="pbar"><i style="width:${(s.i+1)/n*100}%"></i></div></div></div>`;
+  if(s.mode==='read'&&!s.auto)say(line);
+};
+function stMode(m){S.story.mode=m;S.story.shown=false;S.story.auto=false;R.story();}
+function stGo(d){const s=S.story;s.i=Math.min(U.story.length-1,Math.max(0,s.i+d));s.shown=false;R.story();}
+function stAuto(){const s=S.story;s.auto=!s.auto;if(!s.auto){speechSynthesis.cancel();R.story();return;}s.mode='read';
+  const go=()=>{if(!s.auto||!$('content').querySelector('.story'))return;R.story();say(U.story[s.i][1],.8,()=>{if(!s.auto)return;if(s.i<U.story.length-1){s.i++;setTimeout(go,900);}else{s.auto=false;R.story();}});};go();}
+
+/* hello / classroom English */
+const FEEL=[["😊","happy"],["😄","great"],["🙂","good"],["😴","sleepy"],["🤤","hungry"],["😮‍💨","tired"]];
+const WEATHER=[["☀️","sunny"],["☁️","cloudy"],["🌧️","rainy"],["❄️","snowy"],["💨","windy"],["🥶","cold"],["🥵","hot"]];
+const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const MONTHS=["January","February","March","April","May","June","July","August","September","October","November","December"];
+function ord(n){const s=["th","st","nd","rd"],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+R.hello=()=>{
+  S.hello=S.hello||{f:0,w:0};const h=S.hello,d=new Date();
+  const day=DAYS[d.getDay()],date=`${MONTHS[d.getMonth()]} ${ord(d.getDate())}`;
+  const rows=[
+   ["① Hello!","Hello, everyone!","Hello, teacher!",""],
+   ["② Feeling","How are you today?",`I'm <b>${FEEL[h.f][1]}</b>! ${FEEL[h.f][0]}`,FEEL.map((x,i)=>`<button class="pk ${i===h.f?'on':''}" onclick="S.hello.f=${i};R.hello();say('I am ${x[1]}!')">${x[0]} ${x[1]}</button>`).join('')],
+   ["③ Weather","How's the weather today?",`It's <b>${WEATHER[h.w][1]}</b>! ${WEATHER[h.w][0]}`,WEATHER.map((x,i)=>`<button class="pk ${i===h.w?'on':''}" onclick="S.hello.w=${i};R.hello();say('It is ${x[1]}!')">${x[0]} ${x[1]}</button>`).join('')],
+   ["④ Day","What day is it today?",`It's <b>${day}</b>! 📅`,""],
+   ["⑤ Date","What's the date today?",`It's <b>${date}</b>! 🗓️`,""],
+   ["⑥ Ready?","Are you ready?","Yes! I'm ready! 🙌",""]];
+  C().innerHTML=`<div class="ce">${rows.map(r=>`<div class="qa"><div style="font-size:1.9vh;color:var(--sub);margin-bottom:.3vh">${r[0]}</div>
+    <div class="tq" onclick="say(this.dataset.t)" data-t="${r[1]}"><span class="who t ko">선생님</span>${r[1]}</div>
+    <div class="sa" onclick="say(this.textContent.replace(/[^\\x00-\\x7F]/g,''))"><span class="who s ko">다 같이</span><span>${r[2]}</span></div>
+    ${r[3]?`<div class="picks">${r[3]}</div>`:''}</div>`).join('')}</div>`;
+};
+R.bye=()=>{
+  C().innerHTML=`<div class="emo" style="font-size:16vh;animation:bob 2.4s infinite">👋🐉</div>
+   <div class="qa" style="width:min(1300px,90%);margin-top:1vh">
+    <div class="tq" onclick="say('Good job, everyone! Did you enjoy today\\'s class?')"><span class="who t ko">선생님</span>Good job, everyone! Did you enjoy today's class?</div>
+   </div>
+   <div class="card" style="padding:3vh 3vw;margin-top:2vh;cursor:pointer" onclick="say('I enjoyed today\\'s class! See you next time!',.8);burstCenter()">
+    <div class="ko" style="font-size:2.4vh;color:var(--orange);text-align:center;margin-bottom:1vh">🙋 다 같이 크게!</div>
+    <div class="byebig">I <b>enjoyed</b> today's class!<br>See you next time! 👋</div></div>
+   <div class="row" style="margin-top:2vh"><button class="btn c" onclick="say('Goodbye, teacher! See you next time!');burstCenter()">👋 Goodbye, teacher!</button></div>`;
+};
+
+/* games */
+R.gmenu=()=>{
+  C().innerHTML=`<div class="gamepick">
+   <button class="gp" onclick="ssi=1;render()"><div class="emo">🖼️</div><h3>Picture Quiz</h3><p class="ko">그림 보고 단어 고르기</p></button>
+   <button class="gp" onclick="ssi=2;render()"><div class="emo">🧩</div><h3>Sentence Puzzle</h3><p class="ko">단어 블록으로 문장 만들기</p></button>
+   <button class="gp" onclick="ssi=3;render()"><div class="emo">${U.special.emo}</div><h3>${U.special.name}</h3><p class="ko">${U.special.desc}</p></button></div>
+   <div class="row" style="margin-top:3vh;font-size:3vh"><span class="ko">차례 팀: </span>${turnBox()}<button class="btn" onclick="swapTurn();R.gmenu()">🔄 다음 팀</button></div>`;
+};
+function mcRender(state,qHTML,emo,opts,ans,sayText){
+  C().innerHTML=`${turnBox()}<div class="qemo emo">${emo}</div><div class="qtext">${qHTML}</div>
+   <div class="opts">${opts.map(o=>`<button class="opt" onclick="mcPick(this,'${esc(o)}','${esc(ans)}','${esc(sayText)}','${state}')">${o}</button>`).join('')}</div>
+   <div class="row" style="margin-top:3vh"><button class="btn" onclick="mcNext('${state}')">Skip ▶</button><span style="font-size:2.4vh;color:var(--sub)">${S[state].i%S[state].q.length+1} / ${S[state].q.length}</span></div>`;
+}
+function mcPick(el,o,ans,sayText,state){
+  if(S[state].lock)return;
+  if(o===ans){S[state].lock=true;el.classList.add('ok');ding();pts[turn]++;const r=el.getBoundingClientRect();burst(r.left+r.width/2,r.top);
+    const q=document.querySelector('.qtext');if(q&&q.innerHTML.includes('___'))q.innerHTML=q.innerHTML.replace('___',`<span style="color:var(--uc)">${ans}</span>`);
+    say(sayText);setTimeout(()=>{swapTurn();mcNext(state);},2300);}
+  else{el.classList.add('no');buzz();setTimeout(()=>{swapTurn();},500);}
+}
+function mcNext(state){S[state].i++;S[state].lock=false;R[state]();}
+R.pquiz=()=>{
+  S.pquiz=S.pquiz||{q:shuffle(U.words),i:0};S.pquiz.lock=false;
+  const s=S.pquiz,w=s.q[s.i%s.q.length];
+  const opts=shuffle([w[0],...shuffle(U.words.filter(x=>x[0]!==w[0])).slice(0,2).map(x=>x[0])]);
+  mcRender('pquiz','What is it?',w[2],opts,w[0],w[0]);
+};
+R.special=()=>{
+  S.special=S.special||{q:shuffle(U.special.items),i:0};S.special.lock=false;
+  const s=S.special,it=s.q[s.i%s.q.length];
+  const opts=U.special.fixed?U.special.opts:shuffle(it[3]);
+  const sayText=it[1].includes('___')?it[1].replace('___',it[2]):(U.id===3?`${it[1].split(' ')[0]} and ${it[2]}`:`${it[1]} ${it[2]}`);
+  mcRender('special',it[1],it[0],opts,it[2],sayText);
+};
+R.puzzle=()=>{
+  S.puzzle=S.puzzle||{q:shuffle(U.puzzles),i:0,picked:[]};
+  const s=S.puzzle,sent=s.q[s.i%s.q.length];
+  if(!s.tiles||s.cur!==sent){s.cur=sent;s.tiles=shuffle(sent.split(' ').map((w,i)=>({w,i})));if(s.tiles.map(t=>t.w).join(' ')===sent&&s.tiles.length>2)s.tiles.reverse();s.picked=[];}
+  const emo=(U.story.find(x=>x[1].replace(/[!.?]/g,'').toLowerCase().includes(sent.replace(/[!.?]/g,'').toLowerCase()))||U.pattern.find(p=>p.c.join(' ')===sent)||{})[2]||'🧩';
+  C().innerHTML=`${turnBox()}<div class="emo" style="font-size:12vh;margin-bottom:1vh">${emo}</div>
+   <div class="slot" id="slot">${s.picked.map((t,k)=>`<button class="tile" onclick="pzBack(${k})">${t.w}</button>`).join('')||'<span style="color:#C4B9DD;font-size:3vh">👆 Tap the words in order!</span>'}</div>
+   <div class="tiles">${s.tiles.map((t,k)=>`<button class="tile ${s.picked.includes(t)?'used':''}" onclick="pzPick(${k})">${t.w}</button>`).join('')}</div>
+   <div class="row" style="margin-top:3vh"><button class="btn c" onclick="pzCheck()">✅ Check</button><button class="btn" onclick="say('${esc(sent)}')">💡 Hint 🔊</button><button class="btn" onclick="pzNext()">Skip ▶</button></div>`;
+};
+function pzPick(k){const s=S.puzzle,t=s.tiles[k];if(!s.picked.includes(t)){s.picked.push(t);tone(600,.06);R.puzzle();}}
+function pzBack(k){S.puzzle.picked.splice(k,1);R.puzzle();}
+function pzCheck(){const s=S.puzzle;const ok=s.picked.map(t=>t.w).join(' ')===s.cur;const sl=$('slot');
+  if(ok){sl.classList.add('ok');ding();pts[turn]++;burstCenter();say(s.cur);setTimeout(()=>{swapTurn();pzNext();},2500);}
+  else{sl.classList.add('no');buzz();setTimeout(()=>{s.picked=[];swapTurn();R.puzzle();},700);}}
+function pzNext(){const s=S.puzzle;s.i++;s.tiles=null;R.puzzle();}
+
+/* eggs */
+function makeEggs(){
+  const tasks=[];
+  shuffle(U.story).slice(0,3).forEach(l=>tasks.push({emo:l[2],h:l[1],p:'📖 Read it! 크게 읽으면 +1점',pt:1,say:l[1]}));
+  shuffle(U.words).slice(0,2).forEach(w=>tasks.push({emo:w[2],h:'What is it?',p:'🗣️ 단어 말하기 → 문장으로 말하면 +2점',pt:1,say:w[0],ans:w[0]}));
+  shuffle(U.pattern).slice(0,1).forEach(p=>tasks.push({emo:p.e,h:p.k,p:'🇰🇷→🇬🇧 영어로 말해 보세요! +2점',pt:2,say:p.c.join(' '),ans:p.c.join(' ')}));
+  tasks.push({emo:'⭐',h:'Bonus Star!',p:'축하해요! 바로 +2점',pt:2,auto:true});
+  tasks.push({emo:'🐉',h:'Dragon Roar!',p:'다 같이 드래곤처럼 "ROAR!" 가장 큰 팀 +1점',pt:1});
+  tasks.push({emo:'🤫',h:'Shhh! Secret!',p:'친구 귀에 오늘 패턴 문장 속삭이기 → +1점',pt:1});
+  return shuffle(tasks);
+}
+R.eggs=()=>{
+  S.eggs=S.eggs||{t:makeEggs(),done:{}};
+  C().innerHTML=`${turnBox()}<div class="eggs">${S.eggs.t.map((t,i)=>`<button class="egg ${S.eggs.done[i]?'done':''}" onclick="openEgg(${i})">🥚<small>${i+1}</small></button>`).join('')}</div>`;
+};
+function openEgg(i){const t=S.eggs.t[i];S.eggs.done[i]=1;tone(520,.1);tone(780,.2,'sine',.1);
+  const ov=document.createElement('div');ov.className='overlay';
+  ov.innerHTML=`<div class="pop"><div class="emo">${t.emo}</div><h2>${t.h}</h2><p class="ko">${t.p}</p>
+   <div id="eggAns" style="font-size:4.4vh;font-weight:700;color:var(--uc);min-height:5vh;margin-bottom:2vh"></div>
+   <div class="row">${t.say?`<button class="btn" onclick="say('${esc(t.say)}')">🔊</button>`:''}
+   ${t.ans?`<button class="btn y" onclick="$('eggAns').textContent='${esc(t.ans)}'">✅ Answer</button>`:''}
+   ${t.auto?'':`<button class="btn c" onclick="addPt(turn,${t.pt});eggClose(this)">⭕ 성공 +${t.pt}</button><button class="btn" onclick="eggClose(this)">❌ 다음 기회에</button>`}
+   ${t.auto?`<button class="btn c" onclick="eggClose(this)">OK!</button>`:''}</div></div>`;
+  document.body.appendChild(ov);if(t.auto){addPt(turn,t.pt);burstCenter();}if(t.emo==='🐉')tone(110,.8,'sawtooth');}
+function eggClose(b){b.closest('.overlay').remove();swapTurn();R.eggs();}
+
+R.winner=()=>{
+  const a=activeTeams(),mx=Math.max(...a.map(t=>pts[t])),win=a.filter(t=>pts[t]===mx);
+  C().innerHTML=`<div class="trophy">${win.length>1?'🤝':'🏆'}</div>
+   <h1 style="font-size:7vh;margin:1vh 0">${win.length===a.length?'Everyone wins!':(win.length>1?'Team '+win.join(' & ')+' win!':'Team '+win[0]+' wins!')}</h1>
+   <div class="row" style="font-size:3.6vh">${a.map(t=>`<span class="team ${t}" style="padding:.6vh 1.4vw">Team ${t} <b style="margin-left:.6vw">${pts[t]}</b></span>`).join('')}</div>
+   <div class="goal card" style="margin-top:3vh;padding:2vh 2vw;font-size:3.6vh">🎯 Today we learned:<br><b style="font-size:4.4vh">${U.goal}</b></div>
+   <div class="row" style="margin-top:2.4vh"><button class="btn c" onclick="say('Great job, everyone! See you next time!')">🔊 Great job!</button></div>`;
+  setTimeout(()=>{burstCenter();setTimeout(burstCenter,400);},200);
+};
+R.book=()=>{
+  C().innerHTML=`<div class="emo" style="font-size:12vh;animation:bob 2.4s infinite">📚🐉</div>
+   <div class="bigtime" id="bigT">${mmss(tLeft)}</div>
+   <div class="row" style="margin-top:2vh"><button class="btn c" onclick="toggleTimer()">▶ / ⏸ Timer</button><button class="btn" onclick="resetTimer()">↺ Reset</button></div>
+   <div class="checklist ko card" style="padding:2vh 3vw">✅ 교재 Unit ${U.id} 문제 풀기<br>✅ 문장은 소리 내어 읽으면서 풀기<br>✅ 다 풀면 짝과 스토리 문장 읽기 🤝</div>`;
+};
+
+buildHome();
+</script>
+</body>
+</html>
