@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>중1 당리중학습지 뿌시기</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{--navy:#1d2b4f;--bur:#8a2240;--gold:#c98a12;--bg:#f4f5f9;--card:#fff;--ink:#1b2133;--muted:#5c6478;--line:#dfe2ea;--soft:#eef0f6;--ok:#1f8a4c;--okbg:#e3f6ea;--no:#c0392b;--nobg:#fbe7e5;
+--display:"Do Hyeon","Noto Sans KR",sans-serif;--body:"Noto Sans KR","Malgun Gothic",system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root{--bg:#12151f;--card:#1b2030;--ink:#e8eaf1;--muted:#a3a9ba;--line:#2d3346;--soft:#232a3d;--bur:#e0708c;--okbg:#14301f;--nobg:#3a1714;--ok:#5fd18f;--no:#ff8a7a;color-scheme:dark}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.6}
+button,input{font:inherit}
+.wrap{max-width:720px;margin:0 auto;padding:0 16px}
+header{position:sticky;top:0;z-index:5;background:var(--navy);color:#fff}
+header .wrap{display:flex;align-items:center;gap:10px;padding-block:11px}
+.brand{font-family:var(--display);font-size:20px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:4px 12px;cursor:pointer;font-size:14px}
+main{padding:16px 0 70px}
+h1{font-family:var(--display);font-weight:400;font-size:30px;margin:4px 0 4px;line-height:1.2}
+h2{font-size:17px;margin:22px 0 8px;display:flex;align-items:center;gap:8px}
+h2 .pt{background:var(--bur);color:#fff;font-size:12px;padding:2px 9px;border-radius:9px}
+.eye{color:var(--bur);font-weight:700;font-size:13px}
+.muted{color:var(--muted);font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+input[type=text]{color:var(--ink);background:var(--card);border:1.5px solid #c9cedb;border-radius:10px;padding:9px 11px;width:100%}
+.tiles{display:grid;gap:8px}
+.tile{display:flex;gap:12px;align-items:center;text-align:left;color:var(--ink);background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:13px 14px;cursor:pointer;width:100%}
+.tile .ic{flex:0 0 44px;height:44px;border-radius:12px;display:grid;place-items:center;font-weight:700;color:#fff;font-size:15px}
+.tile b{display:block;font-size:16px}.tile span{font-size:13px;color:var(--muted)}
+.tile .sc{margin-left:auto;font-size:13px;font-weight:700;white-space:nowrap}
+.tile .sc.done{color:var(--ok)}
+.guide{background:var(--soft);border-radius:12px;padding:10px 14px;font-weight:500}
+.cc{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.cc div{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--bur);border-radius:10px;padding:8px 10px;font-size:14px}
+.cc b{color:var(--bur)}.cc i{display:block;font-style:normal;color:var(--muted);font-size:13px}
+details.pass{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin:10px 0}
+details.pass summary{cursor:pointer;font-weight:700;color:var(--navy)}
+@media (prefers-color-scheme: dark){details.pass summary{color:#9fb4ff}}
+details.pass p{margin:8px 0;font-size:15px}
+.q{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0}
+.q.ok{border-color:var(--ok)}.q.no{border-color:var(--no)}
+.qn{font-weight:700;color:var(--navy);margin-right:4px}
+@media (prefers-color-scheme: dark){.qn{color:#9fb4ff}}
+.qt{font-weight:500}
+.st{font-size:13px;color:var(--muted);margin-top:2px}
+.ops{display:grid;gap:6px;margin-top:8px}
+.ops.g2{grid-template-columns:1fr 1fr}
+.op{text-align:left;background:var(--soft);border:2px solid transparent;border-radius:10px;padding:7px 10px;cursor:pointer;color:var(--ink);font-size:15px}
+.op.sel{border-color:var(--navy);background:var(--card);font-weight:700}
+.op.right{border-color:var(--ok);background:var(--okbg)}
+.op.wrong{border-color:var(--no);background:var(--nobg)}
+.q input[type=text]{margin-top:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{background:var(--card);border:1.5px solid #c9cedb;border-radius:20px;padding:4px 12px;cursor:pointer;color:var(--ink);font-size:15px}
+.chip.used{opacity:.25;pointer-events:none}
+.built{min-height:44px;border:1.5px dashed #c9cedb;border-radius:10px;padding:6px;display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.built .chip{background:var(--soft);border-color:var(--navy)}
+.fb{margin-top:8px;font-size:14px;border-radius:8px;padding:6px 10px;display:none}
+.q.ok .fb{display:block;background:var(--okbg);color:var(--ok)}
+.q.no .fb{display:block;background:var(--nobg);color:var(--no)}
+.fb b{color:var(--ink)}
+.bar{position:sticky;bottom:0;background:linear-gradient(transparent,var(--bg) 30%);padding:18px 0 14px;display:flex;gap:8px}
+.btn{flex:1;border:0;border-radius:12px;padding:13px;font-weight:700;cursor:pointer;background:var(--navy);color:#fff;font-size:16px}
+.btn.alt{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
+.btn.bur{background:var(--bur)}
+.res{text-align:center;font-family:var(--display);font-size:26px;color:var(--bur)}
+.ft{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
+.sv{font-size:12px;color:var(--muted);text-align:center}
+@media (max-width:520px){.cc,.ops.g2{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><div class="brand" id="brand">중1 당리중학습지 뿌시기</div><button class="hb" id="home" style="display:none">← 메뉴</button></div></header>
+<main class="wrap" id="app"></main>
+<script>
+const CONF={title:"중1 당리중학습지 뿌시기",sub:"동아(윤정미) 7과 · to부정사 부사적 용법 + 본문 Happy Days",unit:"중1 동아(윤정미) L7 당리중",brand:"제작: 스텔라원장 · 잉글리시아이 스텔라"};
+const USES=["~하기 위해 (목적)","~해서 (감정의 원인)","~하기에 (형용사 수식)","그 결과 ~하다 (결과)"];
+const STEPS=[
+/* ================= PART A 문법 ================= */
+{id:"A1",part:"A",title:"STEP 1 · 용법 구별하기",guide:"밑줄 친 to부정사의 용법을 고르세요.",t:"mc",
+ concept:[["① 목적","~하기 위해","I use hand signals <u>to calm</u> him."],["② 감정의 원인","감정형용사 + to ~ : ~해서","I was happy <u>to meet</u> you."],["③ 형용사 수식","형용사 + to ~ : ~하기에","This book is easy <u>to read</u>."],["④ 결과","grew up / lived + to ~ : 그 결과 ~하다","He grew up <u>to be</u> a doctor."]],
+ q:[
+ {q:"A lot of people are working hard <u>to create</u> this movie.",a:0},
+ {q:"I was happy <u>to meet</u> my favorite actor.",a:1},
+ {q:"This question is difficult <u>to answer</u>.",a:2},
+ {q:"He grew up <u>to be</u> a famous director.",a:3},
+ {q:"<u>To capture</u> their happy moments, I'm going to use drones.",a:0},
+ {q:"She was sad <u>to hear</u> the news.",a:1},
+ {q:"My grandmother lived <u>to be</u> ninety.",a:3},
+ {q:"Korean is not easy <u>to learn</u>.",a:2},
+ {q:"So, I use hand signals <u>to calm</u> him.",a:0},
+ {q:"We were surprised <u>to see</u> Max on the beach.",a:1}
+ ]},
+{id:"A2",part:"A",title:"STEP 2 · 두 문장을 한 문장으로",guide:"to부정사를 사용하여 두 문장을 한 문장으로 쓰세요.",t:"sa",
+ q:[
+ {q:"Jennifer uses hand signals. She wants to calm Max.",st:"Jennifer uses hand signals",a:["Jennifer uses hand signals to calm Max."]},
+ {q:"Peter uses drones. He wants to capture their happy moments.",st:"Peter uses drones",a:["Peter uses drones to capture their happy moments."]},
+ {q:"Emma reads a lot. She wants to improve her storytelling skills.",st:"Emma reads a lot",a:["Emma reads a lot to improve her storytelling skills."]},
+ {q:"I went to the beach. I wanted to take pictures.",st:"I went to the beach",a:["I went to the beach to take pictures."]},
+ {q:"Tom was glad. He played with Max on the beach.",st:"Tom was glad",a:["Tom was glad to play with Max on the beach."]},
+ {q:"Anna was excited. She found the beautiful beach.",st:"Anna was excited",a:["Anna was excited to find the beautiful beach."]}
+ ]},
+{id:"A3",part:"A",title:"STEP 3 · 우리말에 맞게 배열하기",guide:"우리말에 맞게 주어진 덩어리를 배열하세요.",t:"or",
+ q:[
+ {q:"그는 자라서 훌륭한 과학자가 되었다.",c:["a great scientist","He","to be","grew up"],a:"He grew up to be a great scientist."},
+ {q:"이 영화는 이해하기 어렵다.",c:["to understand","is","This movie","hard"],a:"This movie is hard to understand."},
+ {q:"나는 그 소식을 들어서 기뻤다.",c:["the news","glad","I was","to hear"],a:"I was glad to hear the news."},
+ {q:"Chris는 파도 소리를 만들기 위해 쌀을 사용했다.",c:["rice","to make","Chris used","the sound of waves"],a:"Chris used rice to make the sound of waves."},
+ {q:"더 좋은 이야기를 만들기 위해, 나는 장면의 순서를 바꾼다.",c:["I change","a better story,","the order of scenes","To create"],a:"To create a better story, I change the order of scenes."},
+ {q:"그 상자는 옮기기에 무겁다.",c:["heavy","to carry","The box","is"],a:"The box is heavy to carry."}
+ ]},
+{id:"A4",part:"A",title:"STEP 4 · 한글 보고 영어로 쓰기",guide:"우리말을 보고 to부정사를 사용하여 영어 문장을 완성하세요. (괄호 속 단어 활용)",t:"sa",
+ q:[
+ {q:"그녀는 영어를 배우기 위해 해외로 갔다. (abroad)",a:["She went abroad to learn English."]},
+ {q:"Jennifer는 Max를 진정시키기 위해 수신호를 사용한다. (hand signals, calm)",a:["Jennifer uses hand signals to calm Max."]},
+ {q:"나는 너를 다시 만나서 기쁘다. (glad)",a:["I am glad to meet you again.","I'm glad to meet you again.","I am glad to see you again.","I'm glad to see you again."]},
+ {q:"이 문제는 풀기 쉽다. (easy, solve)",a:["This problem is easy to solve."]},
+ {q:"그는 자라서 영화감독이 되었다. (grow up, a movie director)",a:["He grew up to be a movie director."]},
+ {q:"우리는 그 개를 봐서 놀랐다. (surprised)",a:["We were surprised to see the dog."]},
+ {q:"Peter는 행복한 순간을 담기 위해 드론을 사용할 것이다. (be going to, capture)",a:["Peter is going to use drones to capture happy moments.","Peter is going to use drones to capture the happy moments.","Peter is going to use drones to capture their happy moments."]},
+ {q:"더 좋은 이야기를 만들기 위해, Emma는 책을 많이 읽는다. (To create로 시작)",a:["To create a better story, Emma reads a lot."]}
+ ]},
+/* ================= PART B 본문 ================= */
+{id:"B1",part:"B",title:"STEP 1 · True or False",guide:"본문 내용과 일치하면 T, 일치하지 않으면 F를 고르세요.",t:"tf",
+ q:[
+ {q:"<i>Happy Days</i> is a movie about a boy and his cat.",a:1,e:"a boy and his dog Max"},
+ {q:"Anna's job is to find perfect places for shooting.",a:0},
+ {q:"Anna thinks her job is very easy.",a:1,e:"it is not easy"},
+ {q:"Peter is in charge of all the cameras.",a:0},
+ {q:"Jennifer uses drones to calm Max.",a:1,e:"hand signals to calm him"},
+ {q:"Max sometimes gets too excited when a lot of people are around.",a:0},
+ {q:"Emma's work begins before the shooting.",a:1,e:"after the shooting is over"},
+ {q:"Chris made the sound of waves with rice and a plastic container.",a:0}
+ ]},
+{id:"B2",part:"B",title:"STEP 2 · 영어 질문에 답하기 (객관식)",guide:"본문을 읽고 물음에 알맞은 답을 고르세요.",t:"mc5",
+ q:[
+ {q:"What is Jim Brown's job?",o:["He is a film editor.","He is a location manager.","He is the director of <i>Happy Days</i>.","He is an animal wrangler.","He is a Foley artist."],a:2},
+ {q:"Why does Anna love her job?",o:["She likes dogs.","She likes to travel and enjoy challenges.","She likes making sound effects.","She likes using drones.","She likes reading books."],a:1},
+ {q:"Which question <b>CANNOT</b> be answered from the passage?",o:["What is <i>Happy Days</i> about?","What is Peter in charge of?","Why does Jennifer use hand signals?","How many scenes did Emma delete?","What did Chris use to make the sound of waves?"],a:3},
+ {q:"Which question <b>CANNOT</b> be answered from the passage?",o:["Who found the beautiful beach?","What does Anna like to do?","When does Emma's work begin?","Where does Chris create sound effects?","What is the name of the beach?"],a:4},
+ {q:"Why does Emma read a lot?",o:["Because she wants to be a director.","Because she wants to train Max.","Because storytelling skills are important for her job.","Because she has to find new actors.","Because she likes the beach."],a:2},
+ {q:"When does Chris create sound effects in his studio?",o:["When Max is too excited.","When recording on location is not easy.","When the shooting begins.","When Emma changes the scenes.","When it rains on the beach."],a:1},
+ {q:"Who would say this? <br>\"My work starts after the shooting is over.\"",o:["Jim","Anna","Peter","Jennifer","Emma"],a:4},
+ {q:"Which is <b>TRUE</b> according to the passage?",o:["Anna takes care of Max.","Peter edits the movie scenes.","Jennifer trained Max for a long time.","Chris finds places for shooting.","Emma uses drones to film the actors."],a:2},
+ {q:"Which is <b>NOT</b> true according to the passage?",o:["Max is a great actor.","Peter is the director of photography.","Emma can change the order of scenes.","Chris recorded real waves on the beach.","Anna found the beautiful beach."],a:3},
+ {q:"What is the main idea of the passage?",o:["How to train a dog","Different people who work hard to make a movie","The most beautiful beach in the world","How to make sound effects at home","Why people love dogs"],a:1}
+ ]},
+{id:"B3",part:"B",title:"STEP 3 · 영어로 답 쓰기 (서술형)",guide:"본문을 읽고 질문에 <b>완전한 영어 문장</b>으로 답하세요. (주어 + 동사로 시작)",t:"en",
+ q:[
+ {q:"What is <i>Happy Days</i> about?",hint:"It is about ~",kw:[["friendship"],["tom"],["max","dog"]],a:"It is about the friendship between Tom and his dog Max."},
+ {q:"What is Anna's job?",hint:"She is ~",kw:[["location manager"]],a:"She is a location manager."},
+ {q:"What does Peter use to capture Tom and Max's happy moments?",hint:"He uses ~",kw:[["drone"]],a:"He uses drones."},
+ {q:"Why does Jennifer use hand signals?",hint:"She uses them to ~",kw:[["calm"],["max","him"]],a:"She uses them to calm Max."},
+ {q:"When does Emma's work begin?",hint:"It begins ~",kw:[["after"],["shooting"]],a:"It begins after the shooting is over."},
+ {q:"What can Emma do to create a better story?",hint:"She can ~",kw:[["change"],["order"],["delete"]],a:"She can change the order of scenes or delete some of them."},
+ {q:"What did Chris use to make the sound of waves?",hint:"He used ~",kw:[["rice"],["plastic container","container"]],a:"He used rice and a plastic container."},
+ {q:"Why is Max sometimes hard to control? (Max는 왜 가끔 다루기 힘든가?)",hint:"Because he ~",kw:[["excited"],["people"]],a:"Because he gets too excited when a lot of people are around."}
+ ]}
+];
+
+const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
+const KEY="dangri_m1yun7_v1";const $=s=>document.querySelector(s);const app=$("#app");
+let S={name:"",res:{},ans:{}};try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
+const sv=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const C="①②③④⑤";
+const norm=s=>" "+String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/\bi'm\b/g,"i am").replace(/\bit's\b/g,"it is").replace(/\bhe's\b/g,"he is").replace(/\bshe's\b/g,"she is").replace(/\bdon't\b/g,"do not").replace(/\bdoesn't\b/g,"does not").replace(/[^a-z0-9' ]/g," ").replace(/\s+/g," ").trim()+" ";
+const PASS=["Hi, I'm Jim Brown, the director of <i>Happy Days</i>. It's a movie about the friendship between Tom and his dog Max. A lot of people are working hard to create this movie. Do you want to meet some of them? I'm Anna, and I found this beautiful beach. I'm a location manager, and my job is to find perfect places for shooting. Of course, it is not easy, but I love my job. I like to travel and enjoy challenges.","I'm Peter, the director of photography for this movie. I'm in charge of all the cameras. Today, Tom and Max are going to play together with a ball on the beach. To capture their happy moments, I'm going to use drones.","I'm Jennifer. I trained and took care of Max for a long time. Max is a great actor, but he sometimes gets too excited when a lot of people are around. So, I use hand signals to calm him. Who am I? I'm an animal wrangler.","My name is Emma, and I'm a film editor. My work begins after the shooting is over. To create a better story, I can change the order of scenes or delete some of them. Storytelling skills are important for my job, so I read a lot.","I'm Chris, and I'm a Foley artist. I create sound effects in my studio when recording on location is not easy. Listen carefully. Do you hear the sound of waves? I made that sound with rice and a plastic container. Doesn't it sound real?"];
+function home(){$("#home").style.display="none";
+ const tile=s=>{const r=S.res[s.id];const ic=s.part==="A"?"#8a2240":"#2f6db0";
+  return `<button class="tile" data-s="${s.id}"><span class="ic" style="background:${ic}">${s.id}</span><div><b>${esc(s.title)}</b><span>${s.q.length}문항 · ${s.guide.replace(/<[^>]+>/g,"").slice(0,34)}…</span></div><span class="sc ${r&&r.best===r.total?"done":""}">${r?`${r.best===r.total?"✓ ":""}${r.best}/${r.total}`:""}</span></button>`};
+ app.innerHTML=`<span class="eye">DANGRI MIDDLE · LESSON 7</span><h1>${esc(CONF.title)}</h1><p class="muted">${esc(CONF.sub)}<br>학교 시험처럼 <b>영작</b>과 <b>영어 질문·영어 답쓰기</b>를 단계별로 연습해요. 결과는 선생님께 저장돼요.</p>
+ <div class="card" style="display:flex;gap:10px;align-items:center"><span class="muted" style="white-space:nowrap">이름</span><input type="text" id="nm" maxlength="20" placeholder="이름을 입력하세요" value="${esc(S.name)}"></div>
+ <h2><span class="pt">PART A</span>문법 · to부정사 부사적 용법</h2><div class="tiles">${STEPS.filter(s=>s.part==="A").map(tile).join("")}</div>
+ <h2><span class="pt" style="background:#2f6db0">PART B</span>본문 · Happy Days 내용 파악</h2><div class="tiles">${STEPS.filter(s=>s.part==="B").map(tile).join("")}</div>
+ <div class="ft">${esc(CONF.brand)}</div>`;
+ $("#nm").oninput=e=>{S.name=e.target.value.trim();sv()};
+ app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{if(!S.name){$("#nm").focus();$("#nm").placeholder="먼저 이름을 입력하세요!";return}step(b.dataset.s)});
+ window.scrollTo(0,0)}
+let cur=null;
+function step(id){const s=STEPS.find(x=>x.id===id);cur={s,graded:{},t0:Date.now(),tries:(S.res[id]?S.res[id].tries||0:0)};
+ const A=S.ans[id]=S.ans[id]||{};$("#home").style.display="";
+ const ty=s.t;
+ app.innerHTML=`<span class="eye">PART ${s.part} · ${s.part==="A"?"GRAMMAR":"READING"}</span><h1 style="font-size:24px">${esc(s.title)}</h1>
+ <div class="guide">${s.guide}</div>
+ ${s.concept?`<div class="cc">${s.concept.map(c=>`<div><b>${c[0]}</b> ${esc(c[1])}<i>${c[2]}</i></div>`).join("")}</div>`:""}
+ ${s.part==="B"?`<details class="pass" ${ty==="en"?"":"open"}><summary>📖 본문 보기 (Happy Days)</summary>${PASS.map(p=>`<p>${p}</p>`).join("")}</details>`:""}
+ <div id="qs">${s.q.map((q,i)=>qHTML(s,q,i,A[i])).join("")}</div>
+ <div class="bar"><button class="btn" id="grade">채점하기</button></div><div class="sv" id="svmsg"></div>`;
+ s.q.forEach((q,i)=>bindQ(s,q,i));window.scrollTo(0,0);
+ $("#grade").onclick=grade}
+function qHTML(s,q,i,v){const n=`<span class="qn">${i+1}.</span>`;let body="";
+ if(s.t==="mc")body=`<div class="qt">${n}${q.q}</div><div class="ops g2">${USES.map((u,k)=>`<button class="op ${v===k?"sel":""}" data-k="${k}">${C[k]} ${u}</button>`).join("")}</div>`;
+ else if(s.t==="tf")body=`<div class="qt">${n}${q.q}</div><div class="ops g2">${["T (True)","F (False)"].map((u,k)=>`<button class="op ${v===k?"sel":""}" data-k="${k}">${u}</button>`).join("")}</div>`;
+ else if(s.t==="mc5")body=`<div class="qt">${n}${q.q}</div><div class="ops">${q.o.map((u,k)=>`<button class="op ${v===k?"sel":""}" data-k="${k}">${C[k]} ${u}</button>`).join("")}</div>`;
+ else if(s.t==="sa")body=`<div class="qt">${n}${q.q}</div>${q.st?`<div class="st">→ ${esc(q.st)} ______ 로 시작</div>`:""}<input type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="영어 문장을 쓰세요" value="${esc(v||"")}">`;
+ else if(s.t==="en")body=`<div class="qt">${n}${q.q}</div><div class="st">💡 ${esc(q.hint)}</div><input type="text" autocomplete="off" spellcheck="false" placeholder="완전한 영어 문장으로 답하세요" value="${esc(v||"")}">`;
+ else if(s.t==="or"){const used=v||[];body=`<div class="qt">${n}${esc(q.q)}</div><div class="built">${used.map(k=>`<button class="chip" data-u="${k}">${esc(q.c[k])}</button>`).join("")}</div><div class="chips">${q.c.map((c,k)=>`<button class="chip ${used.includes(k)?"used":""}" data-k="${k}">${esc(c)}</button>`).join("")}</div>`}
+ return `<div class="q" id="q${i}">${body}<div class="fb"></div></div>`}
+function bindQ(s,q,i){const el=$("#q"+i);const A=S.ans[s.id];
+ if(["mc","tf","mc5"].includes(s.t))el.querySelectorAll(".op").forEach(b=>b.onclick=()=>{if(cur.graded[i])return;A[i]=+b.dataset.k;sv();el.querySelectorAll(".op").forEach(x=>x.classList.toggle("sel",x===b))});
+ else if(s.t==="or"){el.onclick=e=>{if(cur.graded[i])return;const c=e.target.closest(".chip");if(!c)return;A[i]=A[i]||[];
+  if(c.dataset.k!=null)A[i].push(+c.dataset.k);else A[i].splice(A[i].indexOf(+c.dataset.u),1);sv();el.outerHTML=qHTML(s,q,i,A[i]);bindQ(s,q,i)}}
+ else el.querySelector("input").oninput=e=>{A[i]=e.target.value;sv()}}
+function check(s,q,v){
+ if(s.t==="mc"||s.t==="tf"||s.t==="mc5")return v===q.a;
+ if(s.t==="or")return Array.isArray(v)&&v.length===q.c.length&&norm(v.map(k=>q.c[k]).join(" "))===norm(q.a);
+ if(s.t==="sa")return !!v&&q.a.some(a=>norm(a)===norm(v));
+ if(s.t==="en"){if(!v)return false;const n=norm(v);if(n.trim().split(" ").length<3)return false;return q.kw.every(g=>g.some(k=>n.includes(" "+k)||n.includes(k)))}}
+function ansText(s,q){if(s.t==="mc")return `${C[q.a]} ${USES[q.a]}`;if(s.t==="tf")return (q.a?"F":"T")+(q.e?` (→ ${q.e})`:"");if(s.t==="mc5")return `${C[q.a]} ${q.o[q.a]}`;if(s.t==="or")return q.a;if(s.t==="sa")return q.a[0];return q.a}
+function grade(){const s=cur.s,A=S.ans[s.id];let sc=0;const wrong=[];
+ s.q.forEach((q,i)=>{const ok=check(s,q,A[i]);cur.graded[i]=1;const el=$("#q"+i);el.classList.remove("ok","no");el.classList.add(ok?"ok":"no");
+  if(ok)sc++;else wrong.push(i+1);
+  if(["mc","tf","mc5"].includes(s.t)){const ops=el.querySelectorAll(".op");ops[q.a].classList.add("right");if(!ok&&A[i]!=null)ops[A[i]].classList.add("wrong")}
+  el.querySelector(".fb").innerHTML=ok?(s.t==="en"?`⭕ 정답! 모범답안: <b>${esc(q.a)}</b>`:"⭕ 정답!"):`❌ 정답: <b>${ansText(s,q)}</b>`;
+  el.querySelectorAll("input").forEach(x=>x.disabled=true)});
+ cur.tries++;const r=S.res[s.id]||{best:0,total:s.q.length};r.best=Math.max(r.best,sc);r.total=s.q.length;r.tries=cur.tries;S.res[s.id]=r;sv();
+ $(".bar").innerHTML=`<button class="btn alt" id="redo">틀린 것만 다시</button><button class="btn bur" id="next">${STEPS.indexOf(s)<STEPS.length-1?"다음 단계 ▶":"메뉴로"}</button>`;
+ $("#svmsg").innerHTML=`<div class="res">${sc} / ${s.q.length}</div>`;
+ if(!wrong.length)$("#redo").textContent="처음부터 다시";
+ $("#redo").onclick=()=>{if(wrong.length)wrong.forEach(n=>{delete S.ans[s.id][n-1]});else S.ans[s.id]={};sv();const t=cur.tries;step(s.id);cur.tries=t};
+ $("#next").onclick=()=>{const k=STEPS.indexOf(s);k<STEPS.length-1?step(STEPS[k+1].id):home()};
+ window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+ save(s,sc,wrong)}
+function save(s,sc,wrong){const A=S.ans[s.id];
+ const body={name:S.name,unit:CONF.unit,day:STEPS.indexOf(s)+1,title:`당리중 뿌시기 ${s.title}`,cat:s.part==="A"?"문법":"본문",attempt:cur.tries>1?`재도전 ${cur.tries}회`:"첫 응시",score:sc,total:s.q.length,
+  wrongNums:wrong.length?wrong.map(n=>n+"번").join(", "):"없음",
+  wrongDetail:wrong.map(n=>{const v=A[n-1],q=s.q[n-1];return `${n}번: ${typeof v==="string"?v:Array.isArray(v)?v.map(k=>q.c[k]).join(" "):v!=null?(s.t==="tf"?(v?"F":"T"):C[v]):"무응답"}`}).join(" / ").slice(0,1900),
+  minutes:Math.max(1,Math.round((Date.now()-cur.t0)/60000)),timestamp:new Date().toISOString()};
+ try{fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),mode:"no-cors"}).then(()=>{const m=$("#svmsg");if(m)m.insertAdjacentHTML("beforeend","✅ 선생님께 결과가 전송됐어요")}).catch(()=>{})}catch(e){}}
+$("#home").onclick=home;home();
+</script>
+</body>
+</html>
