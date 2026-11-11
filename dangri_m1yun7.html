@@ -72,7 +72,7 @@ details.pass p{margin:8px 0;font-size:15px}
 </style>
 </head>
 <body>
-<header><div class="wrap"><div class="brand" id="brand">중1 당리중학습지 뿌시기</div><button class="hb" id="home" style="display:none">← 메뉴</button></div></header>
+<header><div class="wrap"><div class="brand" id="brand">중1 당리중학습지 뿌시기</div><button class="hb" id="home" style="display:none">← 메뉴</button><button class="hb" id="lo" style="display:none">로그아웃</button></div></header>
 <main class="wrap" id="app"></main>
 <script>
 const CONF={title:"중1 당리중학습지 뿌시기",sub:"동아(윤정미) 7과 · to부정사 부사적 용법 + 본문 Happy Days",unit:"중1 동아(윤정미) L7 당리중",brand:"제작: 스텔라원장 · 잉글리시아이 스텔라"};
@@ -93,14 +93,14 @@ const STEPS=[
  {q:"So, I use hand signals <u>to calm</u> him.",a:0},
  {q:"We were surprised <u>to see</u> Max on the beach.",a:1}
  ]},
-{id:"A2",part:"A",title:"STEP 2 · 두 문장을 한 문장으로",guide:"to부정사를 사용하여 두 문장을 한 문장으로 쓰세요.",t:"sa",
+{id:"A2",part:"A",title:"STEP 2 · 두 문장을 한 문장으로",guide:"to부정사를 사용하여 두 문장을 한 문장으로 쓰세요. <b>문장 전체</b>를 처음부터 끝까지 쓰세요.",t:"sa",
  q:[
- {q:"Jennifer uses hand signals. She wants to calm Max.",st:"Jennifer uses hand signals",a:["Jennifer uses hand signals to calm Max."]},
- {q:"Peter uses drones. He wants to capture their happy moments.",st:"Peter uses drones",a:["Peter uses drones to capture their happy moments."]},
- {q:"Emma reads a lot. She wants to improve her storytelling skills.",st:"Emma reads a lot",a:["Emma reads a lot to improve her storytelling skills."]},
- {q:"I went to the beach. I wanted to take pictures.",st:"I went to the beach",a:["I went to the beach to take pictures."]},
- {q:"Tom was glad. He played with Max on the beach.",st:"Tom was glad",a:["Tom was glad to play with Max on the beach."]},
- {q:"Anna was excited. She found the beautiful beach.",st:"Anna was excited",a:["Anna was excited to find the beautiful beach."]}
+ {q:"Jennifer uses hand signals. She wants to calm Max.",a:["Jennifer uses hand signals to calm Max."]},
+ {q:"Peter uses drones. He wants to capture their happy moments.",a:["Peter uses drones to capture their happy moments."]},
+ {q:"Emma reads a lot. She wants to improve her storytelling skills.",a:["Emma reads a lot to improve her storytelling skills."]},
+ {q:"I went to the beach. I wanted to take pictures.",a:["I went to the beach to take pictures."]},
+ {q:"Tom was glad. He played with Max on the beach.",a:["Tom was glad to play with Max on the beach."]},
+ {q:"Anna was excited. She found the beautiful beach.",a:["Anna was excited to find the beautiful beach."]}
  ]},
 {id:"A3",part:"A",title:"STEP 3 · 우리말에 맞게 배열하기",guide:"우리말에 맞게 주어진 덩어리를 배열하세요.",t:"or",
  q:[
@@ -111,7 +111,7 @@ const STEPS=[
  {q:"더 좋은 이야기를 만들기 위해, 나는 장면의 순서를 바꾼다.",c:["I change","a better story,","the order of scenes","To create"],a:"To create a better story, I change the order of scenes."},
  {q:"그 상자는 옮기기에 무겁다.",c:["heavy","to carry","The box","is"],a:"The box is heavy to carry."}
  ]},
-{id:"A4",part:"A",title:"STEP 4 · 한글 보고 영어로 쓰기",guide:"우리말을 보고 to부정사를 사용하여 영어 문장을 완성하세요. (괄호 속 단어 활용)",t:"sa",
+{id:"A4",part:"A",title:"STEP 4 · 한글 보고 영어로 쓰기",guide:"우리말을 보고 to부정사를 사용하여 <b>영어 문장 전체</b>를 쓰세요. (괄호 속 단어 활용 · 주어부터 마침표까지)",t:"sa",
  q:[
  {q:"그녀는 영어를 배우기 위해 해외로 갔다. (abroad)",a:["She went abroad to learn English."]},
  {q:"Jennifer는 Max를 진정시키기 위해 수신호를 사용한다. (hand signals, calm)",a:["Jennifer uses hand signals to calm Max."]},
@@ -161,26 +161,56 @@ const STEPS=[
 ];
 
 const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
-const KEY="dangri_m1yun7_v1";const $=s=>document.querySelector(s);const app=$("#app");
-let S={name:"",res:{},ans:{}};try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||"{}"))}catch(e){}
-const sv=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const LOGIN_URL="https://script.google.com/macros/s/AKfycbzOBbdz92h9WjwxTAmOsyQL4DMsk9qiVTKVzzQIOjtojJBxkCTZ-36c6cQCjcP3CUo_/exec";
+const KEY="dangri_m1yun7_v2";const $=s=>document.querySelector(s);const app=$("#app");
+const LS={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+let U=null;try{U=JSON.parse(LS.get(KEY+"_user")||"null")}catch(e){}
+let S={name:"",res:{},ans:{},cur:""};
+const blank=()=>({name:U?U.name:"",res:{},ans:{},cur:""});
+let dirty=false,tm=null,lastSent="";
+const sv=()=>{if(!U)return;LS.set(KEY+"_"+U.key,JSON.stringify(S));dirty=true;clearTimeout(tm);tm=setTimeout(()=>upload(),3000)};
+async function sha(s){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("stella78:"+s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("").slice(0,24)}catch(e){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return "h"+(h>>>0).toString(16)}}
+const gpost=(url,body,keep)=>fetch(url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),keepalive:!!keep});
+function setSync(x){const e=$("#sync");if(e)e.textContent=x}
+async function upload(keep){if(!U)return;const data=JSON.stringify(S);if(data===lastSent){dirty=false;return}
+ try{const r=await gpost(SAVE_URL,{type:"progressSave",key:"dg_"+U.key,name:U.name+" (당리중 뿌시기)",data},keep);if(!keep){const j=await r.json();if(!j.ok)throw new Error(j.msg)}lastSent=data;dirty=false;setSync("✓ 저장됨 "+new Date().toTimeString().slice(0,5))}
+ catch(e){setSync("저장 대기 중 (인터넷 확인)")}}
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"&&U&&dirty)upload(true)});
+setInterval(()=>{if(U&&dirty)upload()},30000);
+async function download(){const loc=()=>{try{return JSON.parse(LS.get(KEY+"_"+U.key)||"null")}catch(e){return null}};
+ try{const r=await gpost(SAVE_URL,{type:"progressLoad",key:"dg_"+U.key});const j=await r.json();if(!j.ok)throw new Error(j.msg);
+  if(j.data){S=Object.assign(blank(),JSON.parse(j.data));lastSent=j.data}else{S=Object.assign(blank(),loc()||{})}return true}
+ catch(e){S=Object.assign(blank(),loc()||{});return false}}
+function loginView(msg){$("#lo").style.display="none";$("#home").style.display="none";
+ app.innerHTML=`<span class="eye">DANGRI MIDDLE · LESSON 7</span><h1>${esc(CONF.title)}</h1><p class="muted">STELLA 중등 학습관리에서 쓰는 <b>내 로그인 코드</b>를 입력하세요.<br>하다가 멈춰도 다음 날 다시 로그인하면 <b>이어서</b> 할 수 있어요.</p>
+ <div class="card"><input type="text" id="code" maxlength="12" autocomplete="off" autocapitalize="off" placeholder="로그인 코드" style="font-size:20px;text-align:center;letter-spacing:2px"><div style="height:10px"></div><button class="btn" id="go" style="width:100%">입장하기</button><div id="er" style="color:var(--no);font-size:14px;margin-top:8px;text-align:center">${msg?esc(msg):""}</div></div>
+ <p class="muted" style="font-size:13px">코드를 모르면 선생님께 물어보세요.</p><div class="ft">${esc(CONF.brand)}</div>`;
+ $("#go").onclick=doLogin;$("#code").onkeydown=e=>{if(e.key==="Enter")doLogin()}}
+async function doLogin(){const code=$("#code").value.trim();if(!code)return;const b=$("#go");b.disabled=true;b.textContent="확인 중…";$("#er").textContent="";
+ try{const r=await fetch(LOGIN_URL,{method:"POST",body:JSON.stringify({fn:"login",args:[code]})});if(!r.ok)throw new Error("서버 연결 실패 ("+r.status+")");const o=JSON.parse(await r.text());if(o.error)throw new Error(o.error);const d=o.data||{};
+  if(d.role==="parent")throw new Error("학부모 코드로는 들어갈 수 없어요. 학생 코드를 입력하세요.");
+  U={name:d.name||"학생",key:await sha(code)};LS.set(KEY+"_user",JSON.stringify(U));b.textContent="학습 기록 불러오는 중…";
+  const ok=await download();S.name=U.name;home(ok?"":"서버 기록을 불러오지 못해 이 기기 기록으로 시작합니다.")}
+ catch(e){b.disabled=false;b.textContent="입장하기";$("#er").textContent=/Failed to fetch|NetworkError|Load failed/.test(e.message)?"인터넷 연결을 확인하세요.":e.message}}
+async function logout(){if(U){setSync("저장 중…");await upload()}U=null;LS.set(KEY+"_user","null");S=blank();loginView()}
+$("#lo").onclick=logout;
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const C="①②③④⑤";
 const norm=s=>" "+String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/\bi'm\b/g,"i am").replace(/\bit's\b/g,"it is").replace(/\bhe's\b/g,"he is").replace(/\bshe's\b/g,"she is").replace(/\bdon't\b/g,"do not").replace(/\bdoesn't\b/g,"does not").replace(/[^a-z0-9' ]/g," ").replace(/\s+/g," ").trim()+" ";
 const PASS=["Hi, I'm Jim Brown, the director of <i>Happy Days</i>. It's a movie about the friendship between Tom and his dog Max. A lot of people are working hard to create this movie. Do you want to meet some of them? I'm Anna, and I found this beautiful beach. I'm a location manager, and my job is to find perfect places for shooting. Of course, it is not easy, but I love my job. I like to travel and enjoy challenges.","I'm Peter, the director of photography for this movie. I'm in charge of all the cameras. Today, Tom and Max are going to play together with a ball on the beach. To capture their happy moments, I'm going to use drones.","I'm Jennifer. I trained and took care of Max for a long time. Max is a great actor, but he sometimes gets too excited when a lot of people are around. So, I use hand signals to calm him. Who am I? I'm an animal wrangler.","My name is Emma, and I'm a film editor. My work begins after the shooting is over. To create a better story, I can change the order of scenes or delete some of them. Storytelling skills are important for my job, so I read a lot.","I'm Chris, and I'm a Foley artist. I create sound effects in my studio when recording on location is not easy. Listen carefully. Do you hear the sound of waves? I made that sound with rice and a plastic container. Doesn't it sound real?"];
-function home(){$("#home").style.display="none";
+function home(note){$("#home").style.display="none";$("#lo").style.display="";S.cur="";sv();
  const tile=s=>{const r=S.res[s.id];const ic=s.part==="A"?"#8a2240":"#2f6db0";
   return `<button class="tile" data-s="${s.id}"><span class="ic" style="background:${ic}">${s.id}</span><div><b>${esc(s.title)}</b><span>${s.q.length}문항 · ${s.guide.replace(/<[^>]+>/g,"").slice(0,34)}…</span></div><span class="sc ${r&&r.best===r.total?"done":""}">${r?`${r.best===r.total?"✓ ":""}${r.best}/${r.total}`:""}</span></button>`};
  app.innerHTML=`<span class="eye">DANGRI MIDDLE · LESSON 7</span><h1>${esc(CONF.title)}</h1><p class="muted">${esc(CONF.sub)}<br>학교 시험처럼 <b>영작</b>과 <b>영어 질문·영어 답쓰기</b>를 단계별로 연습해요. 결과는 선생님께 저장돼요.</p>
- <div class="card" style="display:flex;gap:10px;align-items:center"><span class="muted" style="white-space:nowrap">이름</span><input type="text" id="nm" maxlength="20" placeholder="이름을 입력하세요" value="${esc(S.name)}"></div>
+ <div class="card" style="display:flex;gap:10px;align-items:center;justify-content:space-between"><span>👋 <b>${esc(U.name)}</b> 학생</span><span class="muted" id="sync" style="font-size:12px">${note?esc(note):(lastSent?"✓ 기록 불러옴":"")}</span></div>
+ ${resumeHTML()}
  <h2><span class="pt">PART A</span>문법 · to부정사 부사적 용법</h2><div class="tiles">${STEPS.filter(s=>s.part==="A").map(tile).join("")}</div>
  <h2><span class="pt" style="background:#2f6db0">PART B</span>본문 · Happy Days 내용 파악</h2><div class="tiles">${STEPS.filter(s=>s.part==="B").map(tile).join("")}</div>
  <div class="ft">${esc(CONF.brand)}</div>`;
- $("#nm").oninput=e=>{S.name=e.target.value.trim();sv()};
- app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{if(!S.name){$("#nm").focus();$("#nm").placeholder="먼저 이름을 입력하세요!";return}step(b.dataset.s)});
+ app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>step(b.dataset.s));
  window.scrollTo(0,0)}
 let cur=null;
-function step(id){const s=STEPS.find(x=>x.id===id);cur={s,graded:{},t0:Date.now(),tries:(S.res[id]?S.res[id].tries||0:0)};
+function step(id){const s=STEPS.find(x=>x.id===id);S.cur=id;sv();cur={s,graded:{},t0:Date.now(),tries:(S.res[id]?S.res[id].tries||0:0)};
  const A=S.ans[id]=S.ans[id]||{};$("#home").style.display="";
  const ty=s.t;
  app.innerHTML=`<span class="eye">PART ${s.part} · ${s.part==="A"?"GRAMMAR":"READING"}</span><h1 style="font-size:24px">${esc(s.title)}</h1>
@@ -195,7 +225,7 @@ function qHTML(s,q,i,v){const n=`<span class="qn">${i+1}.</span>`;let body="";
  if(s.t==="mc")body=`<div class="qt">${n}${q.q}</div><div class="ops g2">${USES.map((u,k)=>`<button class="op ${v===k?"sel":""}" data-k="${k}">${C[k]} ${u}</button>`).join("")}</div>`;
  else if(s.t==="tf")body=`<div class="qt">${n}${q.q}</div><div class="ops g2">${["T (True)","F (False)"].map((u,k)=>`<button class="op ${v===k?"sel":""}" data-k="${k}">${u}</button>`).join("")}</div>`;
  else if(s.t==="mc5")body=`<div class="qt">${n}${q.q}</div><div class="ops">${q.o.map((u,k)=>`<button class="op ${v===k?"sel":""}" data-k="${k}">${C[k]} ${u}</button>`).join("")}</div>`;
- else if(s.t==="sa")body=`<div class="qt">${n}${q.q}</div>${q.st?`<div class="st">→ ${esc(q.st)} ______ 로 시작</div>`:""}<input type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="영어 문장을 쓰세요" value="${esc(v||"")}">`;
+ else if(s.t==="sa")body=`<div class="qt">${n}${q.q}</div>${q.st?`<div class="st">→ ${esc(q.st)} ______ 로 시작</div>`:""}<input type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="문장 전체를 영어로 쓰세요 (주어부터)" value="${esc(v||"")}">`;
  else if(s.t==="en")body=`<div class="qt">${n}${q.q}</div><div class="st">💡 ${esc(q.hint)}</div><input type="text" autocomplete="off" spellcheck="false" placeholder="완전한 영어 문장으로 답하세요" value="${esc(v||"")}">`;
  else if(s.t==="or"){const used=v||[];body=`<div class="qt">${n}${esc(q.q)}</div><div class="built">${used.map(k=>`<button class="chip" data-u="${k}">${esc(q.c[k])}</button>`).join("")}</div><div class="chips">${q.c.map((c,k)=>`<button class="chip ${used.includes(k)?"used":""}" data-k="${k}">${esc(c)}</button>`).join("")}</div>`}
  return `<div class="q" id="q${i}">${body}<div class="fb"></div></div>`}
@@ -225,12 +255,15 @@ function grade(){const s=cur.s,A=S.ans[s.id];let sc=0;const wrong=[];
  window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
  save(s,sc,wrong)}
 function save(s,sc,wrong){const A=S.ans[s.id];
- const body={name:S.name,unit:CONF.unit,day:STEPS.indexOf(s)+1,title:`당리중 뿌시기 ${s.title}`,cat:s.part==="A"?"문법":"본문",attempt:cur.tries>1?`재도전 ${cur.tries}회`:"첫 응시",score:sc,total:s.q.length,
+ const body={name:U?U.name:S.name,unit:CONF.unit,day:STEPS.indexOf(s)+1,title:`당리중 뿌시기 ${s.title}`,cat:s.part==="A"?"문법":"본문",attempt:cur.tries>1?`재도전 ${cur.tries}회`:"첫 응시",score:sc,total:s.q.length,
   wrongNums:wrong.length?wrong.map(n=>n+"번").join(", "):"없음",
   wrongDetail:wrong.map(n=>{const v=A[n-1],q=s.q[n-1];return `${n}번: ${typeof v==="string"?v:Array.isArray(v)?v.map(k=>q.c[k]).join(" "):v!=null?(s.t==="tf"?(v?"F":"T"):C[v]):"무응답"}`}).join(" / ").slice(0,1900),
   minutes:Math.max(1,Math.round((Date.now()-cur.t0)/60000)),timestamp:new Date().toISOString()};
  try{fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),mode:"no-cors"}).then(()=>{const m=$("#svmsg");if(m)m.insertAdjacentHTML("beforeend","✅ 선생님께 결과가 전송됐어요")}).catch(()=>{})}catch(e){}}
-$("#home").onclick=home;home();
+function resumeHTML(){const n=STEPS.find(s=>{const a=S.ans[s.id]||{};const r=S.res[s.id];return Object.keys(a).length&&!(r&&r.best===r.total)});
+ const last=S.last&&STEPS.find(s=>s.id===S.last);const t=n||null;if(!t)return "";const a=Object.keys(S.ans[t.id]||{}).length;
+ return `<button class="btn bur" style="width:100%;margin:6px 0" data-s="${t.id}">▶ 이어서 하기 · ${t.id} ${esc(t.title.replace(/^STEP \d · /,""))} (${a}/${t.q.length} 작성)</button>`}
+$("#home").onclick=home;if(U){download().then(ok=>{S.name=U.name;home(ok?"":"서버 기록을 불러오지 못해 이 기기 기록으로 시작합니다.")});app.innerHTML='<p class="muted" style="text-align:center;margin-top:40px">학습 기록 불러오는 중…</p>'}else loginView();
 </script>
 </body>
 </html>
