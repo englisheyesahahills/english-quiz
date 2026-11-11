@@ -79,39 +79,16 @@ const CONF={title:"중1 당리중학습지 뿌시기",sub:"동아(윤정미) 7�
 const USES=["~하기 위해 (목적)","~해서 (감정의 원인)","~하기에 (형용사 수식)","그 결과 ~하다 (결과)"];
 const STEPS=[
 /* ================= PART A 문법 ================= */
-{id:"A1",part:"A",title:"STEP 1 · 용법 구별하기",guide:"밑줄 친 to부정사의 용법을 고르세요.",t:"mc",
- concept:[["① 목적","~하기 위해","I use hand signals <u>to calm</u> him."],["② 감정의 원인","감정형용사 + to ~ : ~해서","I was happy <u>to meet</u> you."],["③ 형용사 수식","형용사 + to ~ : ~하기에","This book is easy <u>to read</u>."],["④ 결과","grew up / lived + to ~ : 그 결과 ~하다","He grew up <u>to be</u> a doctor."]],
- q:[
- {q:"A lot of people are working hard <u>to create</u> this movie.",a:0},
- {q:"I was happy <u>to meet</u> my favorite actor.",a:1},
- {q:"This question is difficult <u>to answer</u>.",a:2},
- {q:"He grew up <u>to be</u> a famous director.",a:3},
- {q:"<u>To capture</u> their happy moments, I'm going to use drones.",a:0},
- {q:"She was sad <u>to hear</u> the news.",a:1},
- {q:"My grandmother lived <u>to be</u> ninety.",a:3},
- {q:"Korean is not easy <u>to learn</u>.",a:2},
- {q:"So, I use hand signals <u>to calm</u> him.",a:0},
- {q:"We were surprised <u>to see</u> Max on the beach.",a:1}
- ]},
-{id:"A2",part:"A",title:"STEP 2 · 두 문장을 한 문장으로",guide:"to부정사를 사용하여 두 문장을 한 문장으로 쓰세요. <b>문장 전체</b>를 처음부터 끝까지 쓰세요.",t:"sa",
- q:[
- {q:"Jennifer uses hand signals. She wants to calm Max.",a:["Jennifer uses hand signals to calm Max."]},
- {q:"Peter uses drones. He wants to capture their happy moments.",a:["Peter uses drones to capture their happy moments."]},
- {q:"Emma reads a lot. She wants to improve her storytelling skills.",a:["Emma reads a lot to improve her storytelling skills."]},
- {q:"I went to the beach. I wanted to take pictures.",a:["I went to the beach to take pictures."]},
- {q:"Tom was glad. He played with Max on the beach.",a:["Tom was glad to play with Max on the beach."]},
- {q:"Anna was excited. She found the beautiful beach.",a:["Anna was excited to find the beautiful beach."]}
- ]},
-{id:"A3",part:"A",title:"STEP 3 · 우리말에 맞게 배열하기",guide:"우리말에 맞게 주어진 덩어리를 배열하세요.",t:"or",
- q:[
- {q:"그는 자라서 훌륭한 과학자가 되었다.",c:["a great scientist","He","to be","grew up"],a:"He grew up to be a great scientist."},
- {q:"이 영화는 이해하기 어렵다.",c:["to understand","is","This movie","hard"],a:"This movie is hard to understand."},
- {q:"나는 그 소식을 들어서 기뻤다.",c:["the news","glad","I was","to hear"],a:"I was glad to hear the news."},
- {q:"Chris는 파도 소리를 만들기 위해 쌀을 사용했다.",c:["rice","to make","Chris used","the sound of waves"],a:"Chris used rice to make the sound of waves."},
- {q:"더 좋은 이야기를 만들기 위해, 나는 장면의 순서를 바꾼다.",c:["I change","a better story,","the order of scenes","To create"],a:"To create a better story, I change the order of scenes."},
- {q:"그 상자는 옮기기에 무겁다.",c:["heavy","to carry","The box","is"],a:"The box is heavy to carry."}
- ]},
-{id:"A4",part:"A",title:"STEP 4 · 한글 보고 영어로 쓰기",guide:"우리말을 보고 to부정사를 사용하여 <b>영어 문장 전체</b>를 쓰세요. (괄호 속 단어 활용 · 주어부터 마침표까지)",t:"sa",
+{id:"A1",part:"A",title:"STEP 1 · 용법 구별하기",guide:"밑줄 친 to부정사의 용법을 고르세요. (학습지 13문장)",t:"mc",
+ concept:[["① 목적","~하기 위해","We hurried <u>to catch</u> the train."],["② 감정의 원인","감정형용사 + to ~ : ~해서","She was happy <u>to get</u> a gift."],["③ 형용사 수식","형용사 + to ~ : ~하기에","The question is easy <u>to answer</u>."],["④ 결과","grew up / lived + to ~ : 그 결과 ~하다","He grew up <u>to be</u> a great scientist."]],
+ q:[{"q": "We hurried <u>to catch the train</u>.", "a": 0}, {"q": "We went to the library <u>to borrow books</u>.", "a": 0}, {"q": "Suji is studying hard <u>to get a good grade</u>.", "a": 0}, {"q": "Jiho went to a shopping mall <u>to buy a T-shirt</u>.", "a": 0}, {"q": "The police runs <u>to catch the thief</u>.", "a": 0}, {"q": "She went abroad <u>to learn English</u>.", "a": 0}, {"q": "She looked surprised <u>to see the ghost</u>.", "a": 1}, {"q": "She was happy <u>to get a gift</u>.", "a": 1}, {"q": "I was excited <u>to go to the zoo</u>.", "a": 1}, {"q": "I'm glad <u>to meet you</u>.", "a": 1}, {"q": "The question is easy <u>to answer</u>.", "a": 2}, {"q": "Jane's grandmother lived <u>to be a hundred</u>.", "a": 3}, {"q": "He grew up <u>to be a great scientist</u>.", "a": 3}]},
+{id:"A2",part:"A",title:"STEP 2 · to부정사 부분 채우기",guide:"우리말을 보고 빈칸에 알맞은 <b>to부정사 부분</b>을 쓰세요.",t:"fill",
+ q:[{"q": "우리는 기차를 타기 위해 서둘렀다.", "pre": "We hurried", "a": ["to catch the train"]}, {"q": "우리는 책을 빌리기 위해 도서관에 갔다.", "pre": "We went to the library", "a": ["to borrow books"]}, {"q": "수지는 좋은 점수를 받기 위해 열심히 공부하고 있다.", "pre": "Suji is studying hard", "a": ["to get a good grade"]}, {"q": "지호는 티셔츠를 사기 위해 쇼핑몰에 갔다.", "pre": "Jiho went to a shopping mall", "a": ["to buy a T-shirt"]}, {"q": "경찰은 도둑을 잡기 위해 달린다.", "pre": "The police runs", "a": ["to catch the thief"]}, {"q": "그녀는 영어를 배우기 위해 해외로 갔다.", "pre": "She went abroad", "a": ["to learn English"]}, {"q": "그녀는 유령을 보아서 놀라 보였다.", "pre": "She looked surprised", "a": ["to see the ghost"]}, {"q": "그녀는 선물을 받아서 기뻤다.", "pre": "She was happy", "a": ["to get a gift"]}, {"q": "나는 동물원에 가게 되어 신났다.", "pre": "I was excited", "a": ["to go to the zoo"]}, {"q": "나는 너를 만나서 기쁘다.", "pre": "I'm glad", "a": ["to meet you"]}, {"q": "그 질문은 대답하기 쉽다.", "pre": "The question is easy", "a": ["to answer"]}, {"q": "제인의 할머니는 백세까지 사셨다.", "pre": "Jane's grandmother lived", "a": ["to be a hundred", "to be one hundred"]}, {"q": "그는 커서 훌륭한 과학자가 되었다.", "pre": "He grew up", "a": ["to be a great scientist", "to be a scientist"]}]},
+{id:"A3",part:"A",title:"STEP 3 · 우리말에 맞게 배열하기",guide:"우리말에 맞게 주어진 덩어리를 배열하여 문장을 완성하세요.",t:"or",
+ q:[{"q": "우리는 기차를 타기 위해 서둘렀다.", "c": ["to catch", "We", "the train.", "hurried"], "a": "We hurried to catch the train."}, {"q": "우리는 책을 빌리기 위해 도서관에 갔다.", "c": ["to borrow books.", "went", "We", "to the library"], "a": "We went to the library to borrow books."}, {"q": "수지는 좋은 점수를 받기 위해 열심히 공부하고 있다.", "c": ["hard", "Suji is studying", "a good grade.", "to get"], "a": "Suji is studying hard to get a good grade."}, {"q": "지호는 티셔츠를 사기 위해 쇼핑몰에 갔다.", "c": ["to buy", "went to a shopping mall", "a T-shirt.", "Jiho"], "a": "Jiho went to a shopping mall to buy a T-shirt."}, {"q": "경찰은 도둑을 잡기 위해 달린다.", "c": ["the thief.", "runs", "The police", "to catch"], "a": "The police runs to catch the thief."}, {"q": "그녀는 영어를 배우기 위해 해외로 갔다.", "c": ["abroad", "to learn", "She went", "English."], "a": "She went abroad to learn English."}, {"q": "그녀는 유령을 보아서 놀라 보였다.", "c": ["to see", "She looked", "the ghost.", "surprised"], "a": "She looked surprised to see the ghost."}, {"q": "그녀는 선물을 받아서 기뻤다.", "c": ["happy", "a gift.", "She was", "to get"], "a": "She was happy to get a gift."}, {"q": "나는 동물원에 가게 되어 신났다.", "c": ["to go", "excited", "I was", "to the zoo."], "a": "I was excited to go to the zoo."}, {"q": "나는 너를 만나서 기쁘다.", "c": ["to meet", "I'm", "you.", "glad"], "a": "I'm glad to meet you."}, {"q": "그 질문은 대답하기 쉽다.", "c": ["to answer.", "is", "The question", "easy"], "a": "The question is easy to answer."}, {"q": "제인의 할머니는 백세까지 사셨다.", "c": ["lived", "a hundred.", "Jane's grandmother", "to be"], "a": "Jane's grandmother lived to be a hundred."}, {"q": "그는 커서 훌륭한 과학자가 되었다.", "c": ["a great scientist.", "He", "to be", "grew up"], "a": "He grew up to be a great scientist."}]},
+{id:"A4",part:"A",title:"STEP 4 · 한글만 보고 영어 문장 전체 쓰기",guide:"우리말만 보고 to부정사를 사용하여 <b>영어 문장 전체</b>를 쓰세요. (주어부터 마침표까지)",t:"sa",
+ q:[{"q": "우리는 기차를 타기 위해 서둘렀다.", "a": ["We hurried to catch the train."]}, {"q": "우리는 책을 빌리기 위해 도서관에 갔다.", "a": ["We went to the library to borrow books."]}, {"q": "수지는 좋은 점수를 받기 위해 열심히 공부하고 있다.", "a": ["Suji is studying hard to get a good grade."]}, {"q": "지호는 티셔츠를 사기 위해 쇼핑몰에 갔다.", "a": ["Jiho went to a shopping mall to buy a T-shirt."]}, {"q": "경찰은 도둑을 잡기 위해 달린다.", "a": ["The police runs to catch the thief.", "The police run to catch the thief."]}, {"q": "그녀는 영어를 배우기 위해 해외로 갔다.", "a": ["She went abroad to learn English."]}, {"q": "그녀는 유령을 보아서 놀라 보였다.", "a": ["She looked surprised to see the ghost."]}, {"q": "그녀는 선물을 받아서 기뻤다.", "a": ["She was happy to get a gift."]}, {"q": "나는 동물원에 가게 되어 신났다.", "a": ["I was excited to go to the zoo."]}, {"q": "나는 너를 만나서 기쁘다.", "a": ["I'm glad to meet you.", "I am glad to meet you."]}, {"q": "그 질문은 대답하기 쉽다.", "a": ["The question is easy to answer."]}, {"q": "제인의 할머니는 백세까지 사셨다.", "a": ["Jane's grandmother lived to be a hundred.", "Jane's grandmother lived to be one hundred.", "Jane's grandmother lived to be 100."]}, {"q": "그는 커서 훌륭한 과학자가 되었다.", "a": ["He grew up to be a great scientist.", "He grew up to be a scientist."]}]},
+{id:"A5",part:"A",title:"STEP 5 · 교과서 문장으로 응용 영작",guide:"우리말을 보고 to부정사를 사용하여 <b>영어 문장 전체</b>를 쓰세요. (괄호 속 단어 활용 · 주어부터 마침표까지)",t:"sa",
  q:[
  {q:"그녀는 영어를 배우기 위해 해외로 갔다. (abroad)",a:["She went abroad to learn English."]},
  {q:"Jennifer는 Max를 진정시키기 위해 수신호를 사용한다. (hand signals, calm)",a:["Jennifer uses hand signals to calm Max."]},
@@ -162,7 +139,7 @@ const STEPS=[
 
 const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
 const LOGIN_URL="https://script.google.com/macros/s/AKfycbzOBbdz92h9WjwxTAmOsyQL4DMsk9qiVTKVzzQIOjtojJBxkCTZ-36c6cQCjcP3CUo_/exec";
-const KEY="dangri_m1yun7_v2";const $=s=>document.querySelector(s);const app=$("#app");
+const KEY="dangri_m1yun7_v3";const $=s=>document.querySelector(s);const app=$("#app");
 const LS={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
 let U=null;try{U=JSON.parse(LS.get(KEY+"_user")||"null")}catch(e){}
 let S={name:"",res:{},ans:{},cur:""};
@@ -173,12 +150,12 @@ async function sha(s){try{const b=await crypto.subtle.digest("SHA-256",new TextE
 const gpost=(url,body,keep)=>fetch(url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),keepalive:!!keep});
 function setSync(x){const e=$("#sync");if(e)e.textContent=x}
 async function upload(keep){if(!U)return;const data=JSON.stringify(S);if(data===lastSent){dirty=false;return}
- try{const r=await gpost(SAVE_URL,{type:"progressSave",key:"dg_"+U.key,name:U.name+" (당리중 뿌시기)",data},keep);if(!keep){const j=await r.json();if(!j.ok)throw new Error(j.msg)}lastSent=data;dirty=false;setSync("✓ 저장됨 "+new Date().toTimeString().slice(0,5))}
+ try{const r=await gpost(SAVE_URL,{type:"progressSave",key:"dg2_"+U.key,name:U.name+" (당리중 뿌시기)",data},keep);if(!keep){const j=await r.json();if(!j.ok)throw new Error(j.msg)}lastSent=data;dirty=false;setSync("✓ 저장됨 "+new Date().toTimeString().slice(0,5))}
  catch(e){setSync("저장 대기 중 (인터넷 확인)")}}
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="hidden"&&U&&dirty)upload(true)});
 setInterval(()=>{if(U&&dirty)upload()},30000);
 async function download(){const loc=()=>{try{return JSON.parse(LS.get(KEY+"_"+U.key)||"null")}catch(e){return null}};
- try{const r=await gpost(SAVE_URL,{type:"progressLoad",key:"dg_"+U.key});const j=await r.json();if(!j.ok)throw new Error(j.msg);
+ try{const r=await gpost(SAVE_URL,{type:"progressLoad",key:"dg2_"+U.key});const j=await r.json();if(!j.ok)throw new Error(j.msg);
   if(j.data){S=Object.assign(blank(),JSON.parse(j.data));lastSent=j.data}else{S=Object.assign(blank(),loc()||{})}return true}
  catch(e){S=Object.assign(blank(),loc()||{});return false}}
 function loginView(msg){$("#lo").style.display="none";$("#home").style.display="none";
@@ -226,6 +203,7 @@ function qHTML(s,q,i,v){const n=`<span class="qn">${i+1}.</span>`;let body="";
  else if(s.t==="tf")body=`<div class="qt">${n}${q.q}</div><div class="ops g2">${["T (True)","F (False)"].map((u,k)=>`<button class="op ${v===k?"sel":""}" data-k="${k}">${u}</button>`).join("")}</div>`;
  else if(s.t==="mc5")body=`<div class="qt">${n}${q.q}</div><div class="ops">${q.o.map((u,k)=>`<button class="op ${v===k?"sel":""}" data-k="${k}">${C[k]} ${u}</button>`).join("")}</div>`;
  else if(s.t==="sa")body=`<div class="qt">${n}${q.q}</div>${q.st?`<div class="st">→ ${esc(q.st)} ______ 로 시작</div>`:""}<input type="text" autocomplete="off" autocapitalize="sentences" spellcheck="false" placeholder="문장 전체를 영어로 쓰세요 (주어부터)" value="${esc(v||"")}">`;
+ else if(s.t==="fill")body=`<div class="qt">${n}${esc(q.q)}</div><div style="margin-top:6px;font-size:17px">${esc(q.pre)} <b style="color:var(--bur)">______</b> .</div><input type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="to ~ 부분을 쓰세요" value="${esc(v||"")}">`;
  else if(s.t==="en")body=`<div class="qt">${n}${q.q}</div><div class="st">💡 ${esc(q.hint)}</div><input type="text" autocomplete="off" spellcheck="false" placeholder="완전한 영어 문장으로 답하세요" value="${esc(v||"")}">`;
  else if(s.t==="or"){const used=v||[];body=`<div class="qt">${n}${esc(q.q)}</div><div class="built">${used.map(k=>`<button class="chip" data-u="${k}">${esc(q.c[k])}</button>`).join("")}</div><div class="chips">${q.c.map((c,k)=>`<button class="chip ${used.includes(k)?"used":""}" data-k="${k}">${esc(c)}</button>`).join("")}</div>`}
  return `<div class="q" id="q${i}">${body}<div class="fb"></div></div>`}
@@ -237,9 +215,9 @@ function bindQ(s,q,i){const el=$("#q"+i);const A=S.ans[s.id];
 function check(s,q,v){
  if(s.t==="mc"||s.t==="tf"||s.t==="mc5")return v===q.a;
  if(s.t==="or")return Array.isArray(v)&&v.length===q.c.length&&norm(v.map(k=>q.c[k]).join(" "))===norm(q.a);
- if(s.t==="sa")return !!v&&q.a.some(a=>norm(a)===norm(v));
+ if(s.t==="sa"||s.t==="fill")return !!v&&q.a.some(a=>norm(a)===norm(v));
  if(s.t==="en"){if(!v)return false;const n=norm(v);if(n.trim().split(" ").length<3)return false;return q.kw.every(g=>g.some(k=>n.includes(" "+k)||n.includes(k)))}}
-function ansText(s,q){if(s.t==="mc")return `${C[q.a]} ${USES[q.a]}`;if(s.t==="tf")return (q.a?"F":"T")+(q.e?` (→ ${q.e})`:"");if(s.t==="mc5")return `${C[q.a]} ${q.o[q.a]}`;if(s.t==="or")return q.a;if(s.t==="sa")return q.a[0];return q.a}
+function ansText(s,q){if(s.t==="mc")return `${C[q.a]} ${USES[q.a]}`;if(s.t==="tf")return (q.a?"F":"T")+(q.e?` (→ ${q.e})`:"");if(s.t==="mc5")return `${C[q.a]} ${q.o[q.a]}`;if(s.t==="or")return q.a;if(s.t==="sa")return q.a[0];if(s.t==="fill")return `${esc(q.pre)} <u>${q.a[0]}</u>.`;return q.a}
 function grade(){const s=cur.s,A=S.ans[s.id];let sc=0;const wrong=[];
  s.q.forEach((q,i)=>{const ok=check(s,q,A[i]);cur.graded[i]=1;const el=$("#q"+i);el.classList.remove("ok","no");el.classList.add(ok?"ok":"no");
   if(ok)sc++;else wrong.push(i+1);
