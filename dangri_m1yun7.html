@@ -66,6 +66,7 @@ details.pass p{margin:8px 0;font-size:15px}
 .btn.alt{background:var(--card);color:var(--ink);border:1.5px solid var(--line)}
 .btn.bur{background:var(--bur)}
 .res{text-align:center;font-family:var(--display);font-size:26px;color:var(--bur)}
+.pdf{display:block;text-align:center;margin:18px 0 0;padding:12px;border:1.5px dashed var(--bur);border-radius:12px;color:var(--bur);font-weight:700;text-decoration:none}
 .ft{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
 .sv{font-size:12px;color:var(--muted);text-align:center}
 @media (max-width:520px){.cc,.ops.g2{grid-template-columns:1fr}}
@@ -161,7 +162,7 @@ async function download(){const loc=()=>{try{return JSON.parse(LS.get(KEY+"_"+U.
 function loginView(msg){$("#lo").style.display="none";$("#home").style.display="none";
  app.innerHTML=`<span class="eye">DANGRI MIDDLE · LESSON 7</span><h1>${esc(CONF.title)}</h1><p class="muted">STELLA 중등 학습관리에서 쓰는 <b>내 로그인 코드</b>를 입력하세요.<br>하다가 멈춰도 다음 날 다시 로그인하면 <b>이어서</b> 할 수 있어요.</p>
  <div class="card"><input type="text" id="code" maxlength="12" autocomplete="off" autocapitalize="off" placeholder="로그인 코드" style="font-size:20px;text-align:center;letter-spacing:2px"><div style="height:10px"></div><button class="btn" id="go" style="width:100%">입장하기</button><div id="er" style="color:var(--no);font-size:14px;margin-top:8px;text-align:center">${msg?esc(msg):""}</div></div>
- <p class="muted" style="font-size:13px">코드를 모르면 선생님께 물어보세요.</p><div class="ft">${esc(CONF.brand)}</div>`;
+ <p class="muted" style="font-size:13px">코드를 모르면 선생님께 물어보세요.</p><a class="pdf" href="dangri_m1yun7_ws.pdf" target="_blank" rel="noopener">🖨️ 워크시트 PDF 인쇄 (정답 포함)</a><div class="ft">${esc(CONF.brand)}</div>`;
  $("#go").onclick=doLogin;$("#code").onkeydown=e=>{if(e.key==="Enter")doLogin()}}
 async function doLogin(){const code=$("#code").value.trim();if(!code)return;const b=$("#go");b.disabled=true;b.textContent="확인 중…";$("#er").textContent="";
  try{const r=await fetch(LOGIN_URL,{method:"POST",body:JSON.stringify({fn:"login",args:[code]})});if(!r.ok)throw new Error("서버 연결 실패 ("+r.status+")");const o=JSON.parse(await r.text());if(o.error)throw new Error(o.error);const d=o.data||{};
@@ -183,6 +184,7 @@ function home(note){$("#home").style.display="none";$("#lo").style.display="";S.
  ${resumeHTML()}
  <h2><span class="pt">PART A</span>문법 · to부정사 부사적 용법</h2><div class="tiles">${STEPS.filter(s=>s.part==="A").map(tile).join("")}</div>
  <h2><span class="pt" style="background:#2f6db0">PART B</span>본문 · Happy Days 내용 파악</h2><div class="tiles">${STEPS.filter(s=>s.part==="B").map(tile).join("")}</div>
+ <a class="pdf" href="dangri_m1yun7_ws.pdf" target="_blank" rel="noopener">🖨️ 워크시트 PDF 인쇄 (정답 포함)</a>
  <div class="ft">${esc(CONF.brand)}</div>`;
  app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>step(b.dataset.s));
  window.scrollTo(0,0)}
