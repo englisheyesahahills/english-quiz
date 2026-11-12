@@ -176,17 +176,16 @@ async function doLogin(){const code=$("#code").value.trim();if(!code)return;cons
 async function logout(){if(U){setSync("저장 중…");await upload()}U=null;LS.set(KEY+"_user","null");S=blank();loginView()}
 $("#lo").onclick=logout;
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-const C="①②③④⑤";
+const C="①②③④⑤";const PC={A:"#8a2240",B:"#2f6db0",C:"#1f7a5a",D:"#c98a12"};
 const norm=s=>" "+String(s).toLowerCase().replace(/[’‘`]/g,"'").replace(/\bi'm\b/g,"i am").replace(/\bit's\b/g,"it is").replace(/\bhe's\b/g,"he is").replace(/\bshe's\b/g,"she is").replace(/\bdon't\b/g,"do not").replace(/\bdoesn't\b/g,"does not").replace(/\bwasn't\b/g,"was not").replace(/\bisn't\b/g,"is not").replace(/\bdidn't\b/g,"did not").replace(/\bi'll\b/g,"i will").replace(/\bwon't\b/g,"will not").replace(/\bshe'll\b/g,"she will").replace(/\bhe'll\b/g,"he will").replace(/[^a-z0-9' ]/g," ").replace(/\s+/g," ").trim()+" ";
 const PASS=["Hi, I'm Jim Brown, the director of <i>Happy Days</i>. It's a movie about the friendship between Tom and his dog Max. A lot of people are working hard to create this movie. Do you want to meet some of them? I'm Anna, and I found this beautiful beach. I'm a location manager, and my job is to find perfect places for shooting. Of course, it is not easy, but I love my job. I like to travel and enjoy challenges.","I'm Peter, the director of photography for this movie. I'm in charge of all the cameras. Today, Tom and Max are going to play together with a ball on the beach. To capture their happy moments, I'm going to use drones.","I'm Jennifer. I trained and took care of Max for a long time. Max is a great actor, but he sometimes gets too excited when a lot of people are around. So, I use hand signals to calm him. Who am I? I'm an animal wrangler.","My name is Emma, and I'm a film editor. My work begins after the shooting is over. To create a better story, I can change the order of scenes or delete some of them. Storytelling skills are important for my job, so I read a lot.","I'm Chris, and I'm a Foley artist. I create sound effects in my studio when recording on location is not easy. Listen carefully. Do you hear the sound of waves? I made that sound with rice and a plastic container. Doesn't it sound real?"];
 function home(note){$("#home").style.display="none";$("#lo").style.display="";S.cur="";sv();
- const tile=s=>{const r=S.res[s.id];const ic=s.part==="A"?"#8a2240":"#2f6db0";
+ const tile=s=>{const r=S.res[s.id];const ic=PC[s.part];
   return `<button class="tile" data-s="${s.id}"><span class="ic" style="background:${ic}">${s.id}</span><div><b>${esc(s.title)}</b><span>${s.q.length}문항 · ${s.guide.replace(/<[^>]+>/g,"").slice(0,34)}…</span></div><span class="sc ${r&&r.best===r.total?"done":""}">${r?`${r.best===r.total?"✓ ":""}${r.best}/${r.total}`:""}</span></button>`};
  app.innerHTML=`<span class="eye">${CONF.eye}</span><h1>${esc(CONF.title)}</h1><p class="muted">${esc(CONF.sub)}<br>${CONF.intro}</p>
  <div class="card" style="display:flex;gap:10px;align-items:center;justify-content:space-between"><span>👋 <b>${esc(U.name)}</b> 학생</span><span class="muted" id="sync" style="font-size:12px">${note?esc(note):(lastSent?"✓ 기록 불러옴":"")}</span></div>
  ${resumeHTML()}
- <h2><span class="pt">PART A</span>${CONF.parts.A.name}</h2><div class="tiles">${STEPS.filter(s=>s.part==="A").map(tile).join("")}</div>
- <h2><span class="pt" style="background:#2f6db0">PART B</span>${CONF.parts.B.name}</h2><div class="tiles">${STEPS.filter(s=>s.part==="B").map(tile).join("")}</div>
+ ${Object.keys(CONF.parts).map(p=>`<h2><span class="pt" style="background:${PC[p]}">PART ${p}</span>${CONF.parts[p].name}</h2><div class="tiles">${STEPS.filter(s=>s.part===p).map(tile).join("")}</div>`).join("")}
  <a class="pdf" href="${CONF.pdf}" target="_blank" rel="noopener">🖨️ 워크시트 PDF 인쇄 (정답 포함)</a>
  <div class="ft">${esc(CONF.brand)}</div>`;
  app.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>step(b.dataset.s));
