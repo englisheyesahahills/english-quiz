@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>월간 학습 리포트 | 잉글리시아이스텔라</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --navy:#14213E; --navy2:#1F3160; --burgundy:#90394A; --gold:#C9A227; --gold-ink:#8A6A12;
+  --bg:#F4F2EE; --card:#FFFFFF; --ink:#1B2233; --ink2:#4A5263; --muted:#8A93A3; --line:#E7E4DE;
+  --c-word:#2F5BA8; --c-month:#B5862A; --c-speak:#A84458; --c-class:#8A93A3;
+  --up:#1E7F55; --down:#B5483C;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Pretendard,-apple-system,'Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5}
+.wrap{max-width:560px;margin:0 auto;padding-bottom:40px}
+/* header */
+.hero{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:28px 22px 70px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;border:1px solid rgba(201,162,39,.25)}
+.brand{font-size:12px;letter-spacing:.12em;color:var(--gold);font-weight:700}
+.title{font-size:13px;opacity:.75;margin-top:14px}
+.name{font-size:28px;font-weight:800;margin-top:2px;letter-spacing:-.02em}
+.meta{font-size:13px;opacity:.8;margin-top:4px}
+.months{display:flex;gap:8px;overflow-x:auto;margin-top:18px;padding-bottom:2px;scrollbar-width:none}
+.months::-webkit-scrollbar{display:none}
+.mchip{flex:0 0 auto;border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:999px;padding:7px 14px;font:600 13px Pretendard,sans-serif;cursor:pointer}
+.mchip.on{background:var(--gold);border-color:var(--gold);color:var(--navy)}
+.main{padding:0 14px;margin-top:-52px;position:relative;z-index:1}
+.card{background:var(--card);border-radius:18px;padding:20px;margin-bottom:12px;box-shadow:0 1px 2px rgba(20,33,62,.06),0 6px 20px rgba(20,33,62,.05)}
+.card h2{font-size:15px;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card h2 .sub{margin-left:auto;font-size:12px;font-weight:500;color:var(--muted)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+/* overall */
+.overall{display:flex;align-items:center;gap:18px}
+.ring{position:relative;width:118px;height:118px;flex:0 0 auto}
+.ring .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .num{font-size:30px;font-weight:800;color:var(--navy);letter-spacing:-.03em}
+.ring .num small{font-size:14px;font-weight:700}
+.ring .lbl{font-size:11px;color:var(--muted);margin-top:-2px}
+.ov-text .badge{display:inline-block;background:#FBF4DE;color:var(--gold-ink);font-weight:800;font-size:12px;padding:4px 10px;border-radius:999px}
+.ov-text p{font-size:14px;color:var(--ink2);margin-top:8px}
+.ov-text b{color:var(--ink)}
+.delta{font-weight:700;font-size:12px;white-space:nowrap}
+.delta.up{color:var(--up)} .delta.down{color:var(--down)} .delta.flat{color:var(--muted)}
+/* kpi */
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.kpi{background:var(--card);border-radius:16px;padding:14px 12px;box-shadow:0 1px 2px rgba(20,33,62,.06)}
+.kpi .k{font-size:12px;color:var(--ink2);font-weight:600;display:flex;align-items:center;gap:6px}
+.kpi .v{font-size:22px;font-weight:800;color:var(--ink);margin-top:6px;letter-spacing:-.02em}
+.kpi .v small{font-size:12px;font-weight:600;color:var(--muted)}
+.kpi .cmp{font-size:11px;color:var(--muted);margin-top:4px}
+.kpi.na .v{color:var(--muted);font-size:15px;font-weight:600}
+.mini{height:5px;background:#EEECE7;border-radius:3px;margin-top:8px;position:relative}
+.mini i{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.mini em{position:absolute;top:-3px;width:2px;height:11px;background:var(--ink2);border-radius:1px}
+/* highlights */
+.hl li{list-style:none;display:flex;gap:10px;font-size:14px;color:var(--ink2);padding:8px 0;border-top:1px solid var(--line)}
+.hl li:first-child{border-top:0;padding-top:0}
+.hl .ic{flex:0 0 22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px}
+.hl .ic.s{background:#FBF4DE;color:var(--gold-ink)} .hl .ic.g{background:#EEF2FA;color:var(--c-word)}
+.hl .sect{font-size:12px;font-weight:700;color:var(--muted);margin:12px 0 6px}
+/* stats row */
+.stats{display:flex;gap:8px;margin-bottom:14px}
+.stat{flex:1;background:#F8F7F4;border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:18px;font-weight:800;color:var(--ink)}
+.stat span{font-size:11px;color:var(--muted)}
+.legend{display:flex;gap:14px;font-size:12px;color:var(--ink2);margin-top:8px;flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:6px}
+.sw{width:14px;height:3px;border-radius:2px;display:inline-block}
+.sw.dash{background:repeating-linear-gradient(90deg,var(--c-class) 0 4px,transparent 4px 7px)}
+svg text{font-family:Pretendard,sans-serif}
+/* speaking list */
+.areas{margin-top:10px}
+.area{display:flex;align-items:center;gap:10px;padding:7px 0;font-size:13px;border-top:1px solid var(--line)}
+.area:first-child{border-top:0}
+.area .an{width:72px;color:var(--ink2);font-weight:600}
+.pips{display:flex;gap:4px;flex:1}
+.pip{flex:1;height:8px;border-radius:4px;background:#EEECE7}
+.pip.on{background:var(--c-speak)}
+.area .as{width:46px;text-align:right;font-weight:700}
+/* monthly items */
+.mitem{padding:10px 0;border-top:1px solid var(--line)}
+.mitem:first-child{border-top:0;padding-top:0}
+.mitem .row{display:flex;justify-content:space-between;font-size:14px}
+.mitem .row{gap:10px}.mitem .row b{font-weight:800;white-space:nowrap;flex:0 0 auto}
+.mitem .unit{font-size:12px;color:var(--muted)}
+.bar{height:10px;background:#EEECE7;border-radius:5px;margin-top:8px;position:relative;overflow:visible}
+.bar i{position:absolute;left:0;top:0;bottom:0;background:var(--c-month);border-radius:5px}
+.bar em{position:absolute;top:-4px;width:2px;height:18px;background:var(--ink2)}
+/* exam review */
+.units{margin-top:12px;background:#F8F7F4;border-radius:12px;padding:10px 12px}
+.units .ut{font-size:12px;font-weight:700;color:var(--ink2);margin-bottom:4px}
+.urow{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:4px 0}
+.urow .un{flex:0 0 42%;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.urow .ub{flex:1;height:7px;background:#E7E4DE;border-radius:4px;position:relative}
+.urow .ub i{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:var(--c-month)}
+.urow .uv{flex:0 0 40px;text-align:right;font-weight:700}
+.review{margin-top:14px;border-top:1px dashed var(--line);padding-top:14px}
+.rv-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.rv-head b{font-size:14px;color:var(--navy)}
+.pill{font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px}
+.pill.ok{background:#E7F4EE;color:var(--up)} .pill.ng{background:#FBECEA;color:var(--down)}
+.seg{display:flex;background:#F1EFEA;border-radius:999px;padding:3px;margin:10px 0 4px}
+.seg button{flex:1;border:0;background:transparent;border-radius:999px;padding:7px 0;font:600 12.5px Pretendard,sans-serif;color:var(--ink2);cursor:pointer}
+.seg button.on{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.qs.only-wrong .q.ok{display:none}
+.q{border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:10px}
+.q.ng{border-color:#EBC3BD;background:#FFFCFB}
+.q .qh{display:flex;align-items:center;gap:8px;font-size:13px}
+.q .qn{font-weight:800;color:var(--navy)}
+.q .mk{font-weight:800} .q.ng .mk{color:var(--down)} .q.ok .mk{color:var(--up)}
+.q .tag{margin-left:auto;font-size:11px;color:var(--muted);background:#F4F2EE;border-radius:6px;padding:2px 7px}
+.q .qt{font-size:14px;margin-top:8px;white-space:pre-wrap;line-height:1.6}
+.q details{margin-top:8px} .q summary{font-size:12px;color:var(--c-word);cursor:pointer;font-weight:600}
+.q .psg{font-size:13px;color:var(--ink2);background:#F8F7F4;border-radius:10px;padding:10px 12px;margin-top:6px;white-space:pre-wrap;line-height:1.7}
+.q ol{list-style:none;margin-top:8px}
+.q li{font-size:13.5px;padding:5px 8px;border-radius:8px;display:flex;gap:6px}
+.q li.ans{background:#E7F4EE;color:#145A3C;font-weight:700}
+.q .exp{margin-top:10px;font-size:13px;background:#FBF4DE;border-radius:10px;padding:10px 12px;line-height:1.7;color:#4A3A0B}
+.q .exp b{color:var(--gold-ink)}
+.q .ansline{font-size:13px;margin-top:8px;color:#145A3C;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:10px}
+.cell{border-radius:10px;text-align:center;padding:6px 0;font-size:12px;background:#F4F2EE}
+.cell b{display:block;font-size:13px}
+.cell.ng{background:#FBECEA;color:var(--down)} .cell.ok{background:#E7F4EE;color:var(--up)}
+.pdfbtn{display:inline-block;margin-top:12px;font-size:13px;font-weight:700;color:var(--navy);border:1px solid var(--line);border-radius:999px;padding:8px 14px;text-decoration:none}
+@media print{.seg{display:none}body:not(.print-review) .qs.only-wrong .q.ok{display:block}.q{break-inside:avoid}}
+.prow{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.prow button{flex:1;min-width:140px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 10px;font:700 12.5px Pretendard,sans-serif;color:var(--navy);cursor:pointer}
+.print-head{display:none}
+.q li .ansmark{margin-left:auto}
+@media print{
+  body.print-review .wrap > *:not(.main), body.print-review .main > *:not(.print-target-card){display:none!important}
+  body.print-review .print-target-card .mitem:not(.print-target){display:none!important}
+  body.print-review .print-target-card > h2{display:none!important}
+  body.print-review .print-target > *:not(.review){display:none!important}
+  body.print-review .print-target .review{border:0;margin:0;padding:0}
+  body.print-review .print-head{display:block;border-bottom:2px solid #14213E;padding-bottom:8px;margin-bottom:6px}
+  .print-head .ph1{font-size:11px;letter-spacing:.1em;color:#8A6A12;font-weight:700}
+  .print-head .ph2{font-size:18px;font-weight:800;color:#14213E}
+  .print-head .ph3{font-size:12px;color:#4A5263}
+  body.print-review .rv-head,body.print-review .prow,body.print-review .pdfbtn,body.print-review .seg,body.print-review .demo{display:none!important}
+  body.print-review .card{box-shadow:none;border:0;padding:0}
+  body.print-review .main{margin:0;padding:0}
+  body.print-review .q{break-inside:avoid;background:#fff!important;padding:10px 12px;margin-top:8px;border-radius:8px}
+  body.print-review .q li{padding:2px 6px;font-size:12.5px}
+  body.print-review .q .qt{font-size:13px;margin-top:4px}
+  body.print-review .q .exp{padding:6px 10px;margin-top:6px;font-size:12px}
+  body.print-review .q .psg{font-size:12px;padding:8px 10px}
+  body.print-review details > summary{display:none}
+  body.print-review .q .qn::after{content:"";}
+  body.print-noans .exp, body.print-noans .ansline, body.print-noans .ansmark, body.print-noans .q .mk{display:none!important}
+  body.print-noans .q li.ans{background:none!important;color:inherit!important;font-weight:400!important}
+  body.print-noans .q::after{content:"내 답: ____________";display:block;margin-top:6px;color:#4A5263;font-size:12px}
+  body.print-noans .q.ng{border-color:#E7E4DE!important}
+  body.print-noans .t-rev{display:none} body:not(.print-noans) .t-redo{display:none}
+}
+/* comment */
+.comment{border-left:4px solid var(--burgundy);background:#FBF7F8}
+.comment p{font-size:14.5px;color:var(--ink);white-space:pre-wrap;line-height:1.75}
+.sign{text-align:right;font-size:12px;color:var(--muted);margin-top:12px}
+.empty{font-size:13px;color:var(--muted);text-align:center;padding:10px 0}
+.foot{text-align:center;font-size:12px;color:var(--muted);padding:18px 20px 0;line-height:1.7}
+.foot .b{color:var(--navy);font-weight:800;letter-spacing:.08em}
+.btn{display:inline-block;margin-top:12px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 16px;font:600 13px Pretendard,sans-serif;color:var(--ink2);cursor:pointer}
+.state{padding:80px 24px;text-align:center;color:var(--ink2)}
+.state .big{font-size:40px}
+.state h3{font-size:17px;color:var(--navy);margin:12px 0 6px}
+.state p{font-size:14px}
+.spinner{width:36px;height:36px;border:3px solid var(--line);border-top-color:var(--navy);border-radius:50%;margin:0 auto;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+#tip{position:fixed;pointer-events:none;background:var(--navy);color:#fff;font-size:12px;padding:6px 10px;border-radius:8px;opacity:0;transition:opacity .12s;z-index:50;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.demo{background:var(--gold);color:var(--navy);text-align:center;font-size:12px;font-weight:700;padding:6px}
+@media print{
+  body{background:#fff} .card,.kpi{box-shadow:none;border:1px solid var(--line);break-inside:avoid}
+  .months,.btn,.demo{display:none} .hero{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<div id="app"><div class="state"><div class="spinner"></div><p style="margin-top:16px">리포트를 불러오는 중입니다…</p></div></div>
+<div id="tip"></div>
+
+<script>
+// ▼ Apps Script 웹앱 배포 URL을 여기에 붙여넣으세요
+const API_URL = 'https://script.google.com/macros/s/AKfycby5iT3REE8b0heXE_MY8cqwE99jB_6jvqOsmnTgcCfipk4pba73ayEjrqNIqGfK5Pc/exec';
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = v => v == null ? '–' : (Math.round(v * 10) / 10).toString();
+const monthLabel = m => { const [y, mo] = m.split('-'); return y + '년 ' + (+mo) + '월'; };
+const shortMonth = m => (+m.split('-')[1]) + '월';
+const params = new URLSearchParams(location.search);
+let STATE = null;
+
+// ---------- 데이터 로드 ----------
+async function load() {
+  const id = params.get('id');
+  // 데모 주소이거나 Apps Script URL을 아직 안 넣었으면 샘플 화면 표시
+  if (params.get('demo') !== null || API_URL.indexOf('PASTE_') === 0) {
+    const d = demoData();
+    if (params.has('noavg')) d.reports.forEach(r => delete r.classAvg);
+    return render(d, true);
+  }
+  if (!id) return showState('🔗', '링크를 다시 확인해 주세요', '학원에서 보내드린 전용 링크로 접속해 주세요.');
+  try {
+    let data;
+    try {
+      const r = await fetch(API_URL + '?id=' + encodeURIComponent(id));
+      data = await r.json();
+    } catch (e) { data = await jsonp(API_URL + '?id=' + encodeURIComponent(id)); }
+    if (!data.ok) return showState('🔗', '리포트를 찾을 수 없습니다', '링크가 정확한지 확인하시거나 학원으로 문의해 주세요.');
+    if (!data.reports.length) return showState('📮', data.student.name + ' 학생의 리포트를 준비 중입니다', '리포트가 발행되면 이 링크에서 바로 확인하실 수 있어요.');
+    render(data, false);
+  } catch (e) {
+    showState('⚠️', '잠시 후 다시 시도해 주세요', '네트워크 상태를 확인하신 뒤 새로고침 해주세요.');
+  }
+}
+function jsonp(url) {
+  return new Promise((res, rej) => {
+    const cb = 'cb' + Date.now(); const s = document.createElement('script');
+    window[cb] = d => { res(d); delete window[cb]; s.remove(); };
+    s.onerror = rej; s.src = url + '&callback=' + cb; document.body.appendChild(s);
+  });
+}
+function showState(icon, h, p) {
+  $('#app').innerHTML = `<div class="wrap"><div class="hero" style="padding-bottom:28px"><div class="brand">ENGLISH EYE STELLA</div><div class="name" style="font-size:20px;margin-top:10px">월간 학습 리포트</div></div><div class="state"><div class="big">${icon}</div><h3>${esc(h)}</h3><p>${esc(p)}</p></div></div>`;
+}
+
+// ---------- 렌더 ----------
+function render(data, demo, monthIdx) {
+  STATE = { data, demo };
+  const reps = data.reports;
+  const i = monthIdx == null ? reps.length - 1 : monthIdx;
+  const r = reps[i], prev = reps[i - 1] || null, ca = r.classAvg || {};
+  const st = data.student;
+  document.title = st.name + ' ' + monthLabel(r.month) + ' 학습 리포트';
+
+  const chips = reps.map((x, k) => `<button class="mchip ${k === i ? 'on' : ''}" onclick="render(STATE.data, STATE.demo, ${k})">${shortMonth(x.month)}${x.month.slice(0,4) !== r.month.slice(0,4) ? ' (' + x.month.slice(2,4) + ')' : ''}</button>`).join('');
+
+  $('#app').innerHTML = `
+  ${demo ? '<div class="demo">미리보기(샘플 데이터) 화면입니다</div>' : ''}
+  <div class="wrap">
+    <div class="hero">
+      <div class="brand">ENGLISH EYE STELLA · MONTHLY REPORT</div>
+      <div class="title">${monthLabel(r.month)} 월간 학습 리포트</div>
+      <div class="name">${esc(st.name)}</div>
+      <div class="meta">${esc(st.cls || '')}</div>
+      <div class="months">${chips}</div>
+    </div>
+    <div class="main">
+      ${overallCard(r, prev, ca)}
+      ${kpis(r, prev, ca)}
+      ${highlightCard(r)}
+      ${wordCard(r, ca)}
+      ${speakCard(r, ca)}
+      ${monthlyCard(r, ca)}
+      ${trendCard(reps.slice(0, i + 1))}
+      ${r.comment ? `<div class="card comment"><h2>💌 선생님 코멘트</h2><p>${esc(r.comment)}</p><div class="sign">${esc(data.academy || '잉글리시아이스텔라 영어전문')} 드림</div></div>` : ''}
+      <div class="foot">
+        <div class="b">ENGLISH EYE STELLA</div>
+        ${esc(data.academy || '잉글리시아이스텔라 영어전문')} · 사하힐스점<br>
+        매달 리포트가 이 링크에 업데이트됩니다. 즐겨찾기 해두세요 ⭐<br>
+        <button class="btn" onclick="window.print()">🖨️ PDF로 저장 / 인쇄</button>
+      </div>
+    </div>
+  </div>`;
+  bindTips();
+  window.scrollTo({ top: 0 });
+}
+
+function delta(cur, prv, unit) {
+  if (cur == null || prv == null) return '';
+  const d = Math.round((cur - prv) * 10) / 10;
+  if (Math.abs(d) < 0.1) return `<span class="delta flat">전월과 동일</span>`;
+  return `<span class="delta ${d > 0 ? 'up' : 'down'}">${d > 0 ? '▲' : '▼'} ${Math.abs(d)}${unit || '%p'}</span>`;
+}
+function grade(v) {
+  if (v >= 95) return 'Outstanding 🏆'; if (v >= 90) return 'Excellent ✨';
+  if (v >= 80) return 'Great 👍'; if (v >= 70) return 'Good 🌱'; return 'Growing 🌱';
+}
+
+function overallCard(r, prev, ca) {
+  const v = r.overall || 0, R = 50, C = 2 * Math.PI * R, off = C * (1 - Math.min(v, 100) / 100);
+  const parts = [r.words && '단어', r.monthly && '월말평가', r.speaking && '스피킹'].filter(Boolean).join('·');
+  return `<div class="card"><div class="overall">
+    <div class="ring"><svg viewBox="0 0 118 118" width="118" height="118" role="img" aria-label="종합 성취도 ${fmt(v)}%">
+      <circle cx="59" cy="59" r="${R}" fill="none" stroke="#EEECE7" stroke-width="10"/>
+      <circle cx="59" cy="59" r="${R}" fill="none" stroke="url(#g)" stroke-width="10" stroke-linecap="round"
+        stroke-dasharray="${C}" stroke-dashoffset="${off}" transform="rotate(-90 59 59)"/>
+      <defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#C9A227"/><stop offset="1" stop-color="#90394A"/></linearGradient></defs>
+    </svg><div class="val"><div class="num">${fmt(v)}<small>%</small></div><div class="lbl">종합 성취도</div></div></div>
+    <div class="ov-text"><span class="badge">${grade(v)}</span>
+      <p>${parts} 평가를 종합한 이번 달 성취도입니다.</p>
+      <p>${[ca.overall != null ? `반 평균 <b>${fmt(ca.overall)}%</b>` : '', prev ? '지난달 대비 ' + delta(v, prev.overall) : ''].filter(Boolean).join(' · ')}</p>
+    </div></div></div>`;
+}
+
+function kpiBox(label, color, val, unit, cmpVal, prv, pctForBar, classPct) {
+  if (val == null) return `<div class="kpi na"><div class="k"><i class="dot" style="background:${color}"></i>${label}</div><div class="v">미응시</div></div>`;
+  return `<div class="kpi"><div class="k"><i class="dot" style="background:${color}"></i>${label}</div>
+    <div class="v">${fmt(val)}<small>${unit}</small></div>
+    <div class="mini" data-tip="${label} ${fmt(pctForBar)}%${classPct != null ? ' · 반 평균 ' + fmt(classPct) + '%' : ''}"><i style="width:${pctForBar}%;background:${color}"></i>${classPct != null ? `<em style="left:calc(${classPct}% - 1px)"></em>` : ''}</div>
+    <div class="cmp">${cmpVal != null ? '반 평균 ' + fmt(cmpVal) + unit : ''}</div>
+    ${prv != null ? `<div class="cmp">${delta(val, prv, unit === '%' ? '%p' : '점')}</div>` : ''}</div>`;
+}
+function kpis(r, prev, ca) {
+  const sp = r.speaking, spCls = ca.speaking != null && sp ? ca.speaking * sp.max / 100 : null;
+  return `<div class="kpis">
+    ${kpiBox('단어', 'var(--c-word)', r.words && r.words.avg, '%', ca.words, prev && prev.words && prev.words.avg, r.words && r.words.avg, ca.words)}
+    ${kpiBox('월말평가', 'var(--c-month)', r.monthly && r.monthly.pct, '%', ca.monthly, prev && prev.monthly && prev.monthly.pct, r.monthly && r.monthly.pct, ca.monthly)}
+    ${kpiBox('스피킹', 'var(--c-speak)', sp && sp.total, '/' + (sp ? sp.max : 25), spCls != null ? Math.round(spCls * 10) / 10 : null, prev && prev.speaking && prev.speaking.total, sp && sp.pct, ca.speaking)}
+  </div>`;
+}
+
+function highlightCard(r) {
+  const h = r.highlights || {}, s = h.strengths || [], g = h.goals || [];
+  if (!s.length && !g.length) return '';
+  return `<div class="card hl"><h2>🌟 이번 달 하이라이트</h2><ul>
+    ${s.map(x => `<li><span class="ic s">★</span><span>${esc(x)}</span></li>`).join('')}
+    </ul>${g.length ? `<div class="sect">다음 달 목표</div><ul>${g.map(x => `<li><span class="ic g">➜</span><span>${esc(x)}</span></li>`).join('')}</ul>` : ''}</div>`;
+}
+
+function wordCard(r, ca) {
+  const w = r.words;
+  if (!w) return '';
+  const days = w.daily, W = 520, H = 190, pl = 36, pr = 8, pt = 10, pb = 30;
+  const iw = W - pl - pr, ih = H - pt - pb, n = days.length;
+  const slot = iw / n, bw = Math.max(4, Math.min(22, slot - 2));
+  const y = v => pt + ih * (1 - v / 100);
+  let g = '';
+  [0, 50, 100].forEach(t => g += `<line x1="${pl}" x2="${W - pr}" y1="${y(t)}" y2="${y(t)}" stroke="#EEECE7"/><text x="${pl - 6}" y="${y(t) + 4}" font-size="14" fill="#8A93A3" text-anchor="end">${t}</text>`);
+  const step = Math.ceil(n / 6);
+  days.forEach((d, k) => {
+    const x = pl + slot * k + (slot - bw) / 2, h = Math.max(2, ih * d.p / 100);
+    const yy = pt + ih - h, rr = Math.min(4, bw / 2);
+    g += `<path d="M${x},${pt + ih} V${yy + rr} Q${x},${yy} ${x + rr},${yy} H${x + bw - rr} Q${x + bw},${yy} ${x + bw},${yy + rr} V${pt + ih} Z" fill="var(--c-word)" opacity="${d.p >= 100 ? 1 : .78}"/>`;
+    g += `<rect x="${pl + slot * k}" y="${pt}" width="${slot}" height="${ih}" fill="transparent" data-tip="${esc(d.d ? (+d.d.slice(5,7)) + '/' + (+d.d.slice(8)) : '')} · ${d.c}/${d.t}개 (${fmt(d.p)}%)"/>`;
+    if (k % step === 0 && d.d) g += `<text x="${pl + slot * k + slot / 2}" y="${H - 8}" font-size="14" fill="#8A93A3" text-anchor="middle">${+d.d.slice(5,7)}/${+d.d.slice(8)}</text>`;
+  });
+  if (ca.words != null) g += `<line x1="${pl}" x2="${W - pr}" y1="${y(ca.words)}" y2="${y(ca.words)}" stroke="var(--c-class)" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  return `<div class="card"><h2><i class="dot" style="background:var(--c-word)"></i>단어 시험<span class="sub">매 수업 단어 테스트</span></h2>
+    <div class="stats"><div class="stat"><b>${fmt(w.avg)}%</b><span>평균 정답률</span></div><div class="stat"><b>${w.perfect}회</b><span>만점</span></div></div>
+    <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="날짜별 단어시험 정답률">${g}</svg>
+    <div class="legend"><span><i class="sw" style="background:var(--c-word)"></i>${esc(STATE.data.student.name)} 정답률</span>${ca.words != null ? '<span><i class="sw dash"></i>반 평균</span>' : ''}</div>
+  </div>`;
+}
+
+function speakCard(r, ca) {
+  const s = r.speaking;
+  if (!s) return '';
+  const A = s.areas, n = A.length, cx = 160, cy = 128, R = 82, max = 5;
+  const pt = (k, v) => { const a = -Math.PI / 2 + 2 * Math.PI * k / n; return [cx + Math.cos(a) * R * v / max, cy + Math.sin(a) * R * v / max]; };
+  let g = '';
+  [1, 2, 3, 4, 5].forEach(l => g += `<polygon points="${A.map((_, k) => pt(k, l).join(',')).join(' ')}" fill="none" stroke="#E7E4DE"/>`);
+  A.forEach((a, k) => {
+    const [x, y] = pt(k, max), [lx, ly] = pt(k, max + 1.1);
+    const anc = Math.abs(lx - cx) < 8 ? 'middle' : (lx > cx ? 'start' : 'end');
+    const dy = ly < cy - R * 0.9 ? -2 : (ly > cy + R * 0.5 ? 12 : 5);
+    g += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="#E7E4DE"/>`;
+    g += `<text x="${lx + (anc === 'start' ? 4 : anc === 'end' ? -4 : 0)}" y="${ly + dy}" font-size="12.5" fill="#4A5263" text-anchor="${anc}" font-weight="600">${esc(a.label)}</text>`;
+  });
+  const sa = ca.speakAreas || {};
+  if (Object.keys(sa).length) g += `<polygon points="${A.map((a, k) => pt(k, sa[a.key] || 0).join(',')).join(' ')}" fill="none" stroke="var(--c-class)" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  g += `<polygon points="${A.map((a, k) => pt(k, a.v).join(',')).join(' ')}" fill="rgba(168,68,88,.16)" stroke="var(--c-speak)" stroke-width="2"/>`;
+  A.forEach((a, k) => { const [x, y] = pt(k, a.v); g += `<circle cx="${x}" cy="${y}" r="4.5" fill="var(--c-speak)" stroke="#fff" stroke-width="2"/><circle cx="${x}" cy="${y}" r="14" fill="transparent" data-tip="${esc(a.label)} ${a.v}/5${sa[a.key] != null ? ' · 반 평균 ' + sa[a.key] : ''}"/>`; });
+  return `<div class="card"><h2><i class="dot" style="background:var(--c-speak)"></i>스피킹 평가<span class="sub">${s.date ? (+s.date.slice(5,7)) + '/' + (+s.date.slice(8)) + ' 평가' : ''}</span></h2>
+    <div class="stats"><div class="stat"><b>${s.total}/${s.max}</b><span>총점</span></div><div class="stat"><b>${fmt(s.pct)}%</b><span>달성률</span></div></div>
+    <svg viewBox="0 0 320 256" width="100%" style="max-width:380px;display:block;margin:0 auto" role="img" aria-label="스피킹 영역별 점수">${g}</svg>
+    <div class="legend" style="justify-content:center"><span><i class="sw" style="background:var(--c-speak)"></i>${esc(STATE.data.student.name)}</span>${Object.keys(sa).length ? '<span><i class="sw dash"></i>반 평균</span>' : ''}</div>
+    <div class="areas">${A.map(a => `<div class="area"><span class="an">${esc(a.label)}</span><span class="pips">${[1,2,3,4,5].map(p => `<i class="pip ${p <= a.v ? 'on' : ''}"></i>`).join('')}</span><span class="as">${a.v} / 5</span></div>`).join('')}</div>
+  </div>`;
+}
+
+function monthlyCard(r, ca) {
+  const m = r.monthly;
+  if (!m) return '';
+  return `<div class="card"><h2><i class="dot" style="background:var(--c-month)"></i>월말평가<span class="sub">이번 달 학습 성취도</span></h2>
+    ${m.items.map((it, k) => `<div class="mitem"><div class="row"><span>${esc(it.examTitle || it.unit || it.name)}${it.unit && it.examTitle && it.unit !== it.examTitle ? ' <span class="unit">· ' + esc(it.unit) + '</span>' : ''}</span><b>${it.c} / ${it.t}</b></div>
+      <div class="bar" data-tip="정답률 ${fmt(it.p)}%${ca.monthly != null ? ' · 반 평균 ' + fmt(ca.monthly) + '%' : ''}"><i style="width:${it.p}%"></i>${ca.monthly != null ? `<em style="left:calc(${ca.monthly}% - 1px)"></em>` : ''}</div>
+      <div class="unit" style="margin-top:6px">정답률 ${fmt(it.p)}%${ca.monthly != null ? ' · 반 평균 ' + fmt(ca.monthly) + '%' : ''}</div>
+      ${unitBlock(it)}${reviewBlock(it, r.month + '-' + k)}</div>`).join('')}
+  </div>`;
+}
+
+function unitBlock(it) {
+  const u = it.unitStats;
+  if (!u || !u.length) return '';
+  return `<div class="units"><div class="ut">단원별 정답률</div>${u.map(x => {
+    const p = Math.round(x.c / x.t * 100);
+    return `<div class="urow"><span class="un">${esc(x.unit)}</span><span class="ub"><i style="width:${p}%"></i></span><span class="uv">${x.c}/${x.t}</span></div>`;
+  }).join('')}</div>`;
+}
+
+const CIRC = ['①','②','③','④','⑤','⑥'];
+function reviewBlock(it, key) {
+  const ex = it.examId && STATE.data.exams ? STATE.data.exams[it.examId] : null;
+  if (!ex || !it.wrong) return '';
+  const wrong = {}; it.wrong.forEach(n => wrong[n] = 1);
+  const total = it.t || ex.total || (ex.questions ? ex.questions.length : ex.answers.length);
+  const nWrong = it.wrong.length, nOk = total - nWrong;
+  const ansTxt = a => typeof a === 'number' ? (CIRC[a - 1] || a) : esc(a);
+  let body;
+  if (ex.questions && ex.questions.length) {
+    body = ex.questions.map(q => {
+      const ng = !!wrong[q.no];
+      const psg = q.passage ? ((ex.passages || {})[q.passage] || q.passage) : '';
+      const choices = q.choices && q.choices.length
+        ? `<ol>${q.choices.map((c, i) => `<li class="${q.answer === i + 1 ? 'ans' : ''}"><span>${CIRC[i] || i + 1}</span><span>${esc(c)}</span>${q.answer === i + 1 ? '<span class="ansmark">정답</span>' : ''}</li>`).join('')}</ol>`
+        : `<div class="ansline">정답: ${ansTxt(q.answer)}</div>`;
+      const inner = `${psg ? `<details><summary>지문 보기</summary><div class="psg">${esc(psg)}</div></details>` : ''}
+        ${q.q ? `<div class="qt">${esc(q.q)}</div>` : ''}${choices}
+        ${q.exp ? `<div class="exp"><b>💡 해설</b><br>${esc(q.exp)}</div>` : ''}`;
+      return `<div class="q ${ng ? 'ng' : 'ok'}"><div class="qh"><span class="qn">${q.no}번</span><span class="mk">${ng ? '✗ 다시 확인' : '✓ 정답'}</span>${q.unit ? `<span class="tag">${esc(q.unit)}</span>` : ''}</div>
+        ${ng ? inner : `<details><summary>문제·해설 보기</summary>${inner}</details>`}</div>`;
+    }).join('');
+  } else {
+    body = `<div class="grid">${Array.from({ length: total }, (_, i) => {
+      const n = i + 1, ng = !!wrong[n];
+      return `<div class="cell ${ng ? 'ng' : 'ok'}"><b>${n}</b>${ng ? '✗' : '✓'} ${ex.answers[i] != null ? ansTxt(ex.answers[i]) : ''}</div>`;
+    }).join('')}</div><div class="unit" style="margin-top:8px">칸 안의 동그라미 숫자는 정답 번호입니다.</div>`;
+  }
+  const st = STATE.data.student;
+  return `<div class="review" id="rv-${key}"><div class="print-head"><div class="ph1">ENGLISH EYE STELLA · 잉글리시아이스텔라 영어전문</div>
+      <div class="ph2">${esc(ex.title || it.name)} — <span class="t-rev">오답 다시보기</span><span class="t-redo">다시 풀어보기</span></div>
+      <div class="ph3">이름: ${esc(st.name)} ${st.cls ? '· ' + esc(st.cls) : ''} · 점수 ${it.c}/${it.t} · 틀린 문제: ${it.wrong.length ? it.wrong.join(', ') + '번' : '없음'}</div></div>
+    <div class="rv-head"><b>📝 시험지 다시보기</b><span class="pill ok">✓ ${nOk}</span><span class="pill ng">✗ ${nWrong}</span></div>
+    ${ex.questions && nWrong ? `<div class="seg"><button class="on" onclick="seg(this,'${key}',1)">틀린 문제만</button><button onclick="seg(this,'${key}',0)">전체 문제</button></div>` : ''}
+    <div class="qs ${ex.questions && nWrong ? 'only-wrong' : ''}" id="qs-${key}">${body}</div>
+    ${!nWrong ? '<div class="unit" style="margin-top:8px">🎉 모든 문제를 맞혔어요!</div>' : ''}
+    <div class="prow"><button onclick="printReview('${key}', false)">🖨️ 인쇄 (정답·해설 포함)</button>${ex.questions ? `<button onclick="printReview('${key}', true)">✏️ 다시 풀기용 인쇄 (정답 숨김)</button>` : ''}</div>
+    ${ex.pdf ? `<a class="pdfbtn" href="${esc(ex.pdf)}" target="_blank" rel="noopener">📄 시험지 원본 보기</a>` : ''}</div>`;
+}
+// 시험지 다시보기만 인쇄 (현재 선택: 틀린 문제만 / 전체 문제)
+function printReview(key, noAns) {
+  const rv = document.getElementById('rv-' + key);
+  const item = rv.closest('.mitem'), card = rv.closest('.card');
+  const opened = [];
+  rv.querySelectorAll('details:not([open])').forEach(d => { d.open = true; opened.push(d); });
+  item.classList.add('print-target'); card.classList.add('print-target-card');
+  document.body.classList.add('print-review'); if (noAns) document.body.classList.add('print-noans');
+  const done = () => {
+    opened.forEach(d => d.open = false);
+    item.classList.remove('print-target'); card.classList.remove('print-target-card');
+    document.body.classList.remove('print-review', 'print-noans');
+    window.removeEventListener('afterprint', done);
+  };
+  window.addEventListener('afterprint', done);
+  setTimeout(() => { window.print(); setTimeout(done, 1500); }, 50);
+}
+function seg(btn, key, onlyWrong) {
+  btn.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === btn));
+  document.getElementById('qs-' + key).classList.toggle('only-wrong', !!onlyWrong);
+}
+
+function trendCard(reps) {
+  if (reps.length < 2) return '';
+  const R = reps.slice(-6), W = 520, H = 210, pl = 40, pr = 24, pt = 14, pb = 32, iw = W - pl - pr, ih = H - pt - pb;
+  const x = k => pl + (R.length === 1 ? iw / 2 : iw * k / (R.length - 1)), y = v => pt + ih * (1 - v / 100);
+  const series = [
+    { name: '단어', c: 'var(--c-word)', get: r => r.words && r.words.avg },
+    { name: '월말평가', c: 'var(--c-month)', get: r => r.monthly && r.monthly.pct },
+    { name: '스피킹', c: 'var(--c-speak)', get: r => r.speaking && r.speaking.pct }
+  ].filter(s => R.some(r => s.get(r) != null));
+  let g = '';
+  [0, 50, 100].forEach(t => g += `<line x1="${pl}" x2="${W - pr}" y1="${y(t)}" y2="${y(t)}" stroke="#EEECE7"/><text x="${pl - 6}" y="${y(t) + 4}" font-size="14" fill="#8A93A3" text-anchor="end">${t}</text>`);
+  R.forEach((r, k) => g += `<text x="${x(k)}" y="${H - 8}" font-size="14" fill="#8A93A3" text-anchor="middle">${shortMonth(r.month)}</text>`);
+  series.forEach(s => {
+    let d = '', started = false;
+    R.forEach((r, k) => { const v = s.get(r); if (v == null) { started = false; return; } d += (started ? 'L' : 'M') + x(k) + ',' + y(v); started = true; });
+    g += `<path d="${d}" fill="none" stroke="${s.c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+    R.forEach((r, k) => { const v = s.get(r); if (v != null) g += `<circle cx="${x(k)}" cy="${y(v)}" r="4.5" fill="${s.c}" stroke="#fff" stroke-width="2"/><circle cx="${x(k)}" cy="${y(v)}" r="13" fill="transparent" data-tip="${shortMonth(r.month)} ${s.name} ${fmt(v)}%"/>`; });
+  });
+  return `<div class="card"><h2>📈 월별 성장 추이<span class="sub">정답률·달성률 %</span></h2>
+    <svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="월별 성장 추이">${g}</svg>
+    <div class="legend">${series.map(s => `<span><i class="sw" style="background:${s.c}"></i>${s.name}</span>`).join('')}</div></div>`;
+}
+
+// ---------- 툴팁 (마우스·터치) ----------
+function bindTips() {
+  const tip = $('#tip');
+  const show = (el, cx, cy) => { tip.textContent = el.getAttribute('data-tip'); tip.style.opacity = 1;
+    const w = tip.offsetWidth; tip.style.left = Math.max(8, Math.min(innerWidth - w - 8, cx - w / 2)) + 'px'; tip.style.top = (cy - 44) + 'px'; };
+  document.querySelectorAll('[data-tip]').forEach(el => {
+    el.addEventListener('pointerenter', e => show(el, e.clientX, e.clientY));
+    el.addEventListener('pointermove', e => show(el, e.clientX, e.clientY));
+    el.addEventListener('pointerleave', () => tip.style.opacity = 0);
+    el.addEventListener('click', e => { show(el, e.clientX, e.clientY); clearTimeout(el._t); el._t = setTimeout(() => tip.style.opacity = 0, 1800); });
+  });
+}
+
+// ---------- 샘플 데이터 (?demo) ----------
+function demoData() {
+  const days = (m, arr) => arr.map((p, k) => ({ d: m + '-' + String(3 + k * 2).padStart(2, '0'), c: Math.round(p / 100 * 12), t: 12, p: Math.round(Math.round(p / 100 * 12) / 12 * 1000) / 10 }));
+  const mk = (month, wv, mp, sp, comment) => {
+    const daily = days(month, wv), avg = Math.round(daily.reduce((a, b) => a + b.p, 0) / daily.length * 10) / 10;
+    const areas = [['유창성','유창성'],['발음및억양','발음·억양'],['어휘력','어휘력'],['문법','문법'],['Body Language','태도·표현']].map((a, k) => ({ key: a[0], label: a[1], v: sp[k] }));
+    const tot = sp.reduce((a, b) => a + b, 0);
+    return { month, overall: Math.round((avg + mp + tot / 25 * 100) / 3 * 10) / 10,
+      words: { count: daily.length, avg, perfect: daily.filter(d => d.c >= d.t).length, retest: 0, daily },
+      monthly: { items: [{ name: '월말 평가', unit: '바로쓰는문법 2권 Unit 3–4', c: Math.round(mp / 100 * 40), t: 40, p: mp }], pct: mp },
+      speaking: { date: month + '-22', areas, total: tot, max: 25, pct: tot / 25 * 100 },
+      classAvg: { words: 84.2, monthly: 81.5, speaking: 78, overall: 81.3, speakAreas: { '유창성': 3.8, '발음및억양': 4.1, '어휘력': 3.9, '문법': 3.6, 'Body Language': 4.2 } },
+      highlights: { strengths: ['단어시험 평균 ' + avg + '%로 꾸준하고 정확한 어휘 학습이 돋보입니다.', '스피킹 평가에서 특히 발음·억양 영역이 우수합니다.'], goals: ['스피킹 문법 영역을 집중 연습하면 말하기 실력이 한 단계 성장할 거예요.'] },
+      comment };
+  };
+  const ex = demoExam();
+  const out = { ok: true, academy: '잉글리시아이스텔라 영어전문', exams: { demoexam: ex },
+    student: { name: '김스텔라', cls: 'B class' },
+    reports: [
+      mk('2026-09', [75, 83, 83, 92, 75, 92, 83, 92], 80, [3, 4, 3, 3, 4], ''),
+      mk('2026-10', [83, 92, 92, 100, 83, 92, 100, 92, 100], 85, [4, 4, 4, 3, 5], ''),
+      mk('2026-11', [92, 100, 92, 100, 100, 92, 100, 100, 92, 100], 80, [4, 5, 4, 3, 5],
+        '이번 달 스텔라는 단어 시험에서 만점을 여러 번 받으며 성실함이 특히 빛났습니다. 수업 시간에도 자신 있게 손을 들고 발표하는 모습이 많이 늘었어요.\n\n다음 달에는 스피킹에서 완전한 문장으로 말하기를 함께 연습해 보겠습니다. 가정에서도 많이 칭찬해 주세요! 😊')
+    ] };
+  const it = out.reports[2].monthly.items[0];
+  Object.assign(it, { examId: 'demoexam', examTitle: ex.title, c: 8, t: 10, p: 80, wrong: [3, 7],
+    unitStats: [{ unit: 'be동사 과거', c: 4, t: 4 }, { unit: '일반동사 과거', c: 3, t: 4 }, { unit: '과거 부정·의문', c: 1, t: 2 }] });
+  out.reports[2].monthly.pct = 80;
+  return out;
+}
+function demoExam() {
+  const Q = (no, unit, q, choices, answer, exp, passage) => ({ no, unit, q, choices, answer, exp, passage: passage || '' });
+  return { id: 'demoexam', title: '바로쓰는문법 2권 Unit 3–4', total: 10, choices: 4, pdf: '', answers: [2,1,3,4,2,1,3,2,4,1],
+    passages: { A: 'Last Sunday, Mina and her brother went to the beach. The weather was sunny and warm. They built a big sandcastle and ate sandwiches. In the evening, they were tired but happy.' },
+    questions: [
+      Q(1, 'be동사 과거', '빈칸에 알맞은 것은?\nI ___ at home yesterday.', ['am', 'was', 'were', 'is'], 2, '주어 I + 과거(yesterday) → was'),
+      Q(2, 'be동사 과거', '빈칸에 알맞은 것은?\nThey ___ in the park last night.', ['were', 'was', 'are', 'is'], 1, '주어 They(복수) + 과거 → were'),
+      Q(3, '일반동사 과거', '다음 중 동사의 과거형이 바르게 짝지어지지 않은 것은?', ['go – went', 'eat – ate', 'buy – buyed', 'see – saw'], 3, 'buy의 과거형은 불규칙 변화로 bought입니다. -ed를 붙이지 않아요.'),
+      Q(4, '일반동사 과거', '빈칸에 알맞은 것은?\nShe ___ a letter to her friend two days ago.', ['write', 'writes', 'writing', 'wrote'], 4, 'two days ago(과거 시점) → write의 과거형 wrote'),
+      Q(5, 'be동사 과거', '윗글을 읽고, 날씨에 대해 알맞은 것은?', ['rainy', 'sunny and warm', 'cold', 'snowy'], 2, '두 번째 문장 The weather was sunny and warm.', 'A'),
+      Q(6, '일반동사 과거', '윗글에서 Mina와 오빠가 한 일이 아닌 것은?', ['went swimming', 'built a sandcastle', 'ate sandwiches', 'went to the beach'], 1, '글에 수영했다는 내용은 없습니다.', 'A'),
+      Q(7, '과거 부정·의문', '다음 문장을 부정문으로 바르게 바꾼 것은?\nHe played soccer.', ['He not played soccer.', "He didn't played soccer.", "He didn't play soccer.", "He doesn't play soccer."], 3, "과거 부정문: didn't + 동사원형 → He didn't play soccer.\ndidn't 뒤에는 꼭 동사원형이 와요!"),
+      Q(8, '과거 부정·의문', '대답으로 알맞은 것은?\nA: Did you finish your homework?\nB: ___', ['Yes, I was.', 'Yes, I did.', 'No, I wasn’t.', 'Yes, I do.'], 2, 'Did로 물으면 did로 답합니다 → Yes, I did.'),
+      Q(9, 'be동사 과거', '윗글의 마지막 문장 빈칸에 들어간 be동사는?\nIn the evening, they ___ tired but happy.', ['was', 'is', 'are', 'were'], 4, '주어 they + 과거 → were', 'A'),
+      Q(10, '일반동사 과거', '빈칸에 알맞은 것은?\nWe ___ a movie last weekend.', ['watched', 'watch', 'watches', 'watching'], 1, 'last weekend(과거) → watched')
+    ] };
+}
+
+load();
+</script>
+</body>
+</html>
