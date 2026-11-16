@@ -197,7 +197,7 @@ function stepDone(id,u=S.u){
     case 'expr': return (d.expr||[]).filter(x=>x&&x.trim()).length>=4;
     case 'build': { const s=d.swap[LV[d.lv].k]||[]; return s.filter(x=>x&&x.trim()).length>=3 }
     case 'speak': return !!(d.rec[0]&&d.rec[0].done);
-    case 'write': return d.draftLocked && sentCount(d.final)>=LV[d.lv].min;
+    case 'write': return d.wmode==='photo' ? !!d.photo : (d.draftLocked && sentCount(d.final)>=LV[d.lv].min);
     case 'check': return Object.keys(d.star).length>=8;
   }
 }
@@ -249,7 +249,7 @@ function unitView(){
 function go(i){ S.step=i; render() }
 function home(){ S.view='home'; render() }
 function next(){ const st=STEPS[S.step]; if(!stepDone(st.id)) toast('아직 미션이 남았어요 — 그래도 넘어갈게요'); if(S.step===3) toast('DAY 1 완료! 다음 시간엔 DAY 2'); S.step=Math.min(6,S.step+1); render() }
-function finish(){ S.view='result'; render(); sync(); loadFeedback() }
+function finish(){ S.view='result'; render(); loadFeedback() }
 
 /* ---- step views ---- */
 const VIEWS = {
@@ -298,11 +298,17 @@ const VIEWS = {
  },
  write(U,d){
   const L=LV[d.lv], W=U.write[d.lv], n=sentCount(d.draft), m=sentCount(d.final);
+  const tabs = `<div class="seg"><button class="${d.wmode!=='photo'?'on':''}" onclick="setW('type')">⌨️ 타이핑<small>웹에 직접 쓰기</small></button><button class="${d.wmode==='photo'?'on':''}" onclick="setW('photo')">📷 워크북 사진<small>종이에 쓰고 찍기</small></button></div>`;
   const help = `<div class="help"><div class="lab" style="margin-bottom:4px">${L.n} · ${L.s} · 질문에 답하듯</div>${W[0].map(q=>`<div>• ${esc(q)}</div>`).join('')}<div class="en mt">${W[1].map(esc).join('<br>')}</div></div>`;
-  if(!d.draftLocked) return `${help}<div class="card"><div class="lab">FIRST DRAFT · 초안</div><textarea id="draft" rows="9" data-k="draft" placeholder="키워드 노트를 보고 써요. 틀려도 괜찮아요.">${esc(d.draft)}</textarea>
+  if(d.wmode==='photo') return `${tabs}${help}<div class="card"><div class="lab">📷 워크북 FINAL VERSION 사진</div>
+   <div class="ko" style="margin-bottom:10px">워크북에 초안 → 수정본까지 쓰고, <b>수정본 쪽</b>을 밝은 곳에서 반듯하게 찍어요.</div>
+   ${d.photoThumb?`<img src="${d.photoThumb}" style="width:100%;border-radius:10px;border:1.5px solid var(--line);margin-bottom:10px">`:''}
+   <label class="btn ${d.photo?'ghost':''}" style="cursor:pointer">${d.photo?'다시 찍기':'사진 찍기 · 올리기'}<input type="file" accept="image/*" capture="environment" style="display:none" onchange="pickPhoto(this)"></label>
+   <div class="note" id="phst">${d.photo?'✅ 업로드 완료':''}</div></div>`;
+  if(!d.draftLocked) return `${tabs}${help}<div class="card"><div class="lab">FIRST DRAFT · 초안</div><textarea id="draft" rows="9" data-k="draft" placeholder="키워드 노트를 보고 써요. 틀려도 괜찮아요.">${esc(d.draft)}</textarea>
    <div class="meter"><span>문장 수 <b id="dn" class="${n>=L.min?'ok':''}">${n}</b> / ${L.min}~${L.max}</span><span>${d.draft.trim().split(/\s+/).filter(Boolean).length} words</span></div>
    <button class="btn mt" onclick="lockDraft()">초안 제출 🔒</button><div class="note">제출하면 초안은 원본 그대로 보관돼요.</div></div>`;
-  return `<div class="card"><div class="lab">FIRST DRAFT · 원본</div><div class="ro">${esc(d.draft)}</div><div class="lock">🔒 원본 보관됨</div></div>
+  return `${tabs}<div class="card"><div class="lab">FIRST DRAFT · 원본</div><div class="ro">${esc(d.draft)}</div><div class="lock">🔒 원본 보관됨</div></div>
   <div class="card"><div class="lab">REVISE · 수정본</div><div class="ko" style="margin-bottom:8px">🔍 주어+동사 · because/so 추가 · 나만의 정보</div><textarea id="final" rows="9" data-k="final">${esc(d.final)}</textarea>
    <div class="meter"><span>문장 수 <b id="fn" class="${m>=L.min?'ok':''}">${m}</b> / ${L.min}~${L.max}</span></div></div>
   <div class="card"><div class="lab">BEFORE → AFTER</div><div class="ro diff" id="diff">${diff(d.draft,d.final)}</div></div>`;
@@ -345,7 +351,7 @@ function tc(i){ const d=D(); d.ck=d.ck.includes(i)?d.ck.filter(x=>x!==i):[...d.c
 function star(k,v){ const d=D(); d.star[k]=d.star[k]===v?v-1:v; if(!d.star[k]) delete d.star[k]; save(); $('#body').innerHTML=VIEWS.check(UNITS[S.u],d); bindStep(); refreshNav() }
 function setLv(i){ const d=D(); d.lv=i; save(); $('#body').innerHTML=VIEWS.build(UNITS[S.u],d); bindStep(); refreshNav() }
 function tk(b){ const on=b.textContent==='해석 보기'; document.querySelectorAll('#ans .kt').forEach(e=>e.style.display=on?'block':'none'); b.textContent=on?'해석 숨기기':'해석 보기' }
-function lockDraft(){ const d=D(), L=LV[d.lv]; if(sentCount(d.draft)<L.min) return toast(`${L.min}문장 이상 써 주세요`); d.draftLocked=true; d.draftAt=new Date().toISOString(); if(!d.final) d.final=d.draft; save(); toast('초안 제출 완료 🔒'); $('#body').innerHTML=VIEWS.write(UNITS[S.u],d); bindStep(); refreshNav(); sync(true) }
+function lockDraft(){ const d=D(), L=LV[d.lv]; if(sentCount(d.draft)<L.min) return toast(`${L.min}문장 이상 써 주세요`); d.draftLocked=true; d.draftAt=new Date().toISOString(); if(!d.final) d.final=d.draft; save(); toast('초안 제출 완료 🔒'); $('#body').innerHTML=VIEWS.write(UNITS[S.u],d); bindStep(); refreshNav() }
 
 /* ---- word diff (LCS) ---- */
 function diff(a,b){
@@ -384,7 +390,7 @@ async function toggleRec(i){
 function stopRec(){
   const r=REC; REC=null; clearInterval(r.tick); try{r.mr.stop()}catch(e){} if(r.sr){ try{r.sr.stop()}catch(e){} }
   const d=D(), sec=Math.round((Date.now()-r.t0)/1000);
-  setTimeout(()=>{ const txt=r.text.trim(); d.rec[r.i]=Object.assign({},d.rec[r.i]||{},{done:true,sec,text:txt,at:new Date().toISOString()}); save(); sync(true);
+  setTimeout(()=>{ const txt=r.text.trim(); d.rec[r.i]=Object.assign({},d.rec[r.i]||{},{done:true,sec,text:txt,at:new Date().toISOString()}); save();
     const el=$('#tr'+r.i); if(el) el.innerHTML=txt?`<div class="trans"><span class="ttl">내가 말한 문장 (원본 그대로 저장)</span>${esc(txt)}</div>`:`<div class="note">텍스트 변환은 크롬·사파리에서 지원돼요.</div>`;
     const b=$('#rb'+r.i); if(b){ b.classList.remove('live'); b.querySelector('span:last-child').textContent='다시 녹음' } const box=b&&b.closest('.rec'); if(box) box.classList.add('done'); refreshNav(); toast(sec+'초 녹음 완료') },400);
 }
@@ -397,12 +403,13 @@ function resultView(){
   <div class="wrap" style="padding-top:14px">
    <div class="card"><div class="lab">${esc(S.user)} · ${L.n} · ${prog(S.u)}/7 단계</div><div class="ko">Speaking ${tot('S')}★ · Writing ${tot('W')}★</div></div>
    ${[0,1].map(i=>{const r=d.rec[i]||{}; return `<div class="card"><div class="lab">🎙 ${i+1}차 말하기 ${r.sec?'· '+r.sec+'초':''}</div>${r.text?`<div class="trans">${esc(r.text)}</div>`:'<div class="ko">기록 없음</div>'}</div>`}).join('')}
+   ${d.wmode==='photo'?`<div class="card"><div class="lab">📷 최종 글 (워크북)</div>${d.photoThumb?`<img src="${d.photoThumb}" style="width:100%;border-radius:10px">`:'<div class="ko">사진 없음</div>'}</div>`:`
    <div class="card"><div class="lab">✏️ 초안 (원본)</div><div class="ro">${esc(d.draft)||'—'}</div></div>
-   <div class="card"><div class="lab">✨ 수정본</div><div class="ro">${esc(d.final)||'—'}</div></div>
-   <div class="card"><div class="lab">BEFORE → AFTER</div><div class="ro diff">${diff(d.draft,d.final)}</div></div>
+   <div class="card"><div class="lab">✨ 최종 글 (수정본)</div><div class="ro">${esc(d.final)||'—'}</div></div>
+   <div class="card"><div class="lab">BEFORE → AFTER</div><div class="ro diff">${diff(d.draft,d.final)}</div></div>`}
    <div class="card" id="fbcard">${fbHTML(U)}</div>
   </div>
-  <div class="foot"><div class="in"><button class="btn ghost" onclick="home()">목록</button><button class="btn" onclick="sync()">선생님께 제출 📤</button></div></div>`;
+  <div class="foot"><div class="in"><button class="btn ghost" onclick="home()">목록</button><button class="btn ok" onclick="submitFinal()">최종 제출 📤</button></div></div>`;
 }
 /* ---- 선생님 제출 · 피드백 ---- */
 function fbHTML(U){
@@ -424,7 +431,7 @@ function payload(u){
   ].join('\n');
   return {action:'save',academy:ACADEMY,name:S.user,pin:S.pin,unit:U.no,level:L.n,progress:prog(u),
     speak1:(d.rec[0]||{}).text||'',speak2:(d.rec[1]||{}).text||'',audio1:(d.rec[0]||{}).url||'',audio2:(d.rec[1]||{}).url||'',
-    draft:d.draftLocked?d.draft:'',final:d.final||'',starS:tot('S'),starW:tot('W'),fix:[d.fix,d.next].filter(Boolean).join(' / '),day1};
+    draft:d.draftLocked?d.draft:'',final:d.wmode==='photo'?'':(d.final||''),photo:d.wmode==='photo'?(d.photo||''):'',starS:tot('S'),starW:tot('W'),fix:[d.fix,d.next].filter(Boolean).join(' / '),day1};
 }
 async function post(body){
   const r=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)});
@@ -440,9 +447,31 @@ async function uploadAudio(u,i,blob){
   try{
     const b64=await new Promise((res,rej)=>{ const fr=new FileReader(); fr.onload=()=>res(String(fr.result).split(',')[1]); fr.onerror=rej; fr.readAsDataURL(blob) });
     const r=await post({action:'audio',academy:ACADEMY,name:S.user,pin:S.pin,unit:UNITS[u].no,round:i+1,mime:blob.type,data:b64});
-    if(r.ok){ const d=D(u); d.rec[i]=Object.assign(d.rec[i]||{},{url:r.url}); save(u); sync(true,u) }
+    if(r.ok){ const d=D(u); d.rec[i]=Object.assign(d.rec[i]||{},{url:r.url}); save(u) }
   }catch(e){}
 }
+function setW(m){ const d=D(); d.wmode=m; save(); $('#body').innerHTML=VIEWS.write(UNITS[S.u],d); bindStep(); refreshNav() }
+function submitFinal(){
+  const ok=stepDone('write'), sp=!!((D().rec[0]||{}).done);
+  if(!ok||!sp){ const miss=[!sp?'말하기 녹음':'',!ok?'최종 글':''].filter(Boolean).join(', '); if(!confirm_(`${miss}이(가) 아직 없어요. 그래도 제출할까요?`)) return }
+  sync();
+}
+function confirm_(m){ try{ return window.confirm(m) }catch(e){ return true } }
+async function pickPhoto(inp){
+  const f=inp.files&&inp.files[0]; if(!f) return;
+  const st=$('#phst'); if(st) st.textContent='사진 준비 중…';
+  try{
+    const img=await new Promise((res,rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=URL.createObjectURL(f) });
+    const big=shrink(img,1600,.82), thumb=shrink(img,520,.7);
+    const d=D(); d.photoThumb=thumb; save(); $('#body').innerHTML=VIEWS.write(UNITS[S.u],d); bindStep();
+    if(!API_URL){ toast('연결 설정 전이에요 (API_URL)'); return }
+    $('#phst').textContent='업로드 중…';
+    const r=await post({action:'photo',academy:ACADEMY,name:S.user,pin:S.pin,unit:UNITS[S.u].no,data:big.split(',')[1]});
+    if(!r.ok) throw new Error(r.error);
+    d.photo=r.url; save(); $('#body').innerHTML=VIEWS.write(UNITS[S.u],d); bindStep(); refreshNav(); toast('사진 업로드 완료 📷');
+  }catch(e){ const s2=$('#phst'); if(s2) s2.textContent='업로드 실패 — 다시 시도해 주세요'; }
+}
+function shrink(img,max,q){ const r=Math.min(1,max/Math.max(img.width,img.height)); const c=document.createElement('canvas'); c.width=Math.round(img.width*r); c.height=Math.round(img.height*r); c.getContext('2d').drawImage(img,0,0,c.width,c.height); return c.toDataURL('image/jpeg',q) }
 async function loadFeedback(){
   if(!API_URL||!S.user) return;
   try{ const r=await (await fetch(`${API_URL}?action=feedback&academy=${encodeURIComponent(ACADEMY)}&name=${encodeURIComponent(S.user)}&pin=${S.pin}`)).json();
