@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>중등부 모의고사</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{--navy:#1d2b4f;--bur:#8a2240;--bg:#f4f5f9;--card:#fff;--ink:#1b2133;--muted:#5c6478;--line:#dfe2ea}
+@media (prefers-color-scheme:dark){:root{--bg:#12151f;--card:#1b2030;--ink:#e8eaf1;--muted:#a3a9ba;--line:#2d3346;--bur:#e0708c}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif}
+header{background:var(--navy);color:#fff;padding:14px 16px}header div{max-width:760px;margin:0 auto;font-family:"Do Hyeon",sans-serif;font-size:22px}
+main{max-width:760px;margin:0 auto;padding:18px 16px 50px}
+h1{font-family:"Do Hyeon",sans-serif;font-weight:400;font-size:30px;margin:0 0 4px}
+.muted{color:var(--muted);font-size:14px;line-height:1.6}
+h2{font-size:17px;margin:24px 0 8px;color:var(--bur)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.card .t{flex:1 1 260px}.card b{display:block;font-size:16px}.card span{font-size:13px;color:var(--muted)}
+.btn{display:inline-block;text-decoration:none;border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px;background:var(--navy);color:#fff}
+.btn.k{background:transparent;color:var(--bur);border:1.5px solid var(--bur)}
+.ft{text-align:center;font-size:12px;color:var(--muted);margin-top:30px}
+</style></head><body>
+<header><div>📝 중등부 모의고사</div></header>
+<main>
+<h1>7·8과 학교별 모의고사</h1>
+<p class="muted">교과서 본문·대화문·문법 + 학교 학습지 문제 · 30문항 (객관식 20 · 서술형 10) · 100점 만점<br>시험지 PDF 마지막 쪽에 <b>OMR 답안지</b>가 있어요. 정답 및 해설은 따로 인쇄하세요.</p>
+<div id="list"></div>
+<div class="ft">제작: 스텔라원장 · 잉글리시아이 스텔라</div>
+</main>
+<script>
+const G=[["1학년",[["m1yun_saha","중1 동아(윤정미) 7·8과","사하중 학습지 포함"],["m1yun_dangri","중1 동아(윤정미) 7·8과","당리중 학습지 포함"],["m1lee_dongju","중1 동아(이병민) 7·8과","동주여중 학습지 포함"]]],
+["2학년",[["m2lee_dongju","중2 동아(이병민) 7·8과","동주여중 학습지 포함"],["m2yun_saha","중2 동아(윤정미) 7·8과","사하중 학습지 포함"]]]];
+document.getElementById("list").innerHTML=G.map(([g,L])=>`<h2>${g}</h2>`+L.map(([id,t,s])=>`<div class="card"><div class="t"><b>${t} 모의고사</b><span>${s} · 객관식 20 + 서술형 10 · OMR 포함</span></div><a class="btn" href="mock_${id}.pdf" target="_blank" rel="noopener">🖨️ 시험지</a><a class="btn k" href="mock_${id}_key.pdf" target="_blank" rel="noopener">정답·해설</a></div>`).join("")).join("");
+</script></body></html>
