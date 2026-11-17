@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>중등부 학습 관리</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{--navy:#1d2b4f;--bur:#8a2240;--gold:#c98a12;--bg:#f4f5f9;--card:#fff;--ink:#1b2133;--muted:#5c6478;--line:#dfe2ea;--soft:#eef0f6;--ok:#1f8a4c;--okbg:#e3f6ea;--mid:#b7791f;--midbg:#fdf3e1;--no:#c0392b;--nobg:#fbe7e5}
+@media (prefers-color-scheme:dark){:root{--bg:#12151f;--card:#1b2030;--ink:#e8eaf1;--muted:#a3a9ba;--line:#2d3346;--soft:#232a3d;--bur:#e0708c;--okbg:#14301f;--ok:#5fd18f;--midbg:#3a2e14;--mid:#f0b54d;--nobg:#3a1714;--no:#ff8a7a;color-scheme:dark}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:15px;line-height:1.5}
+button,input,select{font:inherit}
+header{background:var(--navy);color:#fff;position:sticky;top:0;z-index:5}
+header .w{max-width:1000px;margin:0 auto;padding:11px 16px;display:flex;gap:10px;align-items:center}
+.brand{font-family:"Do Hyeon",sans-serif;font-size:21px;flex:1}
+.hb{background:transparent;border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:4px 12px;font-size:13px;cursor:pointer}
+main{max-width:1000px;margin:0 auto;padding:14px 16px 60px}
+h1{font-family:"Do Hyeon",sans-serif;font-weight:400;font-size:28px;margin:4px 0}
+.muted{color:var(--muted);font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+input[type=text],input[type=password],select{color:var(--ink);background:var(--card);border:1.5px solid #c9cedb;border-radius:10px;padding:8px 11px}
+.btn{border:0;border-radius:10px;padding:9px 16px;font-weight:700;background:var(--navy);color:#fff;cursor:pointer}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.chip{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 13px;cursor:pointer;font-size:13px;font-weight:500}
+.chip.on{background:var(--bur);border-color:var(--bur);color:#fff}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin:10px 0 4px;border-bottom:2px solid var(--line)}
+.tab{border:0;background:transparent;color:var(--muted);padding:9px 14px;font-weight:700;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap}
+.tab.on{color:var(--navy);border-color:var(--bur)}
+@media (prefers-color-scheme:dark){.tab.on{color:#fff}}
+.kpi{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+.kpi div{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.kpi b{display:block;font-size:24px;font-family:"Do Hyeon",sans-serif;font-weight:400;color:var(--navy)}
+@media (prefers-color-scheme:dark){.kpi b{color:#fff}}
+.kpi span{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.st{background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;text-align:left;color:var(--ink)}
+.st:hover{border-color:var(--bur)}
+.st b{font-size:17px}.st .m{font-size:12px;color:var(--muted);margin-top:2px}
+.pb{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;margin:8px 0 4px}.pb i{display:block;height:100%}
+.pill{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:1px 9px}
+.g{background:var(--okbg);color:var(--ok)}.y{background:var(--midbg);color:var(--mid)}.r{background:var(--nobg);color:var(--no)}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{text-align:left;color:var(--muted);font-weight:500;font-size:12px;border-bottom:1.5px solid var(--line);padding:6px 8px;white-space:nowrap}
+td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tw{overflow-x:auto}
+details summary{cursor:pointer;color:var(--bur);font-size:12px}
+details div{font-size:12.5px;color:var(--muted);white-space:pre-wrap;margin-top:4px}
+h2{font-size:16px;margin:16px 0 6px}
+.unit{font-size:12px;color:var(--bur);font-weight:700}
+.err{color:var(--no);font-size:14px;margin-top:8px}
+.empty{text-align:center;color:var(--muted);padding:30px}
+.ft{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
+@media (max-width:640px){.kpi{grid-template-columns:repeat(2,1fr)}.hide-m{display:none}}
+</style>
+</head>
+<body>
+<header><div class="w"><div class="brand">📊 중등부 학습 관리</div><button class="hb" id="rf" style="display:none">새로고침</button><button class="hb" id="lo" style="display:none">잠금</button></div></header>
+<main id="app"></main>
+<script>
+const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
+const $=s=>document.querySelector(s),app=$("#app");
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const LS={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}};
+let PIN=LS.get("ldash_pin"),ROWS=[],UI={days:"7",tab:"stu",q:"",unit:"",stu:null};
+try{Object.assign(UI,JSON.parse(LS.get("ldash_ui")||"{}"))}catch(e){}UI.stu=null;
+const svUI=()=>LS.set("ldash_ui",JSON.stringify({days:UI.days,tab:UI.tab,unit:UI.unit}));
+const pct=r=>r.total?r.score/r.total:0;
+const cls=p=>p>=.9?"g":p>=.7?"y":"r";
+const fmt=t=>{if(!t)return"";const d=new Date(t);return `${d.getMonth()+1}/${d.getDate()} ${String(d.getHours()).padStart(2,"0")}:${String(d.getMinutes()).padStart(2,"0")}`};
+function lock(msg){$("#lo").style.display="none";$("#rf").style.display="none";
+ app.innerHTML=`<span class="muted">TEACHER ONLY</span><h1>중등부 학습 관리</h1><p class="muted">학생들이 로그인해서 푼 미니테스트·학습지 뿌시기·문법 트레이닝·모의고사 결과를 학생별로 모아 봅니다.</p>
+ <div class="card" style="max-width:380px"><input type="password" id="pin" placeholder="선생님 비밀번호" style="width:100%;font-size:18px;text-align:center"><div style="height:10px"></div><button class="btn" id="go" style="width:100%">열기</button><div class="err">${msg?esc(msg):""}</div></div>
+ <div class="ft">제작: 스텔라원장 · 잉글리시아이 스텔라</div>`;
+ $("#go").onclick=()=>{PIN=$("#pin").value.trim();if(PIN)load()};$("#pin").onkeydown=e=>{if(e.key==="Enter")$("#go").click()}}
+async function load(){app.innerHTML=`<p class="empty">불러오는 중…</p>`;
+ try{const r=await fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({type:"results",pin:PIN,days:UI.days==="all"?0:+UI.days})});
+  const j=await r.json();if(!j.ok){if(/비밀번호|PIN/.test(j.msg||"")){LS.set("ldash_pin",null);PIN=null}return lock(j.msg||"불러오지 못했어요")}
+  LS.set("ldash_pin",PIN);
+  ROWS=(j.rows||[]).map(a=>({t:+a[0],name:String(a[1]||"이름없음").trim(),unit:String(a[2]||"기타"),day:a[3],title:String(a[4]||""),cat:String(a[5]||""),attempt:String(a[6]||""),score:+a[7]||0,total:+a[8]||0,wrong:String(a[9]||""),detail:String(a[10]||""),min:+a[11]||0})).sort((a,b)=>b.t-a.t);
+  $("#lo").style.display="";$("#rf").style.display="";render()}
+ catch(e){lock("서버에 연결하지 못했어요. 인터넷을 확인하세요.")}}
+$("#lo").onclick=()=>{LS.set("ldash_pin",null);PIN=null;lock()};$("#rf").onclick=()=>load();
+function filtered(){const q=UI.q.toLowerCase();return ROWS.filter(r=>(!UI.unit||r.unit===UI.unit)&&(!q||r.name.toLowerCase().includes(q)||r.title.toLowerCase().includes(q)))}
+function render(){const R=filtered();const units=[...new Set(ROWS.map(r=>r.unit))].sort();
+ const names=[...new Set(R.map(r=>r.name))];const avg=R.length?R.reduce((s,r)=>s+pct(r),0)/R.length:0;
+ const today=new Date();today.setHours(0,0,0,0);const tod=R.filter(r=>r.t>=today.getTime());
+ app.innerHTML=`<div class="bar">${[["1","오늘"],["7","7일"],["30","30일"],["all","전체"]].map(([v,l])=>`<button class="chip ${UI.days===v?"on":""}" data-d="${v}">${l}</button>`).join("")}
+  <select id="un"><option value="">전체 교재·단원</option>${units.map(u=>`<option ${u===UI.unit?"selected":""}>${esc(u)}</option>`).join("")}</select>
+  <input type="text" id="q" placeholder="🔍 학생 이름·주제 검색" value="${esc(UI.q)}" style="flex:1;min-width:160px"></div>
+ <div class="kpi"><div><b>${names.length}</b><span>학습한 학생</span></div><div><b>${R.length}</b><span>완료한 학습 세트</span></div><div><b>${Math.round(avg*100)}%</b><span>평균 정답률</span></div><div><b>${tod.length}</b><span>오늘 완료</span></div></div>
+ <div class="tabs">${[["stu","👩‍🎓 학생별"],["set","📚 학습별"],["wrong","❌ 오답 TOP"],["log","📋 전체 기록"]].map(([k,l])=>`<button class="tab ${UI.tab===k?"on":""}" data-t="${k}">${l}</button>`).join("")}</div>
+ <div id="v"></div><div class="ft">결과는 학생이 각 세트를 끝내고 채점할 때마다 저장돼요 · 제작: 스텔라원장 · 잉글리시아이 스텔라</div>`;
+ app.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{UI.days=b.dataset.d;svUI();load()});
+ $("#un").onchange=e=>{UI.unit=e.target.value;svUI();render()};
+ $("#q").oninput=e=>{UI.q=e.target.value;const p=e.target.selectionStart;renderView(filtered())};
+ app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{UI.tab=b.dataset.t;UI.stu=null;svUI();render()});
+ renderView(R)}
+function renderView(R){const v=$("#v");if(!R.length){v.innerHTML=`<p class="empty">이 기간에 저장된 학습 기록이 없어요.</p>`;return}
+ if(UI.stu)return stuDetail(v,R.filter(r=>r.name===UI.stu));
+ if(UI.tab==="stu"){const by={};R.forEach(r=>(by[r.name]=by[r.name]||[]).push(r));
+  const L=Object.entries(by).map(([n,a])=>({n,a,avg:a.reduce((s,r)=>s+pct(r),0)/a.length,last:a[0].t,low:a.filter(r=>pct(r)<.7).length,units:[...new Set(a.map(r=>r.unit))]})).sort((x,y)=>y.last-x.last);
+  v.innerHTML=`<p class="muted">카드를 누르면 학생이 한 학습과 틀린 문제를 자세히 볼 수 있어요. (최근 학습 순)</p><div class="grid">${L.map(s=>`<button class="st" data-n="${esc(s.n)}"><b>${esc(s.n)}</b> <span class="pill ${cls(s.avg)}">${Math.round(s.avg*100)}%</span>
+   <div class="pb"><i style="width:${Math.round(s.avg*100)}%;background:var(--${cls(s.avg)==="g"?"ok":cls(s.avg)==="y"?"mid":"no"})"></i></div>
+   <div class="m">완료 ${s.a.length}세트 · 70% 미만 ${s.low}개 · 마지막 ${fmt(s.last)}</div><div class="m">${esc(s.units.slice(0,2).join(", "))}${s.units.length>2?` 외 ${s.units.length-2}`:""}</div></button>`).join("")}</div>`;
+  v.querySelectorAll(".st").forEach(b=>b.onclick=()=>{UI.stu=b.dataset.n;renderView(filtered());window.scrollTo(0,0)})}
+ else if(UI.tab==="set"){const by={};R.forEach(r=>{const k=r.unit+"|"+r.title;(by[k]=by[k]||[]).push(r)});
+  const L=Object.entries(by).sort((a,b)=>a[0].localeCompare(b[0],"ko"));let cu="";
+  v.innerHTML=L.map(([k,a])=>{const [u,t]=k.split("|");const head=u!==cu?`<h2>${esc(cu=u)}</h2>`:"";const ppl={};a.forEach(r=>{if(!ppl[r.name]||ppl[r.name].t<r.t)ppl[r.name]=r});
+   const avg=a.reduce((s,r)=>s+pct(r),0)/a.length;
+   return head+`<div class="card" style="padding:10px 14px"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="flex:1">${esc(t||"(제목 없음)")}</b><span class="muted">${Object.keys(ppl).length}명 완료 · 평균</span><span class="pill ${cls(avg)}">${Math.round(avg*100)}%</span></div>
+    <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${Object.values(ppl).sort((x,y)=>pct(y)-pct(x)).map(r=>`<span class="pill ${cls(pct(r))}" title="${esc(r.wrong)}">${esc(r.name)} ${r.score}/${r.total}</span>`).join("")}</div></div>`}).join("")}
+ else if(UI.tab==="wrong"){const by={};R.forEach(r=>{if(!r.wrong||r.wrong==="없음")return;r.wrong.split(/,\s*/).forEach(w=>{w=w.trim();if(!w)return;const k=r.unit+"|"+r.title+"|"+w;(by[k]=by[k]||{n:0,who:new Set()});by[k].n++;by[k].who.add(r.name)})});
+  const L=Object.entries(by).sort((a,b)=>b[1].who.size-a[1].who.size||b[1].n-a[1].n).slice(0,40);
+  v.innerHTML=L.length?`<p class="muted">여러 학생이 틀린 문항 순서예요. 수업에서 다시 짚어 줄 문제를 고르세요.</p><div class="tw"><table><tr><th>#</th><th>교재·단원 / 주제</th><th>문항</th><th class="n">틀린 학생</th><th class="hide-m">학생</th></tr>
+   ${L.map(([k,o],i)=>{const [u,t,w]=k.split("|");return `<tr><td>${i+1}</td><td><span class="unit">${esc(u)}</span><br>${esc(t)}</td><td><b>${esc(w)}</b></td><td class="n">${o.who.size}명</td><td class="hide-m muted">${esc([...o.who].join(", "))}</td></tr>`}).join("")}</table></div>`:`<p class="empty">틀린 문항 기록이 없어요. 🎉</p>`}
+ else{v.innerHTML=`<div class="bar"><button class="chip" id="csv">⬇️ CSV 내려받기</button><span class="muted">${R.length}건</span></div><div class="tw"><table><tr><th>시각</th><th>학생</th><th>교재·단원 / 주제</th><th class="n">점수</th><th class="hide-m">오답</th></tr>
+  ${R.slice(0,500).map(r=>`<tr><td class="n">${fmt(r.t)}</td><td><b>${esc(r.name)}</b></td><td><span class="unit">${esc(r.unit)}</span><br>${esc(r.title)} <span class="muted">${esc(r.attempt)}</span></td><td class="n"><span class="pill ${cls(pct(r))}">${r.score}/${r.total}</span></td><td class="hide-m">${esc(r.wrong)}</td></tr>`).join("")}</table></div>`;
+  $("#csv").onclick=()=>{const h=["시각","학생","교재/단원","DAY","주제","영역","응시 구분","점수","문항수","오답 문항","오답 상세","소요(분)"];
+   const q=s=>`"${String(s).replace(/"/g,'""')}"`;const csv="﻿"+[h,...R.map(r=>[new Date(r.t).toLocaleString("ko-KR"),r.name,r.unit,r.day,r.title,r.cat,r.attempt,r.score,r.total,r.wrong,r.detail,r.min])].map(a=>a.map(q).join(",")).join("\n");
+   const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="중등부_학습기록.csv";a.click()}}}
+function stuDetail(v,A){const avg=A.length?A.reduce((s,r)=>s+pct(r),0)/A.length:0;const by={};A.forEach(r=>(by[r.unit]=by[r.unit]||[]).push(r));
+ v.innerHTML=`<div class="bar"><button class="chip" id="bk">← 학생 목록</button></div>
+ <div class="card"><h1 style="font-size:26px">${esc(UI.stu)}</h1><div class="muted">완료 ${A.length}세트 · 평균 정답률 <span class="pill ${cls(avg)}">${Math.round(avg*100)}%</span> · 70% 미만 ${A.filter(r=>pct(r)<.7).length}개 · 총 ${A.reduce((s,r)=>s+r.min,0)}분</div></div>
+ ${Object.entries(by).map(([u,a])=>`<h2>${esc(u)} <span class="muted">(${a.length}세트)</span></h2><div class="tw"><table><tr><th>시각</th><th>주제</th><th class="n">점수</th><th>틀린 문항</th></tr>
+ ${a.map(r=>`<tr><td class="n">${fmt(r.t)}</td><td>${esc(r.title)}<br><span class="muted">${esc(r.cat)} · ${esc(r.attempt)} · ${r.min}분</span></td><td class="n"><span class="pill ${cls(pct(r))}">${r.score}/${r.total}</span></td><td>${r.wrong&&r.wrong!=="없음"?esc(r.wrong):'<span class="pill g">없음</span>'}${r.detail&&r.wrong!=="없음"?`<details><summary>학생 답 보기</summary><div>${esc(r.detail)}</div></details>`:""}</td></tr>`).join("")}</table></div>`).join("")}`;
+ $("#bk").onclick=()=>{UI.stu=null;renderView(filtered())}}
+if(PIN)load();else lock();
+</script>
+</body>
+</html>
