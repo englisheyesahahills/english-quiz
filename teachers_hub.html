@@ -10,6 +10,7 @@
     --grammar:#16a34a; --grammar-bg:#f0fdf4;
     --writing:#d97706; --writing-bg:#fffbeb;
     --other:#64748b; --other-bg:#f8fafc;
+    --middle:#8a2240;
     --ink:#1e293b; --sub:#64748b; --line:#e2e8f0;
   }
   *{box-sizing:border-box;}
@@ -63,6 +64,15 @@
   .grammar .btn.primary{background:var(--grammar);}
   .writing .btn.primary{background:var(--writing);}
   .other .btn.primary{background:var(--other);}
+  .middle .btn.primary{background:var(--middle);}
+  .tabs{position:sticky;top:0;z-index:5;background:#f1f5f9;padding:12px 0 8px;display:flex;gap:6px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tab{flex:none;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:7px 14px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:inherit}
+  .tab.on{background:#1e3a8a;color:#fff;border-color:#1e3a8a}
+  .search{width:100%;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:.9rem;font-family:inherit;margin-bottom:4px}
+  .sub{display:flex;gap:6px;margin:-4px 0 10px}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:4px 12px;font-size:.8rem;cursor:pointer;font-family:inherit}
+  .chip.on{background:var(--middle);color:#fff;border-color:var(--middle)}
+  .hide{display:none!important}
   .empty{
     font-size:.85rem; color:var(--sub); background:#fff; border:1px dashed var(--line);
     border-radius:12px; padding:16px; text-align:center;
@@ -81,8 +91,18 @@
 
   <div class="notice">📄 PDF가 연결된 시험: <b>리더스뱅크1_Reading14-16</b>, <b>그래머플러스_주격소유격목적격</b>, <b>Joy1A_Unit1-2</b>, <b>브릭스리딩40-1_Unit1-3</b>. 나머지 시험은 저장소에 시험지 PDF 파일이 없어 비활성이에요. PDF를 보내주시면 바로 연결해 드릴게요.</div>
 
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-t="all">전체</button>
+    <button class="tab" data-t="middle">🏫 중등부 시험</button>
+    <button class="tab" data-t="reading">📖 READING</button>
+    <button class="tab" data-t="grammar">🧩 GRAMMAR</button>
+    <button class="tab" data-t="writing">✍️ WRITING</button>
+    <button class="tab" data-t="other">📂 기타</button>
+  </div>
+  <input class="search" id="q" placeholder="🔍 시험 이름 검색 (예: 윤정미, 동주여중, 토셀)">
+
   <!-- READING -->
-  <div class="section reading">
+  <div class="section reading" data-sec="reading">
     <div class="section-head">
       <span class="dot" style="background:var(--reading)"></span>
       <h2 style="color:var(--reading)">📖 READING</h2>
@@ -171,7 +191,7 @@
   </div>
 
   <!-- GRAMMAR -->
-  <div class="section grammar">
+  <div class="section grammar" data-sec="grammar">
     <div class="section-head">
       <span class="dot" style="background:var(--grammar)"></span>
       <h2 style="color:var(--grammar)">🧩 GRAMMAR</h2>
@@ -213,7 +233,7 @@
   </div>
 
   <!-- WRITING -->
-  <div class="section writing">
+  <div class="section writing" data-sec="writing">
     <div class="section-head">
       <span class="dot" style="background:var(--writing)"></span>
       <h2 style="color:var(--writing)">✍️ WRITING</h2>
@@ -222,12 +242,106 @@
     <div class="empty">아직 WRITING으로 분류될 OMR 시험이 없어요.<br>서술형/작문 시험을 등록하면 여기에 자동으로 모아드릴게요.</div>
   </div>
 
+
+  <!-- MIDDLE -->
+  <div class="section middle" data-sec="middle">
+    <div class="section-head">
+      <span class="dot" style="background:var(--middle)"></span>
+      <h2 style="color:var(--middle)">🏫 중등부 시험</h2>
+      <span class="count">7개</span>
+    </div>
+    <div class="sub" id="gsub"><button class="chip on" data-g="">전체</button><button class="chip" data-g="중1">중1</button><button class="chip" data-g="중2">중2</button></div>
+
+    <div class="card" data-g="중1">
+      <div class="card-top">
+        <div><div class="exam-name">중1 동아(윤정미) 7·8과 모의고사</div><div class="meta">중1 · 사하중 학습지 포함 · 30문항 (객관식 20 · 서술형 10) · 자동 채점</div></div>
+        <span class="badge on">활성</span>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="https://englisheyesahahills.github.io/english-quiz/mock_omr.html?exam=m1yun_saha" target="_blank">📝 OMR 웹 열기</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m1yun_saha.pdf" target="_blank">📄 시험지 PDF (OMR 포함)</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m1yun_saha_key.pdf" target="_blank">✅ 정답·해설 PDF</a>
+      </div>
+    </div>
+
+    <div class="card" data-g="중1">
+      <div class="card-top">
+        <div><div class="exam-name">중1 동아(윤정미) 7·8과 모의고사</div><div class="meta">중1 · 당리중 학습지 포함 · 30문항 (객관식 20 · 서술형 10) · 자동 채점</div></div>
+        <span class="badge on">활성</span>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="https://englisheyesahahills.github.io/english-quiz/mock_omr.html?exam=m1yun_dangri" target="_blank">📝 OMR 웹 열기</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m1yun_dangri.pdf" target="_blank">📄 시험지 PDF (OMR 포함)</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m1yun_dangri_key.pdf" target="_blank">✅ 정답·해설 PDF</a>
+      </div>
+    </div>
+
+    <div class="card" data-g="중1">
+      <div class="card-top">
+        <div><div class="exam-name">중1 동아(이병민) 7·8과 모의고사</div><div class="meta">중1 · 동주여중 학습지 포함 · 30문항 (객관식 20 · 서술형 10) · 자동 채점</div></div>
+        <span class="badge on">활성</span>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="https://englisheyesahahills.github.io/english-quiz/mock_omr.html?exam=m1lee_dongju" target="_blank">📝 OMR 웹 열기</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m1lee_dongju.pdf" target="_blank">📄 시험지 PDF (OMR 포함)</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m1lee_dongju_key.pdf" target="_blank">✅ 정답·해설 PDF</a>
+      </div>
+    </div>
+
+    <div class="card" data-g="중2">
+      <div class="card-top">
+        <div><div class="exam-name">중2 동아(이병민) 7·8과 모의고사</div><div class="meta">중2 · 동주여중 학습지 포함 · 30문항 (객관식 20 · 서술형 10) · 자동 채점</div></div>
+        <span class="badge on">활성</span>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="https://englisheyesahahills.github.io/english-quiz/mock_omr.html?exam=m2lee_dongju" target="_blank">📝 OMR 웹 열기</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m2lee_dongju.pdf" target="_blank">📄 시험지 PDF (OMR 포함)</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m2lee_dongju_key.pdf" target="_blank">✅ 정답·해설 PDF</a>
+      </div>
+    </div>
+
+    <div class="card" data-g="중2">
+      <div class="card-top">
+        <div><div class="exam-name">중2 동아(윤정미) 7·8과 모의고사</div><div class="meta">중2 · 사하중 학습지 포함 · 30문항 (객관식 20 · 서술형 10) · 자동 채점</div></div>
+        <span class="badge on">활성</span>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="https://englisheyesahahills.github.io/english-quiz/mock_omr.html?exam=m2yun_saha" target="_blank">📝 OMR 웹 열기</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m2yun_saha.pdf" target="_blank">📄 시험지 PDF (OMR 포함)</a>
+        <a class="btn" href="https://englisheyesahahills.github.io/english-quiz/mock_m2yun_saha_key.pdf" target="_blank">✅ 정답·해설 PDF</a>
+      </div>
+    </div>
+
+    <div class="card" data-g="중1·중2">
+      <div class="card-top">
+        <div><div class="exam-name">동아이병민 5과 중간고사 모의고사</div><div class="meta">40문항 · 5지선다</div></div>
+        <span class="badge off">비활성</span>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="https://englisheyesahahills.github.io/english-quiz/stella_omr_v2.html?exam=%EB%8F%99%EC%95%84%EC%9D%B4%EB%B3%91%EB%AF%BC%205%EA%B3%BC%20%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%20%EB%AA%A8%EC%9D%98%EA%B3%A0%EC%82%AC" target="_blank">📝 OMR 웹 열기</a>
+        <span class="btn disabled">시험지 PDF</span>
+      </div>
+    </div>
+
+    <div class="card" data-g="중1·중2">
+      <div class="card-top">
+        <div><div class="exam-name">동아윤정미 5과 중간고사 모의고사</div><div class="meta">40문항 · 5지선다</div></div>
+        <span class="badge off">비활성</span>
+      </div>
+      <div class="links">
+        <a class="btn primary" href="https://englisheyesahahills.github.io/english-quiz/stella_omr_v2.html?exam=%EB%8F%99%EC%95%84%EC%9C%A4%EC%A0%95%EB%AF%B8%205%EA%B3%BC%20%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%20%EB%AA%A8%EC%9D%98%EA%B3%A0%EC%82%AC" target="_blank">📝 OMR 웹 열기</a>
+        <span class="btn disabled">시험지 PDF</span>
+      </div>
+    </div>
+
+  </div>
+
   <!-- OTHER -->
-  <div class="section other">
+  <div class="section other" data-sec="other">
     <div class="section-head">
       <span class="dot" style="background:var(--other)"></span>
-      <h2 style="color:var(--other)">📂 기타 (TOSEL · 모의고사)</h2>
-      <span class="count">6개</span>
+      <h2 style="color:var(--other)">📂 기타 (TOSEL)</h2>
+      <span class="count">4개</span>
     </div>
 
     <div class="card">
@@ -274,32 +388,36 @@
       </div>
     </div>
 
-    <div class="card">
-      <div class="card-top">
-        <div><div class="exam-name">동아이병민 5과 중간고사 모의고사</div><div class="meta">40문항 · 5지선다</div></div>
-        <span class="badge off">비활성</span>
-      </div>
-      <div class="links">
-        <a class="btn primary" href="https://englisheyesahahills.github.io/english-quiz/stella_omr_v2.html?exam=%EB%8F%99%EC%95%84%EC%9D%B4%EB%B3%91%EB%AF%BC%205%EA%B3%BC%20%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%20%EB%AA%A8%EC%9D%98%EA%B3%A0%EC%82%AC" target="_blank">📝 OMR 웹 열기</a>
-        <span class="btn disabled">시험지 PDF</span>
-      </div>
-    </div>
 
-    <div class="card">
-      <div class="card-top">
-        <div><div class="exam-name">동아윤정미 5과 중간고사 모의고사</div><div class="meta">40문항 · 5지선다</div></div>
-        <span class="badge off">비활성</span>
-      </div>
-      <div class="links">
-        <a class="btn primary" href="https://englisheyesahahills.github.io/english-quiz/stella_omr_v2.html?exam=%EB%8F%99%EC%95%84%EC%9C%A4%EC%A0%95%EB%AF%B8%205%EA%B3%BC%20%EC%A4%91%EA%B0%84%EA%B3%A0%EC%82%AC%20%EB%AA%A8%EC%9D%98%EA%B3%A0%EC%82%AC" target="_blank">📝 OMR 웹 열기</a>
-        <span class="btn disabled">시험지 PDF</span>
-      </div>
-    </div>
 
   </div>
 
-  <footer>잉글리시아이스텔라영어학원 · OMR 시험 관리 허브 · 총 16개 시험 등록</footer>
+  <footer>잉글리시아이스텔라영어학원 · OMR 시험 관리 허브 · 총 21개 시험 등록</footer>
 </div>
 
+<script>
+(function(){
+  var tab="all",g="",q="";
+  try{tab=localStorage.getItem("omrhub_tab")||"all"}catch(e){}
+  var secs=[].slice.call(document.querySelectorAll(".section[data-sec]"));
+  function apply(){
+    [].forEach.call(document.querySelectorAll(".tab"),function(b){b.classList.toggle("on",b.dataset.t===tab)});
+    [].forEach.call(document.querySelectorAll(".chip"),function(b){b.classList.toggle("on",b.dataset.g===g)});
+    secs.forEach(function(s){
+      var show=tab==="all"||s.dataset.sec===tab,n=0;
+      [].forEach.call(s.querySelectorAll(".card"),function(c){
+        var ok=(!q||c.textContent.toLowerCase().indexOf(q)>=0)&&(!g||!c.dataset.g||c.dataset.g.indexOf(g)>=0);
+        c.classList.toggle("hide",!ok);if(ok)n++;
+      });
+      var e=s.querySelector(".empty");
+      s.classList.toggle("hide",!show||(q&&n===0));
+    });
+  }
+  document.getElementById("tabs").onclick=function(e){var b=e.target.closest(".tab");if(!b)return;tab=b.dataset.t;try{localStorage.setItem("omrhub_tab",tab)}catch(x){}apply();window.scrollTo(0,0)};
+  var sub=document.getElementById("gsub");if(sub)sub.onclick=function(e){var b=e.target.closest(".chip");if(!b)return;g=b.dataset.g;apply()};
+  document.getElementById("q").oninput=function(e){q=e.target.value.trim().toLowerCase();apply()};
+  apply();
+})();
+</script>
 </body>
 </html>
