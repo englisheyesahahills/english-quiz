@@ -925,7 +925,7 @@ function renderDash(){
     kpi(mLabel.split(' ')[1] + ' 출석률', done.length ? pct(present, done.length) : null, '%', done.length ? '수업 ' + done.length + '회 중 ' + present + '회 출석' : '기록 없음') +
     kpi(mLabel.split(' ')[1] + ' 숙제 제출률', hwRows.length ? pct(hwOk, hwRows.length) : null, '%', hwRows.length ? hwRows.length + '회 중 ' + hwOk + '회 제출' : '기록 없음') +
     kpi('단어시험 평균', wAvg, '%', recent.length ? '최근 ' + recent.length + '회 기준' : '기록 없음') +
-    kpi('누적 포인트', (typeof st.points === 'number') ? st.points : null, 'P', '칭찬·성실 포인트') +
+    kpi('누적 포인트', (typeof st.points === 'number') ? st.points : null, 'P', '숙제 제출 +20 · 단어 만점 +20') +
   '</div>';
 
   if (CURRENT.r){
