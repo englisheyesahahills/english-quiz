@@ -183,6 +183,7 @@ svg text{font-family:Pretendard,sans-serif}
 <div id="app"><div class="state"><div class="spinner"></div><p style="margin-top:16px">리포트를 불러오는 중입니다…</p></div></div>
 <div id="tip"></div>
 
+<script src="graded_paper.js"></script>
 <script>
 // ▼ Apps Script 웹앱 배포 URL을 여기에 붙여넣으세요
 const API_URL = 'https://script.google.com/macros/s/AKfycby5iT3REE8b0heXE_MY8cqwE99jB_6jvqOsmnTgcCfipk4pba73ayEjrqNIqGfK5Pc/exec';
@@ -394,65 +395,11 @@ function unitBlock(it) {
   }).join('')}</div>`;
 }
 
-const CIRC = ['①','②','③','④','⑤','⑥'];
 function reviewBlock(it, key) {
   const ex = it.examId && STATE.data.exams ? STATE.data.exams[it.examId] : null;
-  if (!ex || !it.wrong) return '';
-  const wrong = {}; it.wrong.forEach(n => wrong[n] = 1);
-  const total = it.t || ex.total || (ex.questions ? ex.questions.length : ex.answers.length);
-  const nWrong = it.wrong.length, nOk = total - nWrong;
-  const ansTxt = a => typeof a === 'number' ? (CIRC[a - 1] || a) : esc(a);
-  let body;
-  if (ex.questions && ex.questions.length) {
-    body = ex.questions.map(q => {
-      const ng = !!wrong[q.no];
-      const psg = q.passage ? ((ex.passages || {})[q.passage] || q.passage) : '';
-      const choices = q.choices && q.choices.length
-        ? `<ol>${q.choices.map((c, i) => `<li class="${q.answer === i + 1 ? 'ans' : ''}"><span>${CIRC[i] || i + 1}</span><span>${esc(c)}</span>${q.answer === i + 1 ? '<span class="ansmark">정답</span>' : ''}</li>`).join('')}</ol>`
-        : `<div class="ansline">정답: ${ansTxt(q.answer)}</div>`;
-      const inner = `${psg ? `<details><summary>지문 보기</summary><div class="psg">${esc(psg)}</div></details>` : ''}
-        ${q.q ? `<div class="qt">${esc(q.q)}</div>` : ''}${choices}
-        ${q.exp ? `<div class="exp"><b>💡 해설</b><br>${esc(q.exp)}</div>` : ''}`;
-      return `<div class="q ${ng ? 'ng' : 'ok'}"><div class="qh"><span class="qn">${q.no}번</span><span class="mk">${ng ? '✗ 다시 확인' : '✓ 정답'}</span>${q.unit ? `<span class="tag">${esc(q.unit)}</span>` : ''}</div>
-        ${ng ? inner : `<details><summary>문제·해설 보기</summary>${inner}</details>`}</div>`;
-    }).join('');
-  } else {
-    body = `<div class="grid">${Array.from({ length: total }, (_, i) => {
-      const n = i + 1, ng = !!wrong[n];
-      return `<div class="cell ${ng ? 'ng' : 'ok'}"><b>${n}</b>${ng ? '✗' : '✓'} ${ex.answers[i] != null ? ansTxt(ex.answers[i]) : ''}</div>`;
-    }).join('')}</div><div class="unit" style="margin-top:8px">칸 안의 동그라미 숫자는 정답 번호입니다.</div>`;
-  }
-  const st = STATE.data.student;
-  return `<div class="review" id="rv-${key}"><div class="print-head"><div class="ph1">ENGLISH EYE STELLA · 잉글리시아이스텔라 영어전문</div>
-      <div class="ph2">${esc(ex.title || it.name)} — <span class="t-rev">오답 다시보기</span><span class="t-redo">다시 풀어보기</span></div>
-      <div class="ph3">이름: ${esc(st.name)} ${st.cls ? '· ' + esc(st.cls) : ''} · 점수 ${it.c}/${it.t} · 틀린 문제: ${it.wrong.length ? it.wrong.join(', ') + '번' : '없음'}</div></div>
-    <div class="rv-head"><b>📝 시험지 다시보기</b><span class="pill ok">✓ ${nOk}</span><span class="pill ng">✗ ${nWrong}</span></div>
-    ${ex.questions && nWrong ? `<div class="seg"><button class="on" onclick="seg(this,'${key}',1)">틀린 문제만</button><button onclick="seg(this,'${key}',0)">전체 문제</button></div>` : ''}
-    <div class="qs ${ex.questions && nWrong ? 'only-wrong' : ''}" id="qs-${key}">${body}</div>
-    ${!nWrong ? '<div class="unit" style="margin-top:8px">🎉 모든 문제를 맞혔어요!</div>' : ''}
-    <div class="prow"><button onclick="printReview('${key}', false)">🖨️ 인쇄 (정답·해설 포함)</button>${ex.questions ? `<button onclick="printReview('${key}', true)">✏️ 다시 풀기용 인쇄 (정답 숨김)</button>` : ''}</div>
-    ${ex.pdf ? `<a class="pdfbtn" href="${esc(ex.pdf)}" target="_blank" rel="noopener">📄 시험지 원본 보기</a>` : ''}</div>`;
-}
-// 시험지 다시보기만 인쇄 (현재 선택: 틀린 문제만 / 전체 문제)
-function printReview(key, noAns) {
-  const rv = document.getElementById('rv-' + key);
-  const item = rv.closest('.mitem'), card = rv.closest('.card');
-  const opened = [];
-  rv.querySelectorAll('details:not([open])').forEach(d => { d.open = true; opened.push(d); });
-  item.classList.add('print-target'); card.classList.add('print-target-card');
-  document.body.classList.add('print-review'); if (noAns) document.body.classList.add('print-noans');
-  const done = () => {
-    opened.forEach(d => d.open = false);
-    item.classList.remove('print-target'); card.classList.remove('print-target-card');
-    document.body.classList.remove('print-review', 'print-noans');
-    window.removeEventListener('afterprint', done);
-  };
-  window.addEventListener('afterprint', done);
-  setTimeout(() => { window.print(); setTimeout(done, 1500); }, 50);
-}
-function seg(btn, key, onlyWrong) {
-  btn.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === btn));
-  document.getElementById('qs-' + key).classList.toggle('only-wrong', !!onlyWrong);
+  if (!ex || !it.wrong || !window.GradedPaper) return '';
+  return '<div class="review" style="border:0;padding-top:4px"><div class="rv-head"><b>📝 채점 시험지</b></div>' +
+    GradedPaper.render(it, ex, STATE.data.student, key) + '</div>';
 }
 
 function trendCard(reps) {
@@ -516,7 +463,7 @@ function demoData() {
         '이번 달 스텔라는 단어 시험에서 만점을 여러 번 받으며 성실함이 특히 빛났습니다. 수업 시간에도 자신 있게 손을 들고 발표하는 모습이 많이 늘었어요.\n\n다음 달에는 스피킹에서 완전한 문장으로 말하기를 함께 연습해 보겠습니다. 가정에서도 많이 칭찬해 주세요! 😊')
     ] };
   const it = out.reports[2].monthly.items[0];
-  Object.assign(it, { examId: 'demoexam', examTitle: ex.title, c: 8, t: 10, p: 80, wrong: [3, 7],
+  Object.assign(it, { examId: 'demoexam', examTitle: ex.title, c: 8, t: 10, p: 80, wrong: [3, 7], myAns: { 3: 2, 7: 2 }, d: '2026-11-27',
     unitStats: [{ unit: 'be동사 과거', c: 4, t: 4 }, { unit: '일반동사 과거', c: 3, t: 4 }, { unit: '과거 부정·의문', c: 1, t: 2 }] });
   out.reports[2].monthly.pct = 80;
   return out;

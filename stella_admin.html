@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>초등부 학생 관리 · 상담용 | 잉글리시아이스텔라</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--navy:#14213E;--navy2:#1F3160;--burgundy:#90394A;--gold:#C9A227;--gold-ink:#8A6A12;--bg:#F4F2EE;--card:#fff;--ink:#1B2233;--ink2:#4A5263;--muted:#8A93A3;--line:#E7E4DE;
+  --c-word:#2F5BA8;--c-month:#B5862A;--c-speak:#A84458;--ok:#1E7F55;--warn:#B5862A;--bad:#B5483C}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Pretendard,-apple-system,'Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.top{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:18px 20px 16px}
+.top .in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.brand{font-size:11px;letter-spacing:.12em;color:var(--gold);font-weight:700}
+.top h1{font-size:20px;font-weight:800;margin-top:2px}
+.top .r{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.mbtn{border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:999px;padding:7px 12px;font:600 13px Pretendard,sans-serif;cursor:pointer}
+.mlabel{font-weight:800;font-size:15px;min-width:92px;text-align:center}
+.upd{font-size:11px;opacity:.7}
+.wrap{max-width:1180px;margin:0 auto;padding:16px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 18px;font:700 14px Pretendard,sans-serif;color:var(--ink2);cursor:pointer}
+.tab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tab small{font-weight:600;opacity:.7;margin-left:4px}
+.search{margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font:14px Pretendard,sans-serif;min-width:180px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.kpi{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 1px 2px rgba(20,33,62,.06)}
+.kpi .k{font-size:12px;color:var(--ink2);font-weight:600}
+.kpi .v{font-size:22px;font-weight:800;margin-top:4px}
+.kpi .v small{font-size:12px;color:var(--muted);font-weight:600}
+.card{background:#fff;border-radius:16px;box-shadow:0 1px 2px rgba(20,33,62,.06),0 6px 20px rgba(20,33,62,.04);overflow:hidden}
+table{width:100%;border-collapse:collapse;font-size:13.5px}
+th{background:#F8F7F4;color:var(--ink2);font-weight:700;font-size:12px;text-align:left;padding:10px 10px;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+th.num,td.num{text-align:center}
+td{padding:10px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+tr.row{cursor:pointer}
+tr.row:hover td{background:#FBFAF7}
+.nm{font-weight:800;color:var(--navy)}
+.flag{display:inline-block;font-size:10.5px;font-weight:700;color:var(--bad);background:#FBECEA;border-radius:5px;padding:1px 6px;margin-left:6px}
+.bar{display:inline-block;width:70px;height:7px;background:#EEECE7;border-radius:4px;vertical-align:middle;margin-left:6px;position:relative;overflow:hidden}
+.bar i{position:absolute;left:0;top:0;bottom:0;border-radius:4px}
+.pct{font-weight:700;display:inline-block;min-width:44px;text-align:right}
+.hwc{font-size:12.5px;white-space:nowrap}
+.hwc b{font-weight:700}
+.o{color:var(--ok)}.p{color:var(--warn)}.x{color:var(--bad)}
+.wn{font-size:12px;color:var(--bad)}
+.muted{color:var(--muted)}
+.state{padding:70px 20px;text-align:center;color:var(--ink2)}
+.state h3{color:var(--navy);margin:10px 0 6px}
+.spinner{width:34px;height:34px;border:3px solid var(--line);border-top-color:var(--navy);border-radius:50%;margin:0 auto;animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.login{max-width:360px;margin:60px auto;background:#fff;border-radius:18px;padding:26px;box-shadow:0 6px 20px rgba(20,33,62,.08);text-align:center}
+.login input{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font:15px Pretendard,sans-serif;margin:14px 0 10px;text-align:center}
+.login button,.pbtn{border:0;background:var(--navy);color:#fff;border-radius:10px;padding:11px 16px;font:700 14px Pretendard,sans-serif;cursor:pointer}
+.login .err{color:var(--bad);font-size:13px;min-height:18px}
+/* detail */
+.dt{position:fixed;inset:0;background:rgba(20,33,62,.35);z-index:20;display:none;justify-content:flex-end}
+.dt.on{display:flex}
+.panel{background:var(--bg);width:min(760px,100%);height:100%;overflow-y:auto;box-shadow:-8px 0 30px rgba(0,0,0,.15)}
+.ph{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;padding:18px 20px;position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ph h2{font-size:22px;font-weight:800}
+.ph .sub{font-size:13px;opacity:.8}
+.ph .acts{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.ph .acts a,.ph .acts button{border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:999px;padding:7px 12px;font:600 12.5px Pretendard,sans-serif;cursor:pointer;text-decoration:none}
+.ph .acts .close{font-size:16px;padding:4px 12px}
+.pbody{padding:14px}
+.sec{background:#fff;border-radius:14px;padding:16px;margin-bottom:12px;box-shadow:0 1px 2px rgba(20,33,62,.06)}
+.sec h3{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.sec h3 .s{margin-left:auto;font-size:12px;font-weight:600;color:var(--muted)}
+.stats{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.stat{flex:1;min-width:90px;background:#F8F7F4;border-radius:10px;padding:9px;text-align:center}
+.stat b{display:block;font-size:18px;font-weight:800}
+.stat span{font-size:11px;color:var(--muted)}
+.mini{width:100%;font-size:13px}
+.mini td,.mini th{padding:7px 8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border-radius:8px;padding:6px 8px;font-size:12px;text-align:center;min-width:58px;background:#F4F2EE}
+.chip b{display:block;font-size:14px}
+.chip.O{background:#E7F4EE;color:var(--ok)}.chip.P{background:#FBF4DE;color:var(--gold-ink)}.chip.X{background:#FBECEA;color:var(--bad)}.chip.A{background:#EEF0F4;color:var(--muted)}
+.spk{display:flex;gap:8px;flex-wrap:wrap}
+.spk div{flex:1;min-width:90px;background:#F8F7F4;border-radius:10px;padding:8px;text-align:center;font-size:12px}
+.spk b{display:block;font-size:17px;color:var(--c-speak)}
+.empty{font-size:13px;color:var(--muted)}
+.mscore{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.mscore b{font-size:20px}
+.demo{background:var(--gold);color:var(--navy);text-align:center;font-size:12px;font-weight:700;padding:6px}
+@media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.hide-sm{display:none}.search{margin-left:0;width:100%}}
+@media print{
+  body.print-detail>*:not(.dt){display:none!important}
+  body.print-detail .dt{position:static;display:block;background:none}
+  body.print-detail .panel{width:100%;height:auto;overflow:visible;box-shadow:none}
+  body.print-detail .ph{position:static;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.print-detail .ph .acts,body.print-detail .gp-prow,body.print-detail .gp-seg{display:none!important}
+  .sec{break-inside:avoid;box-shadow:none;border:1px solid var(--line)}
+  body.print-list .top .r,body.print-list .tabs .search{display:none}
+}
+</style>
+</head>
+<body>
+<div id="app"><div class="state"><div class="spinner"></div><p style="margin-top:14px">불러오는 중…</p></div></div>
+<div class="dt" id="dt" onclick="if(event.target===this)closeDetail()"><div class="panel" id="panel"></div></div>
+
+<script src="graded_paper.js"></script>
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycby5iT3REE8b0heXE_MY8cqwE99jB_6jvqOsmnTgcCfipk4pba73ayEjrqNIqGfK5Pc/exec';
+const REPORT_URL = 'https://englisheyesahahills.github.io/english-quiz/report.html?id=';
+const KEY_STORE = 'stella_admin_key';
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = v => v == null ? '–' : (Math.round(v * 10) / 10).toString();
+const params = new URLSearchParams(location.search);
+const S = { data: null, month: null, cls: null, q: '', sort: 'name', dir: 1, demo: false };
+
+function monthKey(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'); }
+function shiftMonth(m, n) { const d = new Date(+m.slice(0, 4), +m.slice(5) - 1 + n, 1); return monthKey(d); }
+function mLabel(m) { return m.slice(0, 4) + '년 ' + (+m.slice(5)) + '월'; }
+function getKey() { try { return localStorage.getItem(KEY_STORE) || ''; } catch (e) { return S._key || ''; } }
+function setKey(k) { try { localStorage.setItem(KEY_STORE, k); } catch (e) {} S._key = k; }
+
+// ---------- 로그인 ----------
+function showLogin(msg) {
+  $('#app').innerHTML = `<div class="top"><div class="in"><div><div class="brand">ENGLISH EYE STELLA · ADMIN</div><h1>초등부 학생 관리 · 상담용</h1></div></div></div>
+  <div class="login"><div style="font-size:34px">🔐</div><h3 style="color:var(--navy);margin-top:6px">원장 전용 페이지</h3>
+  <p style="font-size:13px;color:var(--ink2);margin-top:4px">관리자 비밀번호를 입력해 주세요.</p>
+  <input id="pw" type="password" placeholder="비밀번호" onkeydown="if(event.key==='Enter')doLogin()">
+  <div class="err">${esc(msg || '')}</div><button onclick="doLogin()" style="width:100%">들어가기</button>
+  <p style="font-size:12px;color:var(--muted);margin-top:14px"><a href="?demo" style="color:var(--muted)">샘플 화면 보기</a></p></div>`;
+  setTimeout(() => $('#pw') && $('#pw').focus(), 50);
+}
+function doLogin() { const v = $('#pw').value.trim(); if (!v) return; setKey(v); load(S.month, false); }
+function logout() { setKey(''); showLogin(); }
+
+// ---------- 데이터 ----------
+async function load(month, refresh) {
+  S.month = month || S.month || monthKey(new Date());
+  if (params.has('demo')) { S.demo = true; S.data = demoData(S.month); return render(); }
+  const key = getKey();
+  if (!key) return showLogin();
+  if (S.data) $('#list').innerHTML = '<div class="state"><div class="spinner"></div><p style="margin-top:14px">노션에서 불러오는 중… (처음엔 20~30초)</p></div>';
+  else $('#app').innerHTML = '<div class="state"><div class="spinner"></div><p style="margin-top:14px">노션에서 불러오는 중… (처음엔 20~30초)</p></div>';
+  try {
+    const url = API_URL + '?action=admin&key=' + encodeURIComponent(key) + '&month=' + S.month + (refresh ? '&refresh=1' : '');
+    const r = await fetch(url); const d = await r.json();
+    if (!d.ok) {
+      if (d.error === 'auth') { setKey(''); return showLogin('비밀번호가 맞지 않아요.'); }
+      if (d.error === 'nokey') return showLogin('Apps Script 스크립트 속성에 ADMIN_KEY를 먼저 등록해 주세요.');
+      throw new Error(d.error);
+    }
+    S.data = d; render();
+  } catch (e) {
+    $('#app').innerHTML = `<div class="state"><div style="font-size:36px">⚠️</div><h3>불러오지 못했어요</h3><p>${esc(e.message || e)}</p><p style="margin-top:12px"><button class="pbtn" onclick="load(S.month,true)">다시 시도</button></p></div>`;
+  }
+}
+
+// ---------- 화면 ----------
+function render() {
+  const d = S.data, list = d.students;
+  const counts = {}; d.classes.forEach(c => counts[c] = list.filter(s => s.cls === c).length);
+  if (!S.cls) S.cls = d.classes.find(c => counts[c]) || d.classes[0];
+  if (!$('#list')) {
+    $('#app').innerHTML = `${S.demo ? '<div class="demo">샘플 데이터 화면입니다</div>' : ''}
+    <div class="top"><div class="in"><div><div class="brand">ENGLISH EYE STELLA · ADMIN</div><h1>초등부 학생 관리 · 상담용</h1></div>
+      <div class="r"><button class="mbtn" onclick="load(shiftMonth(S.month,-1))">◀</button><span class="mlabel" id="ml"></span><button class="mbtn" onclick="load(shiftMonth(S.month,1))">▶</button>
+      <button class="mbtn" onclick="load(S.month,true)">🔄 새로고침</button><button class="mbtn" onclick="printList()">🖨️ 반 명단 인쇄</button>${S.demo ? '' : '<button class="mbtn" onclick="logout()">로그아웃</button>'}<span class="upd" id="upd"></span></div></div></div>
+    <div class="wrap"><div class="tabs" id="tabs"></div><div class="kpis" id="kpis"></div><div class="card" id="list"></div></div>`;
+  }
+  $('#ml').textContent = mLabel(S.month);
+  $('#upd').textContent = d.updated ? '갱신 ' + d.updated.slice(5) : '';
+  $('#tabs').innerHTML = d.classes.map(c => `<button class="tab ${c === S.cls ? 'on' : ''}" onclick="S.cls='${c}';render()">${c.replace(' class', '반')}<small>${counts[c]}</small></button>`).join('') +
+    `<input class="search" placeholder="🔍 이름 검색" value="${esc(S.q)}" oninput="S.q=this.value.trim();renderList()">`;
+  renderList();
+}
+
+function flagOf(s) {
+  const f = [];
+  if (s.words && s.words.avg < 70) f.push('단어');
+  if (s.hw.rate != null && s.hw.rate < 70) f.push('숙제');
+  if (s.monthly.length && s.monthly[0].p < 70) f.push('월말');
+  return f;
+}
+const sortVal = {
+  name: s => s.name, words: s => s.words ? s.words.avg : -1, hw: s => s.hw.rate == null ? -1 : s.hw.rate,
+  absent: s => s.hw.absent, monthly: s => s.monthly.length ? s.monthly[0].p : -1, speak: s => s.speaking ? s.speaking.total : -1
+};
+function setSort(k) { if (S.sort === k) S.dir *= -1; else { S.sort = k; S.dir = k === 'name' ? 1 : -1; } renderList(); }
+
+function renderList() {
+  const all = S.data.students.filter(s => s.cls === S.cls);
+  const rows = all.filter(s => !S.q || s.name.indexOf(S.q) > -1).slice().sort((a, b) => {
+    const va = sortVal[S.sort](a), vb = sortVal[S.sort](b);
+    return (va > vb ? 1 : va < vb ? -1 : 0) * S.dir;
+  });
+  const avg = arr => { const v = arr.filter(x => x != null); return v.length ? v.reduce((a, b) => a + b, 0) / v.length : null; };
+  $('#kpis').innerHTML = [
+    ['학생 수', all.length + '<small> 명</small>'],
+    ['반 단어 평균', fmt(avg(all.map(s => s.words && s.words.avg))) + '<small> %</small>'],
+    ['반 숙제 제출률', fmt(avg(all.map(s => s.hw.rate))) + '<small> %</small>'],
+    ['반 월말평가 평균', fmt(avg(all.map(s => s.monthly.length ? s.monthly[0].p : null))) + '<small> %</small>']
+  ].map(k => `<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div></div>`).join('');
+  const ar = k => S.sort === k ? (S.dir > 0 ? ' ▲' : ' ▼') : '';
+  const bar = (v, c) => v == null ? '<span class="muted">–</span>' : `<span class="pct">${fmt(v)}%</span><span class="bar hide-sm"><i style="width:${Math.min(100, v)}%;background:${c}"></i></span>`;
+  if (!all.length) { $('#list').innerHTML = '<div class="state">이 반에 등록된 학생이 없어요.</div>'; return; }
+  $('#list').innerHTML = `<table><thead><tr>
+    <th onclick="setSort('name')">이름${ar('name')}</th>
+    <th onclick="setSort('words')">단어 평균${ar('words')}</th>
+    <th class="num hide-sm">응시·만점·재시</th>
+    <th onclick="setSort('hw')">숙제 제출${ar('hw')}</th>
+    <th class="num" onclick="setSort('absent')">결석${ar('absent')}</th>
+    <th onclick="setSort('monthly')">월말평가${ar('monthly')}</th>
+    <th class="num hide-sm" onclick="setSort('speak')">스피킹${ar('speak')}</th></tr></thead><tbody>
+    ${rows.map(s => {
+      const f = flagOf(s), m = s.monthly[0];
+      return `<tr class="row" onclick="openDetail('${s.id}')">
+        <td><span class="nm">${esc(s.name)}</span>${f.length ? `<span class="flag">관심 · ${f.join('·')}</span>` : ''}</td>
+        <td>${bar(s.words && s.words.avg, 'var(--c-word)')}</td>
+        <td class="num hide-sm">${s.words ? `${s.words.count} · ${s.words.perfect} · ${s.retest}` : '<span class="muted">–</span>'}</td>
+        <td class="hwc">${s.hw.rate == null ? '<span class="muted">–</span>' : `<b>${s.hw.rate}%</b> <span class="o">⭕${s.hw.O}</span> <span class="p">🔺${s.hw.P}</span> <span class="x">❌${s.hw.X}</span>`}</td>
+        <td class="num">${s.hw.absent ? `<b class="x">${s.hw.absent}</b>` : '<span class="muted">0</span>'}</td>
+        <td>${m ? `<b>${m.c}/${m.t}</b> <span class="muted">(${fmt(m.p)}%)</span>${m.wrong && m.wrong.length ? `<div class="wn">✗ ${m.wrong.join(', ')}번</div>` : (m.wrong ? '<div class="wn" style="color:var(--ok)">만점</div>' : '')}` : '<span class="muted">–</span>'}</td>
+        <td class="num hide-sm">${s.speaking ? `${s.speaking.total}/${s.speaking.max}` : '<span class="muted">–</span>'}</td></tr>`;
+    }).join('')}</tbody></table>`;
+}
+
+// ---------- 학생 상세 (상담용) ----------
+function openDetail(id) {
+  const s = S.data.students.find(x => x.id === id); if (!s) return;
+  const w = s.words, h = s.hw;
+  const wordsSec = w ? `<div class="stats"><div class="stat"><b>${fmt(w.avg)}%</b><span>평균 정답률</span></div><div class="stat"><b>${w.count}회</b><span>응시</span></div><div class="stat"><b>${w.perfect}회</b><span>만점</span></div><div class="stat"><b>${s.retest}회</b><span>재시</span></div></div>
+    <div class="chips">${w.daily.map(x => `<div class="chip ${x.p >= 90 ? 'O' : x.p >= 70 ? 'P' : 'X'}"><b>${x.c}/${x.t}</b>${+x.d.slice(5, 7)}/${+x.d.slice(8)}</div>`).join('')}</div>` : '<div class="empty">이번 달 단어시험 기록이 없어요.</div>';
+  const hwSec = h.rows.length ? `<div class="stats"><div class="stat"><b>${h.rate == null ? '–' : h.rate + '%'}</b><span>제출률</span></div><div class="stat"><b class="o">${h.O}</b><span>⭕ 제출</span></div><div class="stat"><b class="p">${h.P}</b><span>🔺 미완료</span></div><div class="stat"><b class="x">${h.X}</b><span>❌ 미제출</span></div><div class="stat"><b>${h.absent}</b><span>결석</span></div></div>
+    <div class="chips">${h.rows.map(x => { const k = x.att === '결석' ? 'A' : x.hw === 'O' ? 'O' : x.hw === '△' ? 'P' : x.hw === 'X' ? 'X' : 'A';
+      const lab = x.att === '결석' ? '결석' : x.hw === 'O' ? '⭕' : x.hw === '△' ? '🔺' : x.hw === 'X' ? '❌' : (x.att || '-');
+      return `<div class="chip ${k}" title="${esc(x.miss.join(', '))}"><b>${lab}</b>${+x.d.slice(5, 7)}/${+x.d.slice(8)}${x.miss.length ? `<div style="font-size:10px">${esc(x.miss.join('·'))}</div>` : ''}</div>`; }).join('')}</div>` : '<div class="empty">이번 달 숙제·출석 기록이 없어요.</div>';
+  const monthSec = s.monthly.length ? s.monthly.map((it, k) => {
+    const ex = it.examId && S.data.exams ? S.data.exams[it.examId] : null;
+    return `<div class="mscore"><b>${esc(it.examTitle || it.name)}</b><span><b style="font-size:16px">${it.c}/${it.t}</b> (${fmt(it.p)}%)</span>${it.wrong ? `<span class="wn">${it.wrong.length ? '✗ ' + it.wrong.map(n => n + (it.myAns && it.myAns[n] != null ? '(' + it.myAns[n] + ')' : '')).join(', ') : '만점'}</span>` : '<span class="muted" style="font-size:12px">틀린 번호 미입력</span>'}</div>
+      ${ex && it.wrong ? GradedPaper.render(it, ex, s, 'adm-' + s.id.slice(0, 8) + '-' + k) : (it.examId ? '' : '<div class="empty" style="margin-top:6px">노션 학생 성적 관리에서 OMR 시험을 선택하면 채점 시험지가 보여요.</div>')}`;
+  }).join('<hr style="border:0;border-top:1px dashed var(--line);margin:14px 0">') : '<div class="empty">이번 달 월말평가 기록이 없어요.</div>';
+  const spSec = s.speaking ? `<div class="spk">${s.speaking.areas.map(a => `<div><b>${a.v}/5</b>${esc(a.label)}</div>`).join('')}<div><b>${s.speaking.total}/${s.speaking.max}</b>총점</div></div>` : '<div class="empty">이번 달 스피킹 평가 기록이 없어요.</div>';
+  $('#panel').innerHTML = `<div class="ph"><div><div class="sub">${esc(s.cls)} · ${mLabel(S.month)}</div><h2>${esc(s.name)}</h2></div>
+    <div class="acts">${s.code ? `<a href="${REPORT_URL + s.code}" target="_blank" rel="noopener">📊 학부모 리포트</a>` : ''}<button onclick="printDetail()">🖨️ 상담자료 인쇄</button><button class="close" onclick="closeDetail()">✕</button></div></div>
+    <div class="pbody">
+      <div class="sec"><h3>📝 월말평가 · 채점 시험지</h3>${monthSec}</div>
+      <div class="sec"><h3><span style="color:var(--c-word)">●</span> 단어 시험<span class="s">초록 90%↑ · 노랑 70%↑ · 빨강 70% 미만</span></h3>${wordsSec}</div>
+      <div class="sec"><h3>📚 숙제 · 출석</h3>${hwSec}</div>
+      <div class="sec"><h3><span style="color:var(--c-speak)">●</span> 스피킹</h3>${spSec}</div>
+    </div>`;
+  $('#dt').classList.add('on'); $('#panel').scrollTop = 0;
+}
+function closeDetail() { $('#dt').classList.remove('on'); }
+function printDetail() {
+  $('#panel').querySelectorAll('.gp-qs.only-wrong').forEach(q => q.dataset.ow = 1);
+  document.body.classList.add('print-detail');
+  const done = () => { document.body.classList.remove('print-detail'); window.removeEventListener('afterprint', done); };
+  window.addEventListener('afterprint', done);
+  setTimeout(() => { window.print(); setTimeout(done, 1500); }, 60);
+}
+function printList() { document.body.classList.add('print-list'); window.print(); setTimeout(() => document.body.classList.remove('print-list'), 1500); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDetail(); });
+
+// ---------- 샘플 ----------
+function demoData(month) {
+  const names = { 'A class': ['김하늘', '이준서', '박서아'], 'B class': ['최윤아', '정도윤', '한지우', '오민재'], 'C class': ['강다은', '윤서준'], 'D class': ['임하린', '서지호'] };
+  const ex = { id: 'demoexam', title: '바로쓰는문법 2권 Unit 3–4', total: 10, choices: 4, answers: [2,1,3,4,2,1,3,2,4,1],
+    questions: [
+      { no: 1, unit: 'be동사 과거', q: 'I ___ at home yesterday.', choices: ['am', 'was', 'were', 'is'], answer: 2, exp: '주어 I + 과거 → was' },
+      { no: 2, unit: 'be동사 과거', q: 'They ___ in the park last night.', choices: ['were', 'was', 'are', 'is'], answer: 1, exp: 'They + 과거 → were' },
+      { no: 3, unit: '일반동사 과거', q: '동사의 과거형이 바르지 않은 것은?', choices: ['go – went', 'eat – ate', 'buy – buyed', 'see – saw'], answer: 3, exp: 'buy의 과거형은 bought예요.' },
+      { no: 4, unit: '일반동사 과거', q: 'She ___ a letter two days ago.', choices: ['write', 'writes', 'writing', 'wrote'], answer: 4, exp: 'two days ago → wrote' },
+      { no: 5, unit: '과거 부정·의문', q: "He played soccer. → 부정문", choices: ['He not played soccer.', "He didn't played soccer.", "He didn't play soccer.", "He doesn't play soccer."], answer: 3, exp: "didn't + 동사원형" }
+    ] };
+  ex.total = 5; ex.answers = [2, 1, 3, 4, 3];
+  const st = []; let k = 0;
+  Object.keys(names).forEach(c => names[c].forEach(n => {
+    k++; const wv = [70 + (k * 7) % 30, 75 + (k * 11) % 25, 80 + (k * 5) % 20, 65 + (k * 13) % 35];
+    const daily = wv.map((p, i) => ({ d: month + '-' + String(3 + i * 7).padStart(2, '0'), p: Math.round(p / 100 * 12) / 12 * 100, c: Math.round(p / 100 * 12), t: 12 }));
+    const wrong = [[3], [3, 5], [], [5], [2, 3]][k % 5];
+    const rows = Array.from({ length: 8 }, (_, i) => ({ d: month + '-' + String(2 + i * 3).padStart(2, '0'), att: i === 5 && k % 3 === 0 ? '결석' : '출석', hw: i === 5 && k % 3 === 0 ? '' : ['O', 'O', 'O', '△', 'O', 'X', 'O', 'O'][(i + k) % 8], miss: (i + k) % 8 === 5 ? ['단어'] : [] }));
+    const cnt = { O: rows.filter(r => r.hw === 'O').length, P: rows.filter(r => r.hw === '△').length, X: rows.filter(r => r.hw === 'X').length };
+    st.push({ id: 'demo' + k + 'xxxxxxxx', name: n, cls: c, code: '', words: { avg: Math.round(daily.reduce((a, b) => a + b.p, 0) / 4 * 10) / 10, count: 4, perfect: daily.filter(x => x.c >= x.t).length, daily }, retest: k % 4 === 0 ? 1 : 0,
+      hw: { rows, O: cnt.O, P: cnt.P, X: cnt.X, absent: rows.filter(r => r.att === '결석').length, late: 0, rate: Math.round(cnt.O / (cnt.O + cnt.P + cnt.X) * 100) },
+      monthly: [{ name: '월말 평가', examId: 'demoexam', examTitle: ex.title, d: month + '-27', c: 5 - wrong.length, t: 5, p: (5 - wrong.length) * 20, wrong, myAns: wrong.reduce((o, n) => (o[n] = n === 3 ? 2 : 4, o), {}) }],
+      speaking: { total: 18 + k % 7, max: 25, areas: [['유창성', 4], ['발음·억양', 4], ['어휘력', 3 + k % 3], ['문법', 3], ['태도·표현', 4 + k % 2]].map(a => ({ label: a[0], v: a[1] })) }, overall: 85 });
+  }));
+  return { ok: true, month, classes: ['A class', 'B class', 'C class', 'D class'], students: st, exams: { demoexam: ex }, updated: '' };
+}
+
+load(params.get('month'));
+</script>
+</body>
+</html>
