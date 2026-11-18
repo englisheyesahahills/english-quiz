@@ -92,7 +92,7 @@ function prepMock(){const G={};GR.forEach(g=>{const k=g.name+"|"+g.title;if(!G[k
    r.wrong=[...mcW2,...pts.map((p,i)=>p<5?"서술형"+(i+1):"").filter(Boolean)].join(", ")||"없음"}
   else{r.mock.pts=null;r.score=mc2;r.total=20;r.wrong=mcW2.join(", ")||"없음"}})}
 const sc=r=>r.mock?(r.mock.pts?`총 ${r.score}/100`:`객관식 ${r.mock.mc}/20 · 서술형 대기`):`${r.score}/${r.total}`;
-const REV="https://englisheyesahahills.github.io/english-quiz/mock_review.html#";
+const REV="https://englisheyesahahills.github.io/english-quiz/mock_review.html?v=2#";
 function revLink(r){const M=r.mock,K=M.K,C5="①②③④⑤",ch={};
  (r.detail.match(/\d+번\([^)]*\): (?:[①②③④⑤]|무응답)→/g)||[]).forEach(x=>{const m=x.match(/(\d+)번\([^)]*\): (\S+?)→/);ch[+m[1]]=m[2]==="무응답"?-1:C5.indexOf(m[2])});
  const W=new Set(M.mcW.map(w=>parseInt(w)));
