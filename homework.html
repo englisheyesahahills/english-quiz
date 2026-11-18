@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>스텔라 숙제방</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--navy:#14213E;--bur:#90394A;--gold:#C9A227;--bg:#F6F4EF;--ink:#1d2433;--sub:#6b7280;--line:#e8e3d9;
+--ok:#1f8a5b;--okbg:#e3f4ea;--wait:#2c5fb3;--waitbg:#e7eefb;--todo:#b3263e;--todobg:#fbe8ec;--again:#b86a12;--againbg:#fdf0dc}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,-apple-system,'Apple SD Gothic Neo',sans-serif;font-size:17px;line-height:1.5}
+button,input,textarea{font:inherit;color:inherit}
+.wrap{max-width:520px;margin:0 auto;padding:0 18px 100px}
+.top{background:var(--navy);color:#fff;padding:18px 18px 64px;border-radius:0 0 28px 28px}
+.top .in{max-width:520px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.brand{font-weight:800;letter-spacing:.08em;font-size:13px;opacity:.8}.brand b{color:var(--gold)}
+.top .out{margin-left:auto;background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:10px;padding:6px 12px;font-size:13px}
+.hi{max-width:520px;margin:14px auto 0;font-size:24px;font-weight:800}
+.hi small{display:block;font-size:15px;font-weight:500;opacity:.8}
+.sum{background:#fff;border-radius:22px;margin:-46px 0 18px;padding:18px;box-shadow:0 6px 24px rgba(20,33,62,.08);display:flex;gap:16px;align-items:center}
+.stars{font-size:26px;letter-spacing:2px;line-height:1.2;word-break:break-all}
+.sum .t{font-weight:800}.sum .s{color:var(--sub);font-size:14px}
+h2{font-size:19px;margin:26px 0 10px;display:flex;align-items:center;gap:8px}
+h2 .n{background:var(--bur);color:#fff;font-size:13px;border-radius:99px;padding:1px 9px}
+.task{background:#fff;border-radius:20px;padding:16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;border:2px solid transparent;cursor:pointer;width:100%;text-align:left}
+.task:active{transform:scale(.98)}
+.task .ic{width:54px;height:54px;border-radius:16px;display:grid;place-items:center;font-size:28px;flex:none;background:#f1eee7}
+.task .tt{font-weight:800;font-size:17px;line-height:1.3}
+.task .sub{color:var(--sub);font-size:14px}
+.task .bd{margin-left:auto;flex:none;font-size:13px;font-weight:800;border-radius:99px;padding:5px 11px}
+.b-todo{background:var(--todobg);color:var(--todo)}.b-wait{background:var(--waitbg);color:var(--wait)}.b-ok{background:var(--okbg);color:var(--ok)}.b-again{background:var(--againbg);color:var(--again)}
+.task.done{opacity:.6;cursor:default}
+.task.again{border-color:var(--again)}
+.empty{background:#fff;border-radius:20px;padding:26px;text-align:center;color:var(--sub)}
+.empty .e{font-size:44px}
+.note{background:var(--againbg);border-radius:18px;padding:14px 16px;margin-bottom:12px}
+.note b{color:var(--again)}
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.pills span{background:#fff;border-radius:99px;padding:3px 11px;font-size:14px;font-weight:600}
+details.more{background:#fff;border-radius:18px;padding:14px 16px;margin-top:12px}
+details.more summary{font-weight:800;cursor:pointer}
+.help{display:block;margin:28px auto 0;background:none;border:2px dashed var(--line);color:var(--sub);border-radius:16px;padding:12px;width:100%;font-weight:700}
+/* 버튼 */
+.btn{display:block;width:100%;border:0;border-radius:16px;padding:16px;font-size:18px;font-weight:800;background:var(--bur);color:#fff;cursor:pointer}
+.btn:disabled{opacity:.5}
+.btn.navy{background:var(--navy)}.btn.ghost{background:#fff;color:var(--navy);border:2px solid var(--line)}
+/* 로그인 */
+.login{max-width:420px;margin:0 auto;padding:40px 22px}
+.logo{text-align:center;margin-bottom:26px}
+.logo .m{font-size:56px}.logo h1{margin:6px 0 2px;font-size:26px;color:var(--navy)}.logo p{margin:0;color:var(--sub)}
+.lab{font-weight:800;margin:18px 0 8px}
+.name{width:100%;border:2px solid var(--line);border-radius:16px;padding:15px 16px;font-size:20px;background:#fff;text-align:center}
+.name:focus{outline:none;border-color:var(--navy)}
+.dots{display:flex;justify-content:center;gap:14px;margin:6px 0 14px}
+.dots i{width:18px;height:18px;border-radius:50%;border:2px solid var(--navy);display:block}
+.dots i.on{background:var(--navy)}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.pad button{border:0;background:#fff;border-radius:16px;padding:16px 0;font-size:24px;font-weight:700;box-shadow:0 2px 0 var(--line)}
+.pad button:active{background:#ece8df}
+.pad .fn{font-size:15px;color:var(--sub);background:transparent;box-shadow:none}
+.hint{text-align:center;color:var(--sub);font-size:14px;margin-top:14px}
+.shake{animation:sh .35s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+/* 숙제 화면 (시트) */
+.sheet{position:fixed;inset:0;background:var(--bg);z-index:50;overflow-y:auto;animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(30px);opacity:0}}
+.sheet .bar{position:sticky;top:0;background:var(--bg);display:flex;align-items:center;padding:12px 14px;z-index:2}
+.sheet .bar button{border:0;background:#fff;border-radius:12px;padding:8px 14px;font-weight:700}
+.sheet .body{max-width:520px;margin:0 auto;padding:0 18px 40px}
+.hd{text-align:center;margin:4px 0 18px}.hd .ic{font-size:50px}.hd h3{margin:4px 0 2px;font-size:22px}.hd p{margin:0;color:var(--sub)}
+.step{background:#fff;border-radius:20px;padding:16px;margin-bottom:12px}
+.step .no{display:inline-block;background:var(--navy);color:#fff;border-radius:99px;font-size:13px;font-weight:800;padding:2px 10px;margin-bottom:8px}
+.step .q{font-weight:800;font-size:18px;margin-bottom:8px}
+.chk{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;background:#f6f4ef;margin-top:8px;font-weight:600;cursor:pointer}
+.chk input{width:24px;height:24px;accent-color:var(--ok);flex:none}
+.chk.on{background:var(--okbg);color:var(--ok)}
+.fb{background:var(--againbg);border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.photo{display:block;border:3px dashed var(--line);border-radius:18px;padding:26px 10px;text-align:center;cursor:pointer;background:#faf9f6}
+.photo .e{font-size:40px}.photo b{display:block;font-size:18px}
+.photo img{max-width:100%;border-radius:12px;display:block;margin:0 auto}
+.num{display:flex;align-items:center;justify-content:center;gap:10px;font-size:22px;font-weight:800}
+.num input{width:90px;text-align:center;font-size:26px;font-weight:800;border:2px solid var(--line);border-radius:14px;padding:8px}
+textarea{width:100%;border:2px solid var(--line);border-radius:14px;padding:12px;min-height:110px;font-size:16px;resize:vertical}
+.rec{text-align:center}
+.recb{width:110px;height:110px;border-radius:50%;border:0;background:var(--bur);color:#fff;font-size:40px;margin:6px auto;display:grid;place-items:center}
+.recb.on{animation:pu 1s infinite}@keyframes pu{50%{box-shadow:0 0 0 14px rgba(144,57,74,.18)}}
+.time{font-size:22px;font-weight:800;font-variant-numeric:tabular-nums}
+/* 도움말 */
+.guide .g{display:flex;gap:14px;align-items:flex-start;background:#fff;border-radius:18px;padding:16px;margin-bottom:10px}
+.guide .g .e{font-size:34px}.guide .g b{display:block;font-size:17px}
+/* 기타 */
+.toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 20px;border-radius:14px;z-index:99;font-weight:700;max-width:90%;text-align:center}
+.toast.err{background:var(--todo)}
+.loading{text-align:center;padding:60px 0;color:var(--sub)}
+.party{position:fixed;inset:0;display:grid;place-items:center;background:rgba(20,33,62,.55);z-index:80;animation:up .2s}
+.party div{background:#fff;border-radius:26px;padding:30px 26px;text-align:center;max-width:320px}
+.party .e{font-size:64px}.party h3{margin:6px 0;font-size:22px}
+.foot{text-align:center;color:#b3ad9f;font-size:12px;margin-top:30px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+/* ============ 설정 ============ */
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzOBbdz92h9WjwxTAmOsyQL4DMsk9qiVTKVzzQIOjtojJBxkCTZ-36c6cQCjcP3CUo_/exec';
+const LOGIN_API = 'https://script.google.com/macros/s/AKfycbzeFd2RcGJ_qkj4lI_bDhLy9VORw0QwtZR8mLvFfE45dR3aAth0bdzCnpBCek0zTzWBDQ/exec'; // 이름+번호 확인 (학부모 로그인 API)
+const DEMO = new URLSearchParams(location.search).has('demo');
+const CAN_REC = !!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder);
+const S = { token: null, name: null };
+const store = { get(k){try{return localStorage.getItem(k)}catch(e){return null}}, set(k,v){try{localStorage.setItem(k,v)}catch(e){}}, del(k){try{localStorage.removeItem(k)}catch(e){}} };
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function toast(m, err){ const d=document.createElement('div'); d.className='toast'+(err?' err':''); d.textContent=m; document.body.appendChild(d); setTimeout(()=>d.remove(), err?4000:2400); }
+function fail(e){ if(e && e.message==='SESSION') return; toast(e && e.message ? e.message : String(e), true); }
+
+async function raw(fn, ...args){
+  if (DEMO) return MOCK[fn](...args);
+  const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({ fn, args }) });
+  if (!res.ok) throw new Error('인터넷 연결을 확인해 주세요 (' + res.status + ')');
+  const o = JSON.parse(await res.text());
+  if (o.error === 'SESSION') { logout(); toast('다시 로그인해 주세요.', true); throw new Error('SESSION'); }
+  if (o.error) throw new Error(o.error);
+  return o.data;
+}
+const call = (action, p) => raw('api', S.token, action, p || {});
+
+/* ============ 과제 종류별 모양 ============ */
+const AREA_IC = { '단어':'🔤', '문법':'🧩', '본문':'📖', '영작':'✍️', '서술형':'📝', '듣기':'🎧', '독해':'📚', '말하기':'🎤', '스피킹':'🎤' };
+const ic = a => AREA_IC[a] || '📘';
+function badge(st){
+  if (st==='최종통과'||st==='검토완료'||st==='통과'||st==='재시험통과') return ['b-ok','완료 ✓'];
+  if (st==='검토전') return ['b-wait','선생님 확인 중'];
+  if (st==='수정필요'||st==='재시험필요'||st==='재시험대기') return ['b-again','다시 해요'];
+  if (st==='예정') return ['b-wait','미리 해도 OK'];
+  return ['b-todo','해야 해요'];
+}
+const isDone = t => ['최종통과','검토완료','통과','재시험통과'].includes(t.상태);
+const canDo = t => !isDone(t) && t.상태 !== '검토전';
+
+/* ============ 로그인 ============ */
+let PIN = '';
+function loginView(){
+  PIN = '';
+  $('#app').innerHTML = `
+  <div class="login">
+    <div class="logo"><div class="m">📒</div><h1>스텔라 숙제방</h1><p>중등부 숙제 제출하는 곳</p></div>
+    <div class="lab">① 내 이름</div>
+    <input class="name" id="nm" placeholder="예: 김스텔라" autocomplete="off" value="${esc(store.get('hw_last_name')||'')}">
+    <div class="lab">② 비밀번호 <span style="font-weight:500;color:var(--sub);font-size:14px">엄마·아빠 전화번호 뒤 4자리</span></div>
+    <div class="dots" id="dots">${'<i></i>'.repeat(4)}</div>
+    <div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-k="${n}">${n}</button>`).join('')}
+      <button class="fn" data-k="c">지우기</button><button data-k="0">0</button><button class="fn" data-k="b">⌫</button></div>
+    <p class="hint">한 번 들어오면 다음부터는 바로 열려요 😊<br>비밀번호가 기억 안 나면 선생님께 물어보세요.</p>
+    ${DEMO?'<p class="hint" style="color:var(--bur)">[미리보기] 아무 이름 + 1234</p>':''}
+  </div>`;
+  $$('.pad button').forEach(b => b.onclick = () => {
+    const k = b.dataset.k;
+    if (k==='c') PIN=''; else if (k==='b') PIN=PIN.slice(0,-1); else if (PIN.length<4) PIN+=k;
+    $$('#dots i').forEach((d,i)=>d.classList.toggle('on', i<PIN.length));
+    if (PIN.length===4) doLogin();
+  });
+}
+async function doLogin(){
+  const name = $('#nm').value.replace(/\s/g,'');
+  if (!name){ toast('이름을 먼저 써 주세요', true); PIN=''; $$('#dots i').forEach(d=>d.classList.remove('on')); $('#nm').focus(); return; }
+  try {
+    let d;
+    if (DEMO) d = MOCK.loginPin(name, PIN);
+    else {
+      const r = await jsonp(LOGIN_API + '?action=hw&name=' + encodeURIComponent(name) + '&code=' + PIN);
+      if (!r.ok) throw new Error(r.msg || '이름이나 비밀번호가 달라요');
+      d = await raw('login', r.code);
+    }
+    if (d.role && d.role !== 'student') throw new Error('학생용 화면이에요.');
+    S.token = d.token; S.name = d.name;
+    store.set('hw_token', d.token); store.set('hw_name', d.name); store.set('hw_last_name', name);
+    home();
+  } catch(e){
+    PIN=''; $$('#dots i').forEach(x=>x.classList.remove('on'));
+    const el=$('#dots'); el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake');
+    fail(e);
+  }
+}
+function jsonp(url){ return new Promise((res,rej)=>{ const cb='cb'+Date.now(), sc=document.createElement('script');
+  const t=setTimeout(()=>{clean();rej(new Error('연결이 느려요. 다시 해 보세요.'));},20000);
+  function clean(){ clearTimeout(t); delete window[cb]; sc.remove(); }
+  window[cb]=d=>{clean();res(d);}; sc.onerror=()=>{clean();rej(new Error('인터넷 연결을 확인해 주세요'));};
+  sc.src=url+'&callback='+cb; document.body.appendChild(sc); }); }
+function logout(){ store.del('hw_token'); store.del('hw_name'); S.token=null; loginView(); }
+
+/* ============ 홈 ============ */
+let DATA = null;
+async function home(){
+  $('#app').innerHTML = `<div class="loading">숙제 불러오는 중… 📒</div>`;
+  try { DATA = await call('studentHome'); } catch(e){ fail(e); return; }
+  const d = DATA, w = d.week || {};
+  const now = d.todays || [], soon = d.upcoming || [], back = d.back || [];
+  const todo = [...back, ...now].filter(canDo);
+  const total = w.total || 0, done = w.done || 0;
+  const starStr = total ? '⭐'.repeat(Math.min(done,12)) + '☆'.repeat(Math.max(0,Math.min(total,12)-Math.min(done,12))) : '🌱';
+  $('#app').innerHTML = `
+  <div class="top"><div class="in"><div class="brand">STELLA <b>숙제방</b></div><button class="out" onclick="logout()">나가기</button></div>
+    <div class="hi"><small>${esc((d.today||'').slice(5).replace('-','월 '))}일</small>${esc(d.name)}, 안녕! 👋</div></div>
+  <div class="wrap">
+    <div class="sum"><div style="flex:1"><div class="t">이번 주 숙제 ${done} / ${total} 완료</div><div class="stars">${starStr}</div>
+      <div class="s">${todo.length ? `오늘 할 숙제가 <b style="color:var(--bur)">${todo.length}개</b> 남았어요` : '오늘 숙제 끝! 정말 잘했어요 🎉'}</div></div></div>
+
+    ${(d.retests||[]).length ? `<div class="note"><b>🔁 재시험 있어요</b>${d.retests.map(r=>`<div style="margin-top:6px;font-weight:700">${esc(r.영역)} ${esc(r.범위)} <span style="font-weight:500;color:var(--sub)">(${esc(r.첫점수)}점 → ${esc(r.통과점수)}점 넘기기)</span></div>${r.틀린항목?`<div class="pills">${String(r.틀린항목).split(',').map(x=>`<span>${esc(x.trim())}</span>`).join('')}</div>`:''}`).join('')}<div style="font-size:14px;margin-top:8px">틀린 단어 다시 외우고, 다음에 학원 오면 재시험 봐요.</div></div>` : ''}
+
+    ${back.filter(canDo).length ? `<h2>⏰ 밀린 숙제 · 다시 할 숙제 <span class="n">${back.filter(canDo).length}</span></h2>${back.map(card).join('')}` : ''}
+    <h2>📌 오늘 숙제 <span class="n">${now.length}</span></h2>
+    ${now.length ? now.map(card).join('') : `<div class="empty"><div class="e">🌤️</div>오늘은 숙제가 없어요!</div>`}
+    ${soon.length ? `<details class="more"><summary>📅 이번 주 남은 숙제 (${soon.length}) — 미리 해도 돼요</summary><div style="margin-top:10px">${soon.map(card).join('')}</div></details>` : ''}
+    ${(d.wrongs||[]).length ? `<details class="more"><summary>❌ 틀린 문제 고치기 (${d.wrongs.length})</summary>${d.wrongs.map(x=>`<div class="step" data-w="${esc(x.오답ID)}" style="background:#f6f4ef;margin-top:10px"><div style="font-size:13px;color:var(--sub)">${esc(x.영역)} · ${esc(x.날짜)}</div><div style="font-weight:700;margin:4px 0 8px">${esc(x.문항)}</div><textarea style="min-height:60px" placeholder="고친 답 + 왜 틀렸는지 한 줄"></textarea><button class="btn navy" style="margin-top:8px;padding:12px;font-size:16px" onclick="fixW(this)">고쳤어요</button></div>`).join('')}</details>` : ''}
+    ${(d.wordReview||[]).length ? `<details class="more"><summary>🔤 자꾸 틀리는 단어 (${d.wordReview.length})</summary><div class="pills" style="margin-top:10px">${d.wordReview.map(x=>`<span style="background:#f6f4ef">${esc(x.단어)}</span>`).join('')}</div><div style="font-size:14px;color:var(--sub);margin-top:8px">뜻을 말해 보고, 철자를 써 보세요.</div></details>` : ''}
+    <button class="help" onclick="guide()">❓ 숙제 어떻게 내요? (사용법)</button>
+    <div class="foot">스텔라원장 제작 · English Eye Stella</div>
+  </div>`;
+  $$('[data-task]').forEach(b => b.onclick = () => { const t = findTask(b.dataset.task); if (t && canDo(t)) openTask(t); else if (t && t.상태==='검토전') toast('선생님이 확인하고 있어요 👀'); });
+  if (!store.get('hw_seen_guide')) { store.set('hw_seen_guide','1'); guide(); }
+}
+function card(t){
+  const [cls, txt] = badge(t.상태);
+  return `<button class="task ${isDone(t)?'done':''} ${cls==='b-again'?'again':''}" data-task="${esc(t.과제ID)}">
+    <div class="ic">${ic(t.영역)}</div>
+    <div style="min-width:0"><div class="tt">${esc(t.제목)}</div><div class="sub">${esc(t.영역)}${t.범위?' · '+esc(t.범위):''}</div></div>
+    <span class="bd ${cls}">${txt}</span></button>`;
+}
+function findTask(id){ const d=DATA; return [...(d.back||[]),...(d.todays||[]),...(d.upcoming||[])].find(t=>String(t.과제ID)===String(id)); }
+
+/* ============ 숙제 하기 화면 ============ */
+const STEPS = {
+  '단어테스트': ['영어와 뜻을 소리 내어 읽어요', '뜻을 가리고 영어를 떠올려요', '영어를 가리고 뜻을 떠올려요', '뜻만 보고 철자를 써요 (셀프 테스트)'],
+  '사진글쓰기': ['책을 덮고 공책에 문장을 직접 써요', '책을 펴고 빨간 펜으로 채점·고쳐요', '틀린 문장은 한 번 더 써요'],
+  '사진': ['문제를 풀어요', '답지를 보고 빨간 펜으로 채점해요', '틀린 문제는 고쳐 써요'],
+  '작성': ['책을 덮어요', '기억나는 문장을 아래에 써요', '책을 펴고 맞는지 확인해요'],
+  '녹음': ['오늘 배운 내용을 떠올려요', '녹음 버튼을 누르고 내 말로 설명해요', '다시 들어 보고 제출해요']
+};
+let CUR = null, PHOTO = null, REC = null;
+function openTask(t){
+  CUR = t; PHOTO = null; REC = null;
+  const ev = t.증거유형;
+  const kind = ev==='단어테스트' ? '단어테스트' : ev==='사진' ? (['본문','영작','서술형'].includes(t.영역)?'사진글쓰기':'사진') : ev==='작성' ? '작성' : '녹음';
+  const steps = STEPS[kind];
+  let submit = '';
+  if (kind==='단어테스트') submit = `
+    <div class="q">셀프 테스트 결과를 적어요</div>
+    <div class="num"><input type="number" id="sc" inputmode="numeric" min="0" placeholder="?"> 개 맞음 / <input type="number" id="mx" inputmode="numeric" value="${esc(t.만점||'')}"> 개</div>
+    <div class="q" style="margin-top:14px;font-size:16px">틀린 단어 <span style="font-weight:500;color:var(--sub)">(다 맞았으면 비워 두기)</span></div>
+    <textarea id="wr" style="min-height:70px" placeholder="예: ancient, look after"></textarea>`;
+  else if (kind==='사진글쓰기' || kind==='사진') submit = `
+    <div class="q">📸 공책 사진을 찍어요</div>
+    <label class="photo" id="ph"><input type="file" accept="image/*" capture="environment" hidden onchange="pickPhoto(this)">
+      <div id="phin"><div class="e">📷</div><b>여기를 눌러 사진 찍기</b><span style="color:var(--sub);font-size:14px">빨간 펜으로 고친 부분이 보이게!</span></div></label>`;
+  else if (kind==='작성') submit = `
+    <div class="q">책을 덮고 써 보세요</div>
+    <textarea id="ans" style="min-height:150px" placeholder="한 줄에 한 문장씩 써요"></textarea>`;
+  else submit = CAN_REC ? `
+    <div class="rec"><div class="q">🎤 버튼을 눌러 녹음해요 (최대 3분)</div>
+      <button class="recb" id="rb" onclick="toggleRec()">●</button>
+      <div class="time" id="rt">00:00</div>
+      <audio id="ra" controls style="width:100%;display:none;margin-top:10px"></audio>
+      <div style="color:var(--sub);font-size:14px;margin-top:6px" id="rmsg">한 번 더 누르면 멈춰요</div></div>`
+    : `<div class="q">녹음 파일 올리기</div><label class="photo"><input type="file" accept="audio/*,video/*" hidden onchange="pickPhoto(this,true)"><div id="phin"><div class="e">🎙️</div><b>녹음 파일 고르기</b></div></label>`;
+
+  const sh = document.createElement('div'); sh.className = 'sheet'; sh.id = 'sheet';
+  sh.innerHTML = `
+  <div class="bar"><button onclick="closeSheet()">← 뒤로</button></div>
+  <div class="body">
+    <div class="hd"><div class="ic">${ic(t.영역)}</div><h3>${esc(t.제목)}</h3><p>${esc(t.영역)}${t.범위?' · '+esc(t.범위):''}${t.목표분?' · 약 '+esc(t.목표분)+'분':''}</p></div>
+    ${t.피드백 ? `<div class="fb"><b>💬 선생님:</b> ${esc(t.피드백)}</div>` : ''}
+    <div class="step"><span class="no">STEP 1</span><div class="q">이렇게 공부해요</div>
+      ${steps.map((s,i)=>`<label class="chk"><input type="checkbox" onchange="this.parentElement.classList.toggle('on',this.checked)"> ${i+1}. ${esc(s)}</label>`).join('')}
+      ${t.안내?`<div style="font-size:14px;color:var(--sub);margin-top:10px">📎 ${esc(t.안내)}</div>`:''}</div>
+    <div class="step"><span class="no">STEP 2</span>${submit}</div>
+    <button class="btn" id="sb" onclick="submitTask()">제출하기 ✈️</button>
+  </div>`;
+  document.body.appendChild(sh); document.body.style.overflow='hidden';
+  START = new Date();
+}
+let START = null;
+function closeSheet(){ if (REC && REC.mr && REC.mr.state==='recording') REC.mr.stop(); const s=$('#sheet'); if(s) s.remove(); document.body.style.overflow=''; }
+function pickPhoto(inp, audio){
+  const f = inp.files[0]; if (!f) return; PHOTO = f;
+  $('#phin').innerHTML = audio ? `<div class="e">✅</div><b>${esc(f.name)}</b>` : `<img src="${URL.createObjectURL(f)}"><div style="margin-top:8px;color:var(--sub);font-size:14px">다시 찍으려면 사진을 눌러요</div>`;
+}
+async function toggleRec(){
+  const b=$('#rb');
+  if (REC && REC.mr && REC.mr.state==='recording'){ REC.mr.stop(); return; }
+  let stream;
+  try { stream = await navigator.mediaDevices.getUserMedia({audio:true}); }
+  catch(e){ toast('마이크를 허용해 주세요 (주소창 🔒 → 마이크)', true); return; }
+  const type = ['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/aac'].find(t=>MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t)) || '';
+  const mr = new MediaRecorder(stream, type?{mimeType:type, audioBitsPerSecond:48000}:undefined), ch=[];
+  REC = { mr, blob:null }; b.classList.add('on'); b.textContent='■'; $('#ra').style.display='none';
+  const t0=Date.now(); REC.tm=setInterval(()=>{ const s=Math.floor((Date.now()-t0)/1000); $('#rt').textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); if(s>=180) mr.stop(); },250);
+  mr.ondataavailable = e => { if(e.data && e.data.size) ch.push(e.data); };
+  mr.onstop = () => { clearInterval(REC.tm); stream.getTracks().forEach(t=>t.stop()); REC.blob=new Blob(ch,{type:mr.mimeType||type||'audio/webm'});
+    const a=$('#ra'); if(a){ a.src=URL.createObjectURL(REC.blob); a.style.display='block'; } if(b){ b.classList.remove('on'); b.textContent='●'; }
+    const m=$('#rmsg'); if(m) m.textContent='들어 보고 마음에 안 들면 다시 녹음해요'; };
+  mr.start();
+}
+function toB64(f){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(String(r.result).split(',')[1]); r.onerror=rej; r.readAsDataURL(f); }); }
+function shrink(f){ return new Promise((res,rej)=>{ const img=new Image(), u=URL.createObjectURL(f);
+  img.onload=()=>{ const k=Math.min(1,1600/Math.max(img.width,img.height)); const c=document.createElement('canvas'); c.width=img.width*k; c.height=img.height*k; c.getContext('2d').drawImage(img,0,0,c.width,c.height); URL.revokeObjectURL(u); res({b64:c.toDataURL('image/jpeg',.82).split(',')[1], mime:'image/jpeg'}); };
+  img.onerror=()=>rej(new Error('사진을 읽을 수 없어요')); img.src=u; }); }
+const fmt = d => { const p=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()); };
+
+async function submitTask(){
+  const t=CUR, b=$('#sb'), v=id=>{const el=$('#'+id); return el?el.value.trim():'';};
+  const p = { 과제ID:t.과제ID, 점수:v('sc'), 만점:v('mx'), 틀린항목:v('wr'), 답안:v('ans'), 시작시각: START?fmt(START):'' };
+  const ev=t.증거유형;
+  if (ev==='단어테스트' && p.점수==='') return toast('맞은 개수를 적어 주세요', true);
+  if (ev==='작성' && !p.답안) return toast('문장을 써 주세요', true);
+  if (ev==='사진' && !PHOTO) return toast('📷 사진을 먼저 찍어 주세요', true);
+  if (!['단어테스트','사진','작성'].includes(ev) && !(REC&&REC.blob) && !PHOTO) return toast('🎤 녹음을 먼저 해 주세요', true);
+  if (REC && REC.mr && REC.mr.state==='recording') return toast('녹음을 먼저 멈춰 주세요', true);
+  b.disabled=true;
+  try {
+    if (REC && REC.blob){ b.textContent='녹음 올리는 중…'; const mime=REC.blob.type.split(';')[0]||'audio/webm';
+      const r=await raw('uploadFile', S.token, await toB64(REC.blob), mime, 'speaking.'+(mime.includes('mp4')?'m4a':mime.split('/')[1])); p.첨부링크=r.url; }
+    else if (PHOTO){ b.textContent='사진 올리는 중…'; const up=PHOTO.type.startsWith('image/')?await shrink(PHOTO):{b64:await toB64(PHOTO), mime:PHOTO.type||'audio/mpeg'};
+      const r=await raw('uploadFile', S.token, up.b64, up.mime, PHOTO.name); p.첨부링크=r.url; }
+    b.textContent='제출 중…';
+    await call('submitTask', p);
+    closeSheet(); party(); home();
+  } catch(e){ fail(e); b.disabled=false; b.textContent='제출하기 ✈️'; }
+}
+function party(){
+  const m=['정말 잘했어요!','최고예요!','오늘도 한 걸음!','멋져요!'][Math.floor(Math.random()*4)];
+  const d=document.createElement('div'); d.className='party';
+  d.innerHTML=`<div><div class="e">🎉</div><h3>제출 완료! ${m}</h3><p style="color:var(--sub);margin:0 0 16px">선생님이 확인하면 ⭐이 채워져요</p><button class="btn navy">확인</button></div>`;
+  d.onclick=()=>d.remove(); document.body.appendChild(d);
+}
+async function fixW(b){ const box=b.closest('[data-w]'); b.disabled=true;
+  try{ await call('fixWrong',{오답ID:box.dataset.w, 수정답:$('textarea',box).value}); toast('고쳤어요! 👍'); home(); }catch(e){ fail(e); b.disabled=false; } }
+
+/* ============ 사용법 ============ */
+function guide(){
+  const sh=document.createElement('div'); sh.className='sheet'; sh.id='sheet';
+  sh.innerHTML=`<div class="bar"><button onclick="closeSheet()">← 닫기</button></div>
+  <div class="body guide"><div class="hd"><div class="ic">🧭</div><h3>숙제 내는 방법</h3><p>딱 3단계면 끝!</p></div>
+   <div class="g"><div class="e">👆</div><div><b>1. 오늘 숙제를 눌러요</b>빨간색 <span class="bd b-todo" style="font-size:12px;border-radius:99px;padding:1px 8px">해야 해요</span> 카드가 오늘 할 숙제예요.</div></div>
+   <div class="g"><div class="e">✅</div><div><b>2. 순서대로 공부해요</b>STEP 1의 체크 칸을 하나씩 하면서 공부해요.</div></div>
+   <div class="g"><div class="e">📸</div><div><b>3. 사진·점수·녹음을 내요</b>공책은 사진 찍기, 단어는 맞은 개수 쓰기, 말하기는 녹음! 그리고 <b style="display:inline">제출하기</b>.</div></div>
+   <div class="g"><div class="e">⭐</div><div><b>선생님이 확인하면 별이 채워져요</b><span class="bd b-again" style="font-size:12px;border-radius:99px;padding:1px 8px">다시 해요</span>가 뜨면 선생님 말씀을 읽고 다시 내요.</div></div>
+   <button class="btn navy" onclick="closeSheet()">알겠어요! 시작하기</button></div>`;
+  document.body.appendChild(sh); document.body.style.overflow='hidden';
+}
+
+/* ============ 미리보기용 데이터 (?demo) ============ */
+const MOCK = {
+  _t: [
+    {과제ID:'T1',영역:'단어',제목:'수능단어 DAY 12',범위:'40개',증거유형:'단어테스트',상태:'미제출',만점:40,목표분:20,안내:'셀프 테스트 점수 + 틀린 단어'},
+    {과제ID:'T2',영역:'본문',제목:'Lesson 5 본문 쓰기',범위:'p.88~89',증거유형:'사진',상태:'미제출',목표분:30,안내:'공책 사진'},
+    {과제ID:'T3',영역:'말하기',제목:'오늘 배운 문법 설명하기',범위:'to부정사',증거유형:'녹음',상태:'검토전'},
+    {과제ID:'T4',영역:'문법',제목:'바쓰문 Unit 7 문제 풀기',범위:'p.60~63',증거유형:'사진',상태:'수정필요',피드백:'3번, 7번 다시 고쳐서 올려 주세요!',날짜:'2026-11-17'},
+    {과제ID:'T5',영역:'영작',제목:'Lesson 5 영작 5문장',범위:'',증거유형:'작성',상태:'예정'}
+  ],
+  loginPin:(n,p)=>{ if(p!=='1234') throw new Error('이름이나 비밀번호가 달라요'); return {token:'demo', role:'student', name:n}; },
+  api:(tk,a,p)=>{
+    if(a==='studentHome') return {name:store.get('hw_name')||'스텔라', today:'2026-11-18', week:{total:8,done:3},
+      todays:MOCK._t.filter(t=>['T1','T2','T3'].includes(t.과제ID)), upcoming:[MOCK._t[4]], back:[MOCK._t[3]],
+      retests:[{영역:'단어',범위:'DAY 10',첫점수:28,통과점수:40,틀린항목:'ancient, look after, recover'}],
+      wrongs:[{오답ID:'W1',영역:'문법',날짜:'11-15',문항:'I want ___ a doctor. (be)'}], wordReview:[{단어:'ancient'},{단어:'reduce'},{단어:'look after'}]};
+    if(a==='submitTask'){ const t=MOCK._t.find(x=>x.과제ID===p.과제ID); t.상태='검토전'; return {message:'제출 완료'}; }
+    if(a==='fixWrong') return {};
+  },
+  uploadFile:()=>({url:'#'})
+};
+
+/* ============ 시작 ============ */
+(function(){
+  S.token = store.get('hw_token'); S.name = store.get('hw_name');
+  if (S.token) home(); else loginView();
+})();
+</script>
+</body>
+</html>
