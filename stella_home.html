@@ -284,6 +284,12 @@
   .quick-btn.q1{ background:var(--blue-soft); color:var(--blue); }
   .quick-btn.q2{ background:var(--sage-soft); color:var(--sage); }
   .quick-btn.q3{ background:var(--gold-soft); color:#8A6A10; }
+  .quick-btn.q4{ background:var(--plum-soft); color:var(--plum); }
+  .quick-btn.q5{ background:var(--coral-soft); color:var(--coral); }
+  .quick-group{ font-size:12.5px; font-weight:700; color:var(--text-muted); margin:12px 2px 6px; }
+  .quick-group:first-of-type{ margin-top:2px; }
+  .quick-grid.two{ grid-template-columns:repeat(2,1fr); }
+  .quick-btn.small{ padding:12px 4px; font-size:13px; }
 
   /* ---- Location ---- */
   .info-row{ display:flex; gap:10px; padding:9px 0; font-size:14px; align-items:flex-start; }
@@ -311,16 +317,40 @@
   <section class="page active" id="page-home">
     <div class="quick-wrap">
       <div class="quick-head">우리 아이 학습 바로가기</div>
-      <div class="quick-sub">출석·숙제·시험 점수 확인, 숙제 제출, 단어 학습을 여기서 바로 하실 수 있어요.</div>
-      <div class="quick-grid">
-        <a class="quick-btn q1" id="student-link" href="#" target="_blank" rel="noopener" style="display:none">
-          <span class="ico">📋</span>우리 아이<br>학생관리
-        </a>
+      <div class="quick-sub">숙제 제출, 수업 영상, 단어 학습, 월말 리포트를 여기서 한 번에 확인하세요.</div>
+
+      <div id="personal-box" style="display:none">
+        <div class="quick-group">우리 아이 전용</div>
+        <div class="quick-grid two" id="personal-grid">
+          <a class="quick-btn q1" id="student-link" href="#" target="_blank" rel="noopener" style="display:none">
+            <span class="ico">📋</span>출석·숙제·점수<br>학생관리
+          </a>
+          <a class="quick-btn q4" id="report-link" href="#" target="_blank" rel="noopener" style="display:none">
+            <span class="ico">📊</span>월말평가<br>리포트
+          </a>
+        </div>
+      </div>
+
+      <div class="quick-group">숙제</div>
+      <div class="quick-grid two" id="homework-grid">
         <a class="quick-btn q2" href="https://docs.google.com/forms/d/e/1FAIpQLScFajzGjpUdW0yAsinvC44zU4BK0o-rxTbgh-EP39SkDnd7EQ/viewform" target="_blank" rel="noopener">
           <span class="ico">✏️</span>숙제<br>제출
         </a>
-        <a class="quick-btn q3" href="https://englisheyesahahills.github.io/english-quiz/stellavocaB.html" target="_blank" rel="noopener">
-          <span class="ico">🔤</span>온라인<br>단어학습
+        <a class="quick-btn q5" id="liveclass-link" href="#" target="_blank" rel="noopener" style="display:none">
+          <span class="ico">🎬</span>주말숙제<br>수업영상
+        </a>
+      </div>
+
+      <div class="quick-group">단어 학습</div>
+      <div class="quick-grid">
+        <a class="quick-btn q3 small" href="https://englisheyesahahills.github.io/english-quiz/stellavocaB.html" target="_blank" rel="noopener">
+          <span class="ico">🔤</span>초등<br>단어
+        </a>
+        <a class="quick-btn q3 small" href="https://englisheyesahahills.github.io/english-quiz/voca_learning.html" target="_blank" rel="noopener">
+          <span class="ico">📗</span>보카클리어<br>기본
+        </a>
+        <a class="quick-btn q3 small" href="https://englisheyesahahills.github.io/english-quiz/voca_study.html" target="_blank" rel="noopener">
+          <span class="ico">📘</span>보카클리어<br>실력
         </a>
       </div>
     </div>
@@ -680,21 +710,38 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
 
 document.getElementById('kakao-link').href = KAKAO_CHANNEL_URL;
 
-/* ---------------- 학부모 개인 링크 ----------------
-   학부모님께 보낼 때 주소 뒤에 ?s=노션페이지ID 를 붙이면
-   그 학생의 학생관리 버튼만 보입니다. (다른 학부모에게는 안 보임)
-   예) stella_home.html?s=304f4df01d5680c3925fe439efc968f3
+/* ---------------- 학부모 바로가기 설정 ----------------
+   ▼ 주말숙제 수업영상(liveclass) 주소를 아래 '' 안에 넣으면 버튼이 나타납니다.
    ------------------------------------------------- */
+const LIVECLASS_URL = '';
 const NOTION_SITE = 'https://lateral-steed-574.notion.site/';
+const REPORT_PAGE = 'https://englisheyesahahills.github.io/english-quiz/report.html?id=';
+
+/* 학부모 개인 링크:
+   stella_home.html?s=노션페이지ID&r=월말리포트ID
+   - s : 학생관리(노션) 버튼  - r : 월말평가 리포트 버튼
+   둘 중 하나만 넣어도 됩니다. 넣지 않은 버튼은 보이지 않습니다. */
 (function(){
-  const sid = new URLSearchParams(location.search).get('s');
-  const btn = document.getElementById('student-link');
-  const grid = document.querySelector('.quick-grid');
+  const q = new URLSearchParams(location.search);
+  const sid = q.get('s'), rid = q.get('r');
+  let shown = 0;
   if (sid && /^[0-9a-f]{32}$/i.test(sid)){
-    btn.href = NOTION_SITE + sid;
-    btn.style.display = '';
+    const b = document.getElementById('student-link');
+    b.href = NOTION_SITE + sid; b.style.display = ''; shown++;
+  }
+  if (rid && /^[A-Za-z0-9_-]{2,80}$/.test(rid)){
+    const b = document.getElementById('report-link');
+    b.href = REPORT_PAGE + encodeURIComponent(rid); b.style.display = ''; shown++;
+  }
+  if (shown){
+    document.getElementById('personal-box').style.display = '';
+    if (shown === 1) document.getElementById('personal-grid').style.gridTemplateColumns = '1fr';
+  }
+  if (LIVECLASS_URL){
+    const l = document.getElementById('liveclass-link');
+    l.href = LIVECLASS_URL; l.style.display = '';
   } else {
-    grid.style.gridTemplateColumns = 'repeat(2,1fr)';
+    document.getElementById('homework-grid').style.gridTemplateColumns = '1fr';
   }
 })();
 
