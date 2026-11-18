@@ -66,7 +66,10 @@ const EX={"m1yun_saha":"<div class=\"cols\"><div class=\"sec\">객관식 (1~20)<
 const C="①②③④⑤";
 const $=s=>document.querySelector(s);
 const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-function dec(h){try{const b=atob(h.replace(/-/g,"+").replace(/_/g,"/"));return JSON.parse(new TextDecoder().decode(Uint8Array.from(b,c=>c.charCodeAt(0))))}catch(e){return null}}
+const IDS=Object.keys(KEYS);
+function dec(h){if(h.startsWith("v=")){try{const q=new URLSearchParams(h);const e=IDS[+q.get("e")];const m=[...(q.get("m")||"")].map(c=>c==="-"?-1:c==="x"?-2:+c-1);const s=q.get("s");
+  return {e,n:q.get("n")||"",m,s:s&&s.length===10?[...s].map(Number):null,t:parseInt(q.get("t")||"0",36)*60000}}catch(e){return null}}
+ try{const b=atob(h.replace(/-/g,"+").replace(/_/g,"/"));return JSON.parse(new TextDecoder().decode(Uint8Array.from(b,c=>c.charCodeAt(0))))}catch(e){return null}}
 /* 손으로 그린 듯한 채점 표시 */
 const R=(a,b)=>a+Math.random()*(b-a);
 function circle(){const cx=29,cy=29,r=22;let d="";for(let i=0;i<=26;i++){const t=-0.6+i/26*(Math.PI*2+0.9);const rr=r+R(-1.5,1.5);d+=(i?"L":"M")+(cx+Math.cos(t)*rr*1.08).toFixed(1)+" "+(cy+Math.sin(t)*rr*.94).toFixed(1)}
@@ -83,7 +86,7 @@ function main(){const D=dec(location.hash.slice(1));const app=$("#app");
  app.innerHTML=`<div class="paper" id="pp"><div class="head"><div><div class="s">${esc(K.sub)} · 30문항</div><h1>${esc(K.title)}</h1><div class="who">이름 <b>${esc(D.n)}</b>${D.t?` <span style="color:var(--muted);font-size:12.5px">· ${new Date(D.t).toLocaleDateString("ko-KR")} 응시</span>`:""}</div></div>
  <div class="sc">${graded?`<div class="big">${tot}<small>점</small></div><div class="u"></div><div class="u"></div><div class="det">객관식 ${mc*2.5} + 서술형 ${sa}</div>`:`<div class="big" style="font-size:46px">${mc*2.5}<small>/50</small></div><div class="u"></div><div class="det">객관식 점수<br>서술형은 채점 중</div>`}</div></div>
  <div class="sum">${mw.length?`<span class="w">객관식 틀림 ${mw.length}개: ${mw.join(", ")}번</span>`:`<span class="g">객관식 모두 맞음 🎉</span>`}${graded?(sw.length?`<span class="w">서술형 감점 ${sw.length}개: ${sw.join(", ")}번</span>`:`<span class="g">서술형 모두 맞음 🎉</span>`):`<span class="p">서술형 선생님 채점 전</span>`}</div>
- <p class="guide">⭕ 맞음 · ╱ 틀림 · △ 부분 점수 · <span style="color:var(--blue);font-weight:700">파란색</span>은 내가 고른·쓴 답이에요. 틀린 문제를 다시 풀어 본 뒤 <b>💡 정답</b> 버튼으로 확인하세요.</p>
+ <p class="guide">⭕ 맞음 · ╱ 틀림 · △ 부분 점수 · <span style="color:var(--blue);font-weight:700">파란색</span>은 내가 고른 답이에요. 서술형은 내 시험지와 비교해 보세요. 틀린 문제를 다시 풀어 본 뒤 <b>💡 정답</b> 버튼으로 확인하세요.</p>
  ${EX[D.e]}<div class="ft">제작: 스텔라원장 · 잉글리시아이 스텔라</div></div>`;
  const qs=[...app.querySelectorAll(".q")];let lastPass=null;
  app.querySelectorAll(".cols > *").forEach(el=>{if(el.classList.contains("pass"))lastPass=el;else if(el.classList.contains("q"))el._p=lastPass});
@@ -94,7 +97,7 @@ function main(){const D=dec(location.hash.slice(1));const app=$("#app");
   if(!mcOk[i]&&my===-1)el.querySelector(".o").insertAdjacentHTML("beforebegin",`<div class="mine none">(무응답)</div>`);
   el.insertAdjacentHTML("beforeend",`<div class="exp">정답 <b>${C[q.a]}</b>${q.e?` · ${esc(q.e)}`:""}</div>`)});
  qs.slice(20,30).forEach((el,i)=>{const q=K.sa[i],a=(D.a||[])[i];el.querySelectorAll(".ln").forEach(x=>x.remove());
-  el.insertAdjacentHTML("beforeend",a?`<div class="mine">${esc(a)}</div>`:`<div class="mine none">(답 기록 없음 — 시험지를 확인하세요)</div>`);
+  if(D.a)el.insertAdjacentHTML("beforeend",a?`<div class="mine">${esc(a)}</div>`:`<div class="mine none">(답 기록 없음 — 시험지를 확인하세요)</div>`);
   if(graded){const p=D.s[i];el.classList.add(p>=5?"ok":"wrong");el.querySelector(".n").insertAdjacentHTML("beforeend",p>=5?circle():p>0?tri():slash());el.style.paddingRight="44px";el.insertAdjacentHTML("afterbegin",`<span class="pt">${p}/5</span>`)}
   else el.classList.add("wrong");
   el.insertAdjacentHTML("beforeend",`<div class="exp">모범 답안: <b>${esc(q.a[0])}</b>${q.e?`<br>${esc(q.e)}`:""}</div>`)});

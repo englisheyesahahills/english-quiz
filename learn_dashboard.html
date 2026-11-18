@@ -96,9 +96,8 @@ const REV="https://englisheyesahahills.github.io/english-quiz/mock_review.html#"
 function revLink(r){const M=r.mock,K=M.K,C5="①②③④⑤",ch={};
  (r.detail.match(/\d+번\([^)]*\): (?:[①②③④⑤]|무응답)→/g)||[]).forEach(x=>{const m=x.match(/(\d+)번\([^)]*\): (\S+?)→/);ch[+m[1]]=m[2]==="무응답"?-1:C5.indexOf(m[2])});
  const W=new Set(M.mcW.map(w=>parseInt(w)));
- const D={e:M.id,n:r.name,t:r.t,m:K.mc.map((q,i)=>W.has(i+1)?(ch[i+1]!=null&&ch[i+1]!==q.a?ch[i+1]:-2):q.a),s:M.pts||null,a:M.ans.map(x=>/^✓|^\(기록/.test(x)?"":x)};
- const b=new TextEncoder().encode(JSON.stringify(D));let bin="";b.forEach(c=>bin+=String.fromCharCode(c));
- return REV+btoa(bin).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")}
+ const mm=K.mc.map((q,i)=>{const v=W.has(i+1)?(ch[i+1]!=null&&ch[i+1]!==q.a?ch[i+1]:-2):q.a;return v===-1?"-":v===-2?"x":String(v+1)}).join("");
+ return REV+`v=1&e=${Object.keys(MK).indexOf(M.id)}&n=${encodeURIComponent(r.name)}&m=${mm}`+(M.pts?`&s=${M.pts.map(p=>Math.max(0,Math.min(5,Math.round(p)))).join("")}`:"")+`&t=${Math.floor(r.t/60000).toString(36)}`}
 async function copyTxt(t,btn){try{await navigator.clipboard.writeText(t)}catch(e){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(x){}ta.remove()}
  if(btn){const o=btn.textContent;btn.textContent="✅ 복사됨";setTimeout(()=>btn.textContent=o,1300)}}
 const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
