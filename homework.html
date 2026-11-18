@@ -154,6 +154,7 @@ function loginView(){
     <div class="dots" id="dots">${'<i></i>'.repeat(4)}</div>
     <div class="pad">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-k="${n}">${n}</button>`).join('')}
       <button class="fn" data-k="c">지우기</button><button data-k="0">0</button><button class="fn" data-k="b">⌫</button></div>
+    <button class="btn" id="enter" style="margin-top:14px" disabled>들어가기 →</button>
     <p class="hint">한 번 들어오면 다음부터는 바로 열려요 😊<br>비밀번호가 기억 안 나면 선생님께 물어보세요.</p>
     ${DEMO?'<p class="hint" style="color:var(--bur)">[미리보기] 아무 이름 + 1234</p>':''}
   </div>`;
@@ -161,12 +162,17 @@ function loginView(){
     const k = b.dataset.k;
     if (k==='c') PIN=''; else if (k==='b') PIN=PIN.slice(0,-1); else if (PIN.length<4) PIN+=k;
     $$('#dots i').forEach((d,i)=>d.classList.toggle('on', i<PIN.length));
+    $('#enter').disabled = PIN.length!==4 || BUSY;
     if (PIN.length===4) doLogin();
   });
+  $('#enter').onclick = doLogin;
 }
+let BUSY = false;
 async function doLogin(){
+  if (BUSY || PIN.length!==4) return;
   const name = $('#nm').value.replace(/\s/g,'');
   if (!name){ toast('이름을 먼저 써 주세요', true); PIN=''; $$('#dots i').forEach(d=>d.classList.remove('on')); $('#nm').focus(); return; }
+  BUSY = true; const eb=$('#enter'); eb.disabled=true; eb.textContent='확인 중… 잠시만요 ⏳';
   try {
     let d;
     if (DEMO) d = MOCK.loginPin(name, PIN);
@@ -181,6 +187,7 @@ async function doLogin(){
     store.set('hw_token', d.token); store.set('hw_name', d.name); store.set('hw_last_name', name);
     home();
   } catch(e){
+    BUSY=false; eb.textContent='들어가기 →';
     PIN=''; $$('#dots i').forEach(x=>x.classList.remove('on'));
     const el=$('#dots'); el.classList.remove('shake'); void el.offsetWidth; el.classList.add('shake');
     fail(e);
