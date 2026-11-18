@@ -85,10 +85,12 @@ function prepMock(){const G={};GR.forEach(g=>{const k=g.name+"|"+g.title;if(!G[k
   else{ans=Array(10).fill("✓ (예전 자동채점에서 정답 — 시험지 확인)");const re=/서술형(\d+)\([^)]*\): (.*?)(?= \/ |$)/g;let x;while(x=re.exec(r.detail))ans[+x[1]-1]=x[2]}
   const mcW=(r.raw.wrong||"").split(/,\s*/).filter(w=>/^\d+번$/.test(w));
   r.mock={id,K,mc,ans,mcW};const g=G[r.name+"|"+r.title];
-  if(g&&g.t>=r.t){const pts=((g.detail.match(/pts=([\d.,]+)/)||[])[1]||"").split(",").map(Number);r.mock.pts=pts;r.mock.gt=g.t;
-   r.score=Math.round((mc*2.5+pts.reduce((a,b)=>a+(b||0),0))*10)/10;r.total=100;
-   r.wrong=[...mcW,...pts.map((p,i)=>p<5?"서술형"+(i+1):"").filter(Boolean)].join(", ")||"없음"}
-  else{r.mock.pts=null;r.score=mc;r.total=20;r.wrong=mcW.join(", ")||"없음"}})}
+  if(g&&g.t>=r.t){const om=g.detail.match(/mcw=([^|]*)/);if(om){const w=om[1].trim();r.mock.mcW=w&&w!=="없음"?w.split(/,\s*/):[];r.mock.mc=20-r.mock.mcW.length;r.mock.fixed=true}}
+  const mc2=r.mock.mc,mcW2=r.mock.mcW;
+  if(g&&g.t>=r.t&&/pts=\d/.test(g.detail)){const pts=((g.detail.match(/pts=([\d.,]+)/)||[])[1]||"").split(",").map(Number);r.mock.pts=pts;r.mock.gt=g.t;
+   r.score=Math.round((mc2*2.5+pts.reduce((a,b)=>a+(b||0),0))*10)/10;r.total=100;
+   r.wrong=[...mcW2,...pts.map((p,i)=>p<5?"서술형"+(i+1):"").filter(Boolean)].join(", ")||"없음"}
+  else{r.mock.pts=null;r.score=mc2;r.total=20;r.wrong=mcW2.join(", ")||"없음"}})}
 const sc=r=>r.mock?(r.mock.pts?`총 ${r.score}/100`:`객관식 ${r.mock.mc}/20 · 서술형 대기`):`${r.score}/${r.total}`;
 const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
 const $=s=>document.querySelector(s),app=$("#app");
@@ -168,7 +170,8 @@ function gradeView(r){const v=$("#v"),M=r.mock,K=M.K;
  const P=M.pts?M.pts.slice():M.ans.map((a,i)=>/^✓/.test(a)?5:saOk(K.sa[i],a)?5:0);
  v.innerHTML=`<div class="bar"><button class="chip" id="gb">← 목록으로</button></div>
  <div class="card"><h1 style="font-size:24px">${esc(r.name)} · 서술형 채점</h1><div class="muted">${esc(K.title)} (${esc(K.sub)}) · 제출 ${fmt(r.t)}${M.gt?` · 마지막 채점 ${fmt(M.gt)}`:""}</div>
- <div style="margin-top:6px">객관식 <b>${M.mc}/20</b> → ${M.mc*2.5}점 ${M.mcW.length?`<span class="muted">(틀림: ${esc(M.mcW.join(", "))})</span>`:""}</div>
+ <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">객관식 <b id="mcs"></b><span class="muted">틀린 번호</span><input type="text" id="mcw" value="${esc(M.mcW.map(w=>parseInt(w)).join(", "))}" placeholder="예: 13 (다 맞으면 비움)" style="width:170px">${M.fixed?'<span class="pill y">선생님 수정됨</span>':""}<button class="chip" id="mcsave">객관식만 저장</button></div>
+ <div class="muted" style="font-size:12px">OMR 입력 실수가 있으면 실제 틀린 번호를 쉼표로 넣으세요.</div>
  <p class="muted" style="margin:6px 0 0">${M.pts?"저장된 점수예요. 고칠 문항만 바꾸고 저장하세요.":"자동 판정으로 미리 채워 두었어요(참고용). 시험지를 보고 문항별 점수(0~5)를 확인·수정한 뒤 저장하세요."}</p></div>
  <div class="card">${K.sa.map((q,i)=>`<div class="gr"><div class="no">${i+1}</div><div><span class="muted">${esc(q.ar)}</span>
   <div class="ans">학생 답: <b>${esc(M.ans[i])}</b></div>
@@ -176,18 +179,22 @@ function gradeView(r){const v=$("#v"),M=r.mock,K=M.K;
   <div class="pts" data-i="${i}">${[5,4,3,2,1,0].map(p=>`<button data-p="${p}" class="${p===0?"z":""}">${p}</button>`).join("")}</div></div></div>`).join("")}
  <div class="tot"><span>총점</span><b id="tt"></b><span class="muted" id="tb"></span><span style="flex:1"></span><button class="btn" id="gs" style="background:var(--bur)">저장</button></div>
  <div class="err" id="gm"></div></div>`;
- const paint=()=>{v.querySelectorAll(".pts").forEach(d=>{const i=+d.dataset.i;d.querySelectorAll("button").forEach(b=>b.classList.toggle("on",+b.dataset.p===P[i]))});
-  const s=P.reduce((a,b)=>a+b,0);$("#tt").textContent=`${Math.round((M.mc*2.5+s)*10)/10} / 100`;$("#tb").textContent=`객관식 ${M.mc*2.5} + 서술형 ${s}/50`};
+ let MCW=M.mcW.map(w=>parseInt(w));const MC=()=>20-MCW.length;
+ const paint=()=>{$("#mcs").textContent=`${MC()}/20 → ${MC()*2.5}점`;v.querySelectorAll(".pts").forEach(d=>{const i=+d.dataset.i;d.querySelectorAll("button").forEach(b=>b.classList.toggle("on",+b.dataset.p===P[i]))});
+  const s=P.reduce((a,b)=>a+b,0);$("#tt").textContent=`${Math.round((MC()*2.5+s)*10)/10} / 100`;$("#tb").textContent=`객관식 ${MC()*2.5} + 서술형 ${s}/50`};
+ $("#mcw").oninput=e=>{MCW=[...new Set(e.target.value.split(/[^0-9]+/).map(Number).filter(n=>n>=1&&n<=20))].sort((a,b)=>a-b);paint()};
  v.querySelectorAll(".pts button").forEach(b=>b.onclick=()=>{P[+b.parentNode.dataset.i]=+b.dataset.p;paint()});paint();
  $("#gb").onclick=()=>{renderView(filtered());window.scrollTo(0,0)};
- $("#gs").onclick=async()=>{const b=$("#gs");b.disabled=true;b.textContent="저장 중…";const s=P.reduce((a,c)=>a+c,0),tot=Math.round((M.mc*2.5+s)*10)/10;
-  const body={name:r.name,unit:"중등부 모의고사",day:0,title:r.title,cat:"모의고사 서술형",attempt:"선생님 채점",score:s,total:50,
-   wrongNums:P.map((p,i)=>p<5?"서술형"+(i+1):"").filter(Boolean).join(", ")||"없음",
-   wrongDetail:`[GRADE:${M.id}] 총점 ${tot}/100 · 객관식 ${M.mc}/20(${M.mc*2.5}점) · 서술형 ${s}/50 | pts=${P.join(",")}`,minutes:0,timestamp:new Date().toISOString()};
+ const send=async(withSA)=>{const b=withSA?$("#gs"):$("#mcsave");b.disabled=true;const bt=b.textContent;b.textContent="저장 중…";const s=P.reduce((a,c)=>a+c,0),mc=MC(),tot=Math.round((mc*2.5+s)*10)/10;
+  const mw=MCW.map(n=>n+"번").join(", ")||"없음";
+  const body={name:r.name,unit:"중등부 모의고사",day:0,title:r.title,cat:"모의고사 서술형",attempt:withSA?"선생님 채점":"객관식 수정",score:withSA?s:mc,total:withSA?50:20,
+   wrongNums:withSA?(P.map((p,i)=>p<5?"서술형"+(i+1):"").filter(Boolean).join(", ")||"없음"):mw,
+   wrongDetail:`[GRADE:${M.id}] `+(withSA?`총점 ${tot}/100 · `:"")+`객관식 ${mc}/20(${mc*2.5}점)`+(withSA?` · 서술형 ${s}/50`:"")+` | mcw=${mw} | `+(withSA?`pts=${P.join(",")}`:M.pts?`pts=${M.pts.join(",")}`:"pts=-"),minutes:0,timestamp:new Date().toISOString()};
   try{await fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),mode:"no-cors"});
-   GR.push({t:Date.now(),name:r.name,title:r.title,detail:body.wrongDetail});prepMock();$("#gm").style.color="var(--ok)";$("#gm").textContent=`✅ 저장됐어요 · 총점 ${tot}점`;
-   setTimeout(()=>{renderView(filtered());window.scrollTo(0,0)},700)}
-  catch(e){b.disabled=false;b.textContent="저장";$("#gm").textContent="저장하지 못했어요. 인터넷을 확인하고 다시 눌러 주세요."}};
+   GR.push({t:Date.now(),name:r.name,title:r.title,detail:body.wrongDetail});prepMock();$("#gm").style.color="var(--ok)";$("#gm").textContent=withSA?`✅ 저장됐어요 · 총점 ${tot}점`:`✅ 객관식 ${mc}/20 으로 수정됐어요`;
+   setTimeout(()=>{renderView(filtered());window.scrollTo(0,0)},800)}
+  catch(e){b.disabled=false;b.textContent=bt;$("#gm").textContent="저장하지 못했어요. 인터넷을 확인하고 다시 눌러 주세요."}};
+ $("#gs").onclick=()=>send(true);$("#mcsave").onclick=()=>send(false);
  window.scrollTo(0,0)}
 if(PIN)load();else lock();
 </script>
