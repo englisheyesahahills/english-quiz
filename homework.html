@@ -115,7 +115,11 @@ function fail(e){ if(e && e.message==='SESSION') return; toast(e && e.message ? 
 
 async function raw(fn, ...args){
   if (DEMO) return MOCK[fn](...args);
-  const res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({ fn, args }) });
+  let res;
+  for (let i = 0; i < 2; i++) {
+    try { res = await fetch(GAS_URL, { method:'POST', body: JSON.stringify({ fn, args }) }); break; }
+    catch (e) { if (i) throw new Error('숙제 서버에 연결하지 못했어요. 잠시 후 다시 해 보세요. (숙제 서버)'); await new Promise(r => setTimeout(r, 1500)); }
+  }
   if (!res.ok) throw new Error('인터넷 연결을 확인해 주세요 (' + res.status + ')');
   const o = JSON.parse(await res.text());
   if (o.error === 'SESSION') { logout(); toast('다시 로그인해 주세요.', true); throw new Error('SESSION'); }
@@ -168,7 +172,8 @@ async function doLogin(){
     if (DEMO) d = MOCK.loginPin(name, PIN);
     else {
       const r = await jsonp(LOGIN_API + '?action=hw&name=' + encodeURIComponent(name) + '&code=' + PIN);
-      if (!r.ok) throw new Error(r.msg || '이름이나 비밀번호가 달라요');
+      if (!r.ok) throw new Error((r.msg || '이름이나 비밀번호가 달라요') + (r.detail ? ' [' + r.detail + ']' : ''));
+      if (!r.code) throw new Error('[관리자 확인] 로그인 서버에 숙제방 기능이 아직 배포되지 않았어요');
       d = await raw('login', r.code);
     }
     if (d.role && d.role !== 'student') throw new Error('학생용 화면이에요.');
