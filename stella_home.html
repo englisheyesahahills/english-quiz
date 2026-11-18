@@ -862,7 +862,8 @@ function loginJsonp(url){
 let CURRENT = null, DASH = null, VIEW_MONTH = null, SEL_DAY = null;
 const ST_COLOR = { '출석':'#4F8367', '지각':'#C99A1E', '결석':'#E2604B' };
 const ST_ICON  = { '출석':'✓', '지각':'!', '결석':'✕', '예정':'' };
-const HW_KEYS  = [['제출(⭕️)','제출','#4F8367'], ['미완료(🔺)','미완료','#C99A1E'], ['미제출(❌)','미제출','#E2604B']];
+const HW_KEYS  = [['제출','제출','#4F8367'], ['미완료','미완료','#C99A1E'], ['미제출','미제출','#E2604B']];
+function hwHas(a, key){ return (a.hw || []).some(x => String(x).replace(/\(.*$/, '').trim() === key); }
 function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 function ymd(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 function pct(c, n){ return (n ? Math.round(c / n * 100) : null); }
@@ -913,7 +914,7 @@ function renderDash(){
   const done = att.filter(a => a.st && a.st !== '예정');
   const present = done.filter(a => a.st === '출석' || a.st === '지각').length;
   const hwRows = done.filter(a => a.st !== '결석' && a.hw && a.hw.length);
-  const hwOk = hwRows.filter(a => a.hw.indexOf('제출(⭕️)') !== -1).length;
+  const hwOk = hwRows.filter(a => hwHas(a, '제출')).length;
   const words = DASH.scores.filter(x => x.type === '단어 시험' && x.n);
   const recent = words.filter(x => x.c != null).slice(-10);
   const wAvg = recent.length ? Math.round(recent.reduce((s,x)=> s + x.c / x.n, 0) / recent.length * 100) : null;
@@ -948,7 +949,7 @@ function renderDash(){
   h += '<div class="dash-sec"><h3>숙제 제출 <small>' + mLabel + '</small></h3>';
   if (!hwRows.length){ h += '<div class="dash-empty">이번 달 숙제 기록이 아직 없어요.</div>'; }
   else {
-    const cnt = HW_KEYS.map(k => [k[1], k[2], hwRows.filter(a => a.hw.indexOf(k[0]) !== -1).length]);
+    const cnt = HW_KEYS.map(k => [k[1], k[2], hwRows.filter(a => hwHas(a, k[0])).length]);
     h += '<div class="bar100" role="img" aria-label="' + cnt.map(c=>c[0]+' '+c[2]+'회').join(', ') + '">' +
       cnt.filter(c=>c[2]).map(c => '<div title="' + c[0] + ' ' + c[2] + '회" style="flex:' + c[2] + ';background:' + c[1] + '"></div>').join('') + '</div>';
     h += '<div class="hw-rows">' + cnt.map(c => '<div class="hw-row"><span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:' + c[1] + ';margin-right:6px"></i>' + c[0] + '</span><b>' + c[2] + '회</b></div>').join('') + '</div>';
