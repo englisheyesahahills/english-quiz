@@ -123,7 +123,10 @@ function showResult(id){const K=KEYS[id],s=ST[id];
  <p class="muted" style="font-size:12px">※ 서술형은 자동 채점이에요. 뜻이 같은 다른 표현은 선생님이 다시 확인해 주세요.</p></div>`}
 const QEX=new URLSearchParams(location.search).get("exam");
 function start(){if(QEX&&KEYS[QEX])exam(QEX);else home()}
-if(U)start();else loginView();
+const QCODE=new URLSearchParams(location.search).get("code");
+if(QCODE){try{const u=new URL(location.href);u.searchParams.delete("code");history.replaceState(null,"",u.pathname+u.search)}catch(e){}
+ U=null;loginView();$("#code").value=QCODE;doLogin()}
+else if(U)start();else loginView();
 </script>
 </body>
 </html>

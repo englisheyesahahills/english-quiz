@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>중등부 모의고사 · 학생 로그인</title>
+<style>
+  :root{--bur:#8a2240;--ink:#1e293b;--sub:#64748b;--line:#e2e8f0}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;background:#f1f5f9;color:var(--ink);padding-bottom:50px}
+  header{background:linear-gradient(135deg,#6b1832,#8a2240);color:#fff;text-align:center;padding:30px 16px 24px}
+  header h1{margin:0 0 6px;font-size:1.4rem}
+  header p{margin:0;opacity:.85;font-size:.88rem}
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px}
+  .lbl{font-size:.82rem;font-weight:700;color:#374151;margin:18px 0 8px}
+  .chips{display:flex;gap:6px;flex-wrap:wrap}
+  .chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:.84rem;font-weight:600;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .chip.on{background:var(--bur);color:#fff;border-color:var(--bur)}
+  .cls{margin-top:22px}
+  .cls h2{font-size:1rem;color:var(--bur);margin:0 0 10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .st{display:block;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 12px;text-align:center;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+  .st:active{transform:scale(.98)}
+  .st b{display:block;font-size:1.05rem}
+  .st span{display:block;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;letter-spacing:1.5px;color:var(--bur);margin-top:5px}
+  .st i{display:block;font-style:normal;font-size:.72rem;color:var(--sub);margin-top:6px}
+  .hide{display:none!important}
+  footer{text-align:center;color:var(--sub);font-size:.76rem;margin-top:36px}
+</style>
+</head>
+<body>
+<header>
+  <h1>🏫 중등부 모의고사 · 학생 로그인</h1>
+  <p>내 이름을 누르면 코드가 자동 입력되어 바로 OMR로 들어가요</p>
+</header>
+<div class="wrap">
+  <div class="lbl">① 시험 선택 (선택 안 하면 OMR에서 고를 수 있어요)</div>
+  <div class="chips" id="ex"></div>
+  <div class="lbl">② 반 선택</div>
+  <div class="chips" id="cf"></div>
+  <div id="list"></div>
+  <footer>잉글리시아이스텔라 영어전문 · 스텔라원장 제작</footer>
+</div>
+<script>
+const OMR="https://englisheyesahahills.github.io/english-quiz/mock_omr.html";
+const EXAMS=[["","선택 안 함"],["m1yun_saha","중1 윤정미 · 사하중"],["m1yun_dangri","중1 윤정미 · 당리중"],["m1lee_dongju","중1 이병민 · 동주여중"],["m2lee_dongju","중2 이병민 · 동주여중"],["m2yun_saha","중2 윤정미 · 사하중"]];
+const S=[
+ ["중등부1","오승준","SXDGTFZ"],["중등부1","신시윤","SE2SNXK"],["중등부1","한예원","SJQSHU9"],["중등부1","채은후","SJNJUAC"],["중등부1","좌현우","S53YBQD"],["중등부1","허지현","SD43EDL"],["중등부1","배여진","S4XA7YU"],["중등부1","성태율","SCCNE8Y"],
+ ["중등부2","전유성","SRVDCCQ"],["중등부2","신민준","SV6Z6A6"],["중등부2","문서우","SY6J35M"],["중등부2","양지수","SH4ADJL"],
+ ["중등부3","강지윤","S3FH6VS"],["중등부3","임아린","SEN4K6W"],["중등부3","박예빈","SEQUJW3"],
+ ["중등부4","김윤우","S33LSBB"],["중등부4","김강민","SVAM8VN"],["중등부4","장재영","S7CU4EW"],["중등부4","이수빈","S9AGRDK"],["중등부4","김서연","SFATNR6"],["중등부4","김서우","S5PRLHS"],
+ ["중등부5","이아윤","SRPJXG7"],["중등부5","문채원","SBJBQYM"],["중등부5","박영광","STEQVVB"],["중등부5","박시율","SRWEQ4K"],["중등부5","서연제","SAZNFLD"],["중등부5","양수아","S3LFDRS"]
+];
+const CLS=[...new Set(S.map(x=>x[0]))];
+let exam=new URLSearchParams(location.search).get("exam")||"",cls="";
+const $=s=>document.querySelector(s);
+function chips(el,items,val,on){el.innerHTML=items.map(([v,t])=>`<button class="chip${v===val?" on":""}" data-v="${v}">${t}</button>`).join("");
+ el.querySelectorAll(".chip").forEach(b=>b.onclick=()=>{on(b.dataset.v);render()})}
+function render(){
+ chips($("#ex"),EXAMS,exam,v=>exam=v);
+ chips($("#cf"),[["","전체"],...CLS.map(c=>[c,c])],cls,v=>cls=v);
+ $("#list").innerHTML=CLS.filter(c=>!cls||c===cls).map(c=>`<div class="cls"><h2>${c}</h2><div class="grid">${
+  S.filter(x=>x[0]===c).map(([,n,k])=>`<a class="st" href="${OMR}?code=${k}${exam?"&exam="+exam:""}" target="_blank" rel="noopener"><b>${n}</b><span>${k}</span><i>눌러서 입장 →</i></a>`).join("")}</div></div>`).join("");
+}
+render();
+</script>
+</body>
+</html>
