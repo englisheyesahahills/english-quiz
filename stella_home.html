@@ -290,6 +290,21 @@
   .quick-group:first-of-type{ margin-top:2px; }
   .quick-grid.two{ grid-template-columns:repeat(2,1fr); }
   .quick-btn.small{ padding:12px 4px; font-size:13px; }
+  .login-box{ background:#F4F2EC; border-radius:12px; padding:12px; }
+  .login-box input{
+    width:100%; border:1px solid var(--line); border-radius:10px; background:#fff;
+    padding:11px 12px; font-size:15px; font-family:inherit; margin-bottom:8px;
+  }
+  .login-box button{
+    width:100%; border:none; border-radius:10px; background:var(--navy-deep); color:#fff;
+    padding:12px; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer;
+  }
+  .login-box button:disabled{ opacity:.6; }
+  .login-msg{ font-size:12.5px; color:var(--coral); margin-top:8px; min-height:1em; }
+  .login-hint{ font-size:11.5px; color:var(--text-muted); margin-top:6px; line-height:1.5; }
+  .who-row{ display:flex; justify-content:space-between; align-items:center; margin:0 2px 6px; }
+  .who-row .nm{ font-size:13.5px; font-weight:700; color:var(--navy-deep); }
+  .who-row button{ background:none; border:none; color:var(--text-muted); font-size:12px; text-decoration:underline; font-family:inherit; cursor:pointer; padding:0; }
 
   /* ---- Location ---- */
   .info-row{ display:flex; gap:10px; padding:9px 0; font-size:14px; align-items:flex-start; }
@@ -319,8 +334,19 @@
       <div class="quick-head">우리 아이 학습 바로가기</div>
       <div class="quick-sub">숙제 제출, 수업 영상, 단어 학습, 월말 리포트를 여기서 한 번에 확인하세요.</div>
 
+      <div id="login-area" style="display:none">
+        <div class="quick-group">우리 아이 전용 (출석·숙제·점수·월말 리포트)</div>
+        <div class="login-box" id="login-box">
+          <input id="login-name" type="text" placeholder="아이 이름 (예: 홍길동)" autocomplete="off">
+          <input id="login-code" type="tel" inputmode="numeric" maxlength="4" placeholder="학부모님 휴대폰 뒷번호 4자리">
+          <button id="login-btn" type="button">우리 아이 확인하기</button>
+          <div class="login-msg" id="login-msg"></div>
+          <div class="login-hint">한 번 확인하면 이 휴대폰에서는 다음부터 바로 보입니다.</div>
+        </div>
+      </div>
+
       <div id="personal-box" style="display:none">
-        <div class="quick-group">우리 아이 전용</div>
+        <div class="who-row"><span class="nm" id="who-name"></span><button type="button" id="logout-btn" style="display:none">다른 아이로 변경</button></div>
         <div class="quick-grid two" id="personal-grid">
           <a class="quick-btn q1" id="student-link" href="#" target="_blank" rel="noopener" style="display:none">
             <span class="ico">📋</span>출석·숙제·점수<br>학생관리
@@ -717,26 +743,82 @@ const LIVECLASS_URL = 'https://englisheyestella.liveklass.com/me/classes';
 const NOTION_SITE = 'https://lateral-steed-574.notion.site/';
 const REPORT_PAGE = 'https://englisheyesahahills.github.io/english-quiz/report.html?id=';
 
-/* 학부모 개인 링크:
-   stella_home.html?s=노션페이지ID&r=월말리포트ID
-   - s : 학생관리(노션) 버튼  - r : 월말평가 리포트 버튼
-   둘 중 하나만 넣어도 됩니다. 넣지 않은 버튼은 보이지 않습니다. */
+/* ▼ 학부모 로그인 API (Apps Script 웹앱 주소). 비어 있으면 로그인 칸이 숨겨집니다. */
+const LOGIN_API = '';
+
+const SAVE_KEY = 'stella_parent_v1';
+function showPersonal(info, canLogout){
+  const sOk = info.s && /^[0-9a-f]{32}$/i.test(info.s);
+  const rOk = info.r && /^[A-Za-z0-9_-]{2,80}$/.test(info.r);
+  const sb = document.getElementById('student-link'), rb = document.getElementById('report-link');
+  sb.style.display = sOk ? '' : 'none'; if (sOk) sb.href = NOTION_SITE + info.s;
+  rb.style.display = rOk ? '' : 'none'; if (rOk) rb.href = REPORT_PAGE + encodeURIComponent(info.r);
+  const shown = (sOk?1:0) + (rOk?1:0);
+  if (!shown) return false;
+  document.getElementById('personal-grid').style.gridTemplateColumns = shown === 1 ? '1fr' : '';
+  document.getElementById('who-name').textContent = info.name ? info.name + ' 학생' : '';
+  document.getElementById('logout-btn').style.display = canLogout ? '' : 'none';
+  document.getElementById('personal-box').style.display = '';
+  document.getElementById('login-area').style.display = 'none';
+  return true;
+}
+function showLogin(){
+  document.getElementById('personal-box').style.display = 'none';
+  document.getElementById('login-area').style.display = LOGIN_API ? '' : 'none';
+}
+function loadSaved(){ try{ return JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); }catch(e){ return null; } }
+function saveInfo(v){ try{ v ? localStorage.setItem(SAVE_KEY, JSON.stringify(v)) : localStorage.removeItem(SAVE_KEY); }catch(e){} }
+
+function loginJsonp(url){
+  return new Promise((res, rej) => {
+    const cb = 'stl' + Date.now();
+    const sc = document.createElement('script');
+    const t = setTimeout(()=>{ rej(new Error('timeout')); cleanup(); }, 15000);
+    function cleanup(){ clearTimeout(t); delete window[cb]; sc.remove(); }
+    window[cb] = d => { res(d); cleanup(); };
+    sc.onerror = () => { rej(new Error('net')); cleanup(); };
+    sc.src = url + '&callback=' + cb;
+    document.body.appendChild(sc);
+  });
+}
+
+async function doLogin(){
+  const name = document.getElementById('login-name').value.trim();
+  const code = document.getElementById('login-code').value.replace(/\D/g,'');
+  const msg = document.getElementById('login-msg');
+  const btn = document.getElementById('login-btn');
+  if (!name || code.length !== 4){ msg.textContent = '이름과 뒷번호 4자리를 입력해 주세요.'; return; }
+  btn.disabled = true; msg.style.color = 'var(--text-muted)'; msg.textContent = '확인 중…';
+  try{
+    const d = await loginJsonp(LOGIN_API + '?name=' + encodeURIComponent(name) + '&code=' + code);
+    if (!d.ok){ msg.style.color = ''; msg.textContent = d.msg || '확인하지 못했어요.'; return; }
+    const st = d.students[0];
+    const info = { name: st.name, s: st.s, r: st.r };
+    saveInfo(info);
+    msg.textContent = '';
+    if (!showPersonal(info, true)){ msg.style.color=''; msg.textContent = '아직 등록된 자료가 없어요. 학원으로 문의해 주세요.'; }
+  } catch(e){
+    msg.style.color = ''; msg.textContent = '연결이 원활하지 않아요. 잠시 후 다시 시도해 주세요.';
+  } finally { btn.disabled = false; }
+}
+
 (function(){
+  /* 예전 개인 링크(?s=노션ID&r=리포트코드)도 계속 사용 가능 */
   const q = new URLSearchParams(location.search);
-  const sid = q.get('s'), rid = q.get('r');
-  let shown = 0;
-  if (sid && /^[0-9a-f]{32}$/i.test(sid)){
-    const b = document.getElementById('student-link');
-    b.href = NOTION_SITE + sid; b.style.display = ''; shown++;
+  const fromUrl = { s: q.get('s'), r: q.get('r') };
+  if (!(fromUrl.s || fromUrl.r) || !showPersonal(fromUrl, false)){
+    const saved = loadSaved();
+    if (!(saved && showPersonal(saved, true))) showLogin();
   }
-  if (rid && /^[A-Za-z0-9_-]{2,80}$/.test(rid)){
-    const b = document.getElementById('report-link');
-    b.href = REPORT_PAGE + encodeURIComponent(rid); b.style.display = ''; shown++;
-  }
-  if (shown){
-    document.getElementById('personal-box').style.display = '';
-    if (shown === 1) document.getElementById('personal-grid').style.gridTemplateColumns = '1fr';
-  }
+  document.getElementById('login-btn').addEventListener('click', doLogin);
+  document.getElementById('login-code').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('logout-btn').addEventListener('click', () => {
+    saveInfo(null);
+    document.getElementById('login-name').value = '';
+    document.getElementById('login-code').value = '';
+    showLogin();
+  });
+
   if (LIVECLASS_URL){
     const l = document.getElementById('liveclass-link');
     l.href = LIVECLASS_URL; l.style.display = '';
