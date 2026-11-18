@@ -174,12 +174,16 @@ function loginView(msg){$("#lo").style.display="none";$("#home").style.display="
  <div class="card"><input type="text" id="code" maxlength="12" autocomplete="off" autocapitalize="off" placeholder="로그인 코드" style="font-size:20px;text-align:center;letter-spacing:2px"><div style="height:10px"></div><button class="btn" id="go" style="width:100%">입장하기</button><div id="er" style="color:var(--no);font-size:14px;margin-top:8px;text-align:center">${msg?esc(msg):""}</div></div>
  <p class="muted" style="font-size:13px">코드를 모르면 선생님께 물어보세요.</p>${pdfLinks()}<div class="ft">${esc(CONF.brand)}</div>`;
  $("#go").onclick=doLogin;$("#code").onkeydown=e=>{if(e.key==="Enter")doLogin()}}
+async function loginFetch(code){if(code.startsWith("이름:"))return {data:{name:code.slice(3).trim(),role:"student"}};let last;for(let i=0;i<3;i++){try{const r=await fetch(LOGIN_URL,{method:"POST",body:JSON.stringify({fn:"login",args:[code]})});if(!r.ok)throw new Error("NET "+r.status);const t=await r.text();try{return JSON.parse(t)}catch(x){throw new Error("NET 응답 오류")}}catch(e){last=e;await new Promise(s=>setTimeout(s,900*(i+1)))}}throw new Error(/^NET/.test(last&&last.message)?last.message:"NET "+(last&&last.message||""))}
+function loginFail(e){const net=/^NET|Failed to fetch|NetworkError|Load failed/.test(e.message);const er=document.getElementById("er");if(!net){er.textContent=e.message;return}
+ er.innerHTML=`학원 로그인 서버에 연결되지 않아요. <span style="opacity:.7">(${String(e.message).replace(/^NET\s*/,"").slice(0,40)})</span><br>잠시 후 다시 시도하거나, 아래에 <b>이름</b>을 넣고 바로 시작하세요.<div style="display:flex;gap:6px;margin-top:8px"><input type="text" id="fbn" placeholder="내 이름" maxlength="10" style="flex:1;min-width:0"><button class="btn" id="fbg" style="width:auto;padding:8px 14px">이름으로 시작</button></div>`;
+ const g=()=>{const n=document.getElementById("fbn").value.trim();if(!n)return;document.getElementById("code").value="이름:"+n;doLogin()};document.getElementById("fbg").onclick=g;document.getElementById("fbn").onkeydown=e=>{if(e.key==="Enter")g()}}
 async function doLogin(){const code=$("#code").value.trim();if(!code)return;const b=$("#go");b.disabled=true;b.textContent="확인 중…";$("#er").textContent="";
- try{const r=await fetch(LOGIN_URL,{method:"POST",body:JSON.stringify({fn:"login",args:[code]})});if(!r.ok)throw new Error("서버 연결 실패 ("+r.status+")");const o=JSON.parse(await r.text());if(o.error)throw new Error(o.error);const d=o.data||{};
+ try{const o=await loginFetch(code);if(o.error)throw new Error(o.error);const d=o.data||{};
   if(d.role==="parent")throw new Error("학부모 코드로는 들어갈 수 없어요. 학생 코드를 입력하세요.");
   U={name:d.name||"학생",key:await sha(code)};LS.set(KEY+"_user",JSON.stringify(U));b.textContent="학습 기록 불러오는 중…";
   const ok=await download();S.name=U.name;home(ok?"":"서버 기록을 불러오지 못해 이 기기 기록으로 시작합니다.")}
- catch(e){b.disabled=false;b.textContent="입장하기";$("#er").textContent=/Failed to fetch|NetworkError|Load failed/.test(e.message)?"인터넷 연결을 확인하세요.":e.message}}
+ catch(e){b.disabled=false;b.textContent="입장하기";loginFail(e)}}
 async function logout(){if(U){setSync("저장 중…");await upload()}U=null;LS.set(KEY+"_user","null");S=blank();loginView()}
 $("#lo").onclick=logout;
 const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");

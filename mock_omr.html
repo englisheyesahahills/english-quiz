@@ -74,11 +74,15 @@ function loginView(msg){$("#lo").style.display="none";$("#back").style.display="
  <div class="card"><input type="text" id="code" maxlength="12" autocomplete="off" autocapitalize="off" placeholder="로그인 코드" style="font-size:20px;text-align:center;letter-spacing:2px"><div style="height:10px"></div><button class="btn" id="go">입장하기</button><div class="err" id="er">${msg?esc(msg):""}</div></div>
  <div class="ft">제작: 스텔라원장 · 잉글리시아이 스텔라</div>`;
  $("#go").onclick=doLogin;$("#code").onkeydown=e=>{if(e.key==="Enter")doLogin()}}
+async function loginFetch(code){if(code.startsWith("이름:"))return {data:{name:code.slice(3).trim(),role:"student"}};let last;for(let i=0;i<3;i++){try{const r=await fetch(LOGIN_URL,{method:"POST",body:JSON.stringify({fn:"login",args:[code]})});if(!r.ok)throw new Error("NET "+r.status);const t=await r.text();try{return JSON.parse(t)}catch(x){throw new Error("NET 응답 오류")}}catch(e){last=e;await new Promise(s=>setTimeout(s,900*(i+1)))}}throw new Error(/^NET/.test(last&&last.message)?last.message:"NET "+(last&&last.message||""))}
+function loginFail(e){const net=/^NET|Failed to fetch|NetworkError|Load failed/.test(e.message);const er=document.getElementById("er");if(!net){er.textContent=e.message;return}
+ er.innerHTML=`학원 로그인 서버에 연결되지 않아요. <span style="opacity:.7">(${String(e.message).replace(/^NET\s*/,"").slice(0,40)})</span><br>잠시 후 다시 시도하거나, 아래에 <b>이름</b>을 넣고 바로 시작하세요.<div style="display:flex;gap:6px;margin-top:8px"><input type="text" id="fbn" placeholder="내 이름" maxlength="10" style="flex:1;min-width:0"><button class="btn" id="fbg" style="width:auto;padding:8px 14px">이름으로 시작</button></div>`;
+ const g=()=>{const n=document.getElementById("fbn").value.trim();if(!n)return;document.getElementById("code").value="이름:"+n;doLogin()};document.getElementById("fbg").onclick=g;document.getElementById("fbn").onkeydown=e=>{if(e.key==="Enter")g()}}
 async function doLogin(){const code=$("#code").value.trim();if(!code)return;const b=$("#go");b.disabled=true;b.textContent="확인 중…";$("#er").textContent="";
- try{const r=await fetch(LOGIN_URL,{method:"POST",body:JSON.stringify({fn:"login",args:[code]})});if(!r.ok)throw new Error("서버 연결 실패 ("+r.status+")");const o=JSON.parse(await r.text());if(o.error)throw new Error(o.error);const d=o.data||{};
+ try{const o=await loginFetch(code);if(o.error)throw new Error(o.error);const d=o.data||{};
   if(d.role==="parent")throw new Error("학부모 코드로는 들어갈 수 없어요. 학생 코드를 입력하세요.");
   U={name:d.name||"학생",key:await sha(code)};LS.set("mockomr_user",U);ST=LS.get(SK())||{};start()}
- catch(e){b.disabled=false;b.textContent="입장하기";$("#er").textContent=/Failed to fetch|NetworkError|Load failed/.test(e.message)?"인터넷 연결을 확인하세요.":e.message}}
+ catch(e){b.disabled=false;b.textContent="입장하기";loginFail(e)}}
 $("#lo").onclick=()=>{U=null;LS.set("mockomr_user",null);loginView()};
 $("#back").onclick=()=>home();
 function home(){$("#lo").style.display="";$("#back").style.display="none";
@@ -123,10 +127,7 @@ function showResult(id){const K=KEYS[id],s=ST[id];
  <p class="muted" style="font-size:12px">※ 서술형은 자동 채점이에요. 뜻이 같은 다른 표현은 선생님이 다시 확인해 주세요.</p></div>`}
 const QEX=new URLSearchParams(location.search).get("exam");
 function start(){if(QEX&&KEYS[QEX])exam(QEX);else home()}
-const QCODE=new URLSearchParams(location.search).get("code");
-if(QCODE){try{const u=new URL(location.href);u.searchParams.delete("code");history.replaceState(null,"",u.pathname+u.search)}catch(e){}
- U=null;loginView();$("#code").value=QCODE;doLogin()}
-else if(U)start();else loginView();
+if(U)start();else loginView();
 </script>
 </body>
 </html>
