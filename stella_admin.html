@@ -25,7 +25,7 @@ body{font-family:Pretendard,-apple-system,'Apple SD Gothic Neo',sans-serif;backg
 .tab.on{background:var(--navy);color:#fff;border-color:var(--navy)}
 .tab small{font-weight:600;opacity:.7;margin-left:4px}
 .search{margin-left:auto;border:1px solid var(--line);border-radius:999px;padding:9px 14px;font:14px Pretendard,sans-serif;min-width:180px}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:12px}
 .kpi{background:#fff;border-radius:14px;padding:12px 14px;box-shadow:0 1px 2px rgba(20,33,62,.06)}
 .kpi .k{font-size:12px;color:var(--ink2);font-weight:600}
 .kpi .v{font-size:22px;font-weight:800;margin-top:4px}
@@ -85,7 +85,13 @@ tr.row:hover td{background:#FBFAF7}
 .empty{font-size:13px;color:var(--muted)}
 .mscore{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
 .mscore b{font-size:20px}
+.pt{font-weight:800;color:var(--gold-ink)}
+.ptw{font-size:11px;font-weight:700;border-radius:5px;padding:1px 5px;margin-left:4px}
+.ptw.dup{color:var(--bad);background:#FBECEA}.ptw.less{color:#2F5BA8;background:#EEF2FA}
+.ptbox{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:13.5px;background:#F8F7F4;border-radius:10px;padding:12px 14px}
+.ptbox .sum{border-top:1px solid var(--line);padding-top:6px;font-weight:800}
 .demo{background:var(--gold);color:var(--navy);text-align:center;font-size:12px;font-weight:700;padding:6px}
+@media(max-width:900px){.kpis{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:760px){.kpis{grid-template-columns:repeat(2,1fr)}.hide-sm{display:none}.search{margin-left:0;width:100%}}
 @media print{
   body.print-detail>*:not(.dt){display:none!important}
@@ -173,6 +179,13 @@ function render() {
   renderList();
 }
 
+function ptStatus(p) {
+  if (!p) return '';
+  const r = (S.data.pointRule || { hw: 20, word: 20 });
+  const dup = p.givenHw > p.hwCnt * r.hw || p.givenWord > p.perfectCnt * r.word;
+  const less = p.givenHw < p.hwCnt * r.hw || p.givenWord < p.perfectCnt * r.word;
+  return dup ? '<span class="ptw dup" title="노션 지급 기록이 규칙보다 많아요 (중복 지급 의심)">중복?</span>' : less ? '<span class="ptw less" title="규칙 기준보다 지급 기록이 적어요">미지급</span>' : '';
+}
 function flagOf(s) {
   const f = [];
   if (s.words && s.words.avg < 70) f.push('단어');
@@ -182,7 +195,7 @@ function flagOf(s) {
 }
 const sortVal = {
   name: s => s.name, words: s => s.words ? s.words.avg : -1, hw: s => s.hw.rate == null ? -1 : s.hw.rate,
-  absent: s => s.hw.absent, monthly: s => s.monthly.length ? s.monthly[0].p : -1, speak: s => s.speaking ? s.speaking.total : -1
+  absent: s => s.hw.absent, points: s => s.points ? s.points.rule : -1, monthly: s => s.monthly.length ? s.monthly[0].p : -1, speak: s => s.speaking ? s.speaking.total : -1
 };
 function setSort(k) { if (S.sort === k) S.dir *= -1; else { S.sort = k; S.dir = k === 'name' ? 1 : -1; } renderList(); }
 
@@ -197,7 +210,8 @@ function renderList() {
     ['학생 수', all.length + '<small> 명</small>'],
     ['반 단어 평균', fmt(avg(all.map(s => s.words && s.words.avg))) + '<small> %</small>'],
     ['반 숙제 제출률', fmt(avg(all.map(s => s.hw.rate))) + '<small> %</small>'],
-    ['반 월말평가 평균', fmt(avg(all.map(s => s.monthly.length ? s.monthly[0].p : null))) + '<small> %</small>']
+    ['반 월말평가 평균', fmt(avg(all.map(s => s.monthly.length ? s.monthly[0].p : null))) + '<small> %</small>'],
+    ['반 이번 달 포인트', all.reduce((a, s) => a + (s.points ? s.points.rule : 0), 0).toLocaleString() + '<small> P</small>']
   ].map(k => `<div class="kpi"><div class="k">${k[0]}</div><div class="v">${k[1]}</div></div>`).join('');
   const ar = k => S.sort === k ? (S.dir > 0 ? ' ▲' : ' ▼') : '';
   const bar = (v, c) => v == null ? '<span class="muted">–</span>' : `<span class="pct">${fmt(v)}%</span><span class="bar hide-sm"><i style="width:${Math.min(100, v)}%;background:${c}"></i></span>`;
@@ -209,7 +223,8 @@ function renderList() {
     <th onclick="setSort('hw')">숙제 제출${ar('hw')}</th>
     <th class="num" onclick="setSort('absent')">결석${ar('absent')}</th>
     <th onclick="setSort('monthly')">월말평가${ar('monthly')}</th>
-    <th class="num hide-sm" onclick="setSort('speak')">스피킹${ar('speak')}</th></tr></thead><tbody>
+    <th class="num hide-sm" onclick="setSort('speak')">스피킹${ar('speak')}</th>
+    <th class="num" onclick="setSort('points')">포인트${ar('points')}</th></tr></thead><tbody>
     ${rows.map(s => {
       const f = flagOf(s), m = s.monthly[0];
       return `<tr class="row" onclick="openDetail('${s.id}')">
@@ -219,7 +234,8 @@ function renderList() {
         <td class="hwc">${s.hw.rate == null ? '<span class="muted">–</span>' : `<b>${s.hw.rate}%</b> <span class="o">⭕${s.hw.O}</span> <span class="p">🔺${s.hw.P}</span> <span class="x">❌${s.hw.X}</span>`}</td>
         <td class="num">${s.hw.absent ? `<b class="x">${s.hw.absent}</b>` : '<span class="muted">0</span>'}</td>
         <td>${m ? `<b>${m.c}/${m.t}</b> <span class="muted">(${fmt(m.p)}%)</span>${m.wrong && m.wrong.length ? `<div class="wn">✗ ${m.wrong.join(', ')}번</div>` : (m.wrong ? '<div class="wn" style="color:var(--ok)">만점</div>' : '')}` : '<span class="muted">–</span>'}</td>
-        <td class="num hide-sm">${s.speaking ? `${s.speaking.total}/${s.speaking.max}` : '<span class="muted">–</span>'}</td></tr>`;
+        <td class="num hide-sm">${s.speaking ? `${s.speaking.total}/${s.speaking.max}` : '<span class="muted">–</span>'}</td>
+        <td class="num"><span class="pt">${s.points ? s.points.rule : 0}P</span>${ptStatus(s.points)}</td></tr>`;
     }).join('')}</tbody></table>`;
 }
 
@@ -238,6 +254,13 @@ function openDetail(id) {
     return `<div class="mscore"><b>${esc(it.examTitle || it.name)}</b><span><b style="font-size:16px">${it.c}/${it.t}</b> (${fmt(it.p)}%)</span>${it.wrong ? `<span class="wn">${it.wrong.length ? '✗ ' + it.wrong.map(n => n + (it.myAns && it.myAns[n] != null ? '(' + it.myAns[n] + ')' : '')).join(', ') : '만점'}</span>` : '<span class="muted" style="font-size:12px">틀린 번호 미입력</span>'}</div>
       ${ex && it.wrong ? GradedPaper.render(it, ex, s, 'adm-' + s.id.slice(0, 8) + '-' + k) : (it.examId ? '' : '<div class="empty" style="margin-top:6px">노션 학생 성적 관리에서 OMR 시험을 선택하면 채점 시험지가 보여요.</div>')}`;
   }).join('<hr style="border:0;border-top:1px dashed var(--line);margin:14px 0">') : '<div class="empty">이번 달 월말평가 기록이 없어요.</div>';
+  const p = s.points, R = S.data.pointRule || { hw: 20, word: 20 };
+  const ptSec = p ? `<div class="ptbox">
+      <span>📚 숙제 제출 ⭕ ${p.hwCnt}회 × ${R.hw}P</span><b>${p.hwCnt * R.hw}P</b>
+      <span>🏆 단어 만점 ${p.perfectCnt}회 × ${R.word}P</span><b>${p.perfectCnt * R.word}P</b>
+      <span class="sum">이번 달 포인트 (규칙 기준)</span><b class="sum pt">${p.rule}P</b></div>
+    <div class="stats" style="margin-top:10px;margin-bottom:0"><div class="stat"><b>${p.given}P</b><span>노션 지급 기록 (이번 달)</span></div><div class="stat"><b>${p.givenHw}P · ${p.givenWord}P</b><span>과제 · 단어 100점</span></div><div class="stat"><b>${p.total != null ? p.total.toLocaleString() + 'P' : '–'}</b><span>누적 총 포인트</span></div></div>
+    ${ptStatus(p) ? `<div class="empty" style="margin-top:8px">${p.given > p.rule ? '⚠️ 노션 포인트 내역에 규칙보다 많이 적립돼 있어요. 중복 지급인지 확인해 주세요.' : 'ℹ️ 규칙 기준보다 지급 기록이 적어요. 아직 적립되지 않은 포인트가 있을 수 있어요.'}</div>` : ''}` : '';
   const spSec = s.speaking ? `<div class="spk">${s.speaking.areas.map(a => `<div><b>${a.v}/5</b>${esc(a.label)}</div>`).join('')}<div><b>${s.speaking.total}/${s.speaking.max}</b>총점</div></div>` : '<div class="empty">이번 달 스피킹 평가 기록이 없어요.</div>';
   $('#panel').innerHTML = `<div class="ph"><div><div class="sub">${esc(s.cls)} · ${mLabel(S.month)}</div><h2>${esc(s.name)}</h2></div>
     <div class="acts">${s.code ? `<a href="${REPORT_URL + s.code}" target="_blank" rel="noopener">📊 학부모 리포트</a>` : ''}<button onclick="printDetail()">🖨️ 상담자료 인쇄</button><button class="close" onclick="closeDetail()">✕</button></div></div>
@@ -245,6 +268,7 @@ function openDetail(id) {
       <div class="sec"><h3>📝 월말평가 · 채점 시험지</h3>${monthSec}</div>
       <div class="sec"><h3><span style="color:var(--c-word)">●</span> 단어 시험<span class="s">초록 90%↑ · 노랑 70%↑ · 빨강 70% 미만</span></h3>${wordsSec}</div>
       <div class="sec"><h3>📚 숙제 · 출석</h3>${hwSec}</div>
+      <div class="sec"><h3>🏅 포인트<span class="s">숙제 제출 ${R.hw}P · 단어 만점 ${R.word}P</span></h3>${ptSec}</div>
       <div class="sec"><h3><span style="color:var(--c-speak)">●</span> 스피킹</h3>${spSec}</div>
     </div>`;
   $('#dt').classList.add('on'); $('#panel').scrollTop = 0;
@@ -282,9 +306,10 @@ function demoData(month) {
     st.push({ id: 'demo' + k + 'xxxxxxxx', name: n, cls: c, code: '', words: { avg: Math.round(daily.reduce((a, b) => a + b.p, 0) / 4 * 10) / 10, count: 4, perfect: daily.filter(x => x.c >= x.t).length, daily }, retest: k % 4 === 0 ? 1 : 0,
       hw: { rows, O: cnt.O, P: cnt.P, X: cnt.X, absent: rows.filter(r => r.att === '결석').length, late: 0, rate: Math.round(cnt.O / (cnt.O + cnt.P + cnt.X) * 100) },
       monthly: [{ name: '월말 평가', examId: 'demoexam', examTitle: ex.title, d: month + '-27', c: 5 - wrong.length, t: 5, p: (5 - wrong.length) * 20, wrong, myAns: wrong.reduce((o, n) => (o[n] = n === 3 ? 2 : 4, o), {}) }],
+      points: { hwCnt: cnt.O, perfectCnt: daily.filter(x => x.c >= x.t).length, rule: cnt.O * 20 + daily.filter(x => x.c >= x.t).length * 20, givenHw: cnt.O * 20 * (k === 2 ? 2 : 1), givenWord: daily.filter(x => x.c >= x.t).length * 20, givenEtc: 0, given: cnt.O * 20 * (k === 2 ? 2 : 1) + daily.filter(x => x.c >= x.t).length * 20, total: 1200 + k * 140 },
       speaking: { total: 18 + k % 7, max: 25, areas: [['유창성', 4], ['발음·억양', 4], ['어휘력', 3 + k % 3], ['문법', 3], ['태도·표현', 4 + k % 2]].map(a => ({ label: a[0], v: a[1] })) }, overall: 85 });
   }));
-  return { ok: true, month, classes: ['A class', 'B class', 'C class', 'D class'], students: st, exams: { demoexam: ex }, updated: '' };
+  return { ok: true, month, classes: ['A class', 'B class', 'C class', 'D class'], students: st, exams: { demoexam: ex }, pointRule: { hw: 20, word: 20 }, updated: '' };
 }
 
 load(params.get('month'));
