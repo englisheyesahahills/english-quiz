@@ -306,6 +306,63 @@
   .who-row .nm{ font-size:13.5px; font-weight:700; color:var(--navy-deep); }
   .who-row button{ background:none; border:none; color:var(--text-muted); font-size:12px; text-decoration:underline; font-family:inherit; cursor:pointer; padding:0; }
 
+
+  /* ---- 학습 현황 (dashboard) ---- */
+  .dash{ position:fixed; inset:0; z-index:50; display:none; background:#E9E7DF; overflow-y:auto; -webkit-overflow-scrolling:touch; }
+  .dash.open{ display:block; }
+  .dash-inner{ max-width:var(--shell-max); margin:0 auto; min-height:100%; background:var(--paper); padding-bottom:40px; }
+  .dash-top{ position:sticky; top:0; z-index:2; background:var(--navy-deep); color:#fff; padding:14px 16px 16px; border-bottom:3px solid var(--gold); }
+  .dash-top .back{ background:none; border:none; color:#B9C2D9; font-family:inherit; font-size:13.5px; padding:0; cursor:pointer; margin-bottom:6px; }
+  .dash-top h2{ margin:0; font-size:20px; font-weight:700; letter-spacing:-0.3px; }
+  .dash-top .sub{ font-size:13px; color:#B9C2D9; margin-top:3px; }
+  .dash-body{ padding:16px; }
+  .dash-sec{ background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:14px 14px 12px; margin-bottom:12px; }
+  .dash-sec h3{ margin:0 0 10px; font-size:15.5px; font-weight:700; color:var(--navy-deep); display:flex; justify-content:space-between; align-items:center; }
+  .dash-sec h3 small{ font-size:12px; font-weight:500; color:var(--text-muted); }
+  .kpis{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-bottom:12px; }
+  .kpi{ background:#fff; border:1px solid var(--line); border-radius:14px; padding:12px 12px 10px; }
+  .kpi .lbl{ font-size:12px; color:var(--text-muted); font-weight:600; }
+  .kpi .val{ font-size:26px; font-weight:800; color:var(--navy-ink); margin-top:2px; letter-spacing:-0.5px; }
+  .kpi .val small{ font-size:13px; font-weight:600; color:var(--text-muted); margin-left:2px; }
+  .kpi .hint{ font-size:11.5px; color:var(--text-muted); margin-top:2px; }
+  .mon-nav{ display:flex; align-items:center; gap:6px; }
+  .mon-nav button{ border:1px solid var(--line); background:#fff; border-radius:8px; width:28px; height:28px; font-size:15px; cursor:pointer; color:var(--navy-deep); }
+  .mon-nav button:disabled{ opacity:.35; cursor:default; }
+  .mon-nav span{ font-size:13.5px; font-weight:700; color:var(--navy-deep); min-width:78px; text-align:center; }
+  .cal{ display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
+  .cal .wd{ font-size:11px; color:var(--text-muted); text-align:center; padding-bottom:2px; }
+  .cal .day{ aspect-ratio:1; border-radius:10px; display:flex; flex-direction:column; align-items:center; justify-content:center; font-size:12.5px; color:#B4AF9F; position:relative; border:none; background:transparent; font-family:inherit; padding:0; }
+  .cal .day.has{ color:#fff; font-weight:700; cursor:pointer; }
+  .cal .day .ic{ font-size:9.5px; line-height:1; margin-top:1px; opacity:.95; }
+  .cal .day.s-출석{ background:#4F8367; }
+  .cal .day.s-지각{ background:#C99A1E; }
+  .cal .day.s-결석{ background:#E2604B; }
+  .cal .day.s-예정{ background:#ECEAE3; color:#7B7768; }
+  .cal .day.today{ box-shadow:0 0 0 2px var(--navy-deep) inset; }
+  .cal .day.sel{ outline:2px solid var(--navy-deep); outline-offset:1px; }
+  .cal .day .mk{ position:absolute; top:3px; right:4px; width:6px; height:6px; border-radius:50%; background:var(--gold); box-shadow:0 0 0 1.5px #fff; }
+  .legend{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; font-size:12px; color:#3C3A33; }
+  .legend i{ display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:4px; vertical-align:-1px; }
+  .day-detail{ margin-top:10px; background:#F4F2EC; border-radius:10px; padding:9px 11px; font-size:13px; line-height:1.55; color:#3C3A33; min-height:20px; }
+  .bar100{ display:flex; height:14px; border-radius:7px; overflow:hidden; gap:2px; background:#fff; }
+  .bar100 div{ height:100%; }
+  .bar100 div:first-child{ border-radius:7px 0 0 7px; } .bar100 div:last-child{ border-radius:0 7px 7px 0; } .bar100 div:only-child{ border-radius:7px; }
+  .hw-rows{ margin-top:10px; }
+  .hw-row{ display:flex; justify-content:space-between; font-size:13px; padding:4px 0; color:#3C3A33; }
+  .hw-row b{ font-weight:700; color:var(--navy-ink); }
+  .chips{ margin-top:8px; display:flex; flex-wrap:wrap; gap:5px; }
+  .chips span{ font-size:12px; background:var(--coral-soft); color:var(--coral); border-radius:999px; padding:3px 9px; font-weight:600; }
+  .chart-wrap{ position:relative; }
+  .chart-wrap svg{ display:block; width:100%; height:auto; overflow:visible; }
+  .tip{ position:absolute; pointer-events:none; background:var(--navy-deep); color:#fff; font-size:12px; padding:5px 8px; border-radius:7px; white-space:nowrap; transform:translate(-50%,-115%); display:none; }
+  .exam-row{ display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px dashed var(--line); font-size:13.5px; }
+  .exam-row:last-child{ border-bottom:none; }
+  .exam-row .nm{ font-weight:600; } .exam-row .dt{ font-size:12px; color:var(--text-muted); }
+  .exam-row .sc{ font-weight:800; color:var(--navy-ink); }
+  .dash-empty{ font-size:13px; color:var(--text-muted); padding:10px 0; text-align:center; }
+  .dash-foot{ font-size:11.5px; color:var(--text-muted); text-align:center; margin-top:4px; }
+  .dash-report{ display:block; text-align:center; text-decoration:none; background:var(--plum-soft); color:var(--plum); font-weight:700; padding:13px; border-radius:12px; font-size:14.5px; margin-bottom:12px; }
+
   /* ---- Location ---- */
   .info-row{ display:flex; gap:10px; padding:9px 0; font-size:14px; align-items:flex-start; }
   .info-row svg{ width:16px; height:16px; margin-top:1px; flex-shrink:0; color:var(--navy-deep); }
@@ -348,6 +405,9 @@
       <div id="personal-box" style="display:none">
         <div class="who-row"><span class="nm" id="who-name"></span><button type="button" id="logout-btn" style="display:none">다른 아이로 변경</button></div>
         <div class="quick-grid two" id="personal-grid">
+          <a class="quick-btn q1" id="dash-btn" href="#" style="display:none">
+            <span class="ico">📈</span>우리 아이<br>학습 현황
+          </a>
           <a class="quick-btn q1" id="student-link" href="#" target="_blank" rel="noopener" style="display:none">
             <span class="ico">📋</span>출석·숙제·점수<br>학생관리
           </a>
@@ -443,6 +503,17 @@
     <a class="kakao-btn" href="#" id="kakao-link">💬 카카오톡 채널로 문의하기</a>
   </section>
 
+  <!-- ============ 우리 아이 학습 현황 ============ -->
+  <section class="dash" id="dash" aria-hidden="true">
+    <div class="dash-inner">
+      <div class="dash-top">
+        <button class="back" type="button" id="dash-back">← 홈으로</button>
+        <h2 id="dash-title">학습 현황</h2>
+        <div class="sub" id="dash-sub"></div>
+      </div>
+      <div class="dash-body" id="dash-body"><div class="loading-text">불러오는 중…</div></div>
+    </div>
+  </section>
 </div>
 
 <nav class="tabbar">
@@ -746,12 +817,16 @@ const REPORT_PAGE = 'https://englisheyesahahills.github.io/english-quiz/report.h
 /* ▼ 학부모 로그인 API (Apps Script 웹앱 주소). 비어 있으면 로그인 칸이 숨겨집니다. */
 const LOGIN_API = 'https://script.google.com/macros/s/AKfycbzeFd2RcGJ_qkj4lI_bDhLy9VORw0QwtZR8mLvFfE45dR3aAth0bdzCnpBCek0zTzWBDQ/exec';
 
-const SAVE_KEY = 'stella_parent_v1';
+const SAVE_KEY = 'stella_parent_v2';
 function showPersonal(info, canLogout){
   const sOk = info.s && /^[0-9a-f]{32}$/i.test(info.s);
   const rOk = info.r && /^[A-Za-z0-9_-]{2,80}$/.test(info.r);
   const sb = document.getElementById('student-link'), rb = document.getElementById('report-link');
-  sb.style.display = sOk ? '' : 'none'; if (sOk) sb.href = NOTION_SITE + info.s;
+  const db = document.getElementById('dash-btn');
+  const dOk = sOk && info.t;
+  db.style.display = dOk ? '' : 'none';
+  sb.style.display = (sOk && !dOk) ? '' : 'none'; if (sOk) sb.href = NOTION_SITE + info.s;
+  CURRENT = info;
   rb.style.display = rOk ? '' : 'none'; if (rOk) rb.href = REPORT_PAGE + encodeURIComponent(info.r);
   const shown = (sOk?1:0) + (rOk?1:0);
   if (!shown) return false;
@@ -782,6 +857,214 @@ function loginJsonp(url){
   });
 }
 
+
+/* ================= 우리 아이 학습 현황 ================= */
+let CURRENT = null, DASH = null, VIEW_MONTH = null, SEL_DAY = null;
+const ST_COLOR = { '출석':'#4F8367', '지각':'#C99A1E', '결석':'#E2604B' };
+const ST_ICON  = { '출석':'✓', '지각':'!', '결석':'✕', '예정':'' };
+const HW_KEYS  = [['제출(⭕️)','제출','#4F8367'], ['미완료(🔺)','미완료','#C99A1E'], ['미제출(❌)','미제출','#E2604B']];
+function esc(v){ return String(v == null ? '' : v).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function ymd(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function pct(c, n){ return (n ? Math.round(c / n * 100) : null); }
+
+async function openDash(){
+  if (!CURRENT || !CURRENT.t) return;
+  const box = document.getElementById('dash');
+  box.classList.add('open'); box.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('dash-title').textContent = (CURRENT.name || '') + ' 학생 학습 현황';
+  const body = document.getElementById('dash-body');
+  if (!DASH){
+    body.innerHTML = '<div class="loading-text">불러오는 중…</div>';
+    try{
+      const d = await loginJsonp(LOGIN_API + '?action=dash&s=' + CURRENT.s + '&t=' + encodeURIComponent(CURRENT.t));
+      if (!d.ok){
+        body.innerHTML = '<div class="dash-empty">' + esc(d.msg || '불러오지 못했어요.') + '</div>';
+        if (d.relogin){ saveInfo(null); }
+        return;
+      }
+      DASH = d;
+    } catch(e){
+      body.innerHTML = '<div class="dash-empty">연결이 원활하지 않아요. 잠시 후 다시 시도해 주세요.</div>'; return;
+    }
+  }
+  const st = DASH.student || {};
+  document.getElementById('dash-sub').textContent = [st.cls, st.grade].filter(Boolean).join(' · ');
+  const now = new Date();
+  VIEW_MONTH = new Date(now.getFullYear(), now.getMonth(), 1);
+  SEL_DAY = null;
+  renderDash();
+}
+function closeDash(){
+  const box = document.getElementById('dash');
+  box.classList.remove('open'); box.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+}
+
+function monthAtt(){
+  const key = VIEW_MONTH.getFullYear() + '-' + String(VIEW_MONTH.getMonth()+1).padStart(2,'0');
+  return DASH.att.filter(a => a.d.slice(0,7) === key);
+}
+
+function renderDash(){
+  const body = document.getElementById('dash-body');
+  const st = DASH.student || {};
+  const att = monthAtt();
+  const done = att.filter(a => a.st && a.st !== '예정');
+  const present = done.filter(a => a.st === '출석' || a.st === '지각').length;
+  const hwRows = done.filter(a => a.st !== '결석' && a.hw && a.hw.length);
+  const hwOk = hwRows.filter(a => a.hw.indexOf('제출(⭕️)') !== -1).length;
+  const words = DASH.scores.filter(x => x.type === '단어 시험' && x.n);
+  const recent = words.filter(x => x.c != null).slice(-10);
+  const wAvg = recent.length ? Math.round(recent.reduce((s,x)=> s + x.c / x.n, 0) / recent.length * 100) : null;
+  const mLabel = VIEW_MONTH.getFullYear() + '년 ' + (VIEW_MONTH.getMonth()+1) + '월';
+
+  let h = '';
+  // KPI
+  h += '<div class="kpis">' +
+    kpi(mLabel.split(' ')[1] + ' 출석률', done.length ? pct(present, done.length) : null, '%', done.length ? '수업 ' + done.length + '회 중 ' + present + '회 출석' : '기록 없음') +
+    kpi(mLabel.split(' ')[1] + ' 숙제 제출률', hwRows.length ? pct(hwOk, hwRows.length) : null, '%', hwRows.length ? hwRows.length + '회 중 ' + hwOk + '회 제출' : '기록 없음') +
+    kpi('단어시험 평균', wAvg, '%', recent.length ? '최근 ' + recent.length + '회 기준' : '기록 없음') +
+    kpi('누적 포인트', (typeof st.points === 'number') ? st.points : null, 'P', '칭찬·성실 포인트') +
+  '</div>';
+
+  if (CURRENT.r){
+    h += '<a class="dash-report" href="' + REPORT_PAGE + encodeURIComponent(CURRENT.r) + '" target="_blank" rel="noopener">📊 월말평가 리포트 보기</a>';
+  }
+
+  // Calendar
+  const first = DASH.att.length ? DASH.att[0].d.slice(0,7) : null;
+  const now = new Date(); const curKey = ymd(now).slice(0,7);
+  const vKey = ymd(VIEW_MONTH).slice(0,7);
+  h += '<div class="dash-sec"><h3>출석 달력<span class="mon-nav">' +
+       '<button type="button" id="mon-prev"' + (first && vKey > first ? '' : ' disabled') + ' aria-label="이전 달">‹</button>' +
+       '<span>' + mLabel + '</span>' +
+       '<button type="button" id="mon-next"' + (vKey < curKey ? '' : ' disabled') + ' aria-label="다음 달">›</button></span></h3>';
+  h += calendarHTML(att);
+  h += '<div class="legend"><span><i style="background:#4F8367"></i>출석 ✓</span><span><i style="background:#C99A1E"></i>지각 !</span><span><i style="background:#E2604B"></i>결석 ✕</span><span><i style="background:var(--gold);border-radius:50%"></i>보강</span></div>';
+  h += '<div class="day-detail" id="day-detail">날짜를 누르면 그날의 출석·숙제 기록이 보여요.</div></div>';
+
+  // Homework
+  h += '<div class="dash-sec"><h3>숙제 제출 <small>' + mLabel + '</small></h3>';
+  if (!hwRows.length){ h += '<div class="dash-empty">이번 달 숙제 기록이 아직 없어요.</div>'; }
+  else {
+    const cnt = HW_KEYS.map(k => [k[1], k[2], hwRows.filter(a => a.hw.indexOf(k[0]) !== -1).length]);
+    h += '<div class="bar100" role="img" aria-label="' + cnt.map(c=>c[0]+' '+c[2]+'회').join(', ') + '">' +
+      cnt.filter(c=>c[2]).map(c => '<div title="' + c[0] + ' ' + c[2] + '회" style="flex:' + c[2] + ';background:' + c[1] + '"></div>').join('') + '</div>';
+    h += '<div class="hw-rows">' + cnt.map(c => '<div class="hw-row"><span><i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:' + c[1] + ';margin-right:6px"></i>' + c[0] + '</span><b>' + c[2] + '회</b></div>').join('') + '</div>';
+    const missCount = {};
+    att.forEach(a => (a.miss || []).forEach(m => missCount[m] = (missCount[m] || 0) + 1));
+    const missList = Object.keys(missCount).sort((a,b)=> missCount[b]-missCount[a]);
+    if (missList.length){
+      h += '<div style="font-size:12.5px;color:var(--text-muted);margin-top:8px;">이번 달 빠진 숙제</div><div class="chips">' +
+        missList.map(m => '<span>' + esc(m) + ' ' + missCount[m] + '회</span>').join('') + '</div>';
+    }
+  }
+  h += '</div>';
+
+  // Word tests chart
+  h += '<div class="dash-sec"><h3>단어시험 점수 <small>최근 ' + Math.min(words.length, 15) + '회</small></h3>';
+  h += words.length ? lineChartHTML(words.slice(-15)) : '<div class="dash-empty">단어시험 기록이 아직 없어요.</div>';
+  h += '</div>';
+
+  // Other exams
+  const others = DASH.scores.filter(x => x.type && x.type !== '단어 시험' && x.n).slice(-8).reverse();
+  if (others.length){
+    h += '<div class="dash-sec"><h3>그 밖의 평가</h3>' + others.map(x =>
+      '<div class="exam-row"><div><div class="nm">' + esc(x.type) + (x.unit ? ' · ' + esc(x.unit) : '') + '</div><div class="dt">' + esc(x.d) + '</div></div>' +
+      '<div class="sc">' + (x.c == null ? '미응시' : x.c + ' / ' + x.n + ' (' + pct(x.c, x.n) + '%)') + '</div></div>').join('') + '</div>';
+  }
+
+  h += '<div class="dash-foot">' + esc(DASH.updated || '') + ' 기준 · 학원 기록과 자동 연동됩니다</div>';
+  body.innerHTML = h;
+
+  // events
+  const prev = document.getElementById('mon-prev'), next = document.getElementById('mon-next');
+  prev && prev.addEventListener('click', () => { VIEW_MONTH = new Date(VIEW_MONTH.getFullYear(), VIEW_MONTH.getMonth()-1, 1); SEL_DAY=null; renderDash(); });
+  next && next.addEventListener('click', () => { VIEW_MONTH = new Date(VIEW_MONTH.getFullYear(), VIEW_MONTH.getMonth()+1, 1); SEL_DAY=null; renderDash(); });
+  body.querySelectorAll('.cal .day.has').forEach(el => el.addEventListener('click', () => showDay(el.dataset.d)));
+  bindChart();
+}
+
+function kpi(lbl, v, unit, hint){
+  return '<div class="kpi"><div class="lbl">' + lbl + '</div><div class="val">' + (v == null ? '–' : v + '<small>' + unit + '</small>') + '</div><div class="hint">' + hint + '</div></div>';
+}
+
+function calendarHTML(att){
+  const byDay = {}; att.forEach(a => byDay[a.d] = a);
+  const mkDays = {}; DASH.att.forEach(a => { if (a.mk) mkDays[a.mk] = true; });
+  const y = VIEW_MONTH.getFullYear(), m = VIEW_MONTH.getMonth();
+  const startW = new Date(y, m, 1).getDay(), days = new Date(y, m+1, 0).getDate();
+  const today = ymd(new Date());
+  let h = '<div class="cal">' + ['일','월','화','수','목','금','토'].map(w => '<div class="wd">' + w + '</div>').join('');
+  for (let i = 0; i < startW; i++) h += '<div></div>';
+  for (let d = 1; d <= days; d++){
+    const key = y + '-' + String(m+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const a = byDay[key];
+    const cls = ['day']; if (a && a.st){ cls.push('has','s-' + a.st); }
+    if (key === today) cls.push('today');
+    if (key === SEL_DAY) cls.push('sel');
+    h += '<button type="button" class="' + cls.join(' ') + '" data-d="' + key + '"' + (a ? ' aria-label="' + key + ' ' + esc(a.st) + '"' : ' tabindex="-1"') + '>' + d +
+      (a && ST_ICON[a.st] ? '<span class="ic">' + ST_ICON[a.st] + '</span>' : '') +
+      (mkDays[key] ? '<span class="mk" title="보강"></span>' : '') + '</button>';
+  }
+  return h + '</div>';
+}
+
+function showDay(key){
+  SEL_DAY = key;
+  document.querySelectorAll('.cal .day').forEach(el => el.classList.toggle('sel', el.dataset.d === key));
+  const a = DASH.att.find(x => x.d === key);
+  const el = document.getElementById('day-detail');
+  if (!a){ el.textContent = '기록이 없어요.'; return; }
+  const dt = new Date(key + 'T00:00:00');
+  let t = '<b>' + (dt.getMonth()+1) + '월 ' + dt.getDate() + '일</b> · ' + esc(a.st || '');
+  if (a.st !== '결석' && a.hw && a.hw.length) t += '<br>숙제: ' + a.hw.map(x => esc(x.replace(/\(.*\)/, ''))).join(', ');
+  if (a.miss && a.miss.length) t += '<br>빠진 숙제: ' + a.miss.map(esc).join(', ');
+  if (a.mk){ const m = new Date(a.mk + 'T00:00:00'); t += '<br>보강 일정: ' + (m.getMonth()+1) + '월 ' + m.getDate() + '일'; }
+  el.innerHTML = t;
+}
+
+function lineChartHTML(list){
+  const W = 320, H = 150, L = 30, R = 10, T = 12, B = 24;
+  const n = list.length, step = n > 1 ? (W - L - R) / (n - 1) : 0;
+  const pts = list.map((x, i) => ({ x: L + (n > 1 ? i * step : (W - L - R) / 2), y: x.c == null ? null : T + (1 - x.c / x.n) * (H - T - B), it: x }));
+  let g = '';
+  [0, 50, 100].forEach(v => { const y = T + (1 - v/100) * (H - T - B);
+    g += '<line x1="' + L + '" x2="' + (W - R) + '" y1="' + y + '" y2="' + y + '" stroke="#E4E1D8" stroke-width="1"/>' +
+         '<text x="' + (L - 6) + '" y="' + (y + 4) + '" text-anchor="end" font-size="10" fill="#7B7768">' + v + '</text>'; });
+  let path = '', started = false;
+  pts.forEach(p => { if (p.y == null){ started = false; return; } path += (started ? 'L' : 'M') + p.x.toFixed(1) + ' ' + p.y.toFixed(1) + ' '; started = true; });
+  const dots = pts.map((p, i) => {
+    const lab = p.it.d.slice(5).replace('-', '/');
+    const xl = (i === 0 || i === n - 1 || n <= 6 || i % Math.ceil(n / 5) === 0) ? '<text x="' + p.x + '" y="' + (H - 6) + '" text-anchor="middle" font-size="10" fill="#7B7768">' + lab + '</text>' : '';
+    const tip = lab + ' · ' + (p.y == null ? '미응시' : p.it.c + '/' + p.it.n + ' (' + pct(p.it.c, p.it.n) + '%)');
+    const mark = p.y == null
+      ? '<circle cx="' + p.x + '" cy="' + (H - B) + '" r="4" fill="#fff" stroke="#B4AF9F" stroke-width="2"/>'
+      : '<circle cx="' + p.x + '" cy="' + p.y + '" r="4.5" fill="#3B6FA0" stroke="#fff" stroke-width="2"/>';
+    return mark + xl + '<rect class="hit" data-tip="' + esc(tip) + '" data-x="' + p.x + '" data-y="' + (p.y == null ? H - B : p.y) + '" x="' + (p.x - Math.max(step/2, 12)) + '" y="0" width="' + Math.max(step, 24) + '" height="' + H + '" fill="transparent"/>';
+  }).join('');
+  return '<div class="chart-wrap" id="wchart"><svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="단어시험 정답률 추이">' + g +
+    '<path d="' + path + '" fill="none" stroke="#3B6FA0" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>' + dots +
+    '</svg><div class="tip" id="wtip"></div></div>' +
+    '<div style="font-size:11.5px;color:var(--text-muted);margin-top:6px;">점을 누르면 날짜와 점수가 보여요 · 빈 동그라미는 미응시</div>';
+}
+
+function bindChart(){
+  const wrap = document.getElementById('wchart'); if (!wrap) return;
+  const tip = document.getElementById('wtip'), svg = wrap.querySelector('svg');
+  function show(r){
+    const k = svg.getBoundingClientRect().width / 320;
+    tip.textContent = r.dataset.tip; tip.style.display = 'block';
+    tip.style.left = (r.dataset.x * k) + 'px'; tip.style.top = (r.dataset.y * k) + 'px';
+  }
+  wrap.querySelectorAll('.hit').forEach(r => {
+    r.addEventListener('mouseenter', () => show(r));
+    r.addEventListener('click', () => show(r));
+  });
+  wrap.addEventListener('mouseleave', () => tip.style.display = 'none');
+}
+
 async function doLogin(){
   const name = document.getElementById('login-name').value.trim();
   const code = document.getElementById('login-code').value.replace(/\D/g,'');
@@ -793,7 +1076,7 @@ async function doLogin(){
     const d = await loginJsonp(LOGIN_API + '?name=' + encodeURIComponent(name) + '&code=' + code);
     if (!d.ok){ msg.style.color = ''; msg.textContent = d.msg || '확인하지 못했어요.'; return; }
     const st = d.students[0];
-    const info = { name: st.name, s: st.s, r: st.r };
+    const info = { name: st.name, s: st.s, r: st.r, t: st.t };
     saveInfo(info);
     msg.textContent = '';
     if (!showPersonal(info, true)){ msg.style.color=''; msg.textContent = '아직 등록된 자료가 없어요. 학원으로 문의해 주세요.'; }
@@ -811,9 +1094,11 @@ async function doLogin(){
     if (!(saved && showPersonal(saved, true))) showLogin();
   }
   document.getElementById('login-btn').addEventListener('click', doLogin);
+  document.getElementById('dash-btn').addEventListener('click', e => { e.preventDefault(); openDash(); });
+  document.getElementById('dash-back').addEventListener('click', closeDash);
   document.getElementById('login-code').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
   document.getElementById('logout-btn').addEventListener('click', () => {
-    saveInfo(null);
+    saveInfo(null); DASH = null; CURRENT = null;
     document.getElementById('login-name').value = '';
     document.getElementById('login-code').value = '';
     showLogin();
