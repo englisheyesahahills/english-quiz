@@ -72,12 +72,13 @@ html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:h
 @keyframes shk{25%{transform:translate(-50%,-50%) rotate(-8deg)}75%{transform:translate(-50%,-50%) rotate(8deg)}}
 .boom{animation:boom .4s forwards}
 @keyframes boom{to{transform:translate(-50%,-50%) scale(2);opacity:0}}
-.cards{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);display:flex;gap:min(2.6vw,14px);width:96%;justify-content:center;flex-wrap:wrap}
+.cards{position:absolute;left:50%;bottom:17%;transform:translateX(-50%);display:flex;gap:min(2vw,14px);width:98%;justify-content:center;flex-wrap:wrap}
 .cards.mid{bottom:auto;top:30%}
-.card{width:min(24vw,112px);aspect-ratio:1;border-radius:24px;background:#fff;border:none;box-shadow:0 7px 0 rgba(0,0,0,.18);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:min(12vw,56px);line-height:1;animation:popIn .4s backwards;position:relative;padding:6px;overflow:hidden}
-.card img{width:80%;height:70%;object-fit:contain}
-.card small{font-family:'Baloo 2';font-weight:800;font-size:min(3.6vw,16px);color:#5B4BD6;margin-top:3px;line-height:1.1}
-.card.txt{width:auto;min-width:min(40vw,180px);aspect-ratio:auto;padding:12px 14px;font-size:min(4.4vw,20px);font-family:'Baloo 2';font-weight:800;color:#2C2C54}
+@media (max-aspect-ratio:3/4){.cards{bottom:27%}}
+.card{width:min(22vw,165px);aspect-ratio:1;border-radius:26px;background:#fff;border:none;box-shadow:0 7px 0 rgba(0,0,0,.18);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:min(13vw,78px);line-height:1;animation:popIn .4s backwards;position:relative;padding:6px;overflow:hidden}
+.card img{width:84%;height:68%;object-fit:contain}
+.card small{font-family:'Baloo 2';font-weight:800;font-size:min(4.6vw,28px);color:#5B4BD6;margin-top:4px;line-height:1.05}
+.card.txt{width:auto;min-width:min(44vw,220px);aspect-ratio:auto;padding:14px 18px;font-size:min(5.6vw,28px);font-family:'Baloo 2';font-weight:800;color:#2C2C54}
 .card.right{background:#D7FBEA;transform:scale(1.08)}
 .card.gone{visibility:hidden}
 .card .num{position:absolute;top:4px;right:4px;width:30px;height:30px;border-radius:50%;background:#FF6B6B;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2'}
@@ -132,6 +133,14 @@ html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:h
 .giftDrop{position:absolute;font-size:min(13vw,62px);cursor:pointer;animation:popIn .3s;z-index:6}
 .sfxPad{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);display:flex;gap:10px}
 .sfxPad button{width:min(17vw,76px);aspect-ratio:1;border-radius:20px;border:none;background:#fff;font-size:min(9vw,40px);box-shadow:0 5px 0 rgba(0,0,0,.2);cursor:pointer}
+.shadow{position:absolute;left:50%;top:16%;transform:translateX(-50%);width:min(92vw,620px);background:rgba(255,255,255,.96);border-radius:26px;padding:14px 16px 16px;text-align:center;box-shadow:0 8px 0 rgba(0,0,0,.2);animation:popIn .4s}
+.shadow .steps{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.shadow .steps span{background:#EEF0FA;color:#8A8FB8;border-radius:14px;padding:3px 9px;font-size:min(3.4vw,15px);transition:.3s}
+.shadow .steps span.on{background:#C8102E;color:#fff;transform:scale(1.08)}
+.shadow .steps span.done{background:#2FB67C;color:#fff}
+.shadow .line{font-family:'Baloo 2';font-weight:800;font-size:min(7vw,40px);color:#2C2C54;line-height:1.15}
+.shadow .ko{font-size:min(4vw,18px);color:#8A7563;margin-top:4px}
+.shadow .cnt{font-size:13px;color:#9A9AB8;margin-top:6px}
 /* 대답 링 */
 #yourTurn{position:absolute;right:3%;bottom:22%;display:none;flex-direction:column;align-items:center;gap:6px;z-index:11}
 #yourTurn.on{display:flex;animation:popIn .4s}
@@ -190,6 +199,13 @@ html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:h
 .unit .pg{font-size:10.5px;color:#9A9AB8;margin-top:2px}
 .unit .done{position:absolute;top:5px;right:7px;font-size:20px}
 .unit.hl{outline:4px solid #FFD43B;animation:pulseF 1s 4 alternate}
+.songsH{text-align:center;color:#FFE28A;font-size:min(6vw,24px);margin:20px 0 8px}
+.songs{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto}
+.song{display:flex;align-items:center;gap:10px;background:linear-gradient(135deg,#C8102E,#E5484D);color:#fff;border-radius:20px;padding:10px 12px;text-decoration:none;box-shadow:0 5px 0 rgba(0,0,0,.3)}
+.song:active{transform:translateY(3px)}
+.song .si{font-size:34px;line-height:1}
+.song b{display:block;font-family:'Baloo 2';font-weight:800;font-size:15px;line-height:1.1}
+.song small{font-size:11.5px;opacity:.9}
 #home .made{text-align:center;font-size:12px;color:#9A9DC8;margin-top:16px}
 .tlink{background:none;border:none;color:#B8BCE0;text-decoration:underline;font-family:'Jua';font-size:13px;cursor:pointer}
 #tpanel{display:none;position:absolute;inset:3%;background:#fff;color:#333;border-radius:20px;padding:16px;overflow:auto;z-index:40;font-family:sans-serif;font-size:12.5px;line-height:1.7;text-align:left;box-shadow:0 10px 40px rgba(0,0,0,.4)}
@@ -247,6 +263,8 @@ html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:h
       <div class="homeTree" id="homeTree"></div>
       <div class="stats" id="stats"></div>
       <div class="units" id="units"></div>
+      <h2 class="songsH">🎶 크리스마스 노래 듣기</h2>
+      <div class="songs" id="songs"></div>
       <div class="made">만든이 · 스텔라원장 | 잉글리시아이스텔라<br><button class="tlink" onclick="openTeacher()">선생님용 안내 (링크 · 음성 · 이미지 파일)</button></div>
     </div>
     <div id="tpanel"></div>
@@ -254,6 +272,7 @@ html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:h
   <div id="bar">
     <button onclick="goHome()" title="목록">🏠</button>
     <button id="ppBtn" onclick="togglePause()">⏸</button>
+    <button id="bgmBtn" onclick="toggleBgm()" title="배경 노래">🎵</button>
     <div id="prog"></div>
     <span id="chap"></span>
     <button onclick="skip()">⏭</button>
@@ -320,6 +339,33 @@ const SFX={ pop:()=>{tone(600,0,.12,'sine',.3,1500);noise(0,.08,.2)}, ding:()=>{
   whoosh:()=>noise(0,.4,.12), bells:()=>[1568,1760,1568,1319,1568].forEach((f,i)=>{tone(f,i*.11,.5,'sine',.13);tone(f*2,i*.11,.3,'sine',.05)}),
   knock:()=>{tone(160,0,.08,'square',.3,90);tone(160,.22,.08,'square',.3,90)}, wind:()=>{noise(0,1.4,.07)}, chime:()=>[1047,1319,1568,2093].forEach((f,i)=>tone(f,i*.07,.6,'sine',.12)),
   hoho:()=>[0,.3,.6].forEach(t=>tone(130,t,.22,'sawtooth',.12,110)), drop:()=>tone(1200,0,.15,'sine',.2,500), sparkle:()=>[2093,2637,3136].forEach((f,i)=>tone(f,i*.05,.3,'sine',.08)) };
+/* ---- 배경 크리스마스 노래 (Jingle Bells · We Wish You a Merry Christmas, 자동 연주) ----
+   말소리·마이크가 켜지면 자동으로 작아지고, 게임 음악이 나올 땐 잠깐 멈춤 */
+const SONGS=[
+ {bpm:200,n:'E5 1,E5 1,E5 2,E5 1,E5 1,E5 2,E5 1,G5 1,C5 1.5,D5 .5,E5 4,F5 1,F5 1,F5 1.5,F5 .5,F5 1,E5 1,E5 1,E5 .5,E5 .5,E5 1,D5 1,D5 1,E5 1,D5 2,G5 2,E5 1,E5 1,E5 2,E5 1,E5 1,E5 2,E5 1,G5 1,C5 1.5,D5 .5,E5 4,F5 1,F5 1,F5 1.5,F5 .5,F5 1,E5 1,E5 1,E5 .5,E5 .5,G5 1,G5 1,F5 1,D5 1,C5 4',
+  bass:'C3,C3,F3,C3,C3,G2,C3,G2,C3,C3,F3,C3,C3,G2,C3,C3'},
+ {bpm:170,n:'D5 1,G5 1,G5 .5,A5 .5,G5 .5,F#5 .5,E5 1,E5 1,E5 1,A5 1,A5 .5,B5 .5,A5 .5,G5 .5,F#5 1,D5 1,D5 1,B5 1,B5 .5,C6 .5,B5 .5,A5 .5,G5 1,E5 1,D5 .5,D5 .5,E5 1,A5 1,F#5 1,G5 2',
+  bass:'G2,C3,A2,D3,B2,E3,C3,D3,G2'}];
+const NOTE=(()=>{ const m={C:0,'C#':1,D:2,'D#':3,E:4,F:5,'F#':6,G:7,'G#':8,A:9,'A#':10,B:11}; return s=>{ const k=s.match(/^([A-G]#?)(\d)$/); return 440*Math.pow(2,(m[k[1]]+12*(+k[2]+1)-69)/12); }; })();
+let bgmOn=true,bgmGain=null,bgmTimer=null,bgmT=0,bgmSong=0,bgmIdx=0,bgmBar=0;
+try{ bgmOn=localStorage.getItem('lumiBgm')!=='off'; }catch(e){}
+function bgmNote(f,t,d,type,v){ const a=ac(),o=a.createOscillator(),g=a.createGain(); o.type=type; o.frequency.value=f;
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(v,t+.02); g.gain.exponentialRampToValueAtTime(.001,t+d); o.connect(g).connect(bgmGain); o.start(t); o.stop(t+d+.05); }
+function bgmTick(){ const a=ac(); const S=SONGS[bgmSong], notes=S.n.split(','), bass=S.bass.split(','), beat=60/S.bpm;
+  if(bgmT<a.currentTime) bgmT=a.currentTime+.05;
+  while(bgmT<a.currentTime+.6){ const [nm,len]=notes[bgmIdx].split(' '); const d=+len*beat;
+    bgmNote(NOTE(nm),bgmT,Math.max(.25,d*.9),'triangle',.5); bgmNote(NOTE(nm)*2,bgmT,.25,'sine',.12);
+    const pos=notes.slice(0,bgmIdx).reduce((s,x)=>s+ +x.split(' ')[1],0);
+    if(pos%2===0) bgmNote(NOTE(bass[Math.floor(pos/4)%bass.length]),bgmT,beat*1.6,'sine',.55);
+    bgmT+=d; bgmIdx++;
+    if(bgmIdx>=notes.length){ bgmIdx=0; bgmSong=(bgmSong+1)%SONGS.length; bgmT+=beat*2; return; } } }
+function bgmLevel(){ if(!bgmGain) return; const a=ac(); let v=.05;
+  if(curAudio||usingTTS) v=.018; if($('yourTurn').classList.contains('on')) v=.006; if(musicTimer||paused||!bgmOn||$('home').style.display!=='none') v=0;
+  bgmGain.gain.setTargetAtTime(v,a.currentTime,.15); }
+function bgmStart(){ if(DRY) return; const a=ac(); if(!bgmGain){ bgmGain=a.createGain(); bgmGain.gain.value=0; bgmGain.connect(a.destination); }
+  if(!bgmTimer) bgmTimer=setInterval(()=>{ bgmLevel(); if(bgmOn&&!paused) bgmTick(); },150); }
+function toggleBgm(){ bgmOn=!bgmOn; try{localStorage.setItem('lumiBgm',bgmOn?'on':'off')}catch(e){} $('bgmBtn').textContent=bgmOn?'🎵':'🔇'; if(bgmOn) bgmStart(); bgmLevel(); }
+
 let musicTimer=null,beat=0;
 function music(on,ms=250){ clearInterval(musicTimer); musicTimer=null; if(!on||DRY) return; const n=[784,659,659,698,587,587,523,587,659,698,784,784,784];
   musicTimer=setInterval(()=>{ if(paused) return; tone(n[beat%n.length],0,.2,'triangle',.07); if(beat%2===0){tone(98,0,.15,'sine',.25,60)} else noise(0,.03,.05); if(beat%4===0) tone(2093,0,.15,'sine',.04); beat++; },ms); }
@@ -407,10 +453,14 @@ function mkCtx(id){
   // 아이 말하기 차례
   const respond=async (key,ms=5500,label,alsoDone)=>{ if(DRY) return false; alive();
     const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-    ring(label||'말해 볼까요?','🎤'); let heard=false,skipNow=false,rec=null; $('turnFace').onclick=()=>skipNow=true;
+    ring((label||'말해 볼까요?')+'<small>🎤 누르면 녹음 → 내 목소리 듣기</small>','🎤'); let heard=false,wantRec=false,rec=null; $('turnFace').onclick=()=>wantRec=true;
     if(SR&&key){ try{ rec=new SR(); rec.lang='en-US'; rec.maxAlternatives=5; rec.interimResults=true; rec.continuous=true;
       rec.onresult=e=>{ for(const r of e.results) for(const alt of r) if(heardMatch(alt.transcript.toLowerCase(),key)) heard=true; }; rec.onerror=()=>{}; rec.start(); }catch(e){rec=null} }
-    try{ await until(()=>heard||skipNow||(alsoDone&&alsoDone()),ms,t=>$('ringArc').style.strokeDashoffset=289*(t/ms)); } finally{ try{rec&&rec.stop()}catch(e){} }
+    try{ await until(()=>heard||wantRec||(alsoDone&&alsoDone()),ms,t=>$('ringArc').style.strokeDashoffset=289*(t/ms)); } finally{ try{rec&&rec.stop()}catch(e){} }
+    if(wantRec&&!heard){ // 마이크 버튼: 녹음 → 내 목소리 다시 듣기
+      ringOff(); const url=await record(3500);
+      if(url){ SFX.ding(); addStar(); hit(); await say("Listen! This is you!","들어 봐! 네 목소리야!"); await playClip(url,1); burst('84%','66%'); }
+      return !!url; }
     if(heard||!SR){ spoke(); }
     if(heard){ $('ring').className='ring heard'; $('turnFace').textContent='👂'; SFX.ding(); burst('84%','66%'); addStar(); hit(); await sleep(550); }
     ringOff(); return heard; };
@@ -566,7 +616,7 @@ async function hideSeek(c,who){ setBG('snow'); const spots=[[10,30],[40,22],[70,
 
 // 게임: 빨간 것 찾기
 async function redHunt(c){ const items=shuffle([['🍎',1],['🍓',1],['🚒',1],['❤️',1],['🍅',1],['🍌',0],['🥦',0],['🐳',0],['🌽',0]]);
-  const box=el(`<div class="cards mid" style="max-width:min(92vw,420px)">${items.map(([e,r],i)=>`<button class="card" data-r="${r}" style="width:min(19vw,82px);font-size:min(10vw,44px)">${e}</button>`).join('')}</div>`); let n=0;
+  const box=el(`<div class="cards mid" style="max-width:min(92vw,420px)">${items.map(([e,r],i)=>`<button class="card" data-r="${r}" style="width:min(21vw,104px);font-size:min(11vw,56px)">${e}</button>`).join('')}</div>`); let n=0;
   await c.say("Find things as red as Rudolph's nose! Touch all the red things!","루돌프 코처럼 빨간 걸 모두 찾아 눌러 봐!");
   [...box.children].forEach(b=>b.onclick=()=>{ if(b.classList.contains('right')) return; if(b.dataset.r==='1'){ b.classList.add('right'); n++; SFX.ding(); hit(); } else { SFX.boop(); shakeEl(b); miss(); } });
   await c.waitTap(()=>n>=5,"Find the red things!","빨간 걸 찾아!"); burst(); addStar(2); box.remove();
@@ -634,6 +684,34 @@ async function finishUnit(c,u){ clearCast(); setBG('night'); actor('lumi','lumi_
   await c.say(`You finished Unit ${u.n}! Here is a Christmas ornament for your tree!`,`${u.n}단원 완료! 트리 장식을 받았어!`);
   await c.say("See you next time! Bye bye!","다음에 또 만나! 안녕!"); await c.respond('bye',2500,'Bye bye! 👋');
   $('sub').innerHTML=`🎉 Unit ${u.n} 완료!<small>🏠 를 누르면 트리를 볼 수 있어요</small>`; $('sub').classList.add('on'); $('sub').classList.remove('up'); }
+
+// 쉐도잉: ① 듣기 → ② 같이 말하기 → ③ 혼자 말하기(녹음) → ④ 내 목소리 듣기 → ⑤ 다시 듣고 비교
+async function shadowing(c,list){ if(DRY||!list) return; clearCast(); lumiIn();
+  const box=el(`<div class="shadow"><div class="steps"><span>① 듣기</span><span>② 같이 말하기</span><span>③ 혼자 말하기</span><span>④ 내 목소리</span></div><div class="line en">🗣️ Shadowing</div><div class="ko">잘 듣고 똑같이 따라 말해요!</div><div class="cnt"></div></div>`);
+  const st=[...box.querySelectorAll('.steps span')], step=i=>st.forEach((x,k)=>x.className=k<i?'done':(k===i?'on':''));
+  SFX.chime(); await c.sleep(1800);
+  for(let i=0;i<list.length;i++){ const [en,ko,v]=list[i];
+    box.querySelector('.line').textContent=en; box.querySelector('.ko').textContent=ko; box.querySelector('.cnt').textContent=`${i+1} / ${list.length}`;
+    step(0); await c.sleep(400); await c.say(en,ko,{v:v||'lumi'});
+    step(1); $('ring').className='ring'; $('turnFace').textContent='👄'; $('turnLabel').innerHTML='같이 말해요!<small>루미랑 동시에</small>'; $('yourTurn').classList.add('on');
+    await c.sleep(300); await c.say(en,ko,{v:v||'lumi'}); $('yourTurn').classList.remove('on');
+    step(2); SFX.ding(); const url=await c.record(Math.max(2500,1200+en.length*90));
+    step(3); if(url){ await c.say("Listen! This is you!","들어 봐! 네 목소리야!"); await c.playClip(url,1); await c.sleep(300); await c.say(en,ko,{v:v||'lumi'}); addStar(); hit(); }
+    st.forEach(x=>x.className='done'); burst('50%','24%'); await c.sleep(600); }
+  box.remove(); await c.praise(); }
+const SHADOW={
+ 1:[["He is Santa!","산타야!"],["He is Rudolph!","루돌프야!"],["He has a red nose!","빨간 코를 가졌어!"],["It is Christmas Eve!","크리스마스 이브야!"]],
+ 2:[["He has a long beard.","수염이 길어."],["I wake up.","나는 일어나요."],["I open presents.","선물을 열어요."],["I say, Thank you!","고맙습니다! 라고 말해요."]],
+ 3:[["Tomorrow is Christmas!","내일은 크리스마스야!"],["Today is Christmas Eve!","오늘은 크리스마스 이브야!",'elf'],["We are waiting for Santa!","우리는 산타를 기다려!",'elf'],["They are waiting for Santa!","산타를 기다려!"]],
+ 4:[["Let's play!","같이 놀자!",'deer'],["Who's here?","거기 누구야?",'deer'],["He is alone. He is lonely.","혼자 있어. 외로워."],["Rudolph is sad.","루돌프는 슬퍼."]],
+ 5:[["Your nose is very special!","네 코는 정말 특별해!"],["My nose is red. I am different.","내 코는 빨개. 나는 달라.",'rudolph'],["Really? Thank you!","정말? 고마워!",'rudolph'],["Thank you, friend!","고마워, 친구야!",'rudolph']],
+ 6:[["We need to hurry!","우리는 서둘러야 해!"],["Come on! We need to hurry!","어서! 서둘러야 해!",'santa'],["What is wrong?","무슨 일이야?",'santa'],["The weather is too foggy.","날씨가 너무 흐려."]],
+ 7:[["We're ready to go!","출발 준비 됐어!"],["I can help you.","내가 도와줄게."],["Don't worry. I can help you.","걱정 마. 내가 도와줄게."],["No! It's too foggy!","아니! 안개가 너무 많아!"]],
+ 8:[["I can lead the way!","내가 길을 안내할게!"],["Don't worry, Santa. I can help you.","걱정 마세요, 산타 할아버지. 제가 도울게요.",'rudolph'],["No, I'm afraid you can't.","아니, 안타깝지만 넌 못 해."],["It is too foggy.","안개가 너무 많아요."]],
+ 9:[["I must cancel Christmas.","크리스마스를 취소해야 해."],["Me? How?","나? 어떻게?",'rudolph'],["Your nose can light the way!","네 코가 길을 밝혀 줄 수 있어!"],["You can save Christmas!","네가 크리스마스를 구할 수 있어!"]],
+ 10:[["Will you help me?","나를 도와줄래?",'santa'],["Yes! I will!","응! 할게!",'elf'],["Yes! I will! It will be my honor!","네! 할게요! 영광이에요!",'rudolph'],["They fly and give presents!","날아가서 선물을 줘요!"]],
+ 11:[["Different is not bad. Different is special!","다른 건 나쁜 게 아니야. 특별한 거야!"],["Rudolph's nose can light the way.","루돌프 코가 길을 밝혀요."],["I can lead the way!","내가 길을 안내할게!",'rudolph'],["Merry Christmas!","메리 크리스마스!",'rudolph']],
+ 12:[["It is Christmas Eve. But it is too foggy.","크리스마스 이브. 그런데 안개가 너무 많아요.",'narr'],["Your nose can light the way!","네 코가 길을 밝혀 줄 수 있어!",'elf'],["Yes! I will! It will be my honor!","네! 할게요! 영광이에요!",'rudolph'],["Rudolph leads the way. Merry Christmas, everyone!","루돌프가 길을 안내해요. 모두 메리 크리스마스!",'narr']]};
 
 /* =====================================================================
    UNIT 대본 (수업 지도안 Week1 Day1 ~ Week4 Day3)
@@ -851,6 +929,7 @@ const UNITS=[
     for(const [en,ko,k] of [["Your nose is very special!","네 코는 정말 특별해!",'special'],["I can lead the way!","내가 길을 안내할게!",'lead'],["Everyone is special!","모두가 특별해!",'everyone']]) await c.kidLine(en,ko,k); await c.praise(); }],
   ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
 ];
+UNITS.forEach(u=>u.parts.splice(u.parts.length-1,0,['🗣️ Shadowing',async c=>shadowing(c,SHADOW[u.n])]));
 function SOUNDS_KEY(line){ const l=line.toLowerCase(); for(const k of ['help','how','play','christmas','cancel','lead']) if(l.includes(k)) return k; return 'christmas'; }
 
 /* =====================================================================
@@ -866,7 +945,7 @@ function openUnit(n){ const u=UNITS[n-1]; curU=u; runId++; resetScene(); paused=
   $('unitTag').textContent=`${u.icon} U${u.n}`; $('stars').textContent=store.stars;
   $('prog').innerHTML=u.parts.map((_,i)=>`<div onclick="play(${i})"><i></i></div>`).join(''); $('chap').textContent='';
   try{ history.replaceState(null,'','#u'+n) }catch(e){} }
-async function play(i){ ac(); $('intro').style.display='none'; const id=++runId; paused=false; waiters.splice(0).forEach(r=>r());
+async function play(i){ ac(); bgmStart(); $('intro').style.display='none'; const id=++runId; paused=false; waiters.splice(0).forEach(r=>r());
   $('pauseCover').style.display='none'; $('ppBtn').textContent='⏸'; resetScene();
   for(chapterIdx=i;chapterIdx<curU.parts.length;chapterIdx++){ if(id!==runId) return; setProg(); layer.innerHTML=''; $('fogLayer').classList.remove('on');
     try{ await curU.parts[chapterIdx][1](mkCtx(id),curU); }catch(e){ if(e===STOP) return; console.error(e); } }
@@ -885,6 +964,15 @@ function renderHome(){ const pos=[[18,47],[30,36],[30,60],[42,28],[44,50],[44,70
   $('units').innerHTML=UNITS.map(u=>`<button class="unit" style="--c:${u.color}" onclick="openUnit(${u.n})"><span class="no">U${u.n}</span>${store.done[u.n]?'<span class="done">✅</span>':''}
     <div class="ic">${u.icon}</div><div class="t en">${u.title}</div><div class="k">${u.ko}</div><div class="pg">${u.pg}</div></button>`).join(''); }
 
+/* 크리스마스 노래 듣기 (유튜브로 연결) */
+const SONG_LINKS=[['🦌','Rudolph the Red-Nosed Reindeer','루돌프 사슴코','Rudolph the Red-Nosed Reindeer song for kids'],
+  ['🔔','Jingle Bells','징글벨','Jingle Bells Super Simple Songs'],
+  ['🎄','We Wish You a Merry Christmas','메리 크리스마스','We Wish You a Merry Christmas Super Simple Songs'],
+  ['🎅','S-A-N-T-A','산타 철자 노래','S-A-N-T-A Super Simple Songs'],
+  ['🏠','Up On The Housetop','지붕 위의 산타','Up On The Housetop Super Simple Songs'],
+  ['💃','Reindeer Pokey','순록 춤 노래','Reindeer Pokey Kiboomers']];
+function renderSongs(){ $('songs').innerHTML=SONG_LINKS.map(([i,t,k,q])=>`<a class="song" target="_blank" rel="noopener" href="https://www.youtube.com/results?search_query=${encodeURIComponent(q)}"><span class="si">${i}</span><span><b>${t}</b><small>${k} · YouTube ▶</small></span></a>`).join(''); }
+
 /* 선생님 안내: 대본을 미리 훑어서 녹음 문장 목록 자동 생성 */
 async function openTeacher(){ DRY=true; const keep=curU;
   for(const u of UNITS){ curU=u; for(const [,fn] of u.parts){ try{ await fn(mkCtx(-1),u); }catch(e){} } layer.innerHTML=''; clearCast(); }
@@ -896,7 +984,7 @@ async function openTeacher(){ DRY=true; const keep=curU;
   let last=-1; for(const [f,[en,ko,n,v]] of LINES){ if(n!==last){ h+=`<h4>UNIT ${n}</h4>`; last=n; } h+=`<code>${f}.mp3</code> [${VOICE[v].n}] ${en}${ko?` <span style="color:#999">(${ko})</span>`:''}<br>`; }
   $('tpanel').innerHTML=h; $('tpanel').style.display='block'; }
 
-preload(); renderHome(); $('stars').textContent=store.stars;
+preload(); renderHome(); renderSongs(); $('stars').textContent=store.stars; $('bgmBtn').textContent=bgmOn?'🎵':'🔇';
 setTimeout(()=>{ const m=location.hash.match(/^#u(\d{1,2})$/); if(m&&+m[1]>=1&&+m[1]<=12) openUnit(+m[1]); },300);
 </script>
 </body>
