@@ -472,8 +472,8 @@ function setUser(st){ user={id:st.id,name:st.name,total:st.total||0}; guest=fals
   loadStore(); $('login').style.display='none'; SFX.tada(); renderHome(); $('stars').textContent=store.stars; if(pendU){ const n=pendU; pendU=0; openUnit(n); } }
 function guestStart(){ guest=true; $('login').style.display='none'; renderHome(); if(pendU){ const n=pendU; pendU=0; openUnit(n); } }
 function logout(){ user=null; guest=false; try{localStorage.removeItem('lumiRudolphUser')}catch(e){} loadStore(); renderHome(); showLogin(); }
-async function sendPoints(n,memo){ if(!user||!RUDOLPH_API||n<=0) return null;
-  try{ const d=await jsonp(RUDOLPH_API+'?action=add&id='+user.id+'&pts='+n+'&memo='+encodeURIComponent(memo)); if(d.ok&&d.added){ user.total=(user.total||0)+d.added; try{localStorage.setItem('lumiRudolphUser',JSON.stringify(user))}catch(e){} } return d; }catch(e){ return null; } }
+async function sendPoints(n,memo,unit,stars){ if(!user||!RUDOLPH_API||n<=0) return null;
+  try{ const d=await jsonp(RUDOLPH_API+'?action=add&id='+user.id+'&pts='+n+'&unit='+(unit||'')+'&stars='+(stars||'')+'&memo='+encodeURIComponent(memo)); if(d.ok&&d.added){ user.total=(user.total||0)+d.added; try{localStorage.setItem('lumiRudolphUser',JSON.stringify(user))}catch(e){} } return d; }catch(e){ return null; } }
 function addStar(n=1){ if(DRY) return; store.stars+=n; sessionStars+=n; $('stars').textContent=store.stars; save(); }
 function hit(){ if(DRY) return; combo++; if(combo>=2){ const c=$('combo'); c.textContent=`COMBO x${combo}!`; c.classList.remove('on'); void c.offsetWidth; c.classList.add('on'); setTimeout(()=>c.classList.remove('on'),900); if(combo%5===0){ addStar(3); SFX.chime(); } } }
 function miss(){ combo=0; }
@@ -749,7 +749,7 @@ async function radioShow(c,script){ const clips=[];
 async function finishUnit(c,u){ clearCast(); setBG('night'); actor('lumi','lumi_cheer',38,20,24,'hop');
   const r=el(`<div class="reward"><div class="o">${u.orn}</div><h3 class="en">Unit ${u.n} Clear!</h3><p>🎄 트리 장식을 받았어요!</p><p>🗣️ 오늘 말한 문장: <b>${sessionSpoken}</b>개<br>⭐ 오늘 받은 별: <b>${sessionStars}</b>개</p></div>`);
   await c.sleep(50); r.classList.add('show'); SFX.tada(); burst(); if(!DRY){ store.done[u.n]=true; save();
-    const n=Math.min(30,sessionStars); if(user&&RUDOLPH_API&&n>0){ sendPoints(n,`루돌프 앱 Unit ${u.n} 완료 (별 ${sessionStars}개)`).then(d=>{ if(d&&d.ok){ el(`<div class="ptToast">💎 학원 포인트 +${d.added||0} 저장!${d.msg?'<br>'+d.msg:''}</div>`); } }); } }
+    const n=Math.min(30,sessionStars); if(user&&RUDOLPH_API&&n>0){ sendPoints(n,`루돌프 앱 Unit ${u.n} 완료`,u.n,sessionStars).then(d=>{ if(d&&d.ok){ el(`<div class="ptToast">💎 포인트 +${d.added||0} 저장!${d.msg?'<br>'+d.msg:''}</div>`); } }); } }
   await c.say(`You finished Unit ${u.n}! Here is a Christmas ornament for your tree!`,`${u.n}단원 완료! 트리 장식을 받았어!`);
   await c.say("See you next time! Bye bye!","다음에 또 만나! 안녕!"); await c.respond('bye',2500,'Bye bye! 👋');
   $('sub').innerHTML=`🎉 Unit ${u.n} 완료!<small>🏠 를 누르면 트리를 볼 수 있어요</small>`; $('sub').classList.add('on'); $('sub').classList.remove('up'); }
@@ -1096,7 +1096,7 @@ function renderHome(){ const pos=[[18,47],[30,36],[30,60],[42,28],[44,50],[44,70
   const all=Object.keys(store.done).length;
   $('homeTree').innerHTML=`<div class="t">🎄</div><div class="star ${all>=12?'on':''}">🌟</div>`+UNITS.map((u,i)=>`<span class="orn ${store.done[u.n]?'':'off'}" style="top:${pos[i][0]}%;left:${pos[i][1]}%">${u.orn}</span>`).join('')+
     `<div id="lumiHome">${OK.has('lumi_wave')?`<img src="${IMG_DIR}lumi_wave.png">`:'🦊'}</div>`;
-  $('me').innerHTML=user?`<span class="chipMe">🦊 <b>${user.name}</b> 친구 · 💎 학원 포인트 <b>${user.total||0}</b></span><button class="ghost" onclick="logout()">다른 친구로 바꾸기</button>`:(RUDOLPH_API?`<button onclick="showLogin()">🔑 로그인하고 포인트 모으기</button>`:'');
+  $('me').innerHTML=user?`<span class="chipMe">🦊 <b>${user.name}</b> 친구 · 💎 루돌프 포인트 <b>${user.total||0}</b></span><button class="ghost" onclick="logout()">다른 친구로 바꾸기</button>`:(RUDOLPH_API?`<button onclick="showLogin()">🔑 로그인하고 포인트 모으기</button>`:'');
   $('stats').innerHTML=`<div>🎄 장식 ${all}/12</div><div>⭐ ${store.stars}</div><div>🗣️ 말한 문장 ${store.spoken}</div>`;
   $('units').innerHTML=UNITS.map(u=>`<button class="unit" style="--c:${u.color}" onclick="openUnit(${u.n})"><span class="no">U${u.n}</span>${store.done[u.n]?'<span class="done">✅</span>':''}
     <div class="ic">${u.icon}</div><div class="t en">${u.title}</div><div class="k">${u.ko}</div><div class="pg">${u.pg}</div></button>`).join(''); }
