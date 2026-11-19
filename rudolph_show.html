@@ -141,6 +141,31 @@ html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:h
 .shadow .line{font-family:'Baloo 2';font-weight:800;font-size:min(7vw,40px);color:#2C2C54;line-height:1.15}
 .shadow .ko{font-size:min(4vw,18px);color:#8A7563;margin-top:4px}
 .shadow .cnt{font-size:13px;color:#9A9AB8;margin-top:6px}
+.qtitle{position:absolute;left:50%;top:13%;transform:translateX(-50%);background:#FFD43B;color:#7A2E2E;border-radius:20px;padding:6px 16px;font-size:min(4.6vw,22px);white-space:nowrap;box-shadow:0 4px 0 rgba(0,0,0,.2);animation:popIn .3s}
+.replay{position:absolute;right:4%;top:22%;width:min(16vw,72px);aspect-ratio:1;border-radius:50%;border:none;background:#fff;font-size:min(8vw,34px);box-shadow:0 5px 0 rgba(0,0,0,.2);cursor:pointer}
+.arr{position:absolute;left:50%;top:22%;transform:translateX(-50%);width:min(94vw,720px);text-align:center}
+.arr .slots{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;min-height:min(14vw,66px);background:rgba(255,255,255,.88);border-radius:22px;padding:10px;margin-bottom:16px}
+.arr .slot{min-width:min(16vw,80px);border-bottom:4px dashed #C9CCF2;font-family:'Baloo 2';font-weight:800;font-size:min(7vw,38px);color:#2C2C54;padding:0 6px}
+.arr .slot.fill{border-bottom-color:#2FB67C;animation:popIn .3s}
+.arr .chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.arr .chip{border:none;border-radius:18px;background:#fff;box-shadow:0 6px 0 rgba(0,0,0,.2);padding:10px 16px;font-family:'Baloo 2';font-weight:800;font-size:min(7vw,38px);color:#5B4BD6;cursor:pointer;animation:popIn .4s backwards}
+.arr .chip.used{visibility:hidden}
+#me{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap;margin:8px auto 0;font-size:15px}
+#me .chipMe{background:rgba(255,255,255,.16);border-radius:18px;padding:5px 12px}
+#me button{background:#FFD43B;color:#7A2E2E;border:none;border-radius:16px;padding:6px 12px;font-family:'Jua';font-size:14px;cursor:pointer}
+#me button.ghost{background:none;color:#B8BCE0;text-decoration:underline;padding:4px}
+#login{position:absolute;inset:0;z-index:45;background:linear-gradient(#0F1A4A,#3B2A6E);display:none;flex-direction:column;align-items:center;justify-content:safe center;overflow-y:auto;gap:10px;color:#fff;padding:16px;text-align:center}
+#login h2{font-size:min(6vw,26px);color:#FFE28A}
+#login .dots{display:flex;gap:12px;margin:4px 0}
+#login .dots i{width:min(11vw,48px);height:min(13vw,58px);border-radius:14px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-style:normal;font-family:'Baloo 2';font-weight:800;font-size:min(8vw,34px)}
+#login .pad{display:grid;grid-template-columns:repeat(3,min(21vw,92px));gap:10px}
+#login .pad button{height:min(15vw,66px);border:none;border-radius:18px;background:#fff;color:#2C2C54;font-family:'Baloo 2';font-weight:800;font-size:min(8vw,32px);box-shadow:0 5px 0 rgba(0,0,0,.25);cursor:pointer}
+#login .pad button.ok{background:#2FB67C;color:#fff;font-size:min(6vw,24px)}
+#login .msg{min-height:22px;color:#FFB4B4;font-size:15px}
+#login .names{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#login .names button{border:none;border-radius:18px;background:#FFD43B;color:#7A2E2E;font-family:'Jua';font-size:min(6vw,24px);padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+#login .guest{background:none;border:none;color:#B8BCE0;text-decoration:underline;font-family:'Jua';font-size:14px;cursor:pointer;margin-top:4px}
+.ptToast{position:absolute;left:50%;top:70%;transform:translateX(-50%);background:#2FB67C;color:#fff;border-radius:18px;padding:8px 16px;font-size:16px;z-index:15;animation:popIn .4s}
 /* 대답 링 */
 #yourTurn{position:absolute;right:3%;bottom:22%;display:none;flex-direction:column;align-items:center;gap:6px;z-index:11}
 #yourTurn.on{display:flex;animation:popIn .4s}
@@ -260,6 +285,7 @@ html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:h
         <h1 class="en">Lumi's Christmas Show</h1>
         <div class="sub2">Rudolph, the Red-Nosed Reindeer · 루미와 함께 말하기</div>
       </div>
+      <div id="me"></div>
       <div class="homeTree" id="homeTree"></div>
       <div class="stats" id="stats"></div>
       <div class="units" id="units"></div>
@@ -268,6 +294,16 @@ html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:h
       <div class="made">만든이 · 스텔라원장 | 잉글리시아이스텔라<br><button class="tlink" onclick="openTeacher()">선생님용 안내 (링크 · 음성 · 이미지 파일)</button></div>
     </div>
     <div id="tpanel"></div>
+    <div id="login">
+      <div style="font-size:64px">🦊🔑</div>
+      <h2>학부모님 휴대폰 뒷번호 4자리</h2>
+      <div style="font-size:14px;color:#C9CCF2">로그인하면 별이 학원 포인트로 쌓여요!</div>
+      <div class="dots"><i></i><i></i><i></i><i></i></div>
+      <div class="pad"></div>
+      <div class="names"></div>
+      <div class="msg"></div>
+      <button class="guest" onclick="guestStart()">로그인 없이 해 볼래요 (포인트 저장 안 됨)</button>
+    </div>
   </div>
   <div id="bar">
     <button onclick="goHome()" title="목록">🏠</button>
@@ -404,8 +440,40 @@ function stopAudio(){ if(curAudio){curAudio.pause();curAudio=null} if('speechSyn
 const $=id=>document.getElementById(id), layer=$('layer'), actorsEl=$('actors');
 let runId=0,paused=false,waiters=[],chapterIdx=0,curU=null,combo=0,noseP=0,sessionSpoken=0,sessionStars=0;
 const STOP={}, LINES=new Map();
-let store={stars:0,done:{},spoken:0,gifts:[]}; try{ store=Object.assign(store,JSON.parse(localStorage.getItem('lumiRudolph'))||{}) }catch(e){}
-function save(){ try{localStorage.setItem('lumiRudolph',JSON.stringify(store))}catch(e){} }
+/* ---- 학생 로그인 & 학원 포인트 (노션 '포인트 내역' DB에 저장) ----
+   ▼ Apps Script 웹앱 주소를 넣으면 로그인·포인트 저장이 켜져요. 비어 있으면 이 기기에만 저장됩니다. */
+const RUDOLPH_API='';
+let user=null,guest=false; try{ user=JSON.parse(localStorage.getItem('lumiRudolphUser'))||null }catch(e){}
+const storeKey=()=>user?'lumiRudolph:'+user.id:'lumiRudolph';
+let store={};
+function loadStore(){ store={stars:0,done:{},spoken:0,gifts:[]}; try{ store=Object.assign(store,JSON.parse(localStorage.getItem(storeKey()))||{}) }catch(e){} }
+loadStore();
+function save(){ try{localStorage.setItem(storeKey(),JSON.stringify(store))}catch(e){} }
+function jsonp(url){ return new Promise((res,rej)=>{ const cb='rud'+Date.now()+Math.floor(Math.random()*1e4), sc=document.createElement('script');
+  const t=setTimeout(()=>{rej(new Error('timeout'));done();},15000); function done(){clearTimeout(t);delete window[cb];sc.remove();}
+  window[cb]=d=>{res(d);done();}; sc.onerror=()=>{rej(new Error('net'));done();}; sc.src=url+(url.includes('?')?'&':'?')+'callback='+cb; document.body.appendChild(sc); }); }
+let pin='';
+function showLogin(){ pin=''; const L=$('login'); L.style.display='flex'; L.querySelector('.names').innerHTML=''; L.querySelector('.msg').textContent=RUDOLPH_API?'':'(포인트 서버 연결 준비 중이에요)';
+  L.querySelector('.pad').innerHTML=[1,2,3,4,5,6,7,8,9,'⌫',0,'확인'].map(k=>`<button class="${k==='확인'?'ok':''}" data-k="${k}">${k}</button>`).join('');
+  L.querySelectorAll('.pad button').forEach(b=>b.onclick=()=>pinKey(b.dataset.k)); drawPin(); }
+function drawPin(){ $('login').querySelectorAll('.dots i').forEach((d,i)=>d.textContent=pin[i]?'●':''); }
+function pinKey(k){ SFX.pop(); if(k==='⌫') pin=pin.slice(0,-1); else if(k==='확인') return doLogin(); else if(pin.length<4){ pin+=k; } drawPin(); if(pin.length===4) doLogin(); }
+async function doLogin(){ const L=$('login'), msg=L.querySelector('.msg');
+  if(pin.length!==4){ msg.textContent='4자리를 눌러 주세요.'; return; }
+  if(!RUDOLPH_API){ msg.textContent='아직 포인트 서버가 연결되지 않았어요. 아래 "로그인 없이"를 눌러 주세요.'; return; }
+  msg.style.color='#C9CCF2'; msg.textContent='확인 중…';
+  try{ const d=await jsonp(RUDOLPH_API+'?action=login&code='+pin); msg.style.color='';
+    if(!d.ok){ msg.textContent=d.msg||'찾지 못했어요.'; pin=''; drawPin(); return; }
+    if(d.students.length===1) return setUser(d.students[0]);
+    msg.textContent='누구인가요?'; L.querySelector('.names').innerHTML=d.students.map((st,i)=>`<button data-i="${i}">🦊 ${st.name}</button>`).join('');
+    L.querySelectorAll('.names button').forEach(b=>b.onclick=()=>setUser(d.students[+b.dataset.i]));
+  }catch(e){ msg.style.color=''; msg.textContent='연결이 원활하지 않아요. 잠시 후 다시 해 주세요.'; } }
+function setUser(st){ user={id:st.id,name:st.name,total:st.total||0}; guest=false; try{localStorage.setItem('lumiRudolphUser',JSON.stringify(user))}catch(e){}
+  loadStore(); $('login').style.display='none'; SFX.tada(); renderHome(); $('stars').textContent=store.stars; if(pendU){ const n=pendU; pendU=0; openUnit(n); } }
+function guestStart(){ guest=true; $('login').style.display='none'; renderHome(); if(pendU){ const n=pendU; pendU=0; openUnit(n); } }
+function logout(){ user=null; guest=false; try{localStorage.removeItem('lumiRudolphUser')}catch(e){} loadStore(); renderHome(); showLogin(); }
+async function sendPoints(n,memo){ if(!user||!RUDOLPH_API||n<=0) return null;
+  try{ const d=await jsonp(RUDOLPH_API+'?action=add&id='+user.id+'&pts='+n+'&memo='+encodeURIComponent(memo)); if(d.ok&&d.added){ user.total=(user.total||0)+d.added; try{localStorage.setItem('lumiRudolphUser',JSON.stringify(user))}catch(e){} } return d; }catch(e){ return null; } }
 function addStar(n=1){ if(DRY) return; store.stars+=n; sessionStars+=n; $('stars').textContent=store.stars; save(); }
 function hit(){ if(DRY) return; combo++; if(combo>=2){ const c=$('combo'); c.textContent=`COMBO x${combo}!`; c.classList.remove('on'); void c.offsetWidth; c.classList.add('on'); setTimeout(()=>c.classList.remove('on'),900); if(combo%5===0){ addStar(3); SFX.chime(); } } }
 function miss(){ combo=0; }
@@ -445,7 +513,7 @@ function mkCtx(id){
   // say(영어, 한글, {v:목소리, who:배우id, up:true, mod})
   const say=async (en,ko,o={})=>{ const v=o.v||(o.who&&cast[o.who]?voiceOf(cast[o.who].dataset.key):'lumi'); const file=(v==='lumi'?'':v+'_')+slug(en);
     if(!o.mod&&!LINES.has(file)) LINES.set(file,[en,ko,curU?curU.n:0,v]); if(DRY) return; alive(); await gate();
-    const sub=$('sub'); sub.innerHTML=(v!=='lumi'?`<span class="who">${VOICE[v].n}</span>`:'')+en+(ko?`<small>${ko}</small>`:''); sub.classList.add('on'); sub.classList.toggle('up',!!o.up);
+    const sub=$('sub'); if(o.nosub){ sub.classList.remove('on'); } else { sub.innerHTML=(v!=='lumi'?`<span class="who">${VOICE[v].n}</span>`:'')+en+(ko?`<small>${ko}</small>`:''); sub.classList.add('on'); sub.classList.toggle('up',!!o.up); }
     const spk=o.who?cast[o.who]:cast.lumi; let bub=null; if(o.who&&o.bubble!==false) bub=bubbleOn(o.who,en);
     spk&&spk.classList.add('talk'); await playFile(file,en,v,o.mod); spk&&spk.classList.remove('talk'); bub&&bub.remove(); alive(); await sleep(180); };
   const ring=(label,face,cls)=>{ $('ring').className='ring '+(cls||''); $('turnFace').textContent=face; $('turnLabel').innerHTML=label; $('yourTurn').classList.add('on'); };
@@ -680,10 +748,77 @@ async function radioShow(c,script){ const clips=[];
 // 단원 마무리: 트리 장식 보상 + 오늘 말한 문장 수
 async function finishUnit(c,u){ clearCast(); setBG('night'); actor('lumi','lumi_cheer',38,20,24,'hop');
   const r=el(`<div class="reward"><div class="o">${u.orn}</div><h3 class="en">Unit ${u.n} Clear!</h3><p>🎄 트리 장식을 받았어요!</p><p>🗣️ 오늘 말한 문장: <b>${sessionSpoken}</b>개<br>⭐ 오늘 받은 별: <b>${sessionStars}</b>개</p></div>`);
-  await c.sleep(50); r.classList.add('show'); SFX.tada(); burst(); if(!DRY){ store.done[u.n]=true; save(); }
+  await c.sleep(50); r.classList.add('show'); SFX.tada(); burst(); if(!DRY){ store.done[u.n]=true; save();
+    const n=Math.min(30,sessionStars); if(user&&RUDOLPH_API&&n>0){ sendPoints(n,`루돌프 앱 Unit ${u.n} 완료 (별 ${sessionStars}개)`).then(d=>{ if(d&&d.ok){ el(`<div class="ptToast">💎 학원 포인트 +${d.added||0} 저장!${d.msg?'<br>'+d.msg:''}</div>`); } }); } }
   await c.say(`You finished Unit ${u.n}! Here is a Christmas ornament for your tree!`,`${u.n}단원 완료! 트리 장식을 받았어!`);
   await c.say("See you next time! Bye bye!","다음에 또 만나! 안녕!"); await c.respond('bye',2500,'Bye bye! 👋');
   $('sub').innerHTML=`🎉 Unit ${u.n} 완료!<small>🏠 를 누르면 트리를 볼 수 있어요</small>`; $('sub').classList.add('on'); $('sub').classList.remove('up'); }
+
+// 🧩 퀴즈 & 문장 배열 (모든 소리는 피시오디오 mp3)
+function optCard(o){ const [k,w]=o; return A[k]?{k,w:w||A[k][2]}:{k:k,face:k,w:w||''}; }
+async function chooseQ(c,{title,cards,ans,play,after}){ const t=el(`<div class="qtitle">${title}</div>`);
+  const box=el(`<div class="cards mid">${cards.map((o,i)=>`<button class="card" style="animation-delay:${i*.07}s" data-k="${o.k}">${o.face||cardFace(o.k)}${o.w?`<small>${o.w}</small>`:''}</button>`).join('')}</div>`);
+  const rp=el(`<button class="replay" title="다시 듣기">🔊</button>`); let busy=false; rp.onclick=async()=>{ if(busy) return; busy=true; try{ await play(); }catch(e){} busy=false; };
+  let ok=false,tries=0; [...box.children].forEach(b=>b.onclick=()=>{ if(ok) return; if(b.dataset.k===ans){ ok=true; b.classList.add('right'); SFX.ding(); burst(); addStar(); hit(); } else { tries++; SFX.boop(); shakeEl(b); miss(); } });
+  await play(); await c.until(()=>ok,25000); if(!ok){ ok=true; box.querySelector(`[data-k="${ans}"]`).classList.add('right'); }
+  await c.sleep(500); rp.remove(); if(after) await after(); await c.sleep(300); box.remove(); t.remove(); }
+async function arrange(c,[text,v]){ const words=text.split(' '); let order=shuffle(words.map((w,i)=>i)); if(words.length>1&&order.every((x,i)=>x===i)) order=order.reverse();
+  const t=el(`<div class="qtitle">🧩 듣고 순서대로 눌러요</div>`);
+  const a=el(`<div class="arr"><div class="slots">${words.map(()=>`<span class="slot">&nbsp;</span>`).join('')}</div><div class="chips">${order.map((i,n)=>`<button class="chip" style="animation-delay:${n*.08}s" data-i="${i}">${words[i]}</button>`).join('')}</div></div>`);
+  const slots=[...a.querySelectorAll('.slot')]; let next=0;
+  const rp=el(`<button class="replay" title="다시 듣기">🔊</button>`); let busy=false; const play=()=>c.say(text,'',{v,nosub:true}); rp.onclick=async()=>{ if(busy) return; busy=true; try{ await play(); }catch(e){} busy=false; };
+  a.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{ if(b.classList.contains('used')) return; const i=+b.dataset.i;
+    if(words[i]===words[next]){ b.classList.add('used'); slots[next].textContent=words[i]; slots[next].classList.add('fill'); next++; SFX.pop(); hit(); if(next===words.length){ SFX.tada(); burst('50%','28%'); addStar(2); } } else { SFX.boop(); shakeEl(b); miss(); } });
+  await play(); await c.until(()=>next>=words.length,40000);
+  if(next<words.length){ words.forEach((w,i)=>{ slots[i].textContent=w; slots[i].classList.add('fill'); }); }
+  rp.remove(); await c.sleep(400); await c.say(text,'',{v}); await c.sleep(400); a.remove(); t.remove(); }
+const WHO_KEY={santa:'santa',elf:'elf',rudolph:'rudolph'};
+async function quizTime(c,Q){ if(DRY||!Q) return; clearCast(); lumiIn(4); SFX.chime();
+  const t0=el(`<div class="qtitle" style="top:40%;font-size:min(7vw,36px)">🧩 Quiz Time!</div>`); await c.sleep(1500); t0.remove();
+  for(const [text,v,opts] of Q.L){ const cards=shuffle(opts.map(optCard)); const ans=optCard(opts[0]).k;
+    await chooseQ(c,{title:'🎧 잘 듣고 맞는 그림을 눌러요',cards,ans,play:()=>c.say(text,'',{v:v||'lumi',nosub:true}),after:()=>c.say(text,'',{v:v||'lumi'})}); }
+  for(const [text,v,who] of Q.W){ const ans=who||WHO_KEY[v]; const pool=['santa','rudolph','elf','dasher','prancer','comet'].filter(k=>k!==ans);
+    const cards=shuffle([ans,...shuffle(pool).slice(0,2)]).map(k=>({k,w:A[k][2]}));
+    await chooseQ(c,{title:'💬 누가 말했을까요?',cards,ans,play:async()=>{ await c.say(text,'',{v,nosub:true}); await c.say("Who said it?","누가 말했을까?"); },after:()=>c.say(text,'',{v})}); }
+  for(const it of Q.A) await arrange(c,it);
+  await c.praise(); }
+const QUIZ={
+ 1:{L:[["He is Santa!",'',[['santa'],['rudolph'],['elf']]],["She is Prancer!",'',[['prancer'],['comet'],['dasher']]],["He has a red nose!",'',[['🔴','red nose'],['🔵','blue nose'],['🟢','green nose']]]],
+    W:[["Ho, ho, ho! I am Santa!",'santa'],["Hi! I am Rudolph!",'rudolph']],
+    A:[["He is Santa!"],["He is an elf!"],["It is Christmas Eve!"]]},
+ 2:{L:[["I wake up.",'',[['🛏️','wake up'],['🎁','open'],['🙏','thank you']]],["I open presents.",'',[['🎁','open'],['🛏️','wake up'],['🍪','eat']]],["He has a long beard.",'',[['santa'],['elf'],['dasher']]]],
+    W:[["I wear a red suit.",'santa'],["Hee, hee! I am small.",'elf'],["I have a shiny red nose!",'rudolph']],
+    A:[["I wake up."],["I open presents."],["He has a long beard."]]},
+ 3:{L:[["Tomorrow is Christmas!",'',[['🎄','Christmas'],['🎃','Halloween'],['🎂','birthday']]],["Wow! What a beautiful tree!",'',[['🎄','tree'],['🏠','house'],['🛷','sleigh']]],["They are waiting for Santa!",'',[['santa'],['🍕','pizza'],['🧸','teddy bear']]]],
+    W:[["We are waiting for Santa!",'elf'],["Ho, ho, ho! I am Santa!",'santa']],
+    A:[["Tomorrow is Christmas!"],["Today is Christmas Eve!",'elf'],["They are waiting for Santa!"]]},
+ 4:{L:[["Look! It is winter!",'',[['⛄','winter'],['🌸','spring'],['☀️','summer']]],["Look! It is spring!",'',[['🌸','spring'],['🍂','fall'],['⛄','winter']]],["Rudolph is sad.",'',[['rudolph_sad','sad'],['rudolph','happy'],['😠','angry']]]],
+    W:[["Let's play!",'deer','dasher'],["Look! He has a red nose!",'deer','comet']],
+    A:[["Let's play!",'deer'],["Who's here?",'deer'],["Rudolph is sad."]]},
+ 5:{L:[["My nose is red. I am different.",'rudolph',[['🔴','red'],['🔵','blue'],['🟡','yellow']]],["Thank you, friend!",'rudolph',[['🙏','thank you'],['👋','bye bye'],['😢','sad']]],["Rudolph is sitting alone.",'narr',[['rudolph_sad','alone'],['dasher','play'],['santa','Santa']]]],
+    W:[["Really? Thank you!",'rudolph'],["Look! He has a red nose!",'deer','comet']],
+    A:[["Your nose is very special!"],["Thank you, friend!",'rudolph'],["Really? Thank you!",'rudolph']]},
+ 6:{L:[["It is too foggy.",'',[['🌫️','foggy'],['☀️','sunny'],['🌧️','rainy']]],["We need to hurry!",'',[['🏃','hurry'],['😴','sleep'],['🍰','eat']]],["Santa cannot see the way.",'narr',[['santa_worried','Santa'],['elf'],['prancer']]]],
+    W:[["Come on! We need to hurry!",'santa'],["It's foggy! The weather is too foggy!",'elf']],
+    A:[["We need to hurry!"],["The weather is too foggy."],["What is wrong?",'santa']]},
+ 7:{L:[["Touch the gift!",'',[['🎁','gift'],['⭐','star'],['🔔','bell']]],["Touch the bell!",'',[['🔔','bell'],['🏠','house'],['🎁','gift']]],["Touch the house!",'',[['🏠','house'],['⭐','star'],['🔔','bell']]]],
+    W:[["Santa, we're ready to go!",'deer','dasher'],["But it's too foggy. I can't see the way.",'santa']],
+    A:[["We're ready to go!"],["I can help you."],["No! It's too foggy!"]]},
+ 8:{L:[["The elves decorate the tree.",'',[['🎄','tree'],['🙈','play'],['🌫️','foggy']]],["The reindeer play without Rudolph.",'',[['🙈','play'],['🎄','tree'],['🛷','sleigh']]],["Rudolph wants to help.",'',[['rudolph_brave','help'],['rudolph_sad','sad'],['😴','sleep']]]],
+    W:[["I can lead the way!",'rudolph'],["No, I'm afraid you can't.",'santa']],
+    A:[["I can lead the way!"],["Rudolph wants to help."],["The elves decorate the tree."]]},
+ 9:{L:[["Find the house!",'',[['🏠','house'],['⭐','star'],['🎁','gift']]],["Find the star!",'',[['⭐','star'],['🔔','bell'],['🏠','house']]],["Find the bell!",'',[['🔔','bell'],['🎁','gift'],['⭐','star']]]],
+    W:[["I must cancel Christmas.",'santa'],["Look! Rudolph's nose is shining!",'elf'],["Me? How?",'rudolph']],
+    A:[["You can save Christmas!"],["Your nose can light the way!"],["I must cancel Christmas."]]},
+ 10:{L:[["I need to carry the gifts.",'',[['🎁','gifts'],['🔔','bells'],['🏠','house']]],["I need to find the bells.",'',[['🔔','bells'],['🎁','gifts'],['⭐','star']]],["They fly and give presents!",'',[['🛷','fly'],['🙈','hide'],['😴','sleep']]]],
+    W:[["Rudolph, will you help me?",'santa'],["Yes! I will! It will be my honor!",'rudolph'],["Will you help me?",'elf']],
+    A:[["Will you help me?",'santa'],["Yes! I will!",'elf'],["They fly and give presents!"]]},
+ 11:{L:[["Rudolph's nose can light the way.",'',[['🔴','nose'],['👂','ears'],['🦶','feet']]],["Santa must cancel Christmas.",'',[['santa_worried','Santa'],['rudolph'],['elf']]],["Different is not bad. Different is special!",'',[['🌟','special'],['😢','sad'],['😠','angry']]]],
+    W:[["Tomorrow is Christmas!",'elf'],["What is wrong?",'santa'],["Thank you, friend!",'rudolph']],
+    A:[["Merry Christmas!",'rudolph'],["I can lead the way!",'rudolph'],["Rudolph's nose can light the way."]]},
+ 12:{L:[["Ho, ho, ho!",'',[['santa'],['elf'],['rudolph']]],["Hee, hee, hee!",'',[['elf'],['santa'],['rudolph']]],["Rudolph leads the way. The sky is bright!",'narr',[['rudolph_fly','fly'],['rudolph_sad','sad'],['santa_worried','worried']]]],
+    W:[["Rudolph! You can save this Christmas!",'elf'],["I must cancel Christmas.",'santa'],["Merry Christmas!",'rudolph']],
+    A:[["Merry Christmas!",'rudolph'],["Your nose can light the way!",'elf'],["Yes! I will!",'elf']]}};
 
 // 쉐도잉: ① 듣기 → ② 같이 말하기 → ③ 혼자 말하기(녹음) → ④ 내 목소리 듣기 → ⑤ 다시 듣고 비교
 async function shadowing(c,list){ if(DRY||!list) return; clearCast(); lumiIn();
@@ -929,7 +1064,7 @@ const UNITS=[
     for(const [en,ko,k] of [["Your nose is very special!","네 코는 정말 특별해!",'special'],["I can lead the way!","내가 길을 안내할게!",'lead'],["Everyone is special!","모두가 특별해!",'everyone']]) await c.kidLine(en,ko,k); await c.praise(); }],
   ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
 ];
-UNITS.forEach(u=>u.parts.splice(u.parts.length-1,0,['🗣️ Shadowing',async c=>shadowing(c,SHADOW[u.n])]));
+UNITS.forEach(u=>u.parts.splice(u.parts.length-1,0,['🧩 Quiz & Puzzle',async c=>quizTime(c,QUIZ[u.n])],['🗣️ Shadowing',async c=>shadowing(c,SHADOW[u.n])]));
 function SOUNDS_KEY(line){ const l=line.toLowerCase(); for(const k of ['help','how','play','christmas','cancel','lead']) if(l.includes(k)) return k; return 'christmas'; }
 
 /* =====================================================================
@@ -938,7 +1073,8 @@ function SOUNDS_KEY(line){ const l=line.toLowerCase(); for(const k of ['help','h
 function resetScene(){ layer.innerHTML=''; clearCast(); music(false); stopAudio(); hideObj(); $('fogLayer').classList.remove('on');
   $('yourTurn').classList.remove('on'); $('praise').classList.remove('on'); $('sub').classList.remove('on','up'); $('sub').innerHTML=''; }
 function setProg(){ [...$('prog').children].forEach((d,i)=>d.firstChild.style.width=i<chapterIdx?'100%':(i===chapterIdx?'50%':'0')); $('chap').textContent=curU.parts[chapterIdx][0]; }
-function openUnit(n){ const u=UNITS[n-1]; curU=u; runId++; resetScene(); paused=false; $('pauseCover').style.display='none'; setBG(u.bg);
+let pendU=0;
+function openUnit(n){ if(RUDOLPH_API&&!user&&!guest){ pendU=n; showLogin(); return; } const u=UNITS[n-1]; curU=u; runId++; resetScene(); paused=false; $('pauseCover').style.display='none'; setBG(u.bg);
   $('home').style.display='none'; const it=$('intro'); it.style.display='flex'; it.style.background=`linear-gradient(135deg,${u.color},#1A2266)`;
   $('introIc').textContent=u.icon; $('introNo').textContent=`UNIT ${u.n} · ${u.pg}`; $('introT').textContent=u.title; $('introK').innerHTML=`${u.ko}<br><span style="font-size:13px;opacity:.85">${u.words}</span>`;
   $('introBtn').onclick=()=>{ it.style.display='none'; sessionSpoken=0; sessionStars=0; combo=0; play(0); };
@@ -960,6 +1096,7 @@ function renderHome(){ const pos=[[18,47],[30,36],[30,60],[42,28],[44,50],[44,70
   const all=Object.keys(store.done).length;
   $('homeTree').innerHTML=`<div class="t">🎄</div><div class="star ${all>=12?'on':''}">🌟</div>`+UNITS.map((u,i)=>`<span class="orn ${store.done[u.n]?'':'off'}" style="top:${pos[i][0]}%;left:${pos[i][1]}%">${u.orn}</span>`).join('')+
     `<div id="lumiHome">${OK.has('lumi_wave')?`<img src="${IMG_DIR}lumi_wave.png">`:'🦊'}</div>`;
+  $('me').innerHTML=user?`<span class="chipMe">🦊 <b>${user.name}</b> 친구 · 💎 학원 포인트 <b>${user.total||0}</b></span><button class="ghost" onclick="logout()">다른 친구로 바꾸기</button>`:(RUDOLPH_API?`<button onclick="showLogin()">🔑 로그인하고 포인트 모으기</button>`:'');
   $('stats').innerHTML=`<div>🎄 장식 ${all}/12</div><div>⭐ ${store.stars}</div><div>🗣️ 말한 문장 ${store.spoken}</div>`;
   $('units').innerHTML=UNITS.map(u=>`<button class="unit" style="--c:${u.color}" onclick="openUnit(${u.n})"><span class="no">U${u.n}</span>${store.done[u.n]?'<span class="done">✅</span>':''}
     <div class="ic">${u.icon}</div><div class="t en">${u.title}</div><div class="k">${u.ko}</div><div class="pg">${u.pg}</div></button>`).join(''); }
@@ -985,7 +1122,7 @@ async function openTeacher(){ DRY=true; const keep=curU;
   $('tpanel').innerHTML=h; $('tpanel').style.display='block'; }
 
 preload(); renderHome(); renderSongs(); $('stars').textContent=store.stars; $('bgmBtn').textContent=bgmOn?'🎵':'🔇';
-setTimeout(()=>{ const m=location.hash.match(/^#u(\d{1,2})$/); if(m&&+m[1]>=1&&+m[1]<=12) openUnit(+m[1]); },300);
+setTimeout(()=>{ const m=location.hash.match(/^#u(\d{1,2})$/); if(m&&+m[1]>=1&&+m[1]<=12) openUnit(+m[1]); else if(RUDOLPH_API&&!user) showLogin(); },300);
 </script>
 </body>
 </html>
