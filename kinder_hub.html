@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>루미의 유치부 놀이터 · 잉글리시아이스텔라</title>
+<meta name="description" content="잉글리시아이스텔라 유치부 영어 앱 모음 · 만든이: 스텔라원장">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Jua&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;font-family:'Jua',sans-serif;color:#2C2C54;background:#0F1A4A}
+.en{font-family:'Baloo 2',cursive}
+#bg{position:fixed;inset:0;background:linear-gradient(rgba(15,26,74,.55),rgba(59,42,110,.85)),url(img/bg_christmas_eve.jpg) center/cover;z-index:-1}
+.snow{position:fixed;inset:-10% 0 0 0;pointer-events:none;z-index:-1;background-image:radial-gradient(3px 3px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 80px 120px,#fff,transparent),radial-gradient(3px 3px at 150px 60px,#fff,transparent),radial-gradient(2px 2px at 220px 160px,#fff,transparent),radial-gradient(3px 3px at 300px 90px,#fff,transparent);background-size:340px 200px;animation:snow 9s linear infinite;opacity:.7}
+@keyframes snow{to{background-position:40px 200px}}
+.wrap{max-width:720px;margin:0 auto;padding:18px 14px 40px}
+header{display:flex;align-items:center;gap:12px;color:#fff}
+header img{width:min(26vw,120px);filter:drop-shadow(0 6px 6px rgba(0,0,0,.3));animation:bob 2.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-6px)}}
+header h1{font-size:min(6.2vw,34px);word-break:keep-all;line-height:1.1;color:#FFE28A}
+header p{font-size:min(3.8vw,16px);color:#DCDDF7;margin-top:4px}
+.me{margin:14px 0 6px;background:rgba(255,255,255,.95);border-radius:22px;padding:12px 14px;display:flex;align-items:center;gap:12px;box-shadow:0 6px 0 rgba(0,0,0,.2)}
+.me .face{font-size:38px}
+.me .who{flex:1;min-width:0}
+.me b{font-size:min(5.4vw,22px)}
+.me small{display:block;color:#8A7563;font-size:13px;margin-top:2px}
+.me .pts{background:#FFF3B0;border-radius:16px;padding:6px 10px;text-align:center;white-space:nowrap}
+.me .pts span{display:block;font-family:'Baloo 2';font-weight:800;font-size:min(7vw,30px);color:#C8102E;line-height:1}
+.me .pts small{margin:0}
+.me button{border:none;border-radius:16px;background:#C8102E;color:#fff;font-family:'Jua';font-size:16px;padding:10px 14px;cursor:pointer;box-shadow:0 4px 0 rgba(0,0,0,.2)}
+.me button.change{display:block;margin:4px 0 0;background:none;border:none;box-shadow:none;color:#8A7563;text-decoration:underline;font-family:'Jua';font-size:13px;padding:0;cursor:pointer}
+h2{color:#fff;font-size:min(5.6vw,24px);margin:22px 4px 10px}
+.apps{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:560px){.apps{grid-template-columns:1fr 1fr}}
+.app{position:relative;display:flex;align-items:center;gap:12px;background:#fff;border-radius:26px;padding:14px;text-decoration:none;color:inherit;box-shadow:0 7px 0 rgba(0,0,0,.25);transition:transform .15s}
+.app:active{transform:translateY(4px);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.app .ic{width:min(24vw,96px);aspect-ratio:1;border-radius:20px;background:var(--c,#FFE3E3);display:flex;align-items:center;justify-content:center;flex:none;overflow:hidden;font-size:52px}
+.app .ic img{width:92%;height:92%;object-fit:contain}
+.app .t{font-family:'Baloo 2';font-weight:800;font-size:min(5.4vw,22px);line-height:1.1}
+.app .k{font-size:min(4vw,16px);color:#5B4BD6;margin-top:2px}
+.app .d{font-size:13px;color:#8A7563;margin-top:4px;line-height:1.35}
+.app .bar{height:8px;border-radius:5px;background:#EEF0FA;margin-top:8px;overflow:hidden}
+.app .bar i{display:block;height:100%;background:linear-gradient(90deg,#FF8A8A,#C8102E);width:0;transition:width .6s}
+.app .badge{position:absolute;top:-8px;right:12px;background:#FFD43B;color:#7A2E2E;border-radius:12px;padding:2px 10px;font-size:13px;box-shadow:0 3px 0 rgba(0,0,0,.2)}
+.app.soon{opacity:.6;pointer-events:none}
+.tip{margin-top:22px;background:rgba(255,255,255,.12);color:#E8E9FB;border-radius:18px;padding:12px 14px;font-size:14px;line-height:1.6}
+.made{text-align:center;color:#B8BCE0;font-size:12px;margin-top:22px}
+/* 로그인 */
+#login{position:fixed;inset:0;z-index:50;background:linear-gradient(#0F1A4A,#3B2A6E);display:none;flex-direction:column;align-items:center;justify-content:safe center;overflow-y:auto;gap:10px;color:#fff;padding:16px;text-align:center}
+#login h2{margin:0;color:#FFE28A;font-size:min(6vw,26px)}
+#login .dots{display:flex;gap:12px;margin:4px 0}
+#login .dots i{width:min(11vw,48px);height:min(13vw,58px);border-radius:14px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-style:normal;font-family:'Baloo 2';font-weight:800;font-size:min(8vw,34px)}
+#login .pad{display:grid;grid-template-columns:repeat(3,min(21vw,92px));gap:10px}
+#login .pad button{height:min(15vw,66px);border:none;border-radius:18px;background:#fff;color:#2C2C54;font-family:'Baloo 2';font-weight:800;font-size:min(8vw,32px);box-shadow:0 5px 0 rgba(0,0,0,.25);cursor:pointer}
+#login .pad button.ok{background:#2FB67C;color:#fff;font-size:min(6vw,24px)}
+#login .msg{min-height:22px;color:#FFB4B4;font-size:15px}
+#login .names{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+#login .names button{border:none;border-radius:18px;background:#FFD43B;color:#7A2E2E;font-family:'Jua';font-size:min(6vw,24px);padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.25)}
+#login .close{background:none;border:none;color:#B8BCE0;text-decoration:underline;font-family:'Jua';font-size:14px;cursor:pointer;margin-top:4px}
+</style>
+</head>
+<body>
+<div id="bg"></div><div class="snow"></div>
+<div class="wrap">
+  <header>
+    <img src="img/lumi_wave.png" alt="Lumi" onerror="this.replaceWith(Object.assign(document.createElement('div'),{textContent:'🦊',style:'font-size:80px'}))">
+    <div>
+      <h1>루미의 유치부 놀이터</h1>
+      <p class="en">Play · Speak · Sing with Lumi!</p>
+      <p>잉글리시아이스텔라 유치부 영어 앱</p>
+    </div>
+  </header>
+
+  <div class="me" id="me"></div>
+
+  <h2>🎮 오늘의 영어 놀이</h2>
+  <div class="apps" id="apps"></div>
+
+  <div class="tip">
+    🔑 <b>학부모님 휴대폰 뒷번호 4자리</b>로 로그인하면 앱에서 모은 별이 <b>포인트</b>로 쌓여요.<br>
+    🎤 말하기 활동이 있어서 처음에 <b>마이크 허용</b>을 눌러 주세요.<br>
+    📱 휴대폰은 <b>가로로 돌려서</b> 보면 더 크게 보여요.
+  </div>
+  <div class="made">만든이: 스텔라원장 | 잉글리시아이스텔라</div>
+</div>
+
+<div id="login">
+  <div style="font-size:64px">🦊🔑</div>
+  <h2>학부모님 휴대폰 뒷번호 4자리</h2>
+  <div style="font-size:14px;color:#C9CCF2">로그인하면 별이 포인트로 쌓여요!</div>
+  <div class="dots"><i></i><i></i><i></i><i></i></div>
+  <div class="pad"></div>
+  <div class="names"></div>
+  <div class="msg"></div>
+  <button class="close" onclick="closeLogin()">나중에 할게요</button>
+</div>
+
+<script>
+/* =====================================================================
+   ▼ 앱 목록: 새 앱이 생기면 아래에 한 줄씩 추가하면 됩니다.
+     t: 앱 이름, k: 한글 설명, d: 짧은 소개, url: 파일 주소, img: img 폴더 그림 이름(없으면 icon 이모지)
+     c: 아이콘 배경색, badge: 'NEW' 등 표시, soon: true 이면 '준비 중'
+     progress: 'rudolph' 이면 루돌프 앱 진행도(12 Unit)를 보여 줌
+   만든이: 스텔라원장
+   ===================================================================== */
+const APPS=[
+  {t:"Lumi's Christmas Show",k:'루돌프와 함께 말하기',d:'Rudolph, the Red-Nosed Reindeer · 12 Unit · 말하기·퀴즈·쉐도잉',url:'rudolph_show.html',img:'rudolph_happy',icon:'🦌',c:'#FFE3E3',badge:'NEW',progress:'rudolph'},
+  {t:'Coming Soon',k:'다음 놀이를 준비하고 있어요',d:'루미가 새 이야기를 가지고 올게요!',url:'#',icon:'🎁',c:'#E8F4FF',soon:true},
+];
+
+/* 로그인 서버 (루돌프 앱과 같은 주소) */
+const API='https://script.google.com/macros/s/AKfycbwu9K1uLIPxoP5Qq7aC6xs-IMHHnYZ_XZD5_7j2lQHacLTuErfzmx-hmISZlP3tyYfv/exec';
+const $=id=>document.getElementById(id);
+let user=null; try{ user=JSON.parse(localStorage.getItem('lumiRudolphUser'))||null }catch(e){}
+
+function rudolphDone(){ try{ const k=user?'lumiRudolph:'+user.id:'lumiRudolph'; const s=JSON.parse(localStorage.getItem(k))||{}; return Object.keys(s.done||{}).length; }catch(e){ return 0; } }
+function renderMe(){
+  $('me').innerHTML=user
+    ?`<div class="face">🦊</div><div class="who"><b>${esc(user.name)}</b> 친구 안녕!<small>오늘도 루미랑 영어로 놀아요</small><button class="change" onclick="logout()">다른 친구로 바꾸기</button></div><div class="pts"><span>${user.total||0}</span><small>💎 포인트</small></div>`
+    :`<div class="face">🦊</div><div class="who"><b>안녕, 친구!</b><small>로그인하면 별이 포인트로 쌓여요</small></div><button onclick="showLogin()">🔑 로그인</button>`;
+}
+function renderApps(){
+  $('apps').innerHTML=APPS.map(a=>{
+    const done=a.progress==='rudolph'?rudolphDone():null;
+    const ic=a.img?`<img src="img/${a.img}.png" alt="" onerror="this.replaceWith(document.createTextNode('${a.icon||'⭐'}'))">`:(a.icon||'⭐');
+    return `<a class="app ${a.soon?'soon':''}" href="${a.soon?'#':a.url}" style="--c:${a.c||'#FFF3B0'}">
+      ${a.badge?`<span class="badge">${a.badge}</span>`:''}
+      <div class="ic">${ic}</div>
+      <div style="flex:1;min-width:0"><div class="t">${a.t}</div><div class="k">${a.k}</div><div class="d">${a.d||''}</div>
+      ${done!=null?`<div class="bar"><i style="width:${done/12*100}%"></i></div><div class="d">🎄 ${done} / 12 Unit 완료</div>`:''}</div></a>`;
+  }).join('');
+}
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+/* ---- 로그인 (학부모 휴대폰 뒷번호 4자리) ---- */
+function jsonp(url){ return new Promise((res,rej)=>{ const cb='hub'+Date.now()+Math.floor(Math.random()*1e4), sc=document.createElement('script');
+  const t=setTimeout(()=>{rej(new Error('timeout'));done();},15000); function done(){clearTimeout(t);delete window[cb];sc.remove();}
+  window[cb]=d=>{res(d);done();}; sc.onerror=()=>{rej(new Error('net'));done();}; sc.src=url+(url.includes('?')?'&':'?')+'callback='+cb; document.body.appendChild(sc); }); }
+let pin='';
+function showLogin(){ pin=''; const L=$('login'); L.style.display='flex'; L.querySelector('.names').innerHTML=''; L.querySelector('.msg').textContent='';
+  L.querySelector('.pad').innerHTML=[1,2,3,4,5,6,7,8,9,'⌫',0,'확인'].map(k=>`<button class="${k==='확인'?'ok':''}" data-k="${k}">${k}</button>`).join('');
+  L.querySelectorAll('.pad button').forEach(b=>b.onclick=()=>pinKey(b.dataset.k)); drawPin(); }
+function closeLogin(){ $('login').style.display='none'; }
+function drawPin(){ $('login').querySelectorAll('.dots i').forEach((d,i)=>d.textContent=pin[i]?'●':''); }
+function pinKey(k){ if(k==='⌫') pin=pin.slice(0,-1); else if(k==='확인') return doLogin(); else if(pin.length<4) pin+=k; drawPin(); if(pin.length===4) doLogin(); }
+async function doLogin(){ const L=$('login'), msg=L.querySelector('.msg');
+  if(pin.length!==4){ msg.textContent='4자리를 눌러 주세요.'; return; }
+  msg.style.color='#C9CCF2'; msg.textContent='확인 중…';
+  try{ const d=await jsonp(API+'?action=login&code='+pin); msg.style.color='';
+    if(!d.ok){ msg.textContent=d.msg||'찾지 못했어요.'; pin=''; drawPin(); return; }
+    if(d.students.length===1) return setUser(d.students[0]);
+    msg.textContent='누구인가요?'; L.querySelector('.names').innerHTML=d.students.map((st,i)=>`<button data-i="${i}">🦊 ${esc(st.name)}</button>`).join('');
+    L.querySelectorAll('.names button').forEach(b=>b.onclick=()=>setUser(d.students[+b.dataset.i]));
+  }catch(e){ msg.style.color=''; msg.textContent='연결이 원활하지 않아요. 잠시 후 다시 해 주세요.'; } }
+function setUser(st){ user={id:st.id,name:st.name,total:st.total||0}; try{localStorage.setItem('lumiRudolphUser',JSON.stringify(user))}catch(e){} closeLogin(); renderMe(); renderApps(); }
+function logout(){ user=null; try{localStorage.removeItem('lumiRudolphUser')}catch(e){} renderMe(); renderApps(); showLogin(); }
+
+renderMe(); renderApps();
+if(!user) setTimeout(showLogin,400);
+window.addEventListener('pageshow',()=>{ try{ user=JSON.parse(localStorage.getItem('lumiRudolphUser'))||null }catch(e){} renderMe(); renderApps(); });
+</script>
+</body>
+</html>
