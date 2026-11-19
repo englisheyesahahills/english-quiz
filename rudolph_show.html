@@ -166,6 +166,17 @@ html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:h
 #login .names button{border:none;border-radius:18px;background:#FFD43B;color:#7A2E2E;font-family:'Jua';font-size:min(6vw,24px);padding:12px 20px;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.25)}
 #login .guest{background:none;border:none;color:#B8BCE0;text-decoration:underline;font-family:'Jua';font-size:14px;cursor:pointer;margin-top:4px}
 .ptToast{position:absolute;left:50%;top:70%;transform:translateX(-50%);background:#2FB67C;color:#fff;border-radius:18px;padding:8px 16px;font-size:16px;z-index:15;animation:popIn .4s}
+.rv{position:absolute;left:50%;top:13%;transform:translateX(-50%);width:min(94vw,760px);text-align:center}
+.rv .row{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.rv .mini{width:min(14vw,74px);aspect-ratio:1;border-radius:16px;background:rgba(255,255,255,.75);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:min(6vw,30px);position:relative;transition:.3s}
+.rv .mini img{width:76%;height:62%;object-fit:contain}.rv .mini small{font-family:'Baloo 2';font-weight:800;font-size:min(2.6vw,12px);color:#5B4BD6}
+.rv .mini.on{background:#FFD43B;transform:scale(1.12)}.rv .mini.ok::after{content:'✓';position:absolute;top:-6px;right:-4px;background:#2FB67C;color:#fff;border-radius:50%;width:20px;height:20px;font-size:13px;line-height:20px}
+.rv .big{position:relative;left:auto;top:auto;transform:none;margin:0 auto;width:min(70vw,420px);background:#fff;border-radius:28px;padding:14px;box-shadow:0 8px 0 rgba(0,0,0,.2);animation:popIn .4s;cursor:default;font-size:min(22vw,120px)}
+.rv .big .pic{height:min(30vw,170px);display:flex;align-items:center;justify-content:center}.rv .big .pic img{max-height:100%;max-width:90%}
+.rv .big .w{font-family:'Baloo 2';font-weight:800;font-size:min(11vw,60px);color:#C8102E;line-height:1.1}
+.rv .big .s{font-family:'Baloo 2';font-weight:800;font-size:min(7.6vw,44px);color:#2C2C54;line-height:1.2;padding:10px 4px}
+.rv .big .ko{font-size:min(4vw,18px);color:#8A7563}
+.rv .lab{display:inline-block;background:#FFD43B;color:#7A2E2E;border-radius:16px;padding:4px 14px;font-size:min(4.4vw,20px);margin-bottom:8px}
 /* 대답 링 */
 #yourTurn{position:absolute;right:3%;bottom:22%;display:none;flex-direction:column;align-items:center;gap:6px;z-index:11}
 #yourTurn.on{display:flex;animation:popIn .4s}
@@ -821,6 +832,39 @@ const QUIZ={
     W:[["Rudolph! You can save this Christmas!",'elf'],["I must cancel Christmas.",'santa'],["Merry Christmas!",'rudolph']],
     A:[["Merry Christmas!",'rudolph'],["Your nose can light the way!",'elf'],["Yes! I will!",'elf']]}};
 
+// 📖 오늘 배운 단어·문장 읽기: 카드를 보고 먼저 읽어요 → 맞는 소리 듣기
+const WORDS={
+ 1:[['Santa','santa',"He is Santa!"],['Rudolph','rudolph',"He is Rudolph!"],['elf','elf',"He is an elf!"],['Dasher','dasher',"He is Dasher!"],['Prancer','prancer',"She is Prancer!"],['Comet','comet',"He is Comet!"]],
+ 2:[['beard','santa',"a beard"],['nose','🔴',"a nose"],['kind','😊'],['wake up','🛏️',"I wake up."],['presents','🎁',"I open presents."]],
+ 3:[['Christmas','🎄',"Christmas"],['tomorrow','📅',"Tomorrow is Christmas!"],['tree','tree'],['star','⭐',"Touch the star!"],['bell','🔔',"Touch the bell!"]],
+ 4:[['winter','⛄',"Look! It is winter!"],['spring','🌸',"Look! It is spring!"],['play','🙈',"Let's play!",'deer'],['sad','😢',"Rudolph is sad."],['lonely','rudolph_sad']],
+ 5:[['red','🔴',"He has a red nose!"],['nose','rudolph',"a nose"],['special','🌟',"special"],['friend','🤝',"Thank you, friend!",'rudolph']],
+ 6:[['foggy','🌫️',"foggy"],['sunny','☀️'],['rainy','🌧️'],['snowy','❄️'],['hurry','🏃',"hurry"]],
+ 7:[['ready','🚦',"ready"],['help','🤝',"help you"],['gift','🎁',"Touch the gift!"],['house','🏠',"Touch the house!"]],
+ 8:[['the way','🛤️',"the way"],['lead','rudolph_brave',"lead the way"],['worried','😟',"Worried voice!"],['angry','😠',"Angry voice!"]],
+ 9:[['light','💡',"light the way"],['save','🦸',"save Christmas"],['house','🏠',"Find the house!"],['bell','🔔',"Find the bell!"]],
+ 10:[['help','santa',"Will you help me?",'santa'],['honor','🏅',"Yes! I will! It will be my honor!",'rudolph'],['gifts','🎁',"I need to carry the gifts."],['fly','sleigh',"They fly and give presents!"]],
+ 11:[['special','🌟',"very special"],['brave','💪',"Brave voice!"],['kind','😊'],['funny','😆'],['fast','💨']],
+ 12:[['Merry Christmas','🎄',"Merry Christmas!",'rudolph'],['Santa','santa',"Ho, ho, ho!"],['Rudolph','rudolph_fly',"He is Rudolph!"],['star','⭐',"You are the star!"]]};
+function readKey(t){ const w=t.toLowerCase().replace(/[^a-z' ]/g,' ').split(/\s+/).filter(x=>x.length>2&&!['the','and','you','are','she','his','her','can','will'].includes(x));
+  return (w.find(x=>SOUNDS[x])||w.sort((a,b)=>b.length-a.length)[0]||'christmas'); }
+async function readReview(c,u){ if(DRY) return; clearCast(); lumiIn(2); const W=WORDS[u.n]||[], S=SHADOW[u.n]||[];
+  const pic=k=>A[k]?cardFace(k):k;
+  const box=el(`<div class="rv"><div class="lab">📖 오늘 배운 단어</div><div class="row">${W.map(([w,k])=>`<div class="mini">${pic(k)}<small>${w}</small></div>`).join('')}</div><div class="stage"></div></div>`);
+  const minis=[...box.querySelectorAll('.mini')], st=box.querySelector('.stage');
+  SFX.chime(); await c.sleep(1200);
+  for(let i=0;i<W.length;i++){ const [w,k,a,v]=W[i]; minis.forEach(m=>m.classList.remove('on')); minis[i].classList.add('on');
+    st.innerHTML=`<div class="big"><div class="pic">${pic(k)}</div><div class="w">${w}</div></div>`;
+    await c.respond(readKey(w),5000,`${w}<small>보고 읽어 봐요!</small>`);
+    if(a) await c.say(a,'',{v:v||'lumi'}); minis[i].classList.add('ok'); SFX.ding(); await c.sleep(300); }
+  minis.forEach(m=>m.classList.remove('on'));
+  box.querySelector('.lab').textContent='📖 오늘 배운 문장';
+  for(let i=0;i<S.length;i++){ const [en,ko,v]=S[i];
+    st.innerHTML=`<div class="big" style="width:min(88vw,640px)"><div class="s">${en}</div><div class="ko">${ko}</div><div class="ko" style="margin-top:4px;font-size:13px">${i+1} / ${S.length}</div></div>`;
+    await c.respond(readKey(en),Math.max(5000,2500+en.length*120),`${en}<small>먼저 읽어 봐요!</small>`);
+    await c.say(en,ko,{v:v||'lumi'}); SFX.ding(); addStar(); await c.sleep(400); }
+  box.remove(); await c.praise(); }
+
 // 쉐도잉: ① 듣기 → ② 같이 말하기 → ③ 혼자 말하기(녹음) → ④ 내 목소리 듣기 → ⑤ 다시 듣고 비교
 async function shadowing(c,list){ if(DRY||!list) return; clearCast(); lumiIn();
   const box=el(`<div class="shadow"><div class="steps"><span>① 듣기</span><span>② 같이 말하기</span><span>③ 혼자 말하기</span><span>④ 내 목소리</span></div><div class="line en">🗣️ Shadowing</div><div class="ko">잘 듣고 똑같이 따라 말해요!</div><div class="cnt"></div></div>`);
@@ -1065,7 +1109,7 @@ const UNITS=[
     for(const [en,ko,k] of [["Your nose is very special!","네 코는 정말 특별해!",'special'],["I can lead the way!","내가 길을 안내할게!",'lead'],["Everyone is special!","모두가 특별해!",'everyone']]) await c.kidLine(en,ko,k); await c.praise(); }],
   ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
 ];
-UNITS.forEach(u=>u.parts.splice(u.parts.length-1,0,['🧩 Quiz & Puzzle',async c=>quizTime(c,QUIZ[u.n])],['🗣️ Shadowing',async c=>shadowing(c,SHADOW[u.n])]));
+UNITS.forEach(u=>u.parts.splice(u.parts.length-1,0,['🧩 Quiz & Puzzle',async c=>quizTime(c,QUIZ[u.n])],['🗣️ Shadowing',async c=>shadowing(c,SHADOW[u.n])],['📖 Read Together',async(c,u)=>readReview(c,u)]));
 function SOUNDS_KEY(line){ const l=line.toLowerCase(); for(const k of ['help','how','play','christmas','cancel','lead']) if(l.includes(k)) return k; return 'christmas'; }
 
 /* =====================================================================
