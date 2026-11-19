@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Lumi's Christmas Show – Rudolph, the Red-Nosed Reindeer</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Jua&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none}
+html,body{height:100%;background:#0E1230;font-family:'Jua',sans-serif;overflow:hidden}
+.en{font-family:'Baloo 2',cursive}
+#player{position:relative;width:100%;height:100%;max-width:1100px;margin:0 auto;display:flex;flex-direction:column}
+#stage{position:relative;flex:1;overflow:hidden}
+/* 배경 */
+#bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:background .8s,filter .8s}
+#bg.night{background-image:linear-gradient(#0F1A4A 0%,#2A2F7A 62%,#E8F1FF 62%,#C9DCF5 100%)}
+#bg.workshop{background-image:linear-gradient(#7A2E2E 0%,#B8573A 62%,#F3D9B1 62%,#E2C090 100%)}
+#bg.snow{background-image:linear-gradient(#9FC9F2 0%,#D9ECFF 60%,#FFFFFF 60%,#E3EEFA 100%)}
+#bg.house{background-image:linear-gradient(#3A2366 0%,#6B3FA0 62%,#E8F1FF 62%,#C9DCF5 100%)}
+#bg.fog{background-image:linear-gradient(#5E6680 0%,#9AA2B8 62%,#D7DCE6 62%,#C0C7D4 100%)}
+#bg.sky{background-image:linear-gradient(#05082A 0%,#1A2266 70%,#2E3A8A 100%)}
+#bg.town{background-image:linear-gradient(#0B1240 0%,#26337A 66%,#F0F5FF 66%,#D3E0F5 100%)}
+.snowfall{position:absolute;inset:-10% 0 0 0;pointer-events:none;z-index:1;background-image:radial-gradient(3px 3px at 20px 30px,#fff,transparent),radial-gradient(2px 2px at 80px 120px,#fff,transparent),radial-gradient(3px 3px at 150px 60px,#fff,transparent),radial-gradient(2px 2px at 220px 160px,#fff,transparent),radial-gradient(3px 3px at 300px 90px,#fff,transparent);background-size:340px 200px;animation:snow 9s linear infinite;opacity:.8}
+@keyframes snow{to{background-position:40px 200px}}
+#fogLayer{position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0;transition:opacity 1s;background:radial-gradient(ellipse at 30% 40%,rgba(230,234,242,.95),rgba(200,206,220,.75) 60%),radial-gradient(ellipse at 70% 60%,rgba(240,240,248,.9),transparent 60%)}
+#fogLayer.on{opacity:.88}
+#topInfo{position:absolute;top:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:center;gap:6px;z-index:9;pointer-events:none}
+#topInfo>div{background:rgba(255,255,255,.93);border-radius:30px;padding:4px 10px;font-size:14px;white-space:nowrap}
+#nose{display:flex;align-items:center;gap:6px}
+#noseBar{width:min(22vw,110px);height:10px;border-radius:6px;background:#F3D3D3;overflow:hidden}
+#noseBar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#FF8A8A,#FF2D2D);transition:width .4s}
+#noseDot{width:16px;height:16px;border-radius:50%;background:#C33;transition:.3s}
+#noseDot.full{background:#FF2D2D;box-shadow:0 0 14px 6px rgba(255,45,45,.8)}
+#combo{position:absolute;top:44px;left:50%;transform:translateX(-50%) scale(0);z-index:10;font-family:'Baloo 2';font-weight:800;font-size:26px;color:#FFD43B;text-shadow:0 3px 0 #C2410C;transition:transform .25s cubic-bezier(.5,1.8,.5,1);pointer-events:none}
+#combo.on{transform:translateX(-50%) scale(1)}
+/* 배우 */
+#actors{position:absolute;inset:0;z-index:3;pointer-events:none}
+.actor{position:absolute;width:var(--s);transition:left .9s cubic-bezier(.5,1.3,.5,1),bottom .9s,transform .5s,opacity .5s;pointer-events:auto}
+.actor .pic{width:100%;display:block;filter:drop-shadow(0 6px 4px rgba(0,0,0,.18))}
+.actor .emo{display:block;font-size:calc(var(--s)*.78);line-height:1.1;text-align:center;filter:drop-shadow(0 6px 4px rgba(0,0,0,.18))}
+.actor .tag{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);background:rgba(255,255,255,.92);border-radius:10px;padding:1px 7px;font-family:'Baloo 2';font-weight:800;font-size:12px;color:#5B4BD6;white-space:nowrap}
+.actor .inner{animation:idle 2.6s ease-in-out infinite;transform-origin:50% 100%}
+.actor.talk .inner{animation:talk .28s ease-in-out infinite alternate}
+.actor.hop .inner{animation:hopA .55s ease-in-out infinite}
+.actor.shake .inner{animation:wig .35s infinite}
+.actor.sad .inner{animation:none;transform:rotate(-4deg) translateY(4px);filter:saturate(.6)}
+.actor.glow .pic,.actor.glow .emo{filter:drop-shadow(0 0 18px rgba(255,40,40,.95)) drop-shadow(0 0 30px rgba(255,90,90,.7))}
+.actor.fly .inner{animation:flyA 1.6s ease-in-out infinite}
+.actor.flip .inner{scale:-1 1}
+.actor.hidden{opacity:0}
+@keyframes idle{50%{transform:translateY(-5px)}}
+@keyframes talk{from{transform:scale(1,1)}to{transform:scale(1.04,.95) translateY(-3px)}}
+@keyframes hopA{50%{transform:translateY(-28%)}}
+@keyframes wig{25%{transform:rotate(-8deg)}75%{transform:rotate(8deg)}}
+@keyframes flyA{50%{transform:translateY(-14px) rotate(-3deg)}}
+.bubble{position:absolute;z-index:8;background:#fff;border-radius:18px;padding:7px 13px;font-family:'Baloo 2';font-weight:800;font-size:min(5vw,22px);color:#2C2C54;box-shadow:0 5px 0 rgba(0,0,0,.15);max-width:58%;transform:translateX(-50%);animation:popIn .3s;pointer-events:none}
+.bubble::after{content:'';position:absolute;left:50%;bottom:-10px;border:10px solid transparent;border-top-color:#fff;border-bottom:0;transform:translateX(-50%)}
+.bubble.kid{background:#FFF3B0;outline:3px dashed #FF9A3C}
+.bubble.kid::after{border-top-color:#FFF3B0}
+/* 메인 그림 */
+#objWrap{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(0);transition:transform .6s cubic-bezier(.5,1.7,.5,1);z-index:4;text-align:center;pointer-events:none}
+#objWrap.show{transform:translate(-50%,-50%) scale(1)}
+#splash{position:absolute;left:50%;top:44%;width:min(46vw,250px);aspect-ratio:1;border-radius:50%;transform:translate(-50%,-50%);background:#fff;box-shadow:0 0 0 8px rgba(255,255,255,.35),inset 0 -14px 0 rgba(0,0,0,.08)}
+#obj{position:relative;width:min(36vw,190px);height:min(36vw,190px);display:flex;align-items:center;justify-content:center;font-size:min(25vw,140px);line-height:1}
+#obj img{max-width:100%;max-height:100%}
+#word{position:relative;font-size:min(10vw,58px);font-weight:800;margin-top:-4px;opacity:0;transform:translateY(20px);transition:.5s;color:#C8102E;text-shadow:0 4px 0 #fff}
+#word.show{opacity:1;transform:none}
+#layer{position:absolute;inset:0;z-index:6;pointer-events:none}
+#layer>*{pointer-events:auto}
+.big{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);font-size:min(30vw,160px);cursor:pointer;line-height:1}
+.shakeBox{animation:shk .5s infinite}
+@keyframes shk{25%{transform:translate(-50%,-50%) rotate(-8deg)}75%{transform:translate(-50%,-50%) rotate(8deg)}}
+.boom{animation:boom .4s forwards}
+@keyframes boom{to{transform:translate(-50%,-50%) scale(2);opacity:0}}
+.cards{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);display:flex;gap:min(2.6vw,14px);width:96%;justify-content:center;flex-wrap:wrap}
+.cards.mid{bottom:auto;top:30%}
+.card{width:min(24vw,112px);aspect-ratio:1;border-radius:24px;background:#fff;border:none;box-shadow:0 7px 0 rgba(0,0,0,.18);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:min(12vw,56px);line-height:1;animation:popIn .4s backwards;position:relative;padding:6px;overflow:hidden}
+.card img{width:80%;height:70%;object-fit:contain}
+.card small{font-family:'Baloo 2';font-weight:800;font-size:min(3.6vw,16px);color:#5B4BD6;margin-top:3px;line-height:1.1}
+.card.txt{width:auto;min-width:min(40vw,180px);aspect-ratio:auto;padding:12px 14px;font-size:min(4.4vw,20px);font-family:'Baloo 2';font-weight:800;color:#2C2C54}
+.card.right{background:#D7FBEA;transform:scale(1.08)}
+.card.gone{visibility:hidden}
+.card .num{position:absolute;top:4px;right:4px;width:30px;height:30px;border-radius:50%;background:#FF6B6B;color:#fff;font-size:18px;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2'}
+.wrong{animation:shk2 .4s}
+@keyframes shk2{25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+@keyframes popIn{from{transform:scale(0)}}
+.yns{position:absolute;left:50%;bottom:5%;transform:translateX(-50%);display:flex;gap:min(8vw,46px)}
+.yn{width:min(25vw,120px);aspect-ratio:1;border-radius:28px;border:none;color:#fff;font-family:'Baloo 2';font-weight:800;font-size:min(7vw,30px);box-shadow:0 7px 0 rgba(0,0,0,.25);cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:popIn .4s backwards}
+.yn span{font-size:1.5em;line-height:1}
+.cover{position:absolute;inset:0;background:#2C2C80;z-index:12;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-size:min(8vw,40px);gap:10px}
+.cover b{font-family:'Baloo 2';font-size:min(22vw,120px);line-height:1}
+.action{position:absolute;right:5%;top:22%;text-align:center;font-size:min(20vw,110px);animation:actPop .6s infinite alternate}
+.action div{font-family:'Baloo 2';font-weight:800;font-size:min(7vw,34px);color:#FFD43B;text-shadow:0 3px 0 #7A2E2E}
+@keyframes actPop{to{transform:scale(1.12) rotate(5deg)}}
+/* 사다리 */
+.ladder{position:absolute;left:50%;top:18%;transform:translateX(-50%);display:flex;flex-direction:column-reverse;gap:8px;align-items:center;width:92%}
+.ladder div{background:rgba(255,255,255,.35);color:#fff;border-radius:16px;padding:7px 14px;font-family:'Baloo 2';font-weight:800;font-size:min(5.6vw,26px);transition:.4s;border:3px solid transparent}
+.ladder div.on{background:#fff;color:#C8102E;border-color:#FFD43B;transform:scale(1.06)}
+.ladder div.done{background:#FFD43B;color:#7A2E2E}
+.ladder .top{font-size:min(10vw,50px);background:none!important;border:none!important}
+/* 게임 요소 */
+.door{position:absolute;left:50%;top:40%;width:min(46vw,220px);height:min(60vw,290px);transform:translate(-50%,-50%);perspective:600px}
+.door .behind{position:absolute;inset:0;background:#FFF6E0;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:min(26vw,130px);overflow:hidden}
+.door .behind img{width:90%;height:90%;object-fit:contain}
+.door .panel{position:absolute;inset:0;background:linear-gradient(#B0462E,#7A2E1E);border-radius:14px;border:6px solid #5A1E10;transform-origin:left center;transition:transform .7s;display:flex;align-items:center;justify-content:center;font-size:40px;color:#FFD43B;cursor:pointer}
+.door .panel::after{content:'';position:absolute;right:16px;top:50%;width:16px;height:16px;border-radius:50%;background:#FFD43B}
+.door.peek .panel{transform:rotateY(-40deg)}
+.door.open .panel{transform:rotateY(-105deg)}
+.tree{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);width:min(56vw,270px);height:min(64vw,310px)}
+.tree .t{position:absolute;inset:0;font-size:min(60vw,290px);line-height:1;text-align:center}
+.tree .orn{position:absolute;font-size:min(9vw,42px);animation:popIn .4s}
+.tray{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);display:flex;gap:min(3vw,14px);background:rgba(255,255,255,.85);border-radius:24px;padding:8px 12px}
+.tray span{font-size:min(11vw,52px);cursor:pointer;transition:transform .3s,opacity .3s}
+.tray span.used{opacity:.2;transform:scale(.6)}
+.spot{position:absolute;cursor:pointer;font-size:min(16vw,80px);line-height:1;transition:transform .5s}
+.spot.open{transform:translateX(50%) rotate(15deg);opacity:.6}
+.found{position:absolute;width:min(20vw,100px);transform:scale(0);transition:transform .5s cubic-bezier(.5,1.8,.5,1);z-index:2}
+.found.show{transform:scale(1)}
+.found img{width:100%}.found span{font-size:min(16vw,80px)}
+.cloudBtn{position:absolute;width:min(34vw,170px);height:min(20vw,100px);border-radius:60px;background:rgba(236,240,248,.97);box-shadow:0 0 30px 20px rgba(236,240,248,.8);cursor:pointer;transition:transform .5s,opacity .5s;z-index:3}
+.cloudBtn.gone{transform:translateX(120vw);opacity:0}
+.dark{position:absolute;inset:0;z-index:5;background:radial-gradient(circle min(22vw,110px) at var(--x,50%) var(--y,50%),rgba(255,60,60,.08),rgba(5,8,30,.97) 70%);touch-action:none}
+.hiddenItem{position:absolute;font-size:min(14vw,70px);cursor:pointer;z-index:4;line-height:1}
+.hiddenItem img{width:min(18vw,90px)}
+.sleigh{position:absolute;left:4%;top:16%;width:min(40vw,200px);z-index:4;animation:flyA 1.6s ease-in-out infinite}
+.sleigh img{width:100%}.sleigh span{font-size:min(18vw,90px)}
+.houses{position:absolute;left:0;bottom:6%;display:flex;gap:min(16vw,90px);animation:scroll 14s linear forwards;padding-left:55vw}
+@keyframes scroll{to{transform:translateX(calc(-100% + 0px))}}
+.houses span{font-size:min(18vw,90px);cursor:pointer;position:relative}
+.houses span.got::after{content:'🎁';position:absolute;left:30%;top:-30%;font-size:.5em}
+.timer{position:absolute;right:4%;top:14%;width:min(18vw,80px);aspect-ratio:1;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-family:'Baloo 2';font-weight:800;font-size:min(9vw,40px);box-shadow:0 5px 0 rgba(0,0,0,.2);z-index:7}
+.giftDrop{position:absolute;font-size:min(13vw,62px);cursor:pointer;animation:popIn .3s;z-index:6}
+.sfxPad{position:absolute;left:50%;bottom:4%;transform:translateX(-50%);display:flex;gap:10px}
+.sfxPad button{width:min(17vw,76px);aspect-ratio:1;border-radius:20px;border:none;background:#fff;font-size:min(9vw,40px);box-shadow:0 5px 0 rgba(0,0,0,.2);cursor:pointer}
+/* 대답 링 */
+#yourTurn{position:absolute;right:3%;bottom:22%;display:none;flex-direction:column;align-items:center;gap:6px;z-index:11}
+#yourTurn.on{display:flex;animation:popIn .4s}
+.ring{position:relative;width:min(22vw,106px);aspect-ratio:1}
+.ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.ring .face{position:absolute;inset:12%;border-radius:50%;background:#C8102E;display:flex;align-items:center;justify-content:center;font-size:min(10vw,42px);color:#fff;box-shadow:0 6px 0 rgba(0,0,0,.25);cursor:pointer}
+.ring.rec .face{background:#FF4D4D;animation:pulseF .5s infinite alternate}
+.ring.heard .face{background:#2FB67C}
+@keyframes pulseF{to{transform:scale(1.12)}}
+.turnLabel{background:#fff;border-radius:16px;padding:5px 11px;font-size:min(4vw,17px);color:#C8102E;box-shadow:0 3px 0 rgba(0,0,0,.2);text-align:center;max-width:44vw;font-family:'Baloo 2';font-weight:800;line-height:1.15}
+.turnLabel small{display:block;font-family:'Jua';font-weight:400;color:#8A7563;font-size:.8em}
+.burst{position:absolute;font-size:28px;z-index:14;pointer-events:none;animation:burst 1s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--x),var(--y)) scale(.4) rotate(200deg);opacity:0}}
+#praise{position:absolute;left:50%;top:16%;transform:translateX(-50%) scale(0);font-family:'Baloo 2';font-weight:800;font-size:min(11vw,66px);color:#FFD43B;text-shadow:0 5px 0 #C8102E;z-index:14;white-space:nowrap;transition:transform .35s cubic-bezier(.5,1.8,.5,1);pointer-events:none}
+#praise.on{transform:translateX(-50%) scale(1)}
+#sub{position:absolute;left:50%;bottom:2.5%;transform:translateX(-50%);background:rgba(14,18,48,.86);color:#fff;border-radius:16px;padding:7px 16px;font-size:min(5vw,25px);max-width:94%;text-align:center;z-index:12;opacity:0;transition:opacity .3s;pointer-events:none}
+#sub.on{opacity:1}
+#sub small{display:block;font-family:'Jua';font-size:.6em;color:#FFE28A}
+#sub .who{font-size:.6em;color:#9FD3FF;display:block}
+#sub.up{bottom:auto;top:13%}
+.reward{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%) scale(0);transition:transform .7s cubic-bezier(.5,1.6,.5,1);z-index:13;text-align:center;background:#fff;border-radius:30px;padding:18px 22px;box-shadow:0 10px 0 rgba(0,0,0,.2);width:min(80vw,340px)}
+.reward.show{transform:translate(-50%,-50%) scale(1)}
+.reward .o{font-size:min(20vw,90px);line-height:1.1}
+.reward h3{font-family:'Baloo 2';color:#C8102E;font-size:24px}
+.reward p{font-size:16px;color:#5B4BD6;margin-top:6px}
+/* 컨트롤 */
+#bar{background:#080B22;padding:7px 8px 12px;display:flex;align-items:center;gap:4px;color:#fff}
+#bar button{background:none;border:none;color:#fff;font-size:21px;width:38px;height:38px;cursor:pointer}
+#prog{flex:1;display:flex;gap:3px}
+#prog div{flex:1;height:8px;border-radius:4px;background:#2A2F5A;overflow:hidden;cursor:pointer}
+#prog div i{display:block;height:100%;width:0;background:#FF4D4D;transition:width .3s}
+#chap{font-size:11px;color:#B8BCE0;min-width:64px;text-align:right}
+#pauseCover{position:absolute;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;font-size:80px;color:#fff;z-index:20;cursor:pointer}
+/* 홈 */
+#home{position:absolute;inset:0;z-index:30;background:linear-gradient(#0F1A4A,#2A2F7A 55%,#3B2A6E);overflow-y:auto;padding:14px 12px 30px;color:#fff}
+#home .head{text-align:center}
+#home h1{font-size:min(7.6vw,36px);line-height:1.1;color:#FFE28A;margin-top:4px}
+#home .sub2{font-size:14px;color:#C9CCF2;margin-top:4px}
+.homeTree{position:relative;width:min(70vw,280px);height:min(78vw,310px);margin:8px auto 2px}
+.homeTree .t{position:absolute;inset:0;font-size:min(70vw,280px);line-height:1;text-align:center;filter:saturate(1.1)}
+.homeTree .star{position:absolute;left:50%;top:-4%;transform:translateX(-50%);font-size:min(12vw,50px);filter:grayscale(1) opacity(.4);transition:.6s}
+.homeTree .star.on{filter:drop-shadow(0 0 12px #FFD43B);animation:pulseF 1s infinite alternate}
+.homeTree .orn{position:absolute;font-size:min(7vw,30px);transition:.4s}
+.homeTree .orn.off{filter:grayscale(1) opacity(.25)}
+#lumiHome{position:absolute;left:-6%;bottom:0;width:min(28vw,110px);text-align:center;font-size:min(20vw,80px)}
+#lumiHome img{width:100%}
+.stats{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:6px 0 12px}
+.stats div{background:rgba(255,255,255,.14);border-radius:16px;padding:5px 11px;font-size:14px}
+.units{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:640px;margin:0 auto}
+.unit{background:#fff;border:none;border-radius:22px;padding:12px 8px 10px;box-shadow:0 5px 0 rgba(0,0,0,.3);cursor:pointer;text-align:center;font-family:'Jua';position:relative;color:#2C2C54}
+.unit:active{transform:translateY(3px)}
+.unit .ic{font-size:38px;line-height:1.1}
+.unit .no{position:absolute;top:7px;left:8px;background:var(--c);color:#fff;border-radius:10px;padding:1px 8px;font-size:12px}
+.unit .t{font-family:'Baloo 2';font-weight:800;font-size:16px;line-height:1.1;margin-top:3px}
+.unit .k{font-size:13px;color:#8A7563}
+.unit .pg{font-size:10.5px;color:#9A9AB8;margin-top:2px}
+.unit .done{position:absolute;top:5px;right:7px;font-size:20px}
+.unit.hl{outline:4px solid #FFD43B;animation:pulseF 1s 4 alternate}
+#home .made{text-align:center;font-size:12px;color:#9A9DC8;margin-top:16px}
+.tlink{background:none;border:none;color:#B8BCE0;text-decoration:underline;font-family:'Jua';font-size:13px;cursor:pointer}
+#tpanel{display:none;position:absolute;inset:3%;background:#fff;color:#333;border-radius:20px;padding:16px;overflow:auto;z-index:40;font-family:sans-serif;font-size:12.5px;line-height:1.7;text-align:left;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+#tpanel code{background:#F3EEF9;padding:1px 5px;border-radius:6px}
+#tpanel h4{margin-top:12px;color:#C8102E}
+#intro{position:absolute;inset:0;z-index:25;display:none;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#fff;text-align:center;padding:20px;background:linear-gradient(135deg,#C8102E,#2A2F7A)}
+#intro .ic{font-size:76px}
+#intro h2{font-family:'Baloo 2';font-size:min(8.6vw,44px);line-height:1.1}
+#intro p{font-size:15px;opacity:.92;line-height:1.5}
+#introBtn{width:96px;height:96px;border-radius:50%;border:none;background:#fff;color:#C8102E;font-size:44px;box-shadow:0 8px 0 rgba(0,0,0,.2);cursor:pointer;margin-top:6px;animation:pulseF 1.2s infinite alternate}
+#intro .back{background:none;border:none;color:#fff;font-family:'Jua';font-size:15px;text-decoration:underline;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="player">
+  <div id="stage">
+    <div id="bg" class="night"></div>
+    <div class="snowfall"></div>
+    <div id="actors"></div>
+    <div id="objWrap"><div id="splash"></div><div id="obj"></div><div id="word" class="en"></div></div>
+    <div id="fogLayer"></div>
+    <div id="layer"></div>
+    <div id="topInfo">
+      <div id="unitTag">🦌 U1</div>
+      <div id="nose"><span id="noseDot"></span><span id="noseBar"><i></i></span></div>
+      <div>⭐ <span id="stars">0</span></div>
+    </div>
+    <div id="combo">COMBO x2!</div>
+    <div id="yourTurn">
+      <div class="ring" id="ring">
+        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="rgba(255,255,255,.6)" stroke-width="8"/>
+          <circle id="ringArc" cx="50" cy="50" r="46" fill="none" stroke="#FFD43B" stroke-width="8" stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="0"/></svg>
+        <div class="face" id="turnFace">🎤</div>
+      </div>
+      <div class="turnLabel" id="turnLabel">말해 볼까요?</div>
+    </div>
+    <div id="praise">Great!</div>
+    <div id="sub"></div>
+    <div id="pauseCover">▶</div>
+
+    <div id="intro">
+      <div class="ic" id="introIc">🦌</div>
+      <div id="introNo" style="font-size:14px;opacity:.9">UNIT 1</div>
+      <h2 id="introT">Title</h2>
+      <p id="introK"></p>
+      <button id="introBtn">▶</button>
+      <button class="back" onclick="goHome()">← Unit 목록</button>
+    </div>
+
+    <div id="home">
+      <div class="head">
+        <h1 class="en">Lumi's Christmas Show</h1>
+        <div class="sub2">Rudolph, the Red-Nosed Reindeer · 루미와 함께 말하기</div>
+      </div>
+      <div class="homeTree" id="homeTree"></div>
+      <div class="stats" id="stats"></div>
+      <div class="units" id="units"></div>
+      <div class="made">만든이 · 스텔라원장 | 잉글리시아이스텔라<br><button class="tlink" onclick="openTeacher()">선생님용 안내 (링크 · 음성 · 이미지 파일)</button></div>
+    </div>
+    <div id="tpanel"></div>
+  </div>
+  <div id="bar">
+    <button onclick="goHome()" title="목록">🏠</button>
+    <button id="ppBtn" onclick="togglePause()">⏸</button>
+    <div id="prog"></div>
+    <span id="chap"></span>
+    <button onclick="skip()">⏭</button>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+   이미지 슬롯: img/파일명.png (배경은 img/bg_*.jpg) 를 넣으면 자동으로 그림으로 바뀜 (없으면 이모지)
+   만든이: 스텔라원장 | 잉글리시아이스텔라
+   ===================================================================== */
+const IMG_DIR='img/';
+const imgSrc=f=>IMG_DIR+f+(f.startsWith('bg_')?'.jpg':'.png');
+const A={ // key: [파일명, 대체 이모지, 표시 이름]
+  lumi:['lumi_wave','🦊','Lumi'], lumi_cheer:['lumi_cheer','🦊','Lumi'], lumi_think:['lumi_think','🦊','Lumi'],
+  rudolph:['rudolph_happy','🦌','Rudolph'], rudolph_sad:['rudolph_sad','🦌','Rudolph'], rudolph_brave:['rudolph_brave','🦌','Rudolph'], rudolph_fly:['rudolph_fly','🦌','Rudolph'],
+  santa:['santa_happy','🎅','Santa'], santa_worried:['santa_worried','🎅','Santa'],
+  elf:['elf_1','🧝','Elf'], elf2:['elf_2','🧝‍♀️','Elf'], elf3:['elf_3','🧝‍♂️','Elf'],
+  dasher:['dasher','🦌','Dasher'], prancer:['prancer','🦌','Prancer'], comet:['comet','🦌','Comet'],
+  sleigh:['sleigh','🛷','sleigh'], tree:['christmas_tree','🎄','tree'], gift:['gift','🎁','gift'],
+};
+const BG={night:'bg_christmas_eve',workshop:'bg_workshop',snow:'bg_snowfield',house:'bg_santa_house',fog:'bg_foggy_night',sky:'bg_night_sky',town:'bg_town_night'};
+const OK=new Set();
+function preload(){ const files=[...Object.values(A).map(a=>a[0]),...Object.values(BG)];
+  files.forEach(f=>{ const im=new Image(); im.onload=()=>{OK.add(f); if(f==='lumi_wave') renderHome(); if(f.startsWith('bg_')&&$('bg').className&&BG[$('bg').className]===f) setBG($('bg').className);}; im.src=imgSrc(f); }); }
+function picHTML(key,extra=''){ const a=A[key]; if(!a) return `<span class="emo">${key}</span>`;
+  return OK.has(a[0])?`<img class="pic" src="${IMG_DIR}${a[0]}.png" ${extra}>`:`<span class="emo">${a[1]}</span>`; }
+function cardFace(key){ const a=A[key]; return a?(OK.has(a[0])?`<img src="${IMG_DIR}${a[0]}.png">`:a[1]):key; }
+function setBG(name){ const b=$('bg'); b.className=name; b.style.backgroundImage=OK.has(BG[name])?`url(${imgSrc(BG[name])})`:''; }
+
+/* =====================================================================
+   음성 인식 단어 (아이 발음 배려)
+   ===================================================================== */
+const SOUNDS={ ho:['ho','hoe','how','hope','oh','who'], ha:['ha','hah','haha','ah'], hee:['hee','he','hi','he he'],
+  knock:['knock','not','nock','nok','knack'], santa:['santa','center','sander','sanda'], rudolph:['rudolph','rudolf','rudy','rudolfo','root'],
+  elf:['elf','else','self','health','elves'], dasher:['dasher','dash','dashed'], prancer:['prancer','prance','dancer','answer','france'],
+  comet:['comet','comment','come','commit'], christmas:['christmas','chris','crisp'], tomorrow:['tomorrow','morrow','to marrow'],
+  play:['play','pray','plate','played'], red:['red','read','rad'], nose:['nose','knows','nos','noise'], sad:['sad','said','set'],
+  lonely:['lonely','only','loanly'], special:['special','spatial','specials'], foggy:['foggy','froggy','fog','foggie','folky'],
+  hurry:['hurry','harry','hurray','hari'], wrong:['wrong','long','ring','strong'], ready:['ready','reddy','already','red e'],
+  worry:['worry','sorry','worried','wary'], help:['help','health','hell','helps'], lead:['lead','leed','lee','leave'],
+  save:['save','safe','saved'], how:['how','wow','house'], light:['light','like','right','white','lite'],
+  will:['will','well','we','wheel'], honor:['honor','honour','on her','owner','on'], merry:['merry','mary','marry','very'],
+  want:['want','won','one','what','wanna'], like:['like','light','bike','i like'], everyone:['everyone','every','everybody'],
+  yes:['yes','yeah','yep','yay','ya'], winter:['winter','winner','window'], beard:['beard','bird','bear'], kind:['kind','kite','ki'],
+  wake:['wake','wait','way','awake'], open:['open','opened','oh pen'], thank:['thank','thanks','tank','sank'], star:['star','stars','start','store'],
+  see:['see','sea','she','c'], house:['house','how','mouse','houses'], gift:['gift','gifts','give'], cancel:['cancel','candle','council'],
+  me:['me','mi','mean'], sleigh:['sleigh','slay','sled','play'], who:['who','hoo','how','whose'], found:['found','fun','sound'],
+  bell:['bell','ball','bill','bells'], brave:['brave','grave','brain'], good:['good','goods','could'], go:['go','goal','gold','oh'] };
+function heardMatch(t,key){ const l=SOUNDS[key]||[key]; return l.some(w=>t.includes(w))||(key.length>4&&t.includes(key.slice(0,4))); }
+
+/* =====================================================================
+   효과음 & 음악 (자동 생성)
+   ===================================================================== */
+let AC=null,DRY=false;
+function ac(){ if(!AC) AC=new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume(); return AC; }
+function tone(f,t0,d,type='sine',v=.25,f2){ if(DRY) return; const a=ac(),o=a.createOscillator(),g=a.createGain(); o.type=type; o.frequency.setValueAtTime(f,a.currentTime+t0);
+  if(f2) o.frequency.exponentialRampToValueAtTime(f2,a.currentTime+t0+d); g.gain.setValueAtTime(v,a.currentTime+t0); g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t0+d);
+  o.connect(g).connect(a.destination); o.start(a.currentTime+t0); o.stop(a.currentTime+t0+d+.05); }
+function noise(t0,d,v=.3){ if(DRY) return; const a=ac(),b=a.createBuffer(1,a.sampleRate*d,a.sampleRate),ch=b.getChannelData(0);
+  for(let i=0;i<ch.length;i++) ch[i]=(Math.random()*2-1)*(1-i/ch.length); const s=a.createBufferSource(),g=a.createGain(); s.buffer=b; g.gain.value=v; s.connect(g).connect(a.destination); s.start(a.currentTime+t0); }
+const SFX={ pop:()=>{tone(600,0,.12,'sine',.3,1500);noise(0,.08,.2)}, ding:()=>{tone(880,0,.25,'triangle',.25);tone(1320,.1,.35,'triangle',.25)},
+  tada:()=>[523,659,784,1047].forEach((f,i)=>tone(f,i*.09,.4,'triangle',.22)), boop:()=>tone(300,0,.25,'square',.12,180), drum:()=>{for(let i=0;i<10;i++) noise(i*.07,.06,.15)},
+  whoosh:()=>noise(0,.4,.12), bells:()=>[1568,1760,1568,1319,1568].forEach((f,i)=>{tone(f,i*.11,.5,'sine',.13);tone(f*2,i*.11,.3,'sine',.05)}),
+  knock:()=>{tone(160,0,.08,'square',.3,90);tone(160,.22,.08,'square',.3,90)}, wind:()=>{noise(0,1.4,.07)}, chime:()=>[1047,1319,1568,2093].forEach((f,i)=>tone(f,i*.07,.6,'sine',.12)),
+  hoho:()=>[0,.3,.6].forEach(t=>tone(130,t,.22,'sawtooth',.12,110)), drop:()=>tone(1200,0,.15,'sine',.2,500), sparkle:()=>[2093,2637,3136].forEach((f,i)=>tone(f,i*.05,.3,'sine',.08)) };
+let musicTimer=null,beat=0;
+function music(on,ms=250){ clearInterval(musicTimer); musicTimer=null; if(!on||DRY) return; const n=[784,659,659,698,587,587,523,587,659,698,784,784,784];
+  musicTimer=setInterval(()=>{ if(paused) return; tone(n[beat%n.length],0,.2,'triangle',.07); if(beat%2===0){tone(98,0,.15,'sine',.25,60)} else noise(0,.03,.05); if(beat%4===0) tone(2093,0,.15,'sine',.04); beat++; },ms); }
+
+/* =====================================================================
+   음성: audio/rudolph/역할_문장.mp3 우선 → 없으면 기기 음성 (역할별 목소리 높낮이)
+   ===================================================================== */
+const AUDIO_DIR='audio/rudolph/';
+const VOICE={lumi:{p:1.35,r:.88,n:'루미'},narr:{p:1.0,r:.86,n:'해설'},santa:{p:.55,r:.8,n:'산타'},elf:{p:1.8,r:.95,n:'요정'},rudolph:{p:1.15,r:.86,n:'루돌프'},deer:{p:.95,r:.92,n:'순록'}};
+const slug=s=>s.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,46);
+const missing=new Set(); let voice=null,curAudio=null,usingTTS=false;
+function pickVoice(){ const vs=speechSynthesis.getVoices().filter(v=>/^en/i.test(v.lang));
+  for(const p of [/Natural|Neural/i,/Samantha/i,/Google US English/i,/Aria|Jenny|Ava|Allison/i,/Karen|Moira/i]){ const v=vs.find(v=>p.test(v.name)); if(v) return v; } return vs[0]||null; }
+if('speechSynthesis' in window){ voice=pickVoice(); speechSynthesis.onvoiceschanged=()=>voice=pickVoice(); }
+function tts(text,v='lumi',mod={}){ if(!('speechSynthesis' in window)) return new Promise(r=>setTimeout(r,1500));
+  return new Promise(res=>{ speechSynthesis.cancel(); usingTTS=true; const V=VOICE[v]||VOICE.lumi;
+    const u=new SpeechSynthesisUtterance(text.replace(/\.\.\./g,', ')); if(voice) u.voice=voice; u.lang='en-US'; u.rate=mod.r||V.r; u.pitch=mod.p||V.p; u.volume=mod.vol||1;
+    let done=false; const t0=Date.now(),minMs=500+text.length*55; const fin=()=>{ if(done)return; done=true; usingTTS=false; const l=minMs-(Date.now()-t0); l>0?setTimeout(res,l):res(); };
+    u.onend=u.onerror=fin; setTimeout(fin,2200+text.length*140); speechSynthesis.speak(u); }); }
+// mp3 한 개 재생 (rate·volume 조절 가능). 실패하면 false
+function tryFile(file,rate=1,vol=1){ if(missing.has(file)) return Promise.resolve(false);
+  return new Promise(res=>{ const a=new Audio(AUDIO_DIR+file+'.mp3'); a.playbackRate=rate; a.volume=vol; a.preservesPitch=false; a.mozPreservesPitch=false; a.webkitPreservesPitch=false;
+    curAudio=a; let ok=false; a.onplaying=()=>ok=true; a.onended=()=>{curAudio=null;res(true)};
+    const fb=()=>{ if(ok){curAudio=null;res(true);return;} missing.add(file);curAudio=null;res(false)}; a.onerror=fb; a.play().catch(fb); }); }
+async function playFile(file,text,v,mod){
+  if(mod){ // 여러 목소리 놀이: 같은 문장 mp3를 높낮이·빠르기만 바꿔서 재생
+    const s=slug(text), rate=Math.min(1.35,Math.max(.75,1+((mod.p||1)-1)*.3))*Math.min(1.1,Math.max(.9,mod.r?mod.r/0.9:1));
+    for(const f of [s,'rudolph_'+s,'elf_'+s,'deer_'+s,'narr_'+s]){ if(await tryFile(f,rate,mod.vol||1)) return; }
+    return tts(text,v,mod); }
+  if(await tryFile(file)) return; return tts(text,v); }
+function stopAudio(){ if(curAudio){curAudio.pause();curAudio=null} if('speechSynthesis' in window) speechSynthesis.cancel(); }
+
+/* =====================================================================
+   진행 상태 & 보상
+   ===================================================================== */
+const $=id=>document.getElementById(id), layer=$('layer'), actorsEl=$('actors');
+let runId=0,paused=false,waiters=[],chapterIdx=0,curU=null,combo=0,noseP=0,sessionSpoken=0,sessionStars=0;
+const STOP={}, LINES=new Map();
+let store={stars:0,done:{},spoken:0,gifts:[]}; try{ store=Object.assign(store,JSON.parse(localStorage.getItem('lumiRudolph'))||{}) }catch(e){}
+function save(){ try{localStorage.setItem('lumiRudolph',JSON.stringify(store))}catch(e){} }
+function addStar(n=1){ if(DRY) return; store.stars+=n; sessionStars+=n; $('stars').textContent=store.stars; save(); }
+function hit(){ if(DRY) return; combo++; if(combo>=2){ const c=$('combo'); c.textContent=`COMBO x${combo}!`; c.classList.remove('on'); void c.offsetWidth; c.classList.add('on'); setTimeout(()=>c.classList.remove('on'),900); if(combo%5===0){ addStar(3); SFX.chime(); } } }
+function miss(){ combo=0; }
+function charge(n=1){ if(DRY) return; noseP+=n; if(noseP>=10){ noseP=0; $('noseDot').classList.add('full'); SFX.sparkle(); burst('50%','8%'); addStar(5); showPraise('NOSE POWER!'); setTimeout(()=>$('noseDot').classList.remove('full'),1500); }
+  $('noseBar').firstChild.style.width=(noseP*10)+'%'; }
+function spoke(){ if(DRY) return; sessionSpoken++; store.spoken++; save(); charge(1); }
+function showPraise(t){ const p=$('praise'); p.textContent=t; p.classList.add('on'); setTimeout(()=>p.classList.remove('on'),1100); }
+function burst(x='50%',y='40%'){ if(DRY) return; const ic=['⭐','✨','❄️','🌟','🎉','❤️'];
+  for(let i=0;i<14;i++){ const s=document.createElement('div'); s.className='burst'; s.textContent=ic[i%6]; s.style.left=x; s.style.top=y;
+    const a=Math.random()*6.28,d=100+Math.random()*150; s.style.setProperty('--x',Math.cos(a)*d+'px'); s.style.setProperty('--y',Math.sin(a)*d+'px'); $('stage').appendChild(s); setTimeout(()=>s.remove(),1000); } }
+const gate=()=>paused?new Promise(r=>waiters.push(r)):Promise.resolve();
+const tick=()=>new Promise(r=>setTimeout(r,100));
+function el(html,parent=layer){ const t=document.createElement('div'); t.innerHTML=html.trim(); const e=t.firstChild; parent.appendChild(e); return e; }
+function shakeEl(e){ e.classList.remove('wrong'); void e.offsetWidth; e.classList.add('wrong'); }
+const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(v=>v[1]);
+const cap=s=>s[0].toUpperCase()+s.slice(1);
+
+/* ---- 배우(캐릭터) ---- */
+const cast={};
+function actor(id,key,x,y=26,s=26,cls=''){ if(cast[id]) cast[id].remove();
+  const d=el(`<div class="actor ${cls}" style="left:${x}%;bottom:${y}%;--s:${s}vmin"><div class="inner">${picHTML(key)}</div></div>`,actorsEl);
+  d.dataset.key=key; cast[id]=d; return d; }
+function pose(id,key){ const d=cast[id]; if(!d) return; d.dataset.key=key; d.querySelector('.inner').innerHTML=picHTML(key); }
+function move(id,x,y){ const d=cast[id]; if(!d) return; d.style.left=x+'%'; if(y!=null) d.style.bottom=y+'%'; }
+function anim(id,cls){ const d=cast[id]; if(!d) return; d.classList.remove('hop','shake','sad','glow','fly','talk'); if(cls) cls.split(' ').forEach(c=>c&&d.classList.add(c)); }
+function clearCast(){ for(const k in cast){ cast[k].remove(); delete cast[k]; } }
+function bubbleOn(id,text,kid){ const d=cast[id]; if(!d) return null; const r=d.getBoundingClientRect(),s=$('stage').getBoundingClientRect();
+  return el(`<div class="bubble ${kid?'kid':''}" style="left:${Math.min(80,Math.max(20,(r.left+r.width/2-s.left)/s.width*100))}%;bottom:${Math.min(80,(s.bottom-r.top)/s.height*100+3)}%">${text}</div>`); }
+
+/* =====================================================================
+   재생 컨텍스트
+   ===================================================================== */
+function mkCtx(id){
+  const alive=()=>{ if(!DRY&&id!==runId) throw STOP; };
+  const sleep=async ms=>{ if(DRY) return; let t=0; while(t<ms){ alive(); await gate(); await tick(); t+=100; } alive(); };
+  const until=async (fn,ms=1e9,onT)=>{ if(DRY) return true; let t=0; while(!fn()&&t<ms){ alive(); await gate(); await tick(); t+=100; onT&&onT(t); } alive(); return fn(); };
+  // say(영어, 한글, {v:목소리, who:배우id, up:true, mod})
+  const say=async (en,ko,o={})=>{ const v=o.v||(o.who&&cast[o.who]?voiceOf(cast[o.who].dataset.key):'lumi'); const file=(v==='lumi'?'':v+'_')+slug(en);
+    if(!o.mod&&!LINES.has(file)) LINES.set(file,[en,ko,curU?curU.n:0,v]); if(DRY) return; alive(); await gate();
+    const sub=$('sub'); sub.innerHTML=(v!=='lumi'?`<span class="who">${VOICE[v].n}</span>`:'')+en+(ko?`<small>${ko}</small>`:''); sub.classList.add('on'); sub.classList.toggle('up',!!o.up);
+    const spk=o.who?cast[o.who]:cast.lumi; let bub=null; if(o.who&&o.bubble!==false) bub=bubbleOn(o.who,en);
+    spk&&spk.classList.add('talk'); await playFile(file,en,v,o.mod); spk&&spk.classList.remove('talk'); bub&&bub.remove(); alive(); await sleep(180); };
+  const ring=(label,face,cls)=>{ $('ring').className='ring '+(cls||''); $('turnFace').textContent=face; $('turnLabel').innerHTML=label; $('yourTurn').classList.add('on'); };
+  const ringOff=()=>{ $('yourTurn').classList.remove('on'); $('ringArc').style.strokeDashoffset=0; };
+  // 아이 말하기 차례
+  const respond=async (key,ms=5500,label,alsoDone)=>{ if(DRY) return false; alive();
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    ring(label||'말해 볼까요?','🎤'); let heard=false,skipNow=false,rec=null; $('turnFace').onclick=()=>skipNow=true;
+    if(SR&&key){ try{ rec=new SR(); rec.lang='en-US'; rec.maxAlternatives=5; rec.interimResults=true; rec.continuous=true;
+      rec.onresult=e=>{ for(const r of e.results) for(const alt of r) if(heardMatch(alt.transcript.toLowerCase(),key)) heard=true; }; rec.onerror=()=>{}; rec.start(); }catch(e){rec=null} }
+    try{ await until(()=>heard||skipNow||(alsoDone&&alsoDone()),ms,t=>$('ringArc').style.strokeDashoffset=289*(t/ms)); } finally{ try{rec&&rec.stop()}catch(e){} }
+    if(heard||!SR){ spoke(); }
+    if(heard){ $('ring').className='ring heard'; $('turnFace').textContent='👂'; SFX.ding(); burst('84%','66%'); addStar(); hit(); await sleep(550); }
+    ringOff(); return heard; };
+  // 아이가 캐릭터 대사를 말하는 차례
+  const kidLine=async (line,ko,key,as)=>{ alive(); let b=null; if(as&&cast[as]){ b=bubbleOn(as,line,true); }
+    await say(`Your turn! Say, "${line}"`,`네 차례! "${line}" (${ko})`);
+    const ok=await respond(key,6500,`${line}<small>${ko}</small>`); b&&b.remove();
+    if(as&&cast[as]){ anim(as,'hop'); await sleep(500); anim(as,''); }
+    const W=["Wonderful!","Great acting!","Super!","You sound great!"]; if(DRY){ for(const w of W) await say(w,'최고야!'); } else if(ok) await say(W[Math.floor(Math.random()*4)],"최고야!"); return ok; };
+  const PR=[['Great job!','잘했어!'],['Awesome!','최고야!'],['Good job!','잘했어!'],['Wow, you did it!','우와, 해냈어!'],['Fantastic!','멋져!']]; const praise=async ()=>{ if(DRY){ for(const q of PR) await say(q[0],q[1]); return; } const p=PR[Math.floor(Math.random()*5)];
+    $('praise').textContent=p[0]; $('praise').classList.add('on'); SFX.tada(); burst(); if(cast.lumi) anim('lumi','hop'); await say(p[0],p[1]); $('praise').classList.remove('on'); if(cast.lumi) anim('lumi',''); };
+  const waitTap=async (fn,en,ko,max=3)=>{ for(let i=0;i<max;i++){ if(await until(fn,7500)) return true; if(en) await say(en,ko); } return fn(); };
+  const record=async ms=>{ if(DRY) return 'dry'; let stream=null,r=null;
+    try{ stream=await navigator.mediaDevices.getUserMedia({audio:true}); r=new MediaRecorder(stream); const ch=[]; r.ondataavailable=e=>ch.push(e.data);
+      const stopped=new Promise(res=>r.onstop=res); ring('지금 말해요!','🔴','rec'); r.start(); await until(()=>false,ms,t=>$('ringArc').style.strokeDashoffset=289*(t/ms)); r.stop(); await stopped; ringOff(); spoke();
+      return URL.createObjectURL(new Blob(ch,{type:r.mimeType||'audio/webm'})); }
+    catch(e){ if(e===STOP) throw e; ringOff(); return null; } finally{ if(r&&r.state==='recording') r.stop(); if(stream) stream.getTracks().forEach(t=>t.stop()); } };
+  const playClip=async (url,rate=1)=>{ if(DRY||!url) return; const a=new Audio(url); a.playbackRate=rate; a.preservesPitch=false; a.mozPreservesPitch=false; a.webkitPreservesPitch=false;
+    let end=false; a.onended=()=>end=true; a.onerror=()=>end=true; try{await a.play()}catch(e){end=true} await until(()=>end,10000); };
+  return {alive,sleep,until,say,respond,kidLine,praise,waitTap,record,playClip};
+}
+function voiceOf(key){ if(key.startsWith('santa')) return 'santa'; if(key.startsWith('elf')) return 'elf'; if(key.startsWith('rudolph')) return 'rudolph'; if(['dasher','prancer','comet'].includes(key)) return 'deer'; return 'lumi'; }
+
+/* =====================================================================
+   활동 블록
+   ===================================================================== */
+function showObj(key,word){ const o=$('obj'); o.innerHTML=A[key]?cardFace(key):key; $('word').textContent=word||''; $('word').classList.remove('show'); $('objWrap').classList.add('show'); }
+function hideObj(){ $('objWrap').classList.remove('show'); $('word').classList.remove('show'); }
+function lumiIn(x=6){ if(!cast.lumi) actor('lumi','lumi',-30,20,24); setTimeout(()=>move('lumi',x),30); }
+
+// 오프닝
+async function opening(c,u,lines){ setBG(u.bg||'night'); lumiIn(-30); await c.sleep(200); SFX.bells(); move('lumi',38); await c.sleep(800); pose('lumi','lumi_cheer'); anim('lumi','hop');
+  await c.say("Hi, friends! I'm Lumi!","안녕 친구들! 나는 루미야!"); anim('lumi','');
+  await c.say(`Welcome to Unit ${u.n}! ${u.title}!`,`${u.n}단원에 온 걸 환영해! ${u.ko}!`);
+  for(const [en,ko] of lines) await c.say(en,ko);
+  pose('lumi','lumi'); move('lumi',4); await c.sleep(600); }
+
+// 비밀 선물 상자 → 캐릭터/단어 공개 → 문장으로 말하기
+async function reveal(c,{key,emoji,w,q,qk,a,ak,ans,box=true}){
+  if(box){ const b=el(`<div class="big shakeBox">🎁</div>`); SFX.drum(); await c.say("What's in the present? Touch it!","선물 상자 안에 뭐가 있을까? 눌러 봐!");
+    let open=false; b.onclick=()=>{ if(open) return; open=true; SFX.pop(); b.classList.remove('shakeBox'); b.classList.add('boom'); };
+    await c.waitTap(()=>open,"Touch the present!","선물을 눌러 봐!"); open=true; b.classList.add('boom'); await c.sleep(350); b.remove(); }
+  showObj(key||emoji,w); burst();
+  await c.say(q||"Who is it?",qk||"누구일까?");
+  const got=await c.respond(ans||w.toLowerCase(),5500,'누구(무엇)일까요?');
+  $('word').classList.add('show'); if(got) await c.say("Yes! You got it!","맞아!");
+  await c.say(a,ak); await c.kidLine(a,ak||'',ans||w.toLowerCase());
+  hideObj(); await c.sleep(350); }
+
+// 문장 사다리 (짧게 → 길게 쌓아 올리기)
+async function ladder(c,steps,key,ko){
+  const L=el(`<div class="ladder">${steps.map(s=>`<div>${s}</div>`).join('')}<div class="top">⭐</div></div>`); const rows=[...L.children];
+  await c.say("Sentence ladder! Let's climb up!","문장 사다리! 한 칸씩 올라가 보자!");
+  for(let i=0;i<steps.length;i++){ rows[i].classList.add('on'); await c.say(steps[i],i===steps.length-1?ko:'',{up:false}); await c.respond(key,4500,`${steps[i]}<small>따라 말해요</small>`); rows[i].classList.remove('on'); rows[i].classList.add('done'); SFX.ding(); }
+  rows[steps.length].style.animation='pulseF .5s infinite alternate'; burst('50%','15%'); addStar(2);
+  await c.say("You reached the star!","별까지 올라갔어!"); await c.sleep(300); L.remove(); }
+
+// 다양한 목소리로 말하기 (속삭이기/크게/산타/요정)
+const MODES={whisper:{i:'🤫',ko:'속삭이듯',en:'Whisper',mod:{vol:.35,r:.75,p:1.1}},loud:{i:'📢',ko:'크~게',en:'Say it loud',mod:{vol:1,r:.95,p:1.3}},
+  santa:{i:'🎅',ko:'산타 목소리로',en:'Santa voice',mod:{p:.45,r:.75}},elf:{i:'🧝',ko:'요정 목소리로',en:'Elf voice',mod:{p:2,r:1.05}},
+  happy:{i:'😄',ko:'신나게',en:'Happy voice',mod:{p:1.5,r:1}},sad:{i:'😢',ko:'슬프게',en:'Sad voice',mod:{p:.8,r:.7,vol:.7}},
+  worried:{i:'😟',ko:'걱정스럽게',en:'Worried voice',mod:{p:1,r:.75}},angry:{i:'😠',ko:'화나게',en:'Angry voice',mod:{p:.7,r:1.05}},brave:{i:'💪',ko:'씩씩하게',en:'Brave voice',mod:{p:1.1,r:.95}}};
+async function voices(c,line,ko,key,modes){
+  await c.say(`Let's say it in different voices!`,`여러 가지 목소리로 말해 보자!`);
+  for(const m of modes){ const M=MODES[m]; const a=el(`<div class="action">${M.i}<div>${M.en}</div></div>`);
+    await c.say(`${M.en}!`,M.ko); await c.say(line,ko,{mod:M.mod,v:'lumi'}); await c.respond(key,4500,`${M.i} ${line}<small>${M.ko}</small>`); a.remove(); }
+  await c.praise(); }
+
+// 녹음 → 산타/요정 목소리로 다시 듣기
+async function magicMic(c,line,ko){
+  await c.say(`Magic microphone! Say, "${line}"`,`마법 마이크! "${line}" 하고 말해 봐! (${ko})`);
+  const url=await c.record(3200); if(!url){ await c.say("That's okay! Let's go on.","괜찮아! 계속하자."); return; }
+  await c.say("Listen! This is you!","들어 봐! 네 목소리야!"); await c.playClip(url,1);
+  await c.say("Now, Santa voice!","이번엔 산타 목소리!"); await c.playClip(url,.62);
+  await c.say("And... elf voice!","그리고... 요정 목소리!"); await c.playClip(url,1.75);
+  SFX.boop(); await c.say("Ha ha! So funny!","하하! 너무 웃기다!"); addStar(2); }
+
+// 카드 고르기
+async function pick(c,{q,qk,opts,ans,mid,again}){ const box=el(`<div class="cards ${mid?'mid':''}">${opts.map((o,i)=>`<button class="card ${o.txt?'txt':''}" style="animation-delay:${i*.07}s" data-k="${o.k}">${o.txt||o.face||cardFace(o.k)}${o.w?`<small>${o.w}</small>`:''}</button>`).join('')}</div>`);
+  let ok=false; [...box.children].forEach(b=>b.onclick=()=>{ if(ok) return; if(b.dataset.k===ans||ans==='*'){ ok=true; b.classList.add('right'); SFX.ding(); burst(); addStar(); hit(); } else { SFX.boop(); shakeEl(b); miss(); } });
+  await c.say(q,qk); await c.waitTap(()=>ok,again||q,qk); await c.sleep(450); box.remove(); }
+
+// 루미의 엉뚱 퀴즈 (O/X) → 정답 문장 말하기
+async function silly(c,{q,qk,yes,after,afterK,key}){ if(cast.lumi){ pose('lumi','lumi_think'); anim('lumi','shake'); }
+  await c.say(q,qk); if(cast.lumi){ anim('lumi',''); }
+  const box=el(`<div class="yns"><button class="yn" style="background:#2FB67C"><span>⭕</span>YES</button><button class="yn" style="background:#E5484D"><span>❌</span>NO</button></div>`);
+  let ok=false; const [y,n]=box.children; const go=(v,b)=>{ if(ok) return; if(v===yes){ ok=true; SFX.ding(); burst(); addStar(); hit(); } else { SFX.boop(); shakeEl(b); miss(); } };
+  y.onclick=()=>go(true,y); n.onclick=()=>go(false,n); await c.waitTap(()=>ok,q,qk); box.remove(); if(cast.lumi) pose('lumi','lumi');
+  await c.say(after,afterK); if(key) await c.kidLine(after,afterK,key); }
+
+// 몸으로 표현하기
+async function moves(c,list,intro){ music(true); await c.say(...intro);
+  for(const m of list){ const a=el(`<div class="action">${m.e}<div>${m.label}</div></div>`); if(cast.lumi) anim('lumi','hop'); await c.say(m.en,m.ko,{up:true});
+    if(m.key) await c.respond(m.key,3500,`${m.en}<small>몸으로 하면서 말해요</small>`); else await c.sleep(m.ms||3000); a.remove(); }
+  music(false); if(cast.lumi) anim('lumi',''); await c.say("Great moving!","몸으로 잘했어!"); addStar(2); }
+
+// 똑똑! 누구세요? (지도안 게임)
+async function knock(c,{key,clues,ans,opts}){
+  const d=el(`<div class="door"><div class="behind">${cardFace(key)}</div><div class="panel">❓</div></div>`);
+  await c.say("Someone is behind the door!","문 뒤에 누가 있어!");
+  await c.kidLine("Knock, knock! Who is it?","똑똑! 누구세요?",'knock'); SFX.knock();
+  for(const [en,ko] of clues) await c.say(en,ko,{v:voiceOf(key)});
+  d.classList.add('peek'); SFX.whoosh(); await c.sleep(900); d.classList.remove('peek');
+  await pick(c,{q:"Who is it?",qk:"누구일까?",opts:opts.map(k=>({k,w:A[k][2]})),ans});
+  d.classList.add('open'); SFX.tada(); burst();
+  await c.kidLine(`It's ${A[ans][2]}!`,`${A[ans][2]}야!`,A[ans][2].toLowerCase()); await c.sleep(300); d.remove(); }
+
+// 누가 없어졌을까?
+async function whoMissing(c,set){ const row=el(`<div class="cards mid">${set.map(k=>`<div class="card" data-k="${k}">${cardFace(k)}<small>${A[k][2]}</small></div>`).join('')}</div>`);
+  await c.say("Look at everyone!","모두 잘 봐!"); await c.sleep(1800);
+  const cov=el(`<div class="cover">🙈<div>Close your eyes!</div><b>3</b></div>`); await c.say("Close your eyes!","눈을 감아!");
+  const gone=set[Math.floor(Math.random()*set.length)]; for(const n of [3,2,1]){ cov.querySelector('b').textContent=n; SFX.knock(); await c.sleep(850); }
+  row.querySelector(`[data-k="${gone}"]`).classList.add('gone'); cov.remove(); SFX.pop(); await c.say("Open your eyes! Who is missing?","눈 떠! 누가 없어졌을까?");
+  const others=shuffle(['santa','rudolph','elf','dasher','prancer','comet'].filter(k=>k!==gone)).slice(0,2);
+  await pick(c,{q:"Who is missing?",qk:"누가 없어졌지?",opts:shuffle([gone,...others]).map(k=>({k,w:A[k][2]})),ans:gone});
+  row.querySelector(`[data-k="${gone}"]`).classList.remove('gone'); if(DRY){ for(const k of ALL6) await c.kidLine(`${A[k][2]} is missing!`,`${A[k][2]}가 없어졌어!`,'x'); } else await c.kidLine(`${A[gone][2]} is missing!`,`${A[gone][2]}가 없어졌어!`,A[gone][2].toLowerCase()); row.remove(); }
+
+// 순서 맞추기 → 문장 말하기
+async function sequence(c,steps,intro=["What comes first? Touch in order!","무엇이 먼저일까? 순서대로 눌러 봐!"]){ await c.say(...intro);
+  const box=el(`<div class="cards mid">${shuffle(steps.map((s,i)=>({...s,i}))).map(s=>`<button class="card" data-i="${s.i}">${s.face||cardFace(s.k)}<small>${s.w}</small></button>`).join('')}</div>`);
+  let next=0; [...box.children].forEach(b=>b.onclick=()=>{ if(b.querySelector('.num')) return; if(+b.dataset.i===next){ next++; b.insertAdjacentHTML('beforeend',`<span class="num">${next}</span>`); b.classList.add('right'); SFX.ding(); hit(); if(next===steps.length){ burst(); addStar(2);} } else { SFX.boop(); shakeEl(b); miss(); } });
+  await c.waitTap(()=>next>=steps.length,"Touch in order!","순서대로 눌러 봐!"); await c.sleep(400);
+  for(const s of steps){ await c.say(s.en,s.ko); await c.respond(s.key,4000,`${s.en}<small>따라 말해요</small>`); } box.remove(); }
+
+// 이야기 장면 (해설 + 캐릭터 대사 + 아이 대사)
+async function scene(c,{bg,fog,cast:cs,beats}){ clearCast(); if(bg) setBG(bg); $('fogLayer').classList.toggle('on',!!fog); actor('lumi','lumi',-30,20,20);
+  for(const a of cs){ const d=actor(a.id,a.key,a.from??a.x,a.y??24,a.s??26,a.cls||''); if(a.from!=null) setTimeout(()=>move(a.id,a.x),60); }
+  SFX.chime(); await c.sleep(900);
+  for(const b of beats){ c.alive();
+    if(b.do) await b.do(c);
+    else if(b.narr) await c.say(b.narr,b.ko,{v:'narr',up:true});
+    else if(b.kid) await c.kidLine(b.kid,b.ko,b.key,b.as);
+    else if(b.who) await c.say(b.en,b.ko,{who:b.who}); }
+  $('fogLayer').classList.remove('on'); }
+
+// 게임: 트리 꾸미기
+async function decorate(c){ const T=el(`<div class="tree"><div class="t">${OK.has('christmas_tree')?`<img src="${IMG_DIR}christmas_tree.png" style="width:100%">`:'🎄'}</div></div>`);
+  const pos=[[44,8],[30,34],[58,32],[22,58],[50,52],[70,60]]; const items=[['⭐','star'],['🔔','bell'],['🎀','ribbon'],['🍭','candy'],['🧦','stocking'],['💡','light']];
+  const tray=el(`<div class="tray">${items.map(([e,w],i)=>`<span data-i="${i}">${e}</span>`).join('')}</div>`); let n=0;
+  await c.say("Let's decorate the Christmas tree! Touch the decorations!","크리스마스 트리를 꾸미자! 장식을 눌러 봐!");
+  [...tray.children].forEach(s=>s.onclick=()=>{ if(s.classList.contains('used')) return; s.classList.add('used'); const p=pos[n++]; el(`<span class="orn" style="left:${p[1]}%;top:${p[0]}%">${s.textContent}</span>`,T); SFX.sparkle(); hit(); if(n===6){ SFX.tada(); burst(); addStar(2);} });
+  await c.waitTap(()=>n>=6,"Touch the decorations!","장식을 눌러!"); await c.say("Wow! What a beautiful tree!","우와! 정말 예쁜 트리야!");
+  await c.kidLine("I see a star!","별이 보여!",'star'); await c.kidLine("I see a bell!","종이 보여!",'bell'); tray.remove(); T.remove(); }
+
+// 게임: 숨바꼭질
+async function hideSeek(c,who){ setBG('snow'); const spots=[[10,30],[40,22],[70,30]]; let found=0,taps=0; const order=shuffle([0,1,2]);
+  const els=spots.map(([x,y],i)=>{ const f=el(`<div class="found" style="left:${x+4}%;bottom:${y+4}%">${OK.has(A[who[order.indexOf(i)]][0])?`<img src="${IMG_DIR}${A[who[order.indexOf(i)]][0]}.png">`:`<span>${A[who[order.indexOf(i)]][1]}</span>`}</div>`);
+    const s=el(`<div class="spot" style="left:${x}%;bottom:${y}%">${i===1?'⛄':'🌲'}</div>`); s.onclick=()=>{ if(s.classList.contains('open')) return; s.classList.add('open'); f.classList.add('show'); SFX.pop(); found++; burst(x+8+'%','55%'); hit(); }; return s; });
+  await c.say("Hide-and-seek! The reindeer are hiding!","숨바꼭질! 순록들이 숨었어!");
+  for(let k=0;k<3;k++){ await c.kidLine("Who's here?","거기 누구야?",'who'); const before=found; await c.say("Touch to find!","눌러서 찾아 봐!"); await c.waitTap(()=>found>before,"Touch the trees!","나무나 눈사람을 눌러!");
+    const nm=A[who[k]][2]; await c.say(`It's ${nm}!`,`${nm}였어!`,{v:'deer'}); }
+  await c.praise(); layer.innerHTML=''; }
+
+// 게임: 빨간 것 찾기
+async function redHunt(c){ const items=shuffle([['🍎',1],['🍓',1],['🚒',1],['❤️',1],['🍅',1],['🍌',0],['🥦',0],['🐳',0],['🌽',0]]);
+  const box=el(`<div class="cards mid" style="max-width:min(92vw,420px)">${items.map(([e,r],i)=>`<button class="card" data-r="${r}" style="width:min(19vw,82px);font-size:min(10vw,44px)">${e}</button>`).join('')}</div>`); let n=0;
+  await c.say("Find things as red as Rudolph's nose! Touch all the red things!","루돌프 코처럼 빨간 걸 모두 찾아 눌러 봐!");
+  [...box.children].forEach(b=>b.onclick=()=>{ if(b.classList.contains('right')) return; if(b.dataset.r==='1'){ b.classList.add('right'); n++; SFX.ding(); hit(); } else { SFX.boop(); shakeEl(b); miss(); } });
+  await c.waitTap(()=>n>=5,"Find the red things!","빨간 걸 찾아!"); burst(); addStar(2); box.remove();
+  await c.kidLine("It is red like Rudolph's nose!","루돌프 코처럼 빨개!",'red'); }
+
+// 집에서 찾기 미션
+async function homeHunt(c,{find,fk,line,lk,key}){ let ok=false; const t=el(`<div class="timer">20</div>`); const b=el(`<button class="card txt" style="position:absolute;left:50%;bottom:6%;transform:translateX(-50%);background:#FFD43B">찾았어요! 🙋</button>`);
+  b.onclick=()=>{ ok=true; SFX.ding(); }; await c.say(find,fk); music(true,200);
+  await c.until(()=>ok,20000,ms=>t.textContent=Math.max(0,Math.ceil((20000-ms)/1000))); music(false); t.remove(); b.remove();
+  await c.say("Wow! Show me!","우와! 보여줘!"); await c.kidLine(line,lk,key); }
+
+// 게임: 안개 걷기
+async function fogClear(c){ $('fogLayer').classList.add('on'); const pos=[[8,20],[46,14],[20,52],[60,46],[30,34]]; let n=0;
+  await c.say("It's so foggy! Touch the clouds to blow them away!","안개가 너무 많아! 구름을 눌러서 날려 보내!");
+  pos.forEach(([x,y])=>{ const cl=el(`<div class="cloudBtn" style="left:${x}%;top:${y}%"></div>`); cl.onclick=()=>{ if(cl.classList.contains('gone')) return; cl.classList.add('gone'); SFX.whoosh(); n++; hit(); }; });
+  await c.waitTap(()=>n>=5,"Blow the fog away!","구름을 날려!"); $('fogLayer').classList.remove('on'); burst(); addStar(2); layer.innerHTML='';
+  await c.say("Hooray! I can see now!","만세! 이제 보여!"); }
+
+// 게임: 빨리 선물 싣기
+async function loadGifts(c){ actor('sleigh','sleigh',40,8,34); let n=0; const t=el(`<div class="timer">15</div>`);
+  await c.kidLine("Come on! We need to hurry!","어서! 서둘러야 해!",'hurry'); music(true,170);
+  await c.say("Tap the presents! Put them in the sleigh!","선물을 톡톡 눌러서 썰매에 실어!");
+  const spawn=()=>{ if(DRY) return; const g=el(`<div class="giftDrop" style="left:${8+Math.random()*78}%;top:${16+Math.random()*36}%">🎁</div>`); g.onclick=()=>{ g.remove(); n++; SFX.pop(); hit(); if(cast.sleigh) anim('sleigh','hop'); setTimeout(()=>anim('sleigh',''),300); }; setTimeout(()=>g.remove(),2600); };
+  const iv=setInterval(()=>{ if(!paused) spawn(); },650);
+  try{ await c.until(()=>false,15000,ms=>t.textContent=Math.max(0,Math.ceil((15000-ms)/1000))); } finally{ clearInterval(iv); music(false); }
+  t.remove(); layer.querySelectorAll('.giftDrop').forEach(g=>g.remove()); burst(); addStar(Math.min(5,Math.ceil(n/3)));
+  await c.say("You loaded so many presents! Super fast!",`선물 ${n}개를 실었어! 엄청 빨라!`); }
+
+// 게임: 루돌프 코로 비추기
+async function noseLight(c,items){ setBG('fog'); const d=el(`<div class="dark"></div>`); let found=0;
+  const pos=shuffle([[12,22],[70,18],[20,60],[66,58],[44,40]]);
+  const els=items.map((it,i)=>{ const h=el(`<div class="hiddenItem" style="left:${pos[i][0]}%;top:${pos[i][1]}%">${it.e}</div>`); h.onclick=()=>{ if(h.dataset.f) return; h.dataset.f=1; h.style.filter='drop-shadow(0 0 16px #FFD43B)'; found++; SFX.sparkle(); hit(); }; return h; });
+  const mv=e=>{ const r=$('stage').getBoundingClientRect(),p=e.touches?e.touches[0]:e; d.style.setProperty('--x',(p.clientX-r.left)+'px'); d.style.setProperty('--y',(p.clientY-r.top)+'px'); };
+  d.addEventListener('pointermove',mv); d.addEventListener('pointerdown',e=>{ mv(e); d.style.pointerEvents='none'; const t=document.elementFromPoint(e.clientX,e.clientY); d.style.pointerEvents=''; if(t&&t.classList.contains('hiddenItem')) t.click(); });
+  await c.say("It's dark and foggy! Use Rudolph's nose light! Move your finger!","어둡고 안개가 꼈어! 루돌프 코 불빛으로 비춰 봐! 손가락을 움직여!");
+  for(let i=0;i<items.length;i++){ const before=found; await c.say(`Find the ${items[i].w}!`,`${items[i].ko}을(를) 찾아!`); await c.waitTap(()=>found>before,`Find the ${items[i].w}!`,`${items[i].ko} 찾아!`);
+    await c.kidLine(`I see a ${items[i].w}!`,`${items[i].ko}이(가) 보여!`,items[i].key); }
+  d.remove(); els.forEach(e=>e.remove()); burst(); addStar(2); }
+
+// 게임: 썰매 타고 선물 배달
+async function deliver(c){ setBG('town'); const s=el(`<div class="sleigh">${OK.has('sleigh')?`<img src="${IMG_DIR}sleigh.png">`:'<span>🛷🦌</span>'}</div>`); let n=0;
+  const H=el(`<div class="houses">${Array.from({length:8},()=>'<span>🏠</span>').join('')}</div>`); [...H.children].forEach(h=>h.onclick=()=>{ if(h.classList.contains('got')) return; h.classList.add('got'); n++; SFX.drop(); setTimeout(SFX.ding,200); hit(); });
+  music(true,230); await c.say("Fly, fly! Touch the houses to give presents!","슝슝! 집을 눌러서 선물을 배달해!");
+  await c.until(()=>false,14000); music(false); burst(); addStar(Math.min(5,n));
+  await c.say("You gave so many presents!",`선물 ${n}개를 배달했어!`); s.remove(); H.remove();
+  await c.kidLine("Merry Christmas!","메리 크리스마스!",'merry'); }
+
+// 라디오 드라마 (아이 대사를 녹음해서 전체 이야기로 재생)
+async function radioShow(c,script){ const clips=[];
+  await c.say("It's radio drama time! You are Rudolph!","라디오 드라마 시간! 너는 루돌프야!");
+  await c.say("First, let's record your lines!","먼저 네 대사를 녹음하자!");
+  for(const L of script.filter(l=>l.kid)){ await c.say(`Rudolph says, "${L.kid}"`,`루돌프 대사: ${L.ko}`,{v:'rudolph'}); const b=el(`<div class="card txt" style="position:absolute;left:50%;top:30%;transform:translateX(-50%);background:#FFF3B0">🎙️ ${L.kid}</div>`);
+    await c.say("Ready? Go!","준비~ 시작!"); L.clip=await c.record(3500); b.remove(); clips.push(L.clip); SFX.ding(); }
+  await c.say("Great! Now, listen to your radio show!","잘했어! 이제 너의 라디오 쇼를 들어 보자!");
+  const pad=el(`<div class="sfxPad"><button onclick="SFX.bells()">🔔</button><button onclick="SFX.hoho()">🎅</button><button onclick="SFX.wind()">🌬️</button><button onclick="SFX.chime()">✨</button></div>`);
+  await c.say("You can touch the sound buttons, too!","효과음 버튼도 눌러 봐!"); music(true,320);
+  for(const L of script){ if(L.kid){ const b=el(`<div class="card txt" style="position:absolute;left:50%;top:30%;transform:translateX(-50%);background:#FFF3B0">🦌 ${L.kid}</div>`); if(L.clip&&L.clip!=='dry') await c.playClip(L.clip,1); else await c.say(L.kid,L.ko,{v:'rudolph'}); b.remove(); }
+    else await c.say(L.en,L.ko,{v:L.v}); }
+  music(false); pad.remove(); SFX.tada(); burst(); addStar(5); await c.say("Bravo! What a wonderful radio show!","브라보! 멋진 라디오 쇼였어!"); }
+
+// 단원 마무리: 트리 장식 보상 + 오늘 말한 문장 수
+async function finishUnit(c,u){ clearCast(); setBG('night'); actor('lumi','lumi_cheer',38,20,24,'hop');
+  const r=el(`<div class="reward"><div class="o">${u.orn}</div><h3 class="en">Unit ${u.n} Clear!</h3><p>🎄 트리 장식을 받았어요!</p><p>🗣️ 오늘 말한 문장: <b>${sessionSpoken}</b>개<br>⭐ 오늘 받은 별: <b>${sessionStars}</b>개</p></div>`);
+  await c.sleep(50); r.classList.add('show'); SFX.tada(); burst(); if(!DRY){ store.done[u.n]=true; save(); }
+  await c.say(`You finished Unit ${u.n}! Here is a Christmas ornament for your tree!`,`${u.n}단원 완료! 트리 장식을 받았어!`);
+  await c.say("See you next time! Bye bye!","다음에 또 만나! 안녕!"); await c.respond('bye',2500,'Bye bye! 👋');
+  $('sub').innerHTML=`🎉 Unit ${u.n} 완료!<small>🏠 를 누르면 트리를 볼 수 있어요</small>`; $('sub').classList.add('on'); $('sub').classList.remove('up'); }
+
+/* =====================================================================
+   UNIT 대본 (수업 지도안 Week1 Day1 ~ Week4 Day3)
+   ===================================================================== */
+const ALL6=['santa','rudolph','elf','dasher','prancer','comet'];
+const opt3=(ans,pool=ALL6)=>shuffle([ans,...shuffle(pool.filter(k=>k!==ans)).slice(0,2)]).map(k=>({k,w:A[k][2]}));
+const UNITS=[
+{n:1,icon:'🎅',orn:'⭐',color:'#E5484D',bg:'night',title:'Meet the Characters',ko:'등장인물을 만나요',pg:'Week 1 · Day 1 · 이야기 소개',words:'Rudolph, Santa, Elves, Dasher, Prancer, Comet',
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["Today, we start a Christmas story!","오늘은 크리스마스 이야기를 시작해!"],["Rudolph, the Red-Nosed Reindeer!","빨간 코 순록 루돌프!"]])],
+  ['🎬 Story',async c=>scene(c,{bg:'night',cast:[{id:'santa',key:'santa',x:30,from:-30},{id:'r',key:'rudolph',x:62,from:120}],beats:[
+    {narr:"It is Christmas Eve.",ko:"크리스마스 이브예요."},{who:'santa',en:"Ho, ho, ho! I am Santa!",ko:"호호호! 나는 산타야!"},
+    {kid:"Ho, ho, ho!",ko:"호호호!",key:'ho',as:'santa'},{who:'r',en:"Hi! I am Rudolph!",ko:"안녕! 나는 루돌프야!"},
+    {kid:"Hi, Rudolph!",ko:"안녕, 루돌프!",key:'rudolph',as:'r'},{narr:"But oh no! It is too foggy!",ko:"그런데 이런! 안개가 너무 많아요!",},
+    {do:async c=>{ $('fogLayer').classList.add('on'); pose('santa','santa_worried'); SFX.wind(); await c.sleep(1200); }},{narr:"What will happen? Let's find out!",ko:"어떻게 될까요? 알아보자!"}]})],
+  ['😆 Laugh voices',async c=>{ clearCast(); lumiIn(); await c.say("Let's laugh like Christmas friends!","크리스마스 친구들처럼 웃어 보자!");
+    await moves(c,[{e:'🎅',label:'HO HO HO!',en:"Santa laughs, Ho, ho, ho!",ko:"산타는 호호호!",key:'ho'},{e:'🧝',label:'HEE HEE!',en:"Elves laugh, Hee, hee, hee!",ko:"요정은 히히히!",key:'hee'},{e:'🦌',label:'HA HA HA!',en:"Reindeer laugh, Ha, ha, ha!",ko:"순록은 하하하!",key:'ha'}],["Laugh with me! Hands up high, voice up high!","나랑 웃어 봐! 손이 올라가면 목소리도 높게!"]);
+    await magicMic(c,"Ho, ho, ho! Merry Christmas!","호호호! 메리 크리스마스!"); }],
+  ['🎁 Santa & Rudolph',async c=>{ await reveal(c,{key:'santa',w:'Santa',ans:'santa',a:"He is Santa!",ak:"산타야!"}); await reveal(c,{key:'rudolph',w:'Rudolph',ans:'rudolph',a:"He is Rudolph!",ak:"루돌프야!"}); }],
+  ['🎁 Elf & Reindeer',async c=>{ await reveal(c,{key:'elf',w:'Elf',ans:'elf',a:"He is an elf!",ak:"요정이야!"}); await reveal(c,{key:'dasher',w:'Dasher',ans:'dasher',a:"He is Dasher!",ak:"대셔야!"});
+    await reveal(c,{key:'prancer',w:'Prancer',ans:'prancer',a:"She is Prancer!",ak:"프랜서야!",box:false}); await reveal(c,{key:'comet',w:'Comet',ans:'comet',a:"He is Comet!",ak:"코멧이야!",box:false}); }],
+  ['🙈 Who\'s missing',async c=>{ await whoMissing(c,['santa','rudolph','elf','dasher']); await whoMissing(c,['comet','prancer','rudolph','santa']); }],
+  ['🤪 Silly Lumi',async c=>{ await silly(c,{q:"Does Rudolph have a blue nose?",qk:"루돌프 코는 파란색일까?",yes:false,after:"He has a red nose!",afterK:"루돌프는 빨간 코를 가졌어!",key:'red'});
+    await silly(c,{q:"Is it Christmas Eve?",qk:"크리스마스 이브일까?",yes:true,after:"It is Christmas Eve!",afterK:"크리스마스 이브야!",key:'christmas'}); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:2,icon:'🚪',orn:'🔔',color:'#2FB67C',bg:'house',title:'Knock, Knock! Who Is It?',ko:'똑똑! 누구세요?',pg:'Week 1 · Day 2 · Drama Book pp.2-3',words:'Knock, knock! Who is it? / He has... / He is kind.',
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["Someone is knocking on the door!","누가 문을 두드리고 있어!"]])],
+  ['🚪 Door 1',async c=>knock(c,{key:'santa',ans:'santa',opts:['santa','elf','comet'],clues:[["Ho, ho, ho! I have a long white beard.","호호호! 나는 하얀 수염이 길어."],["I wear a red suit.","나는 빨간 옷을 입어."]]})],
+  ['🚪 Door 2',async c=>knock(c,{key:'rudolph',ans:'rudolph',opts:['dasher','rudolph','santa'],clues:[["I am a reindeer.","나는 순록이야."],["I have a shiny red nose!","나는 반짝이는 빨간 코가 있어!"]]})],
+  ['🚪 Door 3',async c=>knock(c,{key:'elf',ans:'elf',opts:['elf','prancer','rudolph'],clues:[["Hee, hee! I am small.","히히! 나는 작아."],["I have pointy ears and a green hat.","나는 뾰족한 귀와 초록 모자가 있어."]]})],
+  ['🪜 He has...',async c=>{ clearCast(); lumiIn(); actor('santa','santa',58,20,30); await ladder(c,["a beard","a long beard","He has a long beard."],'beard',"산타는 수염이 길어.");
+    pose('santa','rudolph'); await ladder(c,["a nose","a red nose","He has a red nose."],'nose',"루돌프는 빨간 코가 있어."); clearCast(); }],
+  ['😊 Kind Santa',async c=>{ lumiIn(); actor('santa','santa',60,20,30); await c.say("Santa gives presents to children.","산타는 아이들에게 선물을 줘.",{v:'narr'}); await c.say("Is Santa kind? Yes! He is kind!","산타는 친절할까? 응! 친절해!");
+    await voices(c,"Santa is kind.","산타는 친절해.",'kind',['happy','santa','loud']); clearCast(); }],
+  ['☀️ Christmas morning',async c=>{ lumiIn(); await sequence(c,[{face:'🛏️',w:'wake up',en:"I wake up.",ko:"나는 일어나요.",key:'wake'},{face:'🎁',w:'open',en:"I open presents.",ko:"선물을 열어요.",key:'open'},{face:'🙏',w:'thank you',en:"I say, Thank you!",ko:"고맙습니다! 라고 말해요.",key:'thank'}],["What do you do on Christmas morning? Touch in order!","크리스마스 아침에 뭘 할까? 순서대로 눌러 봐!"]); await c.praise(); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:3,icon:'🎄',orn:'🎀',color:'#F59E0B',bg:'workshop',title:'Tomorrow Is Christmas!',ko:'내일은 크리스마스!',pg:'Week 1 · Day 3 · Scene 1 · pp.4-5',words:'Tomorrow is Christmas! Today is Christmas Eve. Christmas tree, waiting for Santa',
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["The elves are very busy today!","오늘 요정들이 엄청 바빠!"]])],
+  ['🎬 Scene 1',async c=>scene(c,{bg:'workshop',cast:[{id:'e1',key:'elf',x:22,from:-30,s:22},{id:'e2',key:'elf2',x:46,from:120,s:22},{id:'tree',key:'tree',x:66,s:30,y:22}],beats:[
+    {narr:"Snow is falling. The elves are decorating the tree.",ko:"눈이 내려요. 요정들이 트리를 꾸며요."},{who:'e1',en:"Tomorrow is Christmas!",ko:"내일은 크리스마스야!"},
+    {kid:"Tomorrow is Christmas!",ko:"내일은 크리스마스야!",key:'tomorrow',as:'e1'},{who:'e2',en:"Today is Christmas Eve!",ko:"오늘은 크리스마스 이브야!"},
+    {kid:"Today is Christmas Eve!",ko:"오늘은 크리스마스 이브야!",key:'christmas',as:'e2'},{who:'e1',en:"We are waiting for Santa!",ko:"우리는 산타를 기다려!"},
+    {kid:"We are waiting for Santa!",ko:"우리는 산타를 기다려!",key:'santa',as:'e1'},{do:async c=>{ anim('e1','hop'); anim('e2','hop'); SFX.bells(); await c.sleep(1200); anim('e1',''); anim('e2',''); }}]})],
+  ['🪜 Ladder',async c=>{ clearCast(); lumiIn(); await ladder(c,["Christmas","is Christmas","Tomorrow is Christmas!"],'tomorrow',"내일은 크리스마스야!"); }],
+  ['🎄 Decorate',async c=>{ lumiIn(); await decorate(c); }],
+  ['🎁 I want...',async c=>{ await c.say("What do you want from Santa?","산타에게 뭘 받고 싶어?"); const g=[['🧸','a teddy bear'],['🤖','a robot'],['🚲','a bike'],['🪀','a yo-yo']];
+    let chosen=null; const box=el(`<div class="cards">${g.map(([e,w],i)=>`<button class="card" data-i="${i}">${e}<small>${w}</small></button>`).join('')}</div>`); [...box.children].forEach(b=>b.onclick=()=>{ if(chosen) return; chosen=g[+b.dataset.i]; b.classList.add('right'); SFX.ding(); });
+    await c.waitTap(()=>chosen,"Touch the present you want!","갖고 싶은 선물을 눌러!"); chosen=chosen||g[0]; box.remove(); showObj(chosen[0],'');
+    if(DRY){ for(const x of g) await c.kidLine(`I want ${x[1]}!`,`나는 ${x[1]}을(를) 갖고 싶어!`,'want'); } else await c.kidLine(`I want ${chosen[1]}!`,`나는 ${chosen[1]}을(를) 갖고 싶어!`,'want'); hideObj(); }],
+  ['🎤 Voices',async c=>voices(c,"Tomorrow is Christmas!","내일은 크리스마스야!",'tomorrow',['whisper','loud','elf','santa'])],
+  ['🤪 Quiz',async c=>{ await pick(c,{q:"When is Christmas?",qk:"크리스마스는 언제일까?",opts:[{k:'a',txt:'📅 May 5'},{k:'b',txt:'🎄 December 25'},{k:'c',txt:'🎃 October 31'}],ans:'b'});
+    await c.kidLine("Christmas is December 25th!","크리스마스는 12월 25일이야!",'christmas');
+    await silly(c,{q:"Are the elves waiting for a pizza?",qk:"요정들은 피자를 기다릴까?",yes:false,after:"They are waiting for Santa!",afterK:"산타를 기다려!",key:'santa'}); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:4,icon:'🙈',orn:'🍭',color:'#3B82F6',bg:'snow',title:"Let's Play!",ko:'같이 놀자!',pg:'Week 2 · Day 1 · Scene 2-1 · pp.6-7',words:"Who's here? He has a red nose! Let's play. hide-and-seek, sad, lonely, different",
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["Look! It is winter! Let's play in the snow!","봐! 겨울이야! 눈에서 놀자!"]])],
+  ['❄️ Seasons',async c=>moves(c,[{e:'🌸',label:'SPRING',en:"Look! It is spring!",ko:"봐! 봄이야!",key:'spring'},{e:'☀️',label:'SUMMER',en:"Look! It is summer!",ko:"봐! 여름이야!",key:'summer'},{e:'🍂',label:'FALL',en:"Look! It is fall!",ko:"봐! 가을이야!",key:'fall'},{e:'⛄',label:'WINTER',en:"Look! It is winter!",ko:"봐! 겨울이야!",key:'winter'}],["Show the seasons with your body!","몸으로 계절을 표현해 봐!"])],
+  ['🎬 Scene 2-1',async c=>scene(c,{bg:'snow',cast:[{id:'d',key:'dasher',x:20,from:-30,s:22},{id:'p',key:'prancer',x:44,from:-30,s:22},{id:'co',key:'comet',x:66,from:120,s:22},{id:'r',key:'rudolph_sad',x:84,s:20,cls:'sad'}],beats:[
+    {narr:"The reindeer are playing hide-and-seek.",ko:"순록들이 숨바꼭질을 해요."},{who:'d',en:"Let's play!",ko:"같이 놀자!"},{kid:"Let's play!",ko:"같이 놀자!",key:'play',as:'d'},
+    {who:'p',en:"Who's here?",ko:"거기 누구야?"},{kid:"Who's here?",ko:"거기 누구야?",key:'who',as:'p'},
+    {do:async c=>{ move('r',72); await c.sleep(900); }},{who:'co',en:"Look! He has a red nose!",ko:"봐! 쟤는 코가 빨개!"},{kid:"He has a red nose!",ko:"쟤는 코가 빨개!",key:'red',as:'co'},
+    {do:async c=>{ anim('d','shake'); anim('p','shake'); anim('co','shake'); SFX.boop(); await c.sleep(1000); anim('d',''); anim('p',''); anim('co',''); move('r',86); }},
+    {narr:"Rudolph is different. He is sad and lonely.",ko:"루돌프는 달라요. 슬프고 외로워요."}]})],
+  ['🙈 Hide & seek',async c=>{ clearCast(); lumiIn(); await hideSeek(c,['dasher','prancer','comet']); }],
+  ['😢 Feelings',async c=>{ setBG('snow'); lumiIn(); showObj('rudolph_sad','');
+    await pick(c,{q:"How does Rudolph feel?",qk:"루돌프 기분은 어때?",opts:[{k:'h',face:'😄',w:'happy'},{k:'s',face:'😢',w:'sad'},{k:'a',face:'😠',w:'angry'}],ans:'s'});
+    await c.kidLine("He is sad.","루돌프는 슬퍼.",'sad'); await c.say("He is alone. He is lonely.","혼자 있어. 외로워."); await c.kidLine("He is lonely.","루돌프는 외로워.",'lonely'); hideObj(); }],
+  ['🪜 Ladder',async c=>ladder(c,["a nose","a red nose","He has a red nose!"],'nose',"루돌프는 빨간 코가 있어!")],
+  ['🤪 Silly Lumi',async c=>{ await silly(c,{q:"Are the reindeer playing soccer?",qk:"순록들이 축구를 하고 있을까?",yes:false,after:"They are playing hide-and-seek!",afterK:"숨바꼭질을 하고 있어!",key:'play'});
+    await silly(c,{q:"Is Rudolph happy?",qk:"루돌프는 행복할까?",yes:false,after:"Rudolph is sad.",afterK:"루돌프는 슬퍼.",key:'sad'}); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:5,icon:'❤️',orn:'🧦',color:'#EC4899',bg:'snow',title:'Your Nose Is Special',ko:'네 코는 특별해',pg:'Week 2 · Day 2 · Scene 2-2 · pp.8-9',words:'Why do you look so sad? Your nose is very special.',
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["Rudolph is still sad. Let's help him!","루돌프가 아직 슬퍼. 우리가 도와주자!"]])],
+  ['🎬 Scene 2-2',async c=>scene(c,{bg:'snow',cast:[{id:'r',key:'rudolph_sad',x:56,s:28,cls:'sad'}],beats:[
+    {narr:"Rudolph is sitting alone.",ko:"루돌프가 혼자 앉아 있어요."},{do:async c=>{ move('lumi',22); await c.sleep(700); }},
+    {kid:"Why do you look so sad?",ko:"왜 그렇게 슬퍼 보여?",key:'sad',as:'lumi'},{who:'r',en:"My nose is red. I am different.",ko:"내 코는 빨개. 나는 달라."},
+    {kid:"Your nose is very special!",ko:"네 코는 정말 특별해!",key:'special',as:'lumi'},
+    {do:async c=>{ anim('r','glow'); pose('r','rudolph'); SFX.sparkle(); burst('60%','45%'); await c.sleep(1200); }},
+    {who:'r',en:"Really? Thank you!",ko:"정말? 고마워!"},{do:async c=>{ anim('r','hop glow'); await c.sleep(900); anim('r','glow'); }}]})],
+  ['🔴 Red hunt',async c=>{ clearCast(); lumiIn(); await redHunt(c); }],
+  ['🏠 Home mission',async c=>homeHunt(c,{find:"Mission! Find something red in your house! Go, go, go!",fk:"미션! 집에서 빨간 물건을 찾아 와! 출발!",line:"It is red like Rudolph's nose!",lk:"루돌프 코처럼 빨개!",key:'red'})],
+  ['🪜 Ladder',async c=>ladder(c,["special","very special","Your nose is very special!"],'special',"네 코는 정말 특별해!")],
+  ['💖 Nose power',async c=>{ clearCast(); lumiIn(); actor('r','rudolph_sad',55,22,28,'sad'); await c.say("Every time you say something kind, Rudolph's nose gets brighter!","다정한 말을 할 때마다 루돌프 코가 더 밝아져!");
+    const lines=[["You are special!","너는 특별해!",'special'],["You are my friend!","너는 내 친구야!",'friend'],["Don't be sad!","슬퍼하지 마!",'sad']];
+    for(const [en,ko,k] of lines){ await c.kidLine(en,ko,k,'r'); anim('r','glow'); pose('r','rudolph'); SFX.sparkle(); burst('60%','50%'); charge(2); await c.sleep(500); }
+    anim('r','hop glow'); await c.say("Thank you, friend!","고마워, 친구야!",{who:'r'}); clearCast(); }],
+  ['🎤 Voices',async c=>voices(c,"Your nose is very special!","네 코는 정말 특별해!",'special',['happy','whisper','loud'])],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:6,icon:'🌫️',orn:'💡',color:'#64748B',bg:'house',title:"It's Foggy!",ko:'안개가 꼈어!',pg:'Week 2 · Day 3 · Scene 3 · pp.10-11',words:"It's foggy. The weather is too foggy. Come on! We need to hurry! What is wrong?",
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["Santa is ready to go. But wait! Look at the sky!","산타가 출발 준비를 해. 그런데 잠깐! 하늘을 봐!"]])],
+  ['☁️ Weather',async c=>{ lumiIn(); const W=[['☀️','sunny'],['🌧️','rainy'],['❄️','snowy'],['🌫️','foggy']];
+    for(const [e,w] of W){ showObj(e,w); await c.say("How is the weather?","날씨가 어때?"); const ok=await c.respond(w,4500,'날씨를 말해 봐요'); $('word').classList.add('show'); await c.kidLine(`It's ${w}!`,'',w); hideObj(); await c.sleep(300); }
+    await pick(c,{q:"Touch foggy!",qk:"안개 낀 날씨를 눌러!",opts:shuffle(W.map(([e,w])=>({k:w,face:e,w}))),ans:'foggy'}); }],
+  ['🎬 Scene 3',async c=>scene(c,{bg:'house',fog:true,cast:[{id:'santa',key:'santa',x:28,from:-30,s:30},{id:'e',key:'elf',x:62,from:120,s:22}],beats:[
+    {narr:"Santa is ready. The sleigh is ready.",ko:"산타도 썰매도 준비됐어요."},{who:'santa',en:"Come on! We need to hurry!",ko:"어서! 서둘러야 해!"},
+    {kid:"Come on! We need to hurry!",ko:"어서! 서둘러야 해!",key:'hurry',as:'santa'},{do:async c=>{ anim('e','shake'); await c.sleep(800); anim('e',''); }},
+    {who:'santa',en:"What is wrong?",ko:"무슨 일이야?"},{kid:"What is wrong?",ko:"무슨 일이야?",key:'wrong',as:'santa'},
+    {who:'e',en:"It's foggy! The weather is too foggy!",ko:"안개가 꼈어요! 날씨가 너무 흐려요!"},{kid:"The weather is too foggy!",ko:"날씨가 너무 흐려!",key:'foggy',as:'e'},
+    {do:async c=>{ pose('santa','santa_worried'); SFX.wind(); await c.sleep(1000); }},{narr:"Santa cannot see the way.",ko:"산타는 길을 볼 수 없어요."}]})],
+  ['🌬️ Blow the fog',async c=>{ clearCast(); setBG('fog'); lumiIn(); await fogClear(c); }],
+  ['🎁 Hurry up',async c=>{ setBG('house'); clearCast(); lumiIn(); await loadGifts(c); clearCast(); }],
+  ['🪜 Ladder',async c=>{ lumiIn(); await ladder(c,["hurry","need to hurry","We need to hurry!"],'hurry',"우리는 서둘러야 해!"); await ladder(c,["foggy","too foggy","The weather is too foggy."],'foggy',"날씨가 너무 흐려."); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:7,icon:'🛷',orn:'🍬',color:'#8B5CF6',bg:'house',title:"We're Ready to Go!",ko:'출발 준비 완료!',pg:'Week 3 · Day 1 · Scene 4-1 · pp.12-13',words:"Santa, we're ready to go. Don't worry. I can help you.",
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["The reindeer want to help Santa!","순록들이 산타를 돕고 싶어 해!"]])],
+  ['🎬 Scene 4-1',async c=>scene(c,{bg:'house',fog:true,cast:[{id:'santa',key:'santa_worried',x:20,s:30},{id:'d',key:'dasher',x:52,from:120,s:22},{id:'p',key:'prancer',x:74,from:120,s:22}],beats:[
+    {narr:"The reindeer come to Santa.",ko:"순록들이 산타에게 와요."},{who:'d',en:"Santa, we're ready to go!",ko:"산타 할아버지, 출발 준비 됐어요!"},
+    {kid:"Santa, we're ready to go!",ko:"산타 할아버지, 출발 준비 됐어요!",key:'ready',as:'d'},{who:'santa',en:"But it's too foggy. I can't see the way.",ko:"하지만 안개가 너무 많아. 길이 안 보여."},
+    {who:'p',en:"Don't worry. I can help you!",ko:"걱정 마세요. 제가 도와드릴게요!"},{kid:"Don't worry. I can help you!",ko:"걱정 마세요. 제가 도와드릴게요!",key:'help',as:'p'},
+    {do:async c=>{ anim('d','shake'); anim('p','shake'); SFX.boop(); await c.sleep(1100); anim('d','sad'); anim('p','sad'); }},{narr:"But they cannot see in the fog.",ko:"하지만 안개 속에서 앞이 안 보여요."}]})],
+  ['👂 Follow my voice',async c=>{ clearCast(); setBG('fog'); lumiIn(); await c.say("In the fog, we must listen carefully! Touch what I say!","안개 속에선 잘 들어야 해! 내가 말하는 걸 눌러!");
+    const set=[['🎁','gift'],['⭐','star'],['🔔','bell'],['🏠','house']]; for(const k of (DRY?set.map(s=>s[1]):shuffle(set.map(s=>s[1])).slice(0,3))){ const o=shuffle(set).map(([e,w])=>({k:w,face:e}));
+      await pick(c,{q:`Touch the ${k}!`,qk:'잘 듣고 눌러!',opts:o,ans:k,mid:true}); } await c.praise(); }],
+  ['🤪 Silly Lumi',async c=>{ await silly(c,{q:"Can the reindeer see the way?",qk:"순록들은 길이 보일까?",yes:false,after:"No! It's too foggy!",afterK:"아니! 안개가 너무 많아!",key:'foggy'});
+    await silly(c,{q:"Do the reindeer want to help Santa?",qk:"순록들은 산타를 돕고 싶을까?",yes:true,after:"Yes! I can help you!",afterK:"응! 내가 도와줄게!",key:'help'}); }],
+  ['🪜 Ladder',async c=>{ await ladder(c,["help you","I can help you.","Don't worry. I can help you."],'help',"걱정 마. 내가 도와줄게."); await ladder(c,["ready","ready to go","We're ready to go!"],'ready',"우리는 출발 준비가 됐어!"); }],
+  ['🎤 Voices',async c=>{ await voices(c,"Don't worry. I can help you!","걱정 마. 내가 도와줄게!",'help',['brave','whisper','santa']); await magicMic(c,"I can help you!","내가 도와줄게!"); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:8,icon:'🔦',orn:'🎁',color:'#0EA5E9',bg:'fog',title:'I Can Lead the Way!',ko:'내가 길을 안내할게!',pg:'Week 3 · Day 2 · Scene 4-2 · pp.14-15',words:"Don't worry, Santa. I can help you. I can lead the way. No, I'm afraid you can't.",
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["Rudolph has an idea!","루돌프에게 좋은 생각이 있어!"]])],
+  ['🎬 Scene 4-2',async c=>scene(c,{bg:'fog',fog:true,cast:[{id:'santa',key:'santa_worried',x:22,s:30},{id:'r',key:'rudolph_brave',x:62,from:120,s:26}],beats:[
+    {narr:"The reindeer cannot see. Santa is worried.",ko:"순록들은 앞이 안 보여요. 산타가 걱정해요."},{who:'r',en:"Don't worry, Santa. I can help you.",ko:"걱정 마세요, 산타 할아버지. 제가 도울게요."},
+    {kid:"Don't worry, Santa!",ko:"걱정 마세요, 산타 할아버지!",key:'worry',as:'r'},{who:'r',en:"I can lead the way!",ko:"제가 길을 안내할 수 있어요!"},
+    {kid:"I can lead the way!",ko:"제가 길을 안내할 수 있어요!",key:'lead',as:'r'},{who:'santa',en:"No, I'm afraid you can't.",ko:"아니, 안타깝지만 넌 못 해."},
+    {kid:"No, I'm afraid you can't.",ko:"아니, 안타깝지만 넌 못 해.",key:'no',as:'santa'},{do:async c=>{ pose('r','rudolph_sad'); anim('r','sad'); SFX.boop(); await c.sleep(1000); }},
+    {narr:"Rudolph is sad again.",ko:"루돌프는 다시 슬퍼졌어요."}]})],
+  ['🎭 Emotion acting',async c=>{ clearCast(); setBG('fog'); lumiIn(); await c.say("Let's act! Say the same line with different feelings!","연기해 보자! 같은 대사를 다른 기분으로 말해 봐!");
+    await voices(c,"The weather is too foggy!","날씨가 너무 흐려!",'foggy',['worried','angry','sad','happy']); }],
+  ['🪜 Ladder',async c=>ladder(c,["the way","lead the way","I can lead the way!"],'lead',"내가 길을 안내할 수 있어!")],
+  ['🔢 Story so far',async c=>sequence(c,[{face:'🎄',w:'Christmas Eve',en:"The elves decorate the tree.",ko:"요정들이 트리를 꾸며요.",key:'tree'},{face:'🙈',w:'play',en:"The reindeer play without Rudolph.",ko:"순록들이 루돌프 빼고 놀아요.",key:'play'},{face:'🌫️',w:'foggy',en:"It is too foggy.",ko:"안개가 너무 많아요.",key:'foggy'},{face:'🦌',w:'help',en:"Rudolph wants to help.",ko:"루돌프가 돕고 싶어 해요.",key:'help'}],["What happened in the story? Touch in order!","지금까지 무슨 일이 있었지? 순서대로 눌러 봐!"])],
+  ['🎤 Magic mic',async c=>magicMic(c,"I can lead the way!","내가 길을 안내할게!")],
+  ['🤪 Silly Lumi',async c=>{ await silly(c,{q:"Does Santa say, Yes, you can?",qk:"산타가 '그래, 할 수 있어'라고 했을까?",yes:false,after:"No, I'm afraid you can't.",afterK:"아니, 안타깝지만 넌 못 해.",key:'no'}); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:9,icon:'✨',orn:'🍪',color:'#DC2626',bg:'night',title:'You Can Save Christmas!',ko:'네가 크리스마스를 구할 수 있어!',pg:'Week 3 · Day 3 · Scene 5-1 · pp.16-17',words:'I must cancel Christmas. You can save this Christmas! Me? How? Your nose can light the way!',
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["Oh no! Santa has bad news!","이런! 산타가 나쁜 소식을 전해!"]])],
+  ['🎬 Scene 5-1',async c=>scene(c,{bg:'night',fog:true,cast:[{id:'santa',key:'santa_worried',x:16,s:30},{id:'e',key:'elf',x:44,s:22},{id:'r',key:'rudolph_sad',x:70,s:26,cls:'sad'}],beats:[
+    {narr:"Everyone is near the Christmas tree.",ko:"모두 크리스마스 트리 근처에 모였어요."},{who:'santa',en:"I must cancel Christmas.",ko:"크리스마스를 취소해야겠구나."},
+    {kid:"I must cancel Christmas.",ko:"크리스마스를 취소해야겠어.",key:'cancel',as:'santa'},{do:async c=>{ anim('e','shake'); SFX.boop(); await c.sleep(800); anim('e',''); anim('r','glow sad'); SFX.sparkle(); await c.sleep(900); }},
+    {who:'e',en:"Look! Rudolph's nose is shining!",ko:"봐! 루돌프 코가 빛나!"},{who:'e',en:"Rudolph! You can save this Christmas!",ko:"루돌프! 네가 이번 크리스마스를 구할 수 있어!"},
+    {kid:"You can save this Christmas!",ko:"네가 크리스마스를 구할 수 있어!",key:'save',as:'e'},{do:async c=>{ pose('r','rudolph'); anim('r','glow'); await c.sleep(500); }},
+    {who:'r',en:"Me? How?",ko:"나? 어떻게?"},{kid:"Me? How?",ko:"나? 어떻게?",key:'how',as:'r'},
+    {who:'e',en:"Your nose can light the way!",ko:"네 코가 길을 밝혀 줄 수 있어!"},{kid:"Your nose can light the way!",ko:"네 코가 길을 밝혀 줄 수 있어!",key:'light',as:'e'},
+    {do:async c=>{ $('fogLayer').classList.remove('on'); anim('r','hop glow'); SFX.chime(); burst('72%','45%'); await c.sleep(1200); }}]})],
+  ['🔦 Nose light',async c=>{ clearCast(); await noseLight(c,[{e:'🏠',w:'house',ko:'집',key:'house'},{e:'⭐',w:'star',ko:'별',key:'star'},{e:'🎁',w:'gift',ko:'선물',key:'gift'},{e:'🔔',w:'bell',ko:'종',key:'bell'}]); }],
+  ['🪜 Ladder',async c=>{ setBG('night'); lumiIn(); await ladder(c,["the way","light the way","Your nose can light the way!"],'light',"네 코가 길을 밝혀 줄 수 있어!"); await ladder(c,["Christmas","save Christmas","You can save Christmas!"],'save',"네가 크리스마스를 구할 수 있어!"); }],
+  ['🎤 Voices',async c=>voices(c,"Me? How?","나? 어떻게?",'how',['happy','sad','santa','elf'])],
+  ['🤪 Silly Lumi',async c=>{ await silly(c,{q:"Does Santa want to cancel Christmas?",qk:"산타는 크리스마스를 취소하려고 했을까?",yes:true,after:"I must cancel Christmas.",afterK:"크리스마스를 취소해야 해.",key:'cancel'});
+    await silly(c,{q:"Can Rudolph's ears light the way?",qk:"루돌프 귀가 길을 밝혀 줄까?",yes:false,after:"His nose can light the way!",afterK:"코가 길을 밝혀 줘!",key:'nose'}); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:10,icon:'🌙',orn:'🧸',color:'#7C3AED',bg:'sky',title:'Will You Help Me?',ko:'나를 도와줄래?',pg:'Week 4 · Day 1 · Scene 5-2 · pp.18-19',words:'Will you help me? Yes! I will! It will be my honor.',
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["Santa has a question for Rudolph!","산타가 루돌프에게 물어볼 게 있어!"]])],
+  ['🎬 Scene 5-2',async c=>scene(c,{bg:'night',cast:[{id:'santa',key:'santa',x:22,s:30},{id:'r',key:'rudolph',x:62,s:26,cls:'glow'}],beats:[
+    {who:'santa',en:"Rudolph, will you help me?",ko:"루돌프, 나를 도와주겠니?"},{kid:"Will you help me?",ko:"나를 도와줄래?",key:'help',as:'santa'},
+    {who:'r',en:"Yes! I will! It will be my honor!",ko:"네! 할게요! 영광이에요!"},{kid:"Yes! I will!",ko:"네! 할게요!",key:'will',as:'r'},{kid:"It will be my honor!",ko:"영광이에요!",key:'honor',as:'r'},
+    {do:async c=>{ setBG('sky'); move('santa',20,46); move('r',58,52); anim('r','fly glow'); pose('r','rudolph_fly'); anim('santa','fly'); SFX.bells(); await c.sleep(1400); }},
+    {narr:"Rudolph leads the way. The sky is bright!",ko:"루돌프가 길을 안내해요. 하늘이 환해요!"}]})],
+  ['🙋 Ask for help',async c=>{ clearCast(); setBG('house'); lumiIn(); actor('e','elf',60,20,22); await c.say("The elf has many presents. Let's ask for help!","요정이 선물이 많아. 도와 달라고 해 보자!");
+    for(const [what,e] of [['carry the gifts','🎁'],['find the bells','🔔']]){ await c.say(`I need to ${what}.`,'',{v:'lumi'}); await c.kidLine("Will you help me?","나를 도와줄래?",'help','lumi');
+      await c.say("Yes! I will!","응! 도와줄게!",{who:'e'}); anim('e','hop'); el(`<div class="big" style="font-size:min(20vw,100px)">${e}</div>`); SFX.ding(); await c.sleep(800); layer.innerHTML=''; anim('e',''); }
+    await c.say("Now the elf asks you!","이번엔 요정이 너에게 부탁해!"); await c.say("Will you help me?","나를 도와줄래?",{who:'e'}); await c.kidLine("Yes! I will!","응! 할게!",'will'); await c.kidLine("It will be my honor!","영광이야!",'honor'); clearCast(); }],
+  ['🛷 Deliver',async c=>{ lumiIn(); await deliver(c); }],
+  ['🔢 Retell',async c=>{ setBG('night'); await sequence(c,[{face:'🌫️',w:'foggy',en:"It is too foggy.",ko:"안개가 너무 많아요.",key:'foggy'},{face:'😢',w:'cancel',en:"Santa must cancel Christmas.",ko:"산타는 크리스마스를 취소해야 해요.",key:'cancel'},{face:'🔴',w:'nose',en:"Rudolph's nose can light the way.",ko:"루돌프 코가 길을 밝혀요.",key:'light'},{face:'🛷',w:'fly',en:"They fly and give presents!",ko:"날아가서 선물을 줘요!",key:'gift'}],["Let's retell the story! Touch in order!","이야기를 다시 말해 보자! 순서대로 눌러!"]); }],
+  ['🎤 Voices',async c=>voices(c,"It will be my honor!","영광이에요!",'honor',['brave','loud','elf'])],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:11,icon:'🌟',orn:'🪀',color:'#F97316',bg:'night',title:'Everyone Is Special',ko:'모두가 특별해',pg:'Week 4 · Day 2 · 교훈 & 말풍선 매칭',words:'Everyone is special. I like Rudolph. He is brave. (전체 대사 복습)',
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["We finished the story! Was it fun?","이야기를 다 읽었어! 재미있었니?"]])],
+  ['💬 Lesson',async c=>{ actor('r','rudolph',56,22,28,'glow'); await c.say("Rudolph was different. But his nose saved Christmas!","루돌프는 달랐어. 하지만 그 코가 크리스마스를 구했지!");
+    await c.say("Different is not bad. Different is special!","다른 건 나쁜 게 아니야. 특별한 거야!"); await c.kidLine("Everyone is special!","모두가 특별해!",'everyone'); await c.kidLine("I am special!","나는 특별해!",'special'); clearCast(); }],
+  ['💭 Who said it',async c=>{ lumiIn(); const Q=[["Will you help me?",'santa'],["Me? How?",'rudolph'],["Let's play!",'dasher'],["Tomorrow is Christmas!",'elf'],["I must cancel Christmas.",'santa'],["I can lead the way!",'rudolph']];
+    for(const [line,who] of (DRY?Q:shuffle(Q).slice(0,4))){ const b=el(`<div class="card txt" style="position:absolute;left:50%;top:14%;transform:translateX(-50%);background:#FFF3B0">💬 ${line}</div>`);
+      await pick(c,{q:"Who said it?",qk:"누가 한 말일까?",opts:opt3(who,['santa','rudolph','elf','dasher']),ans:who}); b.remove();
+      await c.say(line,'',{v:voiceOf(who)}); await c.kidLine(line,`${A[who][2]} 목소리로!`,SOUNDS_KEY(line)); } }],
+  ['❤️ Favorite',async c=>{ let ch=null; const ks=['rudolph','santa','elf','dasher']; const box=el(`<div class="cards">${ks.map(k=>`<button class="card" data-k="${k}">${cardFace(k)}<small>${A[k][2]}</small></button>`).join('')}</div>`);
+    [...box.children].forEach(b=>b.onclick=()=>{ if(ch) return; ch=b.dataset.k; b.classList.add('right'); SFX.ding(); }); await c.say("Who is your favorite character?","제일 좋아하는 캐릭터는 누구야?");
+    await c.waitTap(()=>ch,"Touch your favorite!","좋아하는 캐릭터를 눌러!"); ch=ch||'rudolph'; box.remove(); showObj(ch,A[ch][2]);
+    const WHY={rudolph:["He is brave!","용감해!",'brave'],santa:["He is kind!","친절해!",'kind'],elf:["He is funny!","재밌어!",'funny'],dasher:["He is fast!","빨라!",'fast']}; if(DRY){ for(const k of ks){ await c.kidLine(`I like ${A[k][2]}!`,`나는 ${A[k][2]}가 좋아!`,'like'); await c.kidLine(...WHY[k]); } hideObj(); return; } await c.kidLine(`I like ${A[ch][2]}!`,`나는 ${A[ch][2]}가 좋아!`,'like'); const why={rudolph:["He is brave!","용감해!",'brave'],santa:["He is kind!","친절해!",'kind'],elf:["He is funny!","재밌어!",'funny'],dasher:["He is fast!","빨라!",'fast']}[ch];
+    await c.kidLine(why[0],why[1],why[2]); hideObj(); }],
+  ['🏆 Big quiz',async c=>{ await pick(c,{q:"What color is Rudolph's nose?",qk:"루돌프 코는 무슨 색?",opts:[{k:'r',face:'🔴',w:'red'},{k:'b',face:'🔵',w:'blue'},{k:'y',face:'🟡',w:'yellow'}],ans:'r'}); await c.kidLine("Rudolph's nose is red!","루돌프 코는 빨개!",'red');
+    await pick(c,{q:"How was the weather?",qk:"날씨가 어땠지?",opts:[{k:'s',face:'☀️',w:'sunny'},{k:'f',face:'🌫️',w:'foggy'},{k:'r',face:'🌧️',w:'rainy'}],ans:'f'}); await c.kidLine("It was foggy!","안개가 꼈어!",'foggy');
+    await pick(c,{q:"Who saved Christmas?",qk:"누가 크리스마스를 구했지?",opts:opt3('rudolph'),ans:'rudolph'}); await c.kidLine("Rudolph saved Christmas!","루돌프가 크리스마스를 구했어!",'rudolph'); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+
+{n:12,icon:'📻',orn:'🌟',color:'#C8102E',bg:'night',title:'Radio Drama Show!',ko:'라디오 드라마 쇼!',pg:'Week 4 · Day 3 · 라디오 드라마 발표',words:'전체 대사로 나만의 라디오 드라마 만들기',
+ parts:[
+  ['👋 Hello',async(c,u)=>opening(c,u,[["Today is the big show!","오늘은 큰 쇼가 있는 날!"],["You are the star!","네가 주인공이야!"]])],
+  ['🔥 Warm up',async c=>{ await moves(c,[{e:'🎅',label:'HO HO HO!',en:"Ho, ho, ho!",ko:"호호호!",key:'ho'},{e:'🧝',label:'HEE HEE!',en:"Hee, hee, hee!",ko:"히히히!",key:'hee'}],["Voice warm up! Laugh with me!","목소리 준비 운동! 같이 웃자!"]);
+    await voices(c,"Merry Christmas!","메리 크리스마스!",'merry',['whisper','loud','santa']); }],
+  ['📻 Radio drama',async c=>{ clearCast(); setBG('night'); lumiIn(); actor('r','rudolph',60,22,26,'glow'); await radioShow(c,[
+    {en:"It is Christmas Eve. But it is too foggy.",ko:"크리스마스 이브. 그런데 안개가 너무 많아요.",v:'narr'},{en:"I must cancel Christmas.",ko:"크리스마스를 취소해야겠구나.",v:'santa'},
+    {en:"Rudolph! You can save this Christmas!",ko:"루돌프! 네가 크리스마스를 구할 수 있어!",v:'elf'},{kid:"Me? How?",ko:"나? 어떻게?"},
+    {en:"Your nose can light the way!",ko:"네 코가 길을 밝혀 줄 수 있어!",v:'elf'},{en:"Rudolph, will you help me?",ko:"루돌프, 도와주겠니?",v:'santa'},
+    {kid:"Yes! I will! It will be my honor!",ko:"네! 할게요! 영광이에요!"},{en:"Rudolph leads the way. Merry Christmas, everyone!",ko:"루돌프가 길을 안내해요. 모두 메리 크리스마스!",v:'narr'},
+    {kid:"Merry Christmas!",ko:"메리 크리스마스!"}]); clearCast(); }],
+  ['🌟 Encore',async c=>{ lumiIn(); await c.say("Encore! Let's say our favorite lines one more time!","앙코르! 좋아하는 대사를 한 번 더!");
+    for(const [en,ko,k] of [["Your nose is very special!","네 코는 정말 특별해!",'special'],["I can lead the way!","내가 길을 안내할게!",'lead'],["Everyone is special!","모두가 특별해!",'everyone']]) await c.kidLine(en,ko,k); await c.praise(); }],
+  ['🎄 Clear',async(c,u)=>finishUnit(c,u)]]},
+];
+function SOUNDS_KEY(line){ const l=line.toLowerCase(); for(const k of ['help','how','play','christmas','cancel','lead']) if(l.includes(k)) return k; return 'christmas'; }
+
+/* =====================================================================
+   플레이어
+   ===================================================================== */
+function resetScene(){ layer.innerHTML=''; clearCast(); music(false); stopAudio(); hideObj(); $('fogLayer').classList.remove('on');
+  $('yourTurn').classList.remove('on'); $('praise').classList.remove('on'); $('sub').classList.remove('on','up'); $('sub').innerHTML=''; }
+function setProg(){ [...$('prog').children].forEach((d,i)=>d.firstChild.style.width=i<chapterIdx?'100%':(i===chapterIdx?'50%':'0')); $('chap').textContent=curU.parts[chapterIdx][0]; }
+function openUnit(n){ const u=UNITS[n-1]; curU=u; runId++; resetScene(); paused=false; $('pauseCover').style.display='none'; setBG(u.bg);
+  $('home').style.display='none'; const it=$('intro'); it.style.display='flex'; it.style.background=`linear-gradient(135deg,${u.color},#1A2266)`;
+  $('introIc').textContent=u.icon; $('introNo').textContent=`UNIT ${u.n} · ${u.pg}`; $('introT').textContent=u.title; $('introK').innerHTML=`${u.ko}<br><span style="font-size:13px;opacity:.85">${u.words}</span>`;
+  $('introBtn').onclick=()=>{ it.style.display='none'; sessionSpoken=0; sessionStars=0; combo=0; play(0); };
+  $('unitTag').textContent=`${u.icon} U${u.n}`; $('stars').textContent=store.stars;
+  $('prog').innerHTML=u.parts.map((_,i)=>`<div onclick="play(${i})"><i></i></div>`).join(''); $('chap').textContent='';
+  try{ history.replaceState(null,'','#u'+n) }catch(e){} }
+async function play(i){ ac(); $('intro').style.display='none'; const id=++runId; paused=false; waiters.splice(0).forEach(r=>r());
+  $('pauseCover').style.display='none'; $('ppBtn').textContent='⏸'; resetScene();
+  for(chapterIdx=i;chapterIdx<curU.parts.length;chapterIdx++){ if(id!==runId) return; setProg(); layer.innerHTML=''; $('fogLayer').classList.remove('on');
+    try{ await curU.parts[chapterIdx][1](mkCtx(id),curU); }catch(e){ if(e===STOP) return; console.error(e); } }
+  if(id===runId){ chapterIdx=curU.parts.length-1; [...$('prog').children].forEach(d=>d.firstChild.style.width='100%'); } }
+function togglePause(){ if(!curU||$('home').style.display!=='none'||$('intro').style.display==='flex') return;
+  paused=!paused; $('ppBtn').textContent=paused?'▶':'⏸'; $('pauseCover').style.display=paused?'flex':'none';
+  if(paused){ if(curAudio) curAudio.pause(); if(usingTTS) speechSynthesis.pause(); } else { if(curAudio) curAudio.play().catch(()=>{}); if(usingTTS) speechSynthesis.resume(); waiters.splice(0).forEach(r=>r()); } }
+$('pauseCover').onclick=togglePause;
+function skip(){ if(curU&&chapterIdx<curU.parts.length-1) play(chapterIdx+1); }
+function goHome(){ runId++; resetScene(); paused=false; $('pauseCover').style.display='none'; $('intro').style.display='none'; renderHome(); $('home').style.display='block'; try{ history.replaceState(null,'',location.pathname) }catch(e){} }
+function renderHome(){ const pos=[[18,47],[30,36],[30,60],[42,28],[44,50],[44,70],[56,22],[58,42],[58,62],[60,80],[72,34],[72,58]];
+  const all=Object.keys(store.done).length;
+  $('homeTree').innerHTML=`<div class="t">🎄</div><div class="star ${all>=12?'on':''}">🌟</div>`+UNITS.map((u,i)=>`<span class="orn ${store.done[u.n]?'':'off'}" style="top:${pos[i][0]}%;left:${pos[i][1]}%">${u.orn}</span>`).join('')+
+    `<div id="lumiHome">${OK.has('lumi_wave')?`<img src="${IMG_DIR}lumi_wave.png">`:'🦊'}</div>`;
+  $('stats').innerHTML=`<div>🎄 장식 ${all}/12</div><div>⭐ ${store.stars}</div><div>🗣️ 말한 문장 ${store.spoken}</div>`;
+  $('units').innerHTML=UNITS.map(u=>`<button class="unit" style="--c:${u.color}" onclick="openUnit(${u.n})"><span class="no">U${u.n}</span>${store.done[u.n]?'<span class="done">✅</span>':''}
+    <div class="ic">${u.icon}</div><div class="t en">${u.title}</div><div class="k">${u.ko}</div><div class="pg">${u.pg}</div></button>`).join(''); }
+
+/* 선생님 안내: 대본을 미리 훑어서 녹음 문장 목록 자동 생성 */
+async function openTeacher(){ DRY=true; const keep=curU;
+  for(const u of UNITS){ curU=u; for(const [,fn] of u.parts){ try{ await fn(mkCtx(-1),u); }catch(e){} } layer.innerHTML=''; clearCast(); }
+  DRY=false; curU=keep; resetScene(); const base=location.href.split('#')[0];
+  let h=`<button onclick="this.parentElement.style.display='none'" style="float:right;border:none;background:#eee;border-radius:8px;padding:4px 10px">닫기</button>
+  <b>🔗 Unit별 바로가기 링크</b> (수업한 날 해당 링크만 보내 주세요)<br>`+UNITS.map(u=>`U${u.n} ${u.pg} → <code>${base}#u${u.n}</code>`).join('<br>')+
+  `<h4>🖼️ 이미지 파일 (img 폴더: 캐릭터 PNG, 배경 JPG)</h4>`+[...new Set(Object.values(A).map(a=>a[0]))].map(f=>`<code>${f}.png</code>${OK.has(f)?' ✅':''}`).join(' ')+'<br>배경: '+Object.values(BG).map(f=>`<code>${f}.jpg</code>${OK.has(f)?' ✅':''}`).join(' ')+
+  `<h4>🎙️ 음성 파일 (audio/rudolph 폴더에 mp3로 넣기)</h4>파일 이름 앞이 역할이에요: santa_ 산타, elf_ 요정, rudolph_ 루돌프, deer_ 순록, narr_ 해설, 앞에 없으면 루미. 총 ${LINES.size}문장`;
+  let last=-1; for(const [f,[en,ko,n,v]] of LINES){ if(n!==last){ h+=`<h4>UNIT ${n}</h4>`; last=n; } h+=`<code>${f}.mp3</code> [${VOICE[v].n}] ${en}${ko?` <span style="color:#999">(${ko})</span>`:''}<br>`; }
+  $('tpanel').innerHTML=h; $('tpanel').style.display='block'; }
+
+preload(); renderHome(); $('stars').textContent=store.stars;
+setTimeout(()=>{ const m=location.hash.match(/^#u(\d{1,2})$/); if(m&&+m[1]>=1&&+m[1]<=12) openUnit(+m[1]); },300);
+</script>
+</body>
+</html>
