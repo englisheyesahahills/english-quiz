@@ -442,7 +442,7 @@ let runId=0,paused=false,waiters=[],chapterIdx=0,curU=null,combo=0,noseP=0,sessi
 const STOP={}, LINES=new Map();
 /* ---- 학생 로그인 & 학원 포인트 (노션 '포인트 내역' DB에 저장) ----
    ▼ Apps Script 웹앱 주소를 넣으면 로그인·포인트 저장이 켜져요. 비어 있으면 이 기기에만 저장됩니다. */
-const RUDOLPH_API='';
+const RUDOLPH_API='https://script.google.com/macros/s/AKfycbwu9K1uLIPxoP5Qq7aC6xs-IMHHnYZ_XZD5_7j2lQHacLTuErfzmx-hmISZlP3tyYfv/exec';
 let user=null,guest=false; try{ user=JSON.parse(localStorage.getItem('lumiRudolphUser'))||null }catch(e){}
 const storeKey=()=>user?'lumiRudolph:'+user.id:'lumiRudolph';
 let store={};
