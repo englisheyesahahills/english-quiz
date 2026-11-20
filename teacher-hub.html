@@ -167,6 +167,11 @@ const LINKS = [
   { id:"omr", cat:"평가", title:"디지털 OMR", desc:"월말평가·토셀 자동채점 · 시험은 노션 ‘OMR 시험 설정’에서 활성화", url:"stella_omr_v2.html", who:"학생", icon:"📝", added:"" },
   { id:"middle", cat:"중등부", title:"STELLA 중등 학습관리", desc:"학생 로그인 · 단어 테스트, 숙제 사진, 스피킹 녹음 제출", url:"stella_middle.html", who:"학생", icon:"🎓", added:"" },
   { id:"learn-dash", cat:"중등부", title:"중등부 학습 관리 대시보드", desc:"학생별 학습 기록 · 완료 세트 · 점수 · 틀린 문항 · 오답 TOP · CSV (미니테스트·학습지 뿌시기·문법·모의고사 OMR) · 선생님 비밀번호", url:"learn_dashboard.html", who:"교사", icon:"📊", added:"2026-11-18" },
+  { id:"m8-memtest", cat:"중등부", title:"8과 대화문·본문 암기 → 바로 테스트 (중1·2 윤정미·이병민)", desc:"타자 없이 눌러서 훈련 4단계(보고 듣기→덩어리→단어→섞인 단어) 후 바로 테스트 · 파트별 점수가 학습관리 '8과 파트별'에 표시 · 로그인", url:"m8_memtest.html", who:"학생", icon:"🧠", added:"2026-11-20" },
+  { id:"m8-m1yun-pdf", cat:"중등부", title:"중1 윤정미 8과 한글만 보고 영어 쓰기 PDF", desc:"대화문·본문 전체 · 파트별 맞은 개수 칸 · 정답 포함", url:"m8_m1yun_writing.pdf", who:"교사", icon:"🖨️", added:"2026-11-20" },
+  { id:"m8-m1lee-pdf", cat:"중등부", title:"중1 이병민 8과 한글만 보고 영어 쓰기 PDF", desc:"대화문·본문 전체 · 파트별 맞은 개수 칸 · 정답 포함", url:"m8_m1lee_writing.pdf", who:"교사", icon:"🖨️", added:"2026-11-20" },
+  { id:"m8-m2yun-pdf", cat:"중등부", title:"중2 윤정미 8과 한글만 보고 영어 쓰기 PDF", desc:"대화문·본문 전체 · 파트별 맞은 개수 칸 · 정답 포함", url:"m8_m2yun_writing.pdf", who:"교사", icon:"🖨️", added:"2026-11-20" },
+  { id:"m8-m2lee-pdf", cat:"중등부", title:"중2 이병민 8과 한글만 보고 영어 쓰기 PDF", desc:"대화문·본문 전체 · 파트별 맞은 개수 칸 · 정답 포함", url:"m8_m2lee_writing.pdf", who:"교사", icon:"🖨️", added:"2026-11-20" },
   { id:"hub78", cat:"중등부", title:"중등 7·8과 통합 학습", desc:"중1·중2 동아 윤정미·이병민 7·8과 · 30일 미니테스트, 대화문·본문 배열 워밍업, 문법(서술형) · 노션 자동저장", url:"english_hub.html", who:"학생", icon:"📝", added:"2026-11-09" },
   { id:"board78", cat:"중등부", title:"중등 7·8과 판서 수업 보드", desc:"중1·중2 동아 윤정미·이병민 7·8과 · 대화문·본문·문법 판서식 수업 (끊어읽기·빈칸·문법표시·펜)", url:"class_board_78.html", who:"전자칠판", icon:"🧑‍🏫", added:"2026-11-10" },
   { id:"dangri-m1yun7", cat:"중등부", title:"중1 당리중학습지 뿌시기 (윤정미 7·8과)", desc:"로그인·이어서 하기 · 7과 to부정사·본문 Happy Days / 8과 수여동사·비인칭 주어 it · 한글보고 문장 전체 쓰기 + 응용 · 노션 저장", url:"dangri_m1yun7.html", who:"학생", icon:"💥", added:"2026-11-17" },
@@ -189,11 +194,6 @@ const LINKS = [
   { id:"mem-m1lee", cat:"중등부", title:"중1 동아(이병민) 7·8과 암기 트레이닝", desc:"대화문·본문 단계별 지우기, 역할 연습, 녹음, 백지 쓰기", url:"m1_lee78_memorize.html", who:"학생", icon:"🧠", added:"2026-11-09" },
   { id:"mem-m2yun", cat:"중등부", title:"중2 동아(윤정미) 7·8과 암기 트레이닝", desc:"대화문·본문 단계별 지우기, 역할 연습, 녹음, 백지 쓰기", url:"m2_yun78_memorize.html", who:"학생", icon:"🧠", added:"2026-11-09" },
   { id:"mem-m2lee", cat:"중등부", title:"중2 동아(이병민) 7·8과 암기 트레이닝", desc:"대화문·본문 단계별 지우기, 역할 연습, 녹음, 백지 쓰기", url:"m2_lee78_memorize.html", who:"학생", icon:"🧠", added:"2026-11-09" },
-  { id:"m8-memtest", cat:"중등부", title:"8과 대화문·본문 암기 → 바로 테스트 (중1·2 윤정미·이병민)", desc:"타자 없이 눌러서 훈련 4단계(보고 듣기→덩어리→단어→섞인 단어) 후 바로 테스트 · 파트별 점수가 학습관리 '8과 파트별'에 표시 · 로그인", url:"m8_memtest.html", who:"학생", icon:"🧠", added:"2026-11-20" },
-  { id:"m8-m1yun-pdf", cat:"중등부", title:"중1 윤정미 8과 한글만 보고 영어 쓰기 PDF", desc:"대화문·본문 전체 · 파트별 맞은 개수 칸 · 정답 포함", url:"m8_m1yun_writing.pdf", who:"교사", icon:"🖨️", added:"2026-11-20" },
-  { id:"m8-m1lee-pdf", cat:"중등부", title:"중1 이병민 8과 한글만 보고 영어 쓰기 PDF", desc:"대화문·본문 전체 · 파트별 맞은 개수 칸 · 정답 포함", url:"m8_m1lee_writing.pdf", who:"교사", icon:"🖨️", added:"2026-11-20" },
-  { id:"m8-m2yun-pdf", cat:"중등부", title:"중2 윤정미 8과 한글만 보고 영어 쓰기 PDF", desc:"대화문·본문 전체 · 파트별 맞은 개수 칸 · 정답 포함", url:"m8_m2yun_writing.pdf", who:"교사", icon:"🖨️", added:"2026-11-20" },
-  { id:"m8-m2lee-pdf", cat:"중등부", title:"중2 이병민 8과 한글만 보고 영어 쓰기 PDF", desc:"대화문·본문 전체 · 파트별 맞은 개수 칸 · 정답 포함", url:"m8_m2lee_writing.pdf", who:"교사", icon:"🖨️", added:"2026-11-20" },
   { id:"home", cat:"학부모", title:"학원 홈페이지", desc:"공지, 소식지, 커리큘럼, 앨범, 학사일정", url:"stella_home.html", who:"학부모", icon:"🏠", added:"" }
 ];
 /* LINKS-END */
