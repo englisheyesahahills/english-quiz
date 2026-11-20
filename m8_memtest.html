@@ -108,7 +108,7 @@ const pst=(b,p)=>((ST.p||{})[b.id+":"+p.id])||{};
 function home(){$("#lo").style.display="";$("#hm").style.display="none";cur=null;
  const b=BK();
  app.innerHTML=`<span class="eye">LESSON 8 · 암기 → 바로 테스트</span><h1>👋 ${esc(U.name)}</h1>
- <p class="muted">① 교과서를 고르고 ② 파트마다 <b>훈련 4단계</b>(보고 듣기 → 덩어리 배열 → 단어 배열 → 섞인 단어 배열)를 한 뒤 ③ <b>바로 테스트</b>하세요. 틀린 문장은 맞힐 때까지 다시 나와요.</p>
+ <p class="muted">① 교과서를 고르고 ② 파트마다 <b>훈련 4단계</b>(보고 듣기 → 덩어리 배열 → 단어 배열 → 섞인 단어 배열)를 한 뒤 ③ <b>바로 테스트</b>하세요. 틀린 문장은 맞힐 때까지 다시 나와요. 어려운 문장은 <b>⏭ 넘기기</b>, 위 단계 표시를 누르면 그 단계로 바로 갈 수 있어요.</p>
  <div class="books">${DATA.map(x=>`<button class="bk ${b&&b.id===x.id?"on":""}" data-b="${x.id}"><b>${esc(x.label)}</b><span>L8 ${esc(x.l8)}</span></button>`).join("")}</div>
  ${b?bookHTML(b):`<p class="muted" style="text-align:center;margin-top:20px">위에서 우리 학교 교과서를 골라 주세요.</p>`}
  <div class="ft">제작: 스텔라원장 · 잉글리시아이 스텔라</div>`;
@@ -124,7 +124,20 @@ function bookHTML(b){const sec=t=>{const L=b.parts.filter(p=>p.type===t);if(!L.l
  <a class="pdf" href="m8_${b.id}_writing.pdf" target="_blank" rel="noopener">🖨️ 한글만 보고 영어 쓰기 PDF (${esc(b.label)} 8과 · 정답 포함)</a>`}
 /* ---------- 파트: 훈련 4단계 + 테스트 ---------- */
 const STEPN=["보고 듣기","덩어리","단어 배열","섞인 단어","테스트"];
-function stepsBar(k){return `<div class="steps">${STEPN.map((n,i)=>`<span class="${i<k?"dn":i===k?"on":""}">${i+1}. ${n}</span>`).join("")}</div>`}
+function stepsBar(k){return `<div class="steps">${STEPN.map((n,i)=>`<span class="${i<k?"dn":i===k?"on":""}" data-go="${i}" style="cursor:pointer">${i+1}. ${n}</span>`).join("")}</div>`}
+/* 단계 표시줄을 누르면 그 단계로 바로 이동 */
+document.addEventListener("click",e=>{const t=e.target.closest("[data-go]");if(!t||!cur||!cur.p)return;const k=+t.dataset.go;try{speechSynthesis.cancel()}catch(x){}
+ if(k===4){markSkip(curStep());sendTrain();test(cur.p.s.map((x,i)=>({x,pid:cur.p.id,i})),"part")}else{markSkip(curStep());train(k)}});
+const curStep=()=>{const s=pst(cur.b,cur.p);return s.step||0};
+function markSkip(k){const s=pst(cur.b,cur.p);const sk=new Set(s.skip||[]);const dn=new Set(s.done||[]);if(!dn.has(k))sk.add(k);setP({skip:[...sk]})}
+function markDone(k){const s=pst(cur.b,cur.p);const dn=new Set(s.done||[]);dn.add(k);const sk=new Set(s.skip||[]);sk.delete(k);setP({done:[...dn],skip:[...sk]})}
+/* 훈련 기록을 선생님께 (파트당 1번, 테스트 직전) */
+function sendTrain(){const {b,p}=cur;const s=pst(b,p);if(s.sentTrain)return;const dn=(s.done||[]).length;
+ const body={name:U.name,unit:`${b.label} L8`,day:8,title:`${p.type} ${p.id} · ${p.title} (훈련)`,cat:"8과 암기훈련",attempt:"훈련",score:dn,total:4,
+  wrongNums:(s.skip||[]).length?`건너뜀: ${(s.skip||[]).sort().map(k=>STEPN[k]).join(", ")}`:"없음",
+  wrongDetail:`[TRAIN] ${p.id}=${dn}/4 [BOOK:${b.id}] | 넘긴 문장 ${s.passed||0}개`,minutes:Math.max(1,Math.round((Date.now()-(s.t0||Date.now()))/60000)),timestamp:new Date().toISOString()};
+ try{fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),mode:"no-cors"}).catch(()=>{})}catch(e){}
+ setP({sentTrain:true})}
 function part(pid){const b=BK(),p=b.parts.find(x=>x.id===pid);cur={b,p};$("#hm").style.display="";
  const s=pst(b,p);
  app.innerHTML=`<span class="eye">${esc(b.label)} · ${p.type} ${p.id}</span><h1 style="font-size:23px">${esc(p.title)}</h1>${stepsBar(-1)}
@@ -132,33 +145,35 @@ function part(pid){const b=BK(),p=b.parts.find(x=>x.id===pid);cur={b,p};$("#hm")
  <button class="btn" id="st">${s.step&&!s.train?`이어서 훈련하기 (${s.step+1}단계)`:"훈련 시작하기"}</button><div style="height:8px"></div>
  <button class="btn bur" id="tt">바로 테스트${s.test!=null?` (지난 점수 ${s.test}/${s.tn})`:""}</button></div>
  <div class="card"><b>📄 이 파트 문장</b>${p.s.map(x=>`<div style="margin-top:8px;font-size:14.5px">${x.sp?`<span class="sp">${esc(x.sp)}</span>`:""}${esc(x.ko)}</div>`).join("")}</div>`;
- $("#st").onclick=()=>train(s.step&&!s.train?s.step:0);$("#tt").onclick=()=>test(p.s.map((x,i)=>({x,pid:p.id,i})),"part");window.scrollTo(0,0)}
+ $("#st").onclick=()=>train(s.step&&!s.train?s.step:0);$("#tt").onclick=()=>(pst(b,p).t0&&sendTrain(),0)||test(p.s.map((x,i)=>({x,pid:p.id,i})),"part");window.scrollTo(0,0)}
 function setP(o){const k=cur.b.id+":"+cur.p.id;ST.p=ST.p||{};ST.p[k]=Object.assign(ST.p[k]||{},o);save()}
-function train(k){const {b,p}=cur;setP({step:k});
+function train(k){const {b,p}=cur;if(!pst(b,p).t0)setP({t0:Date.now()});setP({step:k});
  if(k===0)return look(0);
  const mode=k===1?"chunk":k===2?"word":"mix";
- drill(p.s.map((x,i)=>i),mode,()=>{setP({step:k+1});if(k<3)nextStep(k+1);else{setP({train:true});readyTest()}})}
-function nextStep(k){app.innerHTML=`<span class="eye">${esc(cur.p.title)}</span>${stepsBar(k)}<div class="card" style="text-align:center"><div style="font-size:44px">👏</div><p><b>${k}단계 통과!</b><br><span class="muted">다음: ${STEPN[k]}</span></p><button class="btn" id="nx">${k+1}단계 시작</button></div>`;$("#nx").onclick=()=>train(k);window.scrollTo(0,0)}
+ drill(p.s.map((x,i)=>i),mode,()=>{markDone(k);setP({step:k+1});if(k<3)nextStep(k+1);else{setP({train:true});sendTrain();readyTest()}})}
+function nextStep(k){app.innerHTML=`<span class="eye">${esc(cur.p.title)}</span>${stepsBar(k)}<div class="card" style="text-align:center"><div style="font-size:44px">👏</div><p><b>${k}단계 통과!</b><br><span class="muted">다음: ${STEPN[k]}</span></p><button class="btn" id="nx">${k+1}단계 시작</button><div style="height:8px"></div><button class="btn gh" id="nt">훈련은 여기까지 → 바로 테스트</button></div>`;$("#nx").onclick=()=>train(k);$("#nt").onclick=()=>{for(let j=k;j<4;j++)markSkip(j);setP({train:true});sendTrain();test(cur.p.s.map((x,i)=>({x,pid:cur.p.id,i})),"part")};window.scrollTo(0,0)}
 function readyTest(){app.innerHTML=`<span class="eye">${esc(cur.p.title)}</span>${stepsBar(4)}<div class="card" style="text-align:center"><div style="font-size:44px">🔥</div><p><b>훈련 4단계 완료!</b><br><span class="muted">잊어버리기 전에 바로 테스트해요. 한 번에 맞혀야 점수가 돼요.</span></p><button class="btn bur" id="nx">바로 테스트</button></div>`;
  $("#nx").onclick=()=>test(cur.p.s.map((x,i)=>({x,pid:cur.p.id,i})),"part");window.scrollTo(0,0)}
 /* 1단계: 보고 듣기 */
 function look(i){const {p}=cur;const x=p.s[i];
- app.innerHTML=`<span class="eye">${esc(p.title)}</span>${stepsBar(0)}<div class="prog"><i style="width:${(i)/p.s.length*100}%"></i></div><div class="muted">${i+1} / ${p.s.length} · 한글을 보고 영어를 소리 내어 따라 읽으세요</div>
+ app.innerHTML=`<span class="eye">${esc(p.title)}</span>${stepsBar(0)}<div class="prog"><i style="width:${(i)/p.s.length*100}%"></i></div><div class="muted" style="display:flex;justify-content:space-between;gap:8px"><span>${i+1} / ${p.s.length} · 한글을 보고 영어를 소리 내어 따라 읽으세요</span><a href="#" id="skp" style="color:var(--bur);font-weight:700;white-space:nowrap">단계 건너뛰기 ⏭</a></div>
  <div class="card"><div class="ko">${x.sp?`<span class="sp">${esc(x.sp)}</span>`:""}${esc(x.ko)}</div><div class="en">${x.ch.map(esc).join(' <span style="color:var(--bur)">/</span> ')}</div>
  <div class="row" style="margin-top:12px"><button class="ic-b" id="s1">🔊 듣기</button><button class="ic-b" id="s2">🐢 천천히</button></div></div>
  <div class="bar"><div class="in">${i>0?`<button class="btn gh" id="pv" style="flex:.5">이전</button>`:""}<button class="btn" id="nx">${i<p.s.length-1?"다음 문장":"1단계 끝"}</button></div></div>`;
- $("#s1").onclick=()=>say(x.en);$("#s2").onclick=()=>say(x.en,.7);say(x.en);
+ $("#s1").onclick=()=>say(x.en);$("#s2").onclick=()=>say(x.en,.7);say(x.en);$("#skp").onclick=e=>{e.preventDefault();try{speechSynthesis.cancel()}catch(x){}markSkip(0);setP({step:1});nextStep(1)};
  if($("#pv"))$("#pv").onclick=()=>look(i-1);
- $("#nx").onclick=()=>{if(i<p.s.length-1)look(i+1);else{setP({step:1});nextStep(1)}};window.scrollTo(0,0)}
+ $("#nx").onclick=()=>{if(i<p.s.length-1)look(i+1);else{markDone(0);setP({step:1});nextStep(1)}};window.scrollTo(0,0)}
 /* 2~4단계: 배열 드릴 (틀리면 뒤로 다시) */
 function piecesOf(x,mode){if(mode==="chunk")return x.ch.length>=2?x.ch:tok(x.en);return tok(x.en)}
-function drill(order,mode,done){const {p}=cur;let Q=shuf(order),total=order.length,ok=new Set();
+function drill(order,mode,done0){const {p}=cur;let Q=shuf(order),total=order.length,ok=new Set(),passed=0,skipped=false;const k0=mode==="chunk"?1:mode==="word"?2:3;const done=()=>{if(skipped){markSkip(k0);setP({step:k0+1});if(k0<3)nextStep(k0+1);else{setP({train:true});sendTrain();readyTest()}}else done0()};
  const show=()=>{if(!Q.length)return done();const i=Q[0],x=p.s[i];const target=piecesOf(x,mode);
   let extra=[];if(mode==="mix"){const mine=new Set(tok(x.en).map(w=>w.toLowerCase()));extra=shuf([...new Set(p.s.flatMap(y=>tok(y.en)))].filter(w=>!mine.has(w.toLowerCase()))).slice(0,3)}
   const pool=shuf([...target.map((t,k)=>({t,k})),...extra.map(t=>({t,k:-1}))]);let picked=[];
-  app.innerHTML=`<span class="eye">${esc(p.title)}</span>${stepsBar(mode==="chunk"?1:mode==="word"?2:3)}<div class="prog"><i style="width:${ok.size/total*100}%"></i></div><div class="muted">맞힌 문장 ${ok.size} / ${total}${mode==="mix"?" · 필요 없는 단어가 3개 섞여 있어요":""}</div>
+  app.innerHTML=`<span class="eye">${esc(p.title)}</span>${stepsBar(mode==="chunk"?1:mode==="word"?2:3)}<div class="prog"><i style="width:${ok.size/total*100}%"></i></div><div class="muted" style="display:flex;justify-content:space-between;gap:8px"><span>맞힌 문장 ${ok.size} / ${total}${mode==="mix"?" · 필요 없는 단어 3개 섞임":""}</span><a href="#" id="skp" style="color:var(--bur);font-weight:700;white-space:nowrap">단계 건너뛰기 ⏭</a></div>
   <div class="card"><div class="ko">${x.sp?`<span class="sp">${esc(x.sp)}</span>`:""}${esc(x.ko)}</div><div class="ans" id="an"></div><div class="pool" id="po"></div><div id="fb"></div>
-  <div class="row"><button class="ic-b" id="un">↩ 하나 빼기</button><button class="ic-b" id="hi">💡 첫 부분 보기</button></div></div>`;
+  <div class="row"><button class="ic-b" id="un">↩ 빼기</button><button class="ic-b" id="hi">💡 힌트</button><button class="ic-b" id="ps">넘기기 ⏭</button></div></div>`;
+  $("#skp").onclick=e=>{e.preventDefault();Q=[];skipped=true;done()};
+  $("#ps").onclick=()=>{Q.shift();passed++;setP({passed:(pst(cur.b,cur.p).passed||0)+1});$("#fb").innerHTML=`<div class="fb" style="background:var(--soft)">⏭ 넘겼어요 <span class="c">${esc(x.en)}</span></div>`;say(x.en);$("#po").innerHTML="";setTimeout(show,1300)};
   const paint=()=>{$("#an").innerHTML=picked.map((o,j)=>`<button class="tl ${mode==="chunk"?"ch":""}" data-j="${j}">${esc(o.t)}</button>`).join("");
    $("#po").innerHTML=pool.map((o,j)=>picked.includes(o)?"":`<button class="tl ${mode==="chunk"?"ch":""}" data-q="${j}">${esc(o.t)}</button>`).join("");
    $("#an").querySelectorAll("[data-j]").forEach(e=>e.onclick=()=>{picked.splice(+e.dataset.j,1);paint()});
@@ -208,7 +223,7 @@ function test(items,kind){const b=BK();let i=0,R=[];const t0=Date.now();$("#hm")
   ${kind==="final"?`<h2>파트별 점수</h2><div class="bars">${b.parts.filter(p=>byP[p.id]).map(p=>{const o=byP[p.id],q=o.ok/o.n;return `<div><b>${p.id} ${esc(p.title)}</b><span class="bb"><i style="width:${q*100}%;background:var(--${q>=.9?"ok":q>=.6?"mid":"no"})"></i></span><span>${o.ok}/${o.n}</span></div>`}).join("")}</div>`:""}
   ${R.some(r=>!r.ok)?`<h2>다시 볼 문장</h2>${R.filter(r=>!r.ok).map(r=>{const x=b.parts.find(q=>q.id===r.pid).s[r.i];return `<div style="margin:8px 0;font-size:14.5px"><span class="muted">${r.pid}</span> ${esc(x.ko)}<br><b>${esc(x.en)}</b></div>`}).join("")}`:""}</div>
   <div class="row">${kind==="part"?`<button class="btn gh" id="again">다시 훈련</button>`:""}<button class="btn" id="hm2">홈으로</button></div>`;
-  $("#hm2").onclick=home;if($("#again"))$("#again").onclick=()=>{setP({step:0,train:false});train(1)};window.scrollTo(0,0)};
+  $("#hm2").onclick=home;if($("#again"))$("#again").onclick=()=>{setP({step:0,train:false,sentTrain:false,done:[],skip:[],t0:Date.now()});train(1)};window.scrollTo(0,0)};
  show()}
 function finalTest(){const b=BK();cur={b,p:null};const items=b.parts.flatMap(p=>shuf(p.s.map((x,i)=>({x,pid:p.id,i}))).slice(0,3));test(items,"final")}
 if(U){ST=LS.get(SK())||{};home()}else loginView();
