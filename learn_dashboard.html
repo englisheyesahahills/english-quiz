@@ -100,6 +100,25 @@ function revLink(r){const M=r.mock,K=M.K,C5="①②③④⑤",ch={};
  return REV+`v=1&e=${Object.keys(MK).indexOf(M.id)}&n=${encodeURIComponent(r.name)}&m=${mm}`+(M.pts?`&s=${M.pts.map(p=>Math.max(0,Math.min(5,Math.round(p)))).join("")}`:"")+`&t=${Math.floor(r.t/60000).toString(36)}`}
 async function copyTxt(t,btn){try{await navigator.clipboard.writeText(t)}catch(e){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(x){}ta.remove()}
  if(btn){const o=btn.textContent;btn.textContent="✅ 복사됨";setTimeout(()=>btn.textContent=o,1300)}}
+const PM={"m1yun":{"label":"중1 동아(윤정미)","l8":"Be Smart Online","parts":[["D1","대화문","Watch and Check 1 · Movie",4],["D2","대화문","Watch and Check 2 · Pasta",4],["D3","대화문","Watch and Check 3 · New Phone",4],["D4","대화문","Watch and Check 4 · Cleaning Robot",4],["D5","대화문","Watch, Answer, and Talk · E-book",9],["R1","본문","① 더 많은 '좋아요'를 원한 Goldilocks",9],["R2","본문","② 숲속 오두막",10],["R3","본문","③ 곰 가족의 귀가",9],["R4","본문","④ 사과와 약속",4],["R5","본문","⑤ 영원히 남는 게시물",7]]},"m1lee":{"label":"중1 동아(이병민)","l8":"Winter Is Coming!","parts":[["D1","대화문","Listen and Write 1 · Jack",4],["D2","대화문","Listen and Write 2 · Hana",4],["D3","대화문","Listen and Write 3 · Inho",3],["D4","대화문","Watch and Correct · Volleyball Game",10],["D5","대화문","Winter Activities · Snow Ducks",9],["R1","본문","① 단어는 어떻게 의미를 가질까?",8],["R2","본문","② 펜의 새 이름 frindle",8],["R3","본문","③ 선생님의 편지",10],["R4","본문","④ 전국으로 퍼진 frindle",5],["R5","본문","⑤ 21살에 받은 소포",8],["R6","본문","⑥ 선생님의 진심",6]]},"m2yun":{"label":"중2 동아(윤정미)","l8":"A Butterfly That Changed the Future","parts":[["R1","본문","① Time Travel 사무실",8],["R2","본문","② 정글에 도착하다",10],["R3","본문","③ T. rex의 등장",11],["R4","본문","④ 길을 벗어나다",10],["R5","본문","⑤ 현재로 돌아오다",10],["R6","본문","⑥ 작은 나비 한 마리",11]]},"m2lee":{"label":"중2 동아(이병민)","l8":"Festival Fun","parts":[["D1","대화문","Listen and Match 1 · Ice Fishing",5],["D2","대화문","Listen and Match 2 · Marshmallows",6],["D3","대화문","Listen and Match 3 · Mud Festival",6],["D4","대화문","Watch and Write · Strawberry Picking",10],["D5","대화문","Watch a Video · Hanyangdoseong",9],["R1","본문","① Bonhomme 소개",8],["R2","본문","② Bonhomme의 얼음 궁전",9],["R3","본문","③ 터보건 슬라이드",8],["R4","본문","④ 얼음 카누 경주",9],["R5","본문","⑤ 맛있는 간식",10]]}};
+function partsTab(v,R){const M=R.filter(r=>r.cat==="8과 암기테스트"&&/\[BOOK:(\w+)\]/.test(r.detail));
+ if(!M.length){v.innerHTML=`<p class="empty">아직 8과 암기 테스트 기록이 없어요.<br><span class="muted">학생이 "8과 암기 → 바로 테스트"에서 파트 테스트나 종합 테스트를 끝내면 여기에 보여요.</span></p>`;return}
+ const books=[...new Set(M.map(r=>r.detail.match(/\[BOOK:(\w+)\]/)[1]))].filter(b=>PM[b]);if(!books.includes(UI.pb))UI.pb=books[0];const B=PM[UI.pb];
+ const cell={},fin={};M.filter(r=>r.detail.includes("[BOOK:"+UI.pb+"]")).slice().sort((a,b)=>a.t-b.t).forEach(r=>{const m=r.detail.match(/\[PARTS\] ([^\[]*)/);if(!m)return;
+  m[1].trim().split("|").forEach(x=>{const mm=x.match(/(\w+)=(\d+)\/(\d+)/);if(!mm)return;(cell[r.name]=cell[r.name]||{})[mm[1]]={ok:+mm[2],n:+mm[3],t:r.t,k:r.attempt}});
+  if(r.attempt==="종합")fin[r.name]={sc:r.score,tn:r.total,t:r.t}});
+ const names=Object.keys(cell).sort((a,b)=>a.localeCompare(b,"ko"));const P=B.parts;
+ const c=o=>{if(!o)return `<td class="n" style="text-align:center" style="color:var(--line)">·</td>`;const q=o.ok/o.n;return `<td class="n" style="text-align:center"><span class="pill ${cls(q)}" title="${o.k==="종합"?"종합 테스트":"파트 테스트"} ${fmt(o.t)}">${o.ok}/${o.n}</span></td>`};
+ const avg=P.map(p=>{const L=names.map(n=>cell[n][p[0]]).filter(Boolean);return L.length?L.reduce((a,o)=>a+o.ok/o.n,0)/L.length:null});
+ const weakAll=P.map((p,i)=>[p,avg[i]]).filter(x=>x[1]!=null).sort((a,b)=>a[1]-b[1]).slice(0,3);
+ v.innerHTML=`<div class="bar">${books.map(b=>`<button class="chip ${b===UI.pb?"on":""}" data-pb="${b}">${esc(PM[b].label)}</button>`).join("")}</div>
+ <p class="muted">${esc(B.label)} L8 ${esc(B.l8)} · 학생마다 파트별 <b>가장 최근</b> 점수예요 (파트 테스트·종합 테스트 중 최근 것). 칸에 마우스를 올리면 언제 친 건지 보여요.</p>
+ ${weakAll.length?`<div class="card" style="padding:10px 14px"><b>📉 반 전체가 약한 파트</b> ${weakAll.map(([p,a])=>`<span class="pill ${cls(a)}" style="margin-left:6px">${p[0]} ${esc(p[2])} ${Math.round(a*100)}%</span>`).join("")}</div>`:""}
+ <div class="tw"><table><tr><th>학생</th>${P.map(p=>`<th class="n" style="text-align:center" title="${esc(p[1]+" "+p[2])}">${p[0]}</th>`).join("")}<th class="n" style="text-align:center">종합</th><th>약한 파트</th></tr>
+ ${names.map(n=>{const w=P.filter(p=>cell[n][p[0]]&&cell[n][p[0]].ok/cell[n][p[0]].n<.7).map(p=>p[0]);return `<tr><td><b>${esc(n)}</b></td>${P.map(p=>c(cell[n][p[0]])).join("")}<td class="n" style="text-align:center">${fin[n]?`<span class="pill ${cls(fin[n].sc/fin[n].tn)}">${fin[n].sc}/${fin[n].tn}</span>`:"·"}</td><td>${w.length?`<span style="color:var(--no);font-weight:700">${w.join(", ")}</span>`:'<span class="pill g">없음</span>'}</td></tr>`}).join("")}
+ <tr><td class="muted">반 평균</td>${avg.map(a=>`<td class="n" style="text-align:center">${a==null?"·":`<span class="pill ${cls(a)}">${Math.round(a*100)}%</span>`}</td>`).join("")}<td></td><td></td></tr></table></div>
+ <div class="card" style="padding:10px 14px;font-size:13px">${P.map(p=>`<div><b>${p[0]}</b> <span class="muted">${p[1]} · ${esc(p[2])} (${p[3]}문장)</span></div>`).join("")}</div>`;
+ v.querySelectorAll("[data-pb]").forEach(b=>b.onclick=()=>{UI.pb=b.dataset.pb;partsTab(v,R)})}
 const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
 const $=s=>document.querySelector(s),app=$("#app");
 const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -132,7 +151,7 @@ function render(){const R=filtered();const units=[...new Set(ROWS.map(r=>r.unit)
   <select id="un"><option value="">전체 교재·단원</option>${units.map(u=>`<option ${u===UI.unit?"selected":""}>${esc(u)}</option>`).join("")}</select>
   <input type="text" id="q" placeholder="🔍 학생 이름·주제 검색" value="${esc(UI.q)}" style="flex:1;min-width:160px"></div>
  <div class="kpi"><div><b>${names.length}</b><span>학습한 학생</span></div><div><b>${R.length}</b><span>완료한 학습 세트</span></div><div><b>${Math.round(avg*100)}%</b><span>평균 정답률</span></div><div><b>${tod.length}</b><span>오늘 완료</span></div></div>
- <div class="tabs">${[["stu","👩‍🎓 학생별"],["set","📚 학습별"],["grade","✍️ 서술형 채점"],["wrong","❌ 오답 TOP"],["log","📋 전체 기록"]].map(([k,l])=>`<button class="tab ${UI.tab===k?"on":""}" data-t="${k}">${l}</button>`).join("")}</div>
+ <div class="tabs">${[["stu","👩‍🎓 학생별"],["set","📚 학습별"],["grade","✍️ 서술형 채점"],["parts","🧩 8과 파트별"],["wrong","❌ 오답 TOP"],["log","📋 전체 기록"]].map(([k,l])=>`<button class="tab ${UI.tab===k?"on":""}" data-t="${k}">${l}</button>`).join("")}</div>
  <div id="v"></div><div class="ft">결과는 학생이 각 세트를 끝내고 채점할 때마다 저장돼요 · 제작: 스텔라원장 · 잉글리시아이 스텔라</div>`;
  app.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{UI.days=b.dataset.d;svUI();load()});
  $("#un").onchange=e=>{UI.unit=e.target.value;svUI();render()};
@@ -153,6 +172,7 @@ function renderView(R){const v=$("#v");if(!R.length){v.innerHTML=`<p class="empt
    const avg=a.reduce((s,r)=>s+pct(r),0)/a.length;
    return head+`<div class="card" style="padding:10px 14px"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="flex:1">${esc(t||"(제목 없음)")}</b><span class="muted">${Object.keys(ppl).length}명 완료 · 평균</span><span class="pill ${cls(avg)}">${Math.round(avg*100)}%</span></div>
     <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${Object.values(ppl).sort((x,y)=>pct(y)-pct(x)).map(r=>`<span class="pill ${cls(pct(r))}" title="${esc(r.wrong)}">${esc(r.name)} ${sc(r)}</span>`).join("")}</div></div>`}).join("")}
+ else if(UI.tab==="parts"){partsTab(v,R)}
  else if(UI.tab==="grade"){const L={};R.forEach(r=>{if(!r.mock)return;const k=r.name+"|"+r.title;if(!L[k]||L[k].t<r.t)L[k]=r});
   const A=Object.values(L).sort((a,b)=>(!!a.mock.pts-!!b.mock.pts)||b.t-a.t);const wait=A.filter(r=>!r.mock.pts).length;
   v.innerHTML=A.length?`<p class="muted">학생 화면에는 <b>객관식 점수만</b> 보여요. 서술형은 여기서 선생님이 점수를 넣으면 총점(100점)이 만들어져요. · 채점 대기 <b>${wait}</b>명</p>
