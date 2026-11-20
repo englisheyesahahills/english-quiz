@@ -26,7 +26,7 @@ h2{font-size:17px;margin:24px 0 8px;color:var(--bur)}
 <div class="ft">제작: 스텔라원장 · 잉글리시아이 스텔라</div>
 </main>
 <script>
-const G=[["1학년",[["m1yun_saha","중1 동아(윤정미) 7·8과","사하중 학습지 포함"],["m1yun_dangri","중1 동아(윤정미) 7·8과","당리중 학습지 포함"],["m1lee_dongju","중1 동아(이병민) 7·8과","동주여중 학습지 포함"]]],
+const G=[["🔁 재시험 (B형) · 모의고사를 못 본 학생용",[["m1yun_saha_r","중1 동아(윤정미) 7·8과","사하중 학습지 포함 · B형",1],["m1yun_dangri_r","중1 동아(윤정미) 7·8과","당리중 학습지 포함 · B형",1],["m1lee_dongju_r","중1 동아(이병민) 7·8과","동주여중 학습지 포함 · B형",1],["m2lee_dongju_r","중2 동아(이병민) 7·8과","동주여중 학습지 포함 · B형",1],["m2yun_saha_r","중2 동아(윤정미) 7·8과","사하중 학습지 포함 · B형",1]]],["1학년",[["m1yun_saha","중1 동아(윤정미) 7·8과","사하중 학습지 포함"],["m1yun_dangri","중1 동아(윤정미) 7·8과","당리중 학습지 포함"],["m1lee_dongju","중1 동아(이병민) 7·8과","동주여중 학습지 포함"]]],
 ["2학년",[["m2lee_dongju","중2 동아(이병민) 7·8과","동주여중 학습지 포함"],["m2yun_saha","중2 동아(윤정미) 7·8과","사하중 학습지 포함"]]]];
-document.getElementById("list").innerHTML=G.map(([g,L])=>`<h2>${g}</h2>`+L.map(([id,t,s])=>`<div class="card"><div class="t"><b>${t} 모의고사</b><span>${s} · 객관식 20 + 서술형 10 · OMR 포함</span></div><a class="btn" href="mock_${id}.pdf" target="_blank" rel="noopener">🖨️ 시험지</a><a class="btn k" href="mock_${id}_key.pdf" target="_blank" rel="noopener">정답·해설</a></div>`).join("")).join("");
+document.getElementById("list").innerHTML=G.map(([g,L])=>`<h2>${g}</h2>`+L.map(([id,t,s,r])=>`<div class="card"><div class="t"><b>${t} ${r?"재시험":"모의고사"}</b><span>${s} · 객관식 20 + 서술형 10 · OMR 포함</span></div><a class="btn" href="mock_${id}.pdf" target="_blank" rel="noopener">🖨️ 시험지</a><a class="btn k" href="mock_${id}_key.pdf" target="_blank" rel="noopener">정답·해설</a></div>`).join("")).join("");
 </script></body></html>
