@@ -165,6 +165,9 @@ function look(i){const {p}=cur;const x=p.s[i];
  $("#nx").onclick=()=>{if(i<p.s.length-1)look(i+1);else{markDone(0);setP({step:1});nextStep(1)}};window.scrollTo(0,0)}
 /* 2~4단계: 배열 드릴 (틀리면 뒤로 다시) */
 function piecesOf(x,mode){if(mode==="chunk")return x.ch.length>=2?x.ch:tok(x.en);return tok(x.en)}
+function nextBtn(fn){const r=document.querySelector(".card .row");if(r)r.style.display="none";const f=$("#fb");if(!f)return fn();
+ f.insertAdjacentHTML("afterend",`<button class="btn" id="go2" style="margin-top:6px">다음 ▶</button>`);const g=$("#go2");g.focus();g.onclick=fn;
+ g.insertAdjacentHTML("afterend",`<button class="ic-b" id="rp" style="width:100%;margin-top:6px">🔊 다시 듣기</button>`);const fb=f.querySelector(".c");$("#rp").onclick=()=>say(fb?fb.textContent:"")}
 function drill(order,mode,done0){const {p}=cur;let Q=shuf(order),total=order.length,ok=new Set(),passed=0,skipped=false;const k0=mode==="chunk"?1:mode==="word"?2:3;const done=()=>{if(skipped){markSkip(k0);setP({step:k0+1});if(k0<3)nextStep(k0+1);else{setP({train:true});sendTrain();readyTest()}}else done0()};
  const show=()=>{if(!Q.length)return done();const i=Q[0],x=p.s[i];const target=piecesOf(x,mode);
   let extra=[];if(mode==="mix"){const mine=new Set(tok(x.en).map(w=>w.toLowerCase()));extra=shuf([...new Set(p.s.flatMap(y=>tok(y.en)))].filter(w=>!mine.has(w.toLowerCase()))).slice(0,3)}
@@ -173,16 +176,16 @@ function drill(order,mode,done0){const {p}=cur;let Q=shuf(order),total=order.len
   <div class="card"><div class="ko">${x.sp?`<span class="sp">${esc(x.sp)}</span>`:""}${esc(x.ko)}</div><div class="ans" id="an"></div><div class="pool" id="po"></div><div id="fb"></div>
   <div class="row"><button class="ic-b" id="un">↩ 빼기</button><button class="ic-b" id="hi">💡 힌트</button><button class="ic-b" id="ps">넘기기 ⏭</button></div></div>`;
   $("#skp").onclick=e=>{e.preventDefault();Q=[];skipped=true;done()};
-  $("#ps").onclick=()=>{Q.shift();passed++;setP({passed:(pst(cur.b,cur.p).passed||0)+1});$("#fb").innerHTML=`<div class="fb" style="background:var(--soft)">⏭ 넘겼어요 <span class="c">${esc(x.en)}</span></div>`;say(x.en);$("#po").innerHTML="";setTimeout(show,1300)};
+  $("#ps").onclick=()=>{Q.shift();passed++;setP({passed:(pst(cur.b,cur.p).passed||0)+1});$("#fb").innerHTML=`<div class="fb" style="background:var(--soft)">⏭ 넘겼어요 <span class="c">${esc(x.en)}</span></div>`;say(x.en);$("#po").innerHTML="";nextBtn(show)};
   const paint=()=>{$("#an").innerHTML=picked.map((o,j)=>`<button class="tl ${mode==="chunk"?"ch":""}" data-j="${j}">${esc(o.t)}</button>`).join("");
    $("#po").innerHTML=pool.map((o,j)=>picked.includes(o)?"":`<button class="tl ${mode==="chunk"?"ch":""}" data-q="${j}">${esc(o.t)}</button>`).join("");
    $("#an").querySelectorAll("[data-j]").forEach(e=>e.onclick=()=>{picked.splice(+e.dataset.j,1);paint()});
    $("#po").querySelectorAll("[data-q]").forEach(e=>e.onclick=()=>{picked.push(pool[+e.dataset.q]);paint();check()})};
   const check=()=>{if(picked.length<target.length)return;const got=picked.map(o=>o.t).join(" "),want=target.join(" ");
-   if(got===want){if(!ok.has(i)){ok.add(i)}Q.shift();$("#fb").innerHTML=`<div class="fb ok">⭕ 좋아요! <span class="c">${esc(x.en)}</span></div>`;say(x.en);$("#po").innerHTML="";setTimeout(show,1100)}
+   if(got===want){if(!ok.has(i)){ok.add(i)}Q.shift();$("#fb").innerHTML=`<div class="fb ok">⭕ 좋아요! <span class="c">${esc(x.en)}</span></div>`;say(x.en);$("#po").innerHTML="";nextBtn(show)}
    else{$("#an").classList.add("shake");setTimeout(()=>$("#an")&&$("#an").classList.remove("shake"),400);
     $("#fb").innerHTML=`<div class="fb no">❌ 순서가 달라요. 이 문장은 조금 뒤에 다시 나와요.<span class="c">${esc(x.en)}</span></div>`;say(x.en);
-    Q.shift();Q.splice(Math.min(Q.length,2),0,i);$("#po").innerHTML="";setTimeout(show,2000)}};
+    Q.shift();Q.splice(Math.min(Q.length,2),0,i);$("#po").innerHTML="";nextBtn(show)}};
   $("#un").onclick=()=>{picked.pop();paint()};
   $("#hi").onclick=()=>{const n=Math.max(1,Math.ceil(target.length/3));$("#fb").innerHTML=`<div class="fb" style="background:var(--soft)">💡 ${esc(target.slice(0,n).join(" "))} …</div>`};
   paint();window.scrollTo(0,0)};
