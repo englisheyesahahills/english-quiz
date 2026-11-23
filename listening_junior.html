@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stella Daily Listening · Junior DAY 01~20</title>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1f2a5a; --navy2:#2e3d7c; --berry:#8a2846; --sky:#e9efff; --mint:#e3f6ee;
+  --green:#1f9d63; --red:#d64545; --amber:#f2a33a; --bg:#f6f7fb; --ink:#1d2233; --mute:#6b7287;
+  --card:#fff; --line:#e3e6ef;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:560px;margin:0 auto;padding:0 16px 90px}
+header{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:18px 16px 14px;position:sticky;top:0;z-index:10;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+header .inner{max-width:560px;margin:0 auto}
+.brand{font-family:'Jua',sans-serif;font-size:13px;opacity:.85;letter-spacing:.5px}
+.title{font-family:'Jua',sans-serif;font-size:21px;margin-top:2px}
+.steps{display:flex;gap:4px;margin-top:12px}
+.steps div{flex:1;height:6px;border-radius:4px;background:rgba(255,255,255,.25);transition:.3s}
+.steps div.done{background:#ffd36b}
+.steps div.now{background:#fff}
+.steplabel{font-size:12px;margin-top:6px;opacity:.9}
+.card{background:var(--card);border-radius:18px;padding:20px 18px;margin-top:16px;box-shadow:0 2px 10px rgba(31,42,90,.06)}
+h2{font-family:'Jua',sans-serif;font-size:22px;color:var(--navy);margin-bottom:4px}
+.sub{color:var(--mute);font-size:14px;margin-bottom:14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:14px;padding:13px 18px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;transition:.15s;background:var(--sky);color:var(--navy)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--navy);color:#fff}
+.btn.berry{background:var(--berry);color:#fff}
+.btn.block{width:100%}
+.btn.sm{padding:8px 12px;font-size:14px;border-radius:10px}
+.btn:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+.speed{display:flex;gap:6px;margin:10px 0}
+.speed button{flex:1;padding:8px;border-radius:10px;border:2px solid var(--line);background:#fff;font-weight:700;font-family:inherit;color:var(--mute);cursor:pointer}
+.speed button.on{border-color:var(--navy);color:var(--navy);background:var(--sky)}
+input[type=text],textarea{width:100%;padding:13px 14px;border:2px solid var(--line);border-radius:12px;font-size:16px;font-family:inherit;outline:none;transition:.15s;background:#fff}
+input[type=text]:focus,textarea:focus{border-color:var(--navy2)}
+.word{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border:2px solid var(--line);border-radius:14px;margin-bottom:8px;cursor:pointer;transition:.15s}
+.word.heard{border-color:var(--green);background:var(--mint)}
+.word b{font-size:18px}
+.word span{color:var(--mute);font-size:14px}
+.player{background:var(--sky);border-radius:16px;padding:16px;text-align:center}
+.wave{display:flex;justify-content:center;gap:4px;height:34px;align-items:center;margin-bottom:10px}
+.wave i{width:5px;height:8px;background:var(--navy2);border-radius:3px;opacity:.35}
+.playing .wave i{animation:w 1s infinite ease-in-out;opacity:1}
+.wave i:nth-child(2){animation-delay:.1s}.wave i:nth-child(3){animation-delay:.2s}.wave i:nth-child(4){animation-delay:.3s}.wave i:nth-child(5){animation-delay:.4s}.wave i:nth-child(6){animation-delay:.5s}.wave i:nth-child(7){animation-delay:.6s}
+@keyframes w{0%,100%{height:8px}50%{height:30px}}
+.count{font-size:13px;color:var(--mute);margin-top:8px}
+.q{margin-top:18px}
+.q .qt{font-weight:800;margin-bottom:10px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:2px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center;cursor:pointer;background:#fff;font-family:inherit;font-size:15px;font-weight:600;color:var(--ink);transition:.15s}
+.opt .em{font-size:30px;display:block;margin-bottom:2px}
+.opt.sel{border-color:var(--navy);background:var(--sky)}
+.opt.ok{border-color:var(--green);background:var(--mint)}
+.opt.no{border-color:var(--red);background:#fdeaea}
+.fb{margin-top:10px;padding:12px 14px;border-radius:12px;font-size:14px}
+.fb.ok{background:var(--mint);color:#11643f}
+.fb.no{background:#fdeaea;color:#8e2323}
+.script{margin-top:6px}
+.line{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed var(--line);align-items:flex-start}
+.line:last-child{border:none}
+.who{flex:0 0 46px;font-family:'Jua',sans-serif;font-size:15px;padding:2px 0;border-radius:8px;text-align:center}
+.who.J{background:#e3ecff;color:#2a4cb0}.who.M{background:#ffe6ee;color:#a1284f}
+.line .txt{flex:1}
+.line .ko{color:var(--mute);font-size:13px}
+.line.hl{background:#fff8e2;border-radius:10px}
+.mini{border:none;background:none;font-size:18px;cursor:pointer;padding:2px 4px}
+.blank{display:inline-block;min-width:76px;border:none;border-bottom:3px solid var(--navy2);font-size:17px;font-family:inherit;text-align:center;padding:2px 4px;margin:0 3px;outline:none;background:transparent;color:var(--navy);font-weight:700}
+.blank.ok{border-color:var(--green);color:var(--green)}
+.blank.no{border-color:var(--red);color:var(--red)}
+.dict{padding:14px;border:2px solid var(--line);border-radius:14px;margin-bottom:12px}
+.dict .s{font-size:17px;line-height:2.1}
+.tip{display:none;margin-top:8px;font-size:13px;background:#fff4dc;color:#7a4e00;padding:8px 10px;border-radius:10px}
+.tip.show{display:block}
+.diff span{padding:1px 3px;border-radius:4px;margin-right:2px}
+.diff .g{background:var(--mint);color:#11643f}
+.diff .r{background:#fdeaea;color:#8e2323;text-decoration:line-through}
+.diff .m{background:#fff0c9;color:#7a4e00}
+.expr{border-left:5px solid var(--berry);background:#fff6f8;border-radius:12px;padding:14px;margin-bottom:12px}
+.expr .e{font-weight:800;font-size:18px;color:var(--berry)}
+.expr .k{font-size:14px;color:var(--mute)}
+.expr .ex{margin:8px 0;font-size:15px}
+.shadow{padding:14px;border:2px solid var(--line);border-radius:14px;margin-bottom:12px}
+.shadow .s{font-size:18px;font-weight:700;margin-bottom:10px}
+.rec{background:var(--red);color:#fff}
+.rec.on{animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.6}}
+audio{width:100%;margin-top:8px;height:38px}
+.stat{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.stat div{background:var(--sky);border-radius:14px;padding:14px;text-align:center}
+.stat b{display:block;font-size:26px;color:var(--navy);font-family:'Jua',sans-serif}
+.stat span{font-size:13px;color:var(--mute)}
+.badge{text-align:center;font-size:64px;margin:6px 0}
+.note{font-size:13px;color:var(--mute);margin-top:10px;text-align:center}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+.nav .inner{max-width:560px;margin:0 auto;display:flex;gap:8px}
+.hide{display:none!important}
+footer{text-align:center;color:var(--mute);font-size:12px;margin-top:24px}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 16px;border-radius:12px;font-size:14px;opacity:0;transition:.3s;pointer-events:none;z-index:50}
+.toast.show{opacity:.95}
+</style>
+<style>
+.daygrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.dcard{position:relative;border:2px solid var(--line);border-radius:16px;padding:12px 12px 10px;background:#fff;cursor:pointer;text-align:left;font-family:inherit;color:var(--ink);transition:.15s}
+.dcard:active{transform:scale(.97)}
+.dcard .dn{font-family:'Jua',sans-serif;color:var(--berry);font-size:14px}
+.dcard .dt{font-weight:800;font-size:15px;line-height:1.3;margin-top:2px}
+.dcard .ds{font-size:12px;color:var(--mute);margin-top:4px}
+.dcard.done{border-color:var(--green);background:var(--mint)}
+.dcard.done::after{content:'✓';position:absolute;right:10px;top:8px;color:var(--green);font-weight:900;font-size:18px}
+.dcard.next{border-color:var(--navy);box-shadow:0 0 0 3px rgba(46,61,124,.15)}
+.weekh{font-family:'Jua',sans-serif;color:var(--navy);margin:16px 0 8px;font-size:16px}
+.prog{height:10px;background:var(--sky);border-radius:6px;overflow:hidden;margin:8px 0 4px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--navy2),var(--berry))}
+.linkrow{display:flex;gap:8px;margin-top:10px}
+.linkrow a{flex:1;text-align:center;text-decoration:none;font-size:13px;padding:9px;border-radius:10px;background:var(--sky);color:var(--navy);font-weight:700}
+</style>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <div class="brand">ENGLISH EYE STELLA · DAILY LISTENING</div>
+    <div class="title" id="htitle">🎧 Junior Daily Listening</div>
+    <div class="steps" id="steps"></div>
+    <div class="steplabel" id="steplabel"></div>
+  </div>
+</header>
+
+<div class="wrap" id="app"></div>
+
+<div class="nav" id="nav">
+  <div class="inner">
+    <button class="btn" id="prevBtn" style="flex:0 0 90px">◀ 이전</button>
+    <button class="btn primary" id="nextBtn" style="flex:1">다음 ▶</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   Stella Daily Listening · Junior DAY 01~20
+   Created by 스텔라원장 · English Eye Stella
+   ========================================================= */
+const CONFIG = {
+  APPS_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycby9KbzxP_nWQGZZmKU4B1wT4SouNm_oyYnXJJnM7mvxkp3kERpjfJdEdcB5yV9QHZGH/exec',
+  LEVEL: 'Junior'
+};
+const DAYS = [{"title": "Weekend Plans", "words": [["weekend", "주말"], ["visit", "방문하다"], ["grandma", "할머니"], ["dumpling", "만두"], ["together", "함께"]], "script": [["J", "Hi, Mia! What are you going to do this weekend?", "안녕, 미아! 이번 주말에 뭐 할 거야?"], ["M", "I'm going to visit my grandma in Gimhae.", "김해에 계신 할머니 댁에 갈 거야."], ["J", "Cool! How are you getting there?", "좋다! 거기 어떻게 가?"], ["M", "We're taking the bus. It takes about an hour.", "버스 타고 가. 한 시간쯤 걸려."], ["J", "What do you usually do at her house?", "할머니 댁에서 보통 뭐 해?"], ["M", "We make dumplings together. She's really good at cooking.", "같이 만두를 만들어. 할머니는 요리를 정말 잘하셔."], ["J", "That sounds fun. I want to try her dumplings!", "재밌겠다. 나도 할머니 만두 먹어보고 싶어!"], ["M", "Okay, I'll bring some for you on Monday.", "좋아, 월요일에 너 주려고 좀 가져올게."]], "qs": [["Where is Mia going this weekend?", [["👵", "Grandma's house"], ["🏫", "School"], ["🏖️", "The beach"], ["🎬", "A movie theater"]], 0, [0, 1], "I'm going to visit my grandma in Gimhae. → 할머니 댁에 가요."], ["How will Mia get there?", [["🚗", "By car"], ["🚆", "By train"], ["🚌", "By bus"], ["🚲", "By bike"]], 2, [2, 3], "We're taking the bus. → 버스를 타고 가요."], ["How long does it take?", [["⏱️", "30 minutes"], ["🕐", "About an hour"], ["🕑", "Two hours"], ["🌞", "All day"]], 1, [3], "It takes about an hour. → 한 시간쯤 걸려요."], ["What will Mia do on Monday?", [["🍳", "Cook with Grandma"], ["🚌", "Take the bus"], ["🏠", "Visit Jake's house"], ["🥟", "Bring dumplings for Jake"]], 3, [6, 7], "I'll bring some for you on Monday. → 제이크에게 만두를 가져다줘요."]], "blanks": [[0, "What are you {going} {to} do this weekend?", "going to는 빠르게 말하면 [고나]처럼 들려요."], [3, "It {takes} {about} an hour.", "takes about → [테익서바웃] 끝소리 s가 다음 모음과 이어져요."], [5, "She's really {good} {at} cooking.", "good at → [구댓] d가 a와 붙어서 부드럽게 들려요."], [7, "I'll {bring} some {for} you on Monday.", "for는 약하게 [퍼]로 들려요. I'll은 [아일] 한 덩어리!"]], "full": [[3, "We're taking the bus.", "We're = We are, [위어]로 짧게 들려요."], [5, "We make dumplings together.", "dumplings 끝의 -s를 놓치지 마세요."], [6, "That sounds fun.", "sounds의 -ds가 [즈]로 들려요."]], "expr": [["be going to + 동사", "~할 거야 (미래 계획)", "I'm going to visit my grandma.", "I'm going to"], ["It takes about + 시간", "~쯤 걸려", "It takes about an hour.", "It takes about"], ["be good at + 명사/-ing", "~을 잘해", "She's really good at cooking.", "I'm good at"]]}, {"title": "Lunch at the Cafeteria", "words": [["lunch", "점심"], ["spaghetti", "스파게티"], ["salad", "샐러드"], ["tomato", "토마토"], ["window", "창문"]], "script": [["J", "Mia, what's for lunch today?", "미아, 오늘 점심 뭐야?"], ["M", "We have spaghetti and salad.", "스파게티랑 샐러드가 있어."], ["J", "Great! I love spaghetti.", "좋다! 나 스파게티 정말 좋아해."], ["M", "Me too. But I don't like tomatoes in my salad.", "나도. 근데 샐러드에 든 토마토는 싫어."], ["J", "Then can I have your tomatoes?", "그럼 네 토마토 내가 먹어도 돼?"], ["M", "Sure! Do you want some milk, too?", "물론! 우유도 좀 줄까?"], ["J", "No, thanks. I'd like some orange juice.", "아니, 괜찮아. 오렌지 주스로 할래."], ["M", "Okay. Let's sit by the window.", "좋아. 창가에 앉자."]], "qs": [["What is for lunch today?", [["🍝", "Spaghetti and salad"], ["🍔", "Hamburgers"], ["🍕", "Pizza"], ["🍛", "Curry and rice"]], 0, [0, 1], "We have spaghetti and salad. → 스파게티와 샐러드"], ["What doesn't Mia like?", [["🥛", "Milk"], ["🍝", "Spaghetti"], ["🍅", "Tomatoes"], ["🧃", "Orange juice"]], 2, [3], "I don't like tomatoes in my salad. → 토마토를 싫어해요."], ["What does Jake want to drink?", [["🥛", "Milk"], ["💧", "Water"], ["🥤", "Soda"], ["🧃", "Orange juice"]], 3, [5, 6], "I'd like some orange juice. → 오렌지 주스"], ["Where will they sit?", [["🚪", "By the door"], ["🪟", "By the window"], ["👩‍🏫", "Near the teacher"], ["🌳", "Outside"]], 1, [7], "Let's sit by the window. → 창가에 앉아요."]], "blanks": [[0, "Mia, {what's} for {lunch} today?", "what's → [왓츠] 짧게 들려요."], [3, "But I {don't} {like} tomatoes in my salad.", "don't like → [돈라익] t가 거의 안 들려요."], [4, "Then {can} I {have} your tomatoes?", "can I → [캐나이] 이어서 들려요."], [6, "No, thanks. {I'd} {like} some orange juice.", "I'd like → [아이드라익] d가 약해요."]], "full": [[2, "I love spaghetti.", "love의 v는 윗니로 아랫입술을 살짝 물어요."], [5, "Do you want some milk, too?", "want some → [원썸] t가 빠져요."], [7, "Let's sit by the window.", "Let's → [렛츠] 짧게!"]], "expr": [["I'd like + 명사", "~로 할래요 / ~ 주세요", "I'd like some orange juice.", "I'd like"], ["Can I have ~?", "~ 먹어도/가져도 돼?", "Can I have your tomatoes?", "Can I have"], ["Let's + 동사", "~하자", "Let's sit by the window.", "Let's"]]}, {"title": "My Lost Pencil Case", "words": [["pencil case", "필통"], ["backpack", "책가방"], ["star", "별"], ["under", "~ 아래에"], ["desk", "책상"]], "script": [["M", "Jake, have you seen my pencil case?", "제이크, 내 필통 봤어?"], ["J", "What does it look like?", "어떻게 생겼어?"], ["M", "It's blue and it has a star on it.", "파란색이고 별이 그려져 있어."], ["J", "Is it in your backpack?", "가방 안에 있어?"], ["M", "No, I checked. It's not there.", "아니, 확인했어. 거기 없어."], ["J", "Look! There's a blue pencil case under the desk.", "봐! 책상 밑에 파란 필통이 있어."], ["M", "Oh, that's mine! Thank you so much.", "아, 그거 내 거야! 정말 고마워."], ["J", "You're welcome. Put it on your desk next time.", "천만에. 다음엔 책상 위에 둬."]], "qs": [["What did Mia lose?", [["🎒", "Her backpack"], ["📏", "Her ruler"], ["✏️", "Her pencil case"], ["📕", "Her book"]], 2, [0], "Have you seen my pencil case? → 필통을 잃어버렸어요."], ["What does it look like?", [["❤️", "Red with a heart"], ["⭐", "Blue with a star"], ["🐱", "Yellow with a cat"], ["🌙", "Black with a moon"]], 1, [2], "It's blue and it has a star on it. → 파란색, 별 그림"], ["Where was it?", [["🎒", "In her backpack"], ["🪑", "On the chair"], ["🗄️", "In the locker"], ["⬇️", "Under the desk"]], 3, [5], "There's a blue pencil case under the desk. → 책상 밑"], ["What does Jake tell Mia?", [["🗣️", "Put it on your desk."], ["🛒", "Buy a new one."], ["👩‍🏫", "Ask the teacher."], ["🚶", "Look in the hallway."]], 0, [7], "Put it on your desk next time. → 책상 위에 두라고 해요."]], "blanks": [[0, "Jake, have you {seen} my {pencil} case?", "have you → [해뷰] 이어서 들려요."], [1, "What {does} it {look} like?", "does it → [더짓]"], [5, "There's a blue pencil case {under} the {desk}.", "There's → [데얼즈] 짧게 들려요."], [7, "{Put} it {on} your desk next time.", "Put it on → [푸리론] 굴러가듯 이어져요."]], "full": [[3, "Is it in your backpack?", "Is it in → [이지린]"], [4, "It's not there.", "not의 t는 거의 안 들려요."], [6, "Thank you so much.", "Thank의 th는 혀끝을 살짝 물어요."]], "expr": [["What does it look like?", "그거 어떻게 생겼어?", "What does it look like?", "What does your ... look like?"], ["There's + 명사 + 장소", "~에 …이 있어", "There's a blue pencil case under the desk.", "There's a ... on the"], ["It has ~ on it", "~가 그려져 있어", "It has a star on it.", "My bag has ... on it."]]}, {"title": "Birthday Party", "words": [["birthday", "생일"], ["Saturday", "토요일"], ["party", "파티"], ["start", "시작하다"], ["sister", "여자 형제"]], "script": [["J", "Mia, my birthday is this Saturday.", "미아, 이번 토요일이 내 생일이야."], ["M", "Really? Happy early birthday!", "정말? 미리 생일 축하해!"], ["J", "Thanks. Would you like to come to my party?", "고마워. 내 파티에 올래?"], ["M", "Of course! What time does it start?", "물론이지! 몇 시에 시작해?"], ["J", "It starts at two o'clock at my house.", "우리 집에서 두 시에 시작해."], ["M", "Can I bring my little sister?", "내 여동생 데려가도 돼?"], ["J", "Sure. We're going to play games and eat pizza.", "물론. 우리 게임하고 피자 먹을 거야."], ["M", "Sounds great! See you on Saturday.", "좋아! 토요일에 봐."]], "qs": [["When is Jake's birthday?", [["💰", "Friday"], ["🪐", "Saturday"], ["☀️", "Sunday"], ["🌙", "Monday"]], 1, [0], "My birthday is this Saturday. → 토요일"], ["What time does the party start?", [["🕐", "One o'clock"], ["🕒", "Three o'clock"], ["🕑", "Two o'clock"], ["🕓", "Four o'clock"]], 2, [3, 4], "It starts at two o'clock. → 2시"], ["Who will Mia bring?", [["👧", "Her little sister"], ["👦", "Her brother"], ["👩", "Her mom"], ["🐶", "Her dog"]], 0, [5], "Can I bring my little sister? → 여동생"], ["What will they eat at the party?", [["🍰", "Cake"], ["🍗", "Chicken"], ["🌭", "Hot dogs"], ["🍕", "Pizza"]], 3, [6], "We're going to play games and eat pizza. → 피자"]], "blanks": [[2, "{Would} {you} like to come to my party?", "Would you → [우쥬] 하나처럼 들려요."], [3, "What time {does} it {start}?", "does it → [더짓]"], [4, "It starts {at} {two} o'clock at my house.", "at two → [앳투] t가 하나처럼 들려요."], [7, "Sounds great! {See} you {on} Saturday.", "See you → [씨유]"]], "full": [[1, "Happy early birthday!", "birthday의 th는 혀끝을 물어요."], [5, "Can I bring my little sister?", "little → [리를] 부드럽게 들려요."], [6, "We're going to play games and eat pizza.", "going to → [고나]"]], "expr": [["Would you like to + 동사?", "~할래? (정중한 초대)", "Would you like to come to my party?", "Would you like to"], ["What time does ~ start?", "~ 몇 시에 시작해?", "What time does it start?", "What time does ... start?"], ["It starts at + 시각", "~시에 시작해", "It starts at two o'clock.", "My class starts at"]]}, {"title": "A Rainy Day", "words": [["rain", "비가 오다"], ["outside", "밖에"], ["umbrella", "우산"], ["weather", "날씨"], ["sunny", "맑은"]], "script": [["M", "Oh no, it's raining outside.", "이런, 밖에 비 와."], ["J", "We can't play soccer in the park today.", "오늘은 공원에서 축구 못 하겠다."], ["M", "Let's stay inside and play a board game.", "안에 있으면서 보드게임 하자."], ["J", "Good idea. But I don't have an umbrella.", "좋은 생각이야. 근데 나 우산이 없어."], ["M", "Don't worry. You can use my yellow umbrella.", "걱정 마. 내 노란 우산 써도 돼."], ["J", "Thanks. How's the weather tomorrow?", "고마워. 내일 날씨는 어때?"], ["M", "It will be sunny and warm.", "맑고 따뜻할 거야."], ["J", "Great! Then let's play soccer tomorrow.", "좋아! 그럼 내일 축구하자."]], "qs": [["What's the weather like today?", [["☀️", "Sunny"], ["❄️", "Snowy"], ["🌧️", "Rainy"], ["🌬️", "Windy"]], 2, [0], "It's raining outside. → 비가 와요."], ["What will they do today?", [["⚽", "Play soccer"], ["🎲", "Play a board game"], ["📺", "Watch TV"], ["🚲", "Ride bikes"]], 1, [1, 2], "Let's stay inside and play a board game. → 보드게임"], ["What color is Mia's umbrella?", [["🟡", "Yellow"], ["🔴", "Red"], ["🔵", "Blue"], ["🟢", "Green"]], 0, [4], "You can use my yellow umbrella. → 노란색"], ["What will they do tomorrow?", [["🏊", "Go swimming"], ["🎨", "Draw pictures"], ["🛒", "Go shopping"], ["⚽", "Play soccer"]], 3, [6, 7], "Let's play soccer tomorrow. → 축구"]], "blanks": [[0, "Oh no, it's {raining} {outside}.", "raining outside → 이어서 [레이닝아웃사이드]"], [1, "We {can't} {play} soccer in the park today.", "can't는 [캔트] 끝 t가 약해요. can과 잘 구분하세요!"], [3, "But I {don't} {have} an umbrella.", "have an → [해번]"], [5, "How's the {weather} {tomorrow}?", "How's → [하우즈]"]], "full": [[2, "Let's stay inside and play a board game.", "and는 약하게 [앤]"], [4, "You can use my yellow umbrella.", "can은 약하게 [큰]으로 들려요."], [6, "It will be sunny and warm.", "It will → [잇윌] 빠르게"]], "expr": [["We can't + 동사", "우리는 ~할 수 없어", "We can't play soccer today.", "I can't"], ["How's the weather?", "날씨 어때?", "How's the weather tomorrow?", "How's the weather in ...?"], ["It will be + 날씨", "~할 거야 (날씨)", "It will be sunny and warm.", "It will be"]]}, {"title": "At the Library", "words": [["library", "도서관"], ["borrow", "빌리다"], ["dinosaur", "공룡"], ["return", "반납하다"], ["quiet", "조용한"]], "script": [["J", "Hi, Mia! Are you a library helper today?", "안녕, 미아! 오늘 도서관 도우미야?"], ["M", "Yes, I am. Can I help you?", "응. 도와줄까?"], ["J", "May I borrow this book about dinosaurs?", "공룡에 관한 이 책 빌려도 돼?"], ["M", "Sure. You can borrow three books at a time.", "물론. 한 번에 세 권 빌릴 수 있어."], ["J", "When do I have to return it?", "언제 반납해야 해?"], ["M", "You have to return it in two weeks.", "2주 안에 반납해야 해."], ["J", "Okay. And I have to be quiet in here, right?", "알았어. 그리고 여기선 조용히 해야 하지?"], ["M", "That's right. Enjoy your book!", "맞아. 책 재밌게 읽어!"]], "qs": [["What is Mia doing today?", [["📚", "She is a library helper."], ["📖", "She is reading a book."], ["✍️", "She is writing a story."], ["🧹", "She is cleaning the classroom."]], 0, [0, 1], "Are you a library helper today? → Yes, I am. → 도서관 도우미"], ["What is Jake's book about?", [["🚀", "Space"], ["🐠", "Fish"], ["🦖", "Dinosaurs"], ["🚗", "Cars"]], 2, [2], "this book about dinosaurs → 공룡"], ["How many books can Jake borrow at a time?", [["1️⃣", "One"], ["3️⃣", "Three"], ["5️⃣", "Five"], ["🔟", "Ten"]], 1, [3], "You can borrow three books at a time. → 세 권"], ["When does Jake have to return the book?", [["📅", "Tomorrow"], ["📆", "In one week"], ["⏰", "Today"], ["🗓️", "In two weeks"]], 3, [4, 5], "You have to return it in two weeks. → 2주 안에"]], "blanks": [[2, "{May} I {borrow} this book about dinosaurs?", "May I → [메이아이] 부드럽게 이어져요."], [3, "You can borrow {three} books {at} a time.", "three의 th는 혀끝! at a → [애러]"], [4, "When do I {have} {to} return it?", "have to → [해프터]"], [6, "And I have to be {quiet} in {here}, right?", "quiet [콰이엇]은 quite[콰잇]과 달라요."]], "full": [[1, "Can I help you?", "help you → [헬퓨]"], [5, "You have to return it in two weeks.", "return it in → [리터니린]"], [7, "Enjoy your book!", "Enjoy your → [인조이여]"]], "expr": [["May I + 동사?", "~해도 될까요? (공손하게)", "May I borrow this book?", "May I"], ["have to + 동사", "~해야 해", "You have to return it in two weeks.", "I have to"], ["at a time", "한 번에", "You can borrow three books at a time.", "I can ... at a time."]]}, {"title": "My New Puppy", "words": [["puppy", "강아지"], ["fur", "털"], ["ear", "귀"], ["feed", "먹이를 주다"], ["walk", "산책시키다"]], "script": [["M", "Jake, guess what? I have a new puppy!", "제이크, 있잖아. 나 새 강아지 생겼어!"], ["J", "Wow! What's its name?", "와! 이름이 뭐야?"], ["M", "His name is Coco. He has brown fur and big ears.", "이름은 코코야. 갈색 털에 귀가 커."], ["J", "So cute! How old is he?", "너무 귀엽다! 몇 살이야?"], ["M", "He's only three months old.", "겨우 3개월 됐어."], ["J", "Who takes care of him?", "누가 돌봐?"], ["M", "I feed him every morning, and my dad walks him at night.", "내가 매일 아침 밥 주고, 아빠가 밤에 산책시켜."], ["J", "Can I come and see him this weekend?", "이번 주말에 보러 가도 돼?"]], "qs": [["What is the puppy's name?", [["🐕", "Max"], ["🐶", "Coco"], ["🐩", "Toby"], ["🦮", "Bella"]], 1, [1, 2], "His name is Coco. → 코코"], ["What does Coco look like?", [["⚪", "White fur and small ears"], ["⚫", "Black fur and a long tail"], ["🟤", "Brown fur and big ears"], ["🟠", "Orange fur and short legs"]], 2, [2], "He has brown fur and big ears. → 갈색 털, 큰 귀"], ["How old is Coco?", [["🍼", "Three months old"], ["🎂", "One year old"], ["🎈", "Three years old"], ["📅", "Six months old"]], 0, [3, 4], "He's only three months old. → 3개월"], ["Who walks Coco at night?", [["👧", "Mia"], ["👩", "Mia's mom"], ["👦", "Jake"], ["👨", "Mia's dad"]], 3, [6], "my dad walks him at night → 미아의 아빠"]], "blanks": [[1, "Wow! {What's} {its} name?", "What's its → [왓츠잇츠]"], [2, "He {has} brown fur and {big} ears.", "has brown → [해즈브라운]"], [4, "He's only {three} {months} old.", "months [먼쓰] 끝소리를 잘 들어보세요."], [6, "I {feed} him {every} morning, and my dad walks him at night.", "feed him → [피딤] h가 약해요."]], "full": [[3, "How old is he?", "old is → [올디즈]"], [5, "Who takes care of him?", "care of → [케어러브]"], [7, "Can I come and see him this weekend?", "come and → [커먼]"]], "expr": [["Guess what?", "있잖아! (새 소식 전할 때)", "Guess what? I have a new puppy!", "Guess what? I"], ["How old is he/she?", "몇 살이야?", "How old is he?", "How old is your ...?"], ["take care of", "~을 돌보다", "Who takes care of him?", "I take care of"]]}, {"title": "Shopping for Sneakers", "words": [["sneakers", "운동화"], ["try on", "입어/신어 보다"], ["fit", "(크기가) 맞다"], ["size", "사이즈"], ["thousand", "천(1,000)"]], "script": [["M", "Jake, these sneakers are so cool!", "제이크, 이 운동화 진짜 멋지다!"], ["J", "Yeah, I like the white ones. Let me try them on.", "응, 난 흰색이 좋아. 신어볼게."], ["M", "How do they fit?", "잘 맞아?"], ["J", "They're too small. I need a bigger size.", "너무 작아. 더 큰 사이즈가 필요해."], ["M", "Here's size 230. Try these.", "230 여기 있어. 이거 신어봐."], ["J", "Perfect! How much are they?", "딱 맞아! 얼마야?"], ["M", "They're thirty thousand won.", "3만 원이야."], ["J", "Good. I'll take them!", "좋아. 이걸로 살게!"]], "qs": [["What are they shopping for?", [["👕", "T-shirts"], ["🧢", "Caps"], ["👟", "Sneakers"], ["🎒", "Backpacks"]], 2, [0], "these sneakers → 운동화"], ["What color does Jake like?", [["⚪", "White"], ["⚫", "Black"], ["🔴", "Red"], ["🔵", "Blue"]], 0, [1], "I like the white ones. → 흰색"], ["What was the problem?", [["📏", "They were too big."], ["🤏", "They were too small."], ["💸", "They were too expensive."], ["🎨", "The color was wrong."]], 1, [3], "They're too small. → 너무 작았어요."], ["How much are the sneakers?", [["1️⃣", "10,000 won"], ["2️⃣", "20,000 won"], ["4️⃣", "40,000 won"], ["3️⃣", "30,000 won"]], 3, [5, 6], "They're thirty thousand won. → 3만 원"]], "blanks": [[1, "Let me {try} them {on}.", "try them on → [트라이뎀온]"], [3, "They're {too} {small}.", "too [투~] 길게 강조해요."], [5, "{How} {much} are they?", "How much → [하우머치]"], [7, "Good. {I'll} {take} them!", "I'll → [아일] 한 덩어리!"]], "full": [[2, "How do they fit?", "do they → [두데이]"], [3, "I need a bigger size.", "need a → [니더]"], [6, "They're thirty thousand won.", "thirty, thousand 모두 th 소리!"]], "expr": [["try on", "~을 입어/신어 보다", "Let me try them on.", "Can I try on"], ["too + 형용사", "너무 ~한", "They're too small.", "It's too"], ["How much is/are ~?", "~ 얼마예요?", "How much are they?", "How much is"]]}, {"title": "Field Trip to the Zoo", "words": [["field trip", "현장학습"], ["yesterday", "어제"], ["giraffe", "기린"], ["elephant", "코끼리"], ["favorite", "가장 좋아하는"]], "script": [["J", "Mia, how was your field trip yesterday?", "미아, 어제 현장학습 어땠어?"], ["M", "It was amazing! We went to the zoo.", "정말 멋졌어! 동물원에 갔어."], ["J", "What animals did you see?", "어떤 동물 봤어?"], ["M", "I saw lions, giraffes, and a baby elephant.", "사자, 기린, 그리고 아기 코끼리를 봤어."], ["J", "What was your favorite?", "뭐가 제일 좋았어?"], ["M", "The baby elephant. It played with water.", "아기 코끼리. 물을 가지고 놀았어."], ["J", "Did you eat lunch there?", "거기서 점심 먹었어?"], ["M", "Yes, we ate sandwiches under a big tree.", "응, 큰 나무 아래에서 샌드위치 먹었어."]], "qs": [["Where did Mia go yesterday?", [["🏛️", "A museum"], ["🦁", "The zoo"], ["🏖️", "The beach"], ["🎢", "An amusement park"]], 1, [0, 1], "We went to the zoo. → 동물원"], ["Which animal did Mia NOT talk about?", [["🦁", "Lions"], ["🦒", "Giraffes"], ["🐘", "A baby elephant"], ["🐼", "Pandas"]], 3, [3], "I saw lions, giraffes, and a baby elephant. → 판다는 없어요."], ["What was Mia's favorite?", [["🐘", "The baby elephant"], ["🦁", "The lion"], ["🦒", "The giraffe"], ["🐒", "The monkey"]], 0, [4, 5], "The baby elephant. → 아기 코끼리"], ["What did they eat for lunch?", [["🍙", "Gimbap"], ["🍜", "Noodles"], ["🥪", "Sandwiches"], ["🍕", "Pizza"]], 2, [6, 7], "We ate sandwiches under a big tree. → 샌드위치"]], "blanks": [[0, "Mia, how {was} your field {trip} yesterday?", "was your → [워즈유어]"], [1, "It was amazing! We {went} {to} the zoo.", "went to → [웬투] t가 하나처럼 들려요."], [2, "What animals {did} {you} see?", "did you → [디쥬]"], [7, "We {ate} sandwiches {under} a big tree.", "ate [에잇] = eat의 과거형"]], "full": [[3, "I saw lions, giraffes, and a baby elephant.", "and a → [애너]"], [4, "What was your favorite?", "favorite → [페이버릿]"], [5, "It played with water.", "played의 -ed는 [드]로 들려요."]], "expr": [["How was ~?", "~ 어땠어?", "How was your field trip?", "How was your"], ["went / saw / ate", "갔다 / 봤다 / 먹었다 (과거)", "We went to the zoo.", "Yesterday, I"], ["What was your favorite?", "뭐가 제일 좋았어?", "What was your favorite?", "My favorite was"]]}, {"title": "Feeling Sick", "words": [["headache", "두통"], ["sore throat", "목 아픔"], ["fever", "열"], ["nurse", "보건 선생님"], ["warm", "따뜻한"]], "script": [["J", "Mia, you look tired. What's wrong?", "미아, 피곤해 보여. 무슨 일이야?"], ["M", "I have a headache and a sore throat.", "머리가 아프고 목이 따가워."], ["J", "Oh no. Do you have a fever?", "이런. 열도 있어?"], ["M", "I think so. I feel hot.", "그런 것 같아. 몸이 뜨거워."], ["J", "You should go to the nurse's office.", "보건실에 가 봐."], ["M", "Okay. Can you tell our teacher?", "알았어. 선생님께 말해줄래?"], ["J", "Sure. And you should drink some warm water.", "물론. 그리고 따뜻한 물도 좀 마셔."], ["M", "Thanks, Jake. You're a good friend.", "고마워, 제이크. 넌 좋은 친구야."]], "qs": [["What's wrong with Mia?", [["🦵", "A broken leg"], ["🤕", "A headache and a sore throat"], ["🦷", "A toothache"], ["🤢", "A stomachache"]], 1, [0, 1], "I have a headache and a sore throat. → 두통, 목 아픔"], ["How does Mia feel?", [["🥶", "Cold"], ["😴", "Sleepy"], ["😋", "Hungry"], ["🥵", "Hot"]], 3, [3], "I feel hot. → 몸이 뜨거워요."], ["Where should Mia go?", [["🏥", "The nurse's office"], ["🏠", "Home"], ["📚", "The library"], ["🛝", "The playground"]], 0, [4], "You should go to the nurse's office. → 보건실"], ["What should Mia drink?", [["🧃", "Juice"], ["🥛", "Cold milk"], ["🫖", "Warm water"], ["🥤", "Soda"]], 2, [6], "You should drink some warm water. → 따뜻한 물"]], "blanks": [[0, "Mia, you look tired. {What's} {wrong}?", "What's wrong → [왓츠렁]"], [2, "Do you {have} {a} fever?", "have a → [해버]"], [4, "You {should} go to the {nurse's} office.", "should → [슈드] d가 약해요."], [6, "You should {drink} some {warm} water.", "warm [웜]은 worm(벌레)과 달라요."]], "full": [[1, "I have a headache and a sore throat.", "sore throat → [소어쓰로웃]"], [3, "I feel hot.", "feel [피~일] 길게"], [7, "You're a good friend.", "You're a → [유어러]"]], "expr": [["What's wrong?", "무슨 일이야? / 어디 아파?", "What's wrong?", "What's wrong? I have a"], ["I have a + 증상", "~가 아파", "I have a headache.", "I have a"], ["should + 동사", "~하는 게 좋겠어 (충고)", "You should go to the nurse's office.", "You should"]]}, {"title": "School Club Day", "words": [["club", "동아리"], ["join", "가입하다"], ["science", "과학"], ["robot", "로봇"], ["experiment", "실험"]], "script": [["J", "Mia, which club are you going to join?", "미아, 어떤 동아리 들 거야?"], ["M", "I want to join the art club. I like drawing.", "미술 동아리 들고 싶어. 그림 그리는 거 좋아하거든."], ["J", "Cool. I'm interested in the science club.", "멋지다. 난 과학 동아리에 관심 있어."], ["M", "What do they do there?", "거기선 뭐 해?"], ["J", "They make robots and do fun experiments.", "로봇 만들고 재밌는 실험을 해."], ["M", "Sounds exciting! When do they meet?", "신난다! 언제 모여?"], ["J", "They meet every Wednesday after school.", "매주 수요일 방과 후에 모여."], ["M", "Then let's meet after our clubs and go home together.", "그럼 동아리 끝나고 만나서 같이 집에 가자."]], "qs": [["Which club does Mia want to join?", [["⚽", "Soccer club"], ["🎵", "Music club"], ["🎨", "Art club"], ["🔬", "Science club"]], 2, [1], "I want to join the art club. → 미술 동아리"], ["Which club is Jake interested in?", [["🔬", "Science club"], ["🎨", "Art club"], ["📚", "Book club"], ["🏀", "Basketball club"]], 0, [2], "I'm interested in the science club. → 과학 동아리"], ["What do they do in the science club?", [["🌱", "Grow plants"], ["🤖", "Make robots"], ["🔭", "Watch stars"], ["🍳", "Cook food"]], 1, [4], "They make robots and do fun experiments. → 로봇 만들기"], ["When does the science club meet?", [["🌙", "Every Monday"], ["🔥", "Every Tuesday"], ["💰", "Every Friday"], ["💧", "Every Wednesday"]], 3, [5, 6], "They meet every Wednesday after school. → 매주 수요일"]], "blanks": [[0, "Which club {are} you {going} to join?", "are you going to → [아유고나]"], [1, "I {want} {to} join the art club.", "want to → [워너]"], [2, "I'm {interested} {in} the science club.", "interested in → [인터레스티딘]"], [6, "They meet {every} {Wednesday} after school.", "Wednesday → [웬즈데이] 첫 d는 소리 안 나요."]], "full": [[3, "What do they do there?", "do they do → 리듬 있게!"], [4, "They make robots and do fun experiments.", "robots → [로밧츠]"], [5, "When do they meet?", "meet [미~잇] 길게"]], "expr": [["want to + 동사", "~하고 싶어", "I want to join the art club.", "I want to"], ["be interested in", "~에 관심 있어", "I'm interested in the science club.", "I'm interested in"], ["every + 요일", "매주 ~요일마다", "They meet every Wednesday.", "Every Saturday, I"]]}, {"title": "Winter Vacation Plans", "words": [["vacation", "방학"], ["excited", "신이 난"], ["island", "섬"], ["horse", "말"], ["skate", "스케이트를 타다"]], "script": [["M", "Jake, winter vacation starts next week!", "제이크, 다음 주에 겨울방학 시작해!"], ["J", "I know! I'm so excited.", "알아! 너무 신나."], ["M", "Where are you going this vacation?", "이번 방학에 어디 가?"], ["J", "My family is going to Jeju Island for four days.", "우리 가족은 4일 동안 제주도에 가."], ["M", "Wow! What will you do there?", "와! 거기서 뭐 할 거야?"], ["J", "I'll ride horses and climb Hallasan.", "말 타고 한라산에 오를 거야."], ["M", "That sounds amazing. I'll stay home and learn to skate.", "멋지다. 난 집에 있으면서 스케이트 배울 거야."], ["J", "Cool! Let's share photos after vacation.", "좋아! 방학 끝나고 사진 같이 보자."]], "qs": [["When does winter vacation start?", [["📅", "Today"], ["⏭️", "Next week"], ["🗓️", "Next month"], ["🌅", "Tomorrow"]], 1, [0], "Winter vacation starts next week! → 다음 주"], ["Where is Jake going?", [["🏝️", "Jeju Island"], ["🗼", "Seoul"], ["🌉", "Busan"], ["✈️", "Japan"]], 0, [2, 3], "My family is going to Jeju Island. → 제주도"], ["How long will Jake stay there?", [["2️⃣", "Two days"], ["3️⃣", "Three days"], ["4️⃣", "Four days"], ["7️⃣", "A week"]], 2, [3], "for four days → 4일 동안"], ["What will Mia do?", [["⛷️", "Go skiing"], ["🏊", "Go swimming"], ["✈️", "Travel"], ["⛸️", "Learn to skate"]], 3, [6], "I'll stay home and learn to skate. → 스케이트 배우기"]], "blanks": [[0, "Winter vacation {starts} {next} week!", "starts next → s와 n이 이어져요."], [2, "{Where} {are} you going this vacation?", "Where are → [웨어라]"], [3, "My family is going to Jeju Island {for} {four} days.", "for four → [퍼포~]"], [5, "{I'll} ride horses and {climb} Hallasan.", "climb의 b는 소리가 안 나요. [클라임]"]], "full": [[1, "I'm so excited.", "excited → [익싸이티드]"], [4, "What will you do there?", "will you → [윌유]"], [7, "Let's share photos after vacation.", "photos → [포토즈]"]], "expr": [["I'm excited.", "나 신나!", "I'm so excited.", "I'm excited about"], ["for + 기간", "~ 동안", "My family is going to Jeju Island for four days.", "I study English for"], ["learn to + 동사", "~하는 걸 배우다", "I'll learn to skate.", "I want to learn to"]]}, {"title": "Making Pancakes", "words": [["flour", "밀가루"], ["sugar", "설탕"], ["mix", "섞다"], ["bowl", "그릇"], ["pan", "프라이팬"]], "script": [["M", "Jake, today we're making pancakes in cooking class.", "제이크, 오늘 요리 수업에서 팬케이크 만들어."], ["J", "Great! What do we need?", "좋아! 뭐가 필요해?"], ["M", "We need flour, eggs, milk, and a little sugar.", "밀가루, 달걀, 우유, 그리고 설탕 조금."], ["J", "What do we do first?", "먼저 뭐 해?"], ["M", "First, mix the flour and sugar in a bowl.", "먼저 그릇에 밀가루와 설탕을 섞어."], ["J", "Then add the eggs and milk, right?", "그다음 달걀이랑 우유 넣는 거지?"], ["M", "Right. Finally, cook them in a pan for two minutes.", "맞아. 마지막으로 팬에서 2분 동안 구워."], ["J", "Yum! Let's put honey on top.", "맛있겠다! 위에 꿀 올리자."]], "qs": [["What are they making?", [["🍪", "Cookies"], ["🥞", "Pancakes"], ["🍰", "Cake"], ["🍞", "Bread"]], 1, [0], "we're making pancakes → 팬케이크"], ["What do they NOT need?", [["🥚", "Eggs"], ["🥛", "Milk"], ["🧈", "Butter"], ["🌾", "Flour"]], 2, [2], "flour, eggs, milk, and a little sugar → 버터는 없어요."], ["What do they do first?", [["🥣", "Mix the flour and sugar"], ["🥚", "Crack the eggs"], ["🔥", "Heat the pan"], ["🍯", "Add honey"]], 0, [3, 4], "First, mix the flour and sugar in a bowl. → 밀가루와 설탕 섞기"], ["What will they put on top?", [["🍓", "Strawberries"], ["🍫", "Chocolate"], ["🧈", "Butter"], ["🍯", "Honey"]], 3, [7], "Let's put honey on top. → 꿀"]], "blanks": [[1, "Great! What {do} {we} need?", "do we → [두위]"], [2, "We need flour, eggs, milk, and a {little} {sugar}.", "little → [리를]"], [4, "{First}, mix the flour and sugar {in} a bowl.", "in a → [이너]"], [6, "{Finally}, cook them in a pan {for} two minutes.", "Finally → [파이널리] f 소리!"]], "full": [[3, "What do we do first?", "first → [퍼~스트] f는 윗니로 아랫입술"], [5, "Then add the eggs and milk, right?", "add the → [애더]"], [7, "Let's put honey on top.", "put honey → [푸허니]"]], "expr": [["First, ... Then, ... Finally, ...", "먼저 / 그다음 / 마지막으로", "First, mix the flour and sugar.", "First, I"], ["We need + 명사", "~이 필요해", "We need flour, eggs, and milk.", "We need"], ["put A on B", "B 위에 A를 올리다", "Let's put honey on top.", "I put ... on"]]}, {"title": "Soccer Practice", "words": [["practice", "연습(하다)"], ["kick", "차다"], ["better", "더 잘하는"], ["faster", "더 빠른"], ["win", "이기다"]], "script": [["J", "Mia, are you coming to soccer practice today?", "미아, 오늘 축구 연습 와?"], ["M", "Yes! I practice every Tuesday and Thursday.", "응! 매주 화요일이랑 목요일에 연습해."], ["J", "You're getting better and better.", "너 점점 잘하고 있어."], ["M", "Thanks. But I need to practice kicking more.", "고마워. 근데 차는 연습을 더 해야 해."], ["J", "I can help you after practice.", "연습 끝나고 내가 도와줄게."], ["M", "Really? You're faster than me, too.", "정말? 너 나보다 빠르기도 하잖아."], ["J", "Just practice a little every day.", "매일 조금씩 연습해 봐."], ["M", "Okay! Our game is next Saturday. Let's win!", "좋아! 우리 경기는 다음 주 토요일이야. 이기자!"]], "qs": [["When does Mia practice soccer?", [["🌙", "Monday and Wednesday"], ["🔥", "Tuesday and Thursday"], ["💰", "Friday and Saturday"], ["📅", "Every day"]], 1, [1], "I practice every Tuesday and Thursday. → 화요일, 목요일"], ["What does Mia need to practice more?", [["🏃", "Running"], ["🧤", "Catching"], ["🙌", "Passing"], ["🦶", "Kicking"]], 3, [3], "I need to practice kicking more. → 공 차기"], ["Who is faster?", [["👦", "Jake"], ["👧", "Mia"], ["🧑‍🏫", "The coach"], ["🤝", "They are the same."]], 0, [5], "You're faster than me. → 제이크가 더 빨라요."], ["When is their game?", [["☀️", "This Sunday"], ["🌅", "Tomorrow"], ["⚽", "Next Saturday"], ["🗓️", "Next Friday"]], 2, [7], "Our game is next Saturday. → 다음 주 토요일"]], "blanks": [[0, "Are you {coming} {to} soccer practice today?", "coming to → [커밍투]"], [2, "You're getting {better} {and} better.", "better and better → [베러앤베러]"], [5, "You're {faster} {than} me, too.", "than [댄] th 소리!"], [6, "Just {practice} a {little} every day.", "practice a → [프랙티써]"]], "full": [[3, "I need to practice kicking more.", "need to → [니투]"], [4, "I can help you after practice.", "help you → [헬퓨]"], [7, "Our game is next Saturday.", "next Saturday → [넥스새러데이]"]], "expr": [["형용사-er than", "~보다 더 ~한 (비교)", "You're faster than me.", "I'm taller than"], ["better and better", "점점 더 잘", "You're getting better and better.", "My English is getting better and better."], ["need to + 동사", "~해야 해", "I need to practice kicking more.", "I need to"]]}, {"title": "Finding the Post Office", "words": [["post office", "우체국"], ["straight", "곧장"], ["block", "블록(구역)"], ["turn left", "왼쪽으로 돌다"], ["stamp", "우표"]], "script": [["J", "Mia, do you know where the post office is?", "미아, 우체국이 어딘지 알아?"], ["M", "Yes. Go straight two blocks.", "응. 두 블록 곧장 가."], ["J", "Two blocks. And then?", "두 블록. 그다음엔?"], ["M", "Turn left at the bakery.", "빵집에서 왼쪽으로 돌아."], ["J", "Turn left at the bakery. Is it far?", "빵집에서 왼쪽. 멀어?"], ["M", "No. It's next to the bank. It's about five minutes on foot.", "아니. 은행 옆이야. 걸어서 5분쯤이야."], ["J", "Thanks! I need to send a letter to my grandma.", "고마워! 할머니께 편지 보내야 하거든."], ["M", "That's sweet. Don't forget the stamp!", "다정하다. 우표 잊지 마!"]], "qs": [["Where does Jake want to go?", [["🏦", "The bank"], ["📮", "The post office"], ["🥐", "The bakery"], ["🏥", "The hospital"]], 1, [0], "do you know where the post office is? → 우체국"], ["Where should Jake turn left?", [["🏦", "At the bank"], ["🏫", "At the school"], ["🥐", "At the bakery"], ["🚦", "At the traffic light"]], 2, [3], "Turn left at the bakery. → 빵집에서"], ["Where is the post office?", [["🏦", "Next to the bank"], ["🌳", "Across from the park"], ["🏫", "Behind the school"], ["🥐", "Next to the bakery"]], 0, [5], "It's next to the bank. → 은행 옆"], ["Why is Jake going there?", [["📦", "To get a box"], ["💰", "To get money"], ["🎁", "To buy a gift"], ["✉️", "To send a letter"]], 3, [6], "I need to send a letter to my grandma. → 편지 보내기"]], "blanks": [[0, "Do you know {where} the post {office} is?", "post office → [포스터피스]"], [1, "Go {straight} {two} blocks.", "straight → [스트레잇]"], [3, "{Turn} {left} at the bakery.", "Turn left → [턴레프트]"], [5, "It's {next} {to} the bank.", "next to → [넥스투]"]], "full": [[4, "Is it far?", "Is it → [이짓]"], [6, "I need to send a letter to my grandma.", "letter → [레러]"], [7, "Don't forget the stamp!", "Don't forget → [돈퍼겟]"]], "expr": [["Do you know where ~ is?", "~가 어딘지 알아?", "Do you know where the post office is?", "Do you know where ... is?"], ["Go straight / Turn left", "곧장 가 / 왼쪽으로 돌아", "Go straight two blocks and turn left.", "Go straight and turn"], ["next to", "~ 옆에", "It's next to the bank.", "My house is next to"]]}, {"title": "A Phone Call", "words": [["speak", "말하다, 통화하다"], ["homework", "숙제"], ["page", "쪽, 페이지"], ["due", "~까지 내야 하는"], ["photo", "사진"]], "script": [["M", "Hello?", "여보세요?"], ["J", "Hello. This is Jake. May I speak to Mia?", "여보세요. 저 제이크예요. 미아랑 통화할 수 있을까요?"], ["M", "Hi, Jake! It's me. What's up?", "안녕, 제이크! 나야. 무슨 일이야?"], ["J", "Do you know our math homework? I left my book at school.", "수학 숙제 알아? 나 책을 학교에 두고 왔어."], ["M", "Yes. We have to do pages thirty and thirty-one.", "응. 30쪽이랑 31쪽 해야 돼."], ["J", "Thanks! When is it due?", "고마워! 언제까지야?"], ["M", "It's due tomorrow. I can send you a photo of the pages.", "내일까지야. 그 페이지 사진 보내줄게."], ["J", "You're the best. Talk to you later!", "최고야. 나중에 또 얘기하자!"]], "qs": [["Why did Jake call Mia?", [["🎮", "To play games"], ["📝", "To ask about homework"], ["🎂", "To invite her"], ["🍕", "To order food"]], 1, [3], "Do you know our math homework? → 숙제를 물어보려고"], ["Where is Jake's book?", [["🏫", "At school"], ["🏠", "At home"], ["🚌", "On the bus"], ["📚", "At the library"]], 0, [3], "I left my book at school. → 학교"], ["Which pages do they have to do?", [["📄", "Pages 13 and 14"], ["📃", "Pages 20 and 21"], ["📑", "Pages 30 and 31"], ["📘", "Pages 40 and 41"]], 2, [4], "pages thirty and thirty-one → 30, 31쪽"], ["When is the homework due?", [["⏰", "Today"], ["💰", "Friday"], ["🗓️", "Next week"], ["🌅", "Tomorrow"]], 3, [5, 6], "It's due tomorrow. → 내일"]], "blanks": [[1, "This is Jake. {May} I {speak} to Mia?", "speak to → [스픽투]"], [2, "It's me. {What's} {up}?", "What's up → [왓썹]"], [3, "I {left} my book {at} school.", "left my → t가 약해져 [레프마이]"], [6, "It's {due} {tomorrow}.", "due → [듀]"]], "full": [[4, "We have to do pages thirty and thirty-one.", "thirty / thirty-one 숫자를 잘 들어요."], [5, "When is it due?", "is it → [이짓]"], [7, "Talk to you later!", "later → [레이러]"]], "expr": [["May I speak to ~?", "~와 통화할 수 있을까요?", "May I speak to Mia?", "May I speak to"], ["This is + 이름.", "(전화에서) 저 ~예요.", "Hello. This is Jake.", "Hello. This is"], ["be due + 때", "~까지 내야 해", "It's due tomorrow.", "My homework is due"]]}, {"title": "Our Science Project", "words": [["project", "과제, 프로젝트"], ["topic", "주제"], ["solar system", "태양계"], ["planet", "행성"], ["model", "모형"]], "script": [["M", "Jake, our science project is due on Friday.", "제이크, 우리 과학 과제 금요일까지야."], ["J", "Right. What topic should we choose?", "맞아. 무슨 주제로 할까?"], ["M", "How about the solar system?", "태양계 어때?"], ["J", "Good idea. I can make a model of the planets.", "좋은 생각이야. 내가 행성 모형을 만들 수 있어."], ["M", "Great. I'll write the report and draw the pictures.", "좋아. 내가 보고서 쓰고 그림 그릴게."], ["J", "Which planet is the biggest?", "어떤 행성이 제일 커?"], ["M", "Jupiter is the biggest planet.", "목성이 가장 큰 행성이야."], ["J", "Wow, I didn't know that. Let's meet at the library tomorrow.", "와, 몰랐어. 내일 도서관에서 만나자."]], "qs": [["When is the project due?", [["🌙", "Monday"], ["💧", "Wednesday"], ["💰", "Friday"], ["☀️", "Sunday"]], 2, [0], "due on Friday → 금요일"], ["What is their topic?", [["🌋", "Volcanoes"], ["🪐", "The solar system"], ["🌊", "The ocean"], ["🦕", "Dinosaurs"]], 1, [1, 2], "How about the solar system? → 태양계"], ["What will Jake do?", [["🪐", "Make a model of the planets"], ["✍️", "Write the report"], ["🎨", "Draw the pictures"], ["🔍", "Find books"]], 0, [3, 4], "I can make a model of the planets. → 행성 모형 만들기"], ["Which planet is the biggest?", [["🔴", "Mars"], ["🌍", "Earth"], ["🪐", "Saturn"], ["🟠", "Jupiter"]], 3, [5, 6], "Jupiter is the biggest planet. → 목성"]], "blanks": [[1, "What {topic} {should} we choose?", "should we → [슈드위]"], [2, "{How} {about} the solar system?", "How about → [하워바웃]"], [3, "I can {make} {a} model of the planets.", "make a → [메이커]"], [6, "Jupiter is the {biggest} {planet}.", "biggest → [비기스트]"]], "full": [[4, "I'll write the report and draw the pictures.", "draw the → [드로더]"], [5, "Which planet is the biggest?", "Which → [위치]"], [7, "Let's meet at the library tomorrow.", "meet at → [미랫]"]], "expr": [["How about ~?", "~ 어때? (제안)", "How about the solar system?", "How about"], ["the + 형용사-est", "가장 ~한 (최상급)", "Jupiter is the biggest planet.", "... is the tallest"], ["I can + 동사", "나는 ~할 수 있어", "I can make a model of the planets.", "I can"]]}, {"title": "Movie Night", "words": [["movie", "영화"], ["action", "액션"], ["comedy", "코미디"], ["scary", "무서운"], ["popcorn", "팝콘"]], "script": [["J", "Mia, do you want to watch a movie tonight?", "미아, 오늘 밤에 영화 볼래?"], ["M", "Sure! What kind of movie do you like?", "좋아! 어떤 종류의 영화 좋아해?"], ["J", "I like action movies. How about you?", "난 액션 영화 좋아해. 너는?"], ["M", "I like comedies. Scary movies are not for me.", "난 코미디 좋아해. 무서운 영화는 나랑 안 맞아."], ["J", "Then let's watch a funny animal movie.", "그럼 재밌는 동물 영화 보자."], ["M", "Perfect. I'll bring the popcorn.", "완벽해. 내가 팝콘 가져갈게."], ["J", "Great. The movie starts at seven.", "좋아. 영화는 7시에 시작해."], ["M", "Okay. I'll be at your house at six thirty.", "알았어. 6시 반에 너희 집에 갈게."]], "qs": [["What kind of movie does Jake like?", [["😂", "Comedies"], ["👻", "Scary movies"], ["💥", "Action movies"], ["💕", "Love stories"]], 2, [2], "I like action movies. → 액션 영화"], ["What kind of movie does Mia NOT like?", [["😂", "Comedies"], ["🐻", "Animal movies"], ["💥", "Action movies"], ["👻", "Scary movies"]], 3, [3], "Scary movies are not for me. → 무서운 영화"], ["What will Mia bring?", [["🍿", "Popcorn"], ["🥤", "Soda"], ["🍫", "Chocolate"], ["🍕", "Pizza"]], 0, [5], "I'll bring the popcorn. → 팝콘"], ["What time will Mia go to Jake's house?", [["🕕", "6:00"], ["🕡", "6:30"], ["🕖", "7:00"], ["🕢", "7:30"]], 1, [7], "I'll be at your house at six thirty. → 6시 30분"]], "blanks": [[0, "Do you {want} {to} watch a movie tonight?", "want to → [워너]"], [1, "What {kind} {of} movie do you like?", "kind of → [카인더]"], [3, "Scary movies are {not} {for} me.", "not for → [낫퍼]"], [6, "The movie {starts} {at} seven.", "starts at → [스타츠앳]"]], "full": [[2, "How about you?", "about you → [어바우츄]"], [4, "Let's watch a funny animal movie.", "watch a → [와처]"], [5, "I'll bring the popcorn.", "popcorn → p를 톡 터뜨려요."]], "expr": [["What kind of ~?", "어떤 종류의 ~?", "What kind of movie do you like?", "What kind of ... do you like?"], ["How about you?", "너는? (되묻기)", "I like action movies. How about you?", "I like ... How about you?"], ["~ is/are not for me", "~은 나랑 안 맞아", "Scary movies are not for me.", "... is not for me."]]}, {"title": "Helping at Home", "words": [["set the table", "식탁을 차리다"], ["trash", "쓰레기"], ["clean", "청소하다"], ["forget", "잊다"], ["checklist", "체크리스트"]], "script": [["J", "Mia, do you help your parents at home?", "미아, 집에서 부모님 도와드려?"], ["M", "Yes. I set the table every evening.", "응. 매일 저녁 식탁을 차려."], ["J", "That's nice. I take out the trash on Mondays.", "멋지다. 난 월요일마다 쓰레기를 내다 버려."], ["M", "Do you also clean your room?", "네 방 청소도 해?"], ["J", "Yes, but sometimes I forget. Then my mom gets upset.", "응, 근데 가끔 까먹어. 그러면 엄마가 속상해하셔."], ["M", "Make a checklist. It really helps me.", "체크리스트를 만들어 봐. 나한텐 정말 도움이 돼."], ["J", "That's a good idea. I'll try it tonight.", "좋은 생각이야. 오늘 밤에 해 볼게."], ["M", "My parents always say thank you when I help.", "내가 도우면 부모님이 항상 고맙다고 하셔."]], "qs": [["What does Mia do every evening?", [["🧹", "Sweep the floor"], ["🍽️", "Set the table"], ["🧺", "Do the laundry"], ["🐕", "Walk the dog"]], 1, [1], "I set the table every evening. → 식탁 차리기"], ["When does Jake take out the trash?", [["💰", "On Fridays"], ["💧", "On Wednesdays"], ["🪐", "On Saturdays"], ["🌙", "On Mondays"]], 3, [2], "I take out the trash on Mondays. → 월요일마다"], ["What does Jake sometimes forget?", [["🛏️", "To clean his room"], ["📚", "To do his homework"], ["🦷", "To brush his teeth"], ["🗑️", "To take out the trash"]], 0, [3, 4], "Do you also clean your room? → sometimes I forget → 방 청소"], ["What does Mia tell Jake to make?", [["📅", "A calendar"], ["🎵", "A song"], ["✅", "A checklist"], ["📔", "A diary"]], 2, [5], "Make a checklist. → 체크리스트"]], "blanks": [[0, "Do you {help} {your} parents at home?", "help your → [헬퓨어]"], [1, "I {set} {the} table every evening.", "set the → [셋더]"], [2, "I {take} {out} the trash on Mondays.", "take out → [테이까웃]"], [4, "But {sometimes} I {forget}.", "sometimes → [썸타임즈]"]], "full": [[3, "Do you also clean your room?", "also → [올쏘]"], [5, "It really helps me.", "helps me → [헬스미]"], [6, "I'll try it tonight.", "try it → [트라이잇]"]], "expr": [["take out the trash", "쓰레기를 내다 버리다", "I take out the trash on Mondays.", "I"], ["always / sometimes", "항상 / 가끔 (빈도)", "Sometimes I forget.", "I always / I sometimes"], ["It really helps me.", "나한테 정말 도움이 돼", "Make a checklist. It really helps me.", "... really helps me."]]}, {"title": "Moving Away", "words": [["news", "소식"], ["move", "이사하다"], ["miss", "그리워하다"], ["keep in touch", "연락하고 지내다"], ["promise", "약속하다"]], "script": [["M", "Jake, I have some sad news.", "제이크, 슬픈 소식이 있어."], ["J", "What is it?", "뭔데?"], ["M", "My family is moving to Seoul next month.", "우리 가족이 다음 달에 서울로 이사 가."], ["J", "Oh no! I'm going to miss you so much.", "안 돼! 너무 보고 싶을 거야."], ["M", "Me too. You're my best friend.", "나도. 넌 내 가장 친한 친구야."], ["J", "Let's keep in touch. We can video chat every weekend.", "계속 연락하자. 매주 주말에 영상통화 하면 돼."], ["M", "Great idea! And you can visit me during vacation.", "좋은 생각이야! 그리고 방학 때 놀러 와."], ["J", "I promise I will. Let's take a picture together today.", "꼭 갈게, 약속해. 오늘 같이 사진 찍자."]], "qs": [["Where is Mia's family moving?", [["🏝️", "Jeju"], ["🗼", "Seoul"], ["✈️", "America"], ["🍎", "Daegu"]], 1, [2], "My family is moving to Seoul. → 서울"], ["When are they moving?", [["📅", "Next week"], ["🗓️", "Next year"], ["🌙", "Next month"], ["🌅", "Tomorrow"]], 2, [2], "next month → 다음 달"], ["How will they keep in touch?", [["📹", "Video chat every weekend"], ["✉️", "Write letters"], ["📱", "Text every day"], ["🎮", "Play games online"]], 0, [5], "We can video chat every weekend. → 주말마다 영상통화"], ["What will they do today?", [["🍦", "Eat ice cream"], ["🎁", "Buy gifts"], ["⚽", "Play soccer"], ["📸", "Take a picture together"]], 3, [7], "Let's take a picture together today. → 함께 사진 찍기"]], "blanks": [[2, "My family is {moving} {to} Seoul next month.", "moving to → [무빙투]"], [3, "I'm going to {miss} {you} so much.", "miss you → [미슈]"], [5, "Let's {keep} {in} touch.", "keep in touch → [키핀터치]"], [7, "I {promise} I {will}.", "promise → [프라미스]"]], "full": [[1, "What is it?", "is it → [이짓]"], [4, "You're my best friend.", "best friend → t가 약해져 [베스프렌드]"], [6, "You can visit me during vacation.", "visit me → [비짓미]"]], "expr": [["I'm going to miss you.", "네가 보고 싶을 거야", "I'm going to miss you so much.", "I'm going to miss"], ["keep in touch", "연락하고 지내다", "Let's keep in touch.", "Let's keep in touch by"], ["during + 기간", "~ 동안(에)", "You can visit me during vacation.", "During winter vacation, I"]]}];
+const pad = n => String(n).padStart(2,'0');
+
+/* ===================== 상태 ===================== */
+const STEPS = ['DAY 선택','Warm-up','듣기 + 문제','정답 확인','딕테이션','주요 표현','쉐도잉','완료'];
+const S = { step:0, dayIdx:null, name:'', cls:'', rate:1 };
+function resetDay(){
+  Object.assign(S,{listenCount:0,heard:new Set(),picks:[null,null,null,null],retry:{},blankRes:null,fullRes:null,
+    mySentences:['','',''],recs:{},startedAt:Date.now()});
+}
+resetDay();
+const D = ()=>DAYS[S.dayIdx];
+const DAYLABEL = ()=>`DAY ${pad(S.dayIdx+1)}`;
+
+/* ===================== 저장 (이 기기) ===================== */
+function lsGet(k,d){ try{ const v=JSON.parse(localStorage.getItem(k)); return v ?? d; }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+function loadSaved(){ const d=lsGet('stella_listen_day01_name',null); if(d){ S.name=d.name||''; S.cls=d.cls||''; } }
+function saveName(){ lsSet('stella_listen_day01_name',{name:S.name,cls:S.cls}); }
+const doneMap = ()=>lsGet('stella_listen_junior_done',{});
+function markDone(rec){ const m=doneMap(); m[S.dayIdx+1]=rec; lsSet('stella_listen_junior_done',m); }
+
+/* ===================== 음성 (TTS) ===================== */
+const synth = window.speechSynthesis;
+let voices = [];
+function loadVoices(){ voices = (synth?synth.getVoices():[]).filter(v=>/^en(-|_)/i.test(v.lang)); }
+if(synth){ loadVoices(); synth.onvoiceschanged = loadVoices; }
+function pickVoice(who){
+  if(!voices.length) return null;
+  const us = voices.filter(v=>/en-US/i.test(v.lang)); const pool = us.length?us:voices;
+  const female = pool.find(v=>/female|samantha|zira|aria|jenny|google us english/i.test(v.name));
+  const male = pool.find(v=>/male|david|alex|guy|daniel|fred/i.test(v.name) && !/female/i.test(v.name));
+  if(who==='M') return female || pool[0];
+  return male || pool[1] || pool[0];
+}
+let playToken = 0;
+function speak(text, opt={}){
+  return new Promise(res=>{
+    if(!synth){ toast('이 브라우저는 음성 재생을 지원하지 않아요'); return res(); }
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang='en-US'; u.rate = opt.rate || S.rate;
+    const v = pickVoice(opt.who||'M'); if(v) u.voice = v;
+    u.pitch = opt.who==='J' ? 0.9 : 1.15;
+    u.onend = res; u.onerror = res;
+    synth.speak(u);
+  });
+}
+async function playLines(idxs, el, rate){
+  synth && synth.cancel();
+  const token = ++playToken;
+  el && el.classList.add('playing');
+  for(const i of idxs){
+    if(token!==playToken) break;
+    document.querySelectorAll('.line').forEach(l=>l.classList.toggle('hl', +l.dataset.i===i));
+    await speak(D().script[i][1], {who:D().script[i][0], rate});
+    await new Promise(r=>setTimeout(r,250));
+  }
+  if(token===playToken){ el && el.classList.remove('playing'); document.querySelectorAll('.line').forEach(l=>l.classList.remove('hl')); }
+}
+function stopAll(){ playToken++; synth && synth.cancel(); document.querySelectorAll('.playing').forEach(e=>e.classList.remove('playing')); }
+function sayText(t, who, rate){ stopAll(); speak(t,{who,rate}); }
+
+/* ===================== 유틸 ===================== */
+const $ = s=>document.querySelector(s);
+const esc = s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const jsq = s=>String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+function toast(m){ const t=$('#toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1800); }
+function norm(s){
+  return s.toLowerCase().replace(/[’']/g,"'")
+   .replace(/\bwe're\b/g,'we are').replace(/\bi'm\b/g,'i am').replace(/\bshe's\b/g,'she is').replace(/\bhe's\b/g,'he is')
+   .replace(/\bi'll\b/g,'i will').replace(/\bthat's\b/g,'that is').replace(/\bit's\b/g,'it is').replace(/\byou're\b/g,'you are')
+   .replace(/\bthey're\b/g,'they are').replace(/\blet's\b/g,'let us').replace(/\bdon't\b/g,'do not').replace(/\bcan't\b/g,'can not')
+   .replace(/\bwhat's\b/g,'what is').replace(/\bhow's\b/g,'how is').replace(/\bthere's\b/g,'there is').replace(/\bi'd\b/g,'i would')
+   .replace(/\bdidn't\b/g,'did not').replace(/\bcannot\b/g,'can not')
+   .replace(/[^a-z0-9' ]/g,' ').replace(/\s+/g,' ').trim();
+}
+function wordDiff(target, input){
+  const a = norm(target).split(' '), b = norm(input).split(' ').filter(Boolean);
+  const dp = Array(a.length+1).fill(0).map(()=>Array(b.length+1).fill(0));
+  for(let i=a.length-1;i>=0;i--) for(let j=b.length-1;j>=0;j--)
+    dp[i][j] = a[i]===b[j] ? dp[i+1][j+1]+1 : Math.max(dp[i+1][j],dp[i][j+1]);
+  let i=0,j=0,html=[],hit=0;
+  while(i<a.length && j<b.length){
+    if(a[i]===b[j]){ html.push(`<span class="g">${esc(a[i])}</span>`); hit++; i++; j++; }
+    else if(dp[i+1][j]>=dp[i][j+1]){ html.push(`<span class="m">${esc(a[i])}</span>`); i++; }
+    else { html.push(`<span class="r">${esc(b[j])}</span>`); j++; }
+  }
+  while(i<a.length){ html.push(`<span class="m">${esc(a[i])}</span>`); i++; }
+  while(j<b.length){ html.push(`<span class="r">${esc(b[j])}</span>`); j++; }
+  return {html:html.join(''), score: Math.round(hit/a.length*100)};
+}
+function blankParts(t){ return t.split(/(\{[^}]+\})/).filter(Boolean); }
+function blankAnswers(t){ return [...t.matchAll(/\{([^}]+)\}/g)].map(m=>m[1]); }
+function blankPlain(t){ return t.replace(/[{}]/g,''); }
+
+/* ===================== 렌더 ===================== */
+function renderHeader(){
+  $('#htitle').textContent = S.dayIdx===null ? '🎧 Junior Daily Listening' : `🎧 Junior ${DAYLABEL()} · ${D().title}`;
+  $('#steps').innerHTML = STEPS.slice(1,7).map((_,i)=>`<div class="${i+1<S.step?'done':i+1===S.step?'now':''}"></div>`).join('');
+  $('#steps').style.display = S.step===0 ? 'none' : 'flex';
+  $('#steplabel').textContent = S.step===0 ? '오늘 할 DAY를 골라요 · 매일 15분' : S.step===7 ? '🎉 오늘 루틴 완료!' : `STEP ${S.step} / 6 · ${STEPS[S.step]}`;
+  $('#prevBtn').classList.toggle('hide', S.step===7);
+  $('#prevBtn').textContent = S.step===1 ? '◀ DAY' : '◀ 이전';
+  $('#nav').classList.toggle('hide', S.step===7 || S.step===0);
+  $('#nextBtn').textContent = S.step===6 ? '완료하기 ✓' : '다음 ▶';
+}
+function speedHTML(){
+  return `<div class="speed">${[0.8,1,1.2].map(r=>`<button data-r="${r}" class="${S.rate===r?'on':''}" onclick="setRate(${r})">${r===0.8?'🐢 0.8x':r===1?'1.0x':'🐇 1.2x'}</button>`).join('')}</div>`;
+}
+function setRate(r){ S.rate=r; document.querySelectorAll('.speed button').forEach(b=>b.classList.toggle('on', +b.dataset.r===r)); }
+
+function homeHTML(){
+  const m = doneMap(); const doneCnt = Object.keys(m).length;
+  const next = DAYS.findIndex((_,i)=>!m[i+1]);
+  let h=`<div class="card">
+    <h2>이름을 적어주세요</h2>
+    <p class="sub">선생님께 결과가 전달돼요.</p>
+    <input type="text" id="nm" placeholder="이름 (예: 김스텔라)" value="${esc(S.name)}">
+    <div style="height:8px"></div>
+    <input type="text" id="cl" placeholder="반 (예: B반)" value="${esc(S.cls)}">
+  </div>
+  <div class="card">
+    <h2>나의 듣기 여정 🗺️</h2>
+    <p class="sub">DAY를 눌러 시작해요. 완료한 DAY는 초록색으로 표시돼요.</p>
+    <div class="prog"><i style="width:${doneCnt/DAYS.length*100}%"></i></div>
+    <div style="font-size:13px;color:var(--mute)">${doneCnt} / ${DAYS.length} DAY 완료</div>`;
+  for(let w=0; w<4; w++){
+    h+=`<div class="weekh">WEEK ${w+1}</div><div class="daygrid">`;
+    for(let i=w*5;i<w*5+5;i++){
+      const r=m[i+1];
+      h+=`<button class="dcard ${r?'done':''} ${i===next?'next':''}" onclick="startDay(${i})">
+        <div class="dn">DAY ${pad(i+1)}${i===next?' · 오늘 할 차례':''}</div>
+        <div class="dt">${esc(DAYS[i].title)}</div>
+        <div class="ds">${r?`문제 ${r.q}/4 · 받아쓰기 ${r.d}% · ${r.date}`:'🎧 6단계 · 약 15분'}</div></button>`;
+    }
+    h+=`</div>`;
+  }
+  return h+`</div>`;
+}
+function startDay(i){
+  S.name=$('#nm').value.trim(); S.cls=$('#cl').value.trim();
+  if(!S.name){ toast('이름을 먼저 적어주세요'); $('#nm').focus(); return; }
+  saveName(); S.dayIdx=i; resetDay(); S.step=1; render();
+  try{ history.replaceState(null,'','?day='+(i+1)); }catch(e){}
+}
+
+function render(){
+  stopAll(); renderHeader(); window.scrollTo(0,0);
+  const app = $('#app'); let h='';
+  const d = S.dayIdx===null?null:D();
+  if(S.step===0) h = homeHTML();
+  if(S.step===1){
+    h=`<div class="card">
+      <h2>Warm-up 단어</h2>
+      <p class="sub">눌러서 듣고 소리 내어 따라 말해요. 5개 모두 들으면 초록색이 돼요.</p>
+      ${d.words.map((w,i)=>`<div class="word ${S.heard.has(i)?'heard':''}" onclick="hearWord(${i},this)"><div><b>${esc(w[0])}</b> <span>${esc(w[1])}</span></div><div>🔊</div></div>`).join('')}
+    </div>`;
+  }
+  if(S.step===2){
+    h=`<div class="card">
+      <h2>듣고 문제 풀기</h2>
+      <p class="sub">대본 없이 들어요. 여러 번 들어도 괜찮아요!</p>
+      <div class="player" id="pl">
+        <div class="wave">${'<i></i>'.repeat(7)}</div>
+        <div class="row" style="justify-content:center">
+          <button class="btn primary" onclick="listenAll()">▶ 전체 듣기</button>
+          <button class="btn" onclick="stopAll()">■ 정지</button>
+        </div>
+        ${speedHTML()}
+        <div class="count">들은 횟수: <b id="lc">${S.listenCount}</b>회</div>
+      </div>
+      ${d.qs.map((q,qi)=>`<div class="q"><div class="qt">${qi+1}. ${esc(q[0])}</div><div class="opts">${q[1].map((o,oi)=>`<button class="opt ${S.picks[qi]===oi?'sel':''}" onclick="pick(${qi},${oi})"><span class="em">${o[0]}</span>${esc(o[1])}</button>`).join('')}</div></div>`).join('')}
+    </div>`;
+  }
+  if(S.step===3){
+    const score = S.picks.filter((p,i)=>p===d.qs[i][2]).length;
+    h=`<div class="card">
+      <h2>정답 확인 ${score}/4</h2>
+      <p class="sub">틀린 문제는 해당 부분만 다시 듣고 한 번 더 도전해요.</p>
+      ${d.qs.map((q,qi)=>{
+        const ans=q[2], ok = S.picks[qi]===ans; const r = S.retry[qi];
+        const done = ok || r!==undefined;
+        return `<div class="q"><div class="qt">${qi+1}. ${esc(q[0])} ${ok?'✅':r===ans?'🔁✅':'❌'}</div>
+          <div class="opts">${q[1].map((o,oi)=>{
+            let c=''; if(ok&&oi===ans)c='ok'; else if(!ok){ if(r!==undefined){ if(oi===ans)c='ok'; else if(oi===r)c='no'; } else if(oi===S.picks[qi]) c='no'; }
+            return `<button class="opt ${c}" ${done?'disabled':''} onclick="retryPick(${qi},${oi})"><span class="em">${o[0]}</span>${esc(o[1])}</button>`;}).join('')}</div>
+          ${!done?`<div class="row" style="margin-top:8px"><button class="btn sm" onclick="playLines([${q[3]}],null)">🔁 이 부분만 다시 듣기</button><span style="font-size:13px;color:var(--mute);align-self:center">듣고 다시 골라보세요</span></div>`:''}
+          ${done?`<div class="fb ${ok||r===ans?'ok':'no'}">${esc(q[4])}</div>`:''}
+        </div>`;}).join('')}
+    </div>
+    <div class="card">
+      <h2>대본 보며 듣기 📄</h2>
+      <p class="sub">문장을 눌러 하나씩 들어볼 수 있어요.</p>
+      ${speedHTML()}
+      <div class="script">${d.script.map((l,i)=>`<div class="line" data-i="${i}"><div class="who ${l[0]}">${l[0]==='J'?'Jake':'Mia'}</div><div class="txt">${esc(l[1])}<div class="ko">${esc(l[2])}</div></div><button class="mini" onclick="playLines([${i}],null)">🔊</button></div>`).join('')}</div>
+      <button class="btn block" style="margin-top:10px" onclick="playLines([0,1,2,3,4,5,6,7],null)">▶ 대본 전체 듣기</button>
+    </div>`;
+  }
+  if(S.step===4){
+    h=`<div class="card">
+      <h2>딕테이션 ① 빈칸 채우기</h2>
+      <p class="sub">문장을 듣고 빈칸에 들어갈 단어를 써요.</p>
+      ${speedHTML()}
+      ${d.blanks.map((b,bi)=>{ let k=0; const who=d.script[b[0]][0]; const pt=jsq(blankPlain(b[1]));
+        return `<div class="dict"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:4px"><b style="color:var(--navy)">${bi+1}</b><div class="row"><button class="btn sm" onclick="sayText('${pt}','${who}')">🔊 듣기</button><button class="btn sm" onclick="sayText('${pt}','${who}',0.7)">🐢 천천히</button></div></div>
+        <div class="s">${blankParts(b[1]).map(p=>p[0]==='{'?`<input class="blank" data-b="${bi}" data-k="${k++}" autocomplete="off" autocapitalize="off" spellcheck="false">`:esc(p)).join('')}</div>
+        <div class="tip" id="bt${bi}">🔊 ${esc(b[2])}</div></div>`;}).join('')}
+      <button class="btn primary block" onclick="checkBlanks()">채점하기</button>
+      <div id="blankScore"></div>
+    </div>
+    <div class="card">
+      <h2>딕테이션 ② 문장 받아쓰기</h2>
+      <p class="sub">문장 전체를 듣고 그대로 써요.</p>
+      ${d.full.map((f,fi)=>{ const who=d.script[f[0]][0]; const st=jsq(f[1]);
+        return `<div class="dict"><div class="row" style="justify-content:space-between;align-items:center;margin-bottom:8px"><b style="color:var(--navy)">${fi+1}</b><div class="row"><button class="btn sm" onclick="sayText('${st}','${who}',1)">🔊 듣기</button><button class="btn sm" onclick="sayText('${st}','${who}',0.7)">🐢 천천히</button></div></div>
+        <input type="text" id="fd${fi}" placeholder="들은 문장을 써보세요" autocomplete="off" autocapitalize="off" spellcheck="false">
+        <div class="diff" id="fr${fi}" style="margin-top:8px"></div><div class="tip" id="ft${fi}">🔊 ${esc(f[2])}</div></div>`;}).join('')}
+      <button class="btn primary block" onclick="checkFull()">채점하기</button>
+      <p class="note">🟩 맞음 · 🟨 빠진 단어 · 🟥 틀린 단어</p>
+    </div>`;
+  }
+  if(S.step===5){
+    h=`<div class="card">
+      <h2>오늘의 주요 표현 ✍️</h2>
+      <p class="sub">표현을 익히고, 나만의 문장을 하나씩 만들어요.</p>
+      ${d.expr.map((x,xi)=>`<div class="expr"><div class="e">${esc(x[0])}</div><div class="k">${esc(x[1])}</div>
+        <div class="ex">📌 ${esc(x[2])} <button class="mini" onclick="sayText('${jsq(x[2])}','M')">🔊</button></div>
+        <textarea rows="2" id="my${xi}" placeholder="${esc(x[3])} ..." oninput="S.mySentences[${xi}]=this.value">${esc(S.mySentences[xi])}</textarea></div>`).join('')}
+    </div>`;
+  }
+  if(S.step===6){
+    h=`<div class="card">
+      <h2>쉐도잉 🎤</h2>
+      <p class="sub">듣고 바로 따라 말해요. 3번 반복 듣기 후 내 목소리를 녹음해 비교해요.</p>
+      ${d.expr.map((x,si)=>{ const s=jsq(x[2]); return `<div class="shadow"><div class="s">${esc(x[2])}</div>
+        <div class="row">
+          <button class="btn sm" onclick="sayText('${s}','M')">🔊 듣기</button>
+          <button class="btn sm" onclick="sayText('${s}','M',0.7)">🐢 천천히</button>
+          <button class="btn sm" onclick="repeat3(${si})">🔁 3회 반복</button>
+          <button class="btn sm rec" id="rb${si}" onclick="toggleRec(${si})">● 녹음</button>
+        </div>
+        <div id="ra${si}">${S.recs[si]?`<audio controls src="${S.recs[si]}"></audio>`:''}</div></div>`;}).join('')}
+      <p class="note">녹음이 안 되면 브라우저의 마이크 권한을 허용해 주세요.</p>
+    </div>`;
+  }
+  if(S.step===7){
+    const qScore = d.qs.filter((q,i)=>S.picks[i]===q[2]).length;
+    const dict = Math.round(((S.blankRes??0) + (S.fullRes??0))/2);
+    const exprCnt = S.mySentences.filter(x=>x.trim()).length;
+    const min = Math.max(1, Math.round((Date.now()-S.startedAt)/60000));
+    h=`<div class="card" style="text-align:center">
+      <div class="badge">${qScore===4&&dict>=90?'🏆':qScore>=3?'🌟':'💪'}</div>
+      <h2>${esc(S.name||'친구')}, ${DAYLABEL()} 완료!</h2>
+      <p class="sub">${CONFIG.LEVEL} ${DAYLABEL()} · ${esc(d.title)}</p>
+      <div class="stat">
+        <div><b>${qScore}/4</b><span>듣기 문제 (1차)</span></div>
+        <div><b>${dict}%</b><span>딕테이션 정확도</span></div>
+        <div><b>${exprCnt}/3</b><span>나만의 문장</span></div>
+        <div><b>${S.listenCount}회 · ${min}분</b><span>들은 횟수 · 학습 시간</span></div>
+      </div>
+      <button class="btn berry block" id="sendBtn" onclick="sendResult()">📤 선생님께 결과 보내기</button>
+      <div id="sendMsg" class="note"></div>
+      <div class="row" style="margin-top:8px">
+        <button class="btn" style="flex:1" onclick="restart()">↺ 다시 하기</button>
+        <button class="btn primary" style="flex:1" onclick="goHome()">🗺️ DAY 목록</button>
+      </div>
+    </div>`;
+  }
+  const pdfLink = d ? `<div class="linkrow"><a href="listening_junior_day${pad(S.dayIdx+1)}_student.pdf" target="_blank" rel="noopener">🖨️ ${DAYLABEL()} 프린트물</a></div>` : '';
+  app.innerHTML = h + (S.step>0?pdfLink:'') + `<footer>Created by 스텔라원장 · English Eye Stella</footer>`;
+}
+
+/* ===================== 액션 ===================== */
+function hearWord(i,el){ speak(D().words[i][0],{who:'M'}); S.heard.add(i); el.classList.add('heard'); }
+function listenAll(){ S.listenCount++; $('#lc').textContent=S.listenCount; playLines([0,1,2,3,4,5,6,7], $('#pl')); }
+function pick(qi,oi){ S.picks[qi]=oi; const box=document.querySelectorAll('.q')[qi]; box.querySelectorAll('.opt').forEach((b,i)=>b.classList.toggle('sel',i===oi)); }
+function retryPick(qi,oi){ const ans=D().qs[qi][2]; if(S.retry[qi]!==undefined || S.picks[qi]===ans) return; S.retry[qi]=oi; toast(oi===ans?'🎉 다시 듣고 맞혔어요!':'정답과 해설을 확인해요'); render(); }
+function checkBlanks(){
+  let hit=0,total=0;
+  document.querySelectorAll('.blank').forEach(inp=>{
+    const b=+inp.dataset.b,k=+inp.dataset.k; const correct = blankAnswers(D().blanks[b][1])[k];
+    const raw = inp.value.split('→')[0].trim();
+    const ok = norm(raw)===norm(correct); total++; if(ok)hit++;
+    inp.classList.toggle('ok',ok); inp.classList.toggle('no',!ok);
+    if(!ok){ inp.value = raw ? raw+' → '+correct : correct; inp.style.minWidth='120px'; }
+  });
+  D().blanks.forEach((_,i)=>$('#bt'+i).classList.add('show'));
+  S.blankRes = Math.round(hit/total*100);
+  $('#blankScore').innerHTML = `<div class="fb ${S.blankRes>=75?'ok':'no'}">빈칸 ${hit}/${total} 정답 · 🔊 소리 팁을 꼭 읽어보세요!</div>`;
+}
+function checkFull(){
+  let sum=0;
+  D().full.forEach((f,fi)=>{ const r=wordDiff(f[1],$('#fd'+fi).value); sum+=r.score;
+    $('#fr'+fi).innerHTML = r.html + ` <b style="font-size:13px;color:var(--navy)">${r.score}%</b>`; $('#ft'+fi).classList.add('show'); });
+  S.fullRes = Math.round(sum/D().full.length);
+  toast(`받아쓰기 정확도 ${S.fullRes}%`);
+}
+async function repeat3(si){ stopAll(); const t=playToken; for(let i=0;i<3;i++){ if(t!==playToken)break; await speak(D().expr[si][2],{who:'M'}); await new Promise(r=>setTimeout(r,1800)); } }
+let rec=null, recIdx=null, chunks=[];
+async function toggleRec(si){
+  if(rec && rec.state==='recording'){ rec.stop(); return; }
+  try{
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    rec = new MediaRecorder(stream); chunks=[]; recIdx=si;
+    rec.ondataavailable = e=>chunks.push(e.data);
+    rec.onstop = ()=>{ stream.getTracks().forEach(t=>t.stop()); const url=URL.createObjectURL(new Blob(chunks,{type:rec.mimeType||'audio/webm'}));
+      S.recs[recIdx]=url; $('#ra'+recIdx).innerHTML=`<audio controls src="${url}"></audio>`; const b=$('#rb'+recIdx); b.textContent='● 다시 녹음'; b.classList.remove('on'); };
+    rec.start(); const b=$('#rb'+si); b.textContent='■ 녹음 중지'; b.classList.add('on');
+  }catch(e){ toast('마이크를 사용할 수 없어요. 권한을 확인해 주세요.'); }
+}
+async function sendResult(){
+  const d=D();
+  const qScore = d.qs.filter((q,i)=>S.picks[i]===q[2]).length;
+  const wrong = d.qs.map((q,i)=>S.picks[i]===q[2]?null:`Q${i+1}`).filter(Boolean).join(', ');
+  const payload = {
+    type:'listening', name:S.name, class:S.cls, level:CONFIG.LEVEL, day:DAYLABEL(), topic:d.title,
+    quizCorrect:qScore, quizScore:`${qScore}/4`, wrongQuestions:wrong||'없음',
+    blankScore:S.blankRes??0, dictationScore:S.fullRes??0,
+    listenCount:S.listenCount, mySentences:S.mySentences.filter(x=>x.trim()).join(' / '),
+    shadowingDone:Object.keys(S.recs).length, minutes:Math.max(1,Math.round((Date.now()-S.startedAt)/60000)),
+    submittedAt:new Date().toLocaleString('ko-KR'), submittedISO:new Date().toISOString()
+  };
+  const msg=$('#sendMsg'), btn=$('#sendBtn');
+  if(!CONFIG.APPS_SCRIPT_URL){ msg.textContent='⚙️ 노션 연결 설정 전이에요 (선생님 설정 필요)'; return; }
+  btn.disabled=true;
+  const ok = await postWithRetry(payload, (n,max)=>{ msg.textContent = n===1 ? '보내는 중...' : `사람이 많아서 다시 보내는 중... (${n}/${max})`; });
+  if(ok){ msg.textContent='✅ 선생님께 전달됐어요! 내일도 만나요 👋'; btn.textContent='✓ 전송 완료'; }
+  else{
+    queuePending(payload);
+    btn.disabled=false;
+    msg.textContent='📦 결과를 이 기기에 보관했어요. 다음에 이 페이지를 열면 자동으로 다시 보내요. (지금 다시 눌러도 돼요)';
+  }
+}
+
+/* ===== 자동 재전송: 최대 5회, 대기 시간을 점점 늘리고 무작위로 흩어서 몰림을 피해요 ===== */
+async function postWithRetry(payload, onTry){
+  const MAX=5;
+  for(let n=1;n<=MAX;n++){
+    onTry && onTry(n,MAX);
+    try{
+      const r = await fetch(CONFIG.APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+      const j = await r.json();
+      if(j.ok) return true;
+      throw new Error(j.error||'저장 실패');
+    }catch(e){
+      if(n===MAX) return false;
+      const wait = Math.min(15000, 1500*Math.pow(2,n-1)) + Math.random()*2000;
+      await new Promise(res=>setTimeout(res,wait));
+    }
+  }
+  return false;
+}
+const PENDING_KEY='stella_listen_pending';
+function getPending(){ return lsGet(PENDING_KEY,[]); }
+function setPending(a){ try{ a.length?localStorage.setItem(PENDING_KEY,JSON.stringify(a)):localStorage.removeItem(PENDING_KEY); }catch(e){} }
+function queuePending(p){ const a=getPending().filter(x=>!(x.name===p.name&&x.day===p.day&&x.submittedISO===p.submittedISO)); a.push(p); setPending(a.slice(-10)); }
+async function flushPending(){
+  const a=getPending(); if(!a.length || !CONFIG.APPS_SCRIPT_URL) return;
+  const left=[];
+  for(const p of a){ if(!(await postWithRetry(p))) left.push(p); }
+  setPending(left);
+  if(a.length>left.length) toast(`📤 지난번 못 보낸 결과 ${a.length-left.length}개를 선생님께 보냈어요`);
+}
+function restart(){ resetDay(); S.step=1; render(); }
+function goHome(){ S.step=0; S.dayIdx=null; render(); try{ history.replaceState(null,'',location.pathname); }catch(e){} }
+
+/* ===================== 네비게이션 ===================== */
+$('#nextBtn').onclick = ()=>{
+  if(S.step===1 && S.heard.size<5){ toast(`단어 5개를 모두 들어보세요 (${S.heard.size}/5)`); return; }
+  if(S.step===2){
+    if(S.listenCount<1){ toast('먼저 ▶ 전체 듣기를 눌러주세요'); return; }
+    if(S.picks.includes(null)){ toast('4문제를 모두 풀어주세요'); return; }
+  }
+  if(S.step===4 && (S.blankRes===null || S.fullRes===null)){ toast('빈칸·받아쓰기 모두 채점해 주세요'); return; }
+  if(S.step===5 && !S.mySentences.some(x=>x.trim())){ toast('나만의 문장을 1개 이상 써보세요'); return; }
+  S.step++;
+  if(S.step===7){
+    const d=D(), q=d.qs.filter((x,i)=>S.picks[i]===x[2]).length;
+    const now=new Date(); markDone({q, d:Math.round(((S.blankRes??0)+(S.fullRes??0))/2), date:`${now.getMonth()+1}/${now.getDate()}`});
+  }
+  render();
+};
+$('#prevBtn').onclick = ()=>{ if(S.step===1){ goHome(); return; } if(S.step>0){ S.step--; render(); } };
+
+/* ===================== 시작 ===================== */
+loadSaved();
+(function(){
+  const m = location.search.match(/[?&]day=(\d+)/) || location.hash.match(/day-?(\d+)/);
+  const n = m ? +m[1] : 0;
+  if(n>=1 && n<=DAYS.length && S.name){ S.dayIdx=n-1; resetDay(); S.step=1; }
+  render();
+  if(n>=1 && n<=DAYS.length && !S.name) toast(`이름을 적고 DAY ${pad(n)}를 눌러주세요`);
+})();
+setTimeout(flushPending, 1500 + Math.random()*3000);
+</script>
+</body>
+</html>
