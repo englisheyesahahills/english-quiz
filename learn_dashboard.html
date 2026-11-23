@@ -96,8 +96,10 @@ function prepMock(){const G={};GR.forEach(g=>{const k=g.name+"|"+g.title;if(!G[k
   if(g&&g.t>=r.t&&/pts=\d/.test(g.detail)){const pts=((g.detail.match(/pts=([\d.,]+)/)||[])[1]||"").split(",").map(Number);r.mock.pts=pts;r.mock.gt=g.t;
    r.score=Math.round((mc2*2.5+pts.reduce((a,b)=>a+(b||0),0))*10)/10;r.total=100;
    r.wrong=[...mcW2,...pts.map((p,i)=>p<5?"서술형"+(i+1):"").filter(Boolean)].join(", ")||"없음"}
-  else{r.mock.pts=null;r.score=mc2;r.total=20;r.wrong=mcW2.join(", ")||"없음"}})}
-const sc=r=>r.mock?(r.mock.pts?`총 ${r.score}/100`:`객관식 ${r.mock.mc}/20 · 서술형 대기`):`${r.score}/${r.total}`;
+  else{const ap=r.mock.ans.map((a,i)=>/^✓/.test(a)?5:saOk(K.sa[i],a)?5:0);r.mock.pts=ap;r.mock.auto=true;
+   r.score=Math.round((mc2*2.5+ap.reduce((a,b)=>a+b,0))*10)/10;r.total=100;
+   r.wrong=[...mcW2,...ap.map((p,i)=>p<5?"서술형"+(i+1):"").filter(Boolean)].join(", ")||"없음"}})}
+const sc=r=>r.mock?(r.mock.auto?`총 ${r.score}/100 · 자동`:`총 ${r.score}/100`):`${r.score}/${r.total}`;
 const REV="https://englisheyesahahills.github.io/english-quiz/mock_review.html?v=2#";
 function revLink(r){const M=r.mock,K=M.K,C5="①②③④⑤",ch={};
  (r.detail.match(/\d+번\([^)]*\): (?:[①②③④⑤]|무응답)→/g)||[]).forEach(x=>{const m=x.match(/(\d+)번\([^)]*\): (\S+?)→/);ch[+m[1]]=m[2]==="무응답"?-1:C5.indexOf(m[2])});
@@ -220,10 +222,10 @@ function renderView(R){const v=$("#v");if(!R.length){v.innerHTML=`<p class="empt
  else if(UI.tab==="day"){dayTab(v,R)}
  else if(UI.tab==="parts"){UI.pv==="m8"?(v.innerHTML=pvBar()+'<div id="pv2"></div>',bindPv(v,R),partsTab($("#pv2"),R)):allParts(v,R)}
  else if(UI.tab==="grade"){const L={};R.forEach(r=>{if(!r.mock)return;const k=r.name+"|"+r.title;if(!L[k]||L[k].t<r.t)L[k]=r});
-  const A=Object.values(L).sort((a,b)=>(!!a.mock.pts-!!b.mock.pts)||b.t-a.t);const wait=A.filter(r=>!r.mock.pts).length;
-  v.innerHTML=A.length?`<p class="muted">학생 화면에는 <b>객관식 점수만</b> 보여요. 서술형은 여기서 선생님이 점수를 넣으면 총점(100점)이 만들어져요. · 채점 대기 <b>${wait}</b>명</p>
-   <div class="bar"><button class="chip" id="cpall">🔗 채점 결과 링크 전체 복사 (카톡용)</button><span class="muted">📄 = 채점된 시험지(⭕╱ 표시) · 서술형 채점 전이면 객관식만 보여요</span></div><div class="tw"><table><tr><th>제출</th><th>학생</th><th>시험</th><th class="n">점수</th><th></th></tr>
-   ${A.map((r,i)=>`<tr><td class="n">${fmt(r.t)}</td><td><b>${esc(r.name)}</b></td><td>${esc(r.mock.K.title)}<br><span class="muted">${esc(r.mock.K.sub)}</span></td><td class="n"><span class="pill ${r.mock.pts?cls(pct(r)):"y"}">${sc(r)}</span></td><td style="white-space:nowrap"><a class="chip" href="${revLink(r)}" target="_blank" style="text-decoration:none">📄</a> <button class="chip" data-cp="${i}">🔗</button> <button class="btn" data-g="${i}" style="padding:6px 12px;font-size:13px;${r.mock.pts?"background:var(--muted)":""}">${r.mock.pts?"수정":"채점하기"}</button></td></tr>`).join("")}</table></div>`:`<p class="empty">이 기간에 제출된 모의고사가 없어요.</p>`;
+  const A=Object.values(L).sort((a,b)=>(!a.mock.auto-!b.mock.auto)||b.t-a.t);const wait=A.filter(r=>r.mock.auto).length;
+  v.innerHTML=A.length?`<p class="muted">학생 화면에는 <b>객관식 점수만</b> 보여요. 서술형은 <b>제출하자마자 자동 채점</b>돼서 총점(100점)이 바로 나와요. 선생님이 확인하고 고칠 수 있어요. · 아직 확인 안 한 자동 채점 <b>${wait}</b>명</p>
+   <div class="bar"><button class="chip" id="cpall">🔗 채점 결과 링크 전체 복사 (카톡용)</button><span class="muted">📄 = 채점된 시험지(⭕╱ 표시) · 자동 채점 점수도 그대로 들어가니 <b>확인·수정 후</b> 보내세요</span></div><div class="tw"><table><tr><th>제출</th><th>학생</th><th>시험</th><th class="n">점수</th><th></th></tr>
+   ${A.map((r,i)=>`<tr><td class="n">${fmt(r.t)}</td><td><b>${esc(r.name)}</b></td><td>${esc(r.mock.K.title)}<br><span class="muted">${esc(r.mock.K.sub)}</span></td><td class="n"><span class="pill ${cls(pct(r))}">${sc(r)}</span></td><td style="white-space:nowrap"><a class="chip" href="${revLink(r)}" target="_blank" style="text-decoration:none">📄</a> <button class="chip" data-cp="${i}">🔗</button> <button class="btn" data-g="${i}" style="padding:6px 12px;font-size:13px;${r.mock.auto?"":"background:var(--muted)"}">${r.mock.auto?"확인·수정":"수정"}</button></td></tr>`).join("")}</table></div>`:`<p class="empty">이 기간에 제출된 모의고사가 없어요.</p>`;
   v.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>gradeView(A[+b.dataset.g]));
   v.querySelectorAll("[data-cp]").forEach(b=>b.onclick=()=>{const r=A[+b.dataset.cp];copyTxt(`[${r.name}] ${r.mock.K.title} 채점 결과\n${revLink(r)}`,b)});
   const ca=$("#cpall");if(ca)ca.onclick=()=>copyTxt(A.map(r=>`[${r.name}] ${r.mock.K.title} 채점 결과\n${revLink(r)}`).join("\n\n"),ca)}
@@ -240,20 +242,20 @@ function stuDetail(v,A){const avg=A.length?A.reduce((s,r)=>s+pct(r),0)/A.length:
  v.innerHTML=`<div class="bar"><button class="chip" id="bk">← 학생 목록</button></div>
  <div class="card"><h1 style="font-size:26px">${esc(UI.stu)}</h1><div class="muted">완료 ${A.length}세트 · 평균 정답률 <span class="pill ${cls(avg)}">${Math.round(avg*100)}%</span> · 70% 미만 ${A.filter(r=>pct(r)<.7).length}개 · 총 ${A.reduce((s,r)=>s+r.min,0)}분</div></div>
  ${Object.entries(by).map(([u,a])=>`<h2>${esc(u)} <span class="muted">(${a.length}세트)</span></h2><div class="tw"><table><tr><th>시각</th><th>주제</th><th class="n">점수</th><th>틀린 문항</th></tr>
- ${a.map(r=>`<tr><td class="n">${fmt(r.t)}</td><td>${esc(r.title)}<br><span class="muted">${esc(r.cat)} · ${esc(r.attempt)} · ${r.min}분</span></td><td class="n"><span class="pill ${cls(pct(r))}">${sc(r)}</span>${r.mock?`<br><button class="chip" data-gr="${r.t}" style="margin-top:4px;font-size:12px">✍️ 서술형 ${r.mock.pts?"수정":"채점"}</button> <a class="chip" href="${revLink(r)}" target="_blank" style="text-decoration:none;font-size:12px">📄 시험지</a>`:""}</td><td>${r.wrong&&r.wrong!=="없음"?esc(r.wrong):'<span class="pill g">없음</span>'}${r.detail&&r.wrong!=="없음"?`<details><summary>학생 답 보기</summary><div>${esc(r.detail)}</div></details>`:""}</td></tr>`).join("")}</table></div>`).join("")}`;
+ ${a.map(r=>`<tr><td class="n">${fmt(r.t)}</td><td>${esc(r.title)}<br><span class="muted">${esc(r.cat)} · ${esc(r.attempt)} · ${r.min}분</span></td><td class="n"><span class="pill ${cls(pct(r))}">${sc(r)}</span>${r.mock?`<br><button class="chip" data-gr="${r.t}" style="margin-top:4px;font-size:12px">✍️ 서술형 ${r.mock.auto?"확인":"수정"}</button> <a class="chip" href="${revLink(r)}" target="_blank" style="text-decoration:none;font-size:12px">📄 시험지</a>`:""}</td><td>${r.wrong&&r.wrong!=="없음"?esc(r.wrong):'<span class="pill g">없음</span>'}${r.detail&&r.wrong!=="없음"?`<details><summary>학생 답 보기</summary><div>${esc(r.detail)}</div></details>`:""}</td></tr>`).join("")}</table></div>`).join("")}`;
  v.querySelectorAll("[data-gr]").forEach(b=>b.onclick=()=>gradeView(A.find(r=>r.t===+b.dataset.gr)));
  $("#bk").onclick=()=>{UI.stu=null;renderView(filtered())}}
 function gradeView(r){const v=$("#v"),M=r.mock,K=M.K;
  setTimeout(()=>{const sx=$("#rex");if(sx)sx.onchange=()=>{const nid=sx.value,NK=MK[nid];const nW=NK.mc.map((q,i)=>M.marks[i]===q.a?0:i+1).filter(Boolean).map(n=>n+"번");
    gradeView({...r,mock:{...M,id:nid,K:NK,mcW:nW,mc:20-nW.length,pts:null,fixed:false,moved:nid!==M.id0}})}},0);
- const P=M.pts?M.pts.slice():M.ans.map((a,i)=>/^✓/.test(a)?5:saOk(K.sa[i],a)?5:0);
+ const P=M.pts&&!M.auto?M.pts.slice():M.ans.map((a,i)=>/^✓/.test(a)?5:saOk(K.sa[i],a)?5:0);
  v.innerHTML=`<div class="bar"><button class="chip" id="gb">← 목록으로</button></div>
  <div class="card"><h1 style="font-size:24px">${esc(r.name)} · 서술형 채점</h1><div class="muted">${esc(K.title)} (${esc(K.sub)}) · 제출 ${fmt(r.t)}${M.gt?` · 마지막 채점 ${fmt(M.gt)}`:""}</div>
  <div style="margin-top:8px;padding:8px 10px;border:1.5px dashed var(--line);border-radius:10px;font-size:13px">🔄 <b>시험을 잘못 골라 제출했나요?</b> 실제로 본 시험을 고르면 학생이 마킹한 번호 그대로 다시 채점해요.<br>
  <select id="rex" style="margin-top:6px;max-width:100%">${Object.entries(MK).map(([k,x])=>`<option value="${k}" ${k===M.id?"selected":""}>${esc(x.title)} · ${esc(x.sub)}${k===M.id0?" (학생이 고른 시험)":""}</option>`).join("")}</select>${M.moved?' <span class="pill y">다른 시험으로 다시 채점됨</span>':""}</div>
  <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">객관식 <b id="mcs"></b><span class="muted">틀린 번호</span><input type="text" id="mcw" value="${esc(M.mcW.map(w=>parseInt(w)).join(", "))}" placeholder="예: 13 (다 맞으면 비움)" style="width:170px">${M.fixed?'<span class="pill y">선생님 수정됨</span>':""}<button class="chip" id="mcsave">객관식만 저장</button></div>
  <div class="muted" style="font-size:12px">OMR 입력 실수가 있으면 실제 틀린 번호를 쉼표로 넣으세요.</div>
- <p class="muted" style="margin:6px 0 0">${M.pts?"저장된 점수예요. 고칠 문항만 바꾸고 저장하세요.":"자동 판정으로 미리 채워 두었어요(참고용). 시험지를 보고 문항별 점수(0~5)를 확인·수정한 뒤 저장하세요."}</p></div>
+ <p class="muted" style="margin:6px 0 0">${M.auto?"⚡ <b>자동 채점 결과</b>예요(정답과 거의 같아야 5점). 시험지를 보고 다르게 줄 문항만 바꾼 뒤 <b>저장</b>을 누르면 선생님 점수로 확정돼요.":"✅ 선생님이 확정한 점수예요. 고칠 문항만 바꾸고 저장하세요."}</p></div>
  <div class="card">${K.sa.map((q,i)=>`<div class="gr"><div class="no">${i+1}</div><div><span class="muted">${esc(q.ar)}</span>
   <div class="ans">학생 답: <b>${esc(M.ans[i])}</b></div>
   <div class="mdl">모범 답안: ${esc(q.a[0])}</div>${q.a.length>1?`<details><summary>정답 인정 예시 ${q.a.length}개</summary><div>${q.a.map(esc).join("\n")}</div></details>`:""}
@@ -270,7 +272,7 @@ function gradeView(r){const v=$("#v"),M=r.mock,K=M.K;
   const mw=MCW.map(n=>n+"번").join(", ")||"없음";
   const body={name:r.name,unit:"중등부 모의고사",day:0,title:r.title,cat:"모의고사 서술형",attempt:withSA?"선생님 채점":"객관식 수정",score:withSA?s:mc,total:withSA?50:20,
    wrongNums:withSA?(P.map((p,i)=>p<5?"서술형"+(i+1):"").filter(Boolean).join(", ")||"없음"):mw,
-   wrongDetail:`[GRADE:${M.id}] re=${M.id} | `+(withSA?`총점 ${tot}/100 · `:"")+`객관식 ${mc}/20(${mc*2.5}점)`+(withSA?` · 서술형 ${s}/50`:"")+` | mcw=${mw} | `+(withSA?`pts=${P.join(",")}`:M.pts?`pts=${M.pts.join(",")}`:"pts=-"),minutes:0,timestamp:new Date().toISOString()};
+   wrongDetail:`[GRADE:${M.id}] re=${M.id} | `+(withSA?`총점 ${tot}/100 · `:"")+`객관식 ${mc}/20(${mc*2.5}점)`+(withSA?` · 서술형 ${s}/50`:"")+` | mcw=${mw} | `+(withSA?`pts=${P.join(",")}`:M.pts&&!M.auto?`pts=${M.pts.join(",")}`:"pts=-"),minutes:0,timestamp:new Date().toISOString()};
   try{await fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),mode:"no-cors"});
    GR.push({t:Date.now(),name:r.name,title:r.title,detail:body.wrongDetail});prepMock();$("#gm").style.color="var(--ok)";$("#gm").textContent=withSA?`✅ 저장됐어요 · 총점 ${tot}점`:`✅ 객관식 ${mc}/20 으로 수정됐어요`;
    setTimeout(()=>{renderView(filtered());window.scrollTo(0,0)},800)}
