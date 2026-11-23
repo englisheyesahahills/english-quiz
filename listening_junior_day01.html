@@ -414,7 +414,7 @@ function render(){
       <button class="btn block" style="margin-top:8px" onclick="restart()">↺ 처음부터 다시 하기</button>
     </div>`;
   }
-  app.innerHTML = h + `<footer>Created by 스텔라원장 · English Eye Stella</footer>`;
+  app.innerHTML = h + `<footer>Created by 스텔라원장 · English Eye Stella · <a href="listening_junior_day01_student.pdf" style="color:inherit">🖨️ 프린트물</a></footer>`;
 }
 
 /* ===================== 액션 ===================== */
@@ -459,17 +459,19 @@ async function sendResult(){
   const wrong = DATA.questions.map((q,i)=>S.picks[i]===q.ans?null:`Q${i+1}`).filter(Boolean).join(', ');
   const payload = {
     type:'listening', name:S.name, class:S.cls, level:CONFIG.LEVEL, day:CONFIG.DAY, topic:CONFIG.TOPIC,
-    quizScore:`${qScore}/4`, wrongQuestions:wrong||'없음',
+    quizCorrect:qScore, quizScore:`${qScore}/4`, wrongQuestions:wrong||'없음',
     blankScore:S.blankRes??0, dictationScore:S.fullRes??0,
     listenCount:S.listenCount, mySentences:S.mySentences.filter(x=>x.trim()).join(' / '),
     shadowingDone:Object.keys(S.recs).length, minutes:Math.max(1,Math.round((Date.now()-S.startedAt)/60000)),
-    submittedAt:new Date().toLocaleString('ko-KR')
+    submittedAt:new Date().toLocaleString('ko-KR'), submittedISO:new Date().toISOString()
   };
   const msg=$('#sendMsg'), btn=$('#sendBtn');
   if(!CONFIG.APPS_SCRIPT_URL){ msg.textContent='⚙️ 노션 연결 설정 전이에요 (선생님 설정 필요)'; return; }
   btn.disabled=true; msg.textContent='보내는 중...';
   try{
-    await fetch(CONFIG.APPS_SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)});
+    const r = await fetch(CONFIG.APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+    const j = await r.json();
+    if(!j.ok) throw new Error(j.error||'저장 실패');
     msg.textContent='✅ 선생님께 전달됐어요! 내일도 만나요 👋'; btn.textContent='✓ 전송 완료';
   }catch(e){ btn.disabled=false; msg.textContent='전송에 실패했어요. 인터넷 연결을 확인하고 다시 눌러주세요.'; }
 }
