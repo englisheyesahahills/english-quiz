@@ -133,6 +133,31 @@ function dayTab(v,R){const by={};R.forEach(r=>{(by[dkey(r.t)]=by[dkey(r.t)]||[])
  ${miss.length?`<div class="card" style="padding:10px 14px"><b>😴 이날 기록이 없는 학생</b> <span class="muted">(선택한 기간에 한 번이라도 학습한 학생 중)</span><div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${miss.map(n=>`<span class="pill r" style="cursor:pointer" data-n="${esc(n)}">${esc(n)}</span>`).join("")}</div></div>`:""}`;
  v.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{UI.day=b.dataset.day;dayTab(v,R)});
  v.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{UI.stu=b.dataset.n;renderView(filtered());window.scrollTo(0,0)})}
+const PARTS=["대화문","본문","문법","어휘","통합·실전","서술형","학교 학습지"];
+function normPart(c){c=String(c||"");if(/학습지/.test(c))return "학교 학습지";if(/대화/.test(c))return "대화문";if(/본문|독해|읽기/.test(c))return "본문";if(/문법/.test(c))return "문법";if(/단어|어휘|숙어|voca/i.test(c))return "어휘";if(/통합|실전/.test(c))return "통합·실전";if(/서술/.test(c))return "서술형";return "기타"}
+function partAgg(R){const A={};const add=(n,p,ok,tot)=>{if(!tot)return;const o=((A[n]=A[n]||{})[p]=A[n][p]||{ok:0,n:0,c:0});o.ok+=ok;o.n+=tot;o.c++};
+ R.forEach(r=>{if(r.cat==="8과 암기훈련")return;
+  if(r.mock){const K=r.mock.K,W=new Set(r.mock.mcW.map(w=>parseInt(w)));const g={};
+   K.mc.forEach((q,i)=>{const p=normPart(q.ar);(g[p]=g[p]||[0,0]);g[p][1]++;if(!W.has(i+1))g[p][0]++});
+   if(r.mock.pts)K.sa.forEach((q,i)=>{const p=normPart(q.ar==="서술형"?"서술형":q.ar);(g[p]=g[p]||[0,0]);g[p][1]++;g[p][0]+=(r.mock.pts[i]||0)/5});
+   Object.entries(g).forEach(([p,[ok,t]])=>add(r.name,p,ok,t));return}
+  const m=r.detail.match(/\[PARTS\] ([^\[]*)/);if(r.cat==="8과 암기테스트"&&m){m[1].trim().split("|").forEach(x=>{const mm=x.match(/(\w)\w*=(\d+)\/(\d+)/);if(mm)add(r.name,mm[1]==="D"?"대화문":"본문",+mm[2],+mm[3])});return}
+  add(r.name,normPart(r.cat),r.score,r.total)});return A}
+const pvBar=()=>`<div class="bar"><button class="chip ${UI.pv!=="m8"?"on":""}" data-pv="all">전체 파트</button><button class="chip ${UI.pv==="m8"?"on":""}" data-pv="m8">8과 암기 세부 (D1~R6)</button></div>`;
+function bindPv(v,R){v.querySelectorAll("[data-pv]").forEach(b=>b.onclick=()=>{UI.pv=b.dataset.pv;renderView(filtered())})}
+function allParts(v,R){const A=partAgg(R);const names=Object.keys(A).sort((a,b)=>a.localeCompare(b,"ko"));
+ const P=[...PARTS,...(names.some(n=>A[n]["기타"])?["기타"]:[])].filter(p=>names.some(n=>A[n][p]));
+ if(!names.length){v.innerHTML=pvBar()+`<p class="empty">이 기간에 기록이 없어요.</p>`;bindPv(v,R);return}
+ const tot={};P.forEach(p=>{tot[p]={ok:0,n:0};names.forEach(n=>{const o=A[n][p];if(o){tot[p].ok+=o.ok;tot[p].n+=o.n}})});
+ const cell=o=>o?`<td class="n" style="text-align:center"><span class="pill ${cls(o.ok/o.n)}" title="맞은 ${Math.round(o.ok*10)/10} / ${o.n}문항 · 기록 ${o.c}개">${Math.round(o.ok/o.n*100)}%</span><div style="font-size:10.5px;color:var(--muted)">${Math.round(o.ok*10)/10}/${o.n}</div></td>`:`<td class="n" style="text-align:center;color:var(--muted)">·</td>`;
+ const weak=P.filter(p=>tot[p].n).map(p=>[p,tot[p].ok/tot[p].n]).sort((a,b)=>a[1]-b[1]).slice(0,2);
+ v.innerHTML=pvBar()+`<p class="muted">위에서 고른 <b>기간·교재</b> 안의 모든 학습(미니테스트·학습지 뿌시기·문법·8과 암기·모의고사)을 파트별로 합친 정답률이에요. 모의고사는 문항마다 파트를 나눠 계산하고, 서술형은 선생님이 채점한 뒤에 들어가요.</p>
+ ${weak.length?`<div class="card" style="padding:10px 14px"><b>📉 반 전체가 약한 파트</b> ${weak.map(([p,a])=>`<span class="pill ${cls(a)}" style="margin-left:6px">${p} ${Math.round(a*100)}%</span>`).join("")}</div>`:""}
+ <div class="tw"><table><tr><th>학생</th>${P.map(p=>`<th class="n" style="text-align:center">${p}</th>`).join("")}<th>약한 파트</th></tr>
+ ${names.map(n=>{const w=P.filter(p=>A[n][p]&&A[n][p].n>=3&&A[n][p].ok/A[n][p].n<.7);return `<tr><td><b style="cursor:pointer" data-n="${esc(n)}">${esc(n)}</b></td>${P.map(p=>cell(A[n][p])).join("")}<td>${w.length?`<span style="color:var(--no);font-weight:700">${w.join(", ")}</span>`:'<span class="pill g">없음</span>'}</td></tr>`}).join("")}
+ <tr><td class="muted">반 평균</td>${P.map(p=>tot[p].n?`<td class="n" style="text-align:center"><span class="pill ${cls(tot[p].ok/tot[p].n)}">${Math.round(tot[p].ok/tot[p].n*100)}%</span></td>`:"<td></td>").join("")}<td></td></tr></table></div>
+ <p class="muted" style="font-size:12px">약한 파트 = 3문항 이상 풀었고 정답률 70% 미만 · 학생 이름을 누르면 전체 기록으로 이동</p>`;
+ bindPv(v,R);v.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{UI.stu=b.dataset.n;renderView(filtered());window.scrollTo(0,0)})}
 const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
 const $=s=>document.querySelector(s),app=$("#app");
 const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -165,7 +190,7 @@ function render(){const R=filtered();const units=[...new Set(ROWS.map(r=>r.unit)
   <select id="un"><option value="">전체 교재·단원</option>${units.map(u=>`<option ${u===UI.unit?"selected":""}>${esc(u)}</option>`).join("")}</select>
   <input type="text" id="q" placeholder="🔍 학생 이름·주제 검색" value="${esc(UI.q)}" style="flex:1;min-width:160px"></div>
  <div class="kpi"><div><b>${names.length}</b><span>학습한 학생</span></div><div><b>${R.length}</b><span>완료한 학습 세트</span></div><div><b>${Math.round(avg*100)}%</b><span>평균 정답률</span></div><div><b>${tod.length}</b><span>오늘 완료</span></div></div>
- <div class="tabs">${[["day","📅 날짜별"],["stu","👩‍🎓 학생별"],["set","📚 학습별"],["grade","✍️ 서술형 채점"],["parts","🧩 8과 파트별"],["wrong","❌ 오답 TOP"],["log","📋 전체 기록"]].map(([k,l])=>`<button class="tab ${UI.tab===k?"on":""}" data-t="${k}">${l}</button>`).join("")}</div>
+ <div class="tabs">${[["day","📅 날짜별"],["stu","👩‍🎓 학생별"],["set","📚 학습별"],["grade","✍️ 서술형 채점"],["parts","🧩 파트별"],["wrong","❌ 오답 TOP"],["log","📋 전체 기록"]].map(([k,l])=>`<button class="tab ${UI.tab===k?"on":""}" data-t="${k}">${l}</button>`).join("")}</div>
  <div id="v"></div><div class="ft">결과는 학생이 각 세트를 끝내고 채점할 때마다 저장돼요 · 제작: 스텔라원장 · 잉글리시아이 스텔라</div>`;
  app.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{UI.days=b.dataset.d;svUI();load()});
  $("#un").onchange=e=>{UI.unit=e.target.value;svUI();render()};
@@ -187,7 +212,7 @@ function renderView(R){const v=$("#v");if(!R.length){v.innerHTML=`<p class="empt
    return head+`<div class="card" style="padding:10px 14px"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="flex:1">${esc(t||"(제목 없음)")}</b><span class="muted">${Object.keys(ppl).length}명 완료 · 평균</span><span class="pill ${cls(avg)}">${Math.round(avg*100)}%</span></div>
     <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${Object.values(ppl).sort((x,y)=>pct(y)-pct(x)).map(r=>`<span class="pill ${cls(pct(r))}" title="${esc(r.wrong)}">${esc(r.name)} ${sc(r)}</span>`).join("")}</div></div>`}).join("")}
  else if(UI.tab==="day"){dayTab(v,R)}
- else if(UI.tab==="parts"){partsTab(v,R)}
+ else if(UI.tab==="parts"){UI.pv==="m8"?(v.innerHTML=pvBar()+'<div id="pv2"></div>',bindPv(v,R),partsTab($("#pv2"),R)):allParts(v,R)}
  else if(UI.tab==="grade"){const L={};R.forEach(r=>{if(!r.mock)return;const k=r.name+"|"+r.title;if(!L[k]||L[k].t<r.t)L[k]=r});
   const A=Object.values(L).sort((a,b)=>(!!a.mock.pts-!!b.mock.pts)||b.t-a.t);const wait=A.filter(r=>!r.mock.pts).length;
   v.innerHTML=A.length?`<p class="muted">학생 화면에는 <b>객관식 점수만</b> 보여요. 서술형은 여기서 선생님이 점수를 넣으면 총점(100점)이 만들어져요. · 채점 대기 <b>${wait}</b>명</p>
