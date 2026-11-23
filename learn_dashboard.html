@@ -120,6 +120,19 @@ function partsTab(v,R){const TR=R.filter(r=>r.cat==="8과 암기훈련"&&/\[BOOK
  <tr><td class="muted">반 평균</td>${avg.map(a=>`<td class="n" style="text-align:center">${a==null?"·":`<span class="pill ${cls(a)}">${Math.round(a*100)}%</span>`}</td>`).join("")}<td></td><td></td></tr></table></div>
  <div class="card" style="padding:10px 14px;font-size:13px">${P.map(p=>`<div><b>${p[0]}</b> <span class="muted">${p[1]} · ${esc(p[2])} (${p[3]}문장)</span></div>`).join("")}</div>`;
  v.querySelectorAll("[data-pb]").forEach(b=>b.onclick=()=>{UI.pb=b.dataset.pb;partsTab(v,R)})}
+const dkey=t=>{const d=new Date(t);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`};
+const dlabel=k=>{const d=new Date(k+"T00:00:00");return `${d.getMonth()+1}/${d.getDate()} (${"일월화수목금토"[d.getDay()]})`};
+function dayTab(v,R){const by={};R.forEach(r=>{(by[dkey(r.t)]=by[dkey(r.t)]||[]).push(r)});const days=Object.keys(by).sort().reverse();
+ if(!UI.day||!by[UI.day])UI.day=days[0];const A=(by[UI.day]||[]).slice().sort((a,b)=>a.t-b.t);
+ const names=[...new Set(R.map(r=>r.name))].sort((a,b)=>a.localeCompare(b,"ko"));const st={};A.forEach(r=>(st[r.name]=st[r.name]||[]).push(r));
+ const done=Object.keys(st).sort((a,b)=>a.localeCompare(b,"ko")),miss=names.filter(n=>!st[n]);
+ v.innerHTML=`<div class="bar" style="overflow-x:auto;flex-wrap:nowrap">${days.map(d=>`<button class="chip ${d===UI.day?"on":""}" data-day="${d}" style="white-space:nowrap">${dlabel(d)} <span class="muted" style="${d===UI.day?"color:#fff":""}">${new Set(by[d].map(r=>r.name)).size}명</span></button>`).join("")}</div>
+ <div class="kpi"><div><b>${done.length}</b><span>이날 학습한 학생</span></div><div><b>${A.length}</b><span>완료한 학습 세트</span></div><div><b>${A.length?Math.round(A.reduce((s,r)=>s+pct(r),0)/A.length*100):0}%</b><span>평균 정답률</span></div><div><b>${miss.length}</b><span>이날 기록 없는 학생</span></div></div>
+ ${done.map(n=>{const L=st[n];const avg=L.reduce((s,r)=>s+pct(r),0)/L.length;return `<div class="card" style="padding:10px 14px"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><b style="font-size:16px;cursor:pointer" data-n="${esc(n)}">${esc(n)}</b><span class="pill ${cls(avg)}">${Math.round(avg*100)}%</span><span class="muted">${L.length}세트 · ${fmt(L[0].t).split(" ")[1]}~${fmt(L[L.length-1].t).split(" ")[1]} · ${L.reduce((s,r)=>s+r.min,0)}분</span></div>
+  <div class="tw"><table style="margin-top:6px"><tr><th>시각</th><th>교재·단원 / 주제</th><th class="n">점수</th><th class="hide-m">틀린 문항</th></tr>${L.map(r=>`<tr><td class="n">${fmt(r.t).split(" ")[1]}</td><td><span class="unit">${esc(r.unit)}</span><br>${esc(r.title)} <span class="muted">${esc(r.cat)}</span></td><td class="n"><span class="pill ${cls(pct(r))}">${sc(r)}</span></td><td class="hide-m">${r.wrong&&r.wrong!=="없음"?esc(r.wrong):'<span class="pill g">없음</span>'}</td></tr>`).join("")}</table></div></div>`}).join("")||`<p class="empty">이날 학습 기록이 없어요.</p>`}
+ ${miss.length?`<div class="card" style="padding:10px 14px"><b>😴 이날 기록이 없는 학생</b> <span class="muted">(선택한 기간에 한 번이라도 학습한 학생 중)</span><div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${miss.map(n=>`<span class="pill r" style="cursor:pointer" data-n="${esc(n)}">${esc(n)}</span>`).join("")}</div></div>`:""}`;
+ v.querySelectorAll("[data-day]").forEach(b=>b.onclick=()=>{UI.day=b.dataset.day;dayTab(v,R)});
+ v.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{UI.stu=b.dataset.n;renderView(filtered());window.scrollTo(0,0)})}
 const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
 const $=s=>document.querySelector(s),app=$("#app");
 const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
@@ -152,7 +165,7 @@ function render(){const R=filtered();const units=[...new Set(ROWS.map(r=>r.unit)
   <select id="un"><option value="">전체 교재·단원</option>${units.map(u=>`<option ${u===UI.unit?"selected":""}>${esc(u)}</option>`).join("")}</select>
   <input type="text" id="q" placeholder="🔍 학생 이름·주제 검색" value="${esc(UI.q)}" style="flex:1;min-width:160px"></div>
  <div class="kpi"><div><b>${names.length}</b><span>학습한 학생</span></div><div><b>${R.length}</b><span>완료한 학습 세트</span></div><div><b>${Math.round(avg*100)}%</b><span>평균 정답률</span></div><div><b>${tod.length}</b><span>오늘 완료</span></div></div>
- <div class="tabs">${[["stu","👩‍🎓 학생별"],["set","📚 학습별"],["grade","✍️ 서술형 채점"],["parts","🧩 8과 파트별"],["wrong","❌ 오답 TOP"],["log","📋 전체 기록"]].map(([k,l])=>`<button class="tab ${UI.tab===k?"on":""}" data-t="${k}">${l}</button>`).join("")}</div>
+ <div class="tabs">${[["day","📅 날짜별"],["stu","👩‍🎓 학생별"],["set","📚 학습별"],["grade","✍️ 서술형 채점"],["parts","🧩 8과 파트별"],["wrong","❌ 오답 TOP"],["log","📋 전체 기록"]].map(([k,l])=>`<button class="tab ${UI.tab===k?"on":""}" data-t="${k}">${l}</button>`).join("")}</div>
  <div id="v"></div><div class="ft">결과는 학생이 각 세트를 끝내고 채점할 때마다 저장돼요 · 제작: 스텔라원장 · 잉글리시아이 스텔라</div>`;
  app.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>{UI.days=b.dataset.d;svUI();load()});
  $("#un").onchange=e=>{UI.unit=e.target.value;svUI();render()};
@@ -173,6 +186,7 @@ function renderView(R){const v=$("#v");if(!R.length){v.innerHTML=`<p class="empt
    const avg=a.reduce((s,r)=>s+pct(r),0)/a.length;
    return head+`<div class="card" style="padding:10px 14px"><div style="display:flex;gap:8px;align-items:baseline;flex-wrap:wrap"><b style="flex:1">${esc(t||"(제목 없음)")}</b><span class="muted">${Object.keys(ppl).length}명 완료 · 평균</span><span class="pill ${cls(avg)}">${Math.round(avg*100)}%</span></div>
     <div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:6px">${Object.values(ppl).sort((x,y)=>pct(y)-pct(x)).map(r=>`<span class="pill ${cls(pct(r))}" title="${esc(r.wrong)}">${esc(r.name)} ${sc(r)}</span>`).join("")}</div></div>`}).join("")}
+ else if(UI.tab==="day"){dayTab(v,R)}
  else if(UI.tab==="parts"){partsTab(v,R)}
  else if(UI.tab==="grade"){const L={};R.forEach(r=>{if(!r.mock)return;const k=r.name+"|"+r.title;if(!L[k]||L[k].t<r.t)L[k]=r});
   const A=Object.values(L).sort((a,b)=>(!!a.mock.pts-!!b.mock.pts)||b.t-a.t);const wait=A.filter(r=>!r.mock.pts).length;

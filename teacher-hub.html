@@ -70,6 +70,7 @@ section h2 .bar{width:6px;height:18px;border-radius:3px;background:var(--burgund
 .ib.star{font-size:16px;padding:4px 9px;line-height:1}
 .ib.star.on{color:var(--gold);border-color:var(--gold)}
 .ib.done{color:var(--par);border-color:var(--par)}
+.vtog{margin-left:auto;display:flex;gap:4px}.vtog button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 11px;font-size:13px;font-weight:700;color:var(--soft);cursor:pointer}.vtog button.on{background:var(--burgundy);border-color:var(--burgundy);color:#fff}
 .fold{background:var(--surface);border:1px solid var(--line);border-radius:16px;margin-top:12px;overflow:hidden}
 .fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 18px}
 .fold>summary::-webkit-details-marker{display:none}
@@ -238,6 +239,7 @@ let draft = get('hubDraft', null);           // this browser's unsaved edits
 let favs = new Set(get('hubFavs', []));
 let cat = 'all', q = '', editing = false, formFor = null;
 let openG = new Set(get('hubOpen', []));
+let viewMode = get('hubView', 'grp');
 const links = () => draft || LINKS;
 
 function toast(m){ const t=$('toast'); t.textContent=m; t.classList.add('show'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1800); }
@@ -298,13 +300,16 @@ function render(){
   if(cat==='fav') groups.push(['★ 즐겨찾기', all.filter(l=>favs.has(l.id)&&match(l))]);
   showCats.forEach(c=>groups.push([c, all.filter(l=>l.cat===c && match(l))]));
   const shown = groups.filter(([,ls])=>ls.length);
+  const dayLabel = d => { const t=new Date(d+'T00:00:00'); if(isNaN(t)) return '날짜 없음'; return `${t.getFullYear()}년 ${t.getMonth()+1}월 ${t.getDate()}일 (${'일월화수목금토'[t.getDay()]})`; };
   const secHTML = ls => { if(term || editing) return `<div class="grid">${ls.map(cardHTML).join('')}</div>`;
+    if(viewMode==='date'){ const by={}; ls.forEach(l=>{ const k=l.added||'0000-00-00'; (by[k]=by[k]||[]).push(l); });
+      return Object.keys(by).sort().reverse().map(k=>`<details class="fold" data-g="d:${esc(k)}"${openG.has('d:'+k)||k===Object.keys(by).sort().reverse()[0]?' open':''}><summary><span class="ico">📅</span><span style="min-width:0"><b>${k==='0000-00-00'?'날짜 없음':dayLabel(k)}</b><span class="fm">${by[k].length}개 · ${esc([...new Set(by[k].map(l=>l.grp?l.grp.replace(/^\S+\s+/,''):l.title))].slice(0,4).join(' / '))}</span></span><span class="arr">▾</span></summary><div class="grid">${by[k].map(cardHTML).join('')}</div></details>`).join(''); }
     const loose = ls.filter(l=>!l.grp), order=[], by={};
     ls.filter(l=>l.grp).forEach(l=>{ if(!by[l.grp]){ by[l.grp]=[]; order.push(l.grp); } by[l.grp].push(l); });
     return (loose.length?`<div class="grid">${loose.map(cardHTML).join('')}</div>`:'') + order.map(g=>{ const L=by[g], m=g.match(/^(\S+)\s+(.*)$/)||[0,'📁',g];
       const nn = L.filter(l=>isNew(l.added)).length, who=[...new Set(L.map(l=>l.who))].join('·');
       return `<details class="fold" data-g="${esc(g)}"${openG.has(g)?' open':''}><summary><span class="ico">${esc(m[1])}</span><span style="min-width:0"><b>${esc(m[2])}</b><span class="fm">${L.length}개 · ${esc(who)}${nn?` · <span class="tag new">NEW ${nn}</span>`:''}<br>${L.map(l=>esc(l.title.replace(/^(중[12] )?(동아 )?/,''))).slice(0,4).join(' / ')}${L.length>4?' …':''}</span></span><span class="arr">▾</span></summary><div class="grid">${L.map(cardHTML).join('')}</div></details>`; }).join(''); };
-  html += shown.length ? shown.map(([name,ls])=>`<section><h2><span class="bar"></span>${esc(name)}<span class="cnt">${ls.length}개</span></h2>${secHTML(ls)}</section>`).join('')
+  html += shown.length ? shown.map(([name,ls])=>`<section><h2><span class="bar"></span>${esc(name)}<span class="cnt">${ls.length}개</span>${!term&&!editing&&ls.length>6?`<span class="vtog"><button class="${viewMode==='grp'?'on':''}" data-view="grp">📁 묶음별</button><button class="${viewMode==='date'?'on':''}" data-view="date">📅 날짜별</button></span>`:''}</h2>${secHTML(ls)}</section>`).join('')
                        : `<p class="empty">‘${esc(q)}’에 맞는 링크가 없어요.</p>`;
   $('list').innerHTML = html;
 }
@@ -318,6 +323,7 @@ function exportCode(){
 document.addEventListener('click', e=>{
   const b = e.target.closest('button'); if(!b) return;
   if(b.dataset.cat){ cat=b.dataset.cat; render(); return; }
+  if(b.dataset.view){ viewMode=b.dataset.view; put('hubView',viewMode); render(); return; }
   if(b.id==='editBtn'){ editing=!editing; formFor=null; render(); return; }
   const id=b.dataset.id, list=links().slice(), i=list.findIndex(l=>l.id===id);
   switch(b.dataset.act){
