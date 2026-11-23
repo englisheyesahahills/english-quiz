@@ -79,12 +79,18 @@ const saOk=(q,v)=>!!v&&v!=="무응답"&&q.a.some(a=>norm(a)===norm(v));
 let GR=[];
 /* 모의고사: 학생 제출(객관식 자동) + 선생님 서술형 채점 기록을 합쳐 보여 줌 */
 function prepMock(){const G={};GR.forEach(g=>{const k=g.name+"|"+g.title;if(!G[k]||G[k].t<g.t)G[k]=g});
- ROWS.forEach(r=>{if(r.cat!=="모의고사")return;if(!r.raw)r.raw={wrong:r.wrong};const m=r.detail.match(/^\[MOCK:(\w+)\]/);const id=m?m[1]:T2ID[r.title];const K=MK[id];if(!K)return;
+ ROWS.forEach(r=>{if(r.cat!=="모의고사")return;if(!r.raw)r.raw={wrong:r.wrong};const m=r.detail.match(/^\[MOCK:(\w+)\]/);const id0=m?m[1]:T2ID[r.title];const K0=MK[id0];if(!K0)return;
+  const C5="①②③④⑤",ch={};(r.detail.match(/\d+번\([^)]*\): (?:[①②③④⑤]|무응답)→/g)||[]).forEach(x=>{const mm=x.match(/(\d+)번\([^)]*\): (\S+?)→/);ch[+mm[1]]=mm[2]==="무응답"?-1:C5.indexOf(mm[2])});
+  const W0=new Set((r.raw.wrong||"").split(/,\s*/).filter(w=>/^\d+번$/.test(w)).map(w=>parseInt(w)));
+  const marks=K0.mc.map((q,i)=>W0.has(i+1)?(ch[i+1]!=null?ch[i+1]:-2):q.a);
+  const g0=G[r.name+"|"+r.title];const rex=g0&&g0.t>=r.t&&(g0.detail.match(/re=(\w+)/)||[])[1];
+  const id=rex&&MK[rex]?rex:id0,K=MK[id];
   const mc=+((r.detail.match(/객관식 (\d+)\/20/)||[])[1]||0);let ans;const sm=r.detail.match(/SA⟪([\s\S]*?)(⟫|$)/);
   if(sm){ans=sm[1].split(" ¦ ");while(ans.length<10)ans.push(sm[2]?"무응답":"(기록 잘림 — 시험지 확인)")}
   else{ans=Array(10).fill("✓ (예전 자동채점에서 정답 — 시험지 확인)");const re=/서술형(\d+)\([^)]*\): (.*?)(?= \/ |$)/g;let x;while(x=re.exec(r.detail))ans[+x[1]-1]=x[2]}
-  const mcW=(r.raw.wrong||"").split(/,\s*/).filter(w=>/^\d+번$/.test(w));
-  r.mock={id,K,mc,ans,mcW};const g=G[r.name+"|"+r.title];
+  let mcW=(r.raw.wrong||"").split(/,\s*/).filter(w=>/^\d+번$/.test(w));let mcx=mc;
+  if(id!==id0){mcW=K.mc.map((q,i)=>marks[i]===q.a?0:i+1).filter(Boolean).map(n=>n+"번");mcx=20-mcW.length}
+  r.mock={id,id0,K,mc:mcx,ans,mcW,marks,moved:id!==id0};const g=G[r.name+"|"+r.title];
   if(g&&g.t>=r.t){const om=g.detail.match(/mcw=([^|]*)/);if(om){const w=om[1].trim();r.mock.mcW=w&&w!=="없음"?w.split(/,\s*/):[];r.mock.mc=20-r.mock.mcW.length;r.mock.fixed=true}}
   const mc2=r.mock.mc,mcW2=r.mock.mcW;
   if(g&&g.t>=r.t&&/pts=\d/.test(g.detail)){const pts=((g.detail.match(/pts=([\d.,]+)/)||[])[1]||"").split(",").map(Number);r.mock.pts=pts;r.mock.gt=g.t;
@@ -96,7 +102,7 @@ const REV="https://englisheyesahahills.github.io/english-quiz/mock_review.html?v
 function revLink(r){const M=r.mock,K=M.K,C5="①②③④⑤",ch={};
  (r.detail.match(/\d+번\([^)]*\): (?:[①②③④⑤]|무응답)→/g)||[]).forEach(x=>{const m=x.match(/(\d+)번\([^)]*\): (\S+?)→/);ch[+m[1]]=m[2]==="무응답"?-1:C5.indexOf(m[2])});
  const W=new Set(M.mcW.map(w=>parseInt(w)));
- const mm=K.mc.map((q,i)=>{const v=W.has(i+1)?(ch[i+1]!=null&&ch[i+1]!==q.a?ch[i+1]:-2):q.a;return v===-1?"-":v===-2?"x":String(v+1)}).join("");
+ const mm=K.mc.map((q,i)=>{const v=W.has(i+1)?(M.marks&&M.marks[i]!==q.a?M.marks[i]:-2):q.a;return v===-1?"-":v===-2?"x":String(v+1)}).join("");
  return REV+`v=1&e=${Object.keys(MK).indexOf(M.id)}&n=${encodeURIComponent(r.name)}&m=${mm}`+(M.pts?`&s=${M.pts.map(p=>Math.max(0,Math.min(5,Math.round(p)))).join("")}`:"")+`&t=${Math.floor(r.t/60000).toString(36)}`}
 async function copyTxt(t,btn){try{await navigator.clipboard.writeText(t)}catch(e){const ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand("copy")}catch(x){}ta.remove()}
  if(btn){const o=btn.textContent;btn.textContent="✅ 복사됨";setTimeout(()=>btn.textContent=o,1300)}}
@@ -238,9 +244,13 @@ function stuDetail(v,A){const avg=A.length?A.reduce((s,r)=>s+pct(r),0)/A.length:
  v.querySelectorAll("[data-gr]").forEach(b=>b.onclick=()=>gradeView(A.find(r=>r.t===+b.dataset.gr)));
  $("#bk").onclick=()=>{UI.stu=null;renderView(filtered())}}
 function gradeView(r){const v=$("#v"),M=r.mock,K=M.K;
+ setTimeout(()=>{const sx=$("#rex");if(sx)sx.onchange=()=>{const nid=sx.value,NK=MK[nid];const nW=NK.mc.map((q,i)=>M.marks[i]===q.a?0:i+1).filter(Boolean).map(n=>n+"번");
+   gradeView({...r,mock:{...M,id:nid,K:NK,mcW:nW,mc:20-nW.length,pts:null,fixed:false,moved:nid!==M.id0}})}},0);
  const P=M.pts?M.pts.slice():M.ans.map((a,i)=>/^✓/.test(a)?5:saOk(K.sa[i],a)?5:0);
  v.innerHTML=`<div class="bar"><button class="chip" id="gb">← 목록으로</button></div>
  <div class="card"><h1 style="font-size:24px">${esc(r.name)} · 서술형 채점</h1><div class="muted">${esc(K.title)} (${esc(K.sub)}) · 제출 ${fmt(r.t)}${M.gt?` · 마지막 채점 ${fmt(M.gt)}`:""}</div>
+ <div style="margin-top:8px;padding:8px 10px;border:1.5px dashed var(--line);border-radius:10px;font-size:13px">🔄 <b>시험을 잘못 골라 제출했나요?</b> 실제로 본 시험을 고르면 학생이 마킹한 번호 그대로 다시 채점해요.<br>
+ <select id="rex" style="margin-top:6px;max-width:100%">${Object.entries(MK).map(([k,x])=>`<option value="${k}" ${k===M.id?"selected":""}>${esc(x.title)} · ${esc(x.sub)}${k===M.id0?" (학생이 고른 시험)":""}</option>`).join("")}</select>${M.moved?' <span class="pill y">다른 시험으로 다시 채점됨</span>':""}</div>
  <div style="margin-top:8px;display:flex;gap:8px;align-items:center;flex-wrap:wrap">객관식 <b id="mcs"></b><span class="muted">틀린 번호</span><input type="text" id="mcw" value="${esc(M.mcW.map(w=>parseInt(w)).join(", "))}" placeholder="예: 13 (다 맞으면 비움)" style="width:170px">${M.fixed?'<span class="pill y">선생님 수정됨</span>':""}<button class="chip" id="mcsave">객관식만 저장</button></div>
  <div class="muted" style="font-size:12px">OMR 입력 실수가 있으면 실제 틀린 번호를 쉼표로 넣으세요.</div>
  <p class="muted" style="margin:6px 0 0">${M.pts?"저장된 점수예요. 고칠 문항만 바꾸고 저장하세요.":"자동 판정으로 미리 채워 두었어요(참고용). 시험지를 보고 문항별 점수(0~5)를 확인·수정한 뒤 저장하세요."}</p></div>
@@ -260,7 +270,7 @@ function gradeView(r){const v=$("#v"),M=r.mock,K=M.K;
   const mw=MCW.map(n=>n+"번").join(", ")||"없음";
   const body={name:r.name,unit:"중등부 모의고사",day:0,title:r.title,cat:"모의고사 서술형",attempt:withSA?"선생님 채점":"객관식 수정",score:withSA?s:mc,total:withSA?50:20,
    wrongNums:withSA?(P.map((p,i)=>p<5?"서술형"+(i+1):"").filter(Boolean).join(", ")||"없음"):mw,
-   wrongDetail:`[GRADE:${M.id}] `+(withSA?`총점 ${tot}/100 · `:"")+`객관식 ${mc}/20(${mc*2.5}점)`+(withSA?` · 서술형 ${s}/50`:"")+` | mcw=${mw} | `+(withSA?`pts=${P.join(",")}`:M.pts?`pts=${M.pts.join(",")}`:"pts=-"),minutes:0,timestamp:new Date().toISOString()};
+   wrongDetail:`[GRADE:${M.id}] re=${M.id} | `+(withSA?`총점 ${tot}/100 · `:"")+`객관식 ${mc}/20(${mc*2.5}점)`+(withSA?` · 서술형 ${s}/50`:"")+` | mcw=${mw} | `+(withSA?`pts=${P.join(",")}`:M.pts?`pts=${M.pts.join(",")}`:"pts=-"),minutes:0,timestamp:new Date().toISOString()};
   try{await fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),mode:"no-cors"});
    GR.push({t:Date.now(),name:r.name,title:r.title,detail:body.wrongDetail});prepMock();$("#gm").style.color="var(--ok)";$("#gm").textContent=withSA?`✅ 저장됐어요 · 총점 ${tot}점`:`✅ 객관식 ${mc}/20 으로 수정됐어요`;
    setTimeout(()=>{renderView(filtered());window.scrollTo(0,0)},800)}
