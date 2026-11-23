@@ -64,6 +64,13 @@
   .qflag.show{ visibility:visible; }
 
   .choices{ display:flex; gap:10px; flex-wrap:wrap; }
+  /* 서술형 */
+  .sa-tag{ font-size:11px; font-weight:700; color:#fff; background:var(--done); border-radius:3px; padding:2px 7px; }
+  .sa-q{ font-size:14px; line-height:1.5; margin:0 0 6px; }
+  .sa-box{ white-space:pre-line; font-size:14px; line-height:1.55; background:var(--white); border:1px solid var(--paper-line); padding:8px 10px; margin-bottom:8px; }
+  .sa-input{ width:100%; font-size:16px; padding:11px 12px; border:1.5px solid var(--ink); border-radius:var(--radius); background:var(--white); color:var(--ink); font-family:inherit; }
+  .sa-input:focus{ outline:none; border-color:var(--stamp); }
+  .sa-sec{ margin:26px 2px 0; font-weight:800; font-size:15px; color:var(--done); border-top:2px solid var(--ink); padding-top:14px; }
   .choice{
     position:relative;
     width:44px; height:44px; border-radius:50%;
@@ -231,6 +238,7 @@
     <option value="중등부3">중등부3</option>
     <option value="중등부4">중등부4</option>
     <option value="중등부5">중등부5</option>
+    <option value="예비중1">예비중1 (레벨테스트)</option>
   </select>
   <div class="start-warn" id="startWarn">이름과 반을 모두 선택해야 시작할 수 있어요</div>
   <button class="start-btn" id="startBtn">시작하기</button>
@@ -318,6 +326,22 @@ const CONFIG = {
 /* ===================================================================== */
 
 const state = { answers: {}, studentName: "", studentClass: "" };
+/* 서술형: 같은 폴더의 omr_written.json 에 시험명으로 등록된 문항이 있으면 객관식 뒤에 입력칸으로 표시·자동채점 */
+let WRITTEN = [];
+function saNorm(s){
+  return " " + String(s||"").toLowerCase().replace(/[’‘`]/g,"'")
+    .replace(/\bi'm\b/g,"i am").replace(/\b(it|that|there|he|she|what|where)'s\b/g,"$1 is").replace(/\b(\w+)n't\b/g,(m,a)=>a==="can"?"cannot":a==="won"?"will not":a+" not")
+    .replace(/\b(i|you|we|they)'ve\b/g,"$1 have").replace(/\b(i|you|we|they|he|she|it)'ll\b/g,"$1 will").replace(/\b(you|we|they)'re\b/g,"$1 are").replace(/\blet's\b/g,"let us")
+    .replace(/[^a-z0-9' ]/g," ").replace(/\s+/g," ").trim() + " ";
+}
+function saCorrect(w, v){ if(!v || !String(v).trim()) return false; const n = saNorm(v); return (w.accept||[]).some(a => saNorm(a) === n); }
+function grandTotal(){ return CONFIG.totalQuestions + WRITTEN.length; }
+async function loadWritten(){
+  try{
+    const r = await fetch('omr_written.json?v=' + Date.now());
+    if(r.ok){ const d = await r.json(); WRITTEN = (d && d[CONFIG.examName]) || []; }
+  }catch(e){ WRITTEN = []; }
+}
 
 async function loadConfigAndInit(){
   document.getElementById('startTitle').textContent = "불러오는 중...";
@@ -338,18 +362,19 @@ async function loadConfigAndInit(){
   }catch(err){
     console.error('시험 설정을 불러오지 못했습니다:', err);
   }
+  await loadWritten();
   init();
   loadExplain();
 }
 
 function init(){
   document.getElementById('startTitle').textContent = CONFIG.examName;
-  document.getElementById('startSub').textContent = `총 ${CONFIG.totalQuestions}문항 · 이름을 입력하고 시작하세요`;
+  document.getElementById('startSub').textContent = WRITTEN.length ? `객관식 ${CONFIG.totalQuestions}문항 + 서술형 ${WRITTEN.length}문항 · 이름을 입력하고 시작하세요` : `총 ${CONFIG.totalQuestions}문항 · 이름을 입력하고 시작하세요`;
   document.getElementById('nameInput').placeholder = CONFIG.studentPlaceholder;
 
   document.getElementById('examTitle').textContent = CONFIG.examName;
-  document.getElementById('examSub').textContent = `총 ${CONFIG.totalQuestions}문항 · 자유롭게 이동하며 답을 고르고 마지막에 제출하세요`;
-  document.getElementById('totalCount').textContent = CONFIG.totalQuestions;
+  document.getElementById('examSub').textContent = `총 ${grandTotal()}문항${WRITTEN.length ? ' (서술형 ' + WRITTEN.length + ')' : ''} · 자유롭게 이동하며 답을 고르고 마지막에 제출하세요`;
+  document.getElementById('totalCount').textContent = grandTotal();
 
   renderNav();
   renderQuestions();
@@ -383,6 +408,13 @@ function renderNav(){
     d.onclick = () => document.getElementById(`q-${i}`).scrollIntoView({behavior:'smooth', block:'center'});
     nav.appendChild(d);
   }
+  WRITTEN.forEach(w => {
+    const d = document.createElement('div');
+    d.className = 'navdot'; d.id = `nav-${w.no}`; d.textContent = w.no; d.title = '서술형';
+    d.style.borderStyle = 'dashed';
+    d.onclick = () => document.getElementById(`q-${w.no}`).scrollIntoView({behavior:'smooth', block:'center'});
+    nav.appendChild(d);
+  });
 }
 
 function renderQuestions(){
@@ -412,6 +444,27 @@ function renderQuestions(){
     card.appendChild(choices);
     list.appendChild(card);
   }
+  if(WRITTEN.length){
+    const sec = document.createElement('div');
+    sec.className = 'sa-sec';
+    sec.textContent = `✍️ 서술형 (${WRITTEN[0].no}~${WRITTEN[WRITTEN.length-1].no}번) · 시험지에 쓴 답을 그대로 입력하세요`;
+    list.appendChild(sec);
+  }
+  WRITTEN.forEach((w, idx) => {
+    const card = document.createElement('div');
+    card.className = 'qcard'; card.id = `q-${w.no}`;
+    const esc = t => String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    card.innerHTML = `<div class="qhead"><span class="qnum">${String(w.no).padStart(2,'0')}</span><span class="sa-tag">서술형 ${idx+1}</span><span class="qflag" id="flag-${w.no}">미응답</span></div>
+      ${w.q ? `<div class="sa-q">${esc(w.q)}</div>` : ''}${w.box ? `<div class="sa-box">${esc(w.box)}</div>` : ''}
+      <input class="sa-input" id="sa-${w.no}" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="영어 문장으로 답을 입력하세요">`;
+    list.appendChild(card);
+    card.querySelector('input').addEventListener('input', e => {
+      const v = e.target.value;
+      if(v.trim()){ state.answers[w.no] = v; document.getElementById(`nav-${w.no}`).classList.add('answered'); document.getElementById(`flag-${w.no}`).classList.remove('show'); }
+      else { delete state.answers[w.no]; document.getElementById(`nav-${w.no}`).classList.remove('answered'); }
+      updateProgress();
+    });
+  });
 }
 
 function selectAnswer(qNum, choice){
@@ -426,7 +479,7 @@ function selectAnswer(qNum, choice){
 
 function updateProgress(){
   const answered = Object.keys(state.answers).length;
-  const pct = (answered / CONFIG.totalQuestions) * 100;
+  const pct = (answered / grandTotal()) * 100;
   document.getElementById('progressFill').style.width = pct + '%';
   document.getElementById('answeredCount').textContent = answered;
 }
@@ -436,6 +489,7 @@ function getMissing(){
   for(let i=1;i<=CONFIG.totalQuestions;i++){
     if(!state.answers[i]) missing.push(i);
   }
+  WRITTEN.forEach(w => { if(!state.answers[w.no]) missing.push(w.no); });
   return missing;
 }
 
@@ -479,6 +533,9 @@ function submitExam(){
       else wrongList.push(i);
     }
   }
+  if(hasKey){
+    WRITTEN.forEach(w => { if(saCorrect(w, state.answers[w.no])) correctCount++; else wrongList.push(w.no); });
+  }
   state.wrongList = wrongList;
 
   document.getElementById('examContainer').style.display = 'none';
@@ -486,7 +543,7 @@ function submitExam(){
   window.scrollTo(0,0);
 
   if(hasKey){
-    document.getElementById('scoreNum').textContent = `${correctCount} / ${CONFIG.totalQuestions}`;
+    document.getElementById('scoreNum').textContent = `${correctCount} / ${grandTotal()}`;
     document.getElementById('scoreLabel').textContent = `${state.studentName} · ${CONFIG.examName}`;
     document.getElementById('wrongCountLabel').textContent = wrongList.length === 0 ? '모두 맞혔어요! 🎉' : `틀린 문제 ${wrongList.length}개`;
     document.getElementById('pendingNote').style.display = 'none';
@@ -503,6 +560,7 @@ function submitExam(){
     const answerKeyObj = {};
     if(hasKey){
       for(let i=1;i<=CONFIG.totalQuestions;i++) answerKeyObj[i] = CONFIG.answerKey[i-1];
+      WRITTEN.forEach(w => { answerKeyObj[w.no] = (w.accept||[])[0] || ''; });
     }
     fetch(CONFIG.submitUrl, {
       method: 'POST',
@@ -515,7 +573,7 @@ function submitExam(){
         answers: state.answers,
         answerKey: answerKeyObj,
         score: hasKey ? correctCount : null,
-        total: CONFIG.totalQuestions,
+        total: grandTotal(),
         submittedAt: new Date().toISOString()
       })
     }).catch(err => console.error('제출 전송 실패:', err));
@@ -555,8 +613,11 @@ function showWrong(){
   box.innerHTML = `<div class="wsum">틀린 번호: ${state.wrongList.join(', ')}</div>`;
   state.wrongList.forEach(n => {
     const c = document.createElement('div'); c.className = 'wcard';
-    const exp = getExp(n);
-    c.innerHTML = `<div class="wcard-head"><span class="wq">Q${n}</span>
+    const w = WRITTEN.find(x => x.no === n);
+    const exp = w ? (getExp(n) || w.exp || '') : getExp(n);
+    const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    c.innerHTML = w ? `<div class="wcard-head"><span class="wq">Q${n} 서술형</span></div>
+      <div class="wans" style="display:block;line-height:1.6;margin:4px 0">내 답 <span class="mine">${esc(state.answers[n] || '-')}</span><br>모범답안 <span class="right">${esc((w.accept||[])[0]||'')}</span></div>` : `<div class="wcard-head"><span class="wq">Q${n}</span>
       <span class="wans">내 답 <span class="mine">${state.answers[n] || '-'}</span> → 정답 <span class="right">${CONFIG.answerKey[n-1]}</span></span></div>
       ${exp ? `<div class="exp">💡 ${exp}</div>` : ''}`;
     box.appendChild(c);

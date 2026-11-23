@@ -1,0 +1,63 @@
+{
+ "레벨테스트_예비중1": [
+  {
+   "no": 26,
+   "unit": "서술형-시제",
+   "q": "다음 문장을 과거시제 문장으로 바꿔 쓰시오.",
+   "box": "Tom buys a new cap.",
+   "accept": [
+    "Tom bought a new cap."
+   ],
+   "exp": "buy의 과거형은 bought예요(불규칙 변화). → Tom bought a new cap."
+  },
+  {
+   "no": 27,
+   "unit": "서술형-의문문",
+   "q": "다음 문장을 의문문으로 바꿔 쓰시오.",
+   "box": "Your brother plays the piano.",
+   "accept": [
+    "Does your brother play the piano?"
+   ],
+   "exp": "주어가 3인칭 단수인 일반동사 의문문은 Does + 주어 + 동사원형 ~? 이에요. plays → play"
+  },
+  {
+   "no": 28,
+   "unit": "서술형-배열",
+   "q": "우리말과 뜻이 같도록 주어진 말을 바르게 배열하시오.",
+   "box": "나는 내 친구들과 축구하는 것을 즐긴다.\n( soccer / enjoy / with / playing / I / my friends )",
+   "accept": [
+    "I enjoy playing soccer with my friends."
+   ],
+   "exp": "enjoy + 동명사(playing) / with my friends는 문장 끝에 와요."
+  },
+  {
+   "no": 29,
+   "unit": "서술형-영작",
+   "q": "우리말과 뜻이 같도록 주어진 단어를 이용하여 영어 문장을 완성하시오.",
+   "box": "지구는 달보다 더 크다. (big)",
+   "accept": [
+    "The earth is bigger than the moon.",
+    "Earth is bigger than the moon.",
+    "The earth is bigger than the moon is."
+   ],
+   "exp": "big의 비교급은 g를 한 번 더 써서 bigger예요. → The earth is bigger than the moon."
+  },
+  {
+   "no": 30,
+   "unit": "서술형-독해",
+   "q": "다음 글을 읽고, 질문에 대한 답을 완전한 영어 문장으로 쓰시오.",
+   "box": "Minho's teacher said, \"Put your phone in the living room before bed. And try to read a book instead.\"\n\nQ: Where should Minho put his phone before bed?",
+   "accept": [
+    "He should put his phone in the living room.",
+    "He should put it in the living room.",
+    "He should put his phone in the living room before bed.",
+    "He should put it in the living room before bed.",
+    "Minho should put his phone in the living room.",
+    "Minho should put it in the living room.",
+    "Minho should put his phone in the living room before bed.",
+    "Minho should put it in the living room before bed."
+   ],
+   "exp": "선생님이 '자기 전에 휴대폰을 거실에 두라'고 했어요. → He should put his phone in the living room."
+  }
+ ]
+}
