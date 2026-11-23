@@ -1,0 +1,359 @@
+{
+ "examName": "초등문법_grammar1-11-12",
+ "totalQuestions": 25,
+ "numChoices": 4,
+ "answerKey": [
+  1,
+  2,
+  1,
+  1,
+  2,
+  1,
+  3,
+  4,
+  1,
+  2,
+  1,
+  2,
+  1,
+  1,
+  2,
+  2,
+  2,
+  3,
+  4,
+  1,
+  4,
+  1,
+  1,
+  2,
+  3
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "1. 빈칸에 알맞은 것은? — ___ there a big table?",
+   "choices": [
+    "Is",
+    "Are",
+    "Do",
+    "Does"
+   ],
+   "answer": 1,
+   "exp": "a big table은 단수 명사이므로 Is를 쓴다."
+  },
+  {
+   "no": 2,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "2. 빈칸에 알맞은 것은? — ___ there any chopsticks?",
+   "choices": [
+    "Is",
+    "Are",
+    "Do",
+    "Does"
+   ],
+   "answer": 2,
+   "exp": "chopsticks는 복수 명사이므로 Are를 쓴다."
+  },
+  {
+   "no": 3,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "3. 대화의 빈칸에 알맞은 것은? — Q: Is there an eraser?   A: Yes, ___.",
+   "choices": [
+    "there is",
+    "there are",
+    "it is",
+    "that is"
+   ],
+   "answer": 1,
+   "exp": "Is there ~? 의문문에는 there is로 답한다."
+  },
+  {
+   "no": 4,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "4. 대화의 빈칸에 알맞은 것은? — Q: Are there any birds?   A: No, ___.",
+   "choices": [
+    "there aren't",
+    "there isn't",
+    "they aren't",
+    "it isn't"
+   ],
+   "answer": 1,
+   "exp": "Are there ~? 의문문에는 there aren't로 답한다."
+  },
+  {
+   "no": 5,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "5. 빈칸에 알맞은 것은? (책상 위에 가방이 있다.) — There is a bag ___ the desk.",
+   "choices": [
+    "in",
+    "on",
+    "under",
+    "next to"
+   ],
+   "answer": 2,
+   "exp": "위쪽 표면 위에 있을 때는 on을 쓴다."
+  },
+  {
+   "no": 6,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "6. 빈칸에 알맞은 것은? (바구니 안에 인형이 있다.) — There is a doll ___ the basket.",
+   "choices": [
+    "in",
+    "on",
+    "under",
+    "next to"
+   ],
+   "answer": 1,
+   "exp": "안에 있을 때는 in을 쓴다."
+  },
+  {
+   "no": 7,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "7. 빈칸에 알맞은 것은? (싱크대 아래에 컵들이 있다.) — There are cups ___ the sink.",
+   "choices": [
+    "in",
+    "on",
+    "under",
+    "next to"
+   ],
+   "answer": 3,
+   "exp": "아래에 있을 때는 under를 쓴다."
+  },
+  {
+   "no": 8,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "8. 빈칸에 알맞은 것은? (책상 옆에 침대가 있다.) — There is a bed ___ the desk.",
+   "choices": [
+    "in",
+    "on",
+    "under",
+    "next to"
+   ],
+   "answer": 4,
+   "exp": "옆에 있을 때는 next to를 쓴다."
+  },
+  {
+   "no": 9,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "9. 다음 문장을 의문문으로 바르게 바꾼 것은? — There is a red flower.",
+   "choices": [
+    "Is there a red flower?",
+    "Are there a red flower?",
+    "There is a red flower?",
+    "Is a red flower there?"
+   ],
+   "answer": 1,
+   "exp": "be동사 is를 there 앞으로 보내 의문문을 만든다."
+  },
+  {
+   "no": 10,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "10. 다음 문장을 의문문으로 바르게 바꾼 것은? — There are gray socks.",
+   "choices": [
+    "Is there gray socks?",
+    "Are there gray socks?",
+    "There are gray socks?",
+    "Are gray socks there?"
+   ],
+   "answer": 2,
+   "exp": "복수 명사이므로 be동사 are를 there 앞으로 보낸다."
+  },
+  {
+   "no": 11,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "11. 우리말을 영어로 바르게 옮긴 것은? (검정색 모자가 한 개 있니?)",
+   "choices": [
+    "Is there a black hat?",
+    "Are there a black hat?",
+    "Is there black hats?",
+    "There is a black hat?"
+   ],
+   "answer": 1,
+   "exp": "단수 명사 a black hat 앞에는 Is there를 쓴다."
+  },
+  {
+   "no": 12,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "12. 우리말을 영어로 바르게 옮긴 것은? (오리가 세 마리 있니?)",
+   "choices": [
+    "Is there three ducks?",
+    "Are there three ducks?",
+    "Are there a duck?",
+    "There are three ducks?"
+   ],
+   "answer": 2,
+   "exp": "복수 명사 three ducks 앞에는 Are there를 쓴다."
+  },
+  {
+   "no": 13,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "13. 대화의 빈칸에 순서대로 알맞은 것은? — A: ___ there a pineapple?   B: Yes, ___ is.",
+   "choices": [
+    "Is - there",
+    "Are - there",
+    "Is - it",
+    "Are - it"
+   ],
+   "answer": 1,
+   "exp": "단수 명사이므로 Is there로 묻고, 대답도 there is로 한다."
+  },
+  {
+   "no": 14,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "14. 빈칸에 알맞은 것은? (병 안에 쿠키들이 있다.) — There are cookies ___ the jar.",
+   "choices": [
+    "in",
+    "on",
+    "under",
+    "next to"
+   ],
+   "answer": 1,
+   "exp": "안에 있을 때는 in을 쓴다."
+  },
+  {
+   "no": 15,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "15. 빈칸에 알맞은 것은? (식탁 위에 접시가 한 개 있다.) — There is a plate ___ the table.",
+   "choices": [
+    "in",
+    "on",
+    "under",
+    "next to"
+   ],
+   "answer": 2,
+   "exp": "위쪽 표면 위에 있을 때는 on을 쓴다."
+  },
+  {
+   "no": 16,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "16. 다음 그림 설명 중 빈칸에 알맞은 것은? (다리 아래에 오리들이 있다.) — There ___ ducks under the bridge.",
+   "choices": [
+    "is",
+    "are",
+    "is not",
+    "isn't"
+   ],
+   "answer": 2,
+   "exp": "ducks는 복수 명사이므로 are를 쓴다."
+  },
+  {
+   "no": 17,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "17. 다음 중 어법상 올바른 것은?",
+   "choices": [
+    "Is there many eggs?",
+    "Are there many eggs?",
+    "Is there many egg?",
+    "Are there many egg?"
+   ],
+   "answer": 2,
+   "exp": "many eggs는 복수 명사이므로 Are there를 쓴다."
+  },
+  {
+   "no": 18,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "choices": [
+    "Is there a big table?",
+    "Are there any shoes?",
+    "Is there any shoes?",
+    "Are there many animals?"
+   ],
+   "answer": 3,
+   "exp": "shoes는 복수 명사이므로 Is there가 아니라 Are there를 써야 한다."
+  },
+  {
+   "no": 19,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "19. 다음 대화 중 어법상 어색한 것은?",
+   "choices": [
+    "Is there a ball under the piano? Yes, there is.",
+    "Are there flowers in the basket? Yes, there are.",
+    "Is there a lamp on the desk? No, there isn't.",
+    "Is there a puppy next to the cow? No, they aren't."
+   ],
+   "answer": 4,
+   "exp": "Is there로 물었으므로 대답도 there isn't로 해야 한다."
+  },
+  {
+   "no": 20,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "20. 대화의 빈칸에 순서대로 알맞은 것은? — A: ___ there a phone next to the bag?   B: No, ___ isn't. There's a pot next to the bag.",
+   "choices": [
+    "Is - there",
+    "Are - there",
+    "Is - it",
+    "Are - it"
+   ],
+   "answer": 1,
+   "exp": "단수 명사 a phone이므로 Is there로 묻고, there isn't로 답한다."
+  },
+  {
+   "no": 21,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "21. 다음 문장에서 위치 전치사가 잘못 쓰인 것은? (침대가 책상 옆에 있다.)",
+   "choices": [
+    "There is a plate on the table.",
+    "There are cookies in the jar.",
+    "There are cups under the sink.",
+    "There is a bed in the desk."
+   ],
+   "answer": 4,
+   "exp": "'책상 옆에'는 next to를 써야 하는데 in을 잘못 사용했다."
+  },
+  {
+   "no": 22,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "22. 빈칸에 들어갈 말이 순서대로 바르게 짝지어진 것은? (우리 집 옆에 교회가 있다.) — There ___ a church ___ my house.",
+   "choices": [
+    "is - next to",
+    "are - next to",
+    "is - under",
+    "is - in"
+   ],
+   "answer": 1,
+   "exp": "단수 명사 church이므로 is, '옆에'는 next to가 알맞다."
+  },
+  {
+   "no": 23,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "23. 대화의 빈칸에 알맞은 것은? — Q: Is there a new computer?   A: No, ___.",
+   "choices": [
+    "there isn't",
+    "there aren't",
+    "it isn't",
+    "they aren't"
+   ],
+   "answer": 1,
+   "exp": "Is there ~? 의문문에는 there isn't로 답한다."
+  },
+  {
+   "no": 24,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "24. 다음 중 어법상 옳은 것은?",
+   "choices": [
+    "There is a horse. There is boys on the horse.",
+    "There is a horse. There are boys on the horse.",
+    "There are a horse. There is boys on the horse.",
+    "There are a horse. There are boys on the horse."
+   ],
+   "answer": 2,
+   "exp": "a horse는 단수이므로 is, boys는 복수이므로 are를 써야 한다."
+  },
+  {
+   "no": 25,
+   "unit": "There be의문문·위치전치사(그래머1 11-12)",
+   "q": "25. 다음 대화 중 어법상 <u>올바르지 않은</u> 것은?",
+   "choices": [
+    "Are there any onions? Yes, there are.",
+    "Is there a white radish? Yes, there is.",
+    "Are there many eggs? Yes, there is.",
+    "Is there a pineapple? No, there isn't."
+   ],
+   "answer": 3,
+   "exp": "Are there로 물었으므로 대답도 Yes, there are로 해야 한다."
+  }
+ ]
+}

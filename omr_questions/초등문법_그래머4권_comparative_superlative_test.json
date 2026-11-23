@@ -1,0 +1,429 @@
+{
+ "examName": "초등문법_그래머4권_comparative_superlative_test",
+ "totalQuestions": 30,
+ "numChoices": 4,
+ "answerKey": [
+  4,
+  2,
+  2,
+  3,
+  3,
+  4,
+  2,
+  3,
+  3,
+  4,
+  3,
+  1,
+  2,
+  3,
+  2,
+  2,
+  3,
+  3,
+  3,
+  2,
+  2,
+  3,
+  2,
+  3,
+  3,
+  3,
+  2,
+  3,
+  3,
+  3
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "비교급으로 알맞은 것은? — tall → ?",
+   "choices": [
+    "tallier",
+    "most tall",
+    "more tall",
+    "taller"
+   ],
+   "answer": 4,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'taller'이다."
+  },
+  {
+   "no": 2,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "비교급으로 알맞은 것은? — large → ?",
+   "choices": [
+    "largeer",
+    "larger",
+    "more large",
+    "largeier"
+   ],
+   "answer": 2,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'larger'이다."
+  },
+  {
+   "no": 3,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "비교급으로 알맞은 것은? — happy → ?",
+   "choices": [
+    "happyer",
+    "happier",
+    "more happy",
+    "happiermore"
+   ],
+   "answer": 2,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'happier'이다."
+  },
+  {
+   "no": 4,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "비교급으로 알맞은 것은? — beautiful → ?",
+   "choices": [
+    "beautifuler",
+    "beautifuller",
+    "more beautiful",
+    "beautifulier"
+   ],
+   "answer": 3,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'more beautiful'이다."
+  },
+  {
+   "no": 5,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "비교급으로 알맞은 것은? — hot → ?",
+   "choices": [
+    "hoter",
+    "hotier",
+    "hotter",
+    "more hot"
+   ],
+   "answer": 3,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'hotter'이다."
+  },
+  {
+   "no": 6,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "비교급으로 알맞은 것은? — difficult → ?",
+   "choices": [
+    "difficulter",
+    "difficultier",
+    "difficultest",
+    "more difficult"
+   ],
+   "answer": 4,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'more difficult'이다."
+  },
+  {
+   "no": 7,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "비교급으로 알맞은 것은? — busy → ?",
+   "choices": [
+    "busyer",
+    "busier",
+    "more busier",
+    "busiest"
+   ],
+   "answer": 2,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'busier'이다."
+  },
+  {
+   "no": 8,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "비교급으로 알맞은 것은? — big → ?",
+   "choices": [
+    "biger",
+    "biggest",
+    "bigger",
+    "more big"
+   ],
+   "answer": 3,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'bigger'이다."
+  },
+  {
+   "no": 9,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — She is ___ than me. (키가 더 크다)",
+   "choices": [
+    "tall",
+    "tallest",
+    "taller",
+    "most tall"
+   ],
+   "answer": 3,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'taller'이다."
+  },
+  {
+   "no": 10,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — This bag is ___ than that one. (더 비싸다 / expensive)",
+   "choices": [
+    "expensiver",
+    "expensiveer",
+    "more expensiver",
+    "more expensive"
+   ],
+   "answer": 4,
+   "exp": "비교급은 짧은 형용사/부사에 -er, 긴 단어는 more를 붙여 만든다(불규칙: good-better, bad-worse 등). 정답은 'more expensive'이다."
+  },
+  {
+   "no": 11,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "최상급으로 알맞은 것은? — tall → ?",
+   "choices": [
+    "talliest",
+    "most tall",
+    "tallest",
+    "tallier"
+   ],
+   "answer": 3,
+   "exp": "최상급은 짧은 단어에 -est, 긴 단어는 most를 붙이고 보통 앞에 the를 쓴다(불규칙: good-best, bad-worst 등). 정답은 'tallest'이다."
+  },
+  {
+   "no": 12,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "최상급으로 알맞은 것은? — nice → ?",
+   "choices": [
+    "nicest",
+    "niciest",
+    "most nicest",
+    "niceest"
+   ],
+   "answer": 1,
+   "exp": "최상급은 짧은 단어에 -est, 긴 단어는 most를 붙이고 보통 앞에 the를 쓴다(불규칙: good-best, bad-worst 등). 정답은 'nicest'이다."
+  },
+  {
+   "no": 13,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "최상급으로 알맞은 것은? — happy → ?",
+   "choices": [
+    "happyest",
+    "happiest",
+    "most happy",
+    "happyer"
+   ],
+   "answer": 2,
+   "exp": "최상급은 짧은 단어에 -est, 긴 단어는 most를 붙이고 보통 앞에 the를 쓴다(불규칙: good-best, bad-worst 등). 정답은 'happiest'이다."
+  },
+  {
+   "no": 14,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "최상급으로 알맞은 것은? — interesting → ?",
+   "choices": [
+    "interestingest",
+    "interestingiest",
+    "most interesting",
+    "more interesting"
+   ],
+   "answer": 3,
+   "exp": "최상급은 짧은 단어에 -est, 긴 단어는 most를 붙이고 보통 앞에 the를 쓴다(불규칙: good-best, bad-worst 등). 정답은 'most interesting'이다."
+  },
+  {
+   "no": 15,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "최상급으로 알맞은 것은? — thin → ?",
+   "choices": [
+    "thiner",
+    "thinnest",
+    "thinest",
+    "most thin"
+   ],
+   "answer": 2,
+   "exp": "최상급은 짧은 단어에 -est, 긴 단어는 most를 붙이고 보통 앞에 the를 쓴다(불규칙: good-best, bad-worst 등). 정답은 'thinnest'이다."
+  },
+  {
+   "no": 16,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — He is the ___ student in the class. (가장 똑똑한 / smart)",
+   "choices": [
+    "smarter",
+    "smartest",
+    "most smart",
+    "more smart"
+   ],
+   "answer": 2,
+   "exp": "최상급은 짧은 단어에 -est, 긴 단어는 most를 붙이고 보통 앞에 the를 쓴다(불규칙: good-best, bad-worst 등). 정답은 'smartest'이다."
+  },
+  {
+   "no": 17,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — This is the ___ movie I've ever seen. (가장 재미있는 / exciting)",
+   "choices": [
+    "excitingest",
+    "more exciting",
+    "most exciting",
+    "excitingst"
+   ],
+   "answer": 3,
+   "exp": "최상급은 짧은 단어에 -est, 긴 단어는 most를 붙이고 보통 앞에 the를 쓴다(불규칙: good-best, bad-worst 등). 정답은 'most exciting'이다."
+  },
+  {
+   "no": 18,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "다음 중 최상급 앞에 반드시 붙는 것은? — She is ___ tallest girl.",
+   "choices": [
+    "a",
+    "an",
+    "the",
+    "some"
+   ],
+   "answer": 3,
+   "exp": "최상급은 짧은 단어에 -est, 긴 단어는 most를 붙이고 보통 앞에 the를 쓴다(불규칙: good-best, bad-worst 등). 정답은 'the'이다."
+  },
+  {
+   "no": 19,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — A dog is ___ than a cat.",
+   "choices": [
+    "big",
+    "biger",
+    "bigger",
+    "biggest"
+   ],
+   "answer": 3,
+   "exp": "비교급 문장은 '비교급 + than'으로 두 대상을 비교한다. 정답은 'bigger'이다."
+  },
+  {
+   "no": 20,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "다음 중 올바른 비교급 문장은?",
+   "choices": [
+    "She is more tall than her sister.",
+    "He is smarter than me.",
+    "I am more young than you.",
+    "They are more fast than us."
+   ],
+   "answer": 2,
+   "exp": "비교급 문장은 '비교급 + than'으로 두 대상을 비교한다. 정답은 'He is smarter than me.'이다."
+  },
+  {
+   "no": 21,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — Cheetah is the ___ animal in the world. (가장 빠른 / fast)",
+   "choices": [
+    "faster",
+    "fastest",
+    "most fast",
+    "more fast"
+   ],
+   "answer": 2,
+   "exp": "최상급 문장은 보통 'the + 최상급 (+ in/of ~)' 형태로 가장 ~함을 나타낸다. 정답은 'fastest'이다."
+  },
+  {
+   "no": 22,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "다음 중 올바른 최상급 문장은?",
+   "choices": [
+    "She is most kind in the class.",
+    "He is the most kind in the class.",
+    "I am the kindest in my family.",
+    "They are the most tallest."
+   ],
+   "answer": 3,
+   "exp": "최상급 문장은 보통 'the + 최상급 (+ in/of ~)' 형태로 가장 ~함을 나타낸다. 정답은 'I am the kindest in my family.'이다."
+  },
+  {
+   "no": 23,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 이 책은 저 책보다 더 어렵다.",
+   "choices": [
+    "This book is difficulter than that one.",
+    "This book is more difficult than that one.",
+    "This book is most difficult than that one.",
+    "This book is the most difficult than that one."
+   ],
+   "answer": 2,
+   "exp": "비교급 문장은 '비교급 + than'으로 두 대상을 비교한다. 정답은 'This book is more difficult than that one.'이다."
+  },
+  {
+   "no": 24,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 그녀는 우리 반에서 가장 친절하다.",
+   "choices": [
+    "She is kinder in our class.",
+    "She is most kind in our class.",
+    "She is the kindest in our class.",
+    "She is the kinder in our class."
+   ],
+   "answer": 3,
+   "exp": "최상급 문장은 보통 'the + 최상급 (+ in/of ~)' 형태로 가장 ~함을 나타낸다. 정답은 'She is the kindest in our class.'이다."
+  },
+  {
+   "no": 25,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "'as ~ as' 사이에 들어갈 형태로 알맞은 것은?",
+   "choices": [
+    "비교급",
+    "최상급",
+    "원급 (형용사/부사)",
+    "동사원형"
+   ],
+   "answer": 3,
+   "exp": "'as + 원급 + as'는 '~만큼 ~한'이라는 동등 비교를 나타낸다. 정답은 '원급 (형용사/부사)'이다."
+  },
+  {
+   "no": 26,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — I am as ___ as you.",
+   "choices": [
+    "taller",
+    "tallest",
+    "tall",
+    "more tall"
+   ],
+   "answer": 3,
+   "exp": "'as + 원급 + as'는 '~만큼 ~한'이라는 동등 비교를 나타낸다. 정답은 'tall'이다."
+  },
+  {
+   "no": 27,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — He runs as fast as a cheetah.",
+   "choices": [
+    "그는 치타보다 더 빨리 달린다.",
+    "그는 치타만큼 빨리 달린다.",
+    "그는 치타보다 느리게 달린다.",
+    "그는 치타가 달리는 것을 좋아한다."
+   ],
+   "answer": 2,
+   "exp": "'as + 원급 + as'는 '~만큼 ~한'이라는 동등 비교를 나타낸다. 정답은 '그는 치타만큼 빨리 달린다.'이다."
+  },
+  {
+   "no": 28,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "She is as taller as me.",
+    "He is as tallest as his brother.",
+    "This is as heavy as that.",
+    "They run as faster as lions."
+   ],
+   "answer": 3,
+   "exp": "'as + 원급 + as'는 '~만큼 ~한'이라는 동등 비교를 나타낸다. 정답은 'This is as heavy as that.'이다."
+  },
+  {
+   "no": 29,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 이 가방은 저 가방만큼 무겁다.",
+   "choices": [
+    "This bag is heavier than that bag.",
+    "This bag is as heavier as that bag.",
+    "This bag is as heavy as that bag.",
+    "This bag is the heaviest bag."
+   ],
+   "answer": 3,
+   "exp": "'as + 원급 + as'는 '~만큼 ~한'이라는 동등 비교를 나타낸다. 정답은 'This bag is as heavy as that bag.'이다."
+  },
+  {
+   "no": 30,
+   "unit": "비교급·최상급 (Grammar4권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — My dog is as ___ as a lion.",
+   "choices": [
+    "braver",
+    "bravest",
+    "brave",
+    "most brave"
+   ],
+   "answer": 3,
+   "exp": "'as + 원급 + as'는 '~만큼 ~한'이라는 동등 비교를 나타낸다. 정답은 'brave'이다."
+  }
+ ]
+}

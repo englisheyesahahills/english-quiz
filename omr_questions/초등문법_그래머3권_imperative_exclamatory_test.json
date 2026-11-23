@@ -1,0 +1,429 @@
+{
+ "examName": "초등문법_그래머3권_imperative_exclamatory_test",
+ "totalQuestions": 30,
+ "numChoices": 4,
+ "answerKey": [
+  3,
+  2,
+  3,
+  3,
+  3,
+  4,
+  2,
+  2,
+  3,
+  3,
+  3,
+  4,
+  3,
+  2,
+  3,
+  3,
+  4,
+  2,
+  1,
+  2,
+  3,
+  2,
+  2,
+  2,
+  1,
+  1,
+  3,
+  3,
+  3,
+  3
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "명령문의 형태로 알맞은 것은?",
+   "choices": [
+    "You open the window.",
+    "Opens the window.",
+    "Open the window.",
+    "Opening the window."
+   ],
+   "answer": 3,
+   "exp": "명령문은 주어 없이 동사원형으로 시작해 '~해라'라는 뜻을 나타낸다. 정답은 'Open the window.'이다."
+  },
+  {
+   "no": 2,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — Sit down, please.",
+   "choices": [
+    "앉아도 된다.",
+    "앉아라.",
+    "앉고 있다.",
+    "앉을 수 있다."
+   ],
+   "answer": 2,
+   "exp": "명령문은 주어 없이 동사원형으로 시작해 '~해라'라는 뜻을 나타낸다. 정답은 '앉아라.'이다."
+  },
+  {
+   "no": 3,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 손을 씻어라.",
+   "choices": [
+    "You wash your hands.",
+    "Washing your hands.",
+    "Wash your hands.",
+    "Washes your hands."
+   ],
+   "answer": 3,
+   "exp": "명령문은 주어 없이 동사원형으로 시작해 '~해라'라는 뜻을 나타낸다. 정답은 'Wash your hands.'이다."
+  },
+  {
+   "no": 4,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ careful on the road.",
+   "choices": [
+    "You are",
+    "Is",
+    "Be",
+    "Are"
+   ],
+   "answer": 3,
+   "exp": "명령문은 주어 없이 동사원형으로 시작해 '~해라'라는 뜻을 나타낸다. 정답은 'Be'이다."
+  },
+  {
+   "no": 5,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 중 올바른 명령문은?",
+   "choices": [
+    "You be quiet.",
+    "Quiets down.",
+    "Be quiet.",
+    "Being quiet."
+   ],
+   "answer": 3,
+   "exp": "명령문은 주어 없이 동사원형으로 시작해 '~해라'라는 뜻을 나타낸다. 정답은 'Be quiet.'이다."
+  },
+  {
+   "no": 6,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 네 숙제를 해라.",
+   "choices": [
+    "You do your homework.",
+    "Does your homework.",
+    "Doing your homework.",
+    "Do your homework."
+   ],
+   "answer": 4,
+   "exp": "명령문은 주어 없이 동사원형으로 시작해 '~해라'라는 뜻을 나타낸다. 정답은 'Do your homework.'이다."
+  },
+  {
+   "no": 7,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "부정 명령문의 형태로 알맞은 것은?",
+   "choices": [
+    "Not run here.",
+    "Don't run here.",
+    "Doesn't run here.",
+    "No run here."
+   ],
+   "answer": 2,
+   "exp": "부정 명령문은 Don't + 동사원형으로 '~하지 마라'라는 뜻을 나타낸다. 정답은 'Don't run here.'이다."
+  },
+  {
+   "no": 8,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — Don't be late.",
+   "choices": [
+    "늦어도 된다.",
+    "늦지 마라.",
+    "늦고 있다.",
+    "늦을 수 없다."
+   ],
+   "answer": 2,
+   "exp": "부정 명령문은 Don't + 동사원형으로 '~하지 마라'라는 뜻을 나타낸다. 정답은 '늦지 마라.'이다."
+  },
+  {
+   "no": 9,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 여기서 뛰지 마라.",
+   "choices": [
+    "Not run here.",
+    "Doesn't run here.",
+    "Don't run here.",
+    "No running here."
+   ],
+   "answer": 3,
+   "exp": "부정 명령문은 Don't + 동사원형으로 '~하지 마라'라는 뜻을 나타낸다. 정답은 'Don't run here.'이다."
+  },
+  {
+   "no": 10,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ open that door.",
+   "choices": [
+    "Not",
+    "Doesn't",
+    "Don't",
+    "No"
+   ],
+   "answer": 3,
+   "exp": "부정 명령문은 Don't + 동사원형으로 '~하지 마라'라는 뜻을 나타낸다. 정답은 'Don't'이다."
+  },
+  {
+   "no": 11,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 중 올바른 부정 명령문은?",
+   "choices": [
+    "Don't touches my bag.",
+    "Doesn't touch my bag.",
+    "Don't touch my bag.",
+    "Not touch my bag."
+   ],
+   "answer": 3,
+   "exp": "부정 명령문은 Don't + 동사원형으로 '~하지 마라'라는 뜻을 나타낸다. 정답은 'Don't touch my bag.'이다."
+  },
+  {
+   "no": 12,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 음식을 낭비하지 마라.",
+   "choices": [
+    "Don't wastes food.",
+    "Not waste food.",
+    "Doesn't waste food.",
+    "Don't waste food."
+   ],
+   "answer": 4,
+   "exp": "부정 명령문은 Don't + 동사원형으로 '~하지 마라'라는 뜻을 나타낸다. 정답은 'Don't waste food.'이다."
+  },
+  {
+   "no": 13,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "제안문의 형태로 알맞은 것은?",
+   "choices": [
+    "Let's to play outside.",
+    "Let's plays outside.",
+    "Let's play outside.",
+    "Lets play outside."
+   ],
+   "answer": 3,
+   "exp": "Let's + 동사원형은 '~하자'라는 제안의 뜻을 나타낸다. 정답은 'Let's play outside.'이다."
+  },
+  {
+   "no": 14,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — Let's eat lunch together.",
+   "choices": [
+    "함께 점심을 먹어라.",
+    "함께 점심을 먹자.",
+    "함께 점심을 먹고 있다.",
+    "함께 점심을 먹을 수 있다."
+   ],
+   "answer": 2,
+   "exp": "Let's + 동사원형은 '~하자'라는 제안의 뜻을 나타낸다. 정답은 '함께 점심을 먹자.'이다."
+  },
+  {
+   "no": 15,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 축구를 하자.",
+   "choices": [
+    "Play soccer.",
+    "Let's to play soccer.",
+    "Let's play soccer.",
+    "Let's plays soccer."
+   ],
+   "answer": 3,
+   "exp": "Let's + 동사원형은 '~하자'라는 제안의 뜻을 나타낸다. 정답은 'Let's play soccer.'이다."
+  },
+  {
+   "no": 16,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ go to the park.",
+   "choices": [
+    "Let",
+    "Lets",
+    "Let's",
+    "Let us to"
+   ],
+   "answer": 3,
+   "exp": "Let's + 동사원형은 '~하자'라는 제안의 뜻을 나타낸다. 정답은 'Let's'이다."
+  },
+  {
+   "no": 17,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 중 올바른 제안문은?",
+   "choices": [
+    "Let's dances together.",
+    "Let's to sing a song.",
+    "Let's singing now.",
+    "Let's take a break."
+   ],
+   "answer": 4,
+   "exp": "Let's + 동사원형은 '~하자'라는 제안의 뜻을 나타낸다. 정답은 'Let's take a break.'이다."
+  },
+  {
+   "no": 18,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 도서관에서 공부하자.",
+   "choices": [
+    "Study in the library.",
+    "Let's study in the library.",
+    "Let's to study in the library.",
+    "Let's studies in the library."
+   ],
+   "answer": 2,
+   "exp": "Let's + 동사원형은 '~하자'라는 제안의 뜻을 나타낸다. 정답은 'Let's study in the library.'이다."
+  },
+  {
+   "no": 19,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "How 감탄문의 형태로 알맞은 것은?",
+   "choices": [
+    "How beautiful the flower is!",
+    "How a beautiful the flower is!",
+    "How beautiful a flower!",
+    "What beautiful the flower is!"
+   ],
+   "answer": 1,
+   "exp": "How 감탄문은 'How + 형용사/부사 (+ 주어 + 동사)!' 형태이다. 정답은 'How beautiful the flower is!'이다."
+  },
+  {
+   "no": 20,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — How fast he runs!",
+   "choices": [
+    "그는 빠르게 달릴 수 있다!",
+    "그는 달리기가 매우 빠르다!",
+    "그는 빠르게 달려라!",
+    "그는 빠르게 달리고 있다!"
+   ],
+   "answer": 2,
+   "exp": "How 감탄문은 'How + 형용사/부사 (+ 주어 + 동사)!' 형태이다. 정답은 '그는 달리기가 매우 빠르다!'이다."
+  },
+  {
+   "no": 21,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ tall she is!",
+   "choices": [
+    "What",
+    "What a",
+    "How",
+    "How a"
+   ],
+   "answer": 3,
+   "exp": "How 감탄문은 'How + 형용사/부사 (+ 주어 + 동사)!' 형태이다. 정답은 'How'이다."
+  },
+  {
+   "no": 22,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 이 음식은 정말 맛있구나!",
+   "choices": [
+    "What delicious this food is!",
+    "How delicious this food is!",
+    "How a delicious food!",
+    "What a delicious this food!"
+   ],
+   "answer": 2,
+   "exp": "How 감탄문은 'How + 형용사/부사 (+ 주어 + 동사)!' 형태이다. 정답은 'How delicious this food is!'이다."
+  },
+  {
+   "no": 23,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 중 올바른 How 감탄문은?",
+   "choices": [
+    "How a smart he is!",
+    "How smart he is!",
+    "How smart a he is!",
+    "How is smart he!"
+   ],
+   "answer": 2,
+   "exp": "How 감탄문은 'How + 형용사/부사 (+ 주어 + 동사)!' 형태이다. 정답은 'How smart he is!'이다."
+  },
+  {
+   "no": 24,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 그녀는 정말 열심히 공부하는구나!",
+   "choices": [
+    "What hard she studies!",
+    "How hard she studies!",
+    "How a hard she studies!",
+    "What a hard she studies!"
+   ],
+   "answer": 2,
+   "exp": "How 감탄문은 'How + 형용사/부사 (+ 주어 + 동사)!' 형태이다. 정답은 'How hard she studies!'이다."
+  },
+  {
+   "no": 25,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "What 감탄문의 형태로 알맞은 것은?",
+   "choices": [
+    "What a cute dog it is!",
+    "What cute dog it is!",
+    "How a cute dog it is!",
+    "What a cute dog!"
+   ],
+   "answer": 1,
+   "exp": "What 감탄문은 'What (a/an) + 형용사 + 명사 (+ 주어 + 동사)!' 형태이다. 정답은 'What a cute dog it is!'이다."
+  },
+  {
+   "no": 26,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — What a big house it is!",
+   "choices": [
+    "정말 큰 집이구나!",
+    "큰 집에 가라!",
+    "큰 집에서 살자!",
+    "얼마나 큰 집이 있니?"
+   ],
+   "answer": 1,
+   "exp": "What 감탄문은 'What (a/an) + 형용사 + 명사 (+ 주어 + 동사)!' 형태이다. 정답은 '정말 큰 집이구나!'이다."
+  },
+  {
+   "no": 27,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ a pretty flower it is!",
+   "choices": [
+    "How",
+    "How a",
+    "What",
+    "What the"
+   ],
+   "answer": 3,
+   "exp": "What 감탄문은 'What (a/an) + 형용사 + 명사 (+ 주어 + 동사)!' 형태이다. 정답은 'What'이다."
+  },
+  {
+   "no": 28,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 정말 재미있는 영화구나!",
+   "choices": [
+    "How a fun movie it is!",
+    "What fun movie it is!",
+    "What a fun movie it is!",
+    "How fun a movie it is!"
+   ],
+   "answer": 3,
+   "exp": "What 감탄문은 'What (a/an) + 형용사 + 명사 (+ 주어 + 동사)!' 형태이다. 정답은 'What a fun movie it is!'이다."
+  },
+  {
+   "no": 29,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "다음 중 올바른 What 감탄문은?",
+   "choices": [
+    "What a nice a day it is!",
+    "What nice day it is!",
+    "What a nice day it is!",
+    "How a nice day it is!"
+   ],
+   "answer": 3,
+   "exp": "What 감탄문은 'What (a/an) + 형용사 + 명사 (+ 주어 + 동사)!' 형태이다. 정답은 'What a nice day it is!'이다."
+  },
+  {
+   "no": 30,
+   "unit": "명령문·제안문·감탄문 (Grammar3권 L9~11)",
+   "q": "How / What 감탄문 중 알맞은 것을 고르세요. — 정말 똑똑한 학생이구나!",
+   "choices": [
+    "How a smart student he is!",
+    "What smart student he is!",
+    "What a smart student he is!",
+    "How smart a student he is!"
+   ],
+   "answer": 3,
+   "exp": "What 감탄문은 'What (a/an) + 형용사 + 명사 (+ 주어 + 동사)!' 형태이다. 정답은 'What a smart student he is!'이다."
+  }
+ ]
+}

@@ -1,0 +1,429 @@
+{
+ "examName": "초등문법_그래머1권_pronouns2_test",
+ "totalQuestions": 30,
+ "numChoices": 4,
+ "answerKey": [
+  3,
+  2,
+  4,
+  3,
+  4,
+  2,
+  3,
+  4,
+  3,
+  4,
+  2,
+  1,
+  2,
+  3,
+  4,
+  4,
+  3,
+  3,
+  3,
+  2,
+  3,
+  2,
+  4,
+  4,
+  4,
+  3,
+  2,
+  3,
+  3,
+  3
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "'this'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "저것",
+    "그것들",
+    "이것",
+    "저것들"
+   ],
+   "answer": 3,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 '이것'이다."
+  },
+  {
+   "no": 2,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "'those'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "이것",
+    "저것들",
+    "이것들",
+    "저것"
+   ],
+   "answer": 2,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 '저것들'이다."
+  },
+  {
+   "no": 3,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 말을 고르세요. (가까이 있는 한 개) — ___ is my pencil.",
+   "choices": [
+    "That",
+    "These",
+    "Those",
+    "This"
+   ],
+   "answer": 4,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 'This'이다."
+  },
+  {
+   "no": 4,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 말을 고르세요. (멀리 있는 여러 개) — ___ are my books.",
+   "choices": [
+    "This",
+    "That",
+    "Those",
+    "These"
+   ],
+   "answer": 3,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 'Those'이다."
+  },
+  {
+   "no": 5,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 말을 고르세요. (가까이 있는 여러 개) — ___ are apples.",
+   "choices": [
+    "That",
+    "This",
+    "Those",
+    "These"
+   ],
+   "answer": 4,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 'These'이다."
+  },
+  {
+   "no": 6,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — That is a very big tree.",
+   "choices": [
+    "이것은 매우 큰 나무이다.",
+    "저것은 매우 큰 나무이다.",
+    "이것들은 매우 큰 나무이다.",
+    "저것들은 매우 큰 나무이다."
+   ],
+   "answer": 2,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 '저것은 매우 큰 나무이다.'이다."
+  },
+  {
+   "no": 7,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 이것들은 내 신발이야.",
+   "choices": [
+    "This is my shoes.",
+    "That are my shoes.",
+    "These are my shoes.",
+    "Those is my shoes."
+   ],
+   "answer": 3,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 'These are my shoes.'이다."
+  },
+  {
+   "no": 8,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 be동사를 고르세요. — These ___ my friends.",
+   "choices": [
+    "is",
+    "am",
+    "was",
+    "are"
+   ],
+   "answer": 4,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 'are'이다."
+  },
+  {
+   "no": 9,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 be동사를 고르세요. — That ___ a nice car.",
+   "choices": [
+    "are",
+    "am",
+    "is",
+    "be"
+   ],
+   "answer": 3,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 'is'이다."
+  },
+  {
+   "no": 10,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "This are my cats.",
+    "Those is a dog.",
+    "These is fun.",
+    "Those are my classmates."
+   ],
+   "answer": 4,
+   "exp": "가리키는 대상이 가깝고 하나면 this, 멀고 하나면 that, 가깝고 여럿이면 these, 멀고 여럿이면 those를 쓴다. 정답은 'Those are my classmates.'이다."
+  },
+  {
+   "no": 11,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "'my'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "나를",
+    "나의",
+    "나는",
+    "나에게"
+   ],
+   "answer": 2,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 '나의'이다."
+  },
+  {
+   "no": 12,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "밑줄 친 부분의 소유격으로 알맞은 것은? — This is the bag of Tom.",
+   "choices": [
+    "Tom's bag",
+    "Toms bag",
+    "bag of Tom's",
+    "Toms' bag"
+   ],
+   "answer": 1,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 'Tom's bag'이다."
+  },
+  {
+   "no": 13,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 소유격을 고르세요. — She loves ___ cat. (그녀의)",
+   "choices": [
+    "she",
+    "her",
+    "hers",
+    "him"
+   ],
+   "answer": 2,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 'her'이다."
+  },
+  {
+   "no": 14,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 소유격을 고르세요. — He forgot ___ homework. (그의)",
+   "choices": [
+    "him",
+    "he",
+    "his",
+    "her"
+   ],
+   "answer": 3,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 'his'이다."
+  },
+  {
+   "no": 15,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 소유격을 고르세요. — We love ___ school. (우리의)",
+   "choices": [
+    "us",
+    "we",
+    "ours",
+    "our"
+   ],
+   "answer": 4,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 'our'이다."
+  },
+  {
+   "no": 16,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 소유격을 고르세요. — They painted ___ room. (그들의)",
+   "choices": [
+    "them",
+    "they",
+    "theirs",
+    "their"
+   ],
+   "answer": 4,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 'their'이다."
+  },
+  {
+   "no": 17,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 소유격을 고르세요. — I lost ___ umbrella. (나의)",
+   "choices": [
+    "me",
+    "I",
+    "my",
+    "mine"
+   ],
+   "answer": 3,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 'my'이다."
+  },
+  {
+   "no": 18,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 소유격을 고르세요. — ___ name is Minho. (그의)",
+   "choices": [
+    "He",
+    "Him",
+    "His",
+    "Her"
+   ],
+   "answer": 3,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 'His'이다."
+  },
+  {
+   "no": 19,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "She forgot her bag.",
+    "He lost he book.",
+    "They visited their grandmother.",
+    "I love I dog."
+   ],
+   "answer": 3,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 'They visited their grandmother.'이다."
+  },
+  {
+   "no": 20,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 소유격을 고르세요. — The dog wagged ___ tail. (그것의)",
+   "choices": [
+    "it",
+    "its",
+    "it's",
+    "their"
+   ],
+   "answer": 2,
+   "exp": "명사 앞에서 '~의'라는 뜻으로 쓰이는 소유격 대명사를 찾는 문제예요(my/your/his/her/its/our/their). 정답은 'its'이다."
+  },
+  {
+   "no": 21,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "'him'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "그는",
+    "그의",
+    "그를/그에게",
+    "그것"
+   ],
+   "answer": 3,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 '그를/그에게'이다."
+  },
+  {
+   "no": 22,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 목적격을 고르세요. — I like ___. (그녀를)",
+   "choices": [
+    "she",
+    "her",
+    "hers",
+    "he"
+   ],
+   "answer": 2,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 'her'이다."
+  },
+  {
+   "no": 23,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 목적격을 고르세요. — She called ___. (나를)",
+   "choices": [
+    "I",
+    "my",
+    "mine",
+    "me"
+   ],
+   "answer": 4,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 'me'이다."
+  },
+  {
+   "no": 24,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 목적격을 고르세요. — Can you help ___? (우리를)",
+   "choices": [
+    "we",
+    "our",
+    "ours",
+    "us"
+   ],
+   "answer": 4,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 'us'이다."
+  },
+  {
+   "no": 25,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 목적격을 고르세요. — I saw ___ at the park. (그들을)",
+   "choices": [
+    "they",
+    "their",
+    "theirs",
+    "them"
+   ],
+   "answer": 4,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 'them'이다."
+  },
+  {
+   "no": 26,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 목적격을 고르세요. — She gave ___ a gift. (그에게)",
+   "choices": [
+    "he",
+    "his",
+    "him",
+    "her"
+   ],
+   "answer": 3,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 'him'이다."
+  },
+  {
+   "no": 27,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "밑줄 친 부분을 목적격으로 바꾼 것은? — I know Tom and Jane.",
+   "choices": [
+    "they",
+    "them",
+    "their",
+    "theirs"
+   ],
+   "answer": 2,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 'them'이다."
+  },
+  {
+   "no": 28,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "She loves he.",
+    "I called she.",
+    "They helped us.",
+    "He saw I."
+   ],
+   "answer": 3,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 'They helped us.'이다."
+  },
+  {
+   "no": 29,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "빈칸에 알맞은 말을 고르세요. — My dog follows ___ everywhere. (나를)",
+   "choices": [
+    "I",
+    "my",
+    "me",
+    "mine"
+   ],
+   "answer": 3,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 'me'이다."
+  },
+  {
+   "no": 30,
+   "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
+   "q": "다음 표에서 주격→소유격→목적격 순서가 바른 것은?",
+   "choices": [
+    "I → my → me",
+    "She → her → hers",
+    "He → his → him",
+    "They → their → theirs"
+   ],
+   "answer": 3,
+   "exp": "동사나 전치사의 목적어 자리에는 목적격 대명사를 쓴다(me/you/him/her/it/us/them). 정답은 'He → his → him'이다."
+  }
+ ]
+}

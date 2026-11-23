@@ -1,0 +1,359 @@
+{
+ "examName": "초등문법_grammar1-5-7",
+ "totalQuestions": 25,
+ "numChoices": 4,
+ "answerKey": [
+  3,
+  2,
+  1,
+  2,
+  3,
+  1,
+  2,
+  3,
+  2,
+  1,
+  1,
+  4,
+  2,
+  3,
+  2,
+  1,
+  2,
+  3,
+  4,
+  2,
+  2,
+  2,
+  3,
+  2,
+  3
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "1. 다음 문장의 밑줄 친 apples를 대신할 수 있는 목적격 대명사로 알맞은 것은? — Minsu likes apples.",
+   "choices": [
+    "they",
+    "their",
+    "them",
+    "it"
+   ],
+   "answer": 3,
+   "exp": "apples는 복수 사물이므로 목적격 대명사 them으로 받는다."
+  },
+  {
+   "no": 2,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "2. 빈칸에 들어갈 말로 알맞은 것은? — A: Is this ___ bag?   B: Yes, it's mine.",
+   "choices": [
+    "you",
+    "your",
+    "yours",
+    "you're"
+   ],
+   "answer": 2,
+   "exp": "명사 bag 앞에서 명사를 꾸며주는 것은 소유격 your이다."
+  },
+  {
+   "no": 3,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "3. 빈칸에 들어갈 말로 알맞은 것은? (이것은 자이다.) — ___ is a ruler.",
+   "choices": [
+    "This",
+    "These",
+    "That",
+    "Those"
+   ],
+   "answer": 1,
+   "exp": "가까이 있는 단수 사물 하나를 가리킬 때는 This를 쓴다."
+  },
+  {
+   "no": 4,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "4. 어법상 올바른 문장은?",
+   "choices": [
+    "Those is computers.",
+    "Those are computers.",
+    "That are computers.",
+    "This are computers."
+   ],
+   "answer": 2,
+   "exp": "복수 지시대명사 Those는 be동사 are와 함께 쓴다."
+  },
+  {
+   "no": 5,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "5. 빈칸에 공통으로 들어갈 수 있는 것은? — I like ___.  /  She smiles at ___.  (그를)",
+   "choices": [
+    "he",
+    "his",
+    "him",
+    "it"
+   ],
+   "answer": 3,
+   "exp": "동사 like와 전치사 at 뒤에는 목적격이 오므로 him이 알맞다."
+  },
+  {
+   "no": 6,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "6. 우리말을 영어로 바르게 옮긴 것은? (그것들은 그의 연필들이다.)",
+   "choices": [
+    "Those are his pencils.",
+    "That is his pencil.",
+    "These are him pencils.",
+    "Those are he pencils."
+   ],
+   "answer": 1,
+   "exp": "복수 사물을 가리키는 지시대명사 Those와 소유격 his가 함께 쓰인 문장이 올바르다."
+  },
+  {
+   "no": 7,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "7. 대화의 빈칸에 들어갈 말로 알맞은 것은? — A: Whose caps are these?   B: They are ___ caps. (그들의)",
+   "choices": [
+    "they",
+    "their",
+    "them",
+    "theirs"
+   ],
+   "answer": 2,
+   "exp": "명사 caps 앞에서 명사를 꾸며주는 자리이므로 소유격 their가 알맞다."
+  },
+  {
+   "no": 8,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "8. 빈칸에 들어갈 말로 알맞은 것은? (이것들은 탁자 위의 사과들이다.) — ___ are apples on the table.",
+   "choices": [
+    "This",
+    "That",
+    "These",
+    "Those"
+   ],
+   "answer": 3,
+   "exp": "가까이 있는 복수 사물을 가리킬 때는 These를 쓰고, be동사도 are로 일치시킨다."
+  },
+  {
+   "no": 9,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "9. 밑줄 친 부분을 목적격 대명사로 바르게 바꾼 것은? — Ms. Kim teaches Mina and me every Monday.",
+   "choices": [
+    "Ms. Kim teaches we every Monday.",
+    "Ms. Kim teaches us every Monday.",
+    "Ms. Kim teaches our every Monday.",
+    "Ms. Kim teaches ours every Monday."
+   ],
+   "answer": 2,
+   "exp": "Mina and me(나와 미나)는 복수이므로 목적격 us로 바꾼다."
+  },
+  {
+   "no": 10,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "10. 빈칸 (A), (B)에 들어갈 말이 순서대로 바르게 짝지어진 것은? — This is my dog. (A)___ name is Coco. I walk (B)___ every morning.",
+   "choices": [
+    "Its - it",
+    "It - its",
+    "Its - its",
+    "It's - it"
+   ],
+   "answer": 1,
+   "exp": "(A)는 명사 name 앞이므로 소유격 Its, (B)는 동사 walk의 목적어이므로 목적격 it이 알맞다."
+  },
+  {
+   "no": 11,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "11. 대화의 빈칸에 알맞은 것은? — A: Are these your shoes?  B: No, ___ are not mine. They are ___ shoes.",
+   "choices": [
+    "they - his",
+    "those - he",
+    "it - him",
+    "these - he"
+   ],
+   "answer": 1,
+   "exp": "앞에 나온 shoes(복수)를 받는 주격 대명사는 they, 명사 shoes 앞 소유격은 his이다."
+  },
+  {
+   "no": 12,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "12. 다음 중 나머지 셋과 성격(단수/복수)이 다른 하나는?",
+   "choices": [
+    "This",
+    "That",
+    "It",
+    "Those"
+   ],
+   "answer": 4,
+   "exp": "This, That, It은 단수를 나타내지만 Those는 복수를 나타내는 지시대명사이다."
+  },
+  {
+   "no": 13,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "13. 다음 문장을 복수형으로 바르게 바꾼 것은? — That is his umbrella.",
+   "choices": [
+    "Those are his umbrella.",
+    "Those are his umbrellas.",
+    "That are his umbrellas.",
+    "These is his umbrellas."
+   ],
+   "answer": 2,
+   "exp": "지시대명사 That→Those, be동사 is→are, 명사 umbrella→umbrellas로 모두 복수형으로 바꿔야 한다."
+  },
+  {
+   "no": 14,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "14. 빈칸에 들어갈 말로 알맞지 않은 것은? — ___ is her computer.",
+   "choices": [
+    "This",
+    "That",
+    "These",
+    "It"
+   ],
+   "answer": 3,
+   "exp": "These는 복수이므로 단수 동사 is와 함께 쓸 수 없다."
+  },
+  {
+   "no": 15,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "15. 밑줄 친 부분을 목적격 대명사로 바르게 바꾼 것은? — I know Jason and Amy well.",
+   "choices": [
+    "I know they well.",
+    "I know them well.",
+    "I know their well.",
+    "I know those well."
+   ],
+   "answer": 2,
+   "exp": "Jason and Amy(사람, 복수)를 동사 know의 목적어 자리에서 대신할 때는 목적격 them을 쓴다."
+  },
+  {
+   "no": 16,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "16. 빈칸에 들어갈 말이 순서대로 바르게 나열된 것은? — Look at the cat. ___ tail is long. I like ___ very much.",
+   "choices": [
+    "Its - it",
+    "It - its",
+    "Its - its",
+    "It's - it"
+   ],
+   "answer": 1,
+   "exp": "명사 tail 앞은 소유격 Its, 동사 like의 목적어 자리는 목적격 it이 알맞다."
+  },
+  {
+   "no": 17,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "17. 빈칸에 들어갈 말이 순서대로 바르게 나열된 것은? (그들을 매일 본다 / 그들의 쇼는 나를 웃게 한다.) — Tom and Jerry are funny. I watch ___ every day. ___ show makes me laugh.",
+   "choices": [
+    "they - their",
+    "them - their",
+    "them - theirs",
+    "their - them"
+   ],
+   "answer": 2,
+   "exp": "watch의 목적어 자리는 목적격 them, 명사 show 앞은 소유격 their가 알맞다."
+  },
+  {
+   "no": 18,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "18. 어법상 틀린 문장은?",
+   "choices": [
+    "This is her pencil case.",
+    "Those are our chairs.",
+    "I like it's color.",
+    "He follows them every day."
+   ],
+   "answer": 3,
+   "exp": "it's는 it is의 축약형이므로 명사 color 앞 소유격 자리에는 its를 써야 한다."
+  },
+  {
+   "no": 19,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "19. 어법상 어색한 문장은?",
+   "choices": [
+    "It is her bag.",
+    "It is his bag.",
+    "It is their bag.",
+    "It is she bag."
+   ],
+   "answer": 4,
+   "exp": "명사 bag 앞에는 소유격이 와야 하므로 주격 she가 아니라 소유격 her를 써야 한다."
+  },
+  {
+   "no": 20,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "20. 빈칸에 순서대로 들어갈 말로 알맞은 것은? (저 자전거들을 봐. 그것들은 빨간색과 파란색이다.) — Look at ___ bikes over there. ___ are red and blue.",
+   "choices": [
+    "that - It",
+    "those - They",
+    "this - It",
+    "these - It"
+   ],
+   "answer": 2,
+   "exp": "bikes가 복수이고 멀리 있는 대상이므로 those, 이를 받는 주격 대명사는 They이다."
+  },
+  {
+   "no": 21,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "21. 밑줄 친 부분이 어법상 올바른 것은? (이 고양이들을 사랑한다.) — My sister and I love ___ cats.",
+   "choices": [
+    "this cats",
+    "these cats",
+    "this cat's",
+    "these cat"
+   ],
+   "answer": 2,
+   "exp": "복수 명사 cats 앞에는 복수 지시대명사 these를 써야 한다."
+  },
+  {
+   "no": 22,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "22. 빈칸에 들어갈 말이 순서대로 바르게 짝지어진 것은? (그녀는 나를 그리고 그를 매일 만난다.) — She meets ___ and ___ every day.",
+   "choices": [
+    "I - he",
+    "me - him",
+    "my - his",
+    "mine - his"
+   ],
+   "answer": 2,
+   "exp": "동사 meets의 목적어이므로 목적격 me와 him을 나란히 써야 한다."
+  },
+  {
+   "no": 23,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "23. 어법상 올바르지 않은 문장은?",
+   "choices": [
+    "These are their books.",
+    "That is our house.",
+    "Those is his shoes.",
+    "This is her ring."
+   ],
+   "answer": 3,
+   "exp": "복수 지시대명사 Those는 단수 동사 is가 아니라 복수 동사 are와 함께 써야 한다."
+  },
+  {
+   "no": 24,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "24. 다음 중 어법상 올바른 것은? — This is my brother's bike.",
+   "choices": [
+    "It's wheel is broken.",
+    "Its wheel is broken.",
+    "It is wheel is broken.",
+    "Its' wheel is broken."
+   ],
+   "answer": 2,
+   "exp": "명사 wheel 앞에는 소유격 its를 쓴다. its에는 아포스트로피를 붙이지 않는다."
+  },
+  {
+   "no": 25,
+   "unit": "인칭대명사·지시대명사(그래머1 5-7)",
+   "q": "25. 다음 대화 중 어법상 어색한 부분이 포함된 것은?",
+   "choices": [
+    "Are those pens yours?",
+    "No, those aren't ours. Those are theirs.",
+    "Whose bag is that? It's her.",
+    "This umbrella is mine, not his."
+   ],
+   "answer": 3,
+   "exp": "'그녀의 것'이라는 의미의 소유대명사는 her가 아니라 hers이므로 It's hers로 고쳐야 한다."
+  }
+ ]
+}

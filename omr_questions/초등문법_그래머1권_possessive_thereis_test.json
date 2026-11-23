@@ -1,0 +1,429 @@
+{
+ "examName": "초등문법_그래머1권_possessive_thereis_test",
+ "totalQuestions": 30,
+ "numChoices": 4,
+ "answerKey": [
+  3,
+  4,
+  3,
+  3,
+  3,
+  4,
+  4,
+  2,
+  3,
+  3,
+  2,
+  3,
+  2,
+  2,
+  3,
+  2,
+  2,
+  4,
+  3,
+  2,
+  3,
+  1,
+  2,
+  2,
+  2,
+  3,
+  2,
+  2,
+  2,
+  2
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "'mine'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "나의",
+    "나를",
+    "내 것",
+    "나는"
+   ],
+   "answer": 3,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 '내 것'이다."
+  },
+  {
+   "no": 2,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "'yours'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "너의",
+    "너를",
+    "너는",
+    "네 것"
+   ],
+   "answer": 4,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 '네 것'이다."
+  },
+  {
+   "no": 3,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 소유대명사를 고르세요. — This bag is ___. (나의 것)",
+   "choices": [
+    "my",
+    "me",
+    "mine",
+    "I"
+   ],
+   "answer": 3,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'mine'이다."
+  },
+  {
+   "no": 4,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 소유대명사를 고르세요. — That bike is ___. (그의 것)",
+   "choices": [
+    "he",
+    "him",
+    "his",
+    "her"
+   ],
+   "answer": 3,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'his'이다."
+  },
+  {
+   "no": 5,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 소유대명사를 고르세요. — These gloves are ___. (그녀의 것)",
+   "choices": [
+    "she",
+    "her",
+    "hers",
+    "him"
+   ],
+   "answer": 3,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'hers'이다."
+  },
+  {
+   "no": 6,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 소유대명사를 고르세요. — This house is ___. (우리의 것)",
+   "choices": [
+    "we",
+    "us",
+    "our",
+    "ours"
+   ],
+   "answer": 4,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'ours'이다."
+  },
+  {
+   "no": 7,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 소유대명사를 고르세요. — Those shoes are ___. (그들의 것)",
+   "choices": [
+    "they",
+    "them",
+    "their",
+    "theirs"
+   ],
+   "answer": 4,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'theirs'이다."
+  },
+  {
+   "no": 8,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "밑줄 친 부분을 소유대명사로 바꾼 것은? — This is my pencil.",
+   "choices": [
+    "me",
+    "mine",
+    "my",
+    "I"
+   ],
+   "answer": 2,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'mine'이다."
+  },
+  {
+   "no": 9,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "다음 중 소유대명사가 올바르게 쓰인 문장은?",
+   "choices": [
+    "That coat is her.",
+    "This book is my.",
+    "These toys are theirs.",
+    "That car is he."
+   ],
+   "answer": 3,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'These toys are theirs.'이다."
+  },
+  {
+   "no": 10,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 소유대명사를 고르세요. — A: Is this your eraser?  B: Yes, it's ___.",
+   "choices": [
+    "my",
+    "me",
+    "mine",
+    "I"
+   ],
+   "answer": 3,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'mine'이다."
+  },
+  {
+   "no": 11,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "다음 중 소유대명사끼리 짝지어진 것은?",
+   "choices": [
+    "my – her – their",
+    "mine – hers – theirs",
+    "me – him – them",
+    "I – she – they"
+   ],
+   "answer": 2,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'mine – hers – theirs'이다."
+  },
+  {
+   "no": 12,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 저 자전거는 그의 것이야.",
+   "choices": [
+    "That bike is he.",
+    "That bike is him.",
+    "That bike is his.",
+    "That bike is her."
+   ],
+   "answer": 3,
+   "exp": "'~의 것'이라는 뜻으로 명사 없이 단독으로 쓰이는 소유대명사를 찾는 문제예요(mine/yours/his/hers/ours/theirs). 정답은 'That bike is his.'이다."
+  },
+  {
+   "no": 13,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "'There is'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "~가 있지 않다",
+    "~가 있다 (단수)",
+    "~가 있다 (복수)",
+    "거기에 가다"
+   ],
+   "answer": 2,
+   "exp": "뒤에 오는 명사가 단수면 There is, 복수면 There are를 쓴다. 정답은 '~가 있다 (단수)'이다."
+  },
+  {
+   "no": 14,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ a cat on the sofa.",
+   "choices": [
+    "There are",
+    "There is",
+    "There am",
+    "There be"
+   ],
+   "answer": 2,
+   "exp": "뒤에 오는 명사가 단수면 There is, 복수면 There are를 쓴다. 정답은 'There is'이다."
+  },
+  {
+   "no": 15,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ two books on the desk.",
+   "choices": [
+    "There is",
+    "There am",
+    "There are",
+    "There be"
+   ],
+   "answer": 3,
+   "exp": "뒤에 오는 명사가 단수면 There is, 복수면 There are를 쓴다. 정답은 'There are'이다."
+  },
+  {
+   "no": 16,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 냉장고 안에 달걀이 있다.",
+   "choices": [
+    "There are an egg in the fridge.",
+    "There is an egg in the fridge.",
+    "There is eggs in the fridge.",
+    "There am an egg in the fridge."
+   ],
+   "answer": 2,
+   "exp": "뒤에 오는 명사가 단수면 There is, 복수면 There are를 쓴다. 정답은 'There is an egg in the fridge.'이다."
+  },
+  {
+   "no": 17,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 공원에 아이들이 많이 있다.",
+   "choices": [
+    "There is many children in the park.",
+    "There are many children in the park.",
+    "There am many children in the park.",
+    "There be many children in the park."
+   ],
+   "answer": 2,
+   "exp": "뒤에 오는 명사가 단수면 There is, 복수면 There are를 쓴다. 정답은 'There are many children in the park.'이다."
+  },
+  {
+   "no": 18,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ a hospital near my house.",
+   "choices": [
+    "There are",
+    "There be",
+    "There am",
+    "There is"
+   ],
+   "answer": 4,
+   "exp": "뒤에 오는 명사가 단수면 There is, 복수면 There are를 쓴다. 정답은 'There is'이다."
+  },
+  {
+   "no": 19,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "There are a dog in the yard.",
+    "There is three cats on the roof.",
+    "There is a bird in the tree.",
+    "There am some flowers here."
+   ],
+   "answer": 3,
+   "exp": "뒤에 오는 명사가 단수면 There is, 복수면 There are를 쓴다. 정답은 'There is a bird in the tree.'이다."
+  },
+  {
+   "no": 20,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ some juice in the cup.",
+   "choices": [
+    "There are",
+    "There is",
+    "There am",
+    "There be"
+   ],
+   "answer": 2,
+   "exp": "뒤에 오는 명사가 단수면 There is, 복수면 There are를 쓴다. 정답은 'There is'이다."
+  },
+  {
+   "no": 21,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "There are a pencil on the table.",
+    "There is five apples in the basket.",
+    "There are five apples in the basket.",
+    "There am a bag on the chair."
+   ],
+   "answer": 3,
+   "exp": "뒤에 오는 명사가 단수면 There is, 복수면 There are를 쓴다. 정답은 'There are five apples in the basket.'이다."
+  },
+  {
+   "no": 22,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "'There is not'의 줄임말로 알맞은 것은?",
+   "choices": [
+    "There isn't",
+    "There aren't",
+    "There don't",
+    "There not is"
+   ],
+   "answer": 1,
+   "exp": "There is/are의 부정문은 be동사 뒤에 not을 붙인다(There isn't / There aren't). 정답은 'There isn't'이다."
+  },
+  {
+   "no": 23,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "알맞은 부정문을 고르세요. — 책상 위에 연필이 없다.",
+   "choices": [
+    "There are not a pencil on the desk.",
+    "There isn't a pencil on the desk.",
+    "There don't a pencil on the desk.",
+    "There not is a pencil on the desk."
+   ],
+   "answer": 2,
+   "exp": "There is/are의 부정문은 be동사 뒤에 not을 붙인다(There isn't / There aren't). 정답은 'There isn't a pencil on the desk.'이다."
+  },
+  {
+   "no": 24,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "알맞은 부정문을 고르세요. — 냉장고 안에 우유가 없다.",
+   "choices": [
+    "There aren't milk in the fridge.",
+    "There isn't milk in the fridge.",
+    "There don't milk in the fridge.",
+    "There not milk in the fridge."
+   ],
+   "answer": 2,
+   "exp": "There is/are의 부정문은 be동사 뒤에 not을 붙인다(There isn't / There aren't). 정답은 'There isn't milk in the fridge.'이다."
+  },
+  {
+   "no": 25,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ any students in the classroom.",
+   "choices": [
+    "There isn't",
+    "There aren't",
+    "There don't",
+    "There am not"
+   ],
+   "answer": 2,
+   "exp": "There is/are의 부정문은 be동사 뒤에 not을 붙인다(There isn't / There aren't). 정답은 'There aren't'이다."
+  },
+  {
+   "no": 26,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ a park near my school.",
+   "choices": [
+    "There aren't",
+    "There don't",
+    "There isn't",
+    "There am not"
+   ],
+   "answer": 3,
+   "exp": "There is/are의 부정문은 be동사 뒤에 not을 붙인다(There isn't / There aren't). 정답은 'There isn't'이다."
+  },
+  {
+   "no": 27,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "다음 중 올바른 부정문은?",
+   "choices": [
+    "There isn't any chairs in the room.",
+    "There aren't any chairs in the room.",
+    "There don't any chairs in the room.",
+    "There not are any chairs in the room."
+   ],
+   "answer": 2,
+   "exp": "There is/are의 부정문은 be동사 뒤에 not을 붙인다(There isn't / There aren't). 정답은 'There aren't any chairs in the room.'이다."
+  },
+  {
+   "no": 28,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 마당에 나무가 없다.",
+   "choices": [
+    "There aren't a tree in the yard.",
+    "There isn't a tree in the yard.",
+    "There don't a tree in the yard.",
+    "There not is a tree in the yard."
+   ],
+   "answer": 2,
+   "exp": "There is/are의 부정문은 be동사 뒤에 not을 붙인다(There isn't / There aren't). 정답은 'There isn't a tree in the yard.'이다."
+  },
+  {
+   "no": 29,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "There isn't three windows in my room.",
+    "There aren't three windows in my room.",
+    "There don't three windows in my room.",
+    "There am not three windows in my room."
+   ],
+   "answer": 2,
+   "exp": "There is/are의 부정문은 be동사 뒤에 not을 붙인다(There isn't / There aren't). 정답은 'There aren't three windows in my room.'이다."
+  },
+  {
+   "no": 30,
+   "unit": "소유대명사·There is/are 긍정문·부정문 (Grammar1권 L8~10)",
+   "q": "긍정문을 부정문으로 바르게 바꾼 것은? — There are some cookies on the plate.",
+   "choices": [
+    "There is not some cookies on the plate.",
+    "There aren't any cookies on the plate.",
+    "There don't cookies on the plate.",
+    "There isn't any cookies on the plate."
+   ],
+   "answer": 2,
+   "exp": "There is/are의 부정문은 be동사 뒤에 not을 붙인다(There isn't / There aren't). 정답은 'There aren't any cookies on the plate.'이다."
+  }
+ ]
+}

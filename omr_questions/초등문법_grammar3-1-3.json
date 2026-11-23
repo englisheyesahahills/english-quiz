@@ -1,0 +1,359 @@
+{
+ "examName": "초등문법_grammar3-1-3",
+ "totalQuestions": 25,
+ "numChoices": 4,
+ "answerKey": [
+  2,
+  1,
+  3,
+  2,
+  2,
+  2,
+  2,
+  3,
+  3,
+  4,
+  3,
+  4,
+  2,
+  1,
+  1,
+  3,
+  2,
+  3,
+  3,
+  3,
+  3,
+  4,
+  2,
+  2,
+  1
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "1. 빈칸에 알맞은 것은? — I have ___ umbrella.",
+   "choices": [
+    "a",
+    "an",
+    "the",
+    "(필요 없음)"
+   ],
+   "answer": 2,
+   "exp": "umbrella는 첫 발음이 모음이므로 an을 쓴다."
+  },
+  {
+   "no": 2,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "2. 빈칸에 알맞은 것은? — I have ___ book.",
+   "choices": [
+    "a",
+    "an",
+    "the",
+    "(필요 없음)"
+   ],
+   "answer": 1,
+   "exp": "book은 첫 발음이 자음이므로 a를 쓴다."
+  },
+  {
+   "no": 3,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "3. 빈칸에 알맞은 것은? (세상에 하나뿐인 대상) — ___ sun is bright.",
+   "choices": [
+    "A",
+    "An",
+    "The",
+    "(필요 없음)"
+   ],
+   "answer": 3,
+   "exp": "sun은 세상에 하나뿐인 대상이므로 정관사 The를 쓴다."
+  },
+  {
+   "no": 4,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "4. 다음 중 단수형 → 복수형이 바르게 짝지어진 것은?",
+   "choices": [
+    "dish - dishs",
+    "dish - dishes",
+    "dish - dishies",
+    "dish - dishe"
+   ],
+   "answer": 2,
+   "exp": "-sh로 끝나는 명사는 -es를 붙인다."
+  },
+  {
+   "no": 5,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "5. 다음 중 단수형 → 복수형이 바르게 짝지어진 것은?",
+   "choices": [
+    "baby - babys",
+    "baby - babies",
+    "baby - babyes",
+    "baby - baby's"
+   ],
+   "answer": 2,
+   "exp": "'자음+y'로 끝나는 명사는 y를 i로 바꾸고 -es를 붙인다."
+  },
+  {
+   "no": 6,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "6. 다음 중 단수형 → 복수형이 바르게 짝지어진 것은?",
+   "choices": [
+    "knife - knifes",
+    "knife - knives",
+    "knife - knifes'",
+    "knife - knifees"
+   ],
+   "answer": 2,
+   "exp": "-fe로 끝나는 명사는 f(e)를 v로 바꾸고 -es를 붙인다."
+  },
+  {
+   "no": 7,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "7. 다음 중 불규칙 복수형이 올바른 것은?",
+   "choices": [
+    "child - childs",
+    "child - children",
+    "child - childes",
+    "child - childrens"
+   ],
+   "answer": 2,
+   "exp": "child의 불규칙 복수형은 children이다."
+  },
+  {
+   "no": 8,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "8. 다음 중 단수형과 복수형이 같은 것은?",
+   "choices": [
+    "fish - fishs",
+    "fish - fishes",
+    "fish - fish",
+    "fish - fishies"
+   ],
+   "answer": 3,
+   "exp": "fish는 단수형과 복수형의 형태가 같다."
+  },
+  {
+   "no": 9,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "9. 빈칸에 알맞은 것은? (앞서 언급된 특정 대상) — There is a dog. ___ dog is cute.",
+   "choices": [
+    "A",
+    "An",
+    "The",
+    "(필요 없음)"
+   ],
+   "answer": 3,
+   "exp": "앞에서 이미 언급된 특정 대상을 가리킬 때는 정관사 The를 쓴다."
+  },
+  {
+   "no": 10,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "10. 빈칸에 알맞은 것은? (나라 이름 앞) — My aunt lives in ___ China.",
+   "choices": [
+    "a",
+    "an",
+    "the",
+    "(필요 없음)"
+   ],
+   "answer": 4,
+   "exp": "나라 이름 앞에는 관사를 쓰지 않는다."
+  },
+  {
+   "no": 11,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "11. 빈칸에 알맞은 것은? (연주하는 악기 이름 앞) — Susan plays ___ piano every day.",
+   "choices": [
+    "a",
+    "an",
+    "the",
+    "(필요 없음)"
+   ],
+   "answer": 3,
+   "exp": "연주하는 악기 이름 앞에는 정관사 the를 쓴다."
+  },
+  {
+   "no": 12,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "12. 빈칸에 알맞은 것은? (식사 이름 앞) — I have ___ lunch at noon.",
+   "choices": [
+    "a",
+    "an",
+    "the",
+    "(필요 없음)"
+   ],
+   "answer": 4,
+   "exp": "식사 이름 앞에는 관사를 쓰지 않는다."
+  },
+  {
+   "no": 13,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "13. 다음 문장에서 어법상 <u>틀린</u> 것은?",
+   "choices": [
+    "I have an uncle.",
+    "A Moon shines at night.",
+    "Please close the window.",
+    "There is an octopus in the sink."
+   ],
+   "answer": 2,
+   "exp": "달은 세상에 하나뿐인 대상이므로 A Moon이 아니라 The moon이라고 써야 한다."
+  },
+  {
+   "no": 14,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "14. 다음 문장을 바르게 고친 것은? (나무 한 그루가 언덕 위에 있다.) — Trees is on the hill.",
+   "choices": [
+    "A tree is on the hill.",
+    "Trees are on the hill.",
+    "A trees is on the hill.",
+    "Tree is on the hill."
+   ],
+   "answer": 1,
+   "exp": "나무 한 그루(단수)를 나타내므로 A tree is로 고쳐야 한다."
+  },
+  {
+   "no": 15,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "15. 다음 문장에서 밑줄 친 부분을 바르게 고친 것은? — There are many caterpillar in the box.",
+   "choices": [
+    "caterpillars",
+    "a caterpillar",
+    "caterpillares",
+    "caterpillaries"
+   ],
+   "answer": 1,
+   "exp": "many 뒤에는 복수형 caterpillars가 와야 한다."
+  },
+  {
+   "no": 16,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "16. 다음 중 단수형 → 복수형이 <u>잘못</u> 짝지어진 것은?",
+   "choices": [
+    "foot - feet",
+    "tooth - teeth",
+    "mouse - mouses",
+    "woman - women"
+   ],
+   "answer": 3,
+   "exp": "mouse의 불규칙 복수형은 mouses가 아니라 mice이다."
+  },
+  {
+   "no": 17,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "17. 빈칸에 알맞은 것은? (말은 다리가 네 개 있다.) — A horse has four ___.",
+   "choices": [
+    "leg",
+    "legs",
+    "a leg",
+    "the leg"
+   ],
+   "answer": 2,
+   "exp": "네 개(복수)이므로 legs를 쓴다."
+  },
+  {
+   "no": 18,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "choices": [
+    "I buy three books at the bookstore.",
+    "We find four potatoes in the basket.",
+    "Four wolfes live at the zoo.",
+    "The girl has ten candies."
+   ],
+   "answer": 3,
+   "exp": "wolf의 복수형은 wolfes가 아니라 wolves이다."
+  },
+  {
+   "no": 19,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "19. 어법상 <u>틀린</u> 문장은?",
+   "choices": [
+    "There are nine boys in the classroom.",
+    "I need eight berries for the salad.",
+    "My brother has six tooth.",
+    "Two monkeys are eating bananas."
+   ],
+   "answer": 3,
+   "exp": "tooth의 복수형은 teeth이므로 six teeth로 써야 한다."
+  },
+  {
+   "no": 20,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "20. 빈칸에 알맞은 것은? (그 고양이는 작다 - 이미 언급된 특정 고양이) — Lynn has a cat. ___ cat is small.",
+   "choices": [
+    "A",
+    "An",
+    "The",
+    "(필요 없음)"
+   ],
+   "answer": 3,
+   "exp": "앞에서 언급된 특정 고양이를 가리키므로 정관사 The를 쓴다."
+  },
+  {
+   "no": 21,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "21. 다음 중 관사 사용이 어법상 옳은 것은?",
+   "choices": [
+    "the Monday",
+    "the math",
+    "The sun is bright.",
+    "the baseball"
+   ],
+   "answer": 3,
+   "exp": "요일, 과목, 운동 이름 앞에는 the를 쓰지 않지만, 세상에 하나뿐인 sun 앞에는 the를 쓴다."
+  },
+  {
+   "no": 22,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "22. 빈칸에 알맞은 것은? (우리는 봄에 많은 꽃을 본다.) — We see many ___ in spring.",
+   "choices": [
+    "a flower",
+    "a flowers",
+    "flower",
+    "flowers"
+   ],
+   "answer": 4,
+   "exp": "many 뒤에는 복수형 명사 flowers가 와야 한다."
+  },
+  {
+   "no": 23,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "23. 다음 문장 중 어법상 <u>틀린</u> 부분이 포함된 것은?",
+   "choices": [
+    "An iguana is sleeping on my hand.",
+    "There is a cats on the roof.",
+    "A tree is on the hill.",
+    "An eraser is in my pencil case."
+   ],
+   "answer": 2,
+   "exp": "a는 단수 명사 앞에만 쓰므로 a cats가 아니라 a cat 또는 cats로 써야 한다."
+  },
+  {
+   "no": 24,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "24. 다음 중 단수형 → 복수형이 모두 올바르게 짝지어진 것은?",
+   "choices": [
+    "ox - oxes / deer - deers",
+    "ox - oxen / deer - deer",
+    "ox - oxen / deer - deers",
+    "ox - oxes / deer - deer"
+   ],
+   "answer": 2,
+   "exp": "ox의 불규칙 복수형은 oxen이고, deer는 단수형과 복수형이 같다."
+  },
+  {
+   "no": 25,
+   "unit": "관사·명사단수복수(그래머3 1-3)",
+   "q": "25. 다음 문장을 바르게 고친 것은? — Three a cars are in the parking lot.",
+   "choices": [
+    "Three cars are in the parking lot.",
+    "Three a car is in the parking lot.",
+    "Three car are in the parking lot.",
+    "A three cars are in the parking lot."
+   ],
+   "answer": 1,
+   "exp": "복수 명사 앞에는 a를 쓰지 않으므로 a를 빼고 Three cars are로 써야 한다."
+  }
+ ]
+}

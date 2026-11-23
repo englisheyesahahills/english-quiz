@@ -1,0 +1,429 @@
+{
+ "examName": "초등문법_그래머2권_nouns_test",
+ "totalQuestions": 30,
+ "numChoices": 4,
+ "answerKey": [
+  2,
+  3,
+  2,
+  3,
+  1,
+  2,
+  3,
+  3,
+  2,
+  3,
+  2,
+  3,
+  3,
+  4,
+  3,
+  2,
+  3,
+  2,
+  3,
+  3,
+  4,
+  3,
+  2,
+  3,
+  2,
+  3,
+  3,
+  2,
+  2,
+  3
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 셀 수 있는 명사는?",
+   "choices": [
+    "water",
+    "apple",
+    "milk",
+    "sugar"
+   ],
+   "answer": 2,
+   "exp": "셀 수 있는 명사는 단수/복수 형태가 있고 a/an을 붙이거나 복수형으로 쓸 수 있다. 정답은 'apple'이다."
+  },
+  {
+   "no": 2,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 셀 수 있는 명사는?",
+   "choices": [
+    "rice",
+    "bread",
+    "pencil",
+    "juice"
+   ],
+   "answer": 3,
+   "exp": "셀 수 있는 명사는 단수/복수 형태가 있고 a/an을 붙이거나 복수형으로 쓸 수 있다. 정답은 'pencil'이다."
+  },
+  {
+   "no": 3,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 셀 수 있는 명사는?",
+   "choices": [
+    "sand",
+    "book",
+    "air",
+    "oil"
+   ],
+   "answer": 2,
+   "exp": "셀 수 있는 명사는 단수/복수 형태가 있고 a/an을 붙이거나 복수형으로 쓸 수 있다. 정답은 'book'이다."
+  },
+  {
+   "no": 4,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 셀 수 있는 명사는?",
+   "choices": [
+    "butter",
+    "salt",
+    "chair",
+    "coffee"
+   ],
+   "answer": 3,
+   "exp": "셀 수 있는 명사는 단수/복수 형태가 있고 a/an을 붙이거나 복수형으로 쓸 수 있다. 정답은 'chair'이다."
+  },
+  {
+   "no": 5,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "빈칸에 알맞은 말을 고르세요. — I have ___ dog.",
+   "choices": [
+    "a",
+    "an",
+    "some",
+    "much"
+   ],
+   "answer": 1,
+   "exp": "셀 수 있는 명사는 단수/복수 형태가 있고 a/an을 붙이거나 복수형으로 쓸 수 있다. 정답은 'a'이다."
+  },
+  {
+   "no": 6,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "빈칸에 알맞은 말을 고르세요. — She ate ___ orange.",
+   "choices": [
+    "a",
+    "an",
+    "any",
+    "much"
+   ],
+   "answer": 2,
+   "exp": "셀 수 있는 명사는 단수/복수 형태가 있고 a/an을 붙이거나 복수형으로 쓸 수 있다. 정답은 'an'이다."
+  },
+  {
+   "no": 7,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "빈칸에 알맞은 말을 고르세요. — There is ___ cat on the chair.",
+   "choices": [
+    "some",
+    "many",
+    "a",
+    "much"
+   ],
+   "answer": 3,
+   "exp": "셀 수 있는 명사는 단수/복수 형태가 있고 a/an을 붙이거나 복수형으로 쓸 수 있다. 정답은 'a'이다."
+  },
+  {
+   "no": 8,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 셀 수 있는 명사 앞에 올 수 있는 것은?",
+   "choices": [
+    "much",
+    "a little",
+    "a",
+    "a lot of water"
+   ],
+   "answer": 3,
+   "exp": "셀 수 있는 명사는 단수/복수 형태가 있고 a/an을 붙이거나 복수형으로 쓸 수 있다. 정답은 'a'이다."
+  },
+  {
+   "no": 9,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 셀 수 없는 명사는?",
+   "choices": [
+    "dog",
+    "water",
+    "bird",
+    "desk"
+   ],
+   "answer": 2,
+   "exp": "셀 수 없는 명사(물질명사·추상명사·고유명사 등)는 복수형이 없고 a/an을 붙이지 않는다. 정답은 'water'이다."
+  },
+  {
+   "no": 10,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 셀 수 없는 명사는?",
+   "choices": [
+    "cup",
+    "bag",
+    "milk",
+    "hat"
+   ],
+   "answer": 3,
+   "exp": "셀 수 없는 명사(물질명사·추상명사·고유명사 등)는 복수형이 없고 a/an을 붙이지 않는다. 정답은 'milk'이다."
+  },
+  {
+   "no": 11,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 셀 수 없는 명사는?",
+   "choices": [
+    "flower",
+    "bread",
+    "pen",
+    "shoe"
+   ],
+   "answer": 2,
+   "exp": "셀 수 없는 명사(물질명사·추상명사·고유명사 등)는 복수형이 없고 a/an을 붙이지 않는다. 정답은 'bread'이다."
+  },
+  {
+   "no": 12,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 셀 수 없는 명사는?",
+   "choices": [
+    "car",
+    "banana",
+    "sugar",
+    "ball"
+   ],
+   "answer": 3,
+   "exp": "셀 수 없는 명사(물질명사·추상명사·고유명사 등)는 복수형이 없고 a/an을 붙이지 않는다. 정답은 'sugar'이다."
+  },
+  {
+   "no": 13,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "빈칸에 알맞은 말을 고르세요. — I drink ___ water every day.",
+   "choices": [
+    "a",
+    "an",
+    "some",
+    "many"
+   ],
+   "answer": 3,
+   "exp": "셀 수 없는 명사(물질명사·추상명사·고유명사 등)는 복수형이 없고 a/an을 붙이지 않는다. 정답은 'some'이다."
+  },
+  {
+   "no": 14,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "빈칸에 알맞은 말을 고르세요. — She needs ___ sugar for the cake.",
+   "choices": [
+    "many",
+    "a",
+    "an",
+    "some"
+   ],
+   "answer": 4,
+   "exp": "셀 수 없는 명사(물질명사·추상명사·고유명사 등)는 복수형이 없고 a/an을 붙이지 않는다. 정답은 'some'이다."
+  },
+  {
+   "no": 15,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "셀 수 없는 명사를 세는 방법으로 알맞은 것은? — milk",
+   "choices": [
+    "two milks",
+    "a milk",
+    "a glass of milk",
+    "milks"
+   ],
+   "answer": 3,
+   "exp": "셀 수 없는 명사(물질명사·추상명사·고유명사 등)는 복수형이 없고 a/an을 붙이지 않는다. 정답은 'a glass of milk'이다."
+  },
+  {
+   "no": 16,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "셀 수 없는 명사를 세는 방법으로 알맞은 것은? — bread",
+   "choices": [
+    "two breads",
+    "a piece of bread",
+    "a bread",
+    "breads"
+   ],
+   "answer": 2,
+   "exp": "셀 수 없는 명사(물질명사·추상명사·고유명사 등)는 복수형이 없고 a/an을 붙이지 않는다. 정답은 'a piece of bread'이다."
+  },
+  {
+   "no": 17,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "복수형으로 알맞은 것은? — book → ?",
+   "choices": [
+    "bookes",
+    "bookies",
+    "books",
+    "booken"
+   ],
+   "answer": 3,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'books'이다."
+  },
+  {
+   "no": 18,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "복수형으로 알맞은 것은? — box → ?",
+   "choices": [
+    "boxs",
+    "boxes",
+    "boxies",
+    "boxen"
+   ],
+   "answer": 2,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'boxes'이다."
+  },
+  {
+   "no": 19,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "복수형으로 알맞은 것은? — city → ?",
+   "choices": [
+    "citys",
+    "cityes",
+    "cities",
+    "cityes"
+   ],
+   "answer": 3,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'cities'이다."
+  },
+  {
+   "no": 20,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "복수형으로 알맞은 것은? — leaf → ?",
+   "choices": [
+    "leafs",
+    "leafes",
+    "leaves",
+    "leafies"
+   ],
+   "answer": 3,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'leaves'이다."
+  },
+  {
+   "no": 21,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "복수형으로 알맞은 것은? — child → ?",
+   "choices": [
+    "childs",
+    "childes",
+    "childrens",
+    "children"
+   ],
+   "answer": 4,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'children'이다."
+  },
+  {
+   "no": 22,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "복수형으로 알맞은 것은? — tooth → ?",
+   "choices": [
+    "tooths",
+    "toothes",
+    "teeth",
+    "teeths"
+   ],
+   "answer": 3,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'teeth'이다."
+  },
+  {
+   "no": 23,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "복수형으로 알맞은 것은? — potato → ?",
+   "choices": [
+    "potatos",
+    "potatoes",
+    "potatoes",
+    "potatoies"
+   ],
+   "answer": 2,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'potatoes'이다."
+  },
+  {
+   "no": 24,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "복수형으로 알맞은 것은? — fish → ?",
+   "choices": [
+    "fishs",
+    "fishes",
+    "fish",
+    "fishies"
+   ],
+   "answer": 3,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'fish'이다."
+  },
+  {
+   "no": 25,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "빈칸에 알맞은 말을 고르세요. — There are two ___ on the table.",
+   "choices": [
+    "apple",
+    "apples",
+    "a apple",
+    "an apple"
+   ],
+   "answer": 2,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'apples'이다."
+  },
+  {
+   "no": 26,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "빈칸에 알맞은 말을 고르세요. — I have three ___.",
+   "choices": [
+    "cat",
+    "a cat",
+    "cats",
+    "an cats"
+   ],
+   "answer": 3,
+   "exp": "명사 복수형 규칙(대부분 -s, s/x/ch/sh로 끝나면 -es, 자음+y면 y를 i로 바꾸고 -es 등)을 적용하는 문제예요. 정답은 'cats'이다."
+  },
+  {
+   "no": 27,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "I drink many water.",
+    "She has two dog.",
+    "He eats an apple.",
+    "They drink a juice."
+   ],
+   "answer": 3,
+   "exp": "셀 수 있는/없는 명사와 how many/how much의 쓰임을 종합적으로 묻는 문제예요. 정답은 'He eats an apple.'이다."
+  },
+  {
+   "no": 28,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "I need a sugar.",
+    "She has many books.",
+    "He drinks a water.",
+    "They eat a rice."
+   ],
+   "answer": 2,
+   "exp": "셀 수 있는/없는 명사와 how many/how much의 쓰임을 종합적으로 묻는 문제예요. 정답은 'She has many books.'이다."
+  },
+  {
+   "no": 29,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "빈칸에 알맞은 말을 고르세요. — How ___ apples do you have?",
+   "choices": [
+    "much",
+    "many",
+    "a little",
+    "a"
+   ],
+   "answer": 2,
+   "exp": "셀 수 있는/없는 명사와 how many/how much의 쓰임을 종합적으로 묻는 문제예요. 정답은 'many'이다."
+  },
+  {
+   "no": 30,
+   "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
+   "q": "빈칸에 알맞은 말을 고르세요. — How ___ water do you drink?",
+   "choices": [
+    "many",
+    "a",
+    "much",
+    "an"
+   ],
+   "answer": 3,
+   "exp": "셀 수 있는/없는 명사와 how many/how much의 쓰임을 종합적으로 묻는 문제예요. 정답은 'much'이다."
+  }
+ ]
+}

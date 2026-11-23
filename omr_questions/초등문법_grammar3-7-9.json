@@ -1,0 +1,359 @@
+{
+ "examName": "초등문법_grammar3-7-9",
+ "totalQuestions": 25,
+ "numChoices": 4,
+ "answerKey": [
+  1,
+  1,
+  2,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  3,
+  1,
+  1,
+  1,
+  3,
+  4,
+  2,
+  1,
+  1,
+  1,
+  3,
+  1
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "1. 빈칸에 알맞은 것은? (그들은 제시간에 와야 한다.) — They ___ be on time.",
+   "choices": [
+    "must",
+    "musts",
+    "are must",
+    "must to"
+   ],
+   "answer": 1,
+   "exp": "조동사 must는 주어에 관계없이 형태가 변하지 않는다."
+  },
+  {
+   "no": 2,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "2. 빈칸에 알맞은 것은? (그녀는 줄을 서야 한다.) — She must ___ in line.",
+   "choices": [
+    "stand",
+    "stands",
+    "standing",
+    "to stand"
+   ],
+   "answer": 1,
+   "exp": "must 뒤에는 동사원형이 온다."
+  },
+  {
+   "no": 3,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "3. 다음 중 어법상 올바른 문장은?",
+   "choices": [
+    "You answer must the question.",
+    "You must answer the question.",
+    "You must answers the question.",
+    "You must to answer the question."
+   ],
+   "answer": 2,
+   "exp": "주어+must+동사원형 순서로 쓴다."
+  },
+  {
+   "no": 4,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "4. 다음 문장을 명령문으로 바르게 바꾼 것은? — You bend your knees.",
+   "choices": [
+    "Bend your knees.",
+    "You bend knees.",
+    "Bends your knees.",
+    "Bending your knees."
+   ],
+   "answer": 1,
+   "exp": "명령문은 주어 You를 생략하고 동사원형으로 시작한다."
+  },
+  {
+   "no": 5,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "5. 다음 문장을 명령문으로 바르게 바꾼 것은? — You are careful with fire.",
+   "choices": [
+    "Be careful with fire.",
+    "Are careful with fire.",
+    "You be careful with fire.",
+    "Being careful with fire."
+   ],
+   "answer": 1,
+   "exp": "동사가 be동사일 경우 명령문은 Be로 시작한다."
+  },
+  {
+   "no": 6,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "6. 빈칸에 알맞은 것은? (그 편지를 열어서는 안 된다.) — You ___ open the letter.",
+   "choices": [
+    "must not",
+    "not must",
+    "don't must",
+    "must no"
+   ],
+   "answer": 1,
+   "exp": "금지를 나타낼 때는 must not을 쓴다."
+  },
+  {
+   "no": 7,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "7. 다음 중 명령문으로 알맞은 것은? (숙제를 해라.)",
+   "choices": [
+    "Do your homework.",
+    "You do your homework.",
+    "Doing your homework.",
+    "Does your homework."
+   ],
+   "answer": 1,
+   "exp": "명령문은 동사원형으로 문장을 시작한다."
+  },
+  {
+   "no": 8,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "8. 다음 중 공손한 명령문으로 알맞은 것은? (이곳에서는 조용히 해 주세요.)",
+   "choices": [
+    "Please be quiet here.",
+    "Please quiet here.",
+    "You please be quiet here.",
+    "Being quiet here please."
+   ],
+   "answer": 1,
+   "exp": "명령문 앞에 please를 붙이면 더 공손한 표현이 된다."
+  },
+  {
+   "no": 9,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "9. 빈칸에 알맞은 것은? (그는 기차를 타야 한다.) — He ___ take a train.",
+   "choices": [
+    "must",
+    "must to",
+    "musts",
+    "is must"
+   ],
+   "answer": 1,
+   "exp": "조동사 must는 3인칭 단수 주어와도 형태가 같다."
+  },
+  {
+   "no": 10,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "10. 다음 문장을 같은 뜻으로 바꾼 것은? — I must go home now.",
+   "choices": [
+    "I have to go home now.",
+    "I has to go home now.",
+    "I having to go home now.",
+    "I have go home now."
+   ],
+   "answer": 1,
+   "exp": "must는 have to로 바꿔 쓸 수 있다."
+  },
+  {
+   "no": 11,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "11. 다음 문장을 같은 뜻으로 바꾼 것은? (3인칭 단수 주어) — She must wear her shoe.",
+   "choices": [
+    "She has to wear her shoe.",
+    "She have to wear her shoe.",
+    "She must to wear her shoe.",
+    "She musts wear her shoe."
+   ],
+   "answer": 1,
+   "exp": "주어가 3인칭 단수일 때 must는 has to로 바꿔 쓴다."
+  },
+  {
+   "no": 12,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "12. 빈칸에 알맞은 것은? (너는 그 개를 만져서는 안 돼.) — You ___ touch the dog.",
+   "choices": [
+    "must not",
+    "don't have to",
+    "must",
+    "not must"
+   ],
+   "answer": 1,
+   "exp": "금지의 의미이므로 must not을 쓴다."
+  },
+  {
+   "no": 13,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "13. 빈칸에 알맞은 것은? (너는 겁낼 필요가 없어.) — You ___ be afraid.",
+   "choices": [
+    "don't have to",
+    "must not",
+    "mustn't",
+    "not have to"
+   ],
+   "answer": 1,
+   "exp": "'~할 필요가 없다'는 don't have to로 나타낸다."
+  },
+  {
+   "no": 14,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "14. 다음 중 '~할 필요가 없다'라는 의미를 나타내는 것은?",
+   "choices": [
+    "must not",
+    "mustn't",
+    "don't have to",
+    "must"
+   ],
+   "answer": 3,
+   "exp": "don't have to는 불필요를, must not은 금지를 나타낸다."
+  },
+  {
+   "no": 15,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "15. 다음 문장에서 어법상 틀린 부분을 바르게 고친 것은? (종이를 재활용해라.) — Recycles paper.",
+   "choices": [
+    "Recycle paper.",
+    "Recycling paper.",
+    "Recycled paper.",
+    "You recycle paper."
+   ],
+   "answer": 1,
+   "exp": "명령문은 동사원형으로 시작해야 하므로 Recycles가 아니라 Recycle로 써야 한다."
+  },
+  {
+   "no": 16,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "16. 빈칸에 알맞은 것은? (금붕어들에게 먹이를 줘서는 안 된다.) — You ___ feed the goldfish.",
+   "choices": [
+    "must not",
+    "don't have to",
+    "must",
+    "mustn't to"
+   ],
+   "answer": 1,
+   "exp": "금지의 의미이므로 must not을 쓴다."
+  },
+  {
+   "no": 17,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "17. 대화의 빈칸에 알맞은 것은? — A: Becky, we have enough time.   B: You ___ hurry.",
+   "choices": [
+    "don't have to",
+    "must not",
+    "mustn't",
+    "doesn't have to"
+   ],
+   "answer": 1,
+   "exp": "시간이 충분하다는 상황이므로 '서두를 필요가 없다'는 don't have to가 알맞다."
+  },
+  {
+   "no": 18,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "choices": [
+    "You must not walk on the grass.",
+    "We don't have to go to school on Sunday.",
+    "He must not plays the piano at night.",
+    "I don't have to take an umbrella today."
+   ],
+   "answer": 3,
+   "exp": "must not 뒤에도 동사원형이 와야 하므로 plays가 아니라 play로 써야 한다."
+  },
+  {
+   "no": 19,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "19. 다음 중 의미가 <u>다른</u> 하나는?",
+   "choices": [
+    "You must not touch the dog.",
+    "You mustn't touch the dog.",
+    "Don't touch the dog.",
+    "You don't have to touch the dog."
+   ],
+   "answer": 4,
+   "exp": "앞의 세 문장은 '만지면 안 된다'는 금지의 의미이지만, don't have to는 '만질 필요가 없다'는 불필요의 의미이다."
+  },
+  {
+   "no": 20,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "20. 다음 명령문 중 어법상 <u>틀린</u> 것은?",
+   "choices": [
+    "Stand up, please.",
+    "Stands up, please.",
+    "Please sit down.",
+    "Wash your hands."
+   ],
+   "answer": 2,
+   "exp": "명령문은 동사원형으로 시작해야 하므로 Stands가 아니라 Stand로 써야 한다."
+  },
+  {
+   "no": 21,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "21. 다음 문장에서 어법상 틀린 부분을 바르게 고친 것은? (수업 시간에 소음을 내지 마라.) — He must not makes noise in class.",
+   "choices": [
+    "He must not make noise in class.",
+    "He must not making noise in class.",
+    "He not must make noise in class.",
+    "He must makes not noise in class."
+   ],
+   "answer": 1,
+   "exp": "must not 뒤에는 동사원형이 와야 하므로 makes가 아니라 make로 써야 한다."
+  },
+  {
+   "no": 22,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "22. 다음 대화 중 어법상 옳은 것은?",
+   "choices": [
+    "A: This letter is for your sister. B: You must not open the letter.",
+    "A: This letter is for your sister. B: You must not opens the letter.",
+    "A: This letter is for your sister. B: You not must open the letter.",
+    "A: This letter is for your sister. B: You must open not the letter."
+   ],
+   "answer": 1,
+   "exp": "must not 뒤에 동사원형 open이 오는 것이 올바른 어순이다."
+  },
+  {
+   "no": 23,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "23. 우리말을 영어로 바르게 옮긴 것은? (너희들은 연못에 있는 금붕어들에게 먹이를 줘서는 안 된다.)",
+   "choices": [
+    "You must not feed the goldfish in the pond.",
+    "You don't have to feed the goldfish in the pond.",
+    "You must feed not the goldfish in the pond.",
+    "You mustn't fed the goldfish in the pond."
+   ],
+   "answer": 1,
+   "exp": "금지의 의미이므로 must not 뒤에 동사원형 feed를 쓴다."
+  },
+  {
+   "no": 24,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "24. 다음 중 명령문의 형태가 <u>올바르지 않은</u> 것은?",
+   "choices": [
+    "Open the door.",
+    "Close the window.",
+    "Bends your knees.",
+    "Take out the trash."
+   ],
+   "answer": 3,
+   "exp": "명령문은 동사원형으로 시작해야 하므로 Bends가 아니라 Bend로 써야 한다."
+  },
+  {
+   "no": 25,
+   "unit": "must·명령문(그래머3 7-9)",
+   "q": "25. 밑줄 친 부분과 바꿔 쓸 수 있는 것은? — You need to wear swimming goggles. = You ___ wear swimming goggles.",
+   "choices": [
+    "must",
+    "mustn't",
+    "don't have to",
+    "doesn't have to"
+   ],
+   "answer": 1,
+   "exp": "'~해야 한다'는 의무의 의미이므로 must로 바꿔 쓸 수 있다."
+  }
+ ]
+}

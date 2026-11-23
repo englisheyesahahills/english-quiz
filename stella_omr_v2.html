@@ -201,7 +201,30 @@
   .wsum{ font-size:13px; font-weight:700; margin:16px 0 2px; }
   #resultScreen:not(.revealed) .ans-block{ display:none; }
   .ans-block{ margin:0 0 8px; }
-  @media print{ .no-print{ display:none !important; } body{ background:#fff; } }
+
+  /* ---------- 인쇄용 시험지 / 결과지 (공용, 모든 시험 재사용) ---------- */
+  #blankPrintScreen, #printReportWrap{ display:none; }
+  .print-paper{ max-width:820px; margin:0 auto; padding:18px 16px 60px; background:#fff; }
+  .print-title{ font-size:19px; font-weight:800; margin-bottom:6px; }
+  .print-meta{ font-size:13px; margin-bottom:14px; border-bottom:2px solid #000; padding-bottom:10px; }
+  .print-grid{ column-count:2; column-gap:26px; }
+  .print-q{ break-inside: avoid; -webkit-column-break-inside: avoid; font-size:12.5px; line-height:1.5; margin-bottom:11px; padding-bottom:8px; border-bottom:1px dashed #ccc; }
+  .print-qnum{ font-weight:800; }
+  .print-qtext{ white-space:pre-line; }
+  .print-choices{ margin-top:3px; font-size:11.5px; color:#2a2f3d; }
+  .print-choices span{ margin-right:10px; display:inline-block; }
+  .print-exp{ margin-top:4px; font-size:11px; color:#2a2f3d; background:#F3EFE2; padding:4px 6px; border-radius:3px; }
+  .mk-ok{ color:var(--done); font-weight:900; }
+  .mk-no{ color:var(--stamp); font-weight:900; }
+  .mk-blank{ color:#999; font-weight:900; }
+  .pc-correct{ font-weight:800; text-decoration:underline; }
+  .pc-mine-wrong{ color:var(--stamp); text-decoration:line-through; }
+  @media print{
+    .no-print{ display:none !important; }
+    body{ background:#fff; }
+    body.printing-report > *:not(#printReportWrap){ display:none !important; }
+    body.printing-report #printReportWrap{ display:block !important; }
+  }
 </style>
 </head>
 <body>
@@ -293,12 +316,16 @@
     <button class="btn-line no-print" id="showWrongBtn" style="width:100%;">내가 틀린 번호 확인하기 (정답·해설 보기)</button>
     <div id="wrongDetail" style="display:none;"></div>
     <div class="note-sub" id="paperHint" style="display:none; margin-top:16px;">✏️ 틀린 문제는 시험지에 직접 필기해 보세요.</div>
+    <button class="btn-line no-print" id="printReportBtn" style="width:100%; margin-top:10px;">🖨 결과지 인쇄 (정답/오답 표시 + 해설)</button>
   </div>
 
   <div id="pendingNote" class="pending-note" style="display:none;">
     정답키가 아직 등록되지 않아 자동채점 결과를 보여드릴 수 없어요. 학생 답안은 정상적으로 기록되었으니, 선생님이 정답을 등록하면 다시 확인할 수 있습니다.
   </div>
 </div>
+
+<div id="blankPrintScreen"></div>
+<div id="printReportWrap"></div>
 
 <script>
 /* =====================================================================
@@ -326,6 +353,21 @@ const CONFIG = {
 /* ===================================================================== */
 
 const state = { answers: {}, studentName: "", studentClass: "" };
+/* ---------------- 공용 문제은행(QBANK): 시험지 인쇄용/결과지 인쇄용 문항 텍스트·해설을
+   omr_questions/<시험명>.json 에서 직접 불러옵니다. (Notion/Apps Script 수정 없이
+   새 시험을 추가할 때 이 폴더에 json 파일만 올리면 바로 인쇄 기능이 동작합니다.) */
+let QBANK = null;
+const urlParams0 = new URLSearchParams(window.location.search);
+const PRINT_MODE = urlParams0.get('print'); // 'blank' → 빈 문제지 인쇄 모드
+const esc = t => String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const CIRCLED = ['①','②','③','④','⑤','⑥'];
+async function loadQBank(examName){
+  try{
+    const res = await fetch('omr_questions/' + encodeURIComponent(examName) + '.json?v=' + Date.now());
+    if(res.ok) return await res.json();
+  }catch(e){ console.error('문제은행을 불러오지 못했습니다:', e); }
+  return null;
+}
 /* 서술형: 같은 폴더의 omr_written.json 에 시험명으로 등록된 문항이 있으면 객관식 뒤에 입력칸으로 표시·자동채점 */
 let WRITTEN = [];
 function saNorm(s){
@@ -362,9 +404,68 @@ async function loadConfigAndInit(){
   }catch(err){
     console.error('시험 설정을 불러오지 못했습니다:', err);
   }
+  QBANK = await loadQBank(CONFIG.examName);
+
+  if(PRINT_MODE === 'blank'){
+    renderBlankPrint();
+    return;
+  }
+
   await loadWritten();
   init();
   loadExplain();
+}
+
+/* ---------------- 인쇄용 빈 시험지 (?print=blank) ---------------- */
+function renderBlankPrint(){
+  document.getElementById('startScreen').style.display = 'none';
+  const wrap = document.getElementById('blankPrintScreen');
+  wrap.style.display = 'block';
+  if(!QBANK || !QBANK.questions || !QBANK.questions.length){
+    wrap.innerHTML = '<div style="padding:28px 20px; font-size:14px; line-height:1.6;">이 시험은 아직 인쇄용 문제 데이터가 등록되지 않았습니다.</div>';
+    return;
+  }
+  const qs = QBANK.questions;
+  let html = `<div class="no-print" style="padding:14px 16px;"><button class="submit-btn" onclick="window.print()">🖨 인쇄하기 / PDF로 저장</button></div>`;
+  html += `<div class="print-paper">`;
+  html += `<div class="print-head"><div class="print-title">${esc((QBANK.examName||'').replace(/^초등문법_/,''))}</div>`;
+  html += `<div class="print-meta">이름: ______________ &nbsp;&nbsp; 반: ______________ &nbsp;&nbsp; 점수: _____ / ${qs.length}</div></div>`;
+  html += `<div class="print-grid">`;
+  qs.forEach(q => {
+    html += `<div class="print-q"><span class="print-qnum">${q.no}.</span> <span class="print-qtext">${esc(q.q)}</span>`;
+    html += `<div class="print-choices">` + q.choices.map((c,i)=>`<span>${CIRCLED[i]||(i+1)+')'} ${esc(c)}</span>`).join('') + `</div></div>`;
+  });
+  html += `</div></div>`;
+  wrap.innerHTML = html;
+}
+
+/* ---------------- 인쇄용 결과지: 정답/오답 O·X 표시 + 해설 (제출 후) ---------------- */
+function buildPrintReportHTML(){
+  if(!QBANK || !QBANK.questions || !QBANK.questions.length){
+    return '<div style="padding:28px 20px; font-size:14px; line-height:1.6;">이 시험은 아직 인쇄용 문제 데이터가 등록되지 않아 결과지를 만들 수 없습니다.</div>';
+  }
+  const qs = QBANK.questions;
+  let html = `<div class="no-print" style="padding:14px 16px;"><button class="submit-btn" onclick="window.print()">🖨 인쇄하기 / PDF로 저장</button></div>`;
+  html += `<div class="print-paper">`;
+  html += `<div class="print-head"><div class="print-title">${esc((QBANK.examName||'').replace(/^초등문법_/,''))} · 채점결과</div>`;
+  html += `<div class="print-meta">이름: ${esc(state.studentName)} &nbsp;&nbsp; 반: ${esc(state.studentClass)} &nbsp;&nbsp; 점수: ${document.getElementById('scoreNum').textContent}</div></div>`;
+  html += `<div class="print-grid">`;
+  qs.forEach(q => {
+    const my = state.answers[q.no];
+    const correct = my === q.answer;
+    const mark = my ? (correct ? '<span class="mk-ok">◯</span>' : '<span class="mk-no">✕</span>') : '<span class="mk-blank">—</span>';
+    html += `<div class="print-q"><span class="print-qnum">${mark} ${q.no}.</span> <span class="print-qtext">${esc(q.q)}</span>`;
+    html += `<div class="print-choices">` + q.choices.map((c,i)=>{
+      const n = i+1; let cls = '';
+      if(n === q.answer) cls = 'pc-correct';
+      if(my === n && !correct) cls = 'pc-mine-wrong';
+      return `<span class="${cls}">${CIRCLED[i]||n+')'} ${esc(c)}</span>`;
+    }).join('') + `</div>`;
+    if(!correct && q.exp) html += `<div class="print-exp">💡 ${esc(q.exp)}</div>`;
+    html += `</div>`;
+  });
+  html += `</div></div>`;
+  return html;
 }
 
 function init(){
@@ -595,6 +696,10 @@ async function loadExplain(){
 
 /* ---------------- 틀린 번호 + 정답·해설 보기 (필기는 종이로) ---------------- */
 function getExp(n){
+  if(QBANK && QBANK.questions){
+    const q = QBANK.questions.find(x => x.no === n);
+    if(q && q.exp) return q.exp;
+  }
   if(NOTION_EXPLAIN && NOTION_EXPLAIN[String(n)]) return NOTION_EXPLAIN[String(n)];
   const e = EXPLAIN[CONFIG.examName];   // 예전 시험용 예비 해설
   return (e && e[String(n)]) ? e[String(n)] : '';
@@ -602,7 +707,19 @@ function getExp(n){
 
 function setupNote(){
   document.getElementById('showWrongBtn').onclick = showWrong;
+  document.getElementById('printReportBtn').onclick = () => {
+    const wrap = document.getElementById('printReportWrap');
+    wrap.innerHTML = buildPrintReportHTML();
+    wrap.style.display = 'block';
+    document.body.classList.add('printing-report');
+    setTimeout(() => window.print(), 60);
+  };
 }
+window.onafterprint = () => {
+  document.body.classList.remove('printing-report');
+  const wrap = document.getElementById('printReportWrap');
+  if(wrap) wrap.style.display = 'none';
+};
 
 function showWrong(){
   const box = document.getElementById('wrongDetail');

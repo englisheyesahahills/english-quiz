@@ -1,0 +1,443 @@
+{
+ "examName": "초등문법_그래머1권_be_verb_test",
+ "totalQuestions": 31,
+ "numChoices": 4,
+ "answerKey": [
+  1,
+  3,
+  4,
+  3,
+  4,
+  3,
+  3,
+  3,
+  4,
+  4,
+  3,
+  3,
+  4,
+  1,
+  4,
+  4,
+  3,
+  4,
+  3,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  4,
+  2,
+  3,
+  4
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "나는 학생이야.\nI _____ a student.",
+   "choices": [
+    "am",
+    "is",
+    "are",
+    "be"
+   ],
+   "answer": 1,
+   "exp": "주어 I → am"
+  },
+  {
+   "no": 2,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그는 의사야.\nHe _____ a doctor.",
+   "choices": [
+    "am",
+    "are",
+    "is",
+    "be"
+   ],
+   "answer": 3,
+   "exp": "주어 He → is"
+  },
+  {
+   "no": 3,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그들은 친구야.\nThey _____ friends.",
+   "choices": [
+    "is",
+    "am",
+    "be",
+    "are"
+   ],
+   "answer": 4,
+   "exp": "주어 They → are"
+  },
+  {
+   "no": 4,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "이것은 사과야.\nThis _____ an apple.",
+   "choices": [
+    "are",
+    "am",
+    "is",
+    "were"
+   ],
+   "answer": 3,
+   "exp": "주어 This → is"
+  },
+  {
+   "no": 5,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "너는 정말 착해.\nYou _____ very kind.",
+   "choices": [
+    "am",
+    "is",
+    "was",
+    "are"
+   ],
+   "answer": 4,
+   "exp": "주어 You → are"
+  },
+  {
+   "no": 6,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "우리는 같은 반이야.\nWe _____ in the same class.",
+   "choices": [
+    "is",
+    "am",
+    "are",
+    "was"
+   ],
+   "answer": 3,
+   "exp": "주어 We → are"
+  },
+  {
+   "no": 7,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "나는 피곤하지 않아.\nI _____ not tired.",
+   "choices": [
+    "is",
+    "are",
+    "am",
+    "be"
+   ],
+   "answer": 3,
+   "exp": "주어 I → am not"
+  },
+  {
+   "no": 8,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그녀는 선생님이 아니야.\nShe _____ not a teacher.",
+   "choices": [
+    "am",
+    "are",
+    "is",
+    "be"
+   ],
+   "answer": 3,
+   "exp": "주어 She → is not"
+  },
+  {
+   "no": 9,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "이 꽃들은 파란색이 아니야.\nThese flowers _____ not blue.",
+   "choices": [
+    "is",
+    "am",
+    "was",
+    "are"
+   ],
+   "answer": 4,
+   "exp": "복수 → are not"
+  },
+  {
+   "no": 10,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그것은 고양이가 아니야.\nIt _____ not a cat.",
+   "choices": [
+    "am",
+    "are",
+    "were",
+    "is"
+   ],
+   "answer": 4,
+   "exp": "주어 It → is not"
+  },
+  {
+   "no": 11,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "너는 배고프니?\n_____ you hungry?",
+   "choices": [
+    "Is",
+    "Am",
+    "Are",
+    "Was"
+   ],
+   "answer": 3,
+   "exp": "주어 you → Are"
+  },
+  {
+   "no": 12,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그는 집에 있니?\n_____ he at home?",
+   "choices": [
+    "Are",
+    "Am",
+    "Is",
+    "Were"
+   ],
+   "answer": 3,
+   "exp": "주어 he → Is"
+  },
+  {
+   "no": 13,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "이것들은 너의 책이니?\n_____ these your books?",
+   "choices": [
+    "Is",
+    "Was",
+    "Am",
+    "Are"
+   ],
+   "answer": 4,
+   "exp": "복수 → Are"
+  },
+  {
+   "no": 14,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "A: _____ you ten years old?\nB: Yes, I _____.",
+   "choices": [
+    "Are / am",
+    "Is / is",
+    "Am / am",
+    "Were / was"
+   ],
+   "answer": 1,
+   "exp": "Are you ~? → Yes, I am."
+  },
+  {
+   "no": 15,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "Tom과 Jane은 좋은 학생들이야.\nTom and Jane _____ good students.",
+   "choices": [
+    "is",
+    "am",
+    "was",
+    "are"
+   ],
+   "answer": 4,
+   "exp": "복수 주어 → are"
+  },
+  {
+   "no": 16,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "하늘이 파래.\nThe sky _____ blue.",
+   "choices": [
+    "are",
+    "am",
+    "were",
+    "is"
+   ],
+   "answer": 4,
+   "exp": "주어 The sky → is"
+  },
+  {
+   "no": 17,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "나의 엄마는 요리사야.\nMy mom _____ a cook.",
+   "choices": [
+    "are",
+    "am",
+    "is",
+    "were"
+   ],
+   "answer": 3,
+   "exp": "주어 My mom → is"
+  },
+  {
+   "no": 18,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "나는 어제 아팠어.\nI _____ sick yesterday.",
+   "choices": [
+    "am",
+    "is",
+    "were",
+    "was"
+   ],
+   "answer": 4,
+   "exp": "주어 I + 과거 → was"
+  },
+  {
+   "no": 19,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그것은 매우 맛있었어.\nIt _____ very delicious.",
+   "choices": [
+    "is",
+    "are",
+    "was",
+    "were"
+   ],
+   "answer": 3,
+   "exp": "주어 It + 과거 → was"
+  },
+  {
+   "no": 20,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그들은 공원에 있었어.\nThey _____ in the park.",
+   "choices": [
+    "was",
+    "is",
+    "are",
+    "were"
+   ],
+   "answer": 4,
+   "exp": "복수 + 과거 → were"
+  },
+  {
+   "no": 21,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "날씨가 어제 추웠어.\nThe weather _____ cold yesterday.",
+   "choices": [
+    "is",
+    "were",
+    "are",
+    "was"
+   ],
+   "answer": 4,
+   "exp": "단수 + 과거 → was"
+  },
+  {
+   "no": 22,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "우리는 도서관에 있었어.\nWe _____ at the library.",
+   "choices": [
+    "was",
+    "is",
+    "am",
+    "were"
+   ],
+   "answer": 4,
+   "exp": "복수 + 과거 → were"
+  },
+  {
+   "no": 23,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그 영화는 재미있었어.\nThe movie _____ really fun.",
+   "choices": [
+    "were",
+    "are",
+    "am",
+    "was"
+   ],
+   "answer": 4,
+   "exp": "단수 + 과거 → was"
+  },
+  {
+   "no": 24,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그 시험은 어렵지 않았어.\nThe test _____ not difficult.",
+   "choices": [
+    "were",
+    "is",
+    "am",
+    "was"
+   ],
+   "answer": 4,
+   "exp": "단수 + 과거 부정 → was not"
+  },
+  {
+   "no": 25,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "아이들은 행복하지 않았어.\nThe children _____ not happy.",
+   "choices": [
+    "was",
+    "is",
+    "am",
+    "were"
+   ],
+   "answer": 4,
+   "exp": "복수 + 과거 부정 → were not"
+  },
+  {
+   "no": 26,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "나는 그때 집에 없었어.\nI _____ not at home then.",
+   "choices": [
+    "am",
+    "is",
+    "were",
+    "was"
+   ],
+   "answer": 4,
+   "exp": "주어 I + 과거 부정 → was not"
+  },
+  {
+   "no": 27,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "그는 어제 학교에 있었니?\n_____ he at school yesterday?",
+   "choices": [
+    "Are",
+    "Is",
+    "Were",
+    "Was"
+   ],
+   "answer": 4,
+   "exp": "단수 + 과거 의문 → Was"
+  },
+  {
+   "no": 28,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "너희들은 어제 바빴니?\n_____ you busy yesterday?",
+   "choices": [
+    "Was",
+    "Is",
+    "Are",
+    "Were"
+   ],
+   "answer": 4,
+   "exp": "you + 과거 의문 → Were"
+  },
+  {
+   "no": 29,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "A: _____ the party fun?\nB: Yes, it _____.",
+   "choices": [
+    "Were / were",
+    "Was / was",
+    "Is / is",
+    "Are / are"
+   ],
+   "answer": 2,
+   "exp": "단수 → Was / Yes, it was."
+  },
+  {
+   "no": 30,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "나는 지금 행복해. (현재)\n→ I _____ happy now.",
+   "choices": [
+    "was",
+    "were",
+    "am",
+    "is"
+   ],
+   "answer": 3,
+   "exp": "현재 + I → am"
+  },
+  {
+   "no": 31,
+   "unit": "Be동사 시험 (Grammar1권)",
+   "q": "나는 아까 배고팠어. (과거)\n→ I _____ hungry a moment ago.",
+   "choices": [
+    "am",
+    "is",
+    "are",
+    "was"
+   ],
+   "answer": 4,
+   "exp": "과거 + I → was"
+  }
+ ]
+}

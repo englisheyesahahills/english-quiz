@@ -1,0 +1,429 @@
+{
+ "examName": "초등문법_그래머2권_beverb_adj_adv_test",
+ "totalQuestions": 30,
+ "numChoices": 4,
+ "answerKey": [
+  3,
+  3,
+  3,
+  2,
+  2,
+  3,
+  3,
+  4,
+  2,
+  3,
+  4,
+  3,
+  3,
+  4,
+  3,
+  3,
+  2,
+  3,
+  2,
+  4,
+  2,
+  2,
+  2,
+  4,
+  2,
+  3,
+  1,
+  3,
+  3,
+  3
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 be동사가 쓰인 문장은?",
+   "choices": [
+    "I run every morning.",
+    "She eats rice.",
+    "He is tall.",
+    "They play soccer."
+   ],
+   "answer": 3,
+   "exp": "주어의 인칭·수에 맞는 be동사를 고르는 문제예요. 정답은 'He is tall.'이다."
+  },
+  {
+   "no": 2,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "빈칸에 알맞은 be동사를 고르세요. — The flowers ___ beautiful.",
+   "choices": [
+    "do",
+    "run",
+    "are",
+    "have"
+   ],
+   "answer": 3,
+   "exp": "주어의 인칭·수에 맞는 be동사를 고르는 문제예요. 정답은 'are'이다."
+  },
+  {
+   "no": 3,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 문장에서 be동사를 고르세요. — My dog is very cute.",
+   "choices": [
+    "My",
+    "dog",
+    "is",
+    "cute"
+   ],
+   "answer": 3,
+   "exp": "주어의 인칭·수에 맞는 be동사를 고르는 문제예요. 정답은 'is'이다."
+  },
+  {
+   "no": 4,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 be동사의 역할로 알맞은 것은? — She is a doctor.",
+   "choices": [
+    "동작을 나타낸다",
+    "상태나 성질을 나타낸다",
+    "과거를 나타낸다",
+    "미래를 나타낸다"
+   ],
+   "answer": 2,
+   "exp": "주어의 인칭·수에 맞는 be동사를 고르는 문제예요. 정답은 '상태나 성질을 나타낸다'이다."
+  },
+  {
+   "no": 5,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 be동사가 필요한 문장은?",
+   "choices": [
+    "I ___ swim fast.",
+    "She ___ happy today.",
+    "They ___ play tennis.",
+    "He ___ run to school."
+   ],
+   "answer": 2,
+   "exp": "주어의 인칭·수에 맞는 be동사를 고르는 문제예요. 정답은 'She ___ happy today.'이다."
+  },
+  {
+   "no": 6,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "빈칸에 be동사와 일반동사 중 알맞은 것을 고르세요. — I ___ hungry after school.",
+   "choices": [
+    "eat",
+    "run",
+    "am",
+    "do"
+   ],
+   "answer": 3,
+   "exp": "주어의 인칭·수에 맞는 be동사를 고르는 문제예요. 정답은 'am'이다."
+  },
+  {
+   "no": 7,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "She is runs every day.",
+    "He am a good student.",
+    "They are my classmates.",
+    "I is tired now."
+   ],
+   "answer": 3,
+   "exp": "주어의 인칭·수에 맞는 be동사를 고르는 문제예요. 정답은 'They are my classmates.'이다."
+  },
+  {
+   "no": 8,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 일반동사가 쓰인 문장은?",
+   "choices": [
+    "She is kind.",
+    "He is my brother.",
+    "I am happy.",
+    "They eat lunch together."
+   ],
+   "answer": 4,
+   "exp": "be동사와 일반동사를 함께 쓰지 않는다는 점에 유의해 올바른 동사를 고르는 문제예요. 정답은 'They eat lunch together.'이다."
+  },
+  {
+   "no": 9,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 문장에서 일반동사를 고르세요. — She drinks milk every morning.",
+   "choices": [
+    "She",
+    "drinks",
+    "milk",
+    "every"
+   ],
+   "answer": 2,
+   "exp": "be동사와 일반동사를 함께 쓰지 않는다는 점에 유의해 올바른 동사를 고르는 문제예요. 정답은 'drinks'이다."
+  },
+  {
+   "no": 10,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 일반동사의 역할로 알맞은 것은? — He plays soccer.",
+   "choices": [
+    "상태나 성질을 나타낸다",
+    "주어를 보충 설명한다",
+    "구체적인 동작을 나타낸다",
+    "형용사를 꾸며준다"
+   ],
+   "answer": 3,
+   "exp": "be동사와 일반동사를 함께 쓰지 않는다는 점에 유의해 올바른 동사를 고르는 문제예요. 정답은 '구체적인 동작을 나타낸다'이다."
+  },
+  {
+   "no": 11,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "빈칸에 알맞은 일반동사를 고르세요. — I ___ books every night.",
+   "choices": [
+    "am",
+    "is",
+    "are",
+    "read"
+   ],
+   "answer": 4,
+   "exp": "be동사와 일반동사를 함께 쓰지 않는다는 점에 유의해 올바른 동사를 고르는 문제예요. 정답은 'read'이다."
+  },
+  {
+   "no": 12,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 일반동사가 필요한 문장은?",
+   "choices": [
+    "She ___ tired.",
+    "He ___ tall.",
+    "They ___ soccer after school.",
+    "It ___ cold today."
+   ],
+   "answer": 3,
+   "exp": "be동사와 일반동사를 함께 쓰지 않는다는 점에 유의해 올바른 동사를 고르는 문제예요. 정답은 'They ___ soccer after school.'이다."
+  },
+  {
+   "no": 13,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "be동사와 일반동사 중 빈칸에 알맞은 것은? — My father ___ to work by bus.",
+   "choices": [
+    "is",
+    "am",
+    "goes",
+    "are"
+   ],
+   "answer": 3,
+   "exp": "be동사와 일반동사를 함께 쓰지 않는다는 점에 유의해 올바른 동사를 고르는 문제예요. 정답은 'goes'이다."
+  },
+  {
+   "no": 14,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "She is goes to school.",
+    "He run fast every day.",
+    "They are play in the park.",
+    "I study English every day."
+   ],
+   "answer": 4,
+   "exp": "be동사와 일반동사를 함께 쓰지 않는다는 점에 유의해 올바른 동사를 고르는 문제예요. 정답은 'I study English every day.'이다."
+  },
+  {
+   "no": 15,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 형용사는?",
+   "choices": [
+    "run",
+    "quickly",
+    "beautiful",
+    "eat"
+   ],
+   "answer": 3,
+   "exp": "형용사는 명사를 꾸미거나 be동사 뒤에서 주어를 설명한다. 정답은 'beautiful'이다."
+  },
+  {
+   "no": 16,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 문장에서 형용사를 고르세요. — She has a cute puppy.",
+   "choices": [
+    "She",
+    "has",
+    "cute",
+    "puppy"
+   ],
+   "answer": 3,
+   "exp": "형용사는 명사를 꾸미거나 be동사 뒤에서 주어를 설명한다. 정답은 'cute'이다."
+  },
+  {
+   "no": 17,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "형용사의 역할로 알맞은 것은?",
+   "choices": [
+    "동사를 꾸며준다",
+    "명사를 꾸며주거나 상태를 설명한다",
+    "문장 전체를 꾸며준다",
+    "주어 역할을 한다"
+   ],
+   "answer": 2,
+   "exp": "형용사는 명사를 꾸미거나 be동사 뒤에서 주어를 설명한다. 정답은 '명사를 꾸며주거나 상태를 설명한다'이다."
+  },
+  {
+   "no": 18,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "빈칸에 알맞은 형용사를 고르세요. — It is a ___ day today.",
+   "choices": [
+    "slowly",
+    "brightly",
+    "sunny",
+    "happily"
+   ],
+   "answer": 3,
+   "exp": "형용사는 명사를 꾸미거나 be동사 뒤에서 주어를 설명한다. 정답은 'sunny'이다."
+  },
+  {
+   "no": 19,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 형용사끼리 묶인 것은?",
+   "choices": [
+    "fast – run – jump",
+    "big – small – tall",
+    "slowly – quickly – well",
+    "eat – sleep – walk"
+   ],
+   "answer": 2,
+   "exp": "형용사는 명사를 꾸미거나 be동사 뒤에서 주어를 설명한다. 정답은 'big – small – tall'이다."
+  },
+  {
+   "no": 20,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "밑줄 친 단어의 품사는? — He is a kind teacher.",
+   "choices": [
+    "명사",
+    "동사",
+    "부사",
+    "형용사"
+   ],
+   "answer": 4,
+   "exp": "형용사는 명사를 꾸미거나 be동사 뒤에서 주어를 설명한다. 정답은 '형용사'이다."
+  },
+  {
+   "no": 21,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "빈칸에 알맞은 형용사를 고르세요. — I feel ___ today. (행복한)",
+   "choices": [
+    "happily",
+    "happy",
+    "happiness",
+    "happen"
+   ],
+   "answer": 2,
+   "exp": "형용사는 명사를 꾸미거나 be동사 뒤에서 주어를 설명한다. 정답은 'happy'이다."
+  },
+  {
+   "no": 22,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 형용사가 올바르게 쓰인 문장은?",
+   "choices": [
+    "She runs fastly.",
+    "He is a tall man.",
+    "I eat quickly the food.",
+    "They play happy."
+   ],
+   "answer": 2,
+   "exp": "형용사는 명사를 꾸미거나 be동사 뒤에서 주어를 설명한다. 정답은 'He is a tall man.'이다."
+  },
+  {
+   "no": 23,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 부사는?",
+   "choices": [
+    "happy",
+    "slowly",
+    "big",
+    "pretty"
+   ],
+   "answer": 2,
+   "exp": "부사는 동사·형용사·다른 부사를 꾸미며, 보통 형용사에 -ly를 붙여 만든다. 정답은 'slowly'이다."
+  },
+  {
+   "no": 24,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 문장에서 부사를 고르세요. — She sings very beautifully.",
+   "choices": [
+    "She",
+    "sings",
+    "very",
+    "beautifully"
+   ],
+   "answer": 4,
+   "exp": "부사는 동사·형용사·다른 부사를 꾸미며, 보통 형용사에 -ly를 붙여 만든다. 정답은 'beautifully'이다."
+  },
+  {
+   "no": 25,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "부사의 역할로 알맞은 것은?",
+   "choices": [
+    "명사를 꾸며준다",
+    "동사·형용사·다른 부사를 꾸며준다",
+    "주어 역할을 한다",
+    "목적어 역할을 한다"
+   ],
+   "answer": 2,
+   "exp": "부사는 동사·형용사·다른 부사를 꾸미며, 보통 형용사에 -ly를 붙여 만든다. 정답은 '동사·형용사·다른 부사를 꾸며준다'이다."
+  },
+  {
+   "no": 26,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "형용사를 부사로 바르게 바꾼 것은? — slow → ?",
+   "choices": [
+    "slows",
+    "slowful",
+    "slowly",
+    "slowed"
+   ],
+   "answer": 3,
+   "exp": "부사는 동사·형용사·다른 부사를 꾸미며, 보통 형용사에 -ly를 붙여 만든다. 정답은 'slowly'이다."
+  },
+  {
+   "no": 27,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "빈칸에 알맞은 부사를 고르세요. — He runs very ___. (빠르게)",
+   "choices": [
+    "fast",
+    "fastly",
+    "faster",
+    "fastest"
+   ],
+   "answer": 1,
+   "exp": "부사는 동사·형용사·다른 부사를 꾸미며, 보통 형용사에 -ly를 붙여 만든다. 정답은 'fast'이다."
+  },
+  {
+   "no": 28,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "밑줄 친 단어의 품사는? — She speaks English fluently.",
+   "choices": [
+    "명사",
+    "형용사",
+    "부사",
+    "동사"
+   ],
+   "answer": 3,
+   "exp": "부사는 동사·형용사·다른 부사를 꾸미며, 보통 형용사에 -ly를 붙여 만든다. 정답은 '부사'이다."
+  },
+  {
+   "no": 29,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 형용사와 부사의 형태가 같은 단어는?",
+   "choices": [
+    "slow",
+    "quick",
+    "fast",
+    "loud"
+   ],
+   "answer": 3,
+   "exp": "부사는 동사·형용사·다른 부사를 꾸미며, 보통 형용사에 -ly를 붙여 만든다. 정답은 'fast'이다."
+  },
+  {
+   "no": 30,
+   "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "She is a kindly teacher.",
+    "He runs fastly every day.",
+    "They speak very loudly.",
+    "I feel happily today."
+   ],
+   "answer": 3,
+   "exp": "부사는 동사·형용사·다른 부사를 꾸미며, 보통 형용사에 -ly를 붙여 만든다. 정답은 'They speak very loudly.'이다."
+  }
+ ]
+}

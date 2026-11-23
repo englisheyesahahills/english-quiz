@@ -1,0 +1,429 @@
+{
+ "examName": "초등문법_그래머4권_wouldlike_ableto_test",
+ "totalQuestions": 30,
+ "numChoices": 4,
+ "answerKey": [
+  3,
+  3,
+  3,
+  4,
+  4,
+  3,
+  3,
+  2,
+  2,
+  3,
+  3,
+  4,
+  1,
+  2,
+  1,
+  3,
+  3,
+  1,
+  3,
+  3,
+  3,
+  1,
+  2,
+  2,
+  2,
+  3,
+  3,
+  4,
+  3,
+  3
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "'be able to'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "~해야 한다",
+    "~하고 싶다",
+    "~할 수 있다",
+    "~하면 안 된다"
+   ],
+   "answer": 3,
+   "exp": "be able to + 동사원형은 can과 같은 뜻으로 '~할 수 있다'를 나타내며, 주어·시제에 맞춰 be동사가 바뀐다. 정답은 '~할 수 있다'이다."
+  },
+  {
+   "no": 2,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — I ___ able to swim.",
+   "choices": [
+    "can",
+    "do",
+    "am",
+    "is"
+   ],
+   "answer": 3,
+   "exp": "be able to + 동사원형은 can과 같은 뜻으로 '~할 수 있다'를 나타내며, 주어·시제에 맞춰 be동사가 바뀐다. 정답은 'am'이다."
+  },
+  {
+   "no": 3,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — She ___ able to speak French.",
+   "choices": [
+    "am",
+    "are",
+    "is",
+    "be"
+   ],
+   "answer": 3,
+   "exp": "be able to + 동사원형은 can과 같은 뜻으로 '~할 수 있다'를 나타내며, 주어·시제에 맞춰 be동사가 바뀐다. 정답은 'is'이다."
+  },
+  {
+   "no": 4,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — They ___ able to run very fast.",
+   "choices": [
+    "is",
+    "am",
+    "be",
+    "are"
+   ],
+   "answer": 4,
+   "exp": "be able to + 동사원형은 can과 같은 뜻으로 '~할 수 있다'를 나타내며, 주어·시제에 맞춰 be동사가 바뀐다. 정답은 'are'이다."
+  },
+  {
+   "no": 5,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "be able to 뒤에 오는 동사의 형태는?",
+   "choices": [
+    "동사+s/es",
+    "동사+ing",
+    "동사+ed",
+    "동사원형"
+   ],
+   "answer": 4,
+   "exp": "be able to + 동사원형은 can과 같은 뜻으로 '~할 수 있다'를 나타내며, 주어·시제에 맞춰 be동사가 바뀐다. 정답은 '동사원형'이다."
+  },
+  {
+   "no": 6,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "He is able to swims.",
+    "She is able to dancing.",
+    "I am able to ride a bike.",
+    "They are able to ran fast."
+   ],
+   "answer": 3,
+   "exp": "be able to + 동사원형은 can과 같은 뜻으로 '~할 수 있다'를 나타내며, 주어·시제에 맞춰 be동사가 바뀐다. 정답은 'I am able to ride a bike.'이다."
+  },
+  {
+   "no": 7,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 그는 기타를 칠 수 있다.",
+   "choices": [
+    "He is able to plays the guitar.",
+    "He are able to play the guitar.",
+    "He is able to play the guitar.",
+    "He am able to play the guitar."
+   ],
+   "answer": 3,
+   "exp": "be able to + 동사원형은 can과 같은 뜻으로 '~할 수 있다'를 나타내며, 주어·시제에 맞춰 be동사가 바뀐다. 정답은 'He is able to play the guitar.'이다."
+  },
+  {
+   "no": 8,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "can과 be able to는 서로 바꿔 쓸 수 있나요?",
+   "choices": [
+    "항상 바꿀 수 없다",
+    "같은 의미로 바꿔 쓸 수 있다",
+    "can만 부정문에 쓴다",
+    "be able to만 의문문에 쓴다"
+   ],
+   "answer": 2,
+   "exp": "can과 be able to는 같은 뜻으로 바꿔 쓸 수 있다. 정답은 '같은 의미로 바꿔 쓸 수 있다'이다."
+  },
+  {
+   "no": 9,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 문장을 be able to로 바꾼 것은? — I can cook pasta.",
+   "choices": [
+    "I am able to cooks pasta.",
+    "I am able to cook pasta.",
+    "I is able to cook pasta.",
+    "I are able to cook pasta."
+   ],
+   "answer": 2,
+   "exp": "can과 be able to는 같은 뜻으로 바꿔 쓸 수 있다. 정답은 'I am able to cook pasta.'이다."
+  },
+  {
+   "no": 10,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 문장을 can으로 바꾼 것은? — She is able to draw well.",
+   "choices": [
+    "She cans draw well.",
+    "She can draws well.",
+    "She can draw well.",
+    "She can drawing well."
+   ],
+   "answer": 3,
+   "exp": "can과 be able to는 같은 뜻으로 바꿔 쓸 수 있다. 정답은 'She can draw well.'이다."
+  },
+  {
+   "no": 11,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 문장을 be able to로 바꾼 것은? — They can jump high.",
+   "choices": [
+    "They is able to jump high.",
+    "They are able to jumps high.",
+    "They are able to jump high.",
+    "They am able to jump high."
+   ],
+   "answer": 3,
+   "exp": "can과 be able to는 같은 뜻으로 바꿔 쓸 수 있다. 정답은 'They are able to jump high.'이다."
+  },
+  {
+   "no": 12,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 문장을 can으로 바꾼 것은? — He is able to speak English.",
+   "choices": [
+    "He cans speak English.",
+    "He can speaks English.",
+    "He can to speak English.",
+    "He can speak English."
+   ],
+   "answer": 4,
+   "exp": "can과 be able to는 같은 뜻으로 바꿔 쓸 수 있다. 정답은 'He can speak English.'이다."
+  },
+  {
+   "no": 13,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 문장을 be able to로 바꾼 것은? — We can solve this problem.",
+   "choices": [
+    "We are able to solve this problem.",
+    "We is able to solve this problem.",
+    "We are able to solves this problem.",
+    "We am able to solve this problem."
+   ],
+   "answer": 1,
+   "exp": "can과 be able to는 같은 뜻으로 바꿔 쓸 수 있다. 정답은 'We are able to solve this problem.'이다."
+  },
+  {
+   "no": 14,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 중 뜻이 같은 문장끼리 묶인 것은?",
+   "choices": [
+    "I can swim. / I should swim.",
+    "She can run. / She is able to run.",
+    "He must swim. / He is able to swim.",
+    "They can jump. / They have to jump."
+   ],
+   "answer": 2,
+   "exp": "can과 be able to는 같은 뜻으로 바꿔 쓸 수 있다. 정답은 'She can run. / She is able to run.'이다."
+  },
+  {
+   "no": 15,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "be able to의 부정문 형태로 알맞은 것은?",
+   "choices": [
+    "be not able to",
+    "be able not to",
+    "be able to not",
+    "don't be able to"
+   ],
+   "answer": 1,
+   "exp": "would like to/be able to의 부정문은 각각 wouldn't like to, be동사+not able to로 쓴다. 정답은 'be not able to'이다."
+  },
+  {
+   "no": 16,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — I ___ not able to fly.",
+   "choices": [
+    "do",
+    "can",
+    "am",
+    "is"
+   ],
+   "answer": 3,
+   "exp": "would like to/be able to의 부정문은 각각 wouldn't like to, be동사+not able to로 쓴다. 정답은 'am'이다."
+  },
+  {
+   "no": 17,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 문장을 be able to 부정문으로 바꾼 것은? — She can't sing.",
+   "choices": [
+    "She is not able to sings.",
+    "She is able to not sing.",
+    "She is not able to sing.",
+    "She not is able to sing."
+   ],
+   "answer": 3,
+   "exp": "would like to/be able to의 부정문은 각각 wouldn't like to, be동사+not able to로 쓴다. 정답은 'She is not able to sing.'이다."
+  },
+  {
+   "no": 18,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 문장을 be able to 부정문으로 바꾼 것은? — They can't run fast.",
+   "choices": [
+    "They are not able to run fast.",
+    "They is not able to run fast.",
+    "They are able to not run fast.",
+    "They not are able to run fast."
+   ],
+   "answer": 1,
+   "exp": "would like to/be able to의 부정문은 각각 wouldn't like to, be동사+not able to로 쓴다. 정답은 'They are not able to run fast.'이다."
+  },
+  {
+   "no": 19,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 중 올바른 부정문은?",
+   "choices": [
+    "He is not able to swims.",
+    "She are not able to dance.",
+    "I am not able to drive.",
+    "They is not able to fly."
+   ],
+   "answer": 3,
+   "exp": "would like to/be able to의 부정문은 각각 wouldn't like to, be동사+not able to로 쓴다. 정답은 'I am not able to drive.'이다."
+  },
+  {
+   "no": 20,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 그녀는 피아노를 칠 수 없다.",
+   "choices": [
+    "She is able to play the piano.",
+    "She is not able to plays the piano.",
+    "She is not able to play the piano.",
+    "She are not able to play the piano."
+   ],
+   "answer": 3,
+   "exp": "would like to/be able to의 부정문은 각각 wouldn't like to, be동사+not able to로 쓴다. 정답은 'She is not able to play the piano.'이다."
+  },
+  {
+   "no": 21,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "'Can you swim?'을 be able to 의문문으로 바꾼 것은?",
+   "choices": [
+    "Do you able to swim?",
+    "Is you able to swim?",
+    "Are you able to swim?",
+    "You are able to swim?"
+   ],
+   "answer": 3,
+   "exp": "would like to/be able to의 의문문은 Would/be동사를 주어 앞으로 보낸다. 정답은 'Are you able to swim?'이다."
+  },
+  {
+   "no": 22,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "'Can he play soccer?'를 be able to 의문문으로 바꾼 것은?",
+   "choices": [
+    "Is he able to play soccer?",
+    "Are he able to play soccer?",
+    "Does he able to play soccer?",
+    "He is able to play soccer?"
+   ],
+   "answer": 1,
+   "exp": "would like to/be able to의 의문문은 Would/be동사를 주어 앞으로 보낸다. 정답은 'Is he able to play soccer?'이다."
+  },
+  {
+   "no": 23,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "'Can they speak Korean?'을 be able to 의문문으로 바꾼 것은?",
+   "choices": [
+    "Is they able to speak Korean?",
+    "Are they able to speak Korean?",
+    "Do they able to speak Korean?",
+    "They are able to speak Korean?"
+   ],
+   "answer": 2,
+   "exp": "would like to/be able to의 의문문은 Would/be동사를 주어 앞으로 보낸다. 정답은 'Are they able to speak Korean?'이다."
+  },
+  {
+   "no": 24,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "의문문에 대한 알맞은 대답은? — Are you able to ride a horse?",
+   "choices": [
+    "Yes, I can.",
+    "Yes, I am.",
+    "Yes, I do.",
+    "Yes, I able."
+   ],
+   "answer": 2,
+   "exp": "would like to/be able to의 의문문은 Would/be동사를 주어 앞으로 보낸다. 정답은 'Yes, I am.'이다."
+  },
+  {
+   "no": 25,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "의문문에 대한 알맞은 대답은? — Is she able to cook?",
+   "choices": [
+    "No, she can't.",
+    "No, she isn't.",
+    "No, she doesn't.",
+    "No, she aren't."
+   ],
+   "answer": 2,
+   "exp": "would like to/be able to의 의문문은 Would/be동사를 주어 앞으로 보낸다. 정답은 'No, she isn't.'이다."
+  },
+  {
+   "no": 26,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "'would like to'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "~해야 한다",
+    "~할 수 있다",
+    "~하고 싶다",
+    "~하면 안 된다"
+   ],
+   "answer": 3,
+   "exp": "would like to + 동사원형은 '~하고 싶다'는 정중한 바람을 나타낸다. 정답은 '~하고 싶다'이다."
+  },
+  {
+   "no": 27,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "would like to 뒤에 오는 동사의 형태는?",
+   "choices": [
+    "동사+s/es",
+    "동사+ing",
+    "동사원형",
+    "동사+ed"
+   ],
+   "answer": 3,
+   "exp": "would like to + 동사원형은 '~하고 싶다'는 정중한 바람을 나타낸다. 정답은 '동사원형'이다."
+  },
+  {
+   "no": 28,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — I would like to ___ a pizza.",
+   "choices": [
+    "eats",
+    "eating",
+    "ate",
+    "eat"
+   ],
+   "answer": 4,
+   "exp": "would like to + 동사원형은 '~하고 싶다'는 정중한 바람을 나타낸다. 정답은 'eat'이다."
+  },
+  {
+   "no": 29,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "다음 중 would like to가 올바르게 쓰인 문장은?",
+   "choices": [
+    "She would like to swims.",
+    "He would like to dancing.",
+    "I would like to visit London.",
+    "They would like to plays games."
+   ],
+   "answer": 3,
+   "exp": "would like to + 동사원형은 '~하고 싶다'는 정중한 바람을 나타낸다. 정답은 'I would like to visit London.'이다."
+  },
+  {
+   "no": 30,
+   "unit": "would like to·be able to (Grammar4권 L7~8)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 나는 의사가 되고 싶다.",
+   "choices": [
+    "I would like to is a doctor.",
+    "I would like to am a doctor.",
+    "I would like to be a doctor.",
+    "I would like to being a doctor."
+   ],
+   "answer": 3,
+   "exp": "would like to + 동사원형은 '~하고 싶다'는 정중한 바람을 나타낸다. 정답은 'I would like to be a doctor.'이다."
+  }
+ ]
+}

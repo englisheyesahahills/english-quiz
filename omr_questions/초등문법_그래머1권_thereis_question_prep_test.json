@@ -1,0 +1,429 @@
+{
+ "examName": "초등문법_그래머1권_thereis_question_prep_test",
+ "totalQuestions": 30,
+ "numChoices": 4,
+ "answerKey": [
+  3,
+  3,
+  4,
+  3,
+  2,
+  2,
+  3,
+  2,
+  1,
+  4,
+  2,
+  2,
+  2,
+  1,
+  3,
+  2,
+  3,
+  3,
+  4,
+  2,
+  3,
+  4,
+  4,
+  3,
+  1,
+  2,
+  2,
+  1,
+  2,
+  1
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "there is/are 의문문의 형태로 알맞은 것은?",
+   "choices": [
+    "There is a cat?",
+    "Do there is a cat?",
+    "Is there a cat?",
+    "Are there a cat?"
+   ],
+   "answer": 3,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Is there a cat?'이다."
+  },
+  {
+   "no": 2,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ there a hospital near here?",
+   "choices": [
+    "Are",
+    "Do",
+    "Is",
+    "Does"
+   ],
+   "answer": 3,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Is'이다."
+  },
+  {
+   "no": 3,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ there any students in the classroom?",
+   "choices": [
+    "Is",
+    "Do",
+    "Does",
+    "Are"
+   ],
+   "answer": 4,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Are'이다."
+  },
+  {
+   "no": 4,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "다음 문장을 의문문으로 바르게 바꾼 것은? — There is a bookstore near school.",
+   "choices": [
+    "Do there is a bookstore near school?",
+    "There is a bookstore near school?",
+    "Is there a bookstore near school?",
+    "Are there a bookstore near school?"
+   ],
+   "answer": 3,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Is there a bookstore near school?'이다."
+  },
+  {
+   "no": 5,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "다음 문장을 의문문으로 바르게 바꾼 것은? — There are three windows in this room.",
+   "choices": [
+    "Is there three windows in this room?",
+    "Are there three windows in this room?",
+    "Do there are three windows in this room?",
+    "There are three windows in this room?"
+   ],
+   "answer": 2,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Are there three windows in this room?'이다."
+  },
+  {
+   "no": 6,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "의문문에 대한 알맞은 대답은? — Is there a dog in the yard?",
+   "choices": [
+    "Yes, there do.",
+    "Yes, there is.",
+    "Yes, there are.",
+    "Yes, it does."
+   ],
+   "answer": 2,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Yes, there is.'이다."
+  },
+  {
+   "no": 7,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "의문문에 대한 알맞은 대답은? — Are there any chairs in the room?",
+   "choices": [
+    "No, there isn't.",
+    "No, it isn't.",
+    "No, there aren't.",
+    "No, they aren't."
+   ],
+   "answer": 3,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'No, there aren't.'이다."
+  },
+  {
+   "no": 8,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "우리말 뜻에 맞는 의문문은? — 근처에 편의점이 있니?",
+   "choices": [
+    "Are there a convenience store nearby?",
+    "Is there a convenience store nearby?",
+    "Do there is a convenience store nearby?",
+    "There is a convenience store nearby?"
+   ],
+   "answer": 2,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Is there a convenience store nearby?'이다."
+  },
+  {
+   "no": 9,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "우리말 뜻에 맞는 의문문은? — 냉장고 안에 달걀이 있니?",
+   "choices": [
+    "Are there eggs in the fridge?",
+    "Is there eggs in the fridge?",
+    "Do there eggs in the fridge?",
+    "Does there eggs in the fridge?"
+   ],
+   "answer": 1,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Are there eggs in the fridge?'이다."
+  },
+  {
+   "no": 10,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "빈칸에 알맞은 말을 고르세요. — ___ there a swimming pool in your school?",
+   "choices": [
+    "Are",
+    "Do",
+    "Does",
+    "Is"
+   ],
+   "answer": 4,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Is'이다."
+  },
+  {
+   "no": 11,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "다음 중 올바른 의문문은?",
+   "choices": [
+    "Is there any books on the shelf?",
+    "Are there any books on the shelf?",
+    "Do there any books on the shelf?",
+    "There are books on the shelf?"
+   ],
+   "answer": 2,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Are there any books on the shelf?'이다."
+  },
+  {
+   "no": 12,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "대화의 빈칸에 알맞은 말은? — A: Is there a bank near here?  B: Yes, ___ ___.",
+   "choices": [
+    "there are",
+    "there is",
+    "it is",
+    "they are"
+   ],
+   "answer": 2,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'there is'이다."
+  },
+  {
+   "no": 13,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "대화의 빈칸에 알맞은 말은? — A: Are there many people at the party?  B: No, ___ ___.",
+   "choices": [
+    "there isn't",
+    "there aren't",
+    "it isn't",
+    "they aren't"
+   ],
+   "answer": 2,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'there aren't'이다."
+  },
+  {
+   "no": 14,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "다음 중 올바른 의문문은?",
+   "choices": [
+    "Is there a pen in your bag?",
+    "Are there a pen in your bag?",
+    "Do there a pen in your bag?",
+    "Does there a pen in your bag?"
+   ],
+   "answer": 1,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Is there a pen in your bag?'이다."
+  },
+  {
+   "no": 15,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "우리말 뜻에 맞는 의문문은? — 그 도시에 공항이 있니?",
+   "choices": [
+    "Are there an airport in the city?",
+    "Do there an airport in the city?",
+    "Is there an airport in the city?",
+    "Does there an airport in the city?"
+   ],
+   "answer": 3,
+   "exp": "There is/are 의문문은 Is/Are there ~? 형태이다. 정답은 'Is there an airport in the city?'이다."
+  },
+  {
+   "no": 16,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "'on'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "~ 안에",
+    "~ 위에 (접촉)",
+    "~ 아래에",
+    "~ 옆에"
+   ],
+   "answer": 2,
+   "exp": "위치를 나타내는 전치사(in/on/under/next to/between 등)의 쓰임을 구별하는 문제예요. 정답은 '~ 위에 (접촉)'이다."
+  },
+  {
+   "no": 17,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "'under'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "~ 안에",
+    "~ 위에",
+    "~ 아래에",
+    "~ 앞에"
+   ],
+   "answer": 3,
+   "exp": "위치를 나타내는 전치사(in/on/under/next to/between 등)의 쓰임을 구별하는 문제예요. 정답은 '~ 아래에'이다."
+  },
+  {
+   "no": 18,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "빈칸에 알맞은 전치사를 고르세요. — There is a cat ___ the sofa. (소파 위에)",
+   "choices": [
+    "in",
+    "under",
+    "on",
+    "behind"
+   ],
+   "answer": 3,
+   "exp": "위치를 나타내는 전치사(in/on/under/next to/between 등)의 쓰임을 구별하는 문제예요. 정답은 'on'이다."
+  },
+  {
+   "no": 19,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "빈칸에 알맞은 전치사를 고르세요. — There is a ball ___ the table. (테이블 아래에)",
+   "choices": [
+    "on",
+    "in",
+    "next to",
+    "under"
+   ],
+   "answer": 4,
+   "exp": "위치를 나타내는 전치사(in/on/under/next to/between 등)의 쓰임을 구별하는 문제예요. 정답은 'under'이다."
+  },
+  {
+   "no": 20,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "빈칸에 알맞은 전치사를 고르세요. — There are books ___ the bag. (가방 안에)",
+   "choices": [
+    "on",
+    "in",
+    "under",
+    "behind"
+   ],
+   "answer": 2,
+   "exp": "위치를 나타내는 전치사(in/on/under/next to/between 등)의 쓰임을 구별하는 문제예요. 정답은 'in'이다."
+  },
+  {
+   "no": 21,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "빈칸에 알맞은 전치사를 고르세요. — There is a bus stop ___ the school. (학교 앞에)",
+   "choices": [
+    "behind",
+    "next to",
+    "in front of",
+    "under"
+   ],
+   "answer": 3,
+   "exp": "위치를 나타내는 전치사(in/on/under/next to/between 등)의 쓰임을 구별하는 문제예요. 정답은 'in front of'이다."
+  },
+  {
+   "no": 22,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "빈칸에 알맞은 전치사를 고르세요. — There is a park ___ my house. (우리 집 옆에)",
+   "choices": [
+    "in",
+    "on",
+    "behind",
+    "next to"
+   ],
+   "answer": 4,
+   "exp": "위치를 나타내는 전치사(in/on/under/next to/between 등)의 쓰임을 구별하는 문제예요. 정답은 'next to'이다."
+  },
+  {
+   "no": 23,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — There is a dog behind the door.",
+   "choices": [
+    "문 앞에 개가 있다.",
+    "문 옆에 개가 있다.",
+    "문 위에 개가 있다.",
+    "문 뒤에 개가 있다."
+   ],
+   "answer": 4,
+   "exp": "위치를 나타내는 전치사(in/on/under/next to/between 등)의 쓰임을 구별하는 문제예요. 정답은 '문 뒤에 개가 있다.'이다."
+  },
+  {
+   "no": 24,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 침대 아래에 상자가 있다.",
+   "choices": [
+    "There is a box on the bed.",
+    "There is a box in the bed.",
+    "There is a box under the bed.",
+    "There is a box next to the bed."
+   ],
+   "answer": 3,
+   "exp": "위치를 나타내는 전치사(in/on/under/next to/between 등)의 쓰임을 구별하는 문제예요. 정답은 'There is a box under the bed.'이다."
+  },
+  {
+   "no": 25,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "빈칸에 알맞은 말을 모두 고르세요. — ___ there a library ___ your school?",
+   "choices": [
+    "Is / near",
+    "Are / near",
+    "Is / on",
+    "Are / in"
+   ],
+   "answer": 1,
+   "exp": "There is/are와 위치 전치사를 종합적으로 적용하는 문제예요. 정답은 'Is / near'이다."
+  },
+  {
+   "no": 26,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 책상 위에 연필이 있니?",
+   "choices": [
+    "Are there a pencil on the desk?",
+    "Is there a pencil on the desk?",
+    "Is there a pencil in the desk?",
+    "Are there a pencil under the desk?"
+   ],
+   "answer": 2,
+   "exp": "There is/are와 위치 전치사를 종합적으로 적용하는 문제예요. 정답은 'Is there a pencil on the desk?'이다."
+  },
+  {
+   "no": 27,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "There is a cat in on the box.",
+    "There are flowers next to the window.",
+    "Is there books under the chair?",
+    "There is a bird on in the tree."
+   ],
+   "answer": 2,
+   "exp": "There is/are와 위치 전치사를 종합적으로 적용하는 문제예요. 정답은 'There are flowers next to the window.'이다."
+  },
+  {
+   "no": 28,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "대화의 빈칸에 알맞은 말은? — A: ___ there a post office near here?  B: No, there ___.",
+   "choices": [
+    "Is / isn't",
+    "Are / aren't",
+    "Is / aren't",
+    "Are / isn't"
+   ],
+   "answer": 1,
+   "exp": "There is/are와 위치 전치사를 종합적으로 적용하는 문제예요. 정답은 'Is / isn't'이다."
+  },
+  {
+   "no": 29,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 소파 옆에 강아지 두 마리가 있니?",
+   "choices": [
+    "Is there two dogs next to the sofa?",
+    "Are there two dogs next to the sofa?",
+    "Is there two dogs on the sofa?",
+    "Are there two dogs under the sofa?"
+   ],
+   "answer": 2,
+   "exp": "There is/are와 위치 전치사를 종합적으로 적용하는 문제예요. 정답은 'Are there two dogs next to the sofa?'이다."
+  },
+  {
+   "no": 30,
+   "unit": "There is/are 의문문·위치전치사구 (Grammar1권 L9~11)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "There is a lamp on the desk.",
+    "There are a book in the shelf.",
+    "Is there any pencil in your bag?",
+    "Are there a dog behind the house?"
+   ],
+   "answer": 1,
+   "exp": "There is/are와 위치 전치사를 종합적으로 적용하는 문제예요. 정답은 'There is a lamp on the desk.'이다."
+  }
+ ]
+}

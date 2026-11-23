@@ -1,0 +1,359 @@
+{
+ "examName": "초등문법_grammar5-4-6",
+ "totalQuestions": 25,
+ "numChoices": 4,
+ "answerKey": [
+  1,
+  1,
+  1,
+  2,
+  2,
+  1,
+  1,
+  4,
+  1,
+  1,
+  1,
+  1,
+  1,
+  4,
+  1,
+  1,
+  2,
+  4,
+  4,
+  1,
+  2,
+  1,
+  1,
+  2,
+  1
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "1. 빈칸에 알맞은 것은? (그녀는 어제 아팠다.) — She was sick ___.",
+   "choices": [
+    "yesterday",
+    "now",
+    "today",
+    "every day"
+   ],
+   "answer": 1,
+   "exp": "과거를 나타내는 시간 표현은 yesterday이다."
+  },
+  {
+   "no": 2,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "2. 빈칸에 알맞은 것은? (우리는 지금 화가 난다.) — We are upset ___.",
+   "choices": [
+    "now",
+    "then",
+    "yesterday",
+    "last year"
+   ],
+   "answer": 1,
+   "exp": "현재시제와 함께 쓰이는 시간 표현은 now이다."
+  },
+  {
+   "no": 3,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "3. 다음 중 동사의 과거형이 바르게 짝지어진 것은?",
+   "choices": [
+    "look-looked",
+    "like-likeed",
+    "study-studyed",
+    "stop-stoped"
+   ],
+   "answer": 1,
+   "exp": "대부분의 동사는 동사원형에 -ed를 붙여 과거형을 만든다."
+  },
+  {
+   "no": 4,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "4. 다음 중 동사의 과거형이 바르게 짝지어진 것은?",
+   "choices": [
+    "cry-cryed",
+    "cry-cried",
+    "cry-cries",
+    "cry-crys"
+   ],
+   "answer": 2,
+   "exp": "'자음+y'로 끝나는 동사는 y를 i로 바꾸고 -ed를 붙인다."
+  },
+  {
+   "no": 5,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "5. 다음 중 동사의 과거형이 바르게 짝지어진 것은?",
+   "choices": [
+    "stop-stoped",
+    "stop-stopped",
+    "stop-stops",
+    "stop-stopping"
+   ],
+   "answer": 2,
+   "exp": "'단모음+단자음'으로 끝나는 동사는 마지막 자음을 한 번 더 쓰고 -ed를 붙인다."
+  },
+  {
+   "no": 6,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "6. 빈칸에 알맞은 것은? (나는 지난 토요일에 달렸다.) — I ___ last Saturday.",
+   "choices": [
+    "ran",
+    "runned",
+    "running",
+    "runs"
+   ],
+   "answer": 1,
+   "exp": "run의 불규칙 과거형은 ran이다."
+  },
+  {
+   "no": 7,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "7. 빈칸에 알맞은 것은? (그는 어젯밤에 자신의 일기를 읽었다.) — He ___ his diary last night.",
+   "choices": [
+    "read",
+    "readed",
+    "reads",
+    "reading"
+   ],
+   "answer": 1,
+   "exp": "read는 원형과 과거형의 형태가 같다."
+  },
+  {
+   "no": 8,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "8. 다음 중 동사원형-과거형이 <u>잘못</u> 짝지어진 것은?",
+   "choices": [
+    "go-went",
+    "have-had",
+    "see-saw",
+    "hit-hitted"
+   ],
+   "answer": 4,
+   "exp": "hit은 원형과 과거형이 같으므로 hitted가 아니라 hit이다."
+  },
+  {
+   "no": 9,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "9. 빈칸에 알맞은 것은? (그 타자는 공을 치고 싶어 했다.) — The batter ___ to hit a ball.",
+   "choices": [
+    "wanted",
+    "want",
+    "wants",
+    "wanting"
+   ],
+   "answer": 1,
+   "exp": "규칙 동사 want의 과거형은 wanted이다."
+  },
+  {
+   "no": 10,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "10. 빈칸에 알맞은 것은? (투수가 공을 던졌다.) — The pitcher ___ a ball.",
+   "choices": [
+    "threw",
+    "throwed",
+    "throws",
+    "throwing"
+   ],
+   "answer": 1,
+   "exp": "throw의 불규칙 과거형은 threw이다."
+  },
+  {
+   "no": 11,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "11. 다음 문장을 과거시제로 바르게 바꾼 것은? — The whales blow water.",
+   "choices": [
+    "The whales blew water.",
+    "The whales blowed water.",
+    "The whales blows water.",
+    "The whales blowing water."
+   ],
+   "answer": 1,
+   "exp": "blow의 불규칙 과거형은 blew이다."
+  },
+  {
+   "no": 12,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "12. 다음 문장을 과거시제로 바르게 바꾼 것은? — He sets a vase on the table.",
+   "choices": [
+    "He set a vase on the table.",
+    "He setted a vase on the table.",
+    "He sat a vase on the table.",
+    "He sets a vase on the table."
+   ],
+   "answer": 1,
+   "exp": "set은 원형과 과거형이 같다."
+  },
+  {
+   "no": 13,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "13. 빈칸에 알맞은 것은? (그것들은 그때 병아리였다.) — They ___ chicks then.",
+   "choices": [
+    "were",
+    "are",
+    "was",
+    "is"
+   ],
+   "answer": 1,
+   "exp": "복수 주어 They와 과거 시간표현 then이 쓰였으므로 were가 알맞다."
+  },
+  {
+   "no": 14,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "14. 다음 중 시간 표현과 시제가 서로 <u>맞지 않는</u> 것은?",
+   "choices": [
+    "I was tired yesterday.",
+    "I am tired now.",
+    "I was tired this week.",
+    "I am tired last night."
+   ],
+   "answer": 4,
+   "exp": "last night은 과거를 나타내는 표현이므로 현재형 am과 함께 쓸 수 없다."
+  },
+  {
+   "no": 15,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "15. 빈칸에 알맞은 것은? (나는 손가락을 다쳤다.) — I ___ my finger.",
+   "choices": [
+    "hurt",
+    "hurted",
+    "hurts",
+    "hurting"
+   ],
+   "answer": 1,
+   "exp": "hurt는 원형과 과거형이 같다."
+  },
+  {
+   "no": 16,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "16. 빈칸에 알맞은 것은? (그는 한 시간 전에 잤다.) — He ___ an hour ago.",
+   "choices": [
+    "slept",
+    "sleeped",
+    "sleeps",
+    "sleeping"
+   ],
+   "answer": 1,
+   "exp": "sleep의 불규칙 과거형은 slept이다."
+  },
+  {
+   "no": 17,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "17. 다음 중 동사의 과거형이 바르게 짝지어진 것은?",
+   "choices": [
+    "catch-catched",
+    "catch-caught",
+    "catch-catchted",
+    "catch-catches"
+   ],
+   "answer": 2,
+   "exp": "catch의 불규칙 과거형은 caught이다."
+  },
+  {
+   "no": 18,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "choices": [
+    "James fell down yesterday.",
+    "She saw peacocks at the zoo.",
+    "We felt good then.",
+    "He sleeped an hour ago."
+   ],
+   "answer": 4,
+   "exp": "sleep의 과거형은 sleeped가 아니라 slept이다."
+  },
+  {
+   "no": 19,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "19. 어법상 <u>틀린</u> 문장은?",
+   "choices": [
+    "Karen brushed her hair.",
+    "Paul stopped at the store.",
+    "The babies cried loudly.",
+    "Ashley and I plaied tennis."
+   ],
+   "answer": 4,
+   "exp": "play의 과거형은 plaied가 아니라 played이다 (모음+y는 그대로 -ed)."
+  },
+  {
+   "no": 20,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "20. 다음 문장을 과거시제로 바르게 바꾼 것은? — I leave my glove at home.",
+   "choices": [
+    "I left my glove at home.",
+    "I leaved my glove at home.",
+    "I leaves my glove at home.",
+    "I leaving my glove at home."
+   ],
+   "answer": 1,
+   "exp": "leave의 불규칙 과거형은 left이다."
+  },
+  {
+   "no": 21,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "21. 다음 중 시간 표현과 시제가 어법상 옳은 것은?",
+   "choices": [
+    "Mr. Jackson is rich ten years ago.",
+    "Mr. Jackson was rich ten years ago.",
+    "Mr. Jackson was rich this year.",
+    "Mr. Jackson is rich last year."
+   ],
+   "answer": 2,
+   "exp": "ten years ago는 과거 표현이므로 was와 함께 쓴다."
+  },
+  {
+   "no": 22,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "22. 우리말을 영어로 바르게 옮긴 것은? (그들은 역사를 공부했다.)",
+   "choices": [
+    "They studied history.",
+    "They studyed history.",
+    "They studies history.",
+    "They study history yesterday."
+   ],
+   "answer": 1,
+   "exp": "study의 과거형은 y를 i로 바꾸고 -ed를 붙인 studied이다."
+  },
+  {
+   "no": 23,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "23. 우리말을 영어로 바르게 옮긴 것은? (그녀는 작년에 그 도시로 이사했다.)",
+   "choices": [
+    "She moved to the city last year.",
+    "She moves to the city last year.",
+    "She moveed to the city last year.",
+    "She is moved to the city last year."
+   ],
+   "answer": 1,
+   "exp": "move는 -e로 끝나므로 -d만 붙여 moved로 쓴다."
+  },
+  {
+   "no": 24,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "24. 다음 중 어법상 옳은 것은?",
+   "choices": [
+    "The reporters is busy yesterday.",
+    "The reporters were busy yesterday.",
+    "The reporters are busy yesterday.",
+    "The reporters was busy yesterday."
+   ],
+   "answer": 2,
+   "exp": "복수 주어 The reporters와 과거 표현 yesterday에는 were가 알맞다."
+  },
+  {
+   "no": 25,
+   "unit": "일반동사과거불규칙(그래머5 4-6)",
+   "q": "25. 다음 중 동사원형-과거형이 모두 올바르게 짝지어진 것은?",
+   "choices": [
+    "fly-flew / leave-left",
+    "fly-flied / leave-leaved",
+    "fly-flew / leave-leaved",
+    "fly-flied / leave-left"
+   ],
+   "answer": 1,
+   "exp": "fly의 과거형은 flew, leave의 과거형은 left로 모두 불규칙 변화한다."
+  }
+ ]
+}

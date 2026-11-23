@@ -1,0 +1,429 @@
+{
+ "examName": "초등문법_그래머3권_must_haveto_test",
+ "totalQuestions": 30,
+ "numChoices": 4,
+ "answerKey": [
+  2,
+  3,
+  2,
+  3,
+  2,
+  3,
+  2,
+  3,
+  1,
+  2,
+  2,
+  2,
+  4,
+  2,
+  2,
+  2,
+  3,
+  2,
+  3,
+  3,
+  3,
+  2,
+  3,
+  2,
+  3,
+  3,
+  2,
+  2,
+  3,
+  2
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "'must'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "~할 수 있다",
+    "~해야 한다",
+    "~하고 있다",
+    "~했다"
+   ],
+   "answer": 2,
+   "exp": "must는 '~해야 한다'는 강한 의무를 나타내며 뒤에 동사원형을 쓴다. 정답은 '~해야 한다'이다."
+  },
+  {
+   "no": 2,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — You must wash your hands.",
+   "choices": [
+    "너는 손을 씻을 수 있다.",
+    "너는 손을 씻고 있다.",
+    "너는 손을 씻어야 한다.",
+    "너는 손을 씻었다."
+   ],
+   "answer": 3,
+   "exp": "must는 '~해야 한다'는 강한 의무를 나타내며 뒤에 동사원형을 쓴다. 정답은 '너는 손을 씻어야 한다.'이다."
+  },
+  {
+   "no": 3,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — We must be quiet in the library.",
+   "choices": [
+    "우리는 도서관에서 조용할 수 있다.",
+    "우리는 도서관에서 조용해야 한다.",
+    "우리는 도서관에서 조용하다.",
+    "우리는 도서관에서 조용했다."
+   ],
+   "answer": 2,
+   "exp": "must는 '~해야 한다'는 강한 의무를 나타내며 뒤에 동사원형을 쓴다. 정답은 '우리는 도서관에서 조용해야 한다.'이다."
+  },
+  {
+   "no": 4,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — You ___ wear a seatbelt in the car.",
+   "choices": [
+    "can",
+    "are",
+    "must",
+    "did"
+   ],
+   "answer": 3,
+   "exp": "must는 '~해야 한다'는 강한 의무를 나타내며 뒤에 동사원형을 쓴다. 정답은 'must'이다."
+  },
+  {
+   "no": 5,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — Students ___ arrive at school on time.",
+   "choices": [
+    "cans",
+    "must",
+    "musts",
+    "are"
+   ],
+   "answer": 2,
+   "exp": "must는 '~해야 한다'는 강한 의무를 나타내며 뒤에 동사원형을 쓴다. 정답은 'must'이다."
+  },
+  {
+   "no": 6,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 중 must를 올바르게 사용한 문장은?",
+   "choices": [
+    "She musts sleep early.",
+    "He must sleeps early.",
+    "They must sleep early.",
+    "I must to sleep early."
+   ],
+   "answer": 3,
+   "exp": "must는 '~해야 한다'는 강한 의무를 나타내며 뒤에 동사원형을 쓴다. 정답은 'They must sleep early.'이다."
+  },
+  {
+   "no": 7,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 너는 숙제를 해야 한다.",
+   "choices": [
+    "You can do your homework.",
+    "You must do your homework.",
+    "You are doing your homework.",
+    "You did your homework."
+   ],
+   "answer": 2,
+   "exp": "must는 '~해야 한다'는 강한 의무를 나타내며 뒤에 동사원형을 쓴다. 정답은 'You must do your homework.'이다."
+  },
+  {
+   "no": 8,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "'have to'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "~할 수 있다",
+    "~하고 싶다",
+    "~해야 한다",
+    "~했다"
+   ],
+   "answer": 3,
+   "exp": "have to는 must와 같은 의미로, 주어가 3인칭 단수면 has to를 쓴다. 정답은 '~해야 한다'이다."
+  },
+  {
+   "no": 9,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — I ___ go to bed early tonight.",
+   "choices": [
+    "have to",
+    "has to",
+    "must to",
+    "have"
+   ],
+   "answer": 1,
+   "exp": "have to는 must와 같은 의미로, 주어가 3인칭 단수면 has to를 쓴다. 정답은 'have to'이다."
+  },
+  {
+   "no": 10,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — She ___ wear glasses.",
+   "choices": [
+    "have to",
+    "has to",
+    "must to",
+    "haves to"
+   ],
+   "answer": 2,
+   "exp": "have to는 must와 같은 의미로, 주어가 3인칭 단수면 has to를 쓴다. 정답은 'has to'이다."
+  },
+  {
+   "no": 11,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — He ___ brush his teeth every night.",
+   "choices": [
+    "have to",
+    "has to",
+    "have",
+    "haves"
+   ],
+   "answer": 2,
+   "exp": "have to는 must와 같은 의미로, 주어가 3인칭 단수면 has to를 쓴다. 정답은 'has to'이다."
+  },
+  {
+   "no": 12,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — They ___ clean their room.",
+   "choices": [
+    "has to",
+    "have to",
+    "haves to",
+    "must to"
+   ],
+   "answer": 2,
+   "exp": "have to는 must와 같은 의미로, 주어가 3인칭 단수면 has to를 쓴다. 정답은 'have to'이다."
+  },
+  {
+   "no": 13,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "She have to study.",
+    "He has to studies.",
+    "We has to run.",
+    "I have to wake up early."
+   ],
+   "answer": 4,
+   "exp": "have to는 must와 같은 의미로, 주어가 3인칭 단수면 has to를 쓴다. 정답은 'I have to wake up early.'이다."
+  },
+  {
+   "no": 14,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 중 must와 바꿔 쓸 수 있는 것은? — You must eat vegetables.",
+   "choices": [
+    "You can eat vegetables.",
+    "You have to eat vegetables.",
+    "You are eating vegetables.",
+    "You want to eat vegetables."
+   ],
+   "answer": 2,
+   "exp": "have to는 must와 같은 의미로, 주어가 3인칭 단수면 has to를 쓴다. 정답은 'You have to eat vegetables.'이다."
+  },
+  {
+   "no": 15,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 그녀는 매일 운동해야 한다.",
+   "choices": [
+    "She can exercise every day.",
+    "She has to exercise every day.",
+    "She have to exercise every day.",
+    "She exercises every day."
+   ],
+   "answer": 2,
+   "exp": "have to는 must와 같은 의미로, 주어가 3인칭 단수면 has to를 쓴다. 정답은 'She has to exercise every day.'이다."
+  },
+  {
+   "no": 16,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "'must not'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "~할 필요 없다",
+    "~하면 안 된다",
+    "~할 수 없다",
+    "~하지 않았다"
+   ],
+   "answer": 2,
+   "exp": "must not(mustn't)은 '~하면 안 된다'는 금지, don't/doesn't have to는 '~할 필요 없다'는 뜻으로 의미가 다르다. 정답은 '~하면 안 된다'이다."
+  },
+  {
+   "no": 17,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "'don't have to'의 뜻으로 알맞은 것은?",
+   "choices": [
+    "~하면 안 된다",
+    "~할 수 없다",
+    "~할 필요 없다",
+    "~하지 않았다"
+   ],
+   "answer": 3,
+   "exp": "must not(mustn't)은 '~하면 안 된다'는 금지, don't/doesn't have to는 '~할 필요 없다'는 뜻으로 의미가 다르다. 정답은 '~할 필요 없다'이다."
+  },
+  {
+   "no": 18,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — You must not run in the hallway.",
+   "choices": [
+    "너는 복도에서 달릴 필요 없다.",
+    "너는 복도에서 달리면 안 된다.",
+    "너는 복도에서 달릴 수 없다.",
+    "너는 복도에서 달리지 않았다."
+   ],
+   "answer": 2,
+   "exp": "must not(mustn't)은 '~하면 안 된다'는 금지, don't/doesn't have to는 '~할 필요 없다'는 뜻으로 의미가 다르다. 정답은 '너는 복도에서 달리면 안 된다.'이다."
+  },
+  {
+   "no": 19,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 문장의 뜻으로 알맞은 것은? — You don't have to bring lunch.",
+   "choices": [
+    "너는 점심을 가져오면 안 된다.",
+    "너는 점심을 가져올 수 없다.",
+    "너는 점심을 가져올 필요 없다.",
+    "너는 점심을 가져오지 않았다."
+   ],
+   "answer": 3,
+   "exp": "must not(mustn't)은 '~하면 안 된다'는 금지, don't/doesn't have to는 '~할 필요 없다'는 뜻으로 의미가 다르다. 정답은 '너는 점심을 가져올 필요 없다.'이다."
+  },
+  {
+   "no": 20,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. (금지) — You ___ touch that. It's dangerous!",
+   "choices": [
+    "don't have to",
+    "doesn't have to",
+    "must not",
+    "have not to"
+   ],
+   "answer": 3,
+   "exp": "must not(mustn't)은 '~하면 안 된다'는 금지, don't/doesn't have to는 '~할 필요 없다'는 뜻으로 의미가 다르다. 정답은 'must not'이다."
+  },
+  {
+   "no": 21,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. (필요 없음) — It's Sunday. I ___ go to school.",
+   "choices": [
+    "must not",
+    "can't",
+    "don't have to",
+    "must"
+   ],
+   "answer": 3,
+   "exp": "must not(mustn't)은 '~하면 안 된다'는 금지, don't/doesn't have to는 '~할 필요 없다'는 뜻으로 의미가 다르다. 정답은 'don't have to'이다."
+  },
+  {
+   "no": 22,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — She ___ wear a uniform on weekends.",
+   "choices": [
+    "must not",
+    "doesn't have to",
+    "don't have to",
+    "hasn't to"
+   ],
+   "answer": 2,
+   "exp": "must not(mustn't)은 '~하면 안 된다'는 금지, don't/doesn't have to는 '~할 필요 없다'는 뜻으로 의미가 다르다. 정답은 'doesn't have to'이다."
+  },
+  {
+   "no": 23,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 중 올바른 부정문은?",
+   "choices": [
+    "You must not to swim here.",
+    "She don't has to hurry.",
+    "He doesn't have to wear a tie.",
+    "They musts not be late."
+   ],
+   "answer": 3,
+   "exp": "must not(mustn't)은 '~하면 안 된다'는 금지, don't/doesn't have to는 '~할 필요 없다'는 뜻으로 의미가 다르다. 정답은 'He doesn't have to wear a tie.'이다."
+  },
+  {
+   "no": 24,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "두 문장의 의미 차이로 알맞은 것은? — A: You must not eat here.  B: You don't have to eat here.",
+   "choices": [
+    "A는 먹어도 된다. B는 먹으면 안 된다.",
+    "A는 먹으면 안 된다. B는 먹을 필요 없다.",
+    "A와 B 모두 먹으면 안 된다.",
+    "A와 B 모두 먹을 필요 없다."
+   ],
+   "answer": 2,
+   "exp": "must not(mustn't)은 '~하면 안 된다'는 금지, don't/doesn't have to는 '~할 필요 없다'는 뜻으로 의미가 다르다. 정답은 'A는 먹으면 안 된다. B는 먹을 필요 없다.'이다."
+  },
+  {
+   "no": 25,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "She must wears a mask.",
+    "He have to study hard.",
+    "They must not run here.",
+    "I has to leave now."
+   ],
+   "answer": 3,
+   "exp": "must와 have to의 쓰임을 종합적으로 구별하는 문제예요. 정답은 'They must not run here.'이다."
+  },
+  {
+   "no": 26,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — He ___ practice every day to get better.",
+   "choices": [
+    "don't have to",
+    "must not",
+    "has to",
+    "have to"
+   ],
+   "answer": 3,
+   "exp": "must와 have to의 쓰임을 종합적으로 구별하는 문제예요. 정답은 'has to'이다."
+  },
+  {
+   "no": 27,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "빈칸에 알맞은 말을 고르세요. — We ___ be late for school. Let's hurry!",
+   "choices": [
+    "don't have to",
+    "must not",
+    "doesn't have to",
+    "have to"
+   ],
+   "answer": 2,
+   "exp": "must와 have to의 쓰임을 종합적으로 구별하는 문제예요. 정답은 'must not'이다."
+  },
+  {
+   "no": 28,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "다음 중 올바른 문장은?",
+   "choices": [
+    "You don't have to smoke. It's bad for you.",
+    "You must not smoke. It's bad for you.",
+    "You have not to smoke.",
+    "You don't must smoke."
+   ],
+   "answer": 2,
+   "exp": "must와 have to의 쓰임을 종합적으로 구별하는 문제예요. 정답은 'You must not smoke. It's bad for you.'이다."
+  },
+  {
+   "no": 29,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 너는 여기서 사진을 찍으면 안 된다.",
+   "choices": [
+    "You don't have to take pictures here.",
+    "You can't take pictures here.",
+    "You must not take pictures here.",
+    "You have not take pictures here."
+   ],
+   "answer": 3,
+   "exp": "must와 have to의 쓰임을 종합적으로 구별하는 문제예요. 정답은 'You must not take pictures here.'이다."
+  },
+  {
+   "no": 30,
+   "unit": "조동사 must·have to (Grammar3권 L7~8)",
+   "q": "우리말 뜻에 맞는 영어 문장은? — 그는 오늘 일찍 일어날 필요 없다.",
+   "choices": [
+    "He must not wake up early today.",
+    "He doesn't have to wake up early today.",
+    "He can't wake up early today.",
+    "He has not wake up early today."
+   ],
+   "answer": 2,
+   "exp": "must와 have to의 쓰임을 종합적으로 구별하는 문제예요. 정답은 'He doesn't have to wake up early today.'이다."
+  }
+ ]
+}

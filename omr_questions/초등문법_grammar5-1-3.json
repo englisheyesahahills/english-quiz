@@ -1,0 +1,359 @@
+{
+ "examName": "초등문법_grammar5-1-3",
+ "totalQuestions": 25,
+ "numChoices": 4,
+ "answerKey": [
+  1,
+  1,
+  2,
+  1,
+  1,
+  1,
+  1,
+  1,
+  2,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  1,
+  4,
+  4,
+  4,
+  1,
+  1,
+  1,
+  1,
+  1
+ ],
+ "questions": [
+  {
+   "no": 1,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "1. 빈칸에 알맞은 것은? (그는 피곤했니?) — ___ he tired?",
+   "choices": [
+    "Was",
+    "Were",
+    "Is",
+    "Are"
+   ],
+   "answer": 1,
+   "exp": "주어 he는 3인칭 단수이므로 과거형 Was를 쓴다."
+  },
+  {
+   "no": 2,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "2. 빈칸에 알맞은 것은? (너의 누나는 화가 났었니?) — ___ your sister upset?",
+   "choices": [
+    "Was",
+    "Were",
+    "Is",
+    "Are"
+   ],
+   "answer": 1,
+   "exp": "your sister는 3인칭 단수이므로 Was를 쓴다."
+  },
+  {
+   "no": 3,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "3. 빈칸에 알맞은 것은? (그들은 어제 도서관에 있었다.) — They ___ in the library yesterday.",
+   "choices": [
+    "was",
+    "were",
+    "is",
+    "are"
+   ],
+   "answer": 2,
+   "exp": "They는 복수 주어이므로 과거형 were를 쓴다."
+  },
+  {
+   "no": 4,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "4. 빈칸에 알맞은 것은? (나는 게으른 학생이었다.) — I ___ a lazy student.",
+   "choices": [
+    "was",
+    "were",
+    "is",
+    "am"
+   ],
+   "answer": 1,
+   "exp": "주어가 I일 때 be동사의 과거형은 was이다."
+  },
+  {
+   "no": 5,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "5. 빈칸에 알맞은 것은? (그 오렌지는 달지 않았다.) — The orange ___ sweet.",
+   "choices": [
+    "was not",
+    "were not",
+    "is not",
+    "are not"
+   ],
+   "answer": 1,
+   "exp": "The orange는 단수 주어이므로 was not(wasn't)을 쓴다."
+  },
+  {
+   "no": 6,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "6. 빈칸에 알맞은 것은? (바람이 많이 불지 않았다.) — There ___ a lot of wind.",
+   "choices": [
+    "was not",
+    "were not",
+    "is not",
+    "are not"
+   ],
+   "answer": 1,
+   "exp": "wind는 셀 수 없는 명사로 단수 취급하므로 was not을 쓴다."
+  },
+  {
+   "no": 7,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "7. 다음 문장을 부정문으로 바르게 바꾼 것은? — Nancy was tired.",
+   "choices": [
+    "Nancy was not tired.",
+    "Nancy were not tired.",
+    "Nancy is not tired.",
+    "Nancy not was tired."
+   ],
+   "answer": 1,
+   "exp": "was 뒤에 not을 붙여 부정문을 만든다."
+  },
+  {
+   "no": 8,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "8. 빈칸에 알맞은 것은? (그녀는 화장실에 있지 않았다.) — She ___ in the restroom.",
+   "choices": [
+    "wasn't",
+    "weren't",
+    "isn't",
+    "aren't"
+   ],
+   "answer": 1,
+   "exp": "She는 단수 주어이므로 wasn't를 쓴다."
+  },
+  {
+   "no": 9,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "9. 빈칸에 알맞은 것은? (Ben과 Megan은 10살이었다.) — Ben and Megan ___ 10 years old.",
+   "choices": [
+    "was",
+    "were",
+    "is",
+    "are"
+   ],
+   "answer": 2,
+   "exp": "Ben and Megan은 복수 주어이므로 were를 쓴다."
+  },
+  {
+   "no": 10,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "10. 다음 문장을 의문문으로 바르게 바꾼 것은? — The oranges were sour.",
+   "choices": [
+    "Were the oranges sour?",
+    "Was the oranges sour?",
+    "Are the oranges sour?",
+    "Did the oranges sour?"
+   ],
+   "answer": 1,
+   "exp": "복수 주어 the oranges에는 Were를 문장 앞에 쓴다."
+  },
+  {
+   "no": 11,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "11. 다음 문장을 의문문으로 바르게 바꾼 것은? — It was foggy.",
+   "choices": [
+    "Was it foggy?",
+    "Were it foggy?",
+    "Is it foggy?",
+    "Does it foggy?"
+   ],
+   "answer": 1,
+   "exp": "단수 주어 it에는 Was를 문장 앞에 쓴다."
+  },
+  {
+   "no": 12,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "12. 대화의 빈칸에 알맞은 것은? — Q: Was he a great scientist?   A: Yes, ___.",
+   "choices": [
+    "he was",
+    "he is",
+    "he did",
+    "he does"
+   ],
+   "answer": 1,
+   "exp": "Was로 물었으므로 was로 답한다."
+  },
+  {
+   "no": 13,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "13. 대화의 빈칸에 알맞은 것은? — Q: Were you in the mountains?   A: No, ___.",
+   "choices": [
+    "I wasn't",
+    "I weren't",
+    "I didn't",
+    "I isn't"
+   ],
+   "answer": 1,
+   "exp": "질문에서 you로 물으면 답은 I로 하고, 부정은 wasn't를 쓴다."
+  },
+  {
+   "no": 14,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "14. 우리말을 영어로 바르게 옮긴 것은? (그것은 아름다운 폭포였니?)",
+   "choices": [
+    "Was it a beautiful waterfall?",
+    "Were it a beautiful waterfall?",
+    "Is it a beautiful waterfall?",
+    "Did it a beautiful waterfall?"
+   ],
+   "answer": 1,
+   "exp": "단수 주어 it에는 Was를 쓴다."
+  },
+  {
+   "no": 15,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "15. 다음 문장을 부정문으로 바르게 바꾼 것은? — The sandwiches were tasty.",
+   "choices": [
+    "The sandwiches were not tasty.",
+    "The sandwiches was not tasty.",
+    "The sandwiches are not tasty.",
+    "The sandwiches not were tasty."
+   ],
+   "answer": 1,
+   "exp": "복수 주어이므로 were not(weren't)을 쓴다."
+  },
+  {
+   "no": 16,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "16. 다음 중 어법상 올바른 문장은? (그것들은 나의 애완동물이 아니었다.)",
+   "choices": [
+    "They weren't my pets.",
+    "They wasn't my pets.",
+    "They isn't my pets.",
+    "They aren't my pets."
+   ],
+   "answer": 1,
+   "exp": "They는 복수 주어이므로 과거 부정형 weren't를 쓴다."
+  },
+  {
+   "no": 17,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "17. 대화의 빈칸에 알맞은 것은? — Q: Were your cousins in China?   A: No, ___.",
+   "choices": [
+    "they weren't",
+    "they wasn't",
+    "they didn't",
+    "they aren't"
+   ],
+   "answer": 1,
+   "exp": "복수 주어 your cousins를 받는 대답은 they weren't이다."
+  },
+  {
+   "no": 18,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "choices": [
+    "I was in the fifth grade.",
+    "The trees were small.",
+    "James and I were in the same class.",
+    "You was scared of ants."
+   ],
+   "answer": 4,
+   "exp": "주어 You는 과거형 were를 써야 하므로 was가 아니라 were로 써야 한다."
+  },
+  {
+   "no": 19,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "19. 어법상 <u>틀린</u> 문장은?",
+   "choices": [
+    "It was not a mosquito.",
+    "They were not in the third grade.",
+    "Ashley was not a friendly student.",
+    "The show were not interesting."
+   ],
+   "answer": 4,
+   "exp": "The show는 단수 주어이므로 were not이 아니라 was not으로 써야 한다."
+  },
+  {
+   "no": 20,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "20. 다음 대화 중 어법상 어색한 것은?",
+   "choices": [
+    "Was Ben at the beach? Yes, he was.",
+    "Were Pete and Ben excited? No, they weren't.",
+    "Were there a lot of clouds? Yes, there were.",
+    "Was it sunny? Yes, they was."
+   ],
+   "answer": 4,
+   "exp": "질문의 주어 it에 맞춰 대답도 it was가 되어야 하며, they was는 주어와 동사가 일치하지 않는다."
+  },
+  {
+   "no": 21,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "21. 다음 문장을 의문문으로 바르게 바꾼 것은? (그의 삼촌은 변호사였니?)",
+   "choices": [
+    "Was his uncle a lawyer?",
+    "Were his uncle a lawyer?",
+    "Is his uncle a lawyer?",
+    "Did his uncle a lawyer?"
+   ],
+   "answer": 1,
+   "exp": "his uncle은 단수 주어이므로 Was를 쓴다."
+  },
+  {
+   "no": 22,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "22. 다음 문장을 의문문으로 바르게 바꾼 것은? (너와 Karen은 친한 친구였니?)",
+   "choices": [
+    "Were you and Karen best friends?",
+    "Was you and Karen best friends?",
+    "Are you and Karen best friends?",
+    "Did you and Karen best friends?"
+   ],
+   "answer": 1,
+   "exp": "you and Karen은 복수 주어이므로 Were를 쓴다."
+  },
+  {
+   "no": 23,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "23. 다음 중 어법상 옳은 것은?",
+   "choices": [
+    "The boxes were heavy.",
+    "The boxes was heavy.",
+    "The desk were messy.",
+    "It were a cat."
+   ],
+   "answer": 1,
+   "exp": "The boxes는 복수 주어이므로 were가 알맞다."
+  },
+  {
+   "no": 24,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "24. 대화의 빈칸에 순서대로 알맞은 것은? — Q: Was the woman a teacher?   A: No, ___. She ___ a nurse.",
+   "choices": [
+    "she wasn't - was",
+    "she weren't - was",
+    "she wasn't - were",
+    "she didn't - was"
+   ],
+   "answer": 1,
+   "exp": "단수 주어 she에는 wasn't와 was를 각각 부정과 긍정에 알맞게 쓴다."
+  },
+  {
+   "no": 25,
+   "unit": "과거시제be동사(그래머5 1-3)",
+   "q": "25. 우리말을 영어로 옮길 때 어법상 옳은 것은? (그들은 뇌우 속에 있었니?)",
+   "choices": [
+    "Were they in a thunderstorm?",
+    "Was they in a thunderstorm?",
+    "Are they in a thunderstorm?",
+    "Did they in a thunderstorm?"
+   ],
+   "answer": 1,
+   "exp": "복수 주어 they에는 Were를 쓴다."
+  }
+ ]
+}
