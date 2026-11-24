@@ -106,6 +106,7 @@ h2{color:#fff;font-size:min(5.6vw,24px);margin:22px 4px 10px}
 const APPS=[
   {t:"Lumi's Christmas Show",k:'루돌프와 함께 말하기',d:'Rudolph, the Red-Nosed Reindeer · 12 Unit · 말하기·퀴즈·쉐도잉',url:'rudolph_show.html',img:'rudolph_happy',icon:'🦌',c:'#FFE3E3',badge:'NEW',progress:'rudolph'},
   {t:'The Rabbit and the Turtle',k:'토끼와 거북이 말하기',d:'Ready, Action! Classic Starter · 8 Unit · 말하기·퀴즈·쉐도잉',url:'rabbit_show.html',img:'turtle_happy',icon:'🐢',c:'#E3F7E8',badge:'NEW',progress:'rabbit'},
+  {t:'The Crab Family',k:'게 가족 말하기',d:'Ready, Action! Classic Starter · 8 Unit · 말하기·퀴즈·쉐도잉',url:'crab_show.html',img:'crab/mommy_crab',icon:'🦀',c:'#FFE9D6',badge:'NEW',progress:'crab'},
   {t:'Coming Soon',k:'다음 놀이를 준비하고 있어요',d:'루미가 새 이야기를 가지고 올게요!',url:'#',icon:'🎁',c:'#E8F4FF',soon:true},
 ];
 
@@ -114,7 +115,7 @@ const API='https://script.google.com/macros/s/AKfycbwu9K1uLIPxoP5Qq7aC6xs-IMHHnY
 const $=id=>document.getElementById(id);
 let user=null; try{ user=JSON.parse(localStorage.getItem('lumiRudolphUser'))||null }catch(e){}
 
-function doneCount(app){ try{ const b=app==='rabbit'?'lumiRabbit':'lumiRudolph'; const k=user?b+':'+user.id:b; const s=JSON.parse(localStorage.getItem(k))||{}; return Object.keys(s.done||{}).length; }catch(e){ return 0; } }
+function doneCount(app){ try{ const b={rabbit:'lumiRabbit',crab:'lumiCrab'}[app]||'lumiRudolph'; const k=user?b+':'+user.id:b; const s=JSON.parse(localStorage.getItem(k))||{}; return Object.keys(s.done||{}).length; }catch(e){ return 0; } }
 function renderMe(){
   $('me').innerHTML=user
     ?`<div class="face">🦊</div><div class="who"><b>${esc(user.name)}</b> 친구 안녕!<small>오늘도 루미랑 영어로 놀아요</small><button class="change" onclick="logout()">다른 친구로 바꾸기</button></div><div class="pts"><span>${user.total||0}</span><small>💎 포인트</small></div>`
@@ -122,13 +123,13 @@ function renderMe(){
 }
 function renderApps(){
   $('apps').innerHTML=APPS.map(a=>{
-    const done=a.progress?doneCount(a.progress):null, total=a.progress==='rabbit'?8:12;
+    const done=a.progress?doneCount(a.progress):null, total=a.progress==='rudolph'?12:8;
     const ic=a.img?`<img src="img/${a.img}.png" alt="" onerror="this.replaceWith(document.createTextNode('${a.icon||'⭐'}'))">`:(a.icon||'⭐');
     return `<a class="app ${a.soon?'soon':''}" href="${a.soon?'#':a.url}" style="--c:${a.c||'#FFF3B0'}">
       ${a.badge?`<span class="badge">${a.badge}</span>`:''}
       <div class="ic">${ic}</div>
       <div style="flex:1;min-width:0"><div class="t">${a.t}</div><div class="k">${a.k}</div><div class="d">${a.d||''}</div>
-      ${done!=null?`<div class="bar"><i style="width:${done/total*100}%"></i></div><div class="d">${a.progress==='rabbit'?'🏅':'🎄'} ${done} / ${total} Unit 완료</div>`:''}</div></a>`;
+      ${done!=null?`<div class="bar"><i style="width:${done/total*100}%"></i></div><div class="d">${({rabbit:'🏅',crab:'🐚'})[a.progress]||'🎄'} ${done} / ${total} Unit 완료</div>`:''}</div></a>`;
   }).join('');
 }
 function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
