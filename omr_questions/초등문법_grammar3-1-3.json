@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_grammar3-1-3",
+ "title": "관사·명사 단수복수 퀴즈 (Grammar3 L1~3)",
  "totalQuestions": 25,
  "numChoices": 4,
  "answerKey": [
@@ -33,7 +34,8 @@
   {
    "no": 1,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "1. 빈칸에 알맞은 것은? — I have ___ umbrella.",
+   "q": "1. 빈칸에 알맞은 것은?",
+   "context": "I have ___ umbrella.",
    "choices": [
     "a",
     "an",
@@ -46,7 +48,8 @@
   {
    "no": 2,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "2. 빈칸에 알맞은 것은? — I have ___ book.",
+   "q": "2. 빈칸에 알맞은 것은?",
+   "context": "I have ___ book.",
    "choices": [
     "a",
     "an",
@@ -59,7 +62,8 @@
   {
    "no": 3,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "3. 빈칸에 알맞은 것은? (세상에 하나뿐인 대상) — ___ sun is bright.",
+   "q": "3. 빈칸에 알맞은 것은? (세상에 하나뿐인 대상)",
+   "context": "___ sun is bright.",
    "choices": [
     "A",
     "An",
@@ -73,6 +77,7 @@
    "no": 4,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "4. 다음 중 단수형 → 복수형이 바르게 짝지어진 것은?",
+   "context": "",
    "choices": [
     "dish - dishs",
     "dish - dishes",
@@ -86,6 +91,7 @@
    "no": 5,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "5. 다음 중 단수형 → 복수형이 바르게 짝지어진 것은?",
+   "context": "",
    "choices": [
     "baby - babys",
     "baby - babies",
@@ -99,6 +105,7 @@
    "no": 6,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "6. 다음 중 단수형 → 복수형이 바르게 짝지어진 것은?",
+   "context": "",
    "choices": [
     "knife - knifes",
     "knife - knives",
@@ -112,6 +119,7 @@
    "no": 7,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "7. 다음 중 불규칙 복수형이 올바른 것은?",
+   "context": "",
    "choices": [
     "child - childs",
     "child - children",
@@ -125,6 +133,7 @@
    "no": 8,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "8. 다음 중 단수형과 복수형이 같은 것은?",
+   "context": "",
    "choices": [
     "fish - fishs",
     "fish - fishes",
@@ -137,7 +146,8 @@
   {
    "no": 9,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "9. 빈칸에 알맞은 것은? (앞서 언급된 특정 대상) — There is a dog. ___ dog is cute.",
+   "q": "9. 빈칸에 알맞은 것은? (앞서 언급된 특정 대상)",
+   "context": "There is a dog. ___ dog is cute.",
    "choices": [
     "A",
     "An",
@@ -150,7 +160,8 @@
   {
    "no": 10,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "10. 빈칸에 알맞은 것은? (나라 이름 앞) — My aunt lives in ___ China.",
+   "q": "10. 빈칸에 알맞은 것은? (나라 이름 앞)",
+   "context": "My aunt lives in ___ China.",
    "choices": [
     "a",
     "an",
@@ -163,7 +174,8 @@
   {
    "no": 11,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "11. 빈칸에 알맞은 것은? (연주하는 악기 이름 앞) — Susan plays ___ piano every day.",
+   "q": "11. 빈칸에 알맞은 것은? (연주하는 악기 이름 앞)",
+   "context": "Susan plays ___ piano every day.",
    "choices": [
     "a",
     "an",
@@ -176,7 +188,8 @@
   {
    "no": 12,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "12. 빈칸에 알맞은 것은? (식사 이름 앞) — I have ___ lunch at noon.",
+   "q": "12. 빈칸에 알맞은 것은? (식사 이름 앞)",
+   "context": "I have ___ lunch at noon.",
    "choices": [
     "a",
     "an",
@@ -190,6 +203,7 @@
    "no": 13,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "13. 다음 문장에서 어법상 <u>틀린</u> 것은?",
+   "context": "",
    "choices": [
     "I have an uncle.",
     "A Moon shines at night.",
@@ -202,7 +216,8 @@
   {
    "no": 14,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "14. 다음 문장을 바르게 고친 것은? (나무 한 그루가 언덕 위에 있다.) — Trees is on the hill.",
+   "q": "14. 다음 문장을 바르게 고친 것은? (나무 한 그루가 언덕 위에 있다.)",
+   "context": "Trees is on the hill.",
    "choices": [
     "A tree is on the hill.",
     "Trees are on the hill.",
@@ -215,7 +230,8 @@
   {
    "no": 15,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "15. 다음 문장에서 밑줄 친 부분을 바르게 고친 것은? — There are many caterpillar in the box.",
+   "q": "15. 다음 문장에서 밑줄 친 부분을 바르게 고친 것은?",
+   "context": "There are many caterpillar in the box.",
    "choices": [
     "caterpillars",
     "a caterpillar",
@@ -229,6 +245,7 @@
    "no": 16,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "16. 다음 중 단수형 → 복수형이 <u>잘못</u> 짝지어진 것은?",
+   "context": "",
    "choices": [
     "foot - feet",
     "tooth - teeth",
@@ -241,7 +258,8 @@
   {
    "no": 17,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "17. 빈칸에 알맞은 것은? (말은 다리가 네 개 있다.) — A horse has four ___.",
+   "q": "17. 빈칸에 알맞은 것은? (말은 다리가 네 개 있다.)",
+   "context": "A horse has four ___.",
    "choices": [
     "leg",
     "legs",
@@ -255,6 +273,7 @@
    "no": 18,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "context": "",
    "choices": [
     "I buy three books at the bookstore.",
     "We find four potatoes in the basket.",
@@ -268,6 +287,7 @@
    "no": 19,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "19. 어법상 <u>틀린</u> 문장은?",
+   "context": "",
    "choices": [
     "There are nine boys in the classroom.",
     "I need eight berries for the salad.",
@@ -280,7 +300,8 @@
   {
    "no": 20,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "20. 빈칸에 알맞은 것은? (그 고양이는 작다 - 이미 언급된 특정 고양이) — Lynn has a cat. ___ cat is small.",
+   "q": "20. 빈칸에 알맞은 것은? (그 고양이는 작다 - 이미 언급된 특정 고양이)",
+   "context": "Lynn has a cat. ___ cat is small.",
    "choices": [
     "A",
     "An",
@@ -294,6 +315,7 @@
    "no": 21,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "21. 다음 중 관사 사용이 어법상 옳은 것은?",
+   "context": "",
    "choices": [
     "the Monday",
     "the math",
@@ -306,7 +328,8 @@
   {
    "no": 22,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "22. 빈칸에 알맞은 것은? (우리는 봄에 많은 꽃을 본다.) — We see many ___ in spring.",
+   "q": "22. 빈칸에 알맞은 것은? (우리는 봄에 많은 꽃을 본다.)",
+   "context": "We see many ___ in spring.",
    "choices": [
     "a flower",
     "a flowers",
@@ -320,6 +343,7 @@
    "no": 23,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "23. 다음 문장 중 어법상 <u>틀린</u> 부분이 포함된 것은?",
+   "context": "",
    "choices": [
     "An iguana is sleeping on my hand.",
     "There is a cats on the roof.",
@@ -333,6 +357,7 @@
    "no": 24,
    "unit": "관사·명사단수복수(그래머3 1-3)",
    "q": "24. 다음 중 단수형 → 복수형이 모두 올바르게 짝지어진 것은?",
+   "context": "",
    "choices": [
     "ox - oxes / deer - deers",
     "ox - oxen / deer - deer",
@@ -345,7 +370,8 @@
   {
    "no": 25,
    "unit": "관사·명사단수복수(그래머3 1-3)",
-   "q": "25. 다음 문장을 바르게 고친 것은? — Three a cars are in the parking lot.",
+   "q": "25. 다음 문장을 바르게 고친 것은?",
+   "context": "Three a cars are in the parking lot.",
    "choices": [
     "Three cars are in the parking lot.",
     "Three a car is in the parking lot.",

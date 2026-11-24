@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머4권_comparative_superlative_test",
+ "title": "비교급·최상급 (Grammar4권 L9~11)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -38,7 +39,8 @@
   {
    "no": 1,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "비교급으로 알맞은 것은? — tall → ?",
+   "q": "비교급으로 알맞은 것은?",
+   "context": "tall → ?",
    "choices": [
     "tallier",
     "most tall",
@@ -51,7 +53,8 @@
   {
    "no": 2,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "비교급으로 알맞은 것은? — large → ?",
+   "q": "비교급으로 알맞은 것은?",
+   "context": "large → ?",
    "choices": [
     "largeer",
     "larger",
@@ -64,7 +67,8 @@
   {
    "no": 3,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "비교급으로 알맞은 것은? — happy → ?",
+   "q": "비교급으로 알맞은 것은?",
+   "context": "happy → ?",
    "choices": [
     "happyer",
     "happier",
@@ -77,7 +81,8 @@
   {
    "no": 4,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "비교급으로 알맞은 것은? — beautiful → ?",
+   "q": "비교급으로 알맞은 것은?",
+   "context": "beautiful → ?",
    "choices": [
     "beautifuler",
     "beautifuller",
@@ -90,7 +95,8 @@
   {
    "no": 5,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "비교급으로 알맞은 것은? — hot → ?",
+   "q": "비교급으로 알맞은 것은?",
+   "context": "hot → ?",
    "choices": [
     "hoter",
     "hotier",
@@ -103,7 +109,8 @@
   {
    "no": 6,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "비교급으로 알맞은 것은? — difficult → ?",
+   "q": "비교급으로 알맞은 것은?",
+   "context": "difficult → ?",
    "choices": [
     "difficulter",
     "difficultier",
@@ -116,7 +123,8 @@
   {
    "no": 7,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "비교급으로 알맞은 것은? — busy → ?",
+   "q": "비교급으로 알맞은 것은?",
+   "context": "busy → ?",
    "choices": [
     "busyer",
     "busier",
@@ -129,7 +137,8 @@
   {
    "no": 8,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "비교급으로 알맞은 것은? — big → ?",
+   "q": "비교급으로 알맞은 것은?",
+   "context": "big → ?",
    "choices": [
     "biger",
     "biggest",
@@ -142,7 +151,8 @@
   {
    "no": 9,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "빈칸에 알맞은 말을 고르세요. — She is ___ than me. (키가 더 크다)",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "She is ___ than me. (키가 더 크다)",
    "choices": [
     "tall",
     "tallest",
@@ -155,7 +165,8 @@
   {
    "no": 10,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "빈칸에 알맞은 말을 고르세요. — This bag is ___ than that one. (더 비싸다 / expensive)",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "This bag is ___ than that one. (더 비싸다 / expensive)",
    "choices": [
     "expensiver",
     "expensiveer",
@@ -168,7 +179,8 @@
   {
    "no": 11,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "최상급으로 알맞은 것은? — tall → ?",
+   "q": "최상급으로 알맞은 것은?",
+   "context": "tall → ?",
    "choices": [
     "talliest",
     "most tall",
@@ -181,7 +193,8 @@
   {
    "no": 12,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "최상급으로 알맞은 것은? — nice → ?",
+   "q": "최상급으로 알맞은 것은?",
+   "context": "nice → ?",
    "choices": [
     "nicest",
     "niciest",
@@ -194,7 +207,8 @@
   {
    "no": 13,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "최상급으로 알맞은 것은? — happy → ?",
+   "q": "최상급으로 알맞은 것은?",
+   "context": "happy → ?",
    "choices": [
     "happyest",
     "happiest",
@@ -207,7 +221,8 @@
   {
    "no": 14,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "최상급으로 알맞은 것은? — interesting → ?",
+   "q": "최상급으로 알맞은 것은?",
+   "context": "interesting → ?",
    "choices": [
     "interestingest",
     "interestingiest",
@@ -220,7 +235,8 @@
   {
    "no": 15,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "최상급으로 알맞은 것은? — thin → ?",
+   "q": "최상급으로 알맞은 것은?",
+   "context": "thin → ?",
    "choices": [
     "thiner",
     "thinnest",
@@ -233,7 +249,8 @@
   {
    "no": 16,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "빈칸에 알맞은 말을 고르세요. — He is the ___ student in the class. (가장 똑똑한 / smart)",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "He is the ___ student in the class. (가장 똑똑한 / smart)",
    "choices": [
     "smarter",
     "smartest",
@@ -246,7 +263,8 @@
   {
    "no": 17,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "빈칸에 알맞은 말을 고르세요. — This is the ___ movie I've ever seen. (가장 재미있는 / exciting)",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "This is the ___ movie I've ever seen. (가장 재미있는 / exciting)",
    "choices": [
     "excitingest",
     "more exciting",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "다음 중 최상급 앞에 반드시 붙는 것은? — She is ___ tallest girl.",
+   "q": "다음 중 최상급 앞에 반드시 붙는 것은?",
+   "context": "She is ___ tallest girl.",
    "choices": [
     "a",
     "an",
@@ -272,7 +291,8 @@
   {
    "no": 19,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "빈칸에 알맞은 말을 고르세요. — A dog is ___ than a cat.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "A dog is ___ than a cat.",
    "choices": [
     "big",
     "biger",
@@ -286,6 +306,7 @@
    "no": 20,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
    "q": "다음 중 올바른 비교급 문장은?",
+   "context": "",
    "choices": [
     "She is more tall than her sister.",
     "He is smarter than me.",
@@ -298,7 +319,8 @@
   {
    "no": 21,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "빈칸에 알맞은 말을 고르세요. — Cheetah is the ___ animal in the world. (가장 빠른 / fast)",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "Cheetah is the ___ animal in the world. (가장 빠른 / fast)",
    "choices": [
     "faster",
     "fastest",
@@ -312,6 +334,7 @@
    "no": 22,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
    "q": "다음 중 올바른 최상급 문장은?",
+   "context": "",
    "choices": [
     "She is most kind in the class.",
     "He is the most kind in the class.",
@@ -324,7 +347,8 @@
   {
    "no": 23,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 이 책은 저 책보다 더 어렵다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "이 책은 저 책보다 더 어렵다.",
    "choices": [
     "This book is difficulter than that one.",
     "This book is more difficult than that one.",
@@ -337,7 +361,8 @@
   {
    "no": 24,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 그녀는 우리 반에서 가장 친절하다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "그녀는 우리 반에서 가장 친절하다.",
    "choices": [
     "She is kinder in our class.",
     "She is most kind in our class.",
@@ -351,6 +376,7 @@
    "no": 25,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
    "q": "'as ~ as' 사이에 들어갈 형태로 알맞은 것은?",
+   "context": "",
    "choices": [
     "비교급",
     "최상급",
@@ -363,7 +389,8 @@
   {
    "no": 26,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I am as ___ as you.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I am as ___ as you.",
    "choices": [
     "taller",
     "tallest",
@@ -376,7 +403,8 @@
   {
    "no": 27,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "다음 문장의 뜻으로 알맞은 것은? — He runs as fast as a cheetah.",
+   "q": "다음 문장의 뜻으로 알맞은 것은?",
+   "context": "He runs as fast as a cheetah.",
    "choices": [
     "그는 치타보다 더 빨리 달린다.",
     "그는 치타만큼 빨리 달린다.",
@@ -390,6 +418,7 @@
    "no": 28,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "She is as taller as me.",
     "He is as tallest as his brother.",
@@ -402,7 +431,8 @@
   {
    "no": 29,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 이 가방은 저 가방만큼 무겁다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "이 가방은 저 가방만큼 무겁다.",
    "choices": [
     "This bag is heavier than that bag.",
     "This bag is as heavier as that bag.",
@@ -415,7 +445,8 @@
   {
    "no": 30,
    "unit": "비교급·최상급 (Grammar4권 L9~11)",
-   "q": "빈칸에 알맞은 말을 고르세요. — My dog is as ___ as a lion.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "My dog is as ___ as a lion.",
    "choices": [
     "braver",
     "bravest",

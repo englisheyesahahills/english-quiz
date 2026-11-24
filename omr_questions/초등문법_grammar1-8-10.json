@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_grammar1-8-10",
+ "title": "소유대명사·There is/are 퀴즈 (Grammar1 L8~10)",
  "totalQuestions": 25,
  "numChoices": 4,
  "answerKey": [
@@ -33,7 +34,8 @@
   {
    "no": 1,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "1. 빈칸에 알맞은 것은? (이 전화기는 나의 것이다.) — This phone is ___.",
+   "q": "1. 빈칸에 알맞은 것은? (이 전화기는 나의 것이다.)",
+   "context": "This phone is ___.",
    "choices": [
     "my",
     "mine",
@@ -46,7 +48,8 @@
   {
    "no": 2,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "2. 빈칸에 알맞은 것은? (저 가방은 그녀의 것이다.) — That bag is ___.",
+   "q": "2. 빈칸에 알맞은 것은? (저 가방은 그녀의 것이다.)",
+   "context": "That bag is ___.",
    "choices": [
     "her",
     "hers",
@@ -59,7 +62,8 @@
   {
    "no": 3,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "3. 빈칸에 알맞은 것은? — There ___ a bear in the forest.",
+   "q": "3. 빈칸에 알맞은 것은?",
+   "context": "There ___ a bear in the forest.",
    "choices": [
     "is",
     "are",
@@ -72,7 +76,8 @@
   {
    "no": 4,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "4. 빈칸에 알맞은 것은? — There ___ some water in the bottle.",
+   "q": "4. 빈칸에 알맞은 것은?",
+   "context": "There ___ some water in the bottle.",
    "choices": [
     "is",
     "are",
@@ -85,7 +90,8 @@
   {
    "no": 5,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "5. 빈칸에 알맞은 것은? — There ___ many bees near the hive.",
+   "q": "5. 빈칸에 알맞은 것은?",
+   "context": "There ___ many bees near the hive.",
    "choices": [
     "is",
     "are",
@@ -98,7 +104,8 @@
   {
    "no": 6,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "6. 다음 문장을 부정문으로 바르게 바꾼 것은? — There is a lizard.",
+   "q": "6. 다음 문장을 부정문으로 바르게 바꾼 것은?",
+   "context": "There is a lizard.",
    "choices": [
     "There is not a lizard.",
     "There are not a lizard.",
@@ -111,7 +118,8 @@
   {
    "no": 7,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "7. 빈칸에 알맞은 것은? (우유가 전혀 없다.) — There ___ any milk in the fridge.",
+   "q": "7. 빈칸에 알맞은 것은? (우유가 전혀 없다.)",
+   "context": "There ___ any milk in the fridge.",
    "choices": [
     "is not",
     "are not",
@@ -124,7 +132,8 @@
   {
    "no": 8,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "8. 빈칸에 알맞은 것은? (거북이들이 전혀 없다.) — There ___ any turtles in the pond.",
+   "q": "8. 빈칸에 알맞은 것은? (거북이들이 전혀 없다.)",
+   "context": "There ___ any turtles in the pond.",
    "choices": [
     "is not",
     "are not",
@@ -137,7 +146,8 @@
   {
    "no": 9,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "9. 빈칸에 알맞은 것은? — Those computers are our computers. → Those computers are ___.",
+   "q": "9. 빈칸에 알맞은 것은?",
+   "context": "Those computers are our computers. → Those computers are ___.",
    "choices": [
     "our",
     "ours",
@@ -150,7 +160,8 @@
   {
    "no": 10,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "10. 대화의 빈칸에 알맞은 것은? — A: Is this your wallet?   B: Yes, it is ___.",
+   "q": "10. 대화의 빈칸에 알맞은 것은?",
+   "context": "A: Is this your wallet?   B: Yes, it is ___.",
    "choices": [
     "my",
     "mine",
@@ -164,6 +175,7 @@
    "no": 11,
    "unit": "소유대명사·There be(그래머1 8-10)",
    "q": "11. 어법상 올바른 문장은?",
+   "context": "",
    "choices": [
     "There is two lions.",
     "There are two lions.",
@@ -176,7 +188,8 @@
   {
    "no": 12,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "12. 빈칸에 알맞은 것은? (사자가 두 마리 있다.) — ___ two lions.",
+   "q": "12. 빈칸에 알맞은 것은? (사자가 두 마리 있다.)",
+   "context": "___ two lions.",
    "choices": [
     "There is",
     "There are",
@@ -189,7 +202,8 @@
   {
    "no": 13,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "13. 빈칸에 알맞은 것은? (여기에 식탁이 없다.) — ___ a table here.",
+   "q": "13. 빈칸에 알맞은 것은? (여기에 식탁이 없다.)",
+   "context": "___ a table here.",
    "choices": [
     "There is not",
     "There are not",
@@ -203,6 +217,7 @@
    "no": 14,
    "unit": "소유대명사·There be(그래머1 8-10)",
    "q": "14. 우리말을 영어로 바르게 옮긴 것은? (여기에 햄스터들이 전혀 없다.)",
+   "context": "",
    "choices": [
     "There is not any hamsters here.",
     "There are not any hamsters here.",
@@ -215,7 +230,8 @@
   {
    "no": 15,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "15. 빈칸에 들어갈 말이 순서대로 바르게 짝지어진 것은? — A: Are those your kites?   B: No, they are not ___. They are ___.",
+   "q": "15. 빈칸에 들어갈 말이 순서대로 바르게 짝지어진 것은?",
+   "context": "A: Are those your kites?   B: No, they are not ___. They are ___.",
    "choices": [
     "mine - his",
     "my - his",
@@ -228,7 +244,8 @@
   {
    "no": 16,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "16. 다음 문장을 같은 뜻이 되도록 바꾼 것은? — This soup is yours. → This is ___ soup.",
+   "q": "16. 다음 문장을 같은 뜻이 되도록 바꾼 것은?",
+   "context": "This soup is yours. → This is ___ soup.",
    "choices": [
     "your",
     "yours",
@@ -242,6 +259,7 @@
    "no": 17,
    "unit": "소유대명사·There be(그래머1 8-10)",
    "q": "17. 다음 중 나머지 셋과 다른 하나는? (단수/복수)",
+   "context": "",
    "choices": [
     "There is a fox here.",
     "There is a chameleon here.",
@@ -255,6 +273,7 @@
    "no": 18,
    "unit": "소유대명사·There be(그래머1 8-10)",
    "q": "18. 어법상 틀린 문장은?",
+   "context": "",
    "choices": [
     "This bike is mine.",
     "That fork is his.",
@@ -268,6 +287,7 @@
    "no": 19,
    "unit": "소유대명사·There be(그래머1 8-10)",
    "q": "19. 어법상 틀린 문장은?",
+   "context": "",
    "choices": [
     "There is an apple on the table.",
     "There are apples on the table.",
@@ -280,7 +300,8 @@
   {
    "no": 20,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "20. 대화의 빈칸에 들어갈 말이 순서대로 알맞은 것은? (그의 것이다.) — A: Is this hat yours?   B: No, it's not ___. It's ___.",
+   "q": "20. 대화의 빈칸에 들어갈 말이 순서대로 알맞은 것은? (그의 것이다.)",
+   "context": "A: Is this hat yours?   B: No, it's not ___. It's ___.",
    "choices": [
     "mine - his",
     "my - his",
@@ -294,6 +315,7 @@
    "no": 21,
    "unit": "소유대명사·There be(그래머1 8-10)",
    "q": "21. 다음 대화 중 어법상 어색한 것은?",
+   "context": "",
    "choices": [
     "Is this your pig? Yes, it's mine.",
     "Are those your kites? No, they are not ours.",
@@ -306,7 +328,8 @@
   {
    "no": 22,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "22. 빈칸에 들어갈 말로 알맞은 것은? (여기에 동물원이 없다.) — ___ a zoo here.",
+   "q": "22. 빈칸에 들어갈 말로 알맞은 것은? (여기에 동물원이 없다.)",
+   "context": "___ a zoo here.",
    "choices": [
     "There is not",
     "There are not",
@@ -320,6 +343,7 @@
    "no": 23,
    "unit": "소유대명사·There be(그래머1 8-10)",
    "q": "23. 다음 중 어법상 옳은 것은?",
+   "context": "",
    "choices": [
     "There is not many books here.",
     "There are not many books here.",
@@ -332,7 +356,8 @@
   {
    "no": 24,
    "unit": "소유대명사·There be(그래머1 8-10)",
-   "q": "24. 빈칸에 들어갈 말이 순서대로 바르게 짝지어진 것은? — There ___ a photo on the wall, but there ___ any photos on the desk.",
+   "q": "24. 빈칸에 들어갈 말이 순서대로 바르게 짝지어진 것은?",
+   "context": "There ___ a photo on the wall, but there ___ any photos on the desk.",
    "choices": [
     "is - aren't",
     "is - isn't",
@@ -346,6 +371,7 @@
    "no": 25,
    "unit": "소유대명사·There be(그래머1 8-10)",
    "q": "25. 다음 중 어법상 올바르지 않은 것은?",
+   "context": "",
    "choices": [
     "These dolls are theirs.",
     "That mirror is hers.",

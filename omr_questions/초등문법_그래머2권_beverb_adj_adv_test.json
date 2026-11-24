@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머2권_beverb_adj_adv_test",
+ "title": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -39,6 +40,7 @@
    "no": 1,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 be동사가 쓰인 문장은?",
+   "context": "",
    "choices": [
     "I run every morning.",
     "She eats rice.",
@@ -51,7 +53,8 @@
   {
    "no": 2,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "빈칸에 알맞은 be동사를 고르세요. — The flowers ___ beautiful.",
+   "q": "빈칸에 알맞은 be동사를 고르세요.",
+   "context": "The flowers ___ beautiful.",
    "choices": [
     "do",
     "run",
@@ -64,7 +67,8 @@
   {
    "no": 3,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "다음 문장에서 be동사를 고르세요. — My dog is very cute.",
+   "q": "다음 문장에서 be동사를 고르세요.",
+   "context": "My dog is very cute.",
    "choices": [
     "My",
     "dog",
@@ -77,7 +81,8 @@
   {
    "no": 4,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "다음 중 be동사의 역할로 알맞은 것은? — She is a doctor.",
+   "q": "다음 중 be동사의 역할로 알맞은 것은?",
+   "context": "She is a doctor.",
    "choices": [
     "동작을 나타낸다",
     "상태나 성질을 나타낸다",
@@ -91,6 +96,7 @@
    "no": 5,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 be동사가 필요한 문장은?",
+   "context": "",
    "choices": [
     "I ___ swim fast.",
     "She ___ happy today.",
@@ -103,7 +109,8 @@
   {
    "no": 6,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "빈칸에 be동사와 일반동사 중 알맞은 것을 고르세요. — I ___ hungry after school.",
+   "q": "빈칸에 be동사와 일반동사 중 알맞은 것을 고르세요.",
+   "context": "I ___ hungry after school.",
    "choices": [
     "eat",
     "run",
@@ -117,6 +124,7 @@
    "no": 7,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "She is runs every day.",
     "He am a good student.",
@@ -130,6 +138,7 @@
    "no": 8,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 일반동사가 쓰인 문장은?",
+   "context": "",
    "choices": [
     "She is kind.",
     "He is my brother.",
@@ -142,7 +151,8 @@
   {
    "no": 9,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "다음 문장에서 일반동사를 고르세요. — She drinks milk every morning.",
+   "q": "다음 문장에서 일반동사를 고르세요.",
+   "context": "She drinks milk every morning.",
    "choices": [
     "She",
     "drinks",
@@ -155,7 +165,8 @@
   {
    "no": 10,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "다음 중 일반동사의 역할로 알맞은 것은? — He plays soccer.",
+   "q": "다음 중 일반동사의 역할로 알맞은 것은?",
+   "context": "He plays soccer.",
    "choices": [
     "상태나 성질을 나타낸다",
     "주어를 보충 설명한다",
@@ -168,7 +179,8 @@
   {
    "no": 11,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "빈칸에 알맞은 일반동사를 고르세요. — I ___ books every night.",
+   "q": "빈칸에 알맞은 일반동사를 고르세요.",
+   "context": "I ___ books every night.",
    "choices": [
     "am",
     "is",
@@ -182,6 +194,7 @@
    "no": 12,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 일반동사가 필요한 문장은?",
+   "context": "",
    "choices": [
     "She ___ tired.",
     "He ___ tall.",
@@ -194,7 +207,8 @@
   {
    "no": 13,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "be동사와 일반동사 중 빈칸에 알맞은 것은? — My father ___ to work by bus.",
+   "q": "be동사와 일반동사 중 빈칸에 알맞은 것은?",
+   "context": "My father ___ to work by bus.",
    "choices": [
     "is",
     "am",
@@ -208,6 +222,7 @@
    "no": 14,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "She is goes to school.",
     "He run fast every day.",
@@ -221,6 +236,7 @@
    "no": 15,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 형용사는?",
+   "context": "",
    "choices": [
     "run",
     "quickly",
@@ -233,7 +249,8 @@
   {
    "no": 16,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "다음 문장에서 형용사를 고르세요. — She has a cute puppy.",
+   "q": "다음 문장에서 형용사를 고르세요.",
+   "context": "She has a cute puppy.",
    "choices": [
     "She",
     "has",
@@ -247,6 +264,7 @@
    "no": 17,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "형용사의 역할로 알맞은 것은?",
+   "context": "",
    "choices": [
     "동사를 꾸며준다",
     "명사를 꾸며주거나 상태를 설명한다",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "빈칸에 알맞은 형용사를 고르세요. — It is a ___ day today.",
+   "q": "빈칸에 알맞은 형용사를 고르세요.",
+   "context": "It is a ___ day today.",
    "choices": [
     "slowly",
     "brightly",
@@ -273,6 +292,7 @@
    "no": 19,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 형용사끼리 묶인 것은?",
+   "context": "",
    "choices": [
     "fast – run – jump",
     "big – small – tall",
@@ -285,7 +305,8 @@
   {
    "no": 20,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "밑줄 친 단어의 품사는? — He is a kind teacher.",
+   "q": "밑줄 친 단어의 품사는?",
+   "context": "He is a kind teacher.",
    "choices": [
     "명사",
     "동사",
@@ -298,7 +319,8 @@
   {
    "no": 21,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "빈칸에 알맞은 형용사를 고르세요. — I feel ___ today. (행복한)",
+   "q": "빈칸에 알맞은 형용사를 고르세요.",
+   "context": "I feel ___ today. (행복한)",
    "choices": [
     "happily",
     "happy",
@@ -312,6 +334,7 @@
    "no": 22,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 형용사가 올바르게 쓰인 문장은?",
+   "context": "",
    "choices": [
     "She runs fastly.",
     "He is a tall man.",
@@ -325,6 +348,7 @@
    "no": 23,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 부사는?",
+   "context": "",
    "choices": [
     "happy",
     "slowly",
@@ -337,7 +361,8 @@
   {
    "no": 24,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "다음 문장에서 부사를 고르세요. — She sings very beautifully.",
+   "q": "다음 문장에서 부사를 고르세요.",
+   "context": "She sings very beautifully.",
    "choices": [
     "She",
     "sings",
@@ -351,6 +376,7 @@
    "no": 25,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "부사의 역할로 알맞은 것은?",
+   "context": "",
    "choices": [
     "명사를 꾸며준다",
     "동사·형용사·다른 부사를 꾸며준다",
@@ -363,7 +389,8 @@
   {
    "no": 26,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "형용사를 부사로 바르게 바꾼 것은? — slow → ?",
+   "q": "형용사를 부사로 바르게 바꾼 것은?",
+   "context": "slow → ?",
    "choices": [
     "slows",
     "slowful",
@@ -376,7 +403,8 @@
   {
    "no": 27,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "빈칸에 알맞은 부사를 고르세요. — He runs very ___. (빠르게)",
+   "q": "빈칸에 알맞은 부사를 고르세요.",
+   "context": "He runs very ___. (빠르게)",
    "choices": [
     "fast",
     "fastly",
@@ -389,7 +417,8 @@
   {
    "no": 28,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
-   "q": "밑줄 친 단어의 품사는? — She speaks English fluently.",
+   "q": "밑줄 친 단어의 품사는?",
+   "context": "She speaks English fluently.",
    "choices": [
     "명사",
     "형용사",
@@ -403,6 +432,7 @@
    "no": 29,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 형용사와 부사의 형태가 같은 단어는?",
+   "context": "",
    "choices": [
     "slow",
     "quick",
@@ -416,6 +446,7 @@
    "no": 30,
    "unit": "be동사·일반동사·형용사·부사 (Grammar2권 L10~12)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "She is a kindly teacher.",
     "He runs fastly every day.",

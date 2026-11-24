@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_grammar3-4-6",
+ "title": "셀 수 없는 명사·can 퀴즈 (Grammar3 L4~6)",
  "totalQuestions": 25,
  "numChoices": 4,
  "answerKey": [
@@ -34,6 +35,7 @@
    "no": 1,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "1. 다음 중 셀 수 없는 명사인 것은?",
+   "context": "",
    "choices": [
     "apple",
     "water",
@@ -46,7 +48,8 @@
   {
    "no": 2,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "2. 빈칸에 알맞은 것은? (약간의 우유가 필요하다.) — I need some ___.",
+   "q": "2. 빈칸에 알맞은 것은? (약간의 우유가 필요하다.)",
+   "context": "I need some ___.",
    "choices": [
     "milk",
     "milks",
@@ -59,7 +62,8 @@
   {
    "no": 3,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "3. 빈칸에 알맞은 것은? (그는 피아노를 연주할 수 있다.) — He ___ play the piano.",
+   "q": "3. 빈칸에 알맞은 것은? (그는 피아노를 연주할 수 있다.)",
+   "context": "He ___ play the piano.",
    "choices": [
     "can",
     "cans",
@@ -73,6 +77,7 @@
    "no": 4,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "4. 다음 중 어법상 올바른 문장은?",
+   "context": "",
    "choices": [
     "She can plays soccer.",
     "She can play soccer.",
@@ -85,7 +90,8 @@
   {
    "no": 5,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "5. 빈칸에 알맞은 것은? (그녀는 배드민턴을 칠 수 없다.) — She ___ play badminton.",
+   "q": "5. 빈칸에 알맞은 것은? (그녀는 배드민턴을 칠 수 없다.)",
+   "context": "She ___ play badminton.",
    "choices": [
     "can",
     "can't",
@@ -98,7 +104,8 @@
   {
    "no": 6,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "6. 다음 문장을 의문문으로 바르게 바꾼 것은? — You can swim.",
+   "q": "6. 다음 문장을 의문문으로 바르게 바꾼 것은?",
+   "context": "You can swim.",
    "choices": [
     "Can you swim?",
     "Do you can swim?",
@@ -111,7 +118,8 @@
   {
    "no": 7,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "7. 대화의 빈칸에 알맞은 것은? — A: Can you dive under water?   B: Yes, ___.",
+   "q": "7. 대화의 빈칸에 알맞은 것은?",
+   "context": "A: Can you dive under water?   B: Yes, ___.",
    "choices": [
     "I can",
     "I do",
@@ -125,6 +133,7 @@
    "no": 8,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "8. 다음 중 셀 수 없는 명사가 <u>아닌</u> 것은?",
+   "context": "",
    "choices": [
     "rice",
     "love",
@@ -137,7 +146,8 @@
   {
    "no": 9,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "9. 빈칸에 알맞은 것은? (나는 약간의 잼이 필요하다.) — I need ___ jam.",
+   "q": "9. 빈칸에 알맞은 것은? (나는 약간의 잼이 필요하다.)",
+   "context": "I need ___ jam.",
    "choices": [
     "a",
     "an",
@@ -151,6 +161,7 @@
    "no": 10,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "10. 다음 중 어법상 <u>틀린</u> 것은?",
+   "context": "",
    "choices": [
     "two bread",
     "some water",
@@ -163,7 +174,8 @@
   {
    "no": 11,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "11. 빈칸에 알맞은 것은? (그 아이는 열까지 셀 수 있니?) — ___ the child count to ten?",
+   "q": "11. 빈칸에 알맞은 것은? (그 아이는 열까지 셀 수 있니?)",
+   "context": "___ the child count to ten?",
    "choices": [
     "Can",
     "Does",
@@ -176,7 +188,8 @@
   {
    "no": 12,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "12. 대화의 빈칸에 알맞은 것은? — A: Can the ostrich fly high?   B: No, ___.",
+   "q": "12. 대화의 빈칸에 알맞은 것은?",
+   "context": "A: Can the ostrich fly high?   B: No, ___.",
    "choices": [
     "it can't",
     "it doesn't",
@@ -190,6 +203,7 @@
    "no": 13,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "13. 우리말을 영어로 바르게 옮긴 것은? (나는 내 반지를 찾을 수가 없다.)",
+   "context": "",
    "choices": [
     "I can't find my ring.",
     "I not can find my ring.",
@@ -202,7 +216,8 @@
   {
    "no": 14,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "14. 빈칸에 알맞은 것은? (그는 나무를 자르지 못한다.) — He ___ cut wood.",
+   "q": "14. 빈칸에 알맞은 것은? (그는 나무를 자르지 못한다.)",
+   "context": "He ___ cut wood.",
    "choices": [
     "can",
     "can't",
@@ -216,6 +231,7 @@
    "no": 15,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "15. 다음 중 셀 수 없는 명사끼리 바르게 묶인 것은?",
+   "context": "",
    "choices": [
     "rice - lemon",
     "water - love",
@@ -228,7 +244,8 @@
   {
    "no": 16,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "16. 빈칸에 알맞은 것은? (Josh는 그 로봇을 고치지 못한다.) — Josh ___ fix the robot.",
+   "q": "16. 빈칸에 알맞은 것은? (Josh는 그 로봇을 고치지 못한다.)",
+   "context": "Josh ___ fix the robot.",
    "choices": [
     "can",
     "can't",
@@ -241,7 +258,8 @@
   {
    "no": 17,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "17. 다음 문장을 부정문으로 바르게 바꾼 것은? — Paul can cut wood very well.",
+   "q": "17. 다음 문장을 부정문으로 바르게 바꾼 것은?",
+   "context": "Paul can cut wood very well.",
    "choices": [
     "Paul can't cut wood very well.",
     "Paul cannots cut wood very well.",
@@ -255,6 +273,7 @@
    "no": 18,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "context": "",
    "choices": [
     "I have an uncle.",
     "We like music.",
@@ -268,6 +287,7 @@
    "no": 19,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "19. 어법상 <u>틀린</u> 문장은?",
+   "context": "",
    "choices": [
     "Can she play badminton?",
     "Can the child counts to ten?",
@@ -280,7 +300,8 @@
   {
    "no": 20,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "20. 빈칸에 들어갈 말이 순서대로 알맞은 것은? — A: Can you touch this snake? B: Yes, I ___.   A: Can the ostrich fly high? B: No, it ___.",
+   "q": "20. 빈칸에 들어갈 말이 순서대로 알맞은 것은?",
+   "context": "A: Can you touch this snake? B: Yes, I ___.   A: Can the ostrich fly high? B: No, it ___.",
    "choices": [
     "can - can't",
     "can - can",
@@ -294,6 +315,7 @@
    "no": 21,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "21. 다음 중 어법상 옳은 것은?",
+   "context": "",
    "choices": [
     "Emily buys some meats.",
     "We like a music.",
@@ -307,6 +329,7 @@
    "no": 22,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "22. 다음 중 어법상 <u>틀린</u> 문장은?",
+   "context": "",
    "choices": [
     "Can you read English newspapers?",
     "He can't plays the flute.",
@@ -319,7 +342,8 @@
   {
    "no": 23,
    "unit": "셀수없는명사·can(그래머3 4-6)",
-   "q": "23. 빈칸에 들어갈 말이 순서대로 바르게 짝지어진 것은? (개구리는 육지에서 살 수 있니? 응, 살 수 있어.) — ___ frogs live on land? Yes, they ___.",
+   "q": "23. 빈칸에 들어갈 말이 순서대로 바르게 짝지어진 것은? (개구리는 육지에서 살 수 있니? 응, 살 수 있어.)",
+   "context": "___ frogs live on land? Yes, they ___.",
    "choices": [
     "Can - can",
     "Do - can",
@@ -333,6 +357,7 @@
    "no": 24,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "24. 우리말을 영어로 옮길 때 어법상 옳은 것은? (우리 아빠와 나는 생선을 먹지 못한다.)",
+   "context": "",
    "choices": [
     "My dad and I can't eat fish.",
     "My dad and I not can eat fish.",
@@ -346,6 +371,7 @@
    "no": 25,
    "unit": "셀수없는명사·can(그래머3 4-6)",
    "q": "25. 다음 중 셀 수 없는 명사 활용이 어법상 <u>옳지 않은</u> 것은?",
+   "context": "",
    "choices": [
     "I need some jam.",
     "We eat some rice.",

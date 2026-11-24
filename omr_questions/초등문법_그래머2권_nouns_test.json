@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머2권_nouns_test",
+ "title": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -39,6 +40,7 @@
    "no": 1,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 셀 수 있는 명사는?",
+   "context": "",
    "choices": [
     "water",
     "apple",
@@ -52,6 +54,7 @@
    "no": 2,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 셀 수 있는 명사는?",
+   "context": "",
    "choices": [
     "rice",
     "bread",
@@ -65,6 +68,7 @@
    "no": 3,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 셀 수 있는 명사는?",
+   "context": "",
    "choices": [
     "sand",
     "book",
@@ -78,6 +82,7 @@
    "no": 4,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 셀 수 있는 명사는?",
+   "context": "",
    "choices": [
     "butter",
     "salt",
@@ -90,7 +95,8 @@
   {
    "no": 5,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I have ___ dog.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I have ___ dog.",
    "choices": [
     "a",
     "an",
@@ -103,7 +109,8 @@
   {
    "no": 6,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "빈칸에 알맞은 말을 고르세요. — She ate ___ orange.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "She ate ___ orange.",
    "choices": [
     "a",
     "an",
@@ -116,7 +123,8 @@
   {
    "no": 7,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "빈칸에 알맞은 말을 고르세요. — There is ___ cat on the chair.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "There is ___ cat on the chair.",
    "choices": [
     "some",
     "many",
@@ -130,6 +138,7 @@
    "no": 8,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 셀 수 있는 명사 앞에 올 수 있는 것은?",
+   "context": "",
    "choices": [
     "much",
     "a little",
@@ -143,6 +152,7 @@
    "no": 9,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 셀 수 없는 명사는?",
+   "context": "",
    "choices": [
     "dog",
     "water",
@@ -156,6 +166,7 @@
    "no": 10,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 셀 수 없는 명사는?",
+   "context": "",
    "choices": [
     "cup",
     "bag",
@@ -169,6 +180,7 @@
    "no": 11,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 셀 수 없는 명사는?",
+   "context": "",
    "choices": [
     "flower",
     "bread",
@@ -182,6 +194,7 @@
    "no": 12,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 셀 수 없는 명사는?",
+   "context": "",
    "choices": [
     "car",
     "banana",
@@ -194,7 +207,8 @@
   {
    "no": 13,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I drink ___ water every day.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I drink ___ water every day.",
    "choices": [
     "a",
     "an",
@@ -207,7 +221,8 @@
   {
    "no": 14,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "빈칸에 알맞은 말을 고르세요. — She needs ___ sugar for the cake.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "She needs ___ sugar for the cake.",
    "choices": [
     "many",
     "a",
@@ -220,7 +235,8 @@
   {
    "no": 15,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "셀 수 없는 명사를 세는 방법으로 알맞은 것은? — milk",
+   "q": "셀 수 없는 명사를 세는 방법으로 알맞은 것은?",
+   "context": "milk",
    "choices": [
     "two milks",
     "a milk",
@@ -233,7 +249,8 @@
   {
    "no": 16,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "셀 수 없는 명사를 세는 방법으로 알맞은 것은? — bread",
+   "q": "셀 수 없는 명사를 세는 방법으로 알맞은 것은?",
+   "context": "bread",
    "choices": [
     "two breads",
     "a piece of bread",
@@ -246,7 +263,8 @@
   {
    "no": 17,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "복수형으로 알맞은 것은? — book → ?",
+   "q": "복수형으로 알맞은 것은?",
+   "context": "book → ?",
    "choices": [
     "bookes",
     "bookies",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "복수형으로 알맞은 것은? — box → ?",
+   "q": "복수형으로 알맞은 것은?",
+   "context": "box → ?",
    "choices": [
     "boxs",
     "boxes",
@@ -272,7 +291,8 @@
   {
    "no": 19,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "복수형으로 알맞은 것은? — city → ?",
+   "q": "복수형으로 알맞은 것은?",
+   "context": "city → ?",
    "choices": [
     "citys",
     "cityes",
@@ -285,7 +305,8 @@
   {
    "no": 20,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "복수형으로 알맞은 것은? — leaf → ?",
+   "q": "복수형으로 알맞은 것은?",
+   "context": "leaf → ?",
    "choices": [
     "leafs",
     "leafes",
@@ -298,7 +319,8 @@
   {
    "no": 21,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "복수형으로 알맞은 것은? — child → ?",
+   "q": "복수형으로 알맞은 것은?",
+   "context": "child → ?",
    "choices": [
     "childs",
     "childes",
@@ -311,7 +333,8 @@
   {
    "no": 22,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "복수형으로 알맞은 것은? — tooth → ?",
+   "q": "복수형으로 알맞은 것은?",
+   "context": "tooth → ?",
    "choices": [
     "tooths",
     "toothes",
@@ -324,7 +347,8 @@
   {
    "no": 23,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "복수형으로 알맞은 것은? — potato → ?",
+   "q": "복수형으로 알맞은 것은?",
+   "context": "potato → ?",
    "choices": [
     "potatos",
     "potatoes",
@@ -337,7 +361,8 @@
   {
    "no": 24,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "복수형으로 알맞은 것은? — fish → ?",
+   "q": "복수형으로 알맞은 것은?",
+   "context": "fish → ?",
    "choices": [
     "fishs",
     "fishes",
@@ -350,7 +375,8 @@
   {
    "no": 25,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "빈칸에 알맞은 말을 고르세요. — There are two ___ on the table.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "There are two ___ on the table.",
    "choices": [
     "apple",
     "apples",
@@ -363,7 +389,8 @@
   {
    "no": 26,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I have three ___.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I have three ___.",
    "choices": [
     "cat",
     "a cat",
@@ -377,6 +404,7 @@
    "no": 27,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "I drink many water.",
     "She has two dog.",
@@ -390,6 +418,7 @@
    "no": 28,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "I need a sugar.",
     "She has many books.",
@@ -402,7 +431,8 @@
   {
    "no": 29,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "빈칸에 알맞은 말을 고르세요. — How ___ apples do you have?",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "How ___ apples do you have?",
    "choices": [
     "much",
     "many",
@@ -415,7 +445,8 @@
   {
    "no": 30,
    "unit": "셀 수 있는/없는 명사·how many·how much (Grammar2권 명사9)",
-   "q": "빈칸에 알맞은 말을 고르세요. — How ___ water do you drink?",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "How ___ water do you drink?",
    "choices": [
     "many",
     "a",

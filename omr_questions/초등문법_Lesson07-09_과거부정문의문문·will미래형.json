@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_Lesson07-09_과거부정문의문문·will미래형",
+ "title": "일반동사 과거부정문·의문문 & will 미래형",
  "totalQuestions": 25,
  "numChoices": 4,
  "answerKey": [
@@ -33,7 +34,8 @@
   {
    "no": 1,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "1. 빈칸에 알맞은 것은? (나는 어제 아침을 먹지 않았다.) — I ___ breakfast yesterday.",
+   "q": "1. 빈칸에 알맞은 것은? (나는 어제 아침을 먹지 않았다.)",
+   "context": "I ___ breakfast yesterday.",
    "choices": [
     "didn't eat",
     "didn't ate",
@@ -46,7 +48,8 @@
   {
    "no": 2,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "2. 빈칸에 알맞은 것은? (그녀는 사과를 사지 않았다.) — She ___ apples.",
+   "q": "2. 빈칸에 알맞은 것은? (그녀는 사과를 사지 않았다.)",
+   "context": "She ___ apples.",
    "choices": [
     "didn't buy",
     "didn't bought",
@@ -59,7 +62,8 @@
   {
    "no": 3,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "3. 빈칸에 알맞은 것은? (그들은 그 영화를 보지 않았다.) — They ___ the movie.",
+   "q": "3. 빈칸에 알맞은 것은? (그들은 그 영화를 보지 않았다.)",
+   "context": "They ___ the movie.",
    "choices": [
     "didn't watch",
     "didn't watched",
@@ -72,7 +76,8 @@
   {
    "no": 4,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "4. 빈칸에 알맞은 것은? (너는 숙제를 끝냈니?) — ___ you finish your homework?",
+   "q": "4. 빈칸에 알맞은 것은? (너는 숙제를 끝냈니?)",
+   "context": "___ you finish your homework?",
    "choices": [
     "Did",
     "Do",
@@ -85,7 +90,8 @@
   {
    "no": 5,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "5. 빈칸에 알맞은 것은? (Emily는 어제 운동했니?) — ___ Emily exercise yesterday?",
+   "q": "5. 빈칸에 알맞은 것은? (Emily는 어제 운동했니?)",
+   "context": "___ Emily exercise yesterday?",
    "choices": [
     "Did",
     "Does",
@@ -98,7 +104,8 @@
   {
    "no": 6,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "6. 빈칸에 알맞은 것은? (그는 내일 그 소포를 보낼 것이다.) — He ___ send the package tomorrow.",
+   "q": "6. 빈칸에 알맞은 것은? (그는 내일 그 소포를 보낼 것이다.)",
+   "context": "He ___ send the package tomorrow.",
    "choices": [
     "will",
     "wills",
@@ -111,7 +118,8 @@
   {
    "no": 7,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "7. 빈칸에 알맞은 것은? (나는 내년에 일본을 방문할 것이다.) — I ___ visit Japan next year.",
+   "q": "7. 빈칸에 알맞은 것은? (나는 내년에 일본을 방문할 것이다.)",
+   "context": "I ___ visit Japan next year.",
    "choices": [
     "will",
     "would",
@@ -125,6 +133,7 @@
    "no": 8,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
    "q": "8. 다음 중 어법상 올바른 문장은?",
+   "context": "",
    "choices": [
     "He will goes home.",
     "He will go home.",
@@ -137,7 +146,8 @@
   {
    "no": 9,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "9. 빈칸에 알맞은 것은? (그는 그때 안경을 쓰지 않았다.) — He ___ wear his glasses then.",
+   "q": "9. 빈칸에 알맞은 것은? (그는 그때 안경을 쓰지 않았다.)",
+   "context": "He ___ wear his glasses then.",
    "choices": [
     "wasn't",
     "didn't",
@@ -150,7 +160,8 @@
   {
    "no": 10,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "10. 빈칸에 알맞은 것은? (그 판다들은 어제 활동적이지 않았다.) — The pandas ___ active yesterday.",
+   "q": "10. 빈칸에 알맞은 것은? (그 판다들은 어제 활동적이지 않았다.)",
+   "context": "The pandas ___ active yesterday.",
    "choices": [
     "didn't",
     "weren't",
@@ -163,7 +174,8 @@
   {
    "no": 11,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "11. 빈칸에 알맞은 것은? (Tom은 어제 그 자전거를 타지 않았다.) — Tom ___ ride the bike yesterday.",
+   "q": "11. 빈칸에 알맞은 것은? (Tom은 어제 그 자전거를 타지 않았다.)",
+   "context": "Tom ___ ride the bike yesterday.",
    "choices": [
     "didn't",
     "wasn't",
@@ -176,7 +188,8 @@
   {
    "no": 12,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "12. 대화의 빈칸에 알맞은 것은? (Q: 너 그 소식을 들었니? A: 응, 들었어.) — A: ___ you hear the news?   B: Yes, I ___.",
+   "q": "12. 대화의 빈칸에 알맞은 것은? (Q: 너 그 소식을 들었니? A: 응, 들었어.)",
+   "context": "A: ___ you hear the news?   B: Yes, I ___.",
    "choices": [
     "Did / did",
     "Do / do",
@@ -189,7 +202,8 @@
   {
    "no": 13,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "13. 다음 문장을 부정문으로 바르게 바꾼 것은? — She solved the problem.",
+   "q": "13. 다음 문장을 부정문으로 바르게 바꾼 것은?",
+   "context": "She solved the problem.",
    "choices": [
     "She didn't solve the problem.",
     "She didn't solved the problem.",
@@ -202,7 +216,8 @@
   {
    "no": 14,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "14. 다음 문장을 의문문으로 바르게 바꾼 것은? — They caught the bus.",
+   "q": "14. 다음 문장을 의문문으로 바르게 바꾼 것은?",
+   "context": "They caught the bus.",
    "choices": [
     "Did they catch the bus?",
     "Did they caught the bus?",
@@ -215,7 +230,8 @@
   {
    "no": 15,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "15. 빈칸에 알맞은 것은? (그 아이들은 다음 주에 캠핑을 갈 것이다.) — The kids ___ go camping next week.",
+   "q": "15. 빈칸에 알맞은 것은? (그 아이들은 다음 주에 캠핑을 갈 것이다.)",
+   "context": "The kids ___ go camping next week.",
    "choices": [
     "will",
     "are will",
@@ -228,7 +244,8 @@
   {
    "no": 16,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "16. 빈칸에 알맞은 것은? (Jenny는 내일 바쁠 것이다.) — Jenny ___ busy tomorrow.",
+   "q": "16. 빈칸에 알맞은 것은? (Jenny는 내일 바쁠 것이다.)",
+   "context": "Jenny ___ busy tomorrow.",
    "choices": [
     "will be",
     "will",
@@ -242,6 +259,7 @@
    "no": 17,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
    "q": "17. 다음 중 부사(구)와 시제 연결이 <u>어색한</u> 것은?",
+   "context": "",
    "choices": [
     "yesterday - 과거시제",
     "tomorrow - 미래시제(will)",
@@ -255,6 +273,7 @@
    "no": 18,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
    "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "context": "",
    "choices": [
     "Did she clean her room?",
     "Did she cleaned her room?",
@@ -268,6 +287,7 @@
    "no": 19,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
    "q": "19. 다음 대화 중 어색한 것은?",
+   "context": "",
    "choices": [
     "A: Did you lose your bag? B: Yes, I did.",
     "A: Did he arrive on time? B: No, he doesn't.",
@@ -281,6 +301,7 @@
    "no": 20,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
    "q": "20. 우리말을 영어로 옮길 때 어법상 옳은 것은? (그는 어제 그 편지를 쓰지 않았다.)",
+   "context": "",
    "choices": [
     "He didn't write the letter yesterday.",
     "He didn't wrote the letter yesterday.",
@@ -294,6 +315,7 @@
    "no": 21,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
    "q": "21. 다음 중 나머지 셋과 시제가 <u>다른</u> 것은?",
+   "context": "",
    "choices": [
     "He will travel next month.",
     "She will join us later.",
@@ -306,7 +328,8 @@
   {
    "no": 22,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "22. 빈칸에 알맞은 것은? (그 여자아이는 그때 그 인형을 갖고 있지 않았다.) — The girl ___ have the doll then.",
+   "q": "22. 빈칸에 알맞은 것은? (그 여자아이는 그때 그 인형을 갖고 있지 않았다.)",
+   "context": "The girl ___ have the doll then.",
    "choices": [
     "didn't",
     "wasn't",
@@ -319,7 +342,8 @@
   {
    "no": 23,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "23. 빈칸에 알맞은 것은? (그 배우들은 다음 달에 새 영화를 촬영할 것이다.) — The actors ___ film a new movie next month.",
+   "q": "23. 빈칸에 알맞은 것은? (그 배우들은 다음 달에 새 영화를 촬영할 것이다.)",
+   "context": "The actors ___ film a new movie next month.",
    "choices": [
     "will",
     "wills",
@@ -333,6 +357,7 @@
    "no": 24,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
    "q": "24. 다음 중 어법상 올바른 문장은?",
+   "context": "",
    "choices": [
     "Did you visited the museum last year?",
     "Did you visit the museum last year?",
@@ -345,7 +370,8 @@
   {
    "no": 25,
    "unit": "일반동사 과거부정문·의문문 & will 미래형",
-   "q": "25. 다음 밑줄 친 부분을 바르게 고친 것은? — He <u>didn't cooked</u> dinner last night.",
+   "q": "25. 다음 밑줄 친 부분을 바르게 고친 것은?",
+   "context": "He <u>didn't cooked</u> dinner last night.",
    "choices": [
     "didn't cook",
     "doesn't cook",

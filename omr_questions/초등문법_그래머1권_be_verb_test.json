@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머1권_be_verb_test",
+ "title": "Be동사 시험 (Grammar1권)",
  "totalQuestions": 31,
  "numChoices": 4,
  "answerKey": [
@@ -39,7 +40,8 @@
   {
    "no": 1,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "나는 학생이야.\nI _____ a student.",
+   "q": "나는 학생이야.",
+   "context": "I _____ a student.",
    "choices": [
     "am",
     "is",
@@ -52,7 +54,8 @@
   {
    "no": 2,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그는 의사야.\nHe _____ a doctor.",
+   "q": "그는 의사야.",
+   "context": "He _____ a doctor.",
    "choices": [
     "am",
     "are",
@@ -65,7 +68,8 @@
   {
    "no": 3,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그들은 친구야.\nThey _____ friends.",
+   "q": "그들은 친구야.",
+   "context": "They _____ friends.",
    "choices": [
     "is",
     "am",
@@ -78,7 +82,8 @@
   {
    "no": 4,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "이것은 사과야.\nThis _____ an apple.",
+   "q": "이것은 사과야.",
+   "context": "This _____ an apple.",
    "choices": [
     "are",
     "am",
@@ -91,7 +96,8 @@
   {
    "no": 5,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "너는 정말 착해.\nYou _____ very kind.",
+   "q": "너는 정말 착해.",
+   "context": "You _____ very kind.",
    "choices": [
     "am",
     "is",
@@ -104,7 +110,8 @@
   {
    "no": 6,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "우리는 같은 반이야.\nWe _____ in the same class.",
+   "q": "우리는 같은 반이야.",
+   "context": "We _____ in the same class.",
    "choices": [
     "is",
     "am",
@@ -117,7 +124,8 @@
   {
    "no": 7,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "나는 피곤하지 않아.\nI _____ not tired.",
+   "q": "나는 피곤하지 않아.",
+   "context": "I _____ not tired.",
    "choices": [
     "is",
     "are",
@@ -130,7 +138,8 @@
   {
    "no": 8,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그녀는 선생님이 아니야.\nShe _____ not a teacher.",
+   "q": "그녀는 선생님이 아니야.",
+   "context": "She _____ not a teacher.",
    "choices": [
     "am",
     "are",
@@ -143,7 +152,8 @@
   {
    "no": 9,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "이 꽃들은 파란색이 아니야.\nThese flowers _____ not blue.",
+   "q": "이 꽃들은 파란색이 아니야.",
+   "context": "These flowers _____ not blue.",
    "choices": [
     "is",
     "am",
@@ -156,7 +166,8 @@
   {
    "no": 10,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그것은 고양이가 아니야.\nIt _____ not a cat.",
+   "q": "그것은 고양이가 아니야.",
+   "context": "It _____ not a cat.",
    "choices": [
     "am",
     "are",
@@ -169,7 +180,8 @@
   {
    "no": 11,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "너는 배고프니?\n_____ you hungry?",
+   "q": "너는 배고프니?",
+   "context": "_____ you hungry?",
    "choices": [
     "Is",
     "Am",
@@ -182,7 +194,8 @@
   {
    "no": 12,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그는 집에 있니?\n_____ he at home?",
+   "q": "그는 집에 있니?",
+   "context": "_____ he at home?",
    "choices": [
     "Are",
     "Am",
@@ -195,7 +208,8 @@
   {
    "no": 13,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "이것들은 너의 책이니?\n_____ these your books?",
+   "q": "이것들은 너의 책이니?",
+   "context": "_____ these your books?",
    "choices": [
     "Is",
     "Was",
@@ -208,7 +222,8 @@
   {
    "no": 14,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "A: _____ you ten years old?\nB: Yes, I _____.",
+   "q": "A: _____ you ten years old?",
+   "context": "B: Yes, I _____.",
    "choices": [
     "Are / am",
     "Is / is",
@@ -221,7 +236,8 @@
   {
    "no": 15,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "Tom과 Jane은 좋은 학생들이야.\nTom and Jane _____ good students.",
+   "q": "Tom과 Jane은 좋은 학생들이야.",
+   "context": "Tom and Jane _____ good students.",
    "choices": [
     "is",
     "am",
@@ -234,7 +250,8 @@
   {
    "no": 16,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "하늘이 파래.\nThe sky _____ blue.",
+   "q": "하늘이 파래.",
+   "context": "The sky _____ blue.",
    "choices": [
     "are",
     "am",
@@ -247,7 +264,8 @@
   {
    "no": 17,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "나의 엄마는 요리사야.\nMy mom _____ a cook.",
+   "q": "나의 엄마는 요리사야.",
+   "context": "My mom _____ a cook.",
    "choices": [
     "are",
     "am",
@@ -260,7 +278,8 @@
   {
    "no": 18,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "나는 어제 아팠어.\nI _____ sick yesterday.",
+   "q": "나는 어제 아팠어.",
+   "context": "I _____ sick yesterday.",
    "choices": [
     "am",
     "is",
@@ -273,7 +292,8 @@
   {
    "no": 19,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그것은 매우 맛있었어.\nIt _____ very delicious.",
+   "q": "그것은 매우 맛있었어.",
+   "context": "It _____ very delicious.",
    "choices": [
     "is",
     "are",
@@ -286,7 +306,8 @@
   {
    "no": 20,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그들은 공원에 있었어.\nThey _____ in the park.",
+   "q": "그들은 공원에 있었어.",
+   "context": "They _____ in the park.",
    "choices": [
     "was",
     "is",
@@ -299,7 +320,8 @@
   {
    "no": 21,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "날씨가 어제 추웠어.\nThe weather _____ cold yesterday.",
+   "q": "날씨가 어제 추웠어.",
+   "context": "The weather _____ cold yesterday.",
    "choices": [
     "is",
     "were",
@@ -312,7 +334,8 @@
   {
    "no": 22,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "우리는 도서관에 있었어.\nWe _____ at the library.",
+   "q": "우리는 도서관에 있었어.",
+   "context": "We _____ at the library.",
    "choices": [
     "was",
     "is",
@@ -325,7 +348,8 @@
   {
    "no": 23,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그 영화는 재미있었어.\nThe movie _____ really fun.",
+   "q": "그 영화는 재미있었어.",
+   "context": "The movie _____ really fun.",
    "choices": [
     "were",
     "are",
@@ -338,7 +362,8 @@
   {
    "no": 24,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그 시험은 어렵지 않았어.\nThe test _____ not difficult.",
+   "q": "그 시험은 어렵지 않았어.",
+   "context": "The test _____ not difficult.",
    "choices": [
     "were",
     "is",
@@ -351,7 +376,8 @@
   {
    "no": 25,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "아이들은 행복하지 않았어.\nThe children _____ not happy.",
+   "q": "아이들은 행복하지 않았어.",
+   "context": "The children _____ not happy.",
    "choices": [
     "was",
     "is",
@@ -364,7 +390,8 @@
   {
    "no": 26,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "나는 그때 집에 없었어.\nI _____ not at home then.",
+   "q": "나는 그때 집에 없었어.",
+   "context": "I _____ not at home then.",
    "choices": [
     "am",
     "is",
@@ -377,7 +404,8 @@
   {
    "no": 27,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "그는 어제 학교에 있었니?\n_____ he at school yesterday?",
+   "q": "그는 어제 학교에 있었니?",
+   "context": "_____ he at school yesterday?",
    "choices": [
     "Are",
     "Is",
@@ -390,7 +418,8 @@
   {
    "no": 28,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "너희들은 어제 바빴니?\n_____ you busy yesterday?",
+   "q": "너희들은 어제 바빴니?",
+   "context": "_____ you busy yesterday?",
    "choices": [
     "Was",
     "Is",
@@ -403,7 +432,8 @@
   {
    "no": 29,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "A: _____ the party fun?\nB: Yes, it _____.",
+   "q": "A: _____ the party fun?",
+   "context": "B: Yes, it _____.",
    "choices": [
     "Were / were",
     "Was / was",
@@ -416,7 +446,8 @@
   {
    "no": 30,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "나는 지금 행복해. (현재)\n→ I _____ happy now.",
+   "q": "나는 지금 행복해. (현재)",
+   "context": "→ I _____ happy now.",
    "choices": [
     "was",
     "were",
@@ -429,7 +460,8 @@
   {
    "no": 31,
    "unit": "Be동사 시험 (Grammar1권)",
-   "q": "나는 아까 배고팠어. (과거)\n→ I _____ hungry a moment ago.",
+   "q": "나는 아까 배고팠어. (과거)",
+   "context": "→ I _____ hungry a moment ago.",
    "choices": [
     "am",
     "is",

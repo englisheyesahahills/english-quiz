@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머1권_pronouns2_test",
+ "title": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -39,6 +40,7 @@
    "no": 1,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
    "q": "'this'의 뜻으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "저것",
     "그것들",
@@ -52,6 +54,7 @@
    "no": 2,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
    "q": "'those'의 뜻으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "이것",
     "저것들",
@@ -64,7 +67,8 @@
   {
    "no": 3,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 말을 고르세요. (가까이 있는 한 개) — ___ is my pencil.",
+   "q": "빈칸에 알맞은 말을 고르세요. (가까이 있는 한 개)",
+   "context": "___ is my pencil.",
    "choices": [
     "That",
     "These",
@@ -77,7 +81,8 @@
   {
    "no": 4,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 말을 고르세요. (멀리 있는 여러 개) — ___ are my books.",
+   "q": "빈칸에 알맞은 말을 고르세요. (멀리 있는 여러 개)",
+   "context": "___ are my books.",
    "choices": [
     "This",
     "That",
@@ -90,7 +95,8 @@
   {
    "no": 5,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 말을 고르세요. (가까이 있는 여러 개) — ___ are apples.",
+   "q": "빈칸에 알맞은 말을 고르세요. (가까이 있는 여러 개)",
+   "context": "___ are apples.",
    "choices": [
     "That",
     "This",
@@ -103,7 +109,8 @@
   {
    "no": 6,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "다음 문장의 뜻으로 알맞은 것은? — That is a very big tree.",
+   "q": "다음 문장의 뜻으로 알맞은 것은?",
+   "context": "That is a very big tree.",
    "choices": [
     "이것은 매우 큰 나무이다.",
     "저것은 매우 큰 나무이다.",
@@ -116,7 +123,8 @@
   {
    "no": 7,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 이것들은 내 신발이야.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "이것들은 내 신발이야.",
    "choices": [
     "This is my shoes.",
     "That are my shoes.",
@@ -129,7 +137,8 @@
   {
    "no": 8,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 be동사를 고르세요. — These ___ my friends.",
+   "q": "빈칸에 알맞은 be동사를 고르세요.",
+   "context": "These ___ my friends.",
    "choices": [
     "is",
     "am",
@@ -142,7 +151,8 @@
   {
    "no": 9,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 be동사를 고르세요. — That ___ a nice car.",
+   "q": "빈칸에 알맞은 be동사를 고르세요.",
+   "context": "That ___ a nice car.",
    "choices": [
     "are",
     "am",
@@ -156,6 +166,7 @@
    "no": 10,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "This are my cats.",
     "Those is a dog.",
@@ -169,6 +180,7 @@
    "no": 11,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
    "q": "'my'의 뜻으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "나를",
     "나의",
@@ -181,7 +193,8 @@
   {
    "no": 12,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "밑줄 친 부분의 소유격으로 알맞은 것은? — This is the bag of Tom.",
+   "q": "밑줄 친 부분의 소유격으로 알맞은 것은?",
+   "context": "This is the bag of Tom.",
    "choices": [
     "Tom's bag",
     "Toms bag",
@@ -194,7 +207,8 @@
   {
    "no": 13,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 소유격을 고르세요. — She loves ___ cat. (그녀의)",
+   "q": "빈칸에 알맞은 소유격을 고르세요.",
+   "context": "She loves ___ cat. (그녀의)",
    "choices": [
     "she",
     "her",
@@ -207,7 +221,8 @@
   {
    "no": 14,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 소유격을 고르세요. — He forgot ___ homework. (그의)",
+   "q": "빈칸에 알맞은 소유격을 고르세요.",
+   "context": "He forgot ___ homework. (그의)",
    "choices": [
     "him",
     "he",
@@ -220,7 +235,8 @@
   {
    "no": 15,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 소유격을 고르세요. — We love ___ school. (우리의)",
+   "q": "빈칸에 알맞은 소유격을 고르세요.",
+   "context": "We love ___ school. (우리의)",
    "choices": [
     "us",
     "we",
@@ -233,7 +249,8 @@
   {
    "no": 16,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 소유격을 고르세요. — They painted ___ room. (그들의)",
+   "q": "빈칸에 알맞은 소유격을 고르세요.",
+   "context": "They painted ___ room. (그들의)",
    "choices": [
     "them",
     "they",
@@ -246,7 +263,8 @@
   {
    "no": 17,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 소유격을 고르세요. — I lost ___ umbrella. (나의)",
+   "q": "빈칸에 알맞은 소유격을 고르세요.",
+   "context": "I lost ___ umbrella. (나의)",
    "choices": [
     "me",
     "I",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 소유격을 고르세요. — ___ name is Minho. (그의)",
+   "q": "빈칸에 알맞은 소유격을 고르세요.",
+   "context": "___ name is Minho. (그의)",
    "choices": [
     "He",
     "Him",
@@ -273,6 +292,7 @@
    "no": 19,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "She forgot her bag.",
     "He lost he book.",
@@ -285,7 +305,8 @@
   {
    "no": 20,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 소유격을 고르세요. — The dog wagged ___ tail. (그것의)",
+   "q": "빈칸에 알맞은 소유격을 고르세요.",
+   "context": "The dog wagged ___ tail. (그것의)",
    "choices": [
     "it",
     "its",
@@ -299,6 +320,7 @@
    "no": 21,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
    "q": "'him'의 뜻으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "그는",
     "그의",
@@ -311,7 +333,8 @@
   {
    "no": 22,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 목적격을 고르세요. — I like ___. (그녀를)",
+   "q": "빈칸에 알맞은 목적격을 고르세요.",
+   "context": "I like ___. (그녀를)",
    "choices": [
     "she",
     "her",
@@ -324,7 +347,8 @@
   {
    "no": 23,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 목적격을 고르세요. — She called ___. (나를)",
+   "q": "빈칸에 알맞은 목적격을 고르세요.",
+   "context": "She called ___. (나를)",
    "choices": [
     "I",
     "my",
@@ -337,7 +361,8 @@
   {
    "no": 24,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 목적격을 고르세요. — Can you help ___? (우리를)",
+   "q": "빈칸에 알맞은 목적격을 고르세요.",
+   "context": "Can you help ___? (우리를)",
    "choices": [
     "we",
     "our",
@@ -350,7 +375,8 @@
   {
    "no": 25,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 목적격을 고르세요. — I saw ___ at the park. (그들을)",
+   "q": "빈칸에 알맞은 목적격을 고르세요.",
+   "context": "I saw ___ at the park. (그들을)",
    "choices": [
     "they",
     "their",
@@ -363,7 +389,8 @@
   {
    "no": 26,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 목적격을 고르세요. — She gave ___ a gift. (그에게)",
+   "q": "빈칸에 알맞은 목적격을 고르세요.",
+   "context": "She gave ___ a gift. (그에게)",
    "choices": [
     "he",
     "his",
@@ -376,7 +403,8 @@
   {
    "no": 27,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "밑줄 친 부분을 목적격으로 바꾼 것은? — I know Tom and Jane.",
+   "q": "밑줄 친 부분을 목적격으로 바꾼 것은?",
+   "context": "I know Tom and Jane.",
    "choices": [
     "they",
     "them",
@@ -390,6 +418,7 @@
    "no": 28,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "She loves he.",
     "I called she.",
@@ -402,7 +431,8 @@
   {
    "no": 29,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
-   "q": "빈칸에 알맞은 말을 고르세요. — My dog follows ___ everywhere. (나를)",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "My dog follows ___ everywhere. (나를)",
    "choices": [
     "I",
     "my",
@@ -416,6 +446,7 @@
    "no": 30,
    "unit": "지시대명사·소유격·목적격 관계대명사 (Grammar1권 L5~7)",
    "q": "다음 표에서 주격→소유격→목적격 순서가 바른 것은?",
+   "context": "",
    "choices": [
     "I → my → me",
     "She → her → hers",

@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머3권_can_test",
+ "title": "조동사 can (Grammar3권 L5~6)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -39,6 +40,7 @@
    "no": 1,
    "unit": "조동사 can (Grammar3권 L5~6)",
    "q": "'can'의 뜻으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "~해야 한다",
     "~할 수 있다",
@@ -51,7 +53,8 @@
   {
    "no": 2,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "다음 문장의 뜻으로 알맞은 것은? — She can sing very well.",
+   "q": "다음 문장의 뜻으로 알맞은 것은?",
+   "context": "She can sing very well.",
    "choices": [
     "그녀는 노래해야 한다.",
     "그녀는 노래하고 있다.",
@@ -64,7 +67,8 @@
   {
    "no": 3,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "다음 문장의 뜻으로 알맞은 것은? — I can ride a bike.",
+   "q": "다음 문장의 뜻으로 알맞은 것은?",
+   "context": "I can ride a bike.",
    "choices": [
     "나는 자전거를 탄다.",
     "나는 자전거를 탈 수 있다.",
@@ -77,7 +81,8 @@
   {
    "no": 4,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "다음 문장의 뜻으로 알맞은 것은? — He can speak English.",
+   "q": "다음 문장의 뜻으로 알맞은 것은?",
+   "context": "He can speak English.",
    "choices": [
     "그는 영어를 말하고 있다.",
     "그는 영어를 말해야 한다.",
@@ -90,7 +95,8 @@
   {
    "no": 5,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 나는 수영할 수 있다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "나는 수영할 수 있다.",
    "choices": [
     "I swim every day.",
     "I am swimming.",
@@ -103,7 +109,8 @@
   {
    "no": 6,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 그녀는 피아노를 칠 수 있다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "그녀는 피아노를 칠 수 있다.",
    "choices": [
     "She plays the piano.",
     "She can play the piano.",
@@ -116,7 +123,8 @@
   {
    "no": 7,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 우리는 높이 점프할 수 있다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "우리는 높이 점프할 수 있다.",
    "choices": [
     "We jump high.",
     "We are jumping high.",
@@ -130,6 +138,7 @@
    "no": 8,
    "unit": "조동사 can (Grammar3권 L5~6)",
    "q": "다음 중 can을 올바르게 사용한 문장은?",
+   "context": "",
    "choices": [
     "He cans run fast.",
     "She can dances well.",
@@ -142,7 +151,8 @@
   {
    "no": 9,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — She can ___ very fast.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "She can ___ very fast.",
    "choices": [
     "runs",
     "run",
@@ -155,7 +165,8 @@
   {
    "no": 10,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — He can ___ the guitar.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "He can ___ the guitar.",
    "choices": [
     "plays",
     "played",
@@ -168,7 +179,8 @@
   {
    "no": 11,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — They can ___ Chinese food.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "They can ___ Chinese food.",
    "choices": [
     "cooks",
     "cooking",
@@ -181,7 +193,8 @@
   {
    "no": 12,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — My cat can ___ very high.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "My cat can ___ very high.",
    "choices": [
     "jumps",
     "jumped",
@@ -195,6 +208,7 @@
    "no": 13,
    "unit": "조동사 can (Grammar3권 L5~6)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "I can swims.",
     "She can dances.",
@@ -208,6 +222,7 @@
    "no": 14,
    "unit": "조동사 can (Grammar3권 L5~6)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "Tom can to read books.",
     "Tom can reads books.",
@@ -220,7 +235,8 @@
   {
    "no": 15,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — She can ___ in English.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "She can ___ in English.",
    "choices": [
     "speaks",
     "spoken",
@@ -233,7 +249,8 @@
   {
    "no": 16,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I can ___ a kite.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I can ___ a kite.",
    "choices": [
     "flys",
     "flew",
@@ -246,7 +263,8 @@
   {
    "no": 17,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "알맞은 부정문을 고르세요. — 나는 스케이트를 탈 수 없다.",
+   "q": "알맞은 부정문을 고르세요.",
+   "context": "나는 스케이트를 탈 수 없다.",
    "choices": [
     "I don't can skate.",
     "I am not skate.",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "알맞은 부정문을 고르세요. — 그녀는 요리를 할 수 없다.",
+   "q": "알맞은 부정문을 고르세요.",
+   "context": "그녀는 요리를 할 수 없다.",
    "choices": [
     "She doesn't can cook.",
     "She can't cook.",
@@ -272,7 +291,8 @@
   {
    "no": 19,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — He ___ fly. He doesn't have wings.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "He ___ fly. He doesn't have wings.",
    "choices": [
     "can",
     "can't",
@@ -285,7 +305,8 @@
   {
    "no": 20,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — They ___ speak Japanese.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "They ___ speak Japanese.",
    "choices": [
     "aren't",
     "don't",
@@ -299,6 +320,7 @@
    "no": 21,
    "unit": "조동사 can (Grammar3권 L5~6)",
    "q": "다음 중 올바른 부정문은?",
+   "context": "",
    "choices": [
     "I cannot to swim.",
     "She can't dances.",
@@ -312,6 +334,7 @@
    "no": 22,
    "unit": "조동사 can (Grammar3권 L5~6)",
    "q": "'cannot'과 같은 뜻은?",
+   "context": "",
    "choices": [
     "can also",
     "can too",
@@ -324,7 +347,8 @@
   {
    "no": 23,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "알맞은 의문문을 고르세요. — (너는 수영할 수 있니?)",
+   "q": "알맞은 의문문을 고르세요.",
+   "context": "(너는 수영할 수 있니?)",
    "choices": [
     "Do you can swim?",
     "Are you can swim?",
@@ -337,7 +361,8 @@
   {
    "no": 24,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "알맞은 의문문을 고르세요. — (그는 피아노를 칠 수 있니?)",
+   "q": "알맞은 의문문을 고르세요.",
+   "context": "(그는 피아노를 칠 수 있니?)",
    "choices": [
     "Does he can play the piano?",
     "Can he play the piano?",
@@ -350,7 +375,8 @@
   {
    "no": 25,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — ___ she speak French?",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "___ she speak French?",
    "choices": [
     "Does",
     "Is",
@@ -363,7 +389,8 @@
   {
    "no": 26,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — ___ they climb trees?",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "___ they climb trees?",
    "choices": [
     "Are",
     "Do",
@@ -376,7 +403,8 @@
   {
    "no": 27,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "의문문에 대한 알맞은 대답은? — Can you ride a horse?",
+   "q": "의문문에 대한 알맞은 대답은?",
+   "context": "Can you ride a horse?",
    "choices": [
     "Yes, I do.",
     "Yes, I am.",
@@ -389,7 +417,8 @@
   {
    "no": 28,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "의문문에 대한 알맞은 대답은? — Can she run fast?",
+   "q": "의문문에 대한 알맞은 대답은?",
+   "context": "Can she run fast?",
    "choices": [
     "No, she isn't.",
     "No, she doesn't.",
@@ -403,6 +432,7 @@
    "no": 29,
    "unit": "조동사 can (Grammar3권 L5~6)",
    "q": "다음 중 올바른 의문문은?",
+   "context": "",
    "choices": [
     "Can he swims?",
     "Can she dances?",
@@ -415,7 +445,8 @@
   {
    "no": 30,
    "unit": "조동사 can (Grammar3권 L5~6)",
-   "q": "다음 대화의 빈칸에 알맞은 말은? — A: Can you speak Korean?  B: Yes, ___ ___.",
+   "q": "다음 대화의 빈칸에 알맞은 말은?",
+   "context": "A: Can you speak Korean?  B: Yes, ___ ___.",
    "choices": [
     "I do",
     "I am",

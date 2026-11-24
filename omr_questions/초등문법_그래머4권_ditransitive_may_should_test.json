@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머4권_ditransitive_may_should_test",
+ "title": "수여동사·조동사 may·should (Grammar4권 L4~6)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -39,6 +40,7 @@
    "no": 1,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "수여동사 문장의 어순으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "주어 + 동사 + 직목 + 간목",
     "주어 + 동사 + 간목 + 직목",
@@ -51,7 +53,8 @@
   {
    "no": 2,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "다음 문장에서 간접목적어(~에게)를 고르세요. — She gave me a present.",
+   "q": "다음 문장에서 간접목적어(~에게)를 고르세요.",
+   "context": "She gave me a present.",
    "choices": [
     "She",
     "gave",
@@ -64,7 +67,8 @@
   {
    "no": 3,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "다음 문장에서 직접목적어(~을/를)를 고르세요. — He showed us his drawing.",
+   "q": "다음 문장에서 직접목적어(~을/를)를 고르세요.",
+   "context": "He showed us his drawing.",
    "choices": [
     "He",
     "showed",
@@ -78,6 +82,7 @@
    "no": 4,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "어순이 올바른 문장을 고르세요.",
+   "context": "",
    "choices": [
     "I gave a cookie him.",
     "I gave him a cookie.",
@@ -91,6 +96,7 @@
    "no": 5,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "어순이 올바른 문장을 고르세요.",
+   "context": "",
    "choices": [
     "She sent a letter me.",
     "She me sent a letter.",
@@ -103,7 +109,8 @@
   {
    "no": 6,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — Mom made ___ a cake.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "Mom made ___ a cake.",
    "choices": [
     "a cake me",
     "me a cake – 순서 바꿔",
@@ -116,7 +123,8 @@
   {
    "no": 7,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 선생님이 우리에게 숙제를 주셨다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "선생님이 우리에게 숙제를 주셨다.",
    "choices": [
     "The teacher gave homework us.",
     "The teacher gave us homework.",
@@ -130,6 +138,7 @@
    "no": 8,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "다음 중 수여동사가 쓰인 문장은?",
+   "context": "",
    "choices": [
     "She runs fast.",
     "He is tall.",
@@ -142,7 +151,8 @@
   {
    "no": 9,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — He bought ___ a new bag.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "He bought ___ a new bag.",
    "choices": [
     "to her",
     "her",
@@ -156,6 +166,7 @@
    "no": 10,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "다음 중 올바른 수여동사 문장은?",
+   "context": "",
    "choices": [
     "She told me the answer.",
     "She told the answer me.",
@@ -168,7 +179,8 @@
   {
    "no": 11,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "직목을 앞으로 쓸 때 give 동사에 쓰는 전치사는? — I gave him a book. → I gave a book ___ him.",
+   "q": "직목을 앞으로 쓸 때 give 동사에 쓰는 전치사는?",
+   "context": "I gave him a book. → I gave a book ___ him.",
    "choices": [
     "for",
     "of",
@@ -181,7 +193,8 @@
   {
    "no": 12,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "직목을 앞으로 쓸 때 make 동사에 쓰는 전치사는? — Mom made me a sandwich. → Mom made a sandwich ___ me.",
+   "q": "직목을 앞으로 쓸 때 make 동사에 쓰는 전치사는?",
+   "context": "Mom made me a sandwich. → Mom made a sandwich ___ me.",
    "choices": [
     "to",
     "by",
@@ -194,7 +207,8 @@
   {
    "no": 13,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "다음 문장을 바르게 바꾼 것은? — She showed me her photo.",
+   "q": "다음 문장을 바르게 바꾼 것은?",
+   "context": "She showed me her photo.",
    "choices": [
     "She showed her photo for me.",
     "She showed her photo to me.",
@@ -208,6 +222,7 @@
    "no": 14,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "He sent a card for her.",
     "He sent a card to her.",
@@ -221,6 +236,7 @@
    "no": 15,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "'may'의 뜻으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "~해야 한다",
     "~할 수 있다 (능력)",
@@ -233,7 +249,8 @@
   {
    "no": 16,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "다음 문장의 뜻으로 알맞은 것은? — You may use my pen.",
+   "q": "다음 문장의 뜻으로 알맞은 것은?",
+   "context": "You may use my pen.",
    "choices": [
     "너는 내 펜을 사용해야 한다.",
     "너는 내 펜을 사용해도 된다.",
@@ -246,7 +263,8 @@
   {
    "no": 17,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "다음 문장의 뜻으로 알맞은 것은? — It may rain tomorrow.",
+   "q": "다음 문장의 뜻으로 알맞은 것은?",
+   "context": "It may rain tomorrow.",
    "choices": [
     "내일 비가 올 것이다.",
     "내일 비가 와야 한다.",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — You ___ sit here. (앉아도 된다)",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "You ___ sit here. (앉아도 된다)",
    "choices": [
     "must",
     "should",
@@ -273,6 +292,7 @@
    "no": 19,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "may 뒤에 오는 동사의 형태는?",
+   "context": "",
    "choices": [
     "동사+ing",
     "동사+s/es",
@@ -286,6 +306,7 @@
    "no": 20,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "다음 중 may가 올바르게 쓰인 문장은?",
+   "context": "",
    "choices": [
     "She may goes home now.",
     "He may to eat lunch.",
@@ -298,7 +319,8 @@
   {
    "no": 21,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 그는 지금 도서관에 있을지도 모른다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "그는 지금 도서관에 있을지도 모른다.",
    "choices": [
     "He must be at the library now.",
     "He may be at the library now.",
@@ -312,6 +334,7 @@
    "no": 22,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "You may to open the window.",
     "She mays go outside.",
@@ -325,6 +348,7 @@
    "no": 23,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "'should'의 뜻으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "~해도 된다",
     "~해야 한다 (권고·충고)",
@@ -337,7 +361,8 @@
   {
    "no": 24,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "다음 문장의 뜻으로 알맞은 것은? — You should eat more vegetables.",
+   "q": "다음 문장의 뜻으로 알맞은 것은?",
+   "context": "You should eat more vegetables.",
    "choices": [
     "너는 채소를 더 먹어도 된다.",
     "너는 채소를 더 먹을 수 있다.",
@@ -350,7 +375,8 @@
   {
    "no": 25,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "빈칸에 알맞은 말을 고르세요. — You ___ see a doctor. You look sick.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "You ___ see a doctor. You look sick.",
    "choices": [
     "may",
     "can",
@@ -364,6 +390,7 @@
    "no": 26,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "should 뒤에 오는 동사의 형태는?",
+   "context": "",
    "choices": [
     "동사+s/es",
     "동사+ing",
@@ -377,6 +404,7 @@
    "no": 27,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "다음 중 should가 올바르게 쓰인 문장은?",
+   "context": "",
    "choices": [
     "She should goes to bed early.",
     "He should to study more.",
@@ -390,6 +418,7 @@
    "no": 28,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "'should not'의 줄임말은?",
+   "context": "",
    "choices": [
     "shoudn't",
     "shouldnt",
@@ -402,7 +431,8 @@
   {
    "no": 29,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 너는 늦게까지 자지 않아야 한다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "너는 늦게까지 자지 않아야 한다.",
    "choices": [
     "You may not stay up late.",
     "You should not stay up late.",
@@ -416,6 +446,7 @@
    "no": 30,
    "unit": "수여동사·조동사 may·should (Grammar4권 L4~6)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "He should wears a coat.",
     "She should to drink water.",

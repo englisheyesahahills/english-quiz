@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머3권_uncountable_nouns_test",
+ "title": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -39,6 +40,7 @@
    "no": 1,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 물질명사(셀 수 없는 명사)는?",
+   "context": "",
    "choices": [
     "tomato",
     "lemon",
@@ -52,6 +54,7 @@
    "no": 2,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 물질명사는?",
+   "context": "",
    "choices": [
     "sheep",
     "corn",
@@ -65,6 +68,7 @@
    "no": 3,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 물질명사는?",
+   "context": "",
    "choices": [
     "lemon",
     "paper",
@@ -78,6 +82,7 @@
    "no": 4,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 물질명사가 아닌 것은?",
+   "context": "",
    "choices": [
     "rice",
     "butter",
@@ -91,6 +96,7 @@
    "no": 5,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 물질명사가 아닌 것은?",
+   "context": "",
    "choices": [
     "water",
     "corn",
@@ -103,7 +109,8 @@
   {
    "no": 6,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
-   "q": "물질명사를 올바르게 표현한 것은? — 주스 한 잔",
+   "q": "물질명사를 올바르게 표현한 것은?",
+   "context": "주스 한 잔",
    "choices": [
     "a juice",
     "a glass of juice",
@@ -116,7 +123,8 @@
   {
    "no": 7,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
-   "q": "물질명사를 올바르게 표현한 것은? — 쌀 한 그릇",
+   "q": "물질명사를 올바르게 표현한 것은?",
+   "context": "쌀 한 그릇",
    "choices": [
     "a rice",
     "rices",
@@ -129,7 +137,8 @@
   {
    "no": 8,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
-   "q": "물질명사를 올바르게 표현한 것은? — 버터 한 조각",
+   "q": "물질명사를 올바르게 표현한 것은?",
+   "context": "버터 한 조각",
    "choices": [
     "a butter",
     "butters",
@@ -142,7 +151,8 @@
   {
    "no": 9,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I drink ___ water every day.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I drink ___ water every day.",
    "choices": [
     "a",
     "an",
@@ -156,6 +166,7 @@
    "no": 10,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "I want a corn.",
     "She drinks a milk.",
@@ -169,6 +180,7 @@
    "no": 11,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 고유명사는?",
+   "context": "",
    "choices": [
     "city",
     "music",
@@ -182,6 +194,7 @@
    "no": 12,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 고유명사는?",
+   "context": "",
    "choices": [
     "water",
     "rice",
@@ -195,6 +208,7 @@
    "no": 13,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 고유명사는?",
+   "context": "",
    "choices": [
     "corn",
     "Monday",
@@ -208,6 +222,7 @@
    "no": 14,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 고유명사는?",
+   "context": "",
    "choices": [
     "paper",
     "love",
@@ -221,6 +236,7 @@
    "no": 15,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 고유명사가 아닌 것은?",
+   "context": "",
    "choices": [
     "London",
     "Mary",
@@ -234,6 +250,7 @@
    "no": 16,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "고유명사의 특징으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "항상 소문자로 쓴다",
     "첫 글자를 대문자로 쓴다",
@@ -247,6 +264,7 @@
    "no": 17,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 올바르게 쓴 고유명사는?",
+   "context": "",
    "choices": [
     "london",
     "mary",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — My name is ___.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "My name is ___.",
    "choices": [
     "mary",
     "Mary",
@@ -272,7 +291,8 @@
   {
    "no": 19,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
-   "q": "다음 문장에서 고유명사를 고르세요. — I study English in London.",
+   "q": "다음 문장에서 고유명사를 고르세요.",
+   "context": "I study English in London.",
    "choices": [
     "I",
     "study",
@@ -286,6 +306,7 @@
    "no": 20,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 고유명사끼리 묶인 것은?",
+   "context": "",
    "choices": [
     "rice – water – corn",
     "London – Mary – Monday",
@@ -299,6 +320,7 @@
    "no": 21,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 추상명사는?",
+   "context": "",
    "choices": [
     "water",
     "lemon",
@@ -312,6 +334,7 @@
    "no": 22,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 추상명사는?",
+   "context": "",
    "choices": [
     "corn",
     "music",
@@ -325,6 +348,7 @@
    "no": 23,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 추상명사는?",
+   "context": "",
    "choices": [
     "butter",
     "London",
@@ -338,6 +362,7 @@
    "no": 24,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "추상명사의 특징으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "눈에 보이고 만질 수 있다",
     "셀 수 있어서 복수형이 있다",
@@ -351,6 +376,7 @@
    "no": 25,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 추상명사가 아닌 것은?",
+   "context": "",
    "choices": [
     "love",
     "music",
@@ -363,7 +389,8 @@
   {
    "no": 26,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — ___ is very important in life. (사랑)",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "___ is very important in life. (사랑)",
    "choices": [
     "A love",
     "Loves",
@@ -377,6 +404,7 @@
    "no": 27,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 추상명사끼리 묶인 것은?",
+   "context": "",
    "choices": [
     "water – rice – corn",
     "London – Mary – April",
@@ -390,6 +418,7 @@
    "no": 28,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "단어와 명사 종류가 바르게 연결된 것은?",
+   "context": "",
    "choices": [
     "water – 고유명사",
     "London – 추상명사",
@@ -403,6 +432,7 @@
    "no": 29,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "단어와 명사 종류가 바르게 연결된 것은?",
+   "context": "",
    "choices": [
     "Mary – 물질명사",
     "rice – 추상명사",
@@ -416,6 +446,7 @@
    "no": 30,
    "unit": "셀 수 없는 명사·물질·추상·고유명사 (Grammar3권 L3~4)",
    "q": "다음 중 셀 수 없는 명사로만 묶인 것은?",
+   "context": "",
    "choices": [
     "tomato, lemon, tooth",
     "water, love, London",

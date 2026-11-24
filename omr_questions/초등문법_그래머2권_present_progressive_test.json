@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머2권_present_progressive_test",
+ "title": "현재진행형 (Grammar2권 L1~4)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -38,7 +39,8 @@
   {
    "no": 1,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — run → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "run → ?",
    "choices": [
     "runing",
     "running",
@@ -51,7 +53,8 @@
   {
    "no": 2,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — swim → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "swim → ?",
    "choices": [
     "swiming",
     "swimmes",
@@ -64,7 +67,8 @@
   {
    "no": 3,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — write → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "write → ?",
    "choices": [
     "writeing",
     "writing",
@@ -77,7 +81,8 @@
   {
    "no": 4,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — sit → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "sit → ?",
    "choices": [
     "siting",
     "sitting",
@@ -90,7 +95,8 @@
   {
    "no": 5,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — dance → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "dance → ?",
    "choices": [
     "danceing",
     "dancing",
@@ -103,7 +109,8 @@
   {
    "no": 6,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — eat → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "eat → ?",
    "choices": [
     "eatting",
     "eates",
@@ -116,7 +123,8 @@
   {
    "no": 7,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — make → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "make → ?",
    "choices": [
     "makeing",
     "making",
@@ -129,7 +137,8 @@
   {
    "no": 8,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — study → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "study → ?",
    "choices": [
     "studyying",
     "studying",
@@ -142,7 +151,8 @@
   {
    "no": 9,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — cut → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "cut → ?",
    "choices": [
     "cuting",
     "cutted",
@@ -155,7 +165,8 @@
   {
    "no": 10,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "동사의 -ing 형태로 알맞은 것은? — sleep → ?",
+   "q": "동사의 -ing 형태로 알맞은 것은?",
+   "context": "sleep → ?",
    "choices": [
     "sleeping",
     "slepping",
@@ -168,7 +179,8 @@
   {
    "no": 11,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I ___ soccer now.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I ___ soccer now.",
    "choices": [
     "play",
     "plays",
@@ -181,7 +193,8 @@
   {
    "no": 12,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — She ___ a book right now.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "She ___ a book right now.",
    "choices": [
     "read",
     "reads",
@@ -194,7 +207,8 @@
   {
    "no": 13,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — They ___ lunch now.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "They ___ lunch now.",
    "choices": [
     "eat",
     "eats",
@@ -207,7 +221,8 @@
   {
    "no": 14,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — He ___ to music now.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "He ___ to music now.",
    "choices": [
     "listen",
     "listens",
@@ -220,7 +235,8 @@
   {
    "no": 15,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — We ___ in the park now.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "We ___ in the park now.",
    "choices": [
     "run",
     "runs",
@@ -234,6 +250,7 @@
    "no": 16,
    "unit": "현재진행형 (Grammar2권 L1~4)",
    "q": "다음 중 현재진행형 문장은?",
+   "context": "",
    "choices": [
     "She eats breakfast.",
     "He is sleeping now.",
@@ -246,7 +263,8 @@
   {
    "no": 17,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — Mom ___ dinner in the kitchen.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "Mom ___ dinner in the kitchen.",
    "choices": [
     "cook",
     "cooks",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — My dog ___ in the yard.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "My dog ___ in the yard.",
    "choices": [
     "play",
     "plays",
@@ -272,7 +291,8 @@
   {
    "no": 19,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "알맞은 부정문을 고르세요. — I (지금 달리고 있지 않다).",
+   "q": "알맞은 부정문을 고르세요.",
+   "context": "I (지금 달리고 있지 않다).",
    "choices": [
     "I am not running.",
     "I not am running.",
@@ -285,7 +305,8 @@
   {
    "no": 20,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "알맞은 부정문을 고르세요. — She (지금 자고 있지 않다).",
+   "q": "알맞은 부정문을 고르세요.",
+   "context": "She (지금 자고 있지 않다).",
    "choices": [
     "She not sleeping.",
     "She don't sleeping.",
@@ -298,7 +319,8 @@
   {
    "no": 21,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "알맞은 부정문을 고르세요. — They (지금 공부하고 있지 않다).",
+   "q": "알맞은 부정문을 고르세요.",
+   "context": "They (지금 공부하고 있지 않다).",
    "choices": [
     "They isn't studying.",
     "They are not studying.",
@@ -311,7 +333,8 @@
   {
    "no": 22,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — He ___ watching TV now.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "He ___ watching TV now.",
    "choices": [
     "don't",
     "doesn't",
@@ -324,7 +347,8 @@
   {
    "no": 23,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — We ___ playing soccer now.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "We ___ playing soccer now.",
    "choices": [
     "isn't",
     "don't",
@@ -338,6 +362,7 @@
    "no": 24,
    "unit": "현재진행형 (Grammar2권 L1~4)",
    "q": "다음 중 올바른 부정문은?",
+   "context": "",
    "choices": [
     "I am not eat now.",
     "She is not dancing.",
@@ -350,7 +375,8 @@
   {
    "no": 25,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "알맞은 의문문을 고르세요. — (너는 지금 뭘 하고 있니?)",
+   "q": "알맞은 의문문을 고르세요.",
+   "context": "(너는 지금 뭘 하고 있니?)",
    "choices": [
     "What are you doing now?",
     "What you are doing now?",
@@ -363,7 +389,8 @@
   {
    "no": 26,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "알맞은 의문문을 고르세요. — (그는 지금 자고 있니?)",
+   "q": "알맞은 의문문을 고르세요.",
+   "context": "(그는 지금 자고 있니?)",
    "choices": [
     "Does he sleeping now?",
     "Is he sleeping now?",
@@ -376,7 +403,8 @@
   {
    "no": 27,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "알맞은 의문문을 고르세요. — (그들은 지금 뛰고 있니?)",
+   "q": "알맞은 의문문을 고르세요.",
+   "context": "(그들은 지금 뛰고 있니?)",
    "choices": [
     "Do they running now?",
     "Is they running now?",
@@ -389,7 +417,8 @@
   {
    "no": 28,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — ___ she playing the piano now?",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "___ she playing the piano now?",
    "choices": [
     "Do",
     "Does",
@@ -402,7 +431,8 @@
   {
    "no": 29,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — ___ you watching TV now?",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "___ you watching TV now?",
    "choices": [
     "Do",
     "Does",
@@ -415,7 +445,8 @@
   {
    "no": 30,
    "unit": "현재진행형 (Grammar2권 L1~4)",
-   "q": "다음 의문문의 알맞은 대답을 고르세요. — Is he swimming now?",
+   "q": "다음 의문문의 알맞은 대답을 고르세요.",
+   "context": "Is he swimming now?",
    "choices": [
     "Yes, he does.",
     "Yes, he is.",

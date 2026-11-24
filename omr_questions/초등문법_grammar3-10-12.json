@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_grammar3-10-12",
+ "title": "부정명령문·제안문·감탄문 퀴즈 (Grammar3 L10~12)",
  "totalQuestions": 25,
  "numChoices": 4,
  "answerKey": [
@@ -33,7 +34,8 @@
   {
    "no": 1,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "1. 빈칸에 알맞은 것은? (내 머리카락을 당기지 마라.) — ___ my hair.",
+   "q": "1. 빈칸에 알맞은 것은? (내 머리카락을 당기지 마라.)",
+   "context": "___ my hair.",
    "choices": [
     "Do not pull",
     "Do pull not",
@@ -46,7 +48,8 @@
   {
    "no": 2,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "2. 빈칸에 알맞은 것은? (너의 손톱을 물지 마라.) — ___ your nails.",
+   "q": "2. 빈칸에 알맞은 것은? (너의 손톱을 물지 마라.)",
+   "context": "___ your nails.",
    "choices": [
     "Don't bite",
     "Don't bites",
@@ -59,7 +62,8 @@
   {
    "no": 3,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "3. 빈칸에 알맞은 것은? (함께 춤추자.) — ___ dance together.",
+   "q": "3. 빈칸에 알맞은 것은? (함께 춤추자.)",
+   "context": "___ dance together.",
    "choices": [
     "Let's",
     "Let",
@@ -72,7 +76,8 @@
   {
    "no": 4,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "4. 대화의 빈칸에 알맞은 것은? (좋아.) — A: Let's play baseball.   B: ___.",
+   "q": "4. 대화의 빈칸에 알맞은 것은? (좋아.)",
+   "context": "A: Let's play baseball.   B: ___.",
    "choices": [
     "Sure.",
     "Sorry, I can't.",
@@ -85,7 +90,8 @@
   {
    "no": 5,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "5. 빈칸에 알맞은 것은? (그 집은 정말 크구나!) — ___ big the house is!",
+   "q": "5. 빈칸에 알맞은 것은? (그 집은 정말 크구나!)",
+   "context": "___ big the house is!",
    "choices": [
     "How",
     "What",
@@ -98,7 +104,8 @@
   {
    "no": 6,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "6. 빈칸에 알맞은 것은? (그것은 정말 큰 집이구나!) — ___ a big house it is!",
+   "q": "6. 빈칸에 알맞은 것은? (그것은 정말 큰 집이구나!)",
+   "context": "___ a big house it is!",
    "choices": [
     "What",
     "How",
@@ -112,6 +119,7 @@
    "no": 7,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
    "q": "7. 다음 중 어법상 올바른 문장은?",
+   "context": "",
    "choices": [
     "Don't bites your nails.",
     "Don't bite your nails.",
@@ -124,7 +132,8 @@
   {
    "no": 8,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "8. 빈칸에 알맞은 것은? (그 유리잔을 깨지 마라.) — ___ the glass.",
+   "q": "8. 빈칸에 알맞은 것은? (그 유리잔을 깨지 마라.)",
+   "context": "___ the glass.",
    "choices": [
     "Don't break",
     "Doesn't break",
@@ -137,7 +146,8 @@
   {
    "no": 9,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "9. 다음 문장을 부정명령문으로 바르게 바꾼 것은? — You listen to loud music.",
+   "q": "9. 다음 문장을 부정명령문으로 바르게 바꾼 것은?",
+   "context": "You listen to loud music.",
    "choices": [
     "Don't listen to loud music.",
     "Doesn't listen to loud music.",
@@ -150,7 +160,8 @@
   {
    "no": 10,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "10. 대화의 빈칸에 알맞은 것은? (미안하지만 안 돼.) — A: Let's watch a movie.   B: ___",
+   "q": "10. 대화의 빈칸에 알맞은 것은? (미안하지만 안 돼.)",
+   "context": "A: Let's watch a movie.   B: ___",
    "choices": [
     "Sorry, I can't.",
     "Sure, let's.",
@@ -163,7 +174,8 @@
   {
    "no": 11,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "11. 빈칸에 알맞은 것은? (그 판다는 정말 게으르구나!) — How ___ the panda is!",
+   "q": "11. 빈칸에 알맞은 것은? (그 판다는 정말 게으르구나!)",
+   "context": "How ___ the panda is!",
    "choices": [
     "lazy",
     "a lazy",
@@ -176,7 +188,8 @@
   {
    "no": 12,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "12. 빈칸에 알맞은 것은? (이것은 정말 두꺼운 책이구나!) — What a ___ book this is!",
+   "q": "12. 빈칸에 알맞은 것은? (이것은 정말 두꺼운 책이구나!)",
+   "context": "What a ___ book this is!",
    "choices": [
     "thick",
     "thickly",
@@ -189,7 +202,8 @@
   {
    "no": 13,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "13. 다음 문장을 제안문으로 바르게 바꾼 것은? — We clean the living room.",
+   "q": "13. 다음 문장을 제안문으로 바르게 바꾼 것은?",
+   "context": "We clean the living room.",
    "choices": [
     "Let's clean the living room.",
     "Let's cleans the living room.",
@@ -202,7 +216,8 @@
   {
    "no": 14,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "14. 빈칸에 알맞은 것은? (그는 정말 유명한 사람이구나!) — ___ a famous person he is!",
+   "q": "14. 빈칸에 알맞은 것은? (그는 정말 유명한 사람이구나!)",
+   "context": "___ a famous person he is!",
    "choices": [
     "What",
     "How",
@@ -216,6 +231,7 @@
    "no": 15,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
    "q": "15. 다음 중 어법상 <u>틀린</u> 것은?",
+   "context": "",
    "choices": [
     "Don't fight with your sister.",
     "Don't fights with your sister.",
@@ -228,7 +244,8 @@
   {
    "no": 16,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "16. 빈칸에 알맞은 것은? (그 소방관은 정말 용감하구나!) — How ___ the firefighter is!",
+   "q": "16. 빈칸에 알맞은 것은? (그 소방관은 정말 용감하구나!)",
+   "context": "How ___ the firefighter is!",
    "choices": [
     "brave",
     "a brave",
@@ -241,7 +258,8 @@
   {
    "no": 17,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "17. 다음 문장을 제안문으로 바르게 바꾼 것은? — We go to the palace.",
+   "q": "17. 다음 문장을 제안문으로 바르게 바꾼 것은?",
+   "context": "We go to the palace.",
    "choices": [
     "Let's go to the palace.",
     "Let's goes to the palace.",
@@ -255,6 +273,7 @@
    "no": 18,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
    "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "context": "",
    "choices": [
     "Don't be late for school.",
     "Wake up right now.",
@@ -268,6 +287,7 @@
    "no": 19,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
    "q": "19. 다음 중 감탄문으로 어법상 올바른 것은?",
+   "context": "",
    "choices": [
     "How a lovely girl she is!",
     "What lovely the girl is!",
@@ -281,6 +301,7 @@
    "no": 20,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
    "q": "20. 다음 중 감탄문으로 어법상 올바른 것은?",
+   "context": "",
    "choices": [
     "What an old tower it is!",
     "How an old tower it is!",
@@ -294,6 +315,7 @@
    "no": 21,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
    "q": "21. 다음 대화 중 어법상 어색한 것은?",
+   "context": "",
    "choices": [
     "A: Let's ride a bike. B: Sounds great.",
     "A: Let's make a cake. B: Sorry, I can't.",
@@ -306,7 +328,8 @@
   {
    "no": 22,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
-   "q": "22. 다음 문장을 부정명령문으로 바르게 바꾼 것은? (도로에 쓰레기를 버리지 마라.) — You throw trash on the road.",
+   "q": "22. 다음 문장을 부정명령문으로 바르게 바꾼 것은? (도로에 쓰레기를 버리지 마라.)",
+   "context": "You throw trash on the road.",
    "choices": [
     "Don't throw trash on the road.",
     "Doesn't throw trash on the road.",
@@ -320,6 +343,7 @@
    "no": 23,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
    "q": "23. 다음 중 나머지 셋과 형태가 <u>다른</u> 감탄문은?",
+   "context": "",
    "choices": [
     "How big the house is!",
     "How sweet this is!",
@@ -333,6 +357,7 @@
    "no": 24,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
    "q": "24. 우리말을 영어로 옮길 때 어법상 옳은 것은? (그것들은 정말 재미있구나!)",
+   "context": "",
    "choices": [
     "How interesting they are!",
     "What interesting they are!",
@@ -346,6 +371,7 @@
    "no": 25,
    "unit": "부정명령문·제안문·감탄문(그래머3 10-12)",
    "q": "25. 우리말을 영어로 옮길 때 어법상 옳은 것은? (그 치타는 정말 빨리 달리는구나!)",
+   "context": "",
    "choices": [
     "How fast the cheetah runs!",
     "What fast the cheetah runs!",

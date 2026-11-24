@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머1권_pronoun_beverb_test",
+ "title": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -38,7 +39,8 @@
   {
    "no": 1,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은? — Tom is my friend.",
+   "q": "밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?",
+   "context": "Tom is my friend.",
    "choices": [
     "She",
     "He",
@@ -51,7 +53,8 @@
   {
    "no": 2,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은? — Jane and I are students.",
+   "q": "밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?",
+   "context": "Jane and I are students.",
    "choices": [
     "They",
     "She",
@@ -64,7 +67,8 @@
   {
    "no": 3,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은? — The cat is cute.",
+   "q": "밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?",
+   "context": "The cat is cute.",
    "choices": [
     "He",
     "She",
@@ -77,7 +81,8 @@
   {
    "no": 4,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은? — Tom and Jerry are funny.",
+   "q": "밑줄 친 부분을 대명사로 바꾼 것으로 알맞은 것은?",
+   "context": "Tom and Jerry are funny.",
    "choices": [
     "He",
     "She",
@@ -90,7 +95,8 @@
   {
    "no": 5,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 주격 대명사를 고르세요. — ___ is my teacher. (여자 선생님)",
+   "q": "빈칸에 알맞은 주격 대명사를 고르세요.",
+   "context": "___ is my teacher. (여자 선생님)",
    "choices": [
     "He",
     "It",
@@ -103,7 +109,8 @@
   {
    "no": 6,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 주격 대명사를 고르세요. — ___ are my friends. (친구들)",
+   "q": "빈칸에 알맞은 주격 대명사를 고르세요.",
+   "context": "___ are my friends. (친구들)",
    "choices": [
     "He",
     "She",
@@ -116,7 +123,8 @@
   {
    "no": 7,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 주격 대명사를 고르세요. — ___ is a ball. (공)",
+   "q": "빈칸에 알맞은 주격 대명사를 고르세요.",
+   "context": "___ is a ball. (공)",
    "choices": [
     "He",
     "She",
@@ -130,6 +138,7 @@
    "no": 8,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
    "q": "다음 중 주격 인칭대명사가 아닌 것은?",
+   "context": "",
    "choices": [
     "I",
     "We",
@@ -142,7 +151,8 @@
   {
    "no": 9,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 be동사를 고르세요. — I ___ a student.",
+   "q": "빈칸에 알맞은 be동사를 고르세요.",
+   "context": "I ___ a student.",
    "choices": [
     "is",
     "are",
@@ -155,7 +165,8 @@
   {
    "no": 10,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 be동사를 고르세요. — She ___ kind.",
+   "q": "빈칸에 알맞은 be동사를 고르세요.",
+   "context": "She ___ kind.",
    "choices": [
     "am",
     "are",
@@ -168,7 +179,8 @@
   {
    "no": 11,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 be동사를 고르세요. — They ___ soccer players.",
+   "q": "빈칸에 알맞은 be동사를 고르세요.",
+   "context": "They ___ soccer players.",
    "choices": [
     "am",
     "is",
@@ -181,7 +193,8 @@
   {
    "no": 12,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 be동사를 고르세요. — He ___ tall and strong.",
+   "q": "빈칸에 알맞은 be동사를 고르세요.",
+   "context": "He ___ tall and strong.",
    "choices": [
     "am",
     "are",
@@ -194,7 +207,8 @@
   {
    "no": 13,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 be동사를 고르세요. — You ___ very smart.",
+   "q": "빈칸에 알맞은 be동사를 고르세요.",
+   "context": "You ___ very smart.",
    "choices": [
     "am",
     "is",
@@ -207,7 +221,8 @@
   {
    "no": 14,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 be동사를 고르세요. — We ___ best friends.",
+   "q": "빈칸에 알맞은 be동사를 고르세요.",
+   "context": "We ___ best friends.",
    "choices": [
     "is",
     "am",
@@ -221,6 +236,7 @@
    "no": 15,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "I are happy.",
     "She am tall.",
@@ -234,6 +250,7 @@
    "no": 16,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "We is classmates.",
     "I is a teacher.",
@@ -246,7 +263,8 @@
   {
    "no": 17,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "알맞은 부정문을 고르세요. — 나는 피곤하지 않다.",
+   "q": "알맞은 부정문을 고르세요.",
+   "context": "나는 피곤하지 않다.",
    "choices": [
     "I not am tired.",
     "I don't tired.",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "알맞은 부정문을 고르세요. — 그는 의사가 아니다.",
+   "q": "알맞은 부정문을 고르세요.",
+   "context": "그는 의사가 아니다.",
    "choices": [
     "He don't a doctor.",
     "He is not a doctor.",
@@ -272,7 +291,8 @@
   {
    "no": 19,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — They ___ my classmates.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "They ___ my classmates.",
    "choices": [
     "isn't",
     "am not",
@@ -285,7 +305,8 @@
   {
    "no": 20,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — She ___ from Korea.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "She ___ from Korea.",
    "choices": [
     "aren't",
     "am not",
@@ -299,6 +320,7 @@
    "no": 21,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
    "q": "다음 중 올바른 부정문은?",
+   "context": "",
    "choices": [
     "I isn't a singer.",
     "We amn't late.",
@@ -311,7 +333,8 @@
   {
    "no": 22,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 우리는 같은 반이 아니다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "우리는 같은 반이 아니다.",
    "choices": [
     "We don't same class.",
     "We isn't in the same class.",
@@ -324,7 +347,8 @@
   {
    "no": 23,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "알맞은 의문문을 고르세요. — (너는 행복하니?)",
+   "q": "알맞은 의문문을 고르세요.",
+   "context": "(너는 행복하니?)",
    "choices": [
     "Do you happy?",
     "You are happy?",
@@ -337,7 +361,8 @@
   {
    "no": 24,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "알맞은 의문문을 고르세요. — (그녀는 선생님이니?)",
+   "q": "알맞은 의문문을 고르세요.",
+   "context": "(그녀는 선생님이니?)",
    "choices": [
     "Does she a teacher?",
     "Is she a teacher?",
@@ -350,7 +375,8 @@
   {
    "no": 25,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — ___ they brothers?",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "___ they brothers?",
    "choices": [
     "Do",
     "Is",
@@ -363,7 +389,8 @@
   {
    "no": 26,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "빈칸에 알맞은 말을 고르세요. — ___ he from Canada?",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "___ he from Canada?",
    "choices": [
     "Are",
     "Am",
@@ -376,7 +403,8 @@
   {
    "no": 27,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "의문문에 대한 알맞은 대답은? — Are you okay?",
+   "q": "의문문에 대한 알맞은 대답은?",
+   "context": "Are you okay?",
    "choices": [
     "Yes, I am.",
     "Yes, I do.",
@@ -389,7 +417,8 @@
   {
    "no": 28,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "의문문에 대한 알맞은 대답은? — Is she your sister?",
+   "q": "의문문에 대한 알맞은 대답은?",
+   "context": "Is she your sister?",
    "choices": [
     "No, she don't.",
     "No, she isn't.",
@@ -403,6 +432,7 @@
    "no": 29,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
    "q": "다음 중 올바른 의문문은?",
+   "context": "",
    "choices": [
     "Am they tired?",
     "Is we late?",
@@ -415,7 +445,8 @@
   {
    "no": 30,
    "unit": "주격인칭대명사·be동사 부정문·의문문 (Grammar1권 L1~4)",
-   "q": "다음 대화의 빈칸에 알맞은 말은? — A: Are they your parents?  B: Yes, ___ ___.",
+   "q": "다음 대화의 빈칸에 알맞은 말은?",
+   "context": "A: Are they your parents?  B: Yes, ___ ___.",
    "choices": [
     "they do",
     "they is",

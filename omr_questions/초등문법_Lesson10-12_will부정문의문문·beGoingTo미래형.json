@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_Lesson10-12_will부정문의문문·beGoingTo미래형",
+ "title": "will 부정문·의문문 & be going to 미래형",
  "totalQuestions": 25,
  "numChoices": 4,
  "answerKey": [
@@ -33,7 +34,8 @@
   {
    "no": 1,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "1. 빈칸에 알맞은 것은? (그는 내일 늦게 집에 오지 않을 것이다.) — He ___ come home late tomorrow.",
+   "q": "1. 빈칸에 알맞은 것은? (그는 내일 늦게 집에 오지 않을 것이다.)",
+   "context": "He ___ come home late tomorrow.",
    "choices": [
     "will not",
     "wills not",
@@ -46,7 +48,8 @@
   {
    "no": 2,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "2. 빈칸에 알맞은 것은? (너는 오늘 밤 네 방을 청소할 거니?) — ___ you clean your room tonight?",
+   "q": "2. 빈칸에 알맞은 것은? (너는 오늘 밤 네 방을 청소할 거니?)",
+   "context": "___ you clean your room tonight?",
    "choices": [
     "Will",
     "Do",
@@ -59,7 +62,8 @@
   {
    "no": 3,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "3. 빈칸에 알맞은 것은? (나는 다음 주에 제주도를 방문할 예정이다.) — I ___ going to visit Jeju next week.",
+   "q": "3. 빈칸에 알맞은 것은? (나는 다음 주에 제주도를 방문할 예정이다.)",
+   "context": "I ___ going to visit Jeju next week.",
    "choices": [
     "am",
     "is",
@@ -72,7 +76,8 @@
   {
    "no": 4,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "4. 빈칸에 알맞은 것은? (그녀는 쿠키를 구울 예정이다.) — She ___ going to bake cookies.",
+   "q": "4. 빈칸에 알맞은 것은? (그녀는 쿠키를 구울 예정이다.)",
+   "context": "She ___ going to bake cookies.",
    "choices": [
     "is",
     "are",
@@ -85,7 +90,8 @@
   {
    "no": 5,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "5. 빈칸에 알맞은 것은? (그들은 불꽃놀이를 볼 예정이다.) — They ___ going to watch fireworks.",
+   "q": "5. 빈칸에 알맞은 것은? (그들은 불꽃놀이를 볼 예정이다.)",
+   "context": "They ___ going to watch fireworks.",
    "choices": [
     "are",
     "is",
@@ -98,7 +104,8 @@
   {
    "no": 6,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "6. 빈칸에 알맞은 것은? (그는 그 동아리에 가입할 예정이니?) — ___ he going to join the club?",
+   "q": "6. 빈칸에 알맞은 것은? (그는 그 동아리에 가입할 예정이니?)",
+   "context": "___ he going to join the club?",
    "choices": [
     "Is",
     "Are",
@@ -111,7 +118,8 @@
   {
    "no": 7,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "7. 빈칸에 알맞은 것은? (우리는 이번 겨울에 여행하지 않을 예정이다.) — We ___ not going to travel this winter.",
+   "q": "7. 빈칸에 알맞은 것은? (우리는 이번 겨울에 여행하지 않을 예정이다.)",
+   "context": "We ___ not going to travel this winter.",
    "choices": [
     "are",
     "is",
@@ -125,6 +133,7 @@
    "no": 8,
    "unit": "will 부정문·의문문 & be going to 미래형",
    "q": "8. 다음 중 어법상 올바른 문장은?",
+   "context": "",
    "choices": [
     "She will goes there.",
     "She will go there.",
@@ -137,7 +146,8 @@
   {
    "no": 9,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "9. 빈칸에 알맞은 것은? (그는 다시는 규칙을 어기지 않을 것이다.) — He ___ break the rules again.",
+   "q": "9. 빈칸에 알맞은 것은? (그는 다시는 규칙을 어기지 않을 것이다.)",
+   "context": "He ___ break the rules again.",
    "choices": [
     "won't",
     "wonot",
@@ -151,6 +161,7 @@
    "no": 10,
    "unit": "will 부정문·의문문 & be going to 미래형",
    "q": "10. 다음 중 어법상 <u>틀린</u> 것은?",
+   "context": "",
    "choices": [
     "Will you chew gum?",
     "Will you to chew gum?",
@@ -163,7 +174,8 @@
   {
    "no": 11,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "11. 대화의 빈칸에 알맞은 것은? (Q: 너 껌 씹을 거니? A: 아니, 안 그럴 거야.) — A: ___ you chew gum?   B: No, I ___.",
+   "q": "11. 대화의 빈칸에 알맞은 것은? (Q: 너 껌 씹을 거니? A: 아니, 안 그럴 거야.)",
+   "context": "A: ___ you chew gum?   B: No, I ___.",
    "choices": [
     "Will / won't",
     "Do / don't",
@@ -176,7 +188,8 @@
   {
    "no": 12,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "12. 빈칸에 알맞은 것은? (그 여자는 야식을 먹지 않을 예정이다.) — The woman ___ going to eat a late-night snack.",
+   "q": "12. 빈칸에 알맞은 것은? (그 여자는 야식을 먹지 않을 예정이다.)",
+   "context": "The woman ___ going to eat a late-night snack.",
    "choices": [
     "is not",
     "does not",
@@ -189,7 +202,8 @@
   {
    "no": 13,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "13. 다음 문장을 의문문으로 바르게 바꾼 것은? — Mia is going to join the handball team.",
+   "q": "13. 다음 문장을 의문문으로 바르게 바꾼 것은?",
+   "context": "Mia is going to join the handball team.",
    "choices": [
     "Is Mia going to join the handball team?",
     "Does Mia going to join the handball team?",
@@ -202,7 +216,8 @@
   {
    "no": 14,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "14. 빈칸에 알맞은 것은? (그 쌍둥이들은 같은 옷을 입지 않을 예정이다.) — The twins ___ going to wear the same clothes.",
+   "q": "14. 빈칸에 알맞은 것은? (그 쌍둥이들은 같은 옷을 입지 않을 예정이다.)",
+   "context": "The twins ___ going to wear the same clothes.",
    "choices": [
     "are not",
     "is not",
@@ -215,7 +230,8 @@
   {
    "no": 15,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "15. 빈칸에 알맞은 것은? (그 태풍은 괌을 지나가지 않을 예정이다.) — The typhoon ___ going to pass through Guam.",
+   "q": "15. 빈칸에 알맞은 것은? (그 태풍은 괌을 지나가지 않을 예정이다.)",
+   "context": "The typhoon ___ going to pass through Guam.",
    "choices": [
     "is not",
     "are not",
@@ -229,6 +245,7 @@
    "no": 16,
    "unit": "will 부정문·의문문 & be going to 미래형",
    "q": "16. 다음 대화 중 어색한 것은?",
+   "context": "",
    "choices": [
     "A: Will Alex go to the dentist? B: Yes, he will.",
     "A: Is Olivia going to learn ballet? B: Yes, she is.",
@@ -241,7 +258,8 @@
   {
    "no": 17,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "17. 빈칸에 알맞은 것은? (그녀는 팔걸이 의자를 사러 쇼핑을 갈 예정이니?) — ___ she going to go shopping for an armchair?",
+   "q": "17. 빈칸에 알맞은 것은? (그녀는 팔걸이 의자를 사러 쇼핑을 갈 예정이니?)",
+   "context": "___ she going to go shopping for an armchair?",
    "choices": [
     "Is",
     "Are",
@@ -255,6 +273,7 @@
    "no": 18,
    "unit": "will 부정문·의문문 & be going to 미래형",
    "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "context": "",
    "choices": [
     "He is not going to stay home.",
     "She won't come late.",
@@ -268,6 +287,7 @@
    "no": 19,
    "unit": "will 부정문·의문문 & be going to 미래형",
    "q": "19. 다음 대화 중 어색한 것은?",
+   "context": "",
    "choices": [
     "A: Is he going to visit his grandparents? B: Yes, he is.",
     "A: Are you going to eat turkey? B: No, I'm not.",
@@ -281,6 +301,7 @@
    "no": 20,
    "unit": "will 부정문·의문문 & be going to 미래형",
    "q": "20. 우리말을 영어로 옮길 때 어법상 옳은 것은? (그 남자는 그들을 파티에 초대하지 않을 것이다.)",
+   "context": "",
    "choices": [
     "The man will not invite them to the party.",
     "The man will not invites them to the party.",
@@ -294,6 +315,7 @@
    "no": 21,
    "unit": "will 부정문·의문문 & be going to 미래형",
    "q": "21. 다음 중 나머지 셋과 형태가 <u>다른</u> 것은?",
+   "context": "",
    "choices": [
     "I am going to study in the library.",
     "He is going to mow the lawn.",
@@ -306,7 +328,8 @@
   {
    "no": 22,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "22. 다음 문장을 부정문으로 바르게 바꾼 것은? — They are going to fail the driving test.",
+   "q": "22. 다음 문장을 부정문으로 바르게 바꾼 것은?",
+   "context": "They are going to fail the driving test.",
    "choices": [
     "They are not going to fail the driving test.",
     "They do not going to fail the driving test.",
@@ -319,7 +342,8 @@
   {
    "no": 23,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "23. 빈칸에 알맞은 것은? (내일 하늘이 맑을 예정이니?) — ___ the sky going to be clear tomorrow?",
+   "q": "23. 빈칸에 알맞은 것은? (내일 하늘이 맑을 예정이니?)",
+   "context": "___ the sky going to be clear tomorrow?",
    "choices": [
     "Is",
     "Are",
@@ -333,6 +357,7 @@
    "no": 24,
    "unit": "will 부정문·의문문 & be going to 미래형",
    "q": "24. 다음 중 어법상 올바른 문장은?",
+   "context": "",
    "choices": [
     "Is you going to get a lizard?",
     "Are you going to get a lizard?",
@@ -345,7 +370,8 @@
   {
    "no": 25,
    "unit": "will 부정문·의문문 & be going to 미래형",
-   "q": "25. 다음 밑줄 친 부분을 바르게 고친 것은? — He <u>are going to</u> visit his grandmother.",
+   "q": "25. 다음 밑줄 친 부분을 바르게 고친 것은?",
+   "context": "He <u>are going to</u> visit his grandmother.",
    "choices": [
     "is going to",
     "will going to",

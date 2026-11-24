@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_grammar3-7-9",
+ "title": "must·명령문 퀴즈 (Grammar3 L7~9)",
  "totalQuestions": 25,
  "numChoices": 4,
  "answerKey": [
@@ -33,7 +34,8 @@
   {
    "no": 1,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "1. 빈칸에 알맞은 것은? (그들은 제시간에 와야 한다.) — They ___ be on time.",
+   "q": "1. 빈칸에 알맞은 것은? (그들은 제시간에 와야 한다.)",
+   "context": "They ___ be on time.",
    "choices": [
     "must",
     "musts",
@@ -46,7 +48,8 @@
   {
    "no": 2,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "2. 빈칸에 알맞은 것은? (그녀는 줄을 서야 한다.) — She must ___ in line.",
+   "q": "2. 빈칸에 알맞은 것은? (그녀는 줄을 서야 한다.)",
+   "context": "She must ___ in line.",
    "choices": [
     "stand",
     "stands",
@@ -60,6 +63,7 @@
    "no": 3,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "3. 다음 중 어법상 올바른 문장은?",
+   "context": "",
    "choices": [
     "You answer must the question.",
     "You must answer the question.",
@@ -72,7 +76,8 @@
   {
    "no": 4,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "4. 다음 문장을 명령문으로 바르게 바꾼 것은? — You bend your knees.",
+   "q": "4. 다음 문장을 명령문으로 바르게 바꾼 것은?",
+   "context": "You bend your knees.",
    "choices": [
     "Bend your knees.",
     "You bend knees.",
@@ -85,7 +90,8 @@
   {
    "no": 5,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "5. 다음 문장을 명령문으로 바르게 바꾼 것은? — You are careful with fire.",
+   "q": "5. 다음 문장을 명령문으로 바르게 바꾼 것은?",
+   "context": "You are careful with fire.",
    "choices": [
     "Be careful with fire.",
     "Are careful with fire.",
@@ -98,7 +104,8 @@
   {
    "no": 6,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "6. 빈칸에 알맞은 것은? (그 편지를 열어서는 안 된다.) — You ___ open the letter.",
+   "q": "6. 빈칸에 알맞은 것은? (그 편지를 열어서는 안 된다.)",
+   "context": "You ___ open the letter.",
    "choices": [
     "must not",
     "not must",
@@ -112,6 +119,7 @@
    "no": 7,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "7. 다음 중 명령문으로 알맞은 것은? (숙제를 해라.)",
+   "context": "",
    "choices": [
     "Do your homework.",
     "You do your homework.",
@@ -125,6 +133,7 @@
    "no": 8,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "8. 다음 중 공손한 명령문으로 알맞은 것은? (이곳에서는 조용히 해 주세요.)",
+   "context": "",
    "choices": [
     "Please be quiet here.",
     "Please quiet here.",
@@ -137,7 +146,8 @@
   {
    "no": 9,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "9. 빈칸에 알맞은 것은? (그는 기차를 타야 한다.) — He ___ take a train.",
+   "q": "9. 빈칸에 알맞은 것은? (그는 기차를 타야 한다.)",
+   "context": "He ___ take a train.",
    "choices": [
     "must",
     "must to",
@@ -150,7 +160,8 @@
   {
    "no": 10,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "10. 다음 문장을 같은 뜻으로 바꾼 것은? — I must go home now.",
+   "q": "10. 다음 문장을 같은 뜻으로 바꾼 것은?",
+   "context": "I must go home now.",
    "choices": [
     "I have to go home now.",
     "I has to go home now.",
@@ -163,7 +174,8 @@
   {
    "no": 11,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "11. 다음 문장을 같은 뜻으로 바꾼 것은? (3인칭 단수 주어) — She must wear her shoe.",
+   "q": "11. 다음 문장을 같은 뜻으로 바꾼 것은? (3인칭 단수 주어)",
+   "context": "She must wear her shoe.",
    "choices": [
     "She has to wear her shoe.",
     "She have to wear her shoe.",
@@ -176,7 +188,8 @@
   {
    "no": 12,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "12. 빈칸에 알맞은 것은? (너는 그 개를 만져서는 안 돼.) — You ___ touch the dog.",
+   "q": "12. 빈칸에 알맞은 것은? (너는 그 개를 만져서는 안 돼.)",
+   "context": "You ___ touch the dog.",
    "choices": [
     "must not",
     "don't have to",
@@ -189,7 +202,8 @@
   {
    "no": 13,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "13. 빈칸에 알맞은 것은? (너는 겁낼 필요가 없어.) — You ___ be afraid.",
+   "q": "13. 빈칸에 알맞은 것은? (너는 겁낼 필요가 없어.)",
+   "context": "You ___ be afraid.",
    "choices": [
     "don't have to",
     "must not",
@@ -203,6 +217,7 @@
    "no": 14,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "14. 다음 중 '~할 필요가 없다'라는 의미를 나타내는 것은?",
+   "context": "",
    "choices": [
     "must not",
     "mustn't",
@@ -215,7 +230,8 @@
   {
    "no": 15,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "15. 다음 문장에서 어법상 틀린 부분을 바르게 고친 것은? (종이를 재활용해라.) — Recycles paper.",
+   "q": "15. 다음 문장에서 어법상 틀린 부분을 바르게 고친 것은? (종이를 재활용해라.)",
+   "context": "Recycles paper.",
    "choices": [
     "Recycle paper.",
     "Recycling paper.",
@@ -228,7 +244,8 @@
   {
    "no": 16,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "16. 빈칸에 알맞은 것은? (금붕어들에게 먹이를 줘서는 안 된다.) — You ___ feed the goldfish.",
+   "q": "16. 빈칸에 알맞은 것은? (금붕어들에게 먹이를 줘서는 안 된다.)",
+   "context": "You ___ feed the goldfish.",
    "choices": [
     "must not",
     "don't have to",
@@ -241,7 +258,8 @@
   {
    "no": 17,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "17. 대화의 빈칸에 알맞은 것은? — A: Becky, we have enough time.   B: You ___ hurry.",
+   "q": "17. 대화의 빈칸에 알맞은 것은?",
+   "context": "A: Becky, we have enough time.   B: You ___ hurry.",
    "choices": [
     "don't have to",
     "must not",
@@ -255,6 +273,7 @@
    "no": 18,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "18. 어법상 <u>틀린</u> 문장은?",
+   "context": "",
    "choices": [
     "You must not walk on the grass.",
     "We don't have to go to school on Sunday.",
@@ -268,6 +287,7 @@
    "no": 19,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "19. 다음 중 의미가 <u>다른</u> 하나는?",
+   "context": "",
    "choices": [
     "You must not touch the dog.",
     "You mustn't touch the dog.",
@@ -281,6 +301,7 @@
    "no": 20,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "20. 다음 명령문 중 어법상 <u>틀린</u> 것은?",
+   "context": "",
    "choices": [
     "Stand up, please.",
     "Stands up, please.",
@@ -293,7 +314,8 @@
   {
    "no": 21,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "21. 다음 문장에서 어법상 틀린 부분을 바르게 고친 것은? (수업 시간에 소음을 내지 마라.) — He must not makes noise in class.",
+   "q": "21. 다음 문장에서 어법상 틀린 부분을 바르게 고친 것은? (수업 시간에 소음을 내지 마라.)",
+   "context": "He must not makes noise in class.",
    "choices": [
     "He must not make noise in class.",
     "He must not making noise in class.",
@@ -307,6 +329,7 @@
    "no": 22,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "22. 다음 대화 중 어법상 옳은 것은?",
+   "context": "",
    "choices": [
     "A: This letter is for your sister. B: You must not open the letter.",
     "A: This letter is for your sister. B: You must not opens the letter.",
@@ -320,6 +343,7 @@
    "no": 23,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "23. 우리말을 영어로 바르게 옮긴 것은? (너희들은 연못에 있는 금붕어들에게 먹이를 줘서는 안 된다.)",
+   "context": "",
    "choices": [
     "You must not feed the goldfish in the pond.",
     "You don't have to feed the goldfish in the pond.",
@@ -333,6 +357,7 @@
    "no": 24,
    "unit": "must·명령문(그래머3 7-9)",
    "q": "24. 다음 중 명령문의 형태가 <u>올바르지 않은</u> 것은?",
+   "context": "",
    "choices": [
     "Open the door.",
     "Close the window.",
@@ -345,7 +370,8 @@
   {
    "no": 25,
    "unit": "must·명령문(그래머3 7-9)",
-   "q": "25. 밑줄 친 부분과 바꿔 쓸 수 있는 것은? — You need to wear swimming goggles. = You ___ wear swimming goggles.",
+   "q": "25. 밑줄 친 부분과 바꿔 쓸 수 있는 것은?",
+   "context": "You need to wear swimming goggles. = You ___ wear swimming goggles.",
    "choices": [
     "must",
     "mustn't",

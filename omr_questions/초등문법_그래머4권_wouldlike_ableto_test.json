@@ -1,5 +1,6 @@
 {
  "examName": "초등문법_그래머4권_wouldlike_ableto_test",
+ "title": "would like to·be able to (Grammar4권 L7~8)",
  "totalQuestions": 30,
  "numChoices": 4,
  "answerKey": [
@@ -39,6 +40,7 @@
    "no": 1,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "'be able to'의 뜻으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "~해야 한다",
     "~하고 싶다",
@@ -51,7 +53,8 @@
   {
    "no": 2,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I ___ able to swim.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I ___ able to swim.",
    "choices": [
     "can",
     "do",
@@ -64,7 +67,8 @@
   {
    "no": 3,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "빈칸에 알맞은 말을 고르세요. — She ___ able to speak French.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "She ___ able to speak French.",
    "choices": [
     "am",
     "are",
@@ -77,7 +81,8 @@
   {
    "no": 4,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "빈칸에 알맞은 말을 고르세요. — They ___ able to run very fast.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "They ___ able to run very fast.",
    "choices": [
     "is",
     "am",
@@ -91,6 +96,7 @@
    "no": 5,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "be able to 뒤에 오는 동사의 형태는?",
+   "context": "",
    "choices": [
     "동사+s/es",
     "동사+ing",
@@ -104,6 +110,7 @@
    "no": 6,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "다음 중 올바른 문장은?",
+   "context": "",
    "choices": [
     "He is able to swims.",
     "She is able to dancing.",
@@ -116,7 +123,8 @@
   {
    "no": 7,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 그는 기타를 칠 수 있다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "그는 기타를 칠 수 있다.",
    "choices": [
     "He is able to plays the guitar.",
     "He are able to play the guitar.",
@@ -130,6 +138,7 @@
    "no": 8,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "can과 be able to는 서로 바꿔 쓸 수 있나요?",
+   "context": "",
    "choices": [
     "항상 바꿀 수 없다",
     "같은 의미로 바꿔 쓸 수 있다",
@@ -142,7 +151,8 @@
   {
    "no": 9,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "다음 문장을 be able to로 바꾼 것은? — I can cook pasta.",
+   "q": "다음 문장을 be able to로 바꾼 것은?",
+   "context": "I can cook pasta.",
    "choices": [
     "I am able to cooks pasta.",
     "I am able to cook pasta.",
@@ -155,7 +165,8 @@
   {
    "no": 10,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "다음 문장을 can으로 바꾼 것은? — She is able to draw well.",
+   "q": "다음 문장을 can으로 바꾼 것은?",
+   "context": "She is able to draw well.",
    "choices": [
     "She cans draw well.",
     "She can draws well.",
@@ -168,7 +179,8 @@
   {
    "no": 11,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "다음 문장을 be able to로 바꾼 것은? — They can jump high.",
+   "q": "다음 문장을 be able to로 바꾼 것은?",
+   "context": "They can jump high.",
    "choices": [
     "They is able to jump high.",
     "They are able to jumps high.",
@@ -181,7 +193,8 @@
   {
    "no": 12,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "다음 문장을 can으로 바꾼 것은? — He is able to speak English.",
+   "q": "다음 문장을 can으로 바꾼 것은?",
+   "context": "He is able to speak English.",
    "choices": [
     "He cans speak English.",
     "He can speaks English.",
@@ -194,7 +207,8 @@
   {
    "no": 13,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "다음 문장을 be able to로 바꾼 것은? — We can solve this problem.",
+   "q": "다음 문장을 be able to로 바꾼 것은?",
+   "context": "We can solve this problem.",
    "choices": [
     "We are able to solve this problem.",
     "We is able to solve this problem.",
@@ -208,6 +222,7 @@
    "no": 14,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "다음 중 뜻이 같은 문장끼리 묶인 것은?",
+   "context": "",
    "choices": [
     "I can swim. / I should swim.",
     "She can run. / She is able to run.",
@@ -221,6 +236,7 @@
    "no": 15,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "be able to의 부정문 형태로 알맞은 것은?",
+   "context": "",
    "choices": [
     "be not able to",
     "be able not to",
@@ -233,7 +249,8 @@
   {
    "no": 16,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I ___ not able to fly.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I ___ not able to fly.",
    "choices": [
     "do",
     "can",
@@ -246,7 +263,8 @@
   {
    "no": 17,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "다음 문장을 be able to 부정문으로 바꾼 것은? — She can't sing.",
+   "q": "다음 문장을 be able to 부정문으로 바꾼 것은?",
+   "context": "She can't sing.",
    "choices": [
     "She is not able to sings.",
     "She is able to not sing.",
@@ -259,7 +277,8 @@
   {
    "no": 18,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "다음 문장을 be able to 부정문으로 바꾼 것은? — They can't run fast.",
+   "q": "다음 문장을 be able to 부정문으로 바꾼 것은?",
+   "context": "They can't run fast.",
    "choices": [
     "They are not able to run fast.",
     "They is not able to run fast.",
@@ -273,6 +292,7 @@
    "no": 19,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "다음 중 올바른 부정문은?",
+   "context": "",
    "choices": [
     "He is not able to swims.",
     "She are not able to dance.",
@@ -285,7 +305,8 @@
   {
    "no": 20,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 그녀는 피아노를 칠 수 없다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "그녀는 피아노를 칠 수 없다.",
    "choices": [
     "She is able to play the piano.",
     "She is not able to plays the piano.",
@@ -299,6 +320,7 @@
    "no": 21,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "'Can you swim?'을 be able to 의문문으로 바꾼 것은?",
+   "context": "",
    "choices": [
     "Do you able to swim?",
     "Is you able to swim?",
@@ -312,6 +334,7 @@
    "no": 22,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "'Can he play soccer?'를 be able to 의문문으로 바꾼 것은?",
+   "context": "",
    "choices": [
     "Is he able to play soccer?",
     "Are he able to play soccer?",
@@ -325,6 +348,7 @@
    "no": 23,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "'Can they speak Korean?'을 be able to 의문문으로 바꾼 것은?",
+   "context": "",
    "choices": [
     "Is they able to speak Korean?",
     "Are they able to speak Korean?",
@@ -337,7 +361,8 @@
   {
    "no": 24,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "의문문에 대한 알맞은 대답은? — Are you able to ride a horse?",
+   "q": "의문문에 대한 알맞은 대답은?",
+   "context": "Are you able to ride a horse?",
    "choices": [
     "Yes, I can.",
     "Yes, I am.",
@@ -350,7 +375,8 @@
   {
    "no": 25,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "의문문에 대한 알맞은 대답은? — Is she able to cook?",
+   "q": "의문문에 대한 알맞은 대답은?",
+   "context": "Is she able to cook?",
    "choices": [
     "No, she can't.",
     "No, she isn't.",
@@ -364,6 +390,7 @@
    "no": 26,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "'would like to'의 뜻으로 알맞은 것은?",
+   "context": "",
    "choices": [
     "~해야 한다",
     "~할 수 있다",
@@ -377,6 +404,7 @@
    "no": 27,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "would like to 뒤에 오는 동사의 형태는?",
+   "context": "",
    "choices": [
     "동사+s/es",
     "동사+ing",
@@ -389,7 +417,8 @@
   {
    "no": 28,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "빈칸에 알맞은 말을 고르세요. — I would like to ___ a pizza.",
+   "q": "빈칸에 알맞은 말을 고르세요.",
+   "context": "I would like to ___ a pizza.",
    "choices": [
     "eats",
     "eating",
@@ -403,6 +432,7 @@
    "no": 29,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
    "q": "다음 중 would like to가 올바르게 쓰인 문장은?",
+   "context": "",
    "choices": [
     "She would like to swims.",
     "He would like to dancing.",
@@ -415,7 +445,8 @@
   {
    "no": 30,
    "unit": "would like to·be able to (Grammar4권 L7~8)",
-   "q": "우리말 뜻에 맞는 영어 문장은? — 나는 의사가 되고 싶다.",
+   "q": "우리말 뜻에 맞는 영어 문장은?",
+   "context": "나는 의사가 되고 싶다.",
    "choices": [
     "I would like to is a doctor.",
     "I would like to am a doctor.",
