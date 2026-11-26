@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>when·before·after 접·주·동 매일 5분 훈련</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{--navy:#1d2b4f;--bur:#8a2240;--gold:#c98a12;--bg:#f4f5f9;--card:#fff;--ink:#1b2133;--muted:#5c6478;--line:#dfe2ea;--soft:#eef0f6;--ok:#1f8a4c;--okbg:#e3f6ea;--no:#c0392b;--nobg:#fbe7e5;--mid:#b7791f;--midbg:#fdf3e1}
+@media (prefers-color-scheme:dark){:root{--bg:#12151f;--card:#1b2030;--ink:#e8eaf1;--muted:#a3a9ba;--line:#2d3346;--soft:#232a3d;--bur:#e0708c;--okbg:#14301f;--ok:#5fd18f;--nobg:#3a1714;--no:#ff8a7a;--midbg:#3a2e14;--mid:#f0b54d;color-scheme:dark}}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,sans-serif;font-size:16px;line-height:1.55}
+button,input{font:inherit}
+header{background:var(--navy);color:#fff;position:sticky;top:0;z-index:5}
+header .w{max-width:720px;margin:0 auto;padding:10px 14px;display:flex;gap:8px;align-items:center}
+.brand{font-family:"Do Hyeon",sans-serif;font-size:20px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hb{background:transparent;border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:8px;padding:4px 11px;font-size:13px;cursor:pointer}
+main{max-width:720px;margin:0 auto;padding:14px 14px 90px}
+h1{font-family:"Do Hyeon",sans-serif;font-weight:400;font-size:26px;margin:2px 0 4px;line-height:1.25}
+.eye{font-size:12px;font-weight:700;color:var(--bur)}
+.muted{color:var(--muted);font-size:13.5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin:10px 0}
+.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:700;background:var(--navy);color:#fff;cursor:pointer;width:100%;font-size:16px}
+.btn.bur{background:var(--bur)}.btn.gh{background:var(--soft);color:var(--ink)}.btn:disabled{opacity:.45}
+input[type=text]{width:100%;color:var(--ink);background:var(--card);border:1.5px solid #c9cedb;border-radius:12px;padding:11px 13px}
+.err{color:var(--no);font-size:14px;margin-top:8px}
+.routine{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.routine div{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.routine b{display:block;font-family:"Do Hyeon",sans-serif;font-size:30px;color:var(--bur);line-height:1}
+.routine span{font-size:12.5px;color:var(--muted)}
+.days{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.dy{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;padding:10px 4px;cursor:pointer;text-align:center}
+.dy b{display:block;font-size:15px}.dy span{font-size:11.5px;color:var(--muted)}
+.dy.done{border-color:var(--ok);background:var(--okbg)}.dy.next{border-color:var(--bur)}
+.prog{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;margin:6px 0 2px}.prog i{display:block;height:100%;background:var(--bur)}
+.ko{font-size:15px;color:var(--muted);margin-bottom:6px}
+.sen{font-size:19px;font-weight:500;line-height:1.5}
+.sen .v{background:#fff2c6;border-radius:4px;padding:0 3px}
+@media (prefers-color-scheme:dark){.sen .v{background:#4a3d12}}
+.tg{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.tg button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:8px 13px;font-weight:700;cursor:pointer;font-size:14.5px}
+.tg button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.tg button.right{background:var(--ok);border-color:var(--ok);color:#fff}.tg button.wrong{background:var(--no);border-color:var(--no);color:#fff}
+.blank{display:inline-block;min-width:70px;border-bottom:2.5px solid var(--bur);text-align:center;font-weight:700;color:var(--bur);padding:0 4px}
+.pick{margin-top:10px}.pick .lb{font-size:13px;color:var(--muted);margin:6px 0 4px}
+.ans{min-height:58px;border:2px dashed #c9cedb;border-radius:14px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start;margin:10px 0}
+.pool{display:flex;flex-wrap:wrap;gap:7px;justify-content:center}
+.tl{border:1.5px solid #b9c0d2;background:var(--card);color:var(--ink);border-radius:10px;padding:7px 11px;font-size:16.5px;cursor:pointer;font-weight:500}
+.ans .tl{background:var(--soft)}
+.fb{border-radius:12px;padding:10px 12px;margin:10px 0;font-size:15px}
+.fb.ok{background:var(--okbg);color:var(--ok)}.fb.no{background:var(--nobg);color:var(--no)}.fb .c{color:var(--ink);display:block;margin-top:4px;font-weight:500}
+.fb .r{display:block;margin-top:6px;font-size:13.5px;color:var(--ink);background:rgba(127,127,127,.12);border-radius:8px;padding:6px 8px}
+.chk{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.chk span{font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 10px;background:var(--soft);color:var(--muted)}
+.chk span.on{background:var(--navy);color:#fff}
+.big{font-family:"Do Hyeon",sans-serif;font-size:54px;text-align:center;color:var(--bur);line-height:1.1}
+.bars div{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:14px}.bars b{width:150px;flex:none}.bars .bb{flex:1;height:12px;background:var(--soft);border-radius:6px;overflow:hidden}.bars .bb i{display:block;height:100%}
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom))}
+.bar .in{max-width:720px;margin:0 auto;display:flex;gap:8px}
+.pdf{display:block;text-align:center;border:1.5px dashed var(--bur);color:var(--bur);border-radius:12px;padding:10px;font-weight:700;text-decoration:none;margin:10px 0}
+.ft{text-align:center;font-size:12px;color:var(--muted);margin-top:24px}
+</style>
+</head>
+<body>
+<header><div class="w"><div class="brand">⏰ when·before·after 접·주·동 훈련</div><button class="hb" id="hm" style="display:none">홈</button><button class="hb" id="lo" style="display:none">로그아웃</button></div></header>
+<main id="app"></main>
+<script>
+// when · before · after 접·주·동 훈련 문장 은행 — 제작: 스텔라원장
+// [접속사, 절 주어, 절 동사[원형,3단,과거], 절 나머지, 주절 주어, 주절 동사[원형,3단,과거], 주절 나머지, 한글(습관), 한글(과거), 한글(미래)]
+var BANK=[
+["when","she",["get","gets","got"],"home","she",["wash","washes","washed"],"her hands","그녀는 집에 오면 손을 씻는다.","그녀는 어제 집에 왔을 때 손을 씻었다.","그녀는 내일 집에 오면 손을 씻을 것이다."],
+["after","Tom",["finish","finishes","finished"],"his homework","he",["play","plays","played"],"soccer","Tom은 숙제를 끝낸 후에 축구를 한다.","Tom은 어제 숙제를 끝낸 후에 축구를 했다.","Tom은 내일 숙제를 끝낸 후에 축구를 할 것이다."],
+["before","I",["go","go","went"],"to bed","I",["brush","brush","brushed"],"my teeth","나는 잠자리에 들기 전에 이를 닦는다.","나는 어제 잠자리에 들기 전에 이를 닦았다.","나는 내일 잠자리에 들기 전에 이를 닦을 것이다."],
+["when","it",["rain","rains","rained"],"","we",["stay","stay","stayed"],"home","비가 오면 우리는 집에 머문다.","어제 비가 왔을 때 우리는 집에 머물렀다.","내일 비가 오면 우리는 집에 머물 것이다."],
+["after","my mom",["cook","cooks","cooked"],"dinner","we",["eat","eat","ate"],"together","엄마가 저녁을 요리한 후에 우리는 함께 먹는다.","어제 엄마가 저녁을 요리한 후에 우리는 함께 먹었다.","내일 엄마가 저녁을 요리한 후에 우리는 함께 먹을 것이다."],
+["before","the movie",["start","starts","started"],"","they",["buy","buy","bought"],"popcorn","영화가 시작하기 전에 그들은 팝콘을 산다.","어제 영화가 시작하기 전에 그들은 팝콘을 샀다.","내일 영화가 시작하기 전에 그들은 팝콘을 살 것이다."],
+["when","my dad",["come","comes","came"],"back home","he",["watch","watches","watched"],"the news","아빠는 집에 돌아오면 뉴스를 본다.","아빠는 어제 집에 돌아왔을 때 뉴스를 봤다.","아빠는 내일 집에 돌아오면 뉴스를 볼 것이다."],
+["after","the class",["end","ends","ended"],"","Mina",["go","goes","went"],"to the library","수업이 끝난 후에 미나는 도서관에 간다.","어제 수업이 끝난 후에 미나는 도서관에 갔다.","내일 수업이 끝난 후에 미나는 도서관에 갈 것이다."],
+["when","I",["feel","feel","felt"],"tired","I",["take","take","took"],"a nap","나는 피곤하면 낮잠을 잔다.","나는 어제 피곤했을 때 낮잠을 잤다.","나는 내일 피곤하면 낮잠을 잘 것이다."],
+["before","he",["leave","leaves","left"],"the house","he",["check","checks","checked"],"the weather","그는 집을 나서기 전에 날씨를 확인한다.","그는 어제 집을 나서기 전에 날씨를 확인했다.","그는 내일 집을 나서기 전에 날씨를 확인할 것이다."],
+["after","we",["have","have","had"],"lunch","we",["take","take","took"],"a walk","우리는 점심을 먹은 후에 산책을 한다.","우리는 어제 점심을 먹은 후에 산책을 했다.","우리는 내일 점심을 먹은 후에 산책을 할 것이다."],
+["when","the baby",["cry","cries","cried"],"","his mother",["sing","sings","sang"],"a song","아기가 울면 엄마가 노래를 부른다.","어제 아기가 울었을 때 엄마가 노래를 불렀다.","내일 아기가 울면 엄마가 노래를 부를 것이다."],
+["before","Jiho",["eat","eats","ate"],"breakfast","he",["drink","drinks","drank"],"a glass of water","지호는 아침을 먹기 전에 물 한 잔을 마신다.","지호는 어제 아침을 먹기 전에 물 한 잔을 마셨다.","지호는 내일 아침을 먹기 전에 물 한 잔을 마실 것이다."],
+["when","my dog",["see","sees","saw"],"me","it",["wag","wags","wagged"],"its tail","내 개는 나를 보면 꼬리를 흔든다.","내 개는 어제 나를 봤을 때 꼬리를 흔들었다.","내 개는 내일 나를 보면 꼬리를 흔들 것이다."],
+["after","she",["do","does","did"],"the dishes","she",["watch","watches","watched"],"TV","그녀는 설거지를 한 후에 TV를 본다.","그녀는 어제 설거지를 한 후에 TV를 봤다.","그녀는 내일 설거지를 한 후에 TV를 볼 것이다."],
+["when","they",["arrive","arrive","arrived"],"at school","they",["say","say","said"],"hello to the teacher","그들은 학교에 도착하면 선생님께 인사한다.","그들은 어제 학교에 도착했을 때 선생님께 인사했다.","그들은 내일 학교에 도착하면 선생님께 인사할 것이다."],
+["after","Kevin",["wake","wakes","woke"],"up","he",["make","makes","made"],"his bed","Kevin은 일어난 후에 침대를 정리한다.","Kevin은 어제 일어난 후에 침대를 정리했다.","Kevin은 내일 일어난 후에 침대를 정리할 것이다."],
+["when","my sister",["study","studies","studied"],"","she",["listen","listens","listened"],"to music","내 여동생은 공부할 때 음악을 듣는다.","내 여동생은 어제 공부할 때 음악을 들었다.","내 여동생은 내일 공부할 때 음악을 들을 것이다."],
+["before","the game",["begin","begins","began"],"","the players",["warm","warm","warmed"],"up","경기가 시작하기 전에 선수들은 몸을 푼다.","어제 경기가 시작하기 전에 선수들은 몸을 풀었다.","내일 경기가 시작하기 전에 선수들은 몸을 풀 것이다."],
+["after","Dad",["wash","washes","washed"],"the car","he",["drive","drives","drove"],"to the store","아빠는 세차를 한 후에 가게로 운전해 간다.","아빠는 어제 세차를 한 후에 가게로 운전해 갔다.","아빠는 내일 세차를 한 후에 가게로 운전해 갈 것이다."]];
+var PLURAL={"I":1,"you":1,"we":1,"they":1,"the players":1};
+var is3=function(s){return !PLURAL[s]};
+var TIME={h:"",p:" yesterday",f:" tomorrow"};
+function rng(seed){var s=seed>>>0||1;return function(){s=(s*1103515245+12345)>>>0;return s/4294967296}}
+function vf(v,sub,t,role){ // 올바른 동사 형태
+  if(t==="p")return v[2];
+  if(t==="f"&&role==="main")return "will "+v[0];
+  return is3(sub)?v[1]:v[0]}
+function subj(e,first){var PR={"he":1,"she":1,"it":1,"they":1,"we":1,"I":1};if(!first&&!PR[e[1]]&&PR[e[4]]&&e[4]!=="I"&&e[4]!=="we")return [e[4],e[1]];return [e[1],e[4]]}
+function cap(x){return x.charAt(0).toUpperCase()+x.slice(1)}
+function build(e,t,first,over){over=over||{};
+  var c1=over.cv!=null?over.cv:vf(e[2],e[1],t,"cl"), m1=over.mv!=null?over.mv:vf(e[5],e[4],t,"main");
+  var SS=subj(e,first),S1=SS[0],S2=SS[1];
+  var csub=over.noSub?"":S1+" ";
+  var cl=(e[0]+" "+csub+c1+(e[3]?" "+e[3]:"")).replace(/\s+/g," ").trim();
+  var mn=(S2+" "+m1+(e[6]?" "+e[6]:"")).trim();
+  var tw=TIME[t];
+  if(first)return cap(cl)+tw+", "+mn+".";
+  return cap(mn)+" "+cl+tw+"."}
+function ko(e,t){return t==="h"?e[7]:t==="p"?e[8]:e[9]}
+var TAGS={ok:"⭕ 맞는 문장",will:"will 금지",s:"-s 빠짐 (3인칭 단수)",tense:"시제 틀림",subj:"주어 빠짐"};
+var RULE={will:"시간 접속사(when·before·after) 절 안에는 미래라도 will을 쓰지 않아요 → 현재시제!",s:"주어가 he·she·it·이름 하나면 현재시제 동사에 -s/-es!",tense:"어제(과거)면 두 동사 모두 과거, 습관이면 둘 다 현재, 미래면 접속사 절은 현재·주절만 will",subj:"접속사 뒤에는 꼭 주어 + 동사! (when ___ arrives ×)"};
+// 틀린 곳 찾기 문항 만들기
+function errItem(e,r,first,ty0){var types=["ok","will","s","tense","subj"];var ty=ty0||types[Math.floor(r()*types.length)];
+  if(ty==="s"&&!is3(e[1])&&!is3(e[4]))ty="will";
+  var t,over={};
+  if(ty==="ok"){t=["h","p","f"][Math.floor(r()*3)]}
+  else if(ty==="will"){t="f";over.cv="will "+e[2][0]}
+  else if(ty==="s"){t=r()<.5?"h":"f";if(is3(e[1])&&(t==="f"||r()<.5||!is3(e[4])))over.cv=e[2][0];else{t="h";over.mv=e[5][0]}}
+  else if(ty==="tense"){t="p";if(r()<.5)over.cv=vf(e[2],e[1],"h","cl");else over.mv=vf(e[5],e[4],"h","main")}
+  else{t=["h","p","f"][Math.floor(r()*3)];over.noSub=true}
+  return {k:"err",ko:ko(e,t),s:build(e,t,first,over),fix:build(e,t,first),tag:ty}}
+// 시제 바꾸기: 습관 문장 → 과거 / 미래
+function trItem(e,r,first){var t=r()<.5?"p":"f";
+  var co=[e[2][0],e[2][1],e[2][2],"will "+e[2][0]].filter(function(x,i,a){return a.indexOf(x)===i});
+  var mo=[e[5][0],e[5][1],e[5][2],"will "+e[5][0]].filter(function(x,i,a){return a.indexOf(x)===i});
+  return {k:"tr",t:t,base:build(e,"h",first),ko:ko(e,t),co:co,mo:mo,ca:vf(e[2],e[1],t,"cl"),ma:vf(e[5],e[4],t,"main"),
+   frame:{first:first,conj:e[0],cs:subj(e,first)[0],cr:e[3],ms:subj(e,first)[1],mr:e[6],tw:TIME[t]},ans:build(e,t,first)}}
+// 영작 배열: 단어 타일 + 틀린 동사 형태 함정
+function orItem(e,r,first){var t=["h","p","f"][Math.floor(r()*3)];var ans=build(e,t,first);
+  var words=ans.replace(/[,.]/g,"").split(" ");var cv=vf(e[2],e[1],t,"cl");
+  var traps=[];if(t==="f")traps.push("will");else if(t==="p")traps.push(is3(e[1])?e[2][1]:e[2][0]);else traps.push(is3(e[1])?e[2][0]:e[2][1]);
+  if(t!=="p")traps.push(e[5][2]);
+  return {k:"or",t:t,ko:ko(e,t),ans:ans,words:words,traps:traps.filter(function(x){return words.indexOf(x)<0})}}
+function daySet(d){var r=rng(1000+d*97);var n=BANK.length;var idx=[];for(var i=0;i<n;i++)idx.push(i);
+  for(var i=n-1;i>0;i--){var j=Math.floor(r()*(i+1));var tmp=idx[i];idx[i]=idx[j];idx[j]=tmp}
+  var ET=["will","s","tense","subj","ok"];for(var i=4;i>0;i--){var j=Math.floor(r()*(i+1));var tmp=ET[i];ET[i]=ET[j];ET[j]=tmp}
+  var it=[];for(var i=0;i<10;i++){var e=BANK[idx[i]],first=r()<.5;it.push(i<4?errItem(e,r,first,ET[i]):i<7?trItem(e,r,first):orItem(e,r,first))}
+  // 하루 안에 틀린 곳 유형이 골고루 나오도록 보정
+  return it}
+if(typeof module!=="undefined")module.exports={BANK:BANK,daySet:daySet,TAGS:TAGS,RULE:RULE,build:build,cap:cap};
+
+const LOGIN_URL="https://script.google.com/macros/s/AKfycbzOBbdz92h9WjwxTAmOsyQL4DMsk9qiVTKVzzQIOjtojJBxkCTZ-36c6cQCjcP3CUo_/exec";
+const SAVE_URL="https://script.google.com/macros/s/AKfycbw0SDzVf8dPrc-pX0A2g9-R3NY9z2JCZJZuvFGDlVUhRHwFNsQvRMs_2pioyOvUPgLfvA/exec";
+const NDAY=20;
+const $=s=>document.querySelector(s),app=$("#app");
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const LS={get(k){try{return JSON.parse(localStorage.getItem(k)||"null")}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+let U=LS.get("conj_user"),ST={};const SK=()=>"conj_"+(U?U.key:"x");const save=()=>LS.set(SK(),ST);
+async function sha(s){try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode("stella78:"+s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("").slice(0,24)}catch(e){let h=0;for(const c of s)h=(h*31+c.charCodeAt(0))|0;return "h"+(h>>>0).toString(16)}}
+function loginView(){$("#lo").style.display="none";$("#hm").style.display="none";
+ app.innerHTML=`<span class="eye">GRAMMAR · 매일 5분</span><h1>when · before · after<br>접·주·동 훈련</h1><p class="muted">STELLA 중등 학습관리 <b>로그인 코드</b>로 들어가세요.</p>
+ <div class="card"><input type="text" id="code" maxlength="12" autocomplete="off" autocapitalize="off" placeholder="로그인 코드" style="font-size:20px;text-align:center;letter-spacing:2px"><div style="height:10px"></div><button class="btn" id="go">입장하기</button><div class="err" id="er"></div>
+ <button id="nm" style="margin-top:12px;width:100%;background:none;border:1.5px dashed var(--bur);color:var(--bur);border-radius:10px;padding:9px;font-weight:700;cursor:pointer">코드 로그인이 안 되나요? → 이름으로 시작하기</button></div><div class="ft">제작: 스텔라원장 · 잉글리시아이 스텔라</div>`;
+ $("#go").onclick=doLogin;$("#code").onkeydown=e=>{if(e.key==="Enter")doLogin()};$("#nm").onclick=()=>{loginFail({message:"NET"});$("#nm").style.display="none"}}
+async function loginFetch(code){if(code.startsWith("이름:"))return {data:{name:code.slice(3).trim(),role:"student"}};let last;for(let i=0;i<3;i++){try{const r=await fetch(LOGIN_URL,{method:"POST",body:JSON.stringify({fn:"login",args:[code]})});if(!r.ok)throw new Error("NET "+r.status);return JSON.parse(await r.text())}catch(e){last=e;await new Promise(s=>setTimeout(s,900*(i+1)))}}throw new Error("NET "+(last&&last.message||""))}
+function loginFail(e){const er=$("#er");if(!/^NET|Failed to fetch|NetworkError|Load failed/.test(e.message)){er.textContent=e.message;return}
+ er.innerHTML=`로그인 서버에 연결되지 않으면 <b>이름</b>으로 시작하세요.<div style="display:flex;gap:6px;margin-top:8px"><input type="text" id="fbn" placeholder="내 이름" maxlength="10" style="flex:1;min-width:0"><button class="btn" id="fbg" style="width:auto;padding:8px 14px">시작</button></div>`;
+ const g=()=>{const n=$("#fbn").value.trim();if(!n)return;$("#code").value="이름:"+n;doLogin()};$("#fbg").onclick=g}
+async function doLogin(){const code=$("#code").value.trim();if(!code)return;const b=$("#go");b.disabled=true;b.textContent="확인 중…";
+ try{const o=await loginFetch(code);if(o.error)throw new Error(o.error);const d=o.data||{};if(d.role==="parent")throw new Error("학생 코드를 입력하세요.");
+  U={name:d.name||"학생",key:await sha(code)};LS.set("conj_user",U);ST=LS.get(SK())||{};home()}catch(e){b.disabled=false;b.textContent="입장하기";loginFail(e)}}
+$("#lo").onclick=()=>{U=null;LS.set("conj_user",null);loginView()};$("#hm").onclick=()=>home();
+const ROUT=`<div class="routine"><div><b>접</b><span>접속사 뒤에<br>주어 + 동사?</span></div><div><b>주</b><span>he·she·it·이름<br>→ 동사 -s?</span></div><div><b>동</b><span>시제 맞췄나?<br>접속사 절 will ✕</span></div></div>`;
+function home(){$("#lo").style.display="";$("#hm").style.display="none";const D=ST.d||{};const nx=[...Array(NDAY).keys()].map(i=>i+1).find(d=>!D[d])||1;
+ const T=ST.tags||{};const tot=Object.values(T).reduce((a,b)=>a+b,0);
+ app.innerHTML=`<span class="eye">GRAMMAR · 매일 5분</span><h1>👋 ${esc(U.name)}</h1>
+ <p class="muted">문장을 쓰기 전·후에 손가락 세 개로 <b>접 · 주 · 동</b>을 짚어요.</p>${ROUT}
+ <div class="card" style="padding:12px 14px;font-size:14px">🕒 <b>시제 공식</b><br>• 어제(과거) → 두 동사 모두 <b>과거</b><br>• 습관·사실 → 둘 다 <b>현재</b> (he/she/it은 -s)<br>• 미래 → <b>[접속사 절] 현재</b>, 주절만 <b>will</b> &nbsp;예) [When he <u>arrives</u>], he <u>will</u> call.</div>
+ ${tot?`<div class="card" style="padding:12px 14px"><b>📌 내가 자주 틀리는 규칙</b><div class="bars">${["will","s","tense","subj"].map(k=>`<div><b>${TAGS[k]}</b><span class="bb"><i style="width:${Math.round((T[k]||0)/Math.max(...Object.values(T))*100)}%;background:var(--no)"></i></span><span>${T[k]||0}번</span></div>`).join("")}</div></div>`:""}
+ <h2 style="font-size:16px;color:var(--bur);margin:16px 0 8px">DAY 고르기 (하루 10문항)</h2>
+ <div class="days">${[...Array(NDAY).keys()].map(i=>{const d=i+1,r=D[d];return `<button class="dy ${r?"done":d===nx?"next":""}" data-d="${d}"><b>DAY ${d}</b><span>${r?`${r.sc}/10`:d===nx?"오늘":""}</span></button>`}).join("")}</div>
+ <a class="pdf" href="conj_wba_training.pdf" target="_blank" rel="noopener">🖨️ 종이 훈련지 PDF (DAY 1~10 · 정답 포함)</a>
+ <div class="ft">제작: 스텔라원장 · 잉글리시아이 스텔라</div>`;
+ app.querySelectorAll("[data-d]").forEach(b=>b.onclick=()=>run(+b.dataset.d));window.scrollTo(0,0)}
+function hl(s){return esc(s)}
+function run(day){$("#hm").style.display="";const L=daySet(day);let i=0;const R=[];const t0=Date.now();
+ const bar=()=>`<span class="eye">DAY ${day} · ${i+1} / 10</span><div class="prog"><i style="width:${i*10}%"></i></div>`;
+ const next=(ok,tag)=>{R.push({ok,tag,k:L[i].k});const b=$("#ck");b.disabled=false;b.textContent=i<9?"다음 ▶":"결과 보기";b.onclick=()=>{i++;show()}};
+ const show=()=>{if(i>=L.length)return done();const it=L[i];
+  if(it.k==="err"){let pick=null;
+   app.innerHTML=bar()+`<div class="card"><div class="muted" style="font-weight:700">① 틀린 곳 찾기 · 접·주·동으로 검사하세요</div><div class="ko">${esc(it.ko)}</div><div class="sen">${esc(it.s)}</div>
+   <div class="tg">${Object.keys(TAGS).map(k=>`<button data-t="${k}">${TAGS[k]}</button>`).join("")}</div><div id="fb"></div></div><div class="bar"><div class="in"><button class="btn" id="ck" disabled>확인</button></div></div>`;
+   app.querySelectorAll("[data-t]").forEach(b=>b.onclick=()=>{if(b.disabled)return;pick=b.dataset.t;app.querySelectorAll("[data-t]").forEach(x=>x.classList.toggle("on",x===b));$("#ck").disabled=false});
+   $("#ck").onclick=()=>{const ok=pick===it.tag;app.querySelectorAll("[data-t]").forEach(x=>{x.disabled=true;x.classList.remove("on");if(x.dataset.t===it.tag)x.classList.add("right");else if(x.dataset.t===pick)x.classList.add("wrong")});
+    $("#fb").innerHTML=`<div class="fb ${ok?"ok":"no"}">${ok?"⭕ 정확해요!":"❌ 다시 보세요"}${it.tag!=="ok"?`<span class="c">✔ ${esc(it.fix)}</span><span class="r">📌 ${RULE[it.tag]}</span>`:`<span class="c">이 문장은 맞아요. 접·주·동 모두 통과!</span>`}</div>`;
+    next(ok,ok?null:(it.tag==="ok"?pick:it.tag))}}
+  else if(it.k==="tr"){let c=null,m=null;const f=it.frame;const tw=it.t==="p"?"어제(과거)":"내일(미래)";
+   const cl=`${f.conj} ${f.cs} <span class="blank" id="bc">①</span>${f.cr?" "+esc(f.cr):""}`,mn=`${esc(f.ms)} <span class="blank" id="bm">②</span> ${esc(f.mr)}`;
+   const sen=f.first?`${cl[0].toUpperCase()+cl.slice(1)}${esc(f.tw)}, ${mn}.`:`${mn[0].toUpperCase()+mn.slice(1)} ${cl}${esc(f.tw)}.`;
+   app.innerHTML=bar()+`<div class="card"><div class="muted" style="font-weight:700">② 시제 바꾸기 · <b style="color:var(--bur)">${tw}</b>로 바꾸면?</div><div class="ko">원래 문장(습관): ${esc(it.base)}</div><div class="ko">→ ${esc(it.ko)}</div><div class="sen">${sen}</div>
+   <div class="pick"><div class="lb">① 접속사 절 동사</div><div class="tg" id="pc">${shuf(it.co).map(x=>`<button data-v="${esc(x)}">${esc(x)}</button>`).join("")}</div>
+   <div class="lb">② 주절 동사</div><div class="tg" id="pm">${shuf(it.mo).map(x=>`<button data-v="${esc(x)}">${esc(x)}</button>`).join("")}</div></div><div id="fb"></div></div>
+   <div class="bar"><div class="in"><button class="btn" id="ck" disabled>확인</button></div></div>`;
+   const upd=()=>{$("#bc").textContent=c||"①";$("#bm").textContent=m||"②";$("#ck").disabled=!(c&&m)};
+   $("#pc").querySelectorAll("button").forEach(b=>b.onclick=()=>{if(b.disabled)return;c=b.dataset.v;$("#pc").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));upd()});
+   $("#pm").querySelectorAll("button").forEach(b=>b.onclick=()=>{if(b.disabled)return;m=b.dataset.v;$("#pm").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));upd()});
+   $("#ck").onclick=()=>{const okc=c===it.ca,okm=m===it.ma,ok=okc&&okm;app.querySelectorAll(".tg button").forEach(x=>x.disabled=true);
+    let tag=null;if(!okc)tag=it.t==="f"&&/^will /.test(c)?"will":it.t==="p"?"tense":(c===it.ca.replace(/s$|es$/,"")?"s":"tense");else if(!okm)tag="tense";
+    $("#fb").innerHTML=`<div class="fb ${ok?"ok":"no"}">${ok?"⭕ 정확해요!":"❌ 다시 보세요"}<span class="c">✔ ${esc(it.ans)}</span>${ok?"":`<span class="r">📌 ${RULE[tag||"tense"]}</span>`}</div>`;next(ok,tag)}}
+  else{const pool=shuf([...it.words.map(t=>({t})),...it.traps.map(t=>({t,x:1}))]);let pk=[];
+   app.innerHTML=bar()+`<div class="card"><div class="muted" style="font-weight:700">③ 영작 배열 · 함정 단어가 섞여 있어요 (쉼표·마침표는 자동)</div><div class="sen" style="font-size:17px">${esc(it.ko)}</div>
+   <div class="chk"><span id="c1">접</span><span id="c2">주</span><span id="c3">동</span><span style="background:none;color:var(--muted);font-weight:400">← 다 놓은 뒤 눌러서 스스로 체크</span></div>
+   <div class="ans" id="an"></div><div class="pool" id="po"></div><div id="fb"></div></div><div class="bar"><div class="in"><button class="btn gh" id="un" style="flex:.5">↩ 빼기</button><button class="btn" id="ck" disabled>확인</button></div></div>`;
+   ["c1","c2","c3"].forEach(id=>$("#"+id).onclick=()=>$("#"+id).classList.toggle("on"));
+   const paint=()=>{$("#an").innerHTML=pk.map((o,j)=>`<button class="tl" data-j="${j}">${esc(o.t)}</button>`).join("");$("#po").innerHTML=pool.map((o,j)=>pk.includes(o)?"":`<button class="tl" data-q="${j}">${esc(o.t)}</button>`).join("");
+    $("#an").querySelectorAll("[data-j]").forEach(e=>e.onclick=()=>{pk.splice(+e.dataset.j,1);paint()});$("#po").querySelectorAll("[data-q]").forEach(e=>e.onclick=()=>{pk.push(pool[+e.dataset.q]);paint()});$("#ck").disabled=!pk.length};
+   $("#un").onclick=()=>{pk.pop();paint()};paint();
+   $("#ck").onclick=()=>{if($("#ck").textContent!=="확인")return;const got=pk.map(o=>o.t).join(" "),want=it.words.join(" ");const ok=got===want;$("#po").innerHTML="";$("#un").remove();
+    let tag=null;if(!ok){if(pk.some(o=>o.t==="will")&&it.t==="f"&&pk.filter(o=>o.t==="will").length>1)tag="will";else if(pk.some(o=>o.x))tag=it.t==="p"?"tense":"s";else tag="subj"}
+    $("#fb").innerHTML=`<div class="fb ${ok?"ok":"no"}">${ok?"⭕ 정확해요!":"❌ 다시 보세요"}<span class="c">✔ ${esc(it.ans)}</span>${ok?"":`<span class="r">📌 ${tag==="subj"?"어순: 접속사 + 주어 + 동사 / 주어 + 동사 + 나머지 순서를 확인하세요.":RULE[tag]}</span>`}</div>`;next(ok,tag)}}
+  window.scrollTo(0,0)};
+ const done=()=>{const sc=R.filter(r=>r.ok).length;const tg={};R.filter(r=>!r.ok&&r.tag&&r.tag!=="ok").forEach(r=>tg[r.tag]=(tg[r.tag]||0)+1);
+  ST.d=ST.d||{};ST.d[day]={sc,at:Date.now()};ST.tags=ST.tags||{};Object.entries(tg).forEach(([k,v])=>ST.tags[k]=(ST.tags[k]||0)+v);save();
+  const body={name:U.name,unit:"when·before·after 접·주·동 훈련",day,title:`DAY ${day} 접·주·동 훈련`,cat:"문법 훈련",attempt:"훈련",score:sc,total:10,
+   wrongNums:Object.entries(tg).map(([k,v])=>`${TAGS[k]}×${v}`).join(", ")||"없음",wrongDetail:`[TAGS] `+["will","s","tense","subj"].map(k=>`${k}=${tg[k]||0}`).join("|"),minutes:Math.max(1,Math.round((Date.now()-t0)/60000)),timestamp:new Date().toISOString()};
+  try{fetch(SAVE_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body),mode:"no-cors"}).catch(()=>{})}catch(e){}
+  app.innerHTML=`<span class="eye">DAY ${day} 결과</span><div class="card"><div class="big">${sc} / 10</div><p class="muted" style="text-align:center">${sc>=9?"🎉 접·주·동 완벽!":sc>=7?"👍 거의 다 왔어요":"💪 틀린 규칙을 한 번 더 읽고 다시 해 봐요"} · 결과가 선생님께 전송됐어요</p>
+  ${Object.keys(tg).length?`<b>오늘 틀린 규칙</b>${Object.entries(tg).map(([k,v])=>`<div class="fb no" style="margin:6px 0">${TAGS[k]} × ${v}<span class="r">📌 ${RULE[k]}</span></div>`).join("")}`:""}</div>
+  <div style="display:flex;gap:8px"><button class="btn gh" id="ag">다시 하기</button><button class="btn" id="hm2">홈</button></div>`;
+  $("#ag").onclick=()=>run(day);$("#hm2").onclick=home;window.scrollTo(0,0)};
+ show()}
+if(U){ST=LS.get(SK())||{};home()}else loginView();
+</script>
+</body>
+</html>
