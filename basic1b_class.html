@@ -117,6 +117,29 @@ button{font-family:inherit;cursor:pointer;border:none}
 .pk.on{background:var(--uc);color:#fff}
 .byebig{font-size:7.4vh;font-weight:700;line-height:1.3;text-align:center}
 .byebig b{color:var(--uc)}
+.skills{display:flex;gap:.4vw}
+.skp{color:#fff;border-radius:99px;padding:.4vh .8vw;font-size:1.9vh;font-weight:600;white-space:nowrap}
+.ski{margin-left:.3vw;font-size:1.6vh;letter-spacing:-1px}
+.loop{display:flex;align-items:center;gap:.6vw;margin-top:1.6vh;flex-wrap:wrap}
+.loop span{color:#fff;border-radius:14px;padding:.8vh 1vw;font-size:2.4vh;font-weight:700}
+.loop i{font-style:normal;font-size:2.6vh;color:var(--sub)}
+.rulebox{background:#fff;border-radius:24px;padding:2vh 2vw;border:4px dashed var(--purple);margin-top:2vh;text-align:center;max-width:1300px}
+.rulebox h3{font-size:4.4vh;color:var(--purple)}
+.rulebox p{font-size:2.8vh;color:var(--ink);margin-top:1vh}
+.detrow{display:flex;align-items:center;gap:1vw;background:#fff;border-radius:20px;padding:1.2vh 1.4vw;margin:.8vh 0;box-shadow:0 5px 0 rgba(0,0,0,.06);font-size:4.6vh;font-weight:600}
+.detrow .emo{font-size:6vh}
+.chip.hide{background:#EEE8F7!important;color:transparent!important}
+.frame{font-size:7vh;font-weight:700;background:#fff;border-radius:28px;padding:3vh 3vw;box-shadow:0 8px 0 rgba(0,0,0,.07);text-align:center;min-width:60vw}
+.frame .bl{display:inline-block;min-width:14vw;border-bottom:7px solid var(--uc);color:var(--uc);padding:0 .6vw}
+.wbank{display:flex;gap:1vw;flex-wrap:wrap;justify-content:center;margin-top:2.6vh}
+.wbank button{background:var(--yellow);border-radius:16px;padding:1.2vh 1.6vw;font-size:3.4vh;font-weight:600;box-shadow:0 5px 0 rgba(0,0,0,.1)}
+.wbank button.own{background:#fff;border:3px dashed var(--uc)}
+.wboard{position:relative;width:min(1400px,92vw);height:38vh;background:#fff;border-radius:24px;box-shadow:0 8px 0 rgba(0,0,0,.07);overflow:hidden;touch-action:none}
+.wboard canvas{position:absolute;inset:0;width:100%;height:100%}
+.wmodel{position:absolute;left:3%;right:3%;top:0;bottom:0;display:flex;align-items:center;font-family:'Fredoka',sans-serif;font-size:15vh;color:rgba(84,160,255,.18);white-space:nowrap;pointer-events:none;overflow:hidden}
+.wtools{display:flex;gap:.8vw;align-items:center;justify-content:center;margin-top:1.6vh;flex-wrap:wrap}
+.pen{width:4.4vh;height:4.4vh;border-radius:50%;border:4px solid #fff;box-shadow:0 0 0 3px #ddd}
+.pen.on{box-shadow:0 0 0 4px var(--ink)}
 /* mission */
 .mission{display:flex;gap:4vw;align-items:center}
 .mission .scene{font-size:22vh;animation:bob 2.6s ease-in-out infinite}
@@ -180,6 +203,7 @@ button{font-family:inherit;cursor:pointer;border:none}
 .seg button.on{background:var(--uc);color:#fff}
 
 
+
 /* games */
 .turnbox{font-size:3.4vh;font-weight:700;color:#fff;border-radius:99px;padding:.8vh 2vw;margin-bottom:1.5vh}
 .qemo{font-size:24vh}
@@ -235,7 +259,7 @@ button{font-family:inherit;cursor:pointer;border:none}
     <p class="ko">Sally &amp; Danny와 함께하는 패턴 스토리북 수업 · 유닛을 골라 주세요</p>
   </div>
   <div class="unit-grid" id="unitGrid"></div>
-  <div class="home-foot ko">50분 수업 = 도입 5 · 단어 8 · 패턴 7 · 스토리 8 · 게임 10 · 정리 2 · 교재 10 &nbsp;|&nbsp; Created by 스텔라원장</div>
+  <div class="home-foot ko">50분 수업 = 도입 4 · 단어 6 · 📖리딩 7 · 🧩그래머 6 · 🗣️말하기·✏️쓰기 7 · 게임 8 · 정리 2 · 교재 10 |&nbsp; Created by 스텔라원장</div>
 </div>
 
 <div id="lesson">
@@ -253,7 +277,7 @@ button{font-family:inherit;cursor:pointer;border:none}
   <div class="actbar" id="steps"></div>
   <div class="stage">
     <div class="main">
-      <div class="slide-head"><span class="mode" id="mode"></span><h2 id="stitle"></h2><span class="sub" id="ssub"></span></div>
+      <div class="slide-head"><span class="mode" id="mode"></span><h2 id="stitle"></h2><span class="skills" id="skills"></span><span class="sub" id="ssub"></span></div>
       <div class="content" id="contentWrap"><div id="content" class="fit"></div></div>
       <div class="navbar">
         <button class="navbtn" onclick="prev()">◀ Back</button>
@@ -353,23 +377,72 @@ const UNITS=[
     items:[["🙋‍♀️🥢","I have chopsticks. They are ___.","mine"],["👉🐉🔪","You have a knife. It is ___.","yours"],["👧🥄","Betty has a spoon. It is ___.","hers"],["👦🍴","Kenny has a fork. It is ___.","his"],["🙋‍♀️🐉🧻","We have napkins. They are ___.","ours"],["👦👧🥤","They have cups. They are ___.","theirs"],["👧🥢","Betty has chopsticks. They are ___.","hers"],["👦🥤","Kenny has a cup. It is ___.","his"]]}
 }];
 
+const SKILLX_ALL={
+"1A":[
+ {rule:"I → am, You · We · They → are, He · She · It → is!",ruleKo:"누구냐에 따라 be동사가 달라져요. 나(I)는 am, 너·우리·그들은 are, 그·그녀·그것은 is!",
+  frames:[["I am ___.",["a student","a girl","a boy","happy"]],["She is my ___.",["sister","mom","friend"]],["He is my ___.",["brother","dad","friend"]],["It is my ___.",["bag","pet","book"]]]},
+ {rule:"am · is · are + 기분/모습 단어",ruleKo:"be동사 뒤에 기분이나 모습 단어(happy, fast, slow…)를 붙이면 '~해'라는 뜻이 돼요.",
+  frames:[["I am ___.",["happy","excited","fast","busy"]],["My friend is ___.",["cheerful","fast","cute"]],["My mom is ___.",["busy","happy","fast"]]]},
+ {rule:"be동사 + not = '~가 아니야'",ruleKo:"am · is · are 뒤에 not만 붙이면 반대 뜻! I am not strong. → I am weak.",
+  frames:[["I am not ___.",["old","tall","hungry","sleepy"]],["I am ___.",["young","short","full","happy"]],["My dad is not ___.",["short","weak","young"]]]},
+ {rule:"질문할 땐 be동사가 맨 앞으로!",ruleKo:"You are a teacher. → Are you a teacher? / She is a cook. → Is she a cook? 대답은 Yes, I am. / No, I am not.",
+  frames:[["Are you a ___?",["student","teacher","doctor","pilot"]],["Is your mom a ___?",["cook","teacher","doctor","musician"]],["Is it your ___?",["bag","school","book"]]]}],
+"1B":[
+ {rule:"this · that · these · those",ruleKo:"가까이 하나 this, 멀리 하나 that, 가까이 여러 개 these, 멀리 여러 개 those! 여러 개면 단어 끝에 -s.",
+  frames:[["This is a ___.",["desk","chair","pencil","book"]],["That is a ___.",["clock","map","whiteboard"]],["These are ___.",["pencils","erasers","notebooks"]]]},
+ {rule:"my · your · his · her · our · their",ruleKo:"누구 것인지 말할 땐 물건 앞에 주인 말을 붙여요. 나 my, 너 your, 그 his, 그녀 her, 우리 our, 그들 their.",
+  frames:[["It is my ___.",["pencil","eraser","bag","crayon"]],["It is his ___.",["clay","paper","brush"]],["These are our ___.",["crayons","books","chairs"]]]},
+ {rule:"I like to ~ / She likes to ~",ruleKo:"좋아하는 일은 like to + 동작. 그·그녀(He/She)가 주인공이면 likes — s를 붙여요!",
+  frames:[["I like to ___.",["sing","dance","run","draw"]],["My friend likes to ___.",["run","sing","share","dance"]],["We like to ___.",["play","dance","sing"]]]},
+ {rule:"mine · yours · his · hers · ours · theirs",ruleKo:"my pencil → mine 처럼 '누구의 것' 한 단어로! 뒤에 물건 단어가 없어요. (his는 그대로 his)",
+  frames:[["This ___ is mine.",["pencil","cup","spoon","bag"]],["That ___ is yours.",["eraser","fork","book"]],["These ___ are ours.",["napkins","crayons","chairs"]]]}],
+"1C":[
+ {rule:"There is a ~ / There are ~s + can",ruleKo:"하나 있으면 There is a ~, 여러 개면 There are ~s. 할 수 있는 건 can + 동작!",
+  frames:[["There is a ___ in my classroom.",["clock","map","computer","ball"]],["I can ___.",["kick a ball","catch a ball","hit a ball","run fast"]]]},
+ {rule:"There is not a ~ / There are not any ~s",ruleKo:"없을 땐 not! 하나는 There is not a ~, 여러 개는 There are not any ~s.",
+  frames:[["There is a ___ at the pet store.",["puppy","kitten","parrot","hamster"]],["There are not any ___.",["snakes","frogs","ducks","turtles"]]]},
+ {rule:"Is there ~? / Are there ~?",ruleKo:"있는지 물을 땐 is·are가 앞으로! Is there a ~? / Are there ~s? 없으면 There is no ~.",
+  frames:[["Is there a ___?",["red sweater","blue scarf","purple skirt"]],["Are there ___?",["green pants","brown shoes","orange socks"]]]},
+ {rule:"in · on · under · next to",ruleKo:"어디에 있는지는 위치 말로! in 안에, on 위에, under 아래에, next to 옆에.",
+  frames:[["My ___ is on the desk.",["pencil","book","eraser"]],["There is a ___ in my bag.",["pencil case","book","cookie"]],["My bag is ___ the chair.",["under","on","next to"]]]}],
+"2B":[
+ {rule:"I like ~ / ~ tastes good",ruleKo:"하나(Pizza)는 tastes, 여러 개(Hamburgers)는 taste. 맛 표현: fresh, tasty, great, delicious!",
+  frames:[["I like ___.",["pizza","fruit salad","hamburgers","cake"]],["___ tastes good.",["Pizza","Cake","Chicken"]],["___ taste great.",["Hamburgers","Muffins","Cookies"]]]},
+ {rule:"한 사람 + 동사-s",ruleKo:"a man, she, my mom 처럼 한 사람이 주인공이면 동사 끝에 -s! holds, reads, drinks.",
+  frames:[["My mom ___.",["reads books","drinks tea","cooks dinner"]],["My friend ___.",["runs fast","draws well","sings"]],["I ___.",["read books","drink milk","comb my hair"]]]},
+ {rule:"don't / doesn't",ruleKo:"I · You · We → don't, He · She · Danny → doesn't. doesn't 뒤에는 s 없이! (doesn't like)",
+  frames:[["I don't like ___.",["kiwis","mushrooms","broccoli","peanuts"]],["My friend doesn't like ___.",["bananas","walnuts","kiwis"]],["I want ___.",["bananas","pizza","cake"]]]},
+ {rule:"Do you ~? / Does he ~?",ruleKo:"you에게는 Do you ~?, 그·그녀에게는 Does he/she ~? 대답: Yes, I do. / No, he doesn't.",
+  frames:[["Do you like ___?",["pizza","museums","dogs","cake"]],["Does your mom ___?",["drink tea","read books","cook"]],["Do you have ___?",["a pencil","postcards","a pet"]]]}]
+};
+
+const SKILLX=SKILLX_ALL["1B"];
 
 /* ================= LESSON FLOW ================= */
 const STEPS=[
- {key:"warm",name:"Warm-up",ko:"도입",min:5,slides:["hello","mission","peek"]},
- {key:"word",name:"Words",ko:"단어",min:8,slides:["cards","missing"]},
- {key:"pat",name:"Pattern",ko:"패턴",min:7,slides:["board","chant"]},
- {key:"story",name:"Story",ko:"스토리",min:8,slides:["story"]},
- {key:"game",name:"Game",ko:"게임",min:10,slides:["gmenu","pquiz","puzzle","special"]},
+ {key:"warm",name:"Warm-up",ko:"도입",min:4,slides:["hello","mission","peek"]},
+ {key:"word",name:"Words",ko:"단어",min:6,slides:["cards","missing"]},
+ {key:"story",name:"Reading",ko:"리딩",min:7,slides:["story","readmatch"]},
+ {key:"pat",name:"Grammar",ko:"그래머",min:6,slides:["detect","board","chant"]},
+ {key:"sw",name:"Speak & Write",ko:"말하기·쓰기",min:7,slides:["myturn","write"]},
+ {key:"game",name:"Game",ko:"게임",min:8,slides:["gmenu","pquiz","puzzle","special"]},
  {key:"wrap",name:"Wrap-up",ko:"정리",min:2,slides:["eggs","winner"]},
  {key:"book",name:"Book",ko:"교재·인사",min:10,slides:["book","bye"]}
 ];
-const ACT_NAME={hello:"👋 Hello!",bye:"👋 Goodbye",mission:"🎯 Mission",peek:"👀 Peek-a-boo",cards:"🃏 Word Cards",missing:"🙈 What's Missing",board:"🧱 Pattern Board",chant:"🥁 Chant",story:"📖 Story",gmenu:"🏆 Game Menu",pquiz:"🖼️ Picture Quiz",puzzle:"🧩 Puzzle",special:"",eggs:"🥚 Lucky Eggs",winner:"🎉 Winner",book:"📚 Book Time"};
+const SK={S:["🗣️","Speaking","#FF9F43"],R:["📖","Reading","#54A0FF"],G:["🧩","Grammar","#9B6BFF"],W:["✏️","Writing","#1DD1A1"]};
+const SKILLS={hello:"S",mission:"RG",peek:"S",cards:"SR",missing:"S",story:"RS",readmatch:"R",detect:"GR",board:"GS",chant:"SG",myturn:"SG",write:"WG",gmenu:"",pquiz:"R",puzzle:"GWR",special:"G",eggs:"SR",winner:"",book:"RW",bye:"S"};
+function skillIcons(k){return [...(SKILLS[k]||"")].map(c=>SK[c][0]).join('');}
+function skillPills(k){return [...(SKILLS[k]||"")].map(c=>`<span class="skp" style="background:${SK[c][2]}">${SK[c][0]} ${SK[c][1]}</span>`).join('');}
+const ACT_NAME={readmatch:"🔎 Read & Match",detect:"🕵️ Pattern Detective",myturn:"🎤 My Turn!",write:"✍️ Write It!",hello:"👋 Hello!",bye:"👋 Goodbye",mission:"🎯 Mission",peek:"👀 Peek-a-boo",cards:"🃏 Word Cards",missing:"🙈 What's Missing",board:"🧱 Pattern Board",chant:"🥁 Chant",story:"📖 Story",gmenu:"🏆 Game Menu",pquiz:"🖼️ Picture Quiz",puzzle:"🧩 Puzzle",special:"",eggs:"🥚 Lucky Eggs",winner:"🎉 Winner",book:"📚 Book Time"};
 const VISITED={};
 const SLIDE_META={
  hello:{t:"Hello, everyone!",m:"TS",mk:"교사+학생"},
  bye:{t:"See you next time!",m:"TS",mk:"교사+학생"},
  mission:{t:"Today's Mission",m:"T",mk:"교사 중심"},
+ readmatch:{t:"Read & Match",m:"S",mk:"팀 대결"},
+ detect:{t:"Pattern Detective",m:"TS",mk:"교사+학생"},
+ myturn:{t:"My Turn! — Talk about YOU",m:"S",mk:"학생 중심"},
+ write:{t:"Write It!",m:"S",mk:"학생 중심"},
  peek:{t:"Peek-a-boo!",m:"S",mk:"학생 참여"},
  cards:{t:"Word Cards",m:"T",mk:"교사 중심"},
  missing:{t:"What's Missing?",m:"S",mk:"학생 참여"},
@@ -387,6 +460,10 @@ const SLIDE_META={
 
 /* ================= TEACHER GUIDE ================= */
 const GUIDE={
+ readmatch:u=>`<h3>🔎 리딩 ② Read & Match (3분) <small>📖</small></h3><div class="ko"><ul><li>그림을 보고 맞는 문장을 <b>소리 내어 읽은 뒤</b> 터치 → 정답이면 +1</li><li>틀린 문장도 함께 읽어 보며 '어디가 다른지' 찾기 (단어 하나 차이에 집중)</li><li>읽기 자신감 쌓기: 팀 전원이 함께 읽고 대표가 터치</li></ul></div><div class="say"><b>T:</b> Read all three sentences. Which one matches the picture?</div>`,
+ detect:u=>`<h3>🕵️ 그래머 ① Pattern Detective (2분) <small>🧩</small></h3><div class="ko"><ul><li>스토리에서 읽은 문장이 그대로 나와요 → <b>리딩이 그래머로 연결</b></li><li>핵심 단어가 가려진 상태에서 "무엇이 같고 무엇이 바뀌지?" 아이들이 먼저 추측</li><li>👀 Show → 💡 규칙 발견! 순서로 공개. 규칙은 아이들 말로 다시 말하게 하기</li><li>오늘 규칙: <b>${SKILLX[u.id-1].rule}</b></li></ul></div><div class="say"><b>T:</b> Look! What's the same? What changes? You are a detective!</div>`,
+ myturn:u=>`<h3>🎤 말하기 My Turn! (4분) <small>🗣️🧩</small></h3><div class="ko"><ul><li>오늘 패턴을 <b>내 이야기</b>로 바꿔 말하는 시간 (그래머 → 스피킹)</li><li>단어 칩을 누르면 문장 완성 + 🔊 / ✨ 나만의 단어는 아이가 직접 말하기</li><li>🎲로 학생 뽑기 → 말하면 친구들이 <b>"Really? Me too!"</b> 반응</li><li>짝 활동으로 확장: 서로 묻고 답하기</li></ul></div><div class="say"><b>T:</b> Now it's your turn! Tell me about YOU.</div>`,
+ write:u=>`<h3>✍️ 쓰기 Write It! (3분) <small>✏️🧩</small></h3><div class="ko"><ul><li><b>Trace</b>: 패턴 문장을 흐린 글씨 위로 따라 쓰기 (4선 노트 위)</li><li><b>My Sentence</b>: 방금 말한 내 문장을 직접 쓰기 (말하기 → 쓰기)</li><li>팀 대표가 전자칠판에, 나머지는 공책에 동시에 쓰기</li><li>체크: 대문자 시작 · 띄어쓰기 · 마침표</li></ul></div><div class="say"><b>T:</b> Say it, then write it! Don't forget the period.</div>`,
  hello:u=>`<h3>👋 도입 ⓪ 인사 · 날씨 · 날짜 (2분)</h3><div class="ko"><ul>
   <li>매 수업 같은 순서로 <b>선생님이 묻고 → 학생이 다 같이 외치기</b></li>
   <li>① 인사 ② 기분 ③ 날씨 ④ 요일·날짜 — 각 질문 줄을 누르면 🔊</li>
@@ -504,7 +581,7 @@ function render(){
   const st=STEPS[si], key=st.slides[ssi], meta=SLIDE_META[key];
   $('mode').className='mode '+meta.m;$('mode').textContent=meta.mk;
   $('stitle').textContent=key==='special'?U.special.emo+' '+U.special.name:meta.t;
-  $('ssub').textContent=`${U.title}`;
+  $('ssub').textContent=`${U.title}`;$('skills').innerHTML=skillPills(key);
   $('dots').innerHTML=st.slides.map((_,i)=>`<i class="${i===ssi?'on':''}"></i>`).join('');
   $('guideIn').innerHTML=GUIDE[key](U);
   R[key]();
@@ -522,7 +599,7 @@ function resetTimer(){setTimerFor();if($('bigT'))$('bigT').textContent=mmss(tLef
 function updScore(){
   $('score').innerHTML=activeTeams().map(t=>`<div class="team ${t} ${t===turn?'turn':''}"><span>${t}</span><span class="pts">${pts[t]}</span><button onclick="addPt('${t}',1)">+</button><button onclick="addPt('${t}',-1)">−</button></div>`).join('');
   $('tsel').value=nTeams;}
-function setTeams(n){nTeams=n;if(!activeTeams().includes(turn))turn='A';updScore();const k=STEPS[si].slides[ssi];if(['gmenu','pquiz','puzzle','special','eggs','winner'].includes(k))R[k]();}
+function setTeams(n){nTeams=n;if(!activeTeams().includes(turn))turn='A';updScore();const k=STEPS[si].slides[ssi];if(['gmenu','pquiz','puzzle','special','eggs','winner','readmatch','myturn'].includes(k))R[k]();}
 function addPt(t,n){pts[t]=Math.max(0,pts[t]+n);updScore();if(n>0)ding();}
 function swapTurn(){const a=activeTeams();turn=a[(a.indexOf(turn)+1)%a.length];updScore();}
 function turnBox(){return `<div class="turnbox" style="background:var(--${turn})">Team ${turn}'s turn!</div>`;}
@@ -549,6 +626,8 @@ R.mission=()=>{
    <div class="row" style="justify-content:flex-start;margin-top:2vh">
     <button class="btn c" onclick="say('${esc(U.goal.replace(/<\/?b>/g,''))}')">🔊 Listen</button>
     <button class="btn y" onclick="say('Hello, everyone! How are you today?')">👋 Hello!</button></div>
+   <div class="loop"><b class="ko" style="font-size:2.4vh;color:var(--sub)">오늘의 4-skill 여행</b>
+    <span style="background:#54A0FF">📖 Read</span><i>→</i><span style="background:#9B6BFF">🧩 Grammar</span><i>→</i><span style="background:#FF9F43">🗣️ Speak</span><i>→</i><span style="background:#1DD1A1">✏️ Write</span></div>
    </div></div>`;
 };
 
@@ -728,6 +807,71 @@ R.bye=()=>{
     <div class="ko" style="font-size:2.4vh;color:var(--orange);text-align:center;margin-bottom:1vh">🙋 다 같이 크게!</div>
     <div class="byebig">I <b>enjoyed</b> today's class!<br>See you next time! 👋</div></div>
    <div class="row" style="margin-top:2vh"><button class="btn c" onclick="say('Goodbye, teacher! See you next time!');burstCenter()">👋 Goodbye, teacher!</button></div>`;
+};
+
+/* ===== 4-SKILL ACTIVITIES ===== */
+const X=()=>SKILLX[U.id-1];
+/* Reading: picture → sentence match */
+R.readmatch=()=>{
+  if(!S.readmatch){const seen=new Set(),pool=[];U.story.forEach(l=>{if(!seen.has(l[2])&&l[1].split(' ').length>=3){seen.add(l[2]);pool.push(l);}});S.readmatch={q:shuffle(pool),i:0,pool};}
+  const s=S.readmatch;s.lock=false;const it=s.q[s.i%s.q.length];
+  const others=shuffle(s.pool.filter(l=>l[2]!==it[2])).slice(0,2).map(l=>l[1]);
+  mcRender('readmatch','📖 Read and choose the sentence for the picture!',it[2],shuffle([it[1],...others]),it[1],it[1]);
+  document.querySelectorAll('.opt').forEach(b=>{b.style.fontSize='3.6vh';b.style.minWidth='26vw';});
+  document.querySelector('.qtext').style.fontSize='4vh';
+};
+/* Grammar: discover the rule from story sentences */
+R.detect=()=>{
+  S.detect=S.detect||{show:false,hide:true};const s=S.detect;
+  const rows=U.pattern.slice(0,5);
+  C().innerHTML=`<div class="ko" style="font-size:3vh;color:var(--sub);margin-bottom:1vh">🔍 스토리 속 문장을 잘 보세요! <b style="color:var(--purple)">What's the same? What changes?</b></div>
+   <div style="width:min(1300px,92%)">${rows.map((p,i)=>`<div class="detrow" onclick="say('${esc(p.c.join(' '))}')"><span class="emo">${p.e}</span><span>${p.c.map((x,j)=>`<span class="chip ${j===0?'c1':(p.c.length===3&&j===1?'c4':'c2')} ${s.hide&&j===(p.c.length===3?1:0)?'hide':''}">${x}</span>`).join(' ')}</span></div>`).join('')}</div>
+   <div class="row" style="margin-top:1.6vh">
+    <button class="btn p" onclick="S.detect.hide=!S.detect.hide;R.detect()">${s.hide?'👀 Show the key words':'🙈 Hide again'}</button>
+    <button class="btn y ko" onclick="S.detect.show=true;R.detect();say('${esc(X().rule)}')">💡 규칙 발견!</button></div>
+   ${s.show?`<div class="rulebox"><h3>🧩 ${X().rule}</h3><p class="ko">${X().ruleKo}</p></div>`:''}`;
+};
+/* Speaking: personalised sentence frames */
+R.myturn=()=>{
+  S.myturn=S.myturn||{f:0,w:null};const s=S.myturn,fr=X().frames[s.f%X().frames.length];
+  const filled=s.w?fr[0].replace('___',`<span class="bl">${s.w}</span>`):fr[0].replace('___','<span class="bl">&nbsp;?&nbsp;</span>');
+  C().innerHTML=`${turnBox()}<div class="frame">${filled}</div>
+   <div class="wbank">${fr[1].map(w=>`<button onclick="S.myturn.w='${esc(w)}';R.myturn();say('${esc(fr[0].replace('___',w))}')">${w}</button>`).join('')}
+    <button class="own ko" onclick="S.myturn.w='(나만의 단어!)';R.myturn()">✨ 나만의 단어</button></div>
+   <div class="ko" style="font-size:2.6vh;color:var(--sub);margin-top:2vh">🎤 내 이야기로 바꿔 말해요 → 친구가 <b>"Really? Me too!"</b> 로 대답해요</div>
+   <div class="row" style="margin-top:2vh"><button class="btn c" onclick="addPt(turn,1);burstCenter();swapTurn();S.myturn.w=null;R.myturn()">⭕ 잘 말했어요 +1</button>
+    <button class="btn" onclick="S.myturn.f++;S.myturn.w=null;R.myturn()">다른 문장 ▶</button>
+    <button class="btn o" onclick="pickStudent()">🎲 Who's next?</button></div>`;
+};
+let pickN=12;
+function pickStudent(){const ov=document.createElement('div');ov.className='overlay';
+  ov.innerHTML=`<div class="pop"><p class="ko">Who's next? 🎲</p><div id="pkn" style="font-size:18vh;font-weight:700;color:var(--uc)">?</div>
+   <div class="row ko" style="margin-top:2vh">학생 수 <button class="btn" onclick="event.stopPropagation();pickN=Math.max(2,pickN-1);$('pkc').textContent=pickN">−</button><b id="pkc" style="font-size:3.4vh">${pickN}</b><button class="btn" onclick="event.stopPropagation();pickN++;$('pkc').textContent=pickN">+</button></div></div>`;
+  ov.onclick=e=>{if(e.target===ov)ov.remove();};document.body.appendChild(ov);let k=0;const t=setInterval(()=>{const el=$('pkn');if(!el)return clearInterval(t);el.textContent=1+Math.floor(Math.random()*pickN);if(++k>14){clearInterval(t);ding();}},70);}
+/* Writing: trace or write your own sentence on the board */
+R.write=()=>{
+  S.write=S.write||{mode:'trace',i:0,f:0,color:'#2B2340'};const s=S.write;
+  const model=s.mode==='trace'?U.puzzles[s.i%U.puzzles.length]:X().frames[s.f%X().frames.length][0].replace('___','______');
+  C().innerHTML=`<div class="row" style="margin-bottom:1.4vh"><div class="seg">
+     <button class="${s.mode==='trace'?'on':''}" onclick="S.write.mode='trace';R.write()">✍️ Trace (따라 쓰기)</button>
+     <button class="${s.mode==='own'?'on':''}" onclick="S.write.mode='own';R.write()">🌟 My Sentence (내 문장 쓰기)</button></div>
+     <span style="font-size:3.4vh;font-weight:600">${s.mode==='own'?'📝 '+model:''}</span></div>
+   <div class="wboard" id="wb"><div class="wmodel" id="wm">${s.mode==='trace'?model:''}</div><canvas id="wc"></canvas></div>
+   <div class="wtools">${['#2B2340','#FF6B6B','#54A0FF','#1DD1A1'].map(c=>`<button class="pen ${s.color===c?'on':''}" style="background:${c}" onclick="S.write.color='${c}';document.querySelectorAll('.pen').forEach(e=>e.classList.remove('on'));this.classList.add('on')"></button>`).join('')}
+    <button class="btn" onclick="R.write()">🧽 Clear</button>
+    <button class="btn" onclick="say('${esc(model.replace('______','blank'))}')">🔊</button>
+    <button class="btn c" onclick="addPt(turn,1);burstCenter();swapTurn()">⭕ 잘 썼어요 +1</button>
+    <button class="btn" onclick="S.write.i++;S.write.f++;R.write()">다음 ▶</button></div>
+   <div class="ko" style="font-size:2.3vh;color:var(--sub);margin-top:1vh">대문자로 시작 · 단어 사이 띄어쓰기 · 마침표(.) 찍기 ✔</div>`;
+  requestAnimationFrame(()=>{const cv=$('wc'),wb=$('wb');if(!cv)return;const r=wb.getBoundingClientRect(),z=parseFloat($('content').style.zoom)||1;
+    cv.width=r.width/z;cv.height=r.height/z;const g=cv.getContext('2d');
+    const H=cv.height,lines=[.25,.42,.62,.8];lines.forEach((y,i)=>{g.strokeStyle=i===2?'#FF9C9C':'#C9D8F0';g.lineWidth=i===2?3:2;g.setLineDash(i===1?[10,8]:[]);g.beginPath();g.moveTo(0,H*y);g.lineTo(cv.width,H*y);g.stroke();});
+    g.setLineDash([]);g.lineCap='round';g.lineJoin='round';
+    const wm=$('wm');if(wm){wm.style.fontSize=(H*0.42)+'px';wm.style.alignItems='flex-start';wm.style.paddingTop=(H*0.24)+'px';}
+    let drawing=false;const pt=e=>{const b=cv.getBoundingClientRect();return [(e.clientX-b.left)*cv.width/b.width,(e.clientY-b.top)*cv.height/b.height];};
+    cv.onpointerdown=e=>{drawing=true;cv.setPointerCapture(e.pointerId);const [x,y]=pt(e);g.strokeStyle=S.write.color;g.lineWidth=Math.max(5,H*0.022);g.beginPath();g.moveTo(x,y);};
+    cv.onpointermove=e=>{if(!drawing)return;const [x,y]=pt(e);g.lineTo(x,y);g.stroke();};
+    cv.onpointerup=()=>drawing=false;});
 };
 
 /* games */
