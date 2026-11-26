@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stella Activity Box</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<style>
+/* VOICE: 교실에서 바로 꺼내 쓰는 놀이 상자 — 밝고 단단하게, 전자칠판에서도 멀리서 읽히게
+   IDEA: 선생님 책상 위 '활동 카드 상자' — 색 탭이 붙은 인덱스 카드, 뽑기 기계
+   PICTURE: 상단의 큰 뽑기 슬롯과 카드 벽, 실행 도구는 칠판 전체를 쓰는 무대
+   COLOUR and TYPE: 코발트 바탕 + 햇살 노랑 + 코랄 / Jua 제목 + Noto Sans KR 본문
+   LAYOUT: 띠 헤더(뽑기) → 레벨·필터 → 카드 그리드 → 상세 시트·무대·떠있는 타이머/점수판 */
+:root{color-scheme:light dark;
+--bg:light-dark(#f6f7fb,#0f1430);--card:light-dark(#ffffff,#1a2150);--ink:light-dark(#151a33,#eef0ff);--mute:light-dark(#5a6080,#a9b0d6);
+--line:light-dark(#e2e5f0,#2c356e);--cob:#2346d6;--cobd:light-dark(#1a36ab,#3a5cf0);--sun:#ffcf3a;--cor:#ff5b4a;--ok:#18a058}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "Noto Sans KR",system-ui,sans-serif;overflow-x:clip}
+h1,h2,h3,.jua{font-family:Jua,"Noto Sans KR",sans-serif;font-weight:400}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.band{padding:clamp(22px,3.5vw,48px) max(4vw,16px)}
+.wrap{max-width:1240px;margin:0 auto}
+header{background:var(--cob);color:#fff;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;right:-80px;top:-120px;width:380px;height:380px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#3c5ff0,transparent 70%);pointer-events:none}
+.top{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;position:relative;z-index:1}
+.top h1{margin:0;font-size:clamp(32px,4.4vw,50px);line-height:1.05}
+.top p{margin:4px 0 0;opacity:.85;font-size:16px}
+.tools{display:flex;flex-wrap:wrap;gap:8px}
+.tb{background:rgba(255,255,255,.14);border:1.5px solid rgba(255,255,255,.35);color:#fff;border-radius:14px;padding:10px 16px;min-height:48px;font-weight:700;font-size:16px}
+.tb:hover{background:rgba(255,255,255,.24)}
+.draw{margin-top:22px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;align-items:stretch;position:relative;z-index:1}
+.slot{background:#fff;color:#151a33;border-radius:22px;padding:18px 24px;box-shadow:0 8px 0 #172f99;display:flex;align-items:center;gap:18px;min-height:110px}
+.slot .sv{flex:1}
+.slot .sn{font-family:Jua;font-size:clamp(28px,4vw,46px);line-height:1.1}
+.slot .sk{color:#5a6080;font-size:16px}
+.slot .sgo{background:var(--cob);color:#fff;border:0;border-radius:14px;padding:12px 18px;font-weight:700;min-height:48px;white-space:nowrap}
+.drawbtn{background:var(--sun);color:#1b1b1b;border:0;border-radius:22px;padding:0 30px;font-family:Jua;font-size:clamp(24px,2.6vw,32px);box-shadow:0 8px 0 #c99a10;min-height:110px}
+.drawbtn:active,.slot .sgo:active{transform:translateY(4px);box-shadow:0 4px 0 #c99a10}
+.spin .sn{animation:flick .09s linear infinite}
+@keyframes flick{50%{opacity:.4}}
+.filters{background:var(--card);border-bottom:1px solid var(--line);padding:18px max(4vw,16px)}
+.lvrow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.lv{border:2px solid var(--line);background:transparent;border-radius:16px;padding:10px 12px;text-align:left;min-height:64px}
+.lv b{display:block;font-family:Jua;font-weight:400;font-size:21px;line-height:1.1}
+.lv span{font-size:13px;color:var(--mute)}
+.lv.on{border-color:var(--cob);background:var(--cob);color:#fff}.lv.on span{color:#dfe5ff}
+.frow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;align-items:center}
+.chip{border:1.5px solid var(--line);background:transparent;border-radius:999px;padding:8px 15px;min-height:44px;font-size:15px;font-weight:500}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip.r.on{background:var(--cor);border-color:var(--cor);color:#fff}.chip.g.on{background:var(--cob);border-color:var(--cob);color:#fff}
+.sep{width:1px;height:28px;background:var(--line);margin:0 4px}
+.search{flex:1 1 180px;min-height:44px;border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;font-size:16px;background:var(--bg);color:var(--ink)}
+.count{color:var(--mute);font-size:15px;margin:18px 0 10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.card{position:relative;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px 18px;display:flex;flex-direction:column;gap:6px;transition:transform .15s}
+.card:hover{transform:translateY(-3px)}
+.tab{position:absolute;top:-1px;left:20px;width:58px;height:9px;border-radius:0 0 8px 8px}
+.tab.R{background:var(--cor)}.tab.G{background:var(--cob)}.tab.RG{background:linear-gradient(90deg,var(--cor) 50%,var(--cob) 50%)}
+.cn{font-family:Jua;font-size:24px;line-height:1.1}
+.ck{font-size:15px;color:var(--mute);font-weight:700}
+.cd{margin:4px 0;font-size:15px;line-height:1.5}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.meta span{font-size:13px;background:var(--bg);border-radius:8px;padding:3px 8px;white-space:nowrap}
+.meta .run{background:var(--sun);color:#1b1b1b;font-weight:700}
+.empty{padding:40px;text-align:center;color:var(--mute);background:var(--card);border-radius:18px;border:1px dashed var(--line)}
+/* overlay sheets */
+.ov{position:fixed;inset:0;background:rgba(10,14,40,.55);display:none;z-index:50;padding:clamp(8px,3vw,36px);overflow:auto}
+.ov.show{display:block}
+.sheet{max-width:980px;margin:0 auto;background:var(--card);border-radius:24px;overflow:hidden}
+.sh{padding:26px clamp(18px,3vw,36px) 20px;color:#fff;position:relative}
+.sh.R{background:var(--cor)}.sh.G{background:var(--cob)}.sh.RG{background:linear-gradient(110deg,var(--cor) 0 45%,var(--cob) 45%)}
+.sh h2{margin:0;font-size:clamp(32px,4vw,46px);line-height:1.05}
+.sh .k{font-size:18px;font-weight:700;opacity:.92}
+.x{position:absolute;right:14px;top:14px;width:48px;height:48px;border-radius:50%;border:0;background:rgba(255,255,255,.22);color:#fff;font-size:26px;line-height:1}
+.sb{padding:22px clamp(18px,3vw,36px) 30px;display:grid;gap:22px}
+.sb h3{margin:0 0 8px;font-size:22px}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.facts span{background:var(--bg);border-radius:10px;padding:6px 12px;font-size:15px}
+.steps{margin:0;padding-left:0;list-style:none;counter-reset:s;display:grid;gap:10px}
+.steps li{counter-increment:s;display:grid;grid-template-columns:40px minmax(0,1fr);gap:10px;font-size:19px;line-height:1.5}
+.steps li:before{content:counter(s);width:36px;height:36px;border-radius:50%;background:var(--sun);color:#1b1b1b;display:grid;place-items:center;font-family:Jua;font-size:20px}
+.say{display:grid;gap:8px}
+.say div{font-size:21px;font-weight:500;background:var(--bg);border-left:5px solid var(--cob);border-radius:6px 12px 12px 6px;padding:10px 14px}
+.tips{display:grid;gap:8px}
+.tip{display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font-size:17px}
+.tip b{font-family:Jua;font-weight:400;font-size:19px}
+.tip.cur{border-color:var(--cob);background:light-dark(#eef1ff,#202a66)}
+.acts{display:flex;flex-wrap:wrap;gap:10px}
+.btn{border:0;border-radius:14px;padding:12px 20px;min-height:52px;font-weight:700;font-size:17px;background:var(--bg);border:1.5px solid var(--line)}
+.btn.p{background:var(--sun);border-color:var(--sun);color:#1b1b1b}
+.btn.b{background:var(--cob);border-color:var(--cob);color:#fff}
+/* stage */
+#stage{position:fixed;inset:0;z-index:60;background:var(--bg);display:none;flex-direction:column}
+#stage.show{display:flex}
+.stbar{display:flex;align-items:center;gap:12px;padding:12px 18px;background:var(--cob);color:#fff}
+.stbar h2{margin:0;font-size:26px;flex:1}
+.stbar .x{position:static}
+.stbody{flex:1;overflow:auto;padding:clamp(16px,3vw,40px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;text-align:center}
+.big{font-family:Jua;font-size:clamp(44px,8vw,110px);line-height:1.1;word-break:break-word}
+.mid{font-size:clamp(22px,3vw,34px);font-weight:700}
+.hint{color:var(--mute);font-size:16px}
+.chips{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;max-width:1100px}
+.wc{font-size:clamp(22px,3vw,36px);font-weight:700;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px 20px;min-height:64px}
+.wc.picked{background:var(--cob);color:#fff;border-color:var(--cob)}
+.ans{min-height:96px;width:100%;max-width:1100px;border:3px dashed var(--line);border-radius:20px;padding:14px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center;align-items:center}
+.ans.good{border-color:var(--ok);border-style:solid;background:light-dark(#e7f7ee,#123a28)}
+.ans.bad{border-color:var(--cor);border-style:solid}
+.seqc{display:grid;gap:10px;width:100%;max-width:1000px}
+.seqc .wc{text-align:left;font-size:clamp(18px,2.2vw,26px)}
+.sent{font-size:clamp(28px,4.4vw,58px);font-weight:700;line-height:1.5;display:flex;flex-wrap:wrap;gap:.35em;justify-content:center;max-width:1150px}
+.sent .gone{color:transparent;border-bottom:5px solid var(--cob);border-radius:2px}
+.cover{background:var(--cob);color:#fff;border-radius:28px;padding:40px 60px;min-width:min(90vw,520px);border:0}
+.dice{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;width:100%;max-width:1100px}
+.die{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:16px 10px}
+.die small{display:block;color:var(--mute);font-size:15px;font-weight:700}
+.die div{font-family:Jua;font-size:clamp(24px,3.4vw,44px);line-height:1.15;margin-top:6px}
+.ttt{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:min(92vw,760px)}
+.cell{aspect-ratio:1.5;background:var(--card);border:2px solid var(--line);border-radius:18px;font-size:clamp(18px,2.6vw,30px);font-weight:700;position:relative;padding:8px}
+.cell[data-m]:after{content:attr(data-m);position:absolute;inset:0;display:grid;place-items:center;font-family:Jua;font-size:clamp(60px,9vw,120px);opacity:.85}
+.cell[data-m=O]:after{color:var(--cor)}.cell[data-m=X]:after{color:var(--cob)}
+.bomb{width:clamp(180px,26vw,300px);aspect-ratio:1}
+.ticking .bomb{animation:pulse .6s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.07)}}
+.boom{background:var(--cor);color:#fff;border-radius:30px;padding:30px 50px}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+/* floating widgets */
+.fw{position:fixed;z-index:70;background:var(--card);border:2px solid var(--cob);border-radius:20px;box-shadow:0 14px 40px rgba(0,0,0,.25);display:none;width:min(94vw,360px)}
+.fw.show{display:block}
+.fwh{display:flex;align-items:center;justify-content:space-between;padding:8px 8px 8px 16px;background:var(--cob);color:#fff;border-radius:17px 17px 0 0;font-weight:700}
+.fwh button{background:transparent;border:0;color:#fff;font-size:22px;width:44px;height:44px}
+#timerW{right:16px;bottom:16px}
+#scoreW{left:16px;bottom:16px;width:min(94vw,520px)}
+.tnum{font-family:Jua;font-size:76px;text-align:center;line-height:1.1;padding:8px 0}
+.tnum.end{color:var(--cor);animation:flick .3s linear 6}
+.tpre{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;padding:0 12px}
+.tpre button{border:1.5px solid var(--line);background:var(--bg);border-radius:10px;min-height:44px;padding:0 12px;font-weight:700}
+.tctl{display:flex;gap:8px;padding:12px}
+.tctl button{flex:1}
+.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px;padding:12px}
+.team{border-radius:14px;padding:8px;text-align:center;color:#fff}
+.team input{width:100%;background:transparent;border:0;color:#fff;font:700 16px "Noto Sans KR";text-align:center}
+.team .sc{font-family:Jua;font-size:54px;line-height:1}
+.team .pm{display:flex;gap:6px;margin-top:6px}
+.team .pm button{flex:1;min-height:44px;border:0;border-radius:10px;background:rgba(255,255,255,.25);color:#fff;font-size:22px;font-weight:700}
+.sctl{display:flex;gap:8px;padding:0 12px 12px}
+textarea{width:100%;min-height:150px;border:1.5px solid var(--line);border-radius:14px;padding:12px;font:16px/1.5 "Noto Sans KR";background:var(--bg);color:var(--ink)}
+label.l{font-weight:700;display:block;margin-bottom:6px}
+.note{font-size:14px;color:var(--mute)}
+@media(max-width:820px){.lvrow{grid-template-columns:repeat(3,minmax(0,1fr))}.dice{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.draw{grid-template-columns:1fr}.drawbtn{min-height:64px}.slot{flex-wrap:wrap}.lvrow{grid-template-columns:repeat(2,minmax(0,1fr))}.tip{grid-template-columns:1fr;gap:2px}.sep{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="band">
+ <div class="wrap">
+  <div class="top">
+   <div><h1>Stella Activity Box</h1><p>리딩·그래머 수업이 지루해질 때 꺼내 쓰는 활동 상자 · 어떤 단원이든, 오늘 배운 내용으로</p></div>
+   <div class="tools">
+    <button class="tb" id="bContent">오늘 배운 내용</button>
+    <button class="tb" id="bTimer">타이머</button>
+    <button class="tb" id="bScore">점수판</button>
+   </div>
+  </div>
+  <div class="draw">
+   <div class="slot" id="slot"><div class="sv"><div class="sn" id="slotN">오늘은 어떤 활동?</div><div class="sk" id="slotK">레벨과 조건을 고르고 뽑기 버튼을 눌러 보세요</div></div><button class="sgo" id="slotGo" hidden>활동 열기</button></div>
+   <button class="drawbtn" id="bDraw">활동 뽑기!</button>
+  </div>
+ </div>
+</header>
+
+<section class="filters">
+ <div class="wrap">
+  <div class="lvrow" id="lvrow"></div>
+  <div class="frow" id="frow"></div>
+ </div>
+</section>
+
+<main class="band" style="padding-top:8px">
+ <div class="wrap">
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+ </div>
+</main>
+
+<div class="ov" id="detail"><div class="sheet" id="sheet"></div></div>
+
+<div class="ov" id="contentOv"><div class="sheet">
+ <div class="sh G"><h2>오늘 배운 내용</h2><div class="k">여기 넣은 단어·문장으로 '바로 실행' 도구가 움직여요</div><button class="x" data-close="contentOv" aria-label="닫기">×</button></div>
+ <div class="sb">
+  <div><label class="l" for="tWords">단어 (한 줄에 하나, 또는 쉼표로)</label><textarea id="tWords"></textarea></div>
+  <div><label class="l" for="tSents">문장 (한 줄에 한 문장 · 이야기 순서대로 넣으면 '순서 맞추기'에 그대로 쓰여요)</label><textarea id="tSents"></textarea></div>
+  <p class="note" id="sampleNote">지금 들어있는 내용은 샘플입니다. 오늘 수업 단원으로 바꿔 넣어 주세요. 이 기기 브라우저에 저장됩니다.</p>
+  <div class="acts"><button class="btn p" id="saveContent">저장하기</button><button class="btn" id="resetContent">샘플로 되돌리기</button></div>
+ </div>
+</div></div>
+
+<div id="stage"><div class="stbar"><h2 id="stTitle">도구</h2><button class="tb" id="stTimer">타이머</button><button class="tb" id="stScore">점수판</button><button class="x" id="stClose" aria-label="닫기">×</button></div><div class="stbody" id="stBody"></div></div>
+
+<div class="fw" id="timerW">
+ <div class="fwh"><span>타이머</span><button data-hide="timerW" aria-label="닫기">×</button></div>
+ <div class="tnum" id="tnum">01:00</div>
+ <div class="tpre" id="tpre"></div>
+ <div class="tctl"><button class="btn b" id="tStart">시작</button><button class="btn" id="tReset">리셋</button><button class="btn" id="tWatch">스톱워치</button></div>
+</div>
+
+<div class="fw" id="scoreW">
+ <div class="fwh"><span>점수판</span><button data-hide="scoreW" aria-label="닫기">×</button></div>
+ <div class="teams" id="teams"></div>
+ <div class="sctl"><button class="btn" id="tm2">2팀</button><button class="btn" id="tm3">3팀</button><button class="btn" id="tm4">4팀</button><button class="btn" id="tmReset">0점으로</button></div>
+</div>
+
+<script>
+{
+const LV={1:["Starter","파닉스·패턴스토리북 · 초1~2"],2:["Junior","브릭스 30~50 · 초2~4"],3:["Inter","브릭스 60~80 · 초4~6"],4:["Middle","리더스뱅크·중등 문법"]};
+const TY={warm:"워밍업·환기",team:"팀 대항",pair:"짝 활동",solo:"개인",move:"움직이기"};
+const AR={R:"Reading",G:"Grammar",RG:"Reading+Grammar"};
+const SK={R:"읽기",L:"듣기",S:"말하기",W:"쓰기",G:"문법"};
+const TOOLS={picker:"단어 뽑기 카드",scramble:"문장 배열",flash:"번개 단어",vanish:"사라지는 문장",sequence:"순서 맞추기",bomb:"폭탄 타이머",dice:"문장 주사위",ttt:"틱택토 보드",voices:"목소리 룰렛"};
+const A=[
+{id:"hotseat",n:"Hot Seat",k:"핫시트",a:"R",lv:[2,3,4],t:"team",m:7,p:"없음",sk:"SLR",tool:"picker",d:"칠판을 등진 친구에게 팀원들이 영어로만 단어를 설명해 맞히게 해요.",st:["팀 대표 1명이 칠판을 등지고 앞에 앉는다","교사가 '바로 실행'으로 배운 단어를 칠판에 띄운다","팀원들은 영어로만 설명 — 한국어, 그 단어 자체는 금지","1분 동안 가장 많이 맞힌 팀이 승리"],say:["Turn around and face the class.","Describe it in English. No Korean!","Time's up! How many did you get?"],tip:{2:"\"It's an animal. It's big.\"처럼 It's ~ 패턴 문장만 허용",3:"반대말·예문 힌트 허용 (The opposite is ~ / We use it when ~)",4:"영영 정의처럼 설명 — 관계대명사로 (It's something that ~)"}},
+{id:"scramble",n:"Sentence Scramble Relay",k:"문장 배열 릴레이",a:"RG",lv:[1,2,3,4],t:"team",m:8,p:"없음 (전자칠판)",sk:"RWG",tool:"scramble",d:"섞인 단어를 팀원이 한 명씩 나와 순서대로 터치해 본문 문장을 완성해요.",st:["'오늘 배운 내용'에 본문 문장을 넣어 둔다","팀마다 한 명씩 나와 단어를 하나씩 터치 (릴레이)","완성하면 팀 전체가 소리 내어 읽어야 점수 인정","틀리면 다음 팀에게 기회가 넘어간다"],say:["One word each. Go, go, go!","Read the sentence together.","Is it correct? Let's check."],tip:{1:"3~5단어 패턴 문장 (I like apples.)",2:"본문 문장 그대로",3:"접속사가 들어간 긴 문장, 제한 시간 30초",4:"관계사·to부정사 등 구문 문장 — 완성 후 해석까지 해야 점수"}},
+{id:"flash",n:"Flash Word",k:"번개 단어",a:"R",lv:[1,2,3],t:"warm",m:3,p:"없음",sk:"RL",tool:"flash",d:"눈 깜짝할 사이 보였다 사라지는 단어를 읽어 내는 집중력 워밍업이에요.",st:["'바로 실행'에서 보이는 시간을 고른다","단어가 번쩍 나타났다 사라진다","가장 먼저 정확히 읽은 학생·팀이 점수","뜻이나 그 단어로 만든 문장까지 말하면 보너스"],say:["Eyes on the board! Ready… flash!","What did you see?","Can you use it in a sentence?"],tip:{1:"사이트워드·파닉스 단어, 1초",2:"본문 단어, 0.6초",3:"0.3초 + 품사까지 맞히기"}},
+{id:"vanish",n:"Disappearing Sentence",k:"사라지는 문장",a:"RG",lv:[1,2,3,4],t:"warm",m:5,p:"없음",sk:"RSG",tool:"vanish",d:"문장 속 단어가 하나씩 사라져도 끝까지 기억해 읽는 통문장 암기 활동이에요.",st:["문장을 띄우고 다 같이 읽는다","단어 하나를 숨기고 다시 읽는다","모든 단어가 사라질 때까지 반복","마지막엔 빈칸만 보고 문장 전체를 말하기"],say:["Read it together.","Oops, a word disappeared! Read it again.","Can you say the whole sentence with no words?"],tip:{1:"짧은 패턴 문장 하나",2:"본문 핵심 문장",3:"두 문장 연속으로",4:"오늘 문법 포인트가 든 문장 — 마지막에 공책에 영작"}},
+{id:"mistake",n:"Spot the Mistake",k:"틀린 곳 찾기 낭독",a:"R",lv:[1,2,3,4],t:"warm",m:5,p:"없음",sk:"LR",d:"교사가 본문을 일부러 틀리게 읽으면 학생이 'Stop!'을 외치고 바로잡아요.",st:["학생들은 책 본문을 손가락으로 따라간다","교사가 단어·숫자·이름을 일부러 바꿔 읽는다","먼저 \"Stop!\"하고 맞는 단어를 말한 학생이 점수","익숙해지면 학생이 교사 역할을 맡아 진행"],say:["Follow with your finger.","Did I make a mistake?","What's the right word?"],tip:{1:"그림과 다른 단어로 바꾸기 (cat → dog)",2:"본문 단어 바꾸기",3:"뜻이 반대가 되게 바꾸기 (always → never)",4:"문법을 틀리게 읽기 (goes → go) — 문법 귀 훈련"}},
+{id:"voices",n:"Voice Roulette",k:"목소리 룰렛 낭독",a:"R",lv:[1,2,3],t:"warm",m:4,p:"없음",sk:"RS",tool:"voices",d:"룰렛이 정한 목소리(속삭임·로봇·거인…)로 읽어서 반복 낭독을 놀이로 바꿔요.",st:["룰렛을 돌린다","나온 목소리로 반 전체가 한 문단 읽기","팀별·개인별로 돌려 가며 읽기","가장 실감 나게 읽은 팀에게 박수 점수"],say:["Spin the wheel!","Read it like a robot.","Who was the best robot?"],tip:{1:"문장 하나씩",2:"한 문단",3:"대화문 — 인물마다 다른 목소리"}},
+{id:"tfrun",n:"True or False Run",k:"O/X 이동 퀴즈",a:"R",lv:[1,2,3,4],t:"move",m:6,p:"교실 양쪽에 O·X 표시",sk:"LR",d:"본문 내용 문장을 듣고 O 쪽이나 X 쪽으로 몸을 움직여 답해요.",st:["교실 양쪽에 O, X를 표시한다","교사가 본문 관련 문장을 말한다","학생 이동 — 틀린 학생은 앉거나 팀 감점","X 문장은 학생이 맞게 고쳐 말하기"],say:["True or false? Move!","Why is it false?","Make it true."],tip:{1:"그림 보고 \"It's a red apple.\"",2:"본문 사실 확인",3:"추론 문장 섞기 (Tom was nervous.)",4:"세부 내용 + 주제 판단, 근거 문장 번호 말하기"}},
+{id:"whosaid",n:"Who Said It?",k:"누가 말했을까",a:"R",lv:[2,3,4],t:"team",m:5,p:"없음",sk:"RLS",d:"본문 대사를 보고 누가, 왜 그렇게 말했는지 맞혀요.",st:["교사가 대사 하나를 읽거나 칠판에 띄운다","팀별 10초 상의","인물 이름 + 이유 한 문장으로 답하기","맞힌 팀은 그 인물 목소리로 대사 다시 읽기"],say:["Who said this?","Why did he say that?","Say it like the character."],tip:{2:"인물만 맞히기",3:"Because ~로 이유까지",4:"감정·의도 추론 (He wanted to ~ / She was worried that ~)"}},
+{id:"qball",n:"Question Ball",k:"질문 공 던지기",a:"RG",lv:[2,3,4],t:"move",m:6,p:"공 (지우개·인형도 OK)",sk:"SLG",d:"공을 받은 학생이 답하고, 본문으로 새 질문을 만들어 다음 친구에게 던져요.",st:["교사가 첫 질문과 함께 공을 던진다","받은 학생이 답하고 새 질문을 만들어 다른 친구에게 던진다","같은 질문 반복 금지","막히면 'Help!' 찬스 1번 — 팀원이 도와줌"],say:["Catch! Answer my question.","Now ask someone a new question.","Who? What? Where? Why?"],tip:{2:"Who / What / Where 질문만",3:"Why / How 질문 추가",4:"Do you think ~? 의견 질문, 시제·조동사 정확히"}},
+{id:"corners",n:"Four Corners",k:"네 모서리 선택",a:"R",lv:[2,3,4],t:"move",m:6,p:"교실 네 구석에 A~D",sk:"LRS",d:"보기 A~D를 교실 네 구석에 두고 고른 구석으로 이동해 이유를 말해요.",st:["네 구석에 A, B, C, D를 붙인다","교사가 질문과 보기를 제시 (교재 문제 그대로 활용 가능)","이동 후 구석마다 한 명씩 이유 말하기","다음 장면 예측 질문으로도 활용"],say:["Go to the corner you choose.","Why did you choose C?","Anyone want to change?"],tip:{2:"내용 확인 4지선다",3:"다음 장면 예측 (What will happen next?)",4:"주제·제목 고르기 + 근거 문장 제시"}},
+{id:"order",n:"Story Order",k:"이야기 순서 맞추기",a:"R",lv:[1,2,3,4],t:"team",m:6,p:"없음",sk:"RS",tool:"sequence",d:"섞인 본문 문장을 이야기 순서대로 놓고 연결어로 다시 들려줘요.",st:["본문 문장 4~6개를 '오늘 배운 내용'에 순서대로 입력","'바로 실행'하면 문장이 섞여 나온다","팀이 순서대로 터치해 완성","First, Then, Finally로 이야기 다시 말하기"],say:["What happened first?","Then what?","Retell the story with First, Then, Finally."],tip:{1:"짧은 문장 3개",2:"문장 4~5개",3:"6개 + 연결어 사용해 리텔링",4:"문단 순서 배열(수능형) — 연결 단서 찾기"}},
+{id:"tenword",n:"10-Word Summary",k:"10단어 요약",a:"R",lv:[2,3,4],t:"solo",m:7,p:"공책 또는 포스트잇",sk:"RW",d:"본문 전체를 딱 10단어로 요약하며 핵심을 잡고 써 봐요.",st:["개인별로 정확히 10단어 요약 쓰기","짝과 비교해 더 좋은 요약 하나 고르기","칠판에 붙이고 반 전체 투표","6단어 → 3단어로 줄여 가며 반복하면 더 재밌어요"],say:["Summarize the story in ten words.","Count your words!","Which summary is the best? Why?"],tip:{2:"틀 제공: ___ wanted ___ but ___.",3:"정확히 10단어",4:"주제문 형태 + 제목 짓기"}},
+{id:"ending",n:"New Ending",k:"결말 바꾸기",a:"R",lv:[2,3,4],t:"pair",m:10,p:"공책",sk:"WS",d:"짝과 새로운 결말을 쓰고 발표해 가장 마음에 드는 결말을 뽑아요.",st:["원래 결말을 한 문장으로 말하기","짝과 새로운 결말 만들기","발표 후 반 친구들이 투표","새 결말에 어울리는 제목 짓기"],say:["How did the story end?","What if…?","Share your new ending."],tip:{2:"In the end, ___. 한 문장",3:"3~5문장 + 대사 1개 포함",4:"What if 가정법 문장 포함"}},
+{id:"scan",n:"Scan Race",k:"스캐닝 레이스",a:"R",lv:[2,3,4],t:"team",m:5,p:"없음",sk:"R",d:"질문을 듣고 책을 펴서 답이 있는 곳을 먼저 짚는 팀이 이겨요.",st:["모두 책을 덮는다","교사가 질문을 읽는다","\"Go!\" 신호에 책을 펴서 답 찾기","답 위에 손가락을 올리고 먼저 읽는 팀이 점수"],say:["Close your books.","Find the answer. Ready, go!","Put your finger on it and read."],tip:{2:"단어·숫자 찾기",3:"문장 찾기",4:"바꿔 말한 질문(패러프레이즈)으로 근거 문장 찾기"}},
+{id:"draw",n:"Listen & Draw",k:"듣고 그리기",a:"R",lv:[1,2,3],t:"solo",m:7,p:"종이·색연필 (전자칠판도 OK)",sk:"LR",d:"교사가 읽어 주는 장면 묘사를 듣고 그린 뒤 그림을 보며 다시 설명해요.",st:["교사가 본문 장면 묘사 문장을 천천히 읽는다","학생은 들은 대로 그린다","친구 그림과 비교","그림을 보며 문장으로 다시 설명"],say:["Listen and draw.","Where is the cat? Draw it.","Tell me about your picture."],tip:{1:"There is a ~ / It's on the ~ 위치 표현",2:"본문 한 장면",3:"학생이 묘사문을 쓰고 짝이 그리기"}},
+{id:"interview",n:"Character Interview",k:"캐릭터 인터뷰",a:"R",lv:[2,3,4],t:"team",m:8,p:"없음 (마이크 소품 있으면 굿)",sk:"SL",d:"한 명이 주인공이 되고, 나머지는 기자가 되어 인터뷰해요.",st:["한 명이 주인공 역할로 앞에 앉는다","나머지는 기자 — 1분 동안 질문 준비","주인공은 본문 내용을 근거로 대답","가장 좋은 질문을 한 기자에게 '베스트 질문상'"],say:["You are the main character now.","Reporters, ask your questions!","How did you feel when…?"],tip:{2:"정해진 질문 3개 (How do you feel? 등)",3:"Why did you ~? 질문",4:"What would you do if ~? 가정 질문"}},
+{id:"bomb",n:"Pass the Bomb",k:"폭탄 돌리기",a:"RG",lv:[1,2,3,4],t:"move",m:5,p:"공 또는 아무 물건",sk:"SG",tool:"bomb",d:"단어나 문장을 말해야 폭탄을 넘길 수 있어요. 언제 터질지는 아무도 몰라요!",st:["물건(폭탄)을 들고 단어·문장을 말한다","말해야만 다음 사람에게 넘길 수 있다","타이머가 무작위로 터진다","터질 때 들고 있던 사람은 미션 수행"],say:["Say a word and pass it!","Hurry, hurry!","BOOM! Your mission is…"],tip:{1:"카테고리 단어 (animals, colors)",2:"오늘 단어로 짧은 문장",3:"오늘 문법으로 문장 (과거형 등)",4:"단어 영영풀이 또는 구문 패턴 문장"}},
+{id:"gallery",n:"Sticky Note Gallery",k:"포스트잇 갤러리",a:"R",lv:[2,3,4],t:"solo",m:10,p:"포스트잇, 스티커",sk:"WR",d:"질문에 대한 생각을 포스트잇에 써서 붙이고 돌아다니며 읽어요.",st:["질문 하나 제시 (Would you be friends with the main character?)","포스트잇에 답 쓰기","칠판·벽에 붙여 갤러리 만들기","돌아다니며 읽고 좋은 글에 스티커 — 최다 득표 낭독"],say:["Write your answer on a sticky note.","Walk around and read.","Put a star on your favorite."],tip:{2:"틀 제공: I think ___ because ___.",3:"2~3문장",4:"근거 2개 + 반대 의견 하나"}},
+{id:"twotruths",n:"Two Truths, One Lie",k:"진실 둘 거짓 하나",a:"R",lv:[2,3,4],t:"team",m:8,p:"종이",sk:"RWS",d:"팀이 본문으로 진실 2개, 거짓 1개를 만들고 상대 팀이 거짓을 찾아요.",st:["팀별로 본문 내용 문장 3개 쓰기 (진실 2, 거짓 1)","상대 팀 앞에서 발표","상대 팀이 거짓을 찾고 고쳐 말하면 점수","끝까지 안 들키면 출제 팀 점수"],say:["Make two true sentences and one false sentence.","Which one is the lie?","Correct it!"],tip:{2:"본문 문장에서 한 단어만 바꾸기",3:"자기 말로 문장 만들기",4:"추론 문장 섞기 + 오늘 문법 1개 이상 사용"}},
+{id:"mime",n:"Mime It",k:"몸으로 말해요",a:"R",lv:[1,2,3],t:"team",m:5,p:"없음",sk:"LS",tool:"picker",d:"대표가 단어나 문장을 몸으로만 표현하고 팀이 영어로 맞혀요.",st:["대표가 단어(또는 문장)를 몰래 본다","말없이 몸으로만 표현","팀은 영어로 맞히기 — 30초 제한","맞힌 뒤 문장 전체를 말하면 보너스"],say:["No talking! Act it out.","Is it ___?","Say the whole sentence."],tip:{1:"동사·동물 단어",2:"본문 동작 단어",3:"본문 장면 문장 전체"}},
+{id:"boardrace",n:"Board Race",k:"칠판 레이스",a:"RG",lv:[1,2,3,4],t:"team",m:7,p:"펜 2~4자루 (전자칠판 펜)",sk:"WL",d:"교사가 문제를 내면 팀 맨 앞 학생이 칠판에 먼저 정확히 써요.",st:["팀별로 한 줄로 선다","교사가 단어 뜻·문장을 말한다","맨 앞 학생이 칠판에 쓰기 — 정확하고 빠른 팀 점수","쓴 학생은 줄 맨 뒤로, 다음 사람 출발"],say:["Line up in your teams.","Write the word for 'brave'.","Check the spelling!"],tip:{1:"듣고 단어 철자 쓰기",2:"한국어 뜻 → 영단어",3:"영영 정의 → 단어",4:"문장 받아쓰기 / 동사 변형 (go → went → gone)"}},
+{id:"running",n:"Running Dictation",k:"달리기 받아쓰기",a:"R",lv:[2,3,4],t:"team",m:10,p:"문단 출력지 (벽에 부착)",sk:"RWLS",d:"Runner가 멀리 붙은 문장을 읽고 와서 말해 주면 Writer가 받아써요.",st:["짧은 문단을 교실 뒤 벽(또는 칠판 끝)에 붙인다","Runner가 가서 읽고 외워 돌아와 Writer에게 말한다","Writer는 받아쓰기 — 중간에 역할 교대","가장 정확하고 빨리 끝낸 팀 승리"],say:["Runners, read and remember.","Tell your writer. No shouting!","Switch roles!"],tip:{2:"3~4문장",3:"6문장",4:"오늘 문법이 든 지문 — 완성 후 빈칸 문법 문제로 확인"}},
+{id:"oddone",n:"Odd One Out",k:"이상한 하나 찾기",a:"RG",lv:[1,2,3,4],t:"warm",m:4,p:"없음",sk:"SR",d:"단어 4개 중 다른 하나를 찾고 영어로 이유를 말해요. 이유만 맞으면 정답은 여러 개!",st:["단어 4개 제시 (cat, dog, fish, apple)","다른 하나를 찾는다","이유를 영어로 말하기","정답이 여러 개일 수 있어요 — 이유가 맞으면 OK"],say:["Which one is different?","Why?","Good reason!"],tip:{1:"그림·카테고리로",2:"본문 단어 — 의미·품사",3:"소리(발음)가 다른 것",4:"문법 형태 (went, ate, gone, saw)"}},
+{id:"pictionary",n:"Pictionary",k:"그림 퀴즈",a:"R",lv:[1,2,3],t:"team",m:6,p:"전자칠판 펜",sk:"LS",tool:"picker",d:"대표가 칠판에 그림을 그리고 팀이 영어로 맞혀요.",st:["대표가 단어를 몰래 본다","칠판에 그림 — 글자·숫자 금지","팀이 영어로 맞히기","맞히면 그 단어로 문장 만들기 보너스"],say:["Draw, but no letters!","Guess in English.","Make a sentence with it."],tip:{1:"사물 단어",2:"본문 명사·동사",3:"본문 장면 문장을 그림으로"}},
+{id:"rather",n:"Would You Rather",k:"이거 vs 저거",a:"R",lv:[2,3,4],t:"move",m:5,p:"없음",sk:"SL",d:"본문과 연결된 두 선택지 중 하나를 골라 이동하고 이유를 말해요.",st:["두 선택지 제시 (Would you rather be the fox or the rabbit?)","고른 쪽으로 이동","양쪽에서 이유 말하기","학생이 직접 질문 만들기"],say:["Would you rather ___ or ___?","I'd rather ___ because ___.","Make your own question!"],tip:{2:"I want to be ___.",3:"I'd rather ~ because ~",4:"반대편 의견 하나 반박하기"}},
+{id:"speed",n:"Speed Reading Challenge",k:"타임어택 낭독",a:"R",lv:[1,2,3,4],t:"solo",m:5,p:"없음 (스톱워치 사용)",sk:"R",d:"한 문단을 정확하고 빠르게 읽어 자기 기록을 깨요.",st:["읽을 문단을 정한다","타이머의 '스톱워치'로 개인·짝 기록 측정","틀리게 읽으면 +2초","두 번째 도전에서 자기 기록 깨기"],say:["Ready, set, read!","Your time is ___ seconds.","Can you beat your record?"],tip:{1:"사이트워드 한 줄 읽기",2:"본문 한 문단",3:"대화문을 감정 넣어서",4:"끊어 읽기(/) 표시 후 읽기"}},
+{id:"auction",n:"Grammar Auction",k:"문법 경매",a:"G",lv:[3,4],t:"team",m:10,p:"맞는/틀린 문장 목록",sk:"GR",d:"맞는 문장이라고 생각하면 가상 돈으로 입찰! 맞는 문장을 가장 많이 산 팀이 이겨요.",st:["팀마다 가상 돈 $1,000 지급","맞는 문장·틀린 문장을 섞어 하나씩 경매","'맞는 문장'이라고 생각하면 입찰","끝에 정답 공개 — 틀린 문장을 산 팀은 고쳐야 돈 반환"],say:["This sentence is for sale!","Do I hear 100 dollars?","Sold! Is it correct?"],tip:{3:"be동사·일반동사·시제",4:"관계대명사·수동태 등 오늘 문법 + 틀린 이유 설명"}},
+{id:"doctor",n:"Sentence Doctor",k:"문장 의사 선생님",a:"G",lv:[2,3,4],t:"team",m:6,p:"없음",sk:"GW",d:"아픈(틀린) 문장을 진찰하고 고쳐 주는 오류 수정 게임이에요.",st:["틀린 문장을 칠판에 띄운다","팀이 '진찰' — 아픈 곳에 동그라미","고친 문장 쓰기","왜 틀렸는지 설명하면 보너스"],say:["This sentence is sick. Can you help?","Where is the problem?","Why is it wrong?"],tip:{2:"한 군데 오류 (He like → likes)",3:"오류 2개",4:"오류 개수 비공개, 수능형 어법"}},
+{id:"stretch",n:"Sentence Stretch",k:"문장 늘리기",a:"G",lv:[1,2,3,4],t:"team",m:6,p:"없음",sk:"GSW",d:"아주 짧은 문장에 단어를 하나씩 붙여 문법이 맞는 채로 최대한 길게 늘려요.",st:["짧은 문장 제시 (I eat.)","팀이 돌아가며 단어·구를 하나씩 추가","문법적으로 맞아야 통과","가장 길게 늘린 팀 승리"],say:["Make it longer!","Add one word.","Is it still correct?"],tip:{1:"I like ___.에 형용사 붙이기",2:"장소·시간 붙이기",3:"접속사 (and, because, when)",4:"관계사절·분사구 붙이기"}},
+{id:"tense",n:"Tense Switch",k:"시제 바꾸기 스피드",a:"G",lv:[2,3,4],t:"team",m:5,p:"없음",sk:"GS",tool:"dice",d:"시간 표현이 바뀌면 문장 시제를 재빨리 바꿔 말해요.",st:["교사가 현재 문장을 말한다","'바로 실행' 주사위로 시간 표현을 굴린다 (yesterday / tomorrow…)","학생이 빠르게 시제를 바꿔 말하기","본문 문장으로 진행하면 복습 효과 두 배"],say:["Yesterday!","Tomorrow!","Faster!"],tip:{2:"현재 ↔ 과거",3:"과거·미래·진행형",4:"현재완료·수동태로 변형"}},
+{id:"ttt",n:"Grammar Tic-Tac-Toe",k:"문법 틱택토",a:"RG",lv:[1,2,3,4],t:"team",m:8,p:"없음",sk:"GS",tool:"ttt",d:"칸의 단어로 미션을 성공하면 O/X를 차지! 한 줄을 먼저 만든 팀이 이겨요.",st:["9칸에 오늘 단어가 자동으로 들어간다","팀이 칸을 고르고 미션 수행","성공하면 터치해서 O 또는 X 차지","한 줄 먼저 완성한 팀 승리"],say:["Choose a square.","Make a sentence with this word.","Three in a row!"],tip:{1:"단어 읽기",2:"단어로 문장 만들기",3:"부정문·의문문 미션",4:"칸마다 구문(to부정사·관계사) 사용 미션"}},
+{id:"findwho",n:"Find Someone Who",k:"친구 찾기 인터뷰",a:"G",lv:[1,2,3,4],t:"move",m:8,p:"설문지 (공책에 써도 OK)",sk:"SGW",d:"오늘 문법으로 만든 질문을 들고 돌아다니며 Yes라고 답하는 친구를 찾아요.",st:["오늘 문법으로 질문 목록 만들기 (Do you have a pet?)","돌아다니며 질문 — Yes면 이름 쓰기 (한 명당 한 칸)","시간 종료","\"Jiwoo has a pet.\"처럼 3인칭으로 발표"],say:["Walk around and ask.","Find someone who has a pet.","Tell me what you found."],tip:{1:"Do you like ~?",2:"Can you ~? / Did you ~?",3:"3인칭 보고 문장으로 발표",4:"Have you ever ~? + 꼬리 질문 하나"}},
+{id:"chain",n:"Memory Chain",k:"꼬리 문장",a:"G",lv:[1,2,3,4],t:"warm",m:5,p:"없음",sk:"SGL",d:"앞사람 문장을 그대로 말하고 하나를 더 붙여요. 반 기록에 도전!",st:["첫 학생: I went to the zoo and saw a lion.","다음 학생은 앞 내용 반복 + 하나 추가","막히거나 틀리면 처음부터","반 기록 세우기"],say:["Repeat and add one more.","Don't forget!","New class record!"],tip:{1:"I have a ___, a ___…",2:"Yesterday I ate…",3:"오늘 문법 패턴으로",4:"If I were ~, I would ~"}},
+{id:"standup",n:"Stand Up If",k:"맞으면 일어나!",a:"G",lv:[1,2,3],t:"move",m:4,p:"없음",sk:"LG",d:"교사가 말한 문장이 맞으면 일어나고 틀리면 앉아요.",st:["교사가 문장을 말한다","맞으면 일어나고, 틀리면 앉기","틀린 문장을 고쳐 말한 학생 점수","변형: 나에게 해당되면 일어나기 (Stand up if you have a sister.)"],say:["Stand up if the sentence is correct.","Sit down!","Fix it."],tip:{1:"a / an, 복수형",2:"3인칭 -s, 과거형",3:"비교급·시제"}},
+{id:"human",n:"Human Sentence",k:"인간 문장",a:"G",lv:[1,2,3,4],t:"move",m:8,p:"단어 카드 (A4에 크게)",sk:"GRS",d:"학생이 단어 카드가 되어 줄을 서고, 부정문·의문문으로 변신하며 자리를 바꿔요.",st:["학생마다 단어 카드 1장","카드를 들고 줄 서서 문장 완성","\"Make it negative!\" \"Make it a question!\" → not, Do 카드 학생이 뛰어들거나 자리 이동","완성될 때마다 반 전체가 읽기"],say:["Stand in the right order.","Make it negative!","Make it a question!"],tip:{1:"3~4단어 문장",2:"부정문·의문문",3:"시제 변형 (did 등장)",4:"수동태·간접의문문으로 자리 이동"}},
+{id:"bingo",n:"Grammar Bingo",k:"문법 빙고",a:"G",lv:[1,2,3,4],t:"solo",m:8,p:"공책에 9칸 빙고판",sk:"GL",d:"빙고판에 변형된 형태를 쓰고, 교사가 원형을 부르면 찾아 체크해요.",st:["9칸에 오늘 단어의 변형 쓰기 (예: 동사 과거형)","교사가 원형을 부른다 (go!)","해당 형태 (went)에 체크","3줄 빙고 → 체크한 단어로 문장을 말해야 인정"],say:["Write nine past tense verbs.","Go!","Bingo? Make sentences with them."],tip:{1:"단어 듣고 철자 찾기",2:"과거형",3:"비교급·최상급",4:"과거분사 / 품사 변형 (happy → happiness)"}},
+{id:"dice",n:"Dice Sentence",k:"주사위 문장",a:"G",lv:[1,2,3,4],t:"team",m:6,p:"없음",sk:"GSW",tool:"dice",d:"주사위로 누가·단어·언제·문장 종류를 정하고 그 조합으로 정확한 문장을 만들어요.",st:["'바로 실행'에서 주사위 굴리기","나온 조합으로 문장 만들기","시제·3인칭·부정/의문이 맞아야 점수","웃긴 문장 대환영!"],say:["Roll the dice!","Make a sentence.","Check the tense!"],tip:{1:"누가 + 단어만 (I like ~)",2:"시간 표현까지 — 과거형",3:"부정문·의문문 미션까지",4:"조동사·완료 시제 미션 추가"}},
+{id:"relay",n:"Transformation Relay",k:"변신 릴레이",a:"G",lv:[2,3,4],t:"team",m:6,p:"없음",sk:"GWS",d:"한 문장을 팀원이 돌아가며 부정문 → 의문문 → 대답 → 시제 변형으로 바꿔 써요.",st:["본문 평서문 하나 제시","1번 부정문 → 2번 의문문 → 3번 대답 → 4번 시제 바꾸기","칠판에 릴레이로 쓰기","가장 빠르고 정확한 팀 승리"],say:["Make it negative.","Now make a question.","Answer it!"],tip:{2:"평서문·부정문·의문문",3:"+ 과거 시제",4:"+ 수동태·간접의문문"}},
+{id:"hunt",n:"Grammar Hunt",k:"본문 문법 사냥",a:"RG",lv:[2,3,4],t:"team",m:6,p:"형광펜",sk:"RG",d:"본문 속에서 오늘 배운 문법을 최대한 많이 찾아 표시해요.",st:["오늘 찾을 문법 알려 주기 (과거형, 비교급, to부정사…)","팀별로 본문에서 찾아 표시 — 2분","가장 많이 찾은 팀 승리","찾은 문장 하나씩 읽고 해석"],say:["Find all the past tense verbs.","How many did you find?","Read them for us."],tip:{2:"과거형·복수형",3:"비교급, 접속사",4:"관계사·분사·구문 표시 (/ 끊어 읽기)"}},
+{id:"rps",n:"Rock-Paper-Scissors Talk",k:"가위바위보 문장",a:"G",lv:[1,2,3],t:"pair",m:5,p:"없음",sk:"SG",d:"가위바위보에서 이긴 사람이 오늘 패턴으로 질문하고 진 사람이 대답해요.",st:["짝과 가위바위보","이긴 사람이 오늘 패턴으로 질문","진 사람이 대답","신호에 맞춰 짝 바꾸며 반복"],say:["Rock, paper, scissors!","Winner, ask a question.","Change partners!"],tip:{1:"What's this? — It's a ~.",2:"Did you ~? — Yes, I did.",3:"What will you ~? + 이유까지"}},
+{id:"categories",n:"Categories Race",k:"카테고리 빨리 쓰기",a:"RG",lv:[2,3,4],t:"team",m:6,p:"종이",sk:"W",d:"알파벳 하나로 시작하는 단어를 카테고리별로 1분 안에 써요.",st:["알파벳 하나 + 카테고리 제시 (동물, 음식, 동사…)","1분 동안 그 글자로 시작하는 단어 쓰기","다른 팀과 안 겹치면 2점, 겹치면 1점","하나 골라 문장 만들기 보너스"],say:["The letter is B!","One minute. Go!","Nobody else has it? Two points!"],tip:{2:"카테고리 3개",3:"카테고리 5개",4:"품사 카테고리 (동사·형용사·부사)"}},
+{id:"picture",n:"Picture Talk",k:"그림 보고 문장 서바이벌",a:"G",lv:[1,2,3,4],t:"team",m:5,p:"본문 그림 또는 사진",sk:"SGW",d:"그림을 보고 오늘 문법으로 문장을 하나씩 — 겹치면 탈락하는 서바이벌이에요.",st:["본문 그림을 띄운다","1분 동안 오늘 문법으로 문장 생각하기","팀이 돌아가며 한 문장씩, 겹치거나 틀리면 탈락","마지막까지 남은 팀 승리"],say:["Look at the picture.","Use today's grammar.","Say a new sentence!"],tip:{1:"There is / There are ~",2:"현재진행형 (He is ~ing.)",3:"과거 이야기로 바꿔 말하기",4:"추측 조동사 (He must be ~.)"}},
+{id:"charades",n:"Tense Charades",k:"시제 몸짓 퀴즈",a:"G",lv:[2,3],t:"team",m:5,p:"없음",sk:"GS",tool:"picker",d:"동작에 시제 신호를 더해 표현하면 팀이 정확한 시제 문장으로 맞혀요.",st:["시제 신호 정하기 (과거 = 엄지 뒤로, 미래 = 앞으로, 진행 = 빙글빙글)","대표가 동작 + 시제 신호로 표현","팀은 정확한 시제 문장으로 맞히기 (You were swimming!)","맞힌 문장을 칠판에 쓰면 보너스"],say:["Act it out with a tense sign.","Say the full sentence.","Past or future?"],tip:{2:"현재·과거",3:"과거진행·미래"}}
+];
+
+const SAMPLE={w:["forest","river","brave","hungry","whisper","borrow","decide","gentle","shiny","climb","promise","quiet"],s:["A little fox lived in a big forest.","One day, the fox was very hungry.","She saw a shiny red apple on a tree.","She tried to climb the tree, but she fell.","A brave rabbit helped her get the apple.","The fox and the rabbit became good friends."]};
+const store={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let C=store.get("sab_content")||{w:SAMPLE.w.slice(),s:SAMPLE.s.slice(),sample:true};
+const S={lv:0,area:"all",type:"all",time:0,noprep:false,q:""};
+const $=id=>document.getElementById(id);
+const esc=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+let AC=null;
+function beep(f=660,d=.15,v=.2){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;o.type="square";g.gain.value=v;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d)}catch(e){}}
+
+/* filters */
+function renderFilters(){
+ $("lvrow").innerHTML=[0,1,2,3,4].map(l=>`<button class="lv${S.lv===l?" on":""}" data-lv="${l}"><b>${l?"L"+l+" "+LV[l][0]:"전체 레벨"}</b><span>${l?LV[l][1]:"모든 활동 보기"}</span></button>`).join("");
+ const ch=(g,v,t,cls="")=>`<button class="chip ${cls}${S[g]===v?" on":""}" data-g="${g}" data-v="${v}">${t}</button>`;
+ $("frow").innerHTML=ch("area","all","전체 영역")+ch("area","R","Reading","r")+ch("area","G","Grammar","g")+'<span class="sep"></span>'+
+  ch("type","all","모든 유형")+Object.entries(TY).map(([k,v])=>ch("type",k,v)).join("")+'<span class="sep"></span>'+
+  ch("time",0,"시간 무관")+ch("time",5,"5분 이내")+ch("time",8,"8분 이내")+
+  `<button class="chip${S.noprep?" on":""}" id="np">준비물 없음</button><button class="chip${S.tool?" on":""}" id="tl">바로 실행 가능</button>`+
+  `<input class="search" id="q" placeholder="활동 이름·키워드 검색" value="${esc(S.q)}">`;
+}
+function filtered(){
+ const q=S.q.trim().toLowerCase();
+ return A.filter(a=>(!S.lv||a.lv.includes(S.lv))&&(S.area==="all"||a.a.includes(S.area))&&(S.type==="all"||a.t===S.type)&&(!S.time||a.m<=S.time)&&(!S.noprep||a.p.startsWith("없음"))&&(!S.tool||a.tool)&&(!q||(a.n+a.k+a.d).toLowerCase().includes(q)));
+}
+function renderGrid(){
+ const L=filtered();
+ $("count").textContent=`활동 ${L.length}개${S.lv?" · L"+S.lv+" "+LV[S.lv][0]+" 기준":""}`;
+ $("grid").innerHTML=L.length?L.map(a=>`<button class="card" data-id="${a.id}"><span class="tab ${a.a}"></span><div class="cn">${a.n}</div><div class="ck">${a.k}</div><p class="cd">${a.d}</p><div class="meta"><span>${a.m}분</span><span>${TY[a.t]}</span><span>${a.p.startsWith("없음")?"준비물 없음":a.p}</span><span>L${a.lv.join("·")}</span>${a.tool?'<span class="run">바로 실행</span>':""}</div></button>`).join(""):'<div class="empty">조건에 맞는 활동이 없어요. 조건을 하나 풀어 보세요.</div>';
+}
+document.addEventListener("click",e=>{
+ const lv=e.target.closest("[data-lv]");if(lv){S.lv=+lv.dataset.lv;renderFilters();renderGrid();return}
+ const c=e.target.closest("[data-g]");if(c){const g=c.dataset.g;S[g]=g==="time"?+c.dataset.v:c.dataset.v;renderFilters();renderGrid();return}
+ if(e.target.id==="np"){S.noprep=!S.noprep;renderFilters();renderGrid();return}
+ if(e.target.id==="tl"){S.tool=!S.tool;renderFilters();renderGrid();return}
+ const cd=e.target.closest(".card");if(cd){openDetail(cd.dataset.id);return}
+ const cl=e.target.closest("[data-close]");if(cl){$(cl.dataset.close).classList.remove("show");return}
+ const hd=e.target.closest("[data-hide]");if(hd){$(hd.dataset.hide).classList.remove("show");return}
+ if(e.target.classList.contains("ov"))e.target.classList.remove("show");
+});
+document.addEventListener("input",e=>{if(e.target.id==="q"){S.q=e.target.value;renderGrid()}});
+
+/* detail */
+let cur=null;
+function openDetail(id){
+ const a=A.find(x=>x.id===id);cur=a;
+ const tips=a.lv.map(l=>`<div class="tip${S.lv===l?" cur":""}"><b>L${l} ${LV[l][0]}</b><span>${a.tip[l]||""}</span></div>`).join("");
+ $("sheet").innerHTML=`<div class="sh ${a.a}"><h2>${a.n}</h2><div class="k">${a.k} · ${AR[a.a]}</div><button class="x" data-close="detail" aria-label="닫기">×</button></div>
+ <div class="sb"><p style="margin:0;font-size:20px">${a.d}</p>
+ <div class="facts"><span>${a.m}분</span><span>${TY[a.t]}</span><span>준비물: ${a.p}</span><span>${[...a.sk].map(s=>SK[s]).join(" · ")}</span></div>
+ <div class="acts">${a.tool?`<button class="btn p" id="dRun">바로 실행 — ${TOOLS[a.tool]}</button>`:""}<button class="btn b" id="dTimer">${a.m}분 타이머</button><button class="btn" id="dScore">점수판 열기</button></div>
+ <div><h3>진행 방법</h3><ol class="steps">${a.st.map(s=>`<li><span>${s}</span></li>`).join("")}</ol></div>
+ <div><h3>Teacher's English</h3><div class="say">${a.say.map(s=>`<div>${s}</div>`).join("")}</div></div>
+ <div><h3>레벨별로 이렇게</h3><div class="tips">${tips}</div></div></div>`;
+ $("detail").classList.add("show");$("detail").scrollTop=0;
+ if(a.tool)$("dRun").onclick=()=>runTool(a.tool,a.n);
+ $("dTimer").onclick=()=>{setTimer(a.m*60);$("timerW").classList.add("show")};
+ $("dScore").onclick=()=>$("scoreW").classList.add("show");
+}
+
+/* draw */
+$("bDraw").onclick=()=>{
+ const L=filtered();if(!L.length){$("slotN").textContent="조건에 맞는 활동이 없어요";return}
+ const slot=$("slot");slot.classList.add("spin");$("slotGo").hidden=true;let n=0;
+ const iv=setInterval(()=>{const a=pick(L);$("slotN").textContent=a.n;$("slotK").textContent=a.k;beep(400+n*20,.04,.05);n++;
+  if(n>16){clearInterval(iv);slot.classList.remove("spin");const f=pick(L);$("slotN").textContent=f.n;$("slotK").textContent=`${f.k} · ${f.m}분 · ${TY[f.t]}`;$("slotGo").hidden=false;$("slotGo").onclick=()=>openDetail(f.id);beep(880,.25,.15)}},70);
+};
+
+/* content */
+$("bContent").onclick=()=>{$("tWords").value=C.w.join("\n");$("tSents").value=C.s.join("\n");$("sampleNote").style.display=C.sample?"block":"none";$("contentOv").classList.add("show")};
+$("saveContent").onclick=()=>{C={w:$("tWords").value.split(/[\n,]+/).map(x=>x.trim()).filter(Boolean),s:$("tSents").value.split(/\n+/).map(x=>x.trim()).filter(Boolean),sample:false};store.set("sab_content",C);$("contentOv").classList.remove("show")};
+$("resetContent").onclick=()=>{$("tWords").value=SAMPLE.w.join("\n");$("tSents").value=SAMPLE.s.join("\n")};
+
+/* stage tools */
+const body=()=>$("stBody");
+function need(arr,min,what){if(arr.length>=min)return true;body().innerHTML=`<div class="mid">${what}이(가) ${min}개 이상 필요해요</div><button class="btn p" id="goC">오늘 배운 내용 입력하기</button>`;$("goC").onclick=()=>{$("bContent").click()};return false}
+function runTool(t,title){$("stTitle").textContent=title+" · "+TOOLS[t];$("stage").classList.add("show");stopBomb();({picker,scramble,flash,vanish,sequence,bomb,dice,ttt,voices})[t]()}
+$("stClose").onclick=()=>{$("stage").classList.remove("show");stopBomb()};
+$("stTimer").onclick=()=>$("timerW").classList.toggle("show");
+$("stScore").onclick=()=>$("scoreW").classList.toggle("show");
+
+function picker(){
+ if(!need(C.w,1,"단어"))return;let deck=shuffle(C.w),w=deck.pop(),open=false;
+ const r=()=>{body().innerHTML=`<button class="cover big" id="pc">${open?esc(w):"탭해서 보기"}</button><div class="row"><button class="btn p" id="pn">새 단어</button><button class="btn" id="pt">${open?"숨기기":"보이기"}</button></div><div class="hint">남은 단어 ${deck.length}개 · 학생이 칠판을 등지고 있을 때 보여 주세요</div>`;
+  $("pc").onclick=$("pt").onclick=()=>{open=!open;r()};$("pn").onclick=()=>{if(!deck.length)deck=shuffle(C.w);w=deck.pop();open=false;r()}};r();
+}
+function builder(units,joiner,answer,next,label){
+ let pool=shuffle(units.map((u,i)=>({u,i})));if(units.length>1)while(pool.every((p,k)=>p.u===answer[k]))pool=shuffle(pool);
+ let picked=[],state="";
+ const r=()=>{const isSeq=joiner==="\n";
+  body().innerHTML=`<div class="hint">${label}</div><div class="ans ${state}${isSeq?" seqc":""}" id="ans">${picked.length?picked.map((p,k)=>`<button class="wc picked" data-k="${k}">${isSeq?(k+1)+". ":""}${esc(p.u)}</button>`).join(""):'<span class="hint">아래 카드를 순서대로 터치하세요</span>'}</div>
+  <div class="${isSeq?"seqc":"chips"}">${pool.map((p,k)=>`<button class="wc" data-p="${k}">${esc(p.u)}</button>`).join("")}</div>
+  <div class="row"><button class="btn p" id="bc">정답 확인</button><button class="btn" id="bs">정답 보기</button><button class="btn" id="br">다시</button>${next?'<button class="btn b" id="bn">다음 문장</button>':""}</div>`;
+  body().querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{picked.push(pool.splice(+b.dataset.p,1)[0]);state="";r()});
+  body().querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{pool.push(picked.splice(+b.dataset.k,1)[0]);state="";r()});
+  $("bc").onclick=()=>{const ok=picked.length===answer.length&&picked.every((p,k)=>p.u===answer[k]);state=ok?"good":"bad";beep(ok?880:200,.3,.15);r()};
+  $("bs").onclick=()=>{picked=answer.map((u,i)=>({u,i}));pool=[];state="good";r()};
+  $("br").onclick=()=>{pool=shuffle(units.map((u,i)=>({u,i})));picked=[];state="";r()};
+  if(next)$("bn").onclick=next;};r();
+}
+let si=0;
+function scramble(){
+ if(!need(C.s,1,"문장"))return;const s=C.s[si%C.s.length];const t=s.split(/\s+/);
+ builder(t," ",t,()=>{si++;scramble()},`문장 ${si%C.s.length+1} / ${C.s.length}`);
+}
+function sequence(){
+ if(!need(C.s,2,"문장"))return;const u=C.s.slice(0,8);builder(u,"\n",u,null,"이야기 순서대로 터치하세요 (최대 8문장)");
+}
+function flash(){
+ if(!need(C.w,1,"단어"))return;let ms=+(store.get("sab_flash")||600),w=pick(C.w),show=false,rev=false;
+ const r=()=>{body().innerHTML=`<div class="big" style="min-height:1.3em">${show||rev?esc(w):"?"}</div><div class="row">${[300,600,1000].map(v=>`<button class="btn${v===ms?" b":""}" data-ms="${v}">${v/1000}초</button>`).join("")}</div><div class="row"><button class="btn p" id="ff">Flash!</button><button class="btn" id="fr">정답 보기</button><button class="btn" id="fn">새 단어</button></div>`;
+  body().querySelectorAll("[data-ms]").forEach(b=>b.onclick=()=>{ms=+b.dataset.ms;store.set("sab_flash",ms);r()});
+  $("ff").onclick=()=>{rev=false;show=true;r();setTimeout(()=>{show=false;r()},ms)};
+  $("fr").onclick=()=>{rev=true;r()};$("fn").onclick=()=>{w=pick(C.w);rev=false;show=false;r()}};r();
+}
+let vi=0;
+function vanish(){
+ if(!need(C.s,1,"문장"))return;const t=C.s[vi%C.s.length].split(/\s+/);let hid=new Set(),peek=false;
+ const r=()=>{body().innerHTML=`<div class="sent">${t.map((w,i)=>`<span class="${hid.has(i)&&!peek?"gone":""}">${esc(w)}</span>`).join("")}</div><div class="hint">숨긴 단어 ${hid.size} / ${t.length}</div><div class="row"><button class="btn p" id="vh">단어 하나 숨기기</button><button class="btn" id="vp">${peek?"다시 가리기":"살짝 보기"}</button><button class="btn" id="vr">처음부터</button><button class="btn b" id="vn">다음 문장</button></div>`;
+  $("vh").onclick=()=>{const left=t.map((_,i)=>i).filter(i=>!hid.has(i));if(left.length){hid.add(pick(left));peek=false;r()}};
+  $("vp").onclick=()=>{peek=!peek;r()};$("vr").onclick=()=>{hid=new Set();r()};$("vn").onclick=()=>{vi++;vanish()}};r();
+}
+let bombT=null,bombI=null;
+function stopBomb(){clearTimeout(bombT);clearInterval(bombI);bombT=bombI=null}
+const MISSIONS=["오늘 단어 3개로 문장 하나 만들기","본문 한 문장을 로봇 목소리로 읽기","오늘 단어 하나를 영어로 설명하기","친구에게 영어 질문 하나 하기","오늘 배운 문장을 거꾸로 말하기 도전!","팀원 한 명과 함께 문장 읽기"];
+function bomb(){
+ const svg=`<svg class="bomb" viewBox="0 0 200 200" aria-hidden="true"><circle cx="95" cy="115" r="70" fill="#1d2140"/><circle cx="70" cy="90" r="18" fill="#fff" opacity=".25"/><rect x="118" y="38" width="26" height="22" rx="4" transform="rotate(30 131 49)" fill="#5a6080"/><path d="M140 40 Q160 15 178 22" stroke="#c99a10" stroke-width="6" fill="none"/><circle cx="180" cy="22" r="10" fill="#ff5b4a"/></svg>`;
+ body().innerHTML=`<div id="bw">${svg}</div><div class="mid" id="bm">시작을 누르고 폭탄을 돌리세요!</div><div class="row"><button class="btn p" id="bs">시작</button><button class="btn" id="bx">멈춤</button></div>`;
+ $("bs").onclick=()=>{stopBomb();$("bw").className="ticking";$("bm").textContent="말하고 넘겨요! 언제 터질까…";
+  const dur=15000+Math.random()*30000,start=Date.now();bombI=setInterval(()=>beep(Date.now()-start>dur*.7?1000:700,.05,.08),450);
+  bombT=setTimeout(()=>{stopBomb();beep(120,.8,.3);body().innerHTML=`<div class="boom"><div class="big">BOOM!</div><div class="mid">미션: ${pick(MISSIONS)}</div></div><div class="row"><button class="btn p" id="ba">다시 하기</button></div>`;$("ba").onclick=bomb},dur)};
+ $("bx").onclick=()=>{stopBomb();$("bw").className="";$("bm").textContent="멈췄어요"};
+}
+const WHO=["I","You","He","She","We","They","My mom","The fox"],WHEN=["yesterday","every day","tomorrow","right now","last weekend","next week","always","two days ago"],KIND=["긍정문","부정문","의문문"];
+function dice(){
+ const words=C.w.length?C.w:["play","eat","read"];let v=[pick(WHO),pick(words),pick(WHEN),pick(KIND)];
+ const r=()=>{body().innerHTML=`<div class="dice">${[["누가 Who",v[0]],["단어 Word",v[1]],["언제 When",v[2]],["문장 종류",v[3]]].map(d=>`<div class="die"><small>${d[0]}</small><div>${esc(d[1])}</div></div>`).join("")}</div><div class="hint">나온 조합으로 시제와 형태가 맞는 문장을 만들어요</div><div class="row"><button class="btn p" id="dr">주사위 굴리기</button></div>`;
+  $("dr").onclick=()=>{let n=0;const iv=setInterval(()=>{v=[pick(WHO),pick(words),pick(WHEN),pick(KIND)];r();beep(500,.03,.05);if(++n>10)clearInterval(iv)},60)}};r();
+}
+function ttt(){
+ let base=shuffle(C.w).concat(shuffle(SAMPLE.w)).filter((x,i,a)=>a.indexOf(x)===i).slice(0,9),m=Array(9).fill("");
+ const lines=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+ const r=()=>{const win=lines.find(l=>m[l[0]]&&l.every(i=>m[i]===m[l[0]]));
+  body().innerHTML=`<div class="ttt">${base.map((w,i)=>`<button class="cell" data-c="${i}"${m[i]?` data-m="${m[i]}"`:""}>${esc(w)}</button>`).join("")}</div><div class="mid">${win?`${m[win[0]]} 팀 승리!`:'<span class="hint">칸을 터치할 때마다 O → X → 빈칸</span>'}</div><div class="row"><button class="btn p" id="tn">새 보드</button><button class="btn" id="tc">표시 지우기</button></div>`;
+  body().querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{const i=+b.dataset.c;m[i]=m[i]===""?"O":m[i]==="O"?"X":"";r()});
+  $("tn").onclick=ttt;$("tc").onclick=()=>{m=Array(9).fill("");r()};if(win)beep(880,.3,.15)};r();
+}
+const VOICES=["Whisper 속삭이기","Robot 로봇","Baby 아기","Giant 거인","Opera 오페라 가수","Super fast 초고속","Super slow 슬로모션","Angry 화난 목소리","Sad 슬픈 목소리","News reporter 뉴스 앵커","Monster 괴물","Grandpa 할아버지"];
+function voices(){
+ let v="?";const r=()=>{body().innerHTML=`<div class="big">${esc(v)}</div><div class="row"><button class="btn p" id="vs">룰렛 돌리기</button></div>`;
+  $("vs").onclick=()=>{let n=0;const iv=setInterval(()=>{v=pick(VOICES);r();beep(450+n*15,.03,.05);if(++n>18){clearInterval(iv);beep(900,.25,.15)}},70)}};r();
+}
+
+/* timer */
+let tLeft=60,tBase=60,tRun=null,watch=false;
+const fmt=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+function tShow(){$("tnum").textContent=fmt(tLeft);$("tStart").textContent=tRun?"일시정지":"시작";$("tWatch").classList.toggle("b",watch)}
+function setTimer(s){clearInterval(tRun);tRun=null;watch=false;tLeft=tBase=s;$("tnum").classList.remove("end");tShow()}
+$("tpre").innerHTML=[[30,"30초"],[60,"1분"],[120,"2분"],[180,"3분"],[300,"5분"],[600,"10분"]].map(p=>`<button data-t="${p[0]}">${p[1]}</button>`).join("");
+$("tpre").onclick=e=>{const b=e.target.closest("[data-t]");if(b)setTimer(+b.dataset.t)};
+$("tStart").onclick=()=>{if(tRun){clearInterval(tRun);tRun=null;tShow();return}
+ beep(700,.05,.05);tRun=setInterval(()=>{if(watch){tLeft++}else{tLeft--;if(tLeft<=5&&tLeft>0)beep(800,.08,.1);if(tLeft<=0){tLeft=0;clearInterval(tRun);tRun=null;$("tnum").classList.add("end");beep(520,.6,.25);setTimeout(()=>beep(780,.6,.25),300)}}tShow()},1000);tShow()};
+$("tReset").onclick=()=>{watch?(clearInterval(tRun),tRun=null,tLeft=0,tShow()):setTimer(tBase)};
+$("tWatch").onclick=()=>{clearInterval(tRun);tRun=null;watch=true;tLeft=0;$("tnum").classList.remove("end");tShow()};
+$("bTimer").onclick=()=>$("timerW").classList.toggle("show");
+
+/* score */
+const TC=["#ff5b4a","#2346d6","#18a058","#e09a00"];
+let SC=store.get("sab_score")||{n:2,t:[{name:"Team A",s:0},{name:"Team B",s:0},{name:"Team C",s:0},{name:"Team D",s:0}]};
+function rScore(){store.set("sab_score",SC);$("teams").innerHTML=SC.t.slice(0,SC.n).map((t,i)=>`<div class="team" style="background:${TC[i]}"><input data-tn="${i}" value="${esc(t.name)}" aria-label="팀 이름"><div class="sc">${t.s}</div><div class="pm"><button data-d="${i}" data-v="-1" aria-label="1점 빼기">−</button><button data-d="${i}" data-v="1" aria-label="1점 더하기">+</button></div></div>`).join("")}
+$("teams").onclick=e=>{const b=e.target.closest("[data-d]");if(b){SC.t[+b.dataset.d].s+= +b.dataset.v;beep(+b.dataset.v>0?880:300,.1,.1);rScore()}};
+$("teams").oninput=e=>{if(e.target.dataset.tn){SC.t[+e.target.dataset.tn].name=e.target.value;store.set("sab_score",SC)}};
+[2,3,4].forEach(n=>$("tm"+n).onclick=()=>{SC.n=n;rScore()});
+$("tmReset").onclick=()=>{SC.t.forEach(t=>t.s=0);rScore()};
+$("bScore").onclick=()=>$("scoreW").classList.toggle("show");
+
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){if($("stage").classList.contains("show")){$("stClose").click()}else{document.querySelectorAll(".ov.show").forEach(o=>o.classList.remove("show"))}}});
+renderFilters();renderGrid();rScore();tShow();
+}
+</script>
+</body>
+</html>
