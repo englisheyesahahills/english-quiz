@@ -57,7 +57,7 @@ button{font-family:inherit;cursor:pointer;border:none;color:inherit}
 .spot.on{display:block}
 .navarrow{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.9);border-radius:50%;width:7vh;height:7vh;font-size:3.4vh;box-shadow:0 4px 0 rgba(0,0,0,.2);z-index:3}
 .navarrow.l{left:1vw}.navarrow.r{right:1vw}
-.pnum{position:absolute;bottom:1.4vh;left:50%;transform:translateX(-50%);background:rgba(43,35,64,.75);color:#fff;border-radius:99px;padding:.5vh 1.4vw;font-size:2vh;z-index:3}
+.pnum{position:absolute;bottom:1.8vh;right:9vw;background:rgba(43,35,64,.75);color:#fff;border-radius:99px;padding:.5vh 1.4vw;font-size:2vh;z-index:3}
 .tools{position:absolute;left:1vw;bottom:1.4vh;display:flex;gap:.5vw;z-index:3}
 .tool{background:#fff;border-radius:14px;padding:.9vh .9vw;font-size:2vh;font-weight:600;box-shadow:0 4px 0 rgba(0,0,0,.2)}
 .tool.on{background:var(--yellow)}
@@ -94,6 +94,27 @@ button{font-family:inherit;cursor:pointer;border:none;color:inherit}
 .popn{background:#fff;border-radius:30px;padding:4vh 4vw;text-align:center;animation:pop .3s}
 .popn .n{font-size:20vh;font-weight:700;color:var(--uc);line-height:1}
 @media (max-aspect-ratio:3/2){.pnum{display:none}.tool{font-size:1.8vh;padding:.8vh .6vw}}
+
+.mk .w{display:inline-block}
+.mk .st{font-weight:800;color:#E8434F;position:relative}
+.mk .st::before{content:'●';position:absolute;left:50%;transform:translateX(-50%);top:-.62em;font-size:.38em;color:#E8434F}
+.mk .un{color:#8C86A3;font-weight:500}
+.mk .cb{color:#54A0FF;font-weight:800;margin:0 .25em}
+.mk .into{font-weight:800;margin-left:.15em}
+.mk .into.up{color:#FF9F43}.mk .into.dn{color:#1DD1A1}
+.mk .ch.on{background:#FFF1B8;border-radius:8px}
+.rline.mk{display:block;line-height:2.2}
+.rline.mk::before{margin-right:.5vw}
+#coach{position:absolute;inset:0;background:rgba(255,251,240,.97);z-index:6;display:none;flex-direction:column;align-items:center;padding:2vh 2vw;overflow:auto}
+#coach.on{display:flex}
+#coach .lg{display:flex;gap:1.4vw;flex-wrap:wrap;justify-content:center;font-size:2.1vh;color:#5A5070;margin-bottom:1.6vh;font-family:'Jua',sans-serif}
+#coach .lg b{font-family:'Fredoka',sans-serif}
+#coach .cl{font-size:5.2vh;line-height:2.4;background:#fff;border-radius:20px;padding:.4vh 1.6vw;margin:.7vh 0;box-shadow:0 5px 0 rgba(0,0,0,.06);cursor:pointer;max-width:96%}
+#coach .cl.on{outline:5px solid #FECA57}
+#coach .cbtn{display:flex;gap:.6vw;flex-wrap:wrap;justify-content:center;margin-top:1.6vh}
+#coach .cbtn button{background:var(--uc);color:#fff;border-radius:14px;padding:1vh 1.2vw;font-size:2.2vh;font-weight:600}
+#coach .cbtn button.g{background:#F2EEFA;color:#2B2340}
+#coach .tip2{font-size:2vh;color:#6B6386;margin-top:1.2vh;font-family:'Jua',sans-serif;text-align:center}
 @keyframes pop{0%{transform:scale(.6);opacity:0}100%{transform:scale(1);opacity:1}}
 </style>
 </head>
@@ -121,6 +142,7 @@ button{font-family:inherit;cursor:pointer;border:none;color:inherit}
   <div class="body">
     <div class="viewer" id="viewer">
       <button class="navarrow l" onclick="go(-1)">◀</button>
+      <div id="coach"></div>
       <div class="pagebox" id="pagebox">
         <div class="zoomer" id="zoomer"><img id="pimg" alt=""><div id="cov"></div></div>
         <canvas class="spot" id="spot"></canvas>
@@ -130,6 +152,7 @@ button{font-family:inherit;cursor:pointer;border:none;color:inherit}
         <button class="tool" id="tCover" onclick="toggleCover()">🙈 글 가리기</button>
         <button class="tool" id="tSpot" onclick="toggleSpot()">🔦 Spotlight</button>
         <button class="tool" id="tZoom" onclick="toggleZoomMode()">🔍 Zoom</button>
+        <button class="tool" id="tCoach" onclick="toggleCoach()">🎵 Native</button>
       </div>
       <div class="pnum" id="pnum"></div>
       <div class="picker"><button class="tool" onclick="pickNum()">🎲 <span id="pmax">12</span></button></div>
@@ -259,7 +282,7 @@ function layout(){const v=$('viewer'),pb=$('pagebox');const W=v.clientWidth-inne
 addEventListener('resize',layout);
 
 /* show page */
-function show(){speechSynthesis.cancel();const p=pages[pi];seen[p]=1;
+function show(){speechSynthesis.cancel();if(typeof coachOn!=='undefined'&&coachOn)setTimeout(renderCoach,0);const p=pages[pi];seen[p]=1;
   $('pimg').src=IMG[p];resetZoom();renderStrip();renderCover();renderPanel();
   $('pnum').textContent=`${groupOf(p)} · ${pi+1} / ${pages.length}`;layout();}
 
@@ -295,8 +318,8 @@ function renderPanel(){const p=pages[pi],d=PAGES[p]||{r:[],q:[]},g=groupOf(p),is
   const flow=`<div class="flow ko"><div class="${mode==='walk'?'on':''}"><b>① Look</b>그림 보고 말하기</div><div class="${mode==='read'?'on':''}"><b>② Read</b>듣고 따라 읽기</div><div><b>③ Do</b>동작·역할</div></div>`;
   const qs=(d.q||[]).map((q,i)=>`<div class="q" id="q${i}"><div class="qt" onclick="say(this.textContent)">${q[0]}</div><div class="an"><button class="rv ko" onclick="this.closest('.q').classList.add('show');say('${q[1].replace(/'/g,"\\'")}')">💬 답 보기</button><span>${q[1]}</span></div></div>`).join('');
   const think=d.t?`<div class="q"><div class="qt" onclick="say(this.textContent)">${d.t[0]}</div><div class="an"><button class="rv ko" onclick="this.closest('.q').classList.add('show')">💬 예시 답</button><span>${d.t[1]}</span></div></div>`:'';
-  const read=`<div class="pbtns"><button class="pb" onclick="readAll(.8,false)">🔊 Read page</button><button class="pb" onclick="readAll(.8,true)">🔁 Echo</button><button class="pb g" onclick="readAll(.55,false)">🐢 Slow</button></div>`+
-    (d.r||[]).map((l,i)=>`<div class="rline" id="rl${i}" onclick="hl(${i});say('${l.replace(/'/g,"\\'")}')">${l}</div>`).join('');
+  const read=`<div class="pbtns"><button class="pb" onclick="readAll(.8,false)">🔊 Read page</button><button class="pb" onclick="readAll(.8,true)">🔁 Echo</button><button class="pb g" onclick="readAll(.55,false)">🐢 Slow</button><button class="pb" style="background:#9B6BFF" onclick="if(!coachOn)toggleCoach()">🎵 Native</button></div>`+
+    (d.r||[]).map((l,i)=>`<div class="rline${(/[.!?]/.test(l)||l.split(' ').length>2)?' mk':''}" id="rl${i}" onclick="hl(${i});say('${l.replace(/'/g,"\\'")}')">${(/[.!?]/.test(l)||l.split(' ').length>2)?markHTML(l):l}</div>`).join('');
   const secret=mode==='walk'&&!isWords&&!isReview&&!!$('cv');
   const readSec=`<div class="sec"><h3>📖 ${isWords?'Words':'Read'} <span class="tag" style="background:var(--uc)">${isWords?'단어 읽기':'함께 읽기'}</span></h3>${secret?'<div class="tip ko" style="margin-bottom:.8vh">🤫 글은 아직 비밀! 그림 이야기를 충분히 나눈 뒤 공개하세요.</div><button class="pb" onclick="toggleCover()">📖 글 공개하기</button>':read}</div>`;
   const talkSec=`<div class="sec"><h3>👀 Look &amp; Talk <span class="tag" style="background:var(--purple)">그림 보고 질문</span></h3>${qs}</div>`+
@@ -328,6 +351,62 @@ sp.addEventListener('pointerdown',e=>{const r=sp.getBoundingClientRect();sx=(e.c
 
 function toggleFS(){try{if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}catch(e){}}
 document.addEventListener('fullscreenchange',()=>setTimeout(()=>{typeof layout==='function'&&layout();typeof fitSoon==='function'&&fitSoon();},200));
+
+/* ===== Native reading coach: chunks / stress / intonation ===== */
+const FUNCW=new Set("a an the am is are was were be i you he she it we they me him her us them my your his its our their to of in on at for with and or but from by as there do does can will i'm it's".split(' '));
+const AUXW=new Set("am is are do does can was were will".split(' '));
+const BRK=new Set("with to in on at for under around about from because but and next".split(' '));
+const SUBJ=new Set("i danny sally betty kenny".split(' '));
+function prosody(line){
+  const sents=line.match(/[^.!?]+[.!?]*/g)||[line];const out=[];
+  sents.forEach(snt=>{
+    const raw=snt.trim();if(!raw)return;const end=(raw.match(/[.!?]+$/)||[''])[0];
+    const words=raw.replace(/[.!?]+$/,'').split(/\s+/);const lw=words.map(w=>w.toLowerCase().replace(/[^a-z']/g,''));
+    const breaks=new Set();
+    if(words.length>=5){
+      if(lw[1]==='and'&&SUBJ.has(lw[2])&&words.length>4)breaks.add(3);
+      let last=breaks.size?Math.max(...breaks):0;
+      for(let i=2;i<words.length-1;i++){
+        if(BRK.has(lw[i])&&!(lw[i]==='and'&&i<=2)&&i-last>=3&&words.length-i>=2){breaks.add(i);last=i;}
+      }
+    }
+    words.forEach((w,i)=>{if(/,$/.test(w)&&i<words.length-1)breaks.add(i+1);});
+    const isQ=end.includes('?'),wh=/^(what|where|who|when|why|how|which)$/.test(lw[0]);
+    const toks=words.map((w,i)=>{
+      const lw_=lw[i];let st=!FUNCW.has(lw_);
+      if(AUXW.has(lw_)&&(i===words.length-1||/,$/.test(w)))st=true;      // short answers: Yes, he does.
+      if(/n't$|^not$|^no$|^yes$/.test(lw_))st=true;
+      if(lw_==='this'||lw_==='that'||lw_==='these'||lw_==='those')st=true;
+      return {w,st,brk:breaks.has(i)};
+    });
+    out.push({toks,arrow:isQ&&!wh?'up':'dn',end});
+  });
+  return out;
+}
+function markHTML(line){
+  return `<span class="mk">`+prosody(line).map(s=>{
+    let h='',ci=0;h+=`<span class="ch" data-c="${ci}">`;
+    s.toks.forEach((t,i)=>{if(t.brk){h+=`</span><span class="cb">/</span><span class="ch" data-c="${++ci}">`;}
+      h+=`<span class="w ${t.st?'st':'un'}">${t.w}</span>`+(i<s.toks.length-1?' ':'');});
+    h+=`${s.end}</span><span class="into ${s.arrow}">${s.arrow==='up'?'↗':'↘'}</span>`;return h;}).join(' ')+`</span>`;
+}
+function chunksOf(line){const r=[];prosody(line).forEach(s=>{let cur=[];s.toks.forEach(t=>{if(t.brk&&cur.length){r.push(cur.join(' '));cur=[];}cur.push(t.w);});cur.push('');r.push(cur.join(' ').trim()+s.end);});return r.filter(x=>x.replace(/[.!?,\s]/g,''));}
+let coachOn=false,coachTok=0;
+function renderCoach(){const d=PAGES[pages[pi]]||{r:[]},el=$('coach');if(!el)return;
+  const lines=(d.r||[]).filter(l=>/[.!?]/.test(l)||l.split(' ').length>2);
+  el.innerHTML=`<div class="lg"><span><b style="color:#E8434F">● 빨간 단어</b> 힘주어(stress)</span><span><b style="color:#8C86A3">회색 단어</b> 약하게·빠르게</span><span><b style="color:#54A0FF">/</b> 끊어 읽기</span><span><b style="color:#FF9F43">↗</b> 올려 읽기</span><span><b style="color:#1DD1A1">↘</b> 내려 읽기</span></div>`+
+   (lines.length?lines.map((l,i)=>`<div class="cl" id="cl${i}" onclick="coachLine(${i})">${markHTML(l)}</div>`).join(''):'<div class="tip2">이 페이지는 단어 페이지예요. 문장이 있는 페이지에서 사용하세요.</div>')+
+   `<div class="cbtn"><button onclick="coachPlay(.85,0)">🔊 Natural</button><button onclick="coachPlay(.75,1)">🧩 Chunk by chunk</button><button onclick="coachPlay(.8,2)">🔁 Shadowing (따라 읽기)</button><button class="g" onclick="toggleCoach()">✖ 닫기</button></div>
+   <div class="tip2">① 선생님이 들려주기 → ② 덩어리(/)씩 따라 읽기 → ③ 빨간 단어 손뼉 치며 읽기 👏 → ④ 화살표대로 손 올리고 내리며 읽기</div>`;}
+function toggleCoach(){coachOn=!coachOn;$('coach').classList.toggle('on',coachOn);$('tCoach').classList.toggle('on',coachOn);if(coachOn)renderCoach();else{coachTok++;speechSynthesis.cancel();}}
+function coachHL(i,c){document.querySelectorAll('#coach .cl').forEach(e=>e.classList.remove('on'));document.querySelectorAll('#coach .ch').forEach(e=>e.classList.remove('on'));
+  const el=$('cl'+i);if(!el)return;el.classList.add('on');if(c!=null){const chs=el.querySelectorAll('.ch');if(chs[c])chs[c].classList.add('on');}}
+function coachLine(i){const d=PAGES[pages[pi]];const lines=(d.r||[]).filter(l=>/[.!?]/.test(l)||l.split(' ').length>2);coachTok++;coachHL(i);say(lines[i],.85);}
+function coachPlay(rate,mode){const d=PAGES[pages[pi]];const lines=(d.r||[]).filter(l=>/[.!?]/.test(l)||l.split(' ').length>2);const tok=++coachTok;
+  const seq=[];lines.forEach((l,i)=>{if(mode===0)seq.push([i,null,l]);else chunksOf(l).forEach((c,j)=>seq.push([i,j,c]));});
+  let k=0;const go=()=>{if(tok!==coachTok||k>=seq.length){if(tok===coachTok)coachHL(-1);return;}const [i,c,t]=seq[k];coachHL(i,c);
+    say(t,rate,()=>{k++;setTimeout(go,mode===2?Math.max(1400,t.length*95):(mode===1?450:600));});};go();}
+
 /* random picker */
 let pmax=12;
 function pickNum(){const ov=document.createElement('div');ov.className='ov';let n=1,k=0;
