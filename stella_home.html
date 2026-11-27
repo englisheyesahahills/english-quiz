@@ -1134,6 +1134,15 @@ function setKinderUI(on){
     const st = KINDER && KINDER.student;
     if (st && CURRENT) $('who-name').textContent = (CURRENT.name || st.name) + ' 학생' + (st.group ? ' · 유치부 ' + st.group : ' · 유치부');
   } else {
+    const c = CURRENT;
+    if (c){   // 유치부 → 초등으로 바뀐 경우 원래 버튼 되살리기
+      const sOk = c.s && /^[0-9a-f]{32}$/i.test(c.s), rOk = c.r && /^[A-Za-z0-9_-]{2,80}$/.test(c.r), dOk = sOk && c.t;
+      $('dash-btn').style.display = dOk ? '' : 'none';
+      $('student-link').style.display = (sOk && !dOk) ? '' : 'none';
+      $('report-link').style.display = rOk ? '' : 'none';
+      $('personal-grid').style.gridTemplateColumns = ((sOk?1:0) + (rOk?1:0)) === 1 ? '1fr' : '';
+      $('who-name').textContent = c.name ? c.name + ' 학생' : '';
+    }
     $('kfb-btn').style.display = 'none';
     $('kplan-btn').style.display = 'none';
     $('hw-form-link').style.display = '';
