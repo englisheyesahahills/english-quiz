@@ -163,6 +163,9 @@ function renderToday() {
    시작 화면
    ========================================================= */
 let pick = LS.get('sv_last', { name: '', cls: 'A', book: 'neung', day: null, classMode: false });
+if (!Array.isArray(pick.steps) || pick.steps.length !== 5) pick.steps = [true, true, true, true, true];
+if (!pick.blankMode) pick.blankMode = 'type';
+const activeSteps = () => S && S.review ? [1, 2] : [0, 1, 2, 3, 4].filter(i => pick.steps[i]);
 
 function startScreen() {
   stopTimer();
@@ -195,6 +198,17 @@ function startScreen() {
     <label>DAY</label>
     ${days.length ? `<div class="days" id="days">${days.map(d => `<button data-d="${d}" class="${d === pick.day ? 'on' : ''} ${done.includes(d) ? 'done' : ''}">${d}</button>`).join('')}</div>`
       : `<p class="sub">아직 이 교재의 단어가 등록되지 않았어요. 선생님께 알려주세요.</p>`}
+    <details class="set" style="margin-top:16px">
+      <summary style="cursor:pointer;font-weight:700;color:var(--navy);font-size:14px">⚙️ 학습 설정 (단계 고르기 · 빈칸 방식)</summary>
+      <label>할 단계 고르기</label>
+      <div class="days" id="stepSel" style="grid-template-columns:repeat(auto-fill,minmax(110px,1fr))">${STEP_NAMES.map((n, i) => `<button data-i="${i}" class="${pick.steps[i] ? 'on' : ''}">${n}</button>`).join('')}</div>
+      <label>③ 빈칸 방식</label>
+      <div class="seg" id="bm" style="grid-template-columns:1fr 1fr">
+        <button data-m="type" class="${pick.blankMode === 'type' ? 'on' : ''}">직접 쓰기</button>
+        <button data-m="choose" class="${pick.blankMode === 'choose' ? 'on' : ''}">보기에서 고르기<br><small>(저학년 추천)</small></button>
+      </div>
+      <p class="sub" style="margin-top:8px;font-size:13px">쓰기가 어려운 문제는 학습 중 언제든 <b>건너뛰기</b>를 누를 수 있어요.</p>
+    </details>
     <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
       <button class="btn block" id="go" ${days.length ? '' : 'disabled'}>학습 시작하기</button>
       ${reviewN && !pick.classMode ? `<button class="btn gold block" id="rev">틀렸던 단어 복습하기 (${reviewN}개)</button>` : ''}
@@ -202,6 +216,17 @@ function startScreen() {
   </div>`;
 
   $('#cm').onchange = e => { pick.classMode = e.target.checked; saveForm(); startScreen(); };
+  document.querySelectorAll('#stepSel button').forEach(b => b.onclick = () => {
+    const i = +b.dataset.i; const next = pick.steps.slice(); next[i] = !next[i];
+    if (!next.some(Boolean)) return toast('한 단계 이상은 골라야 해요');
+    pick.steps = next; saveForm(); b.classList.toggle('on', next[i]);
+  });
+  document.querySelectorAll('#bm button').forEach(b => b.onclick = () => {
+    pick.blankMode = b.dataset.m; saveForm();
+    document.querySelectorAll('#bm button').forEach(x => x.classList.toggle('on', x === b));
+  });
+  const det = document.querySelector('details.set'); if (det && LS.get('sv_set_open', false)) det.open = true;
+  if (det) det.ontoggle = () => LS.set('sv_set_open', det.open);
   const nm = $('#nm'); if (nm) nm.onchange = () => { saveForm(); startScreen(); };
   const cl = $('#cl'); if (cl) cl.onchange = saveForm;
   document.querySelectorAll('#books button').forEach(b => b.onclick = () => { saveForm(); pick.book = b.dataset.b; pick.day = null; LS.set('sv_last', pick); startScreen(); });
@@ -222,7 +247,7 @@ function saveForm() {
 function begin() {
   const words = (DATA[pick.book] || {})[pick.day] || [];
   S = {
-    review: false, book: pick.book, day: pick.day, words, step: 0, idx: 0, started: Date.now(),
+    review: false, book: pick.book, day: pick.day, words, step: [0, 1, 2, 3, 4].find(i => pick.steps[i]), idx: 0, started: Date.now(), skipped: 0,
     order: [], score: { meaning: 0, blank: 0, build: 0, write: 0 }, total: { meaning: 0, blank: 0, build: 0, write: 0 },
     wrong: new Set(), mine: [], tries: 0, built: []
   };
@@ -236,7 +261,7 @@ function beginReview() {
   }).filter(Boolean);
   if (!words.length) { prof.review = []; LS.set(profileKey(pick.name), prof); startScreen(); return; }
   S = {
-    review: true, book: pick.book, day: '복습', words, step: 1, idx: 0, started: Date.now(),
+    review: true, book: pick.book, day: '복습', words, step: 1, idx: 0, started: Date.now(), skipped: 0,
     order: [], score: { meaning: 0, blank: 0, build: 0, write: 0 }, total: { meaning: 0, blank: 0, build: 0, write: 0 },
     wrong: new Set(), mine: [], tries: 0, built: []
   };
@@ -260,7 +285,7 @@ function stepItems(step) {
 }
 
 function stepBar() {
-  const shown = S.review ? [1, 2] : [0, 1, 2, 3, 4];
+  const shown = activeSteps();
   return `<div class="steps">${shown.map(i => `<span data-s="${i}" class="${i === S.step ? 'on' : (i < S.step ? 'done' : '')}">${STEP_NAMES[i]}</span>`).join('')}</div>`;
 }
 function bindStepBar() {
@@ -282,8 +307,9 @@ function nextItem() {
   S.idx++; S.tries = 0; S.built = [];
   if (S.idx >= stepItems(S.step).length) {
     S.idx = 0;
-    if (S.review) { if (S.step === 1) S.step = 2; else return finish(); }
-    else if (S.step < 4) S.step++; else return finish();
+    const order = activeSteps(); const k = order.indexOf(S.step);
+    if (k < 0 || k >= order.length - 1) return finish();
+    S.step = order[k + 1];
   }
   renderStep();
 }
@@ -362,19 +388,24 @@ function stepBlank() {
   const m = w.s.match(wordRe(fw));
   const form = m ? m[0] : fw;
   const blanked = esc(w.s).replace(wordRe(esc(fw)), '<span class="blank">&nbsp;</span>');
+  const choose = pick.blankMode === 'choose';
+  if (choose && (!S._bopts || S._bopts.w !== w.w)) {
+    const pool = shuffle(S.words.filter(x => x.w !== w.w).map(x => { const mm = x.s.match(wordRe(formOf(x))); return mm ? mm[0] : formOf(x); }));
+    S._bopts = { w: w.w, list: shuffle([form].concat([...new Set(pool)].filter(x => x.toLowerCase() !== form.toLowerCase()).slice(0, 3))) };
+  }
   const hint = form.split(' ').map(t => t[0] + ' ' + '_ '.repeat(Math.max(0, t.length - 1)).trim()).join('   ');
   $('#app').innerHTML = header('③ 빈칸 — 알맞은 단어를 써요') + `
     <div class="sent">${blanked}</div>
     <div class="ko">${esc(w.k || '')}</div>
     <div class="hint">${esc(hint)} &nbsp;(${esc(w.m)})</div>
-    <div class="row" style="margin-top:16px">
-      <input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="단어를 입력하세요" style="text-align:center;font-size:20px">
-    </div>
+    ${choose ? `<div class="opts" id="bopts">${S._bopts.list.map((x, i) => `<button data-i="${i}">${esc(x)}</button>`).join('')}</div>`
+      : `<div class="row" style="margin-top:16px"><input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="단어를 입력하세요" style="text-align:center;font-size:20px"></div>`}
     <div class="tts"><button id="t2">🔊 문장 듣고 힌트 얻기</button></div>
     <div class="fb" id="fb"></div>
-    <div class="nav">${quitBtn()}<button class="btn" id="chk">확인</button></div>
+    <div class="nav">${quitBtn()}<button class="btn sec" id="skip">건너뛰기</button><button class="btn ${choose ? 'hide' : ''}" id="chk">확인</button></div>
   </div>`;
-  const inp = $('#ans'); setTimeout(() => inp.focus(), 100);
+  const inp = $('#ans') || { value: '', focus() {}, select() {}, set disabled(v) {} }; if ($('#ans')) setTimeout(() => inp.focus(), 100);
+  $('#skip').onclick = () => { S.skipped++; nextItem(); };
   $('#t2').onclick = () => speak(w.s, 0.75);
   let finished = false;
   const check = () => {
@@ -382,23 +413,34 @@ function stepBlank() {
     const v = inp.value.trim();
     if (!v) return;
     S.tries++;
+    if (choose && v === '__wrong__') S.tries = 2;
     if (v.toLowerCase() === form.toLowerCase()) {
       if (S.tries === 1) S.score.blank++;
       S.total.blank++; finished = true;
       $('#fb').className = 'fb ok'; $('#fb').textContent = S.tries === 1 ? '정답!' : '좋아요, 맞혔어요!';
       $('.sent').innerHTML = highlight(w.s, fw); speak(w.s);
-      $('#chk').textContent = '다음 →';
+      $('#chk').textContent = '다음 →'; $('#skip').classList.add('hide');
     } else if (S.tries < 2) {
       $('#fb').className = 'fb bad'; $('#fb').textContent = '한 번 더! 철자를 확인해 보세요.'; inp.select();
     } else {
       S.total.blank++; S.wrong.add(w.w); finished = true;
       $('#fb').className = 'fb bad'; $('#fb').textContent = '정답은 ' + form + ' 이에요.';
       $('.sent').innerHTML = highlight(w.s, fw);
-      $('#chk').textContent = '다음 →';
+      $('#chk').textContent = '다음 →'; $('#skip').classList.add('hide');
     }
   };
   $('#chk').onclick = check;
-  inp.onkeydown = e => { if (e.key === 'Enter') check(); };
+  if ($('#ans')) inp.onkeydown = e => { if (e.key === 'Enter') check(); };
+  document.querySelectorAll('#bopts button').forEach(b => b.onclick = () => {
+    if (finished) return;
+    const ok = S._bopts.list[+b.dataset.i] === form;
+    if (ok) { b.classList.add('ok'); } else { b.classList.add('bad'); }
+    inp.value = ok ? form : '__wrong__';
+    if (!ok && S.tries === 0) { S.tries = 1; $('#fb').className = 'fb bad'; $('#fb').textContent = '한 번 더 골라 보세요!'; b.disabled = true; return; }
+    if (!ok) document.querySelectorAll('#bopts button').forEach(x => { if (S._bopts.list[+x.dataset.i] === form) x.classList.add('ok'); });
+    S.tries = ok ? S.tries : 1;
+    check(); $('#chk').classList.remove('hide'); $('#skip').classList.add('hide');
+  });
   bindQuit();
 }
 
@@ -452,7 +494,7 @@ function stepWrite() {
     <label for="my">나만의 문장 (단어를 꼭 넣어요, 3단어 이상)</label>
     <textarea id="my" rows="3" placeholder="예) ${esc(w.s)}" autocapitalize="sentences"></textarea>
     <div class="fb" id="fb"></div>
-    <div class="nav">${quitBtn()}${pick.classMode ? '<button class="btn sec" id="skip">말로 했어요</button>' : ''}<button class="btn" id="chk">완성!</button></div>
+    <div class="nav">${quitBtn()}<button class="btn sec" id="skip">${pick.classMode ? '말로 했어요' : '건너뛰기'}</button><button class="btn" id="chk">완성!</button></div>
   </div>`;
   const ta = $('#my');
   $('#chk').onclick = () => {
@@ -465,7 +507,7 @@ function stepWrite() {
     S.mine.push({ w: w.w, s: v }); S.score.write++; S.total.write++;
     speak(v); nextItem();
   };
-  const sk = $('#skip'); if (sk) sk.onclick = () => { S.total.write++; S.score.write++; nextItem(); };
+  $('#skip').onclick = () => { if (pick.classMode) { S.total.write++; S.score.write++; } else S.skipped++; nextItem(); };
   bindQuit();
 }
 
@@ -503,7 +545,7 @@ function finish() {
     type: 'sentence_vocab',
     name: pick.name, cls: pick.cls, book: BOOKS[S.book], day: S.review ? '복습' : S.day,
     score: pct, meaning: sc.meaning + '/' + t.meaning, blank: sc.blank + '/' + t.blank, build: sc.build + '/' + t.build,
-    write: sc.write, wrongWords: wrong.join(', '), mySentences: S.mine.map(x => x.w + ': ' + x.s).join('\n'),
+    write: sc.write, skipped: S.skipped, wrongWords: wrong.join(', '), mySentences: S.mine.map(x => x.w + ': ' + x.s).join('\n'),
     minutes, date: todayStr(), timestamp: new Date().toISOString()
   };
 
@@ -513,10 +555,11 @@ function finish() {
     <h2>${S.review ? '복습 완료' : BOOKS[S.book] + ' DAY ' + S.day + ' 완료'}</h2>
     <div class="big-score">${pct}점</div>
     <p class="sub" style="text-align:center">${msg}</p>
+    ${S.skipped ? `<p class="sub" style="text-align:center;font-size:13px">건너뛴 문제 ${S.skipped}개 (점수에는 들어가지 않아요)</p>` : ''}
     <div class="stats" style="margin-top:16px">
-      <div class="stat"><b>${sc.meaning}/${t.meaning}</b><span>뜻 찾기</span></div>
-      <div class="stat"><b>${sc.blank}/${t.blank}</b><span>빈칸</span></div>
-      <div class="stat"><b>${S.review ? '-' : sc.build + '/' + t.build}</b><span>문장 조립</span></div>
+      <div class="stat"><b>${t.meaning ? sc.meaning + '/' + t.meaning : '-'}</b><span>뜻 찾기</span></div>
+      <div class="stat"><b>${t.blank ? sc.blank + '/' + t.blank : '-'}</b><span>빈칸</span></div>
+      <div class="stat"><b>${t.build ? sc.build + '/' + t.build : '-'}</b><span>문장 조립</span></div>
     </div>
   </div>
   ${wrong.length ? `<div class="card"><h2>다시 만날 단어 ${wrong.length}개</h2><div class="list">${wrong.map(x => { const o = S.words.find(y => y.w === x); return `<div class="li"><b>${esc(x)}</b><span>${esc(o ? o.m : '')}</span></div>`; }).join('')}</div>
