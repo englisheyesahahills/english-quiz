@@ -371,6 +371,24 @@
     background:#FEE500; color:#3C1E1E; font-weight:700;
     padding:12px; border-radius:12px; margin-top:14px; font-size:15px;
   }
+  /* ---- 유치부 전용 ---- */
+  .kf-plan-topic{ font-size:12.5px; color:var(--text-muted); text-align:center; margin:-6px 0 12px; }
+  .kf-sum{ display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:8px; }
+  .kf-sum div{ background:#F4F2EC; border-radius:10px; padding:9px 10px; font-size:12.5px; }
+  .kf-sum b{ display:block; font-size:15px; margin-top:2px; color:var(--sage); }
+  .kf-head{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:8px; }
+  .kf-week{ font-weight:800; font-size:15px; }
+  .kf-topic{ font-size:12.5px; background:var(--gold-soft); color:#8A6A10; border-radius:999px; padding:3px 10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:60%; }
+  .kf-row{ display:grid; grid-template-columns:86px 30px 1fr; gap:8px; align-items:start; padding:7px 0; border-top:1px solid var(--line); font-size:13px; }
+  .kf-row .lb{ font-weight:700; }
+  .kf-row .lb small{ display:block; font-weight:400; font-size:10.5px; color:var(--text-muted); }
+  .kf-rate{ width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:800; }
+  .kf-rate.r3{ background:var(--sage-soft); color:var(--sage); }
+  .kf-rate.r2{ background:var(--gold-soft); color:#8A6A10; }
+  .kf-rate.r1{ background:var(--coral-soft); color:var(--coral); }
+  .kf-row .cm{ line-height:1.45; color:var(--text); }
+  .kf-other{ margin-top:6px; font-size:12.5px; background:#F4F2EC; border-radius:10px; padding:8px 10px; }
+  .kf-legend{ font-size:11.5px; color:var(--text-muted); margin:-4px 0 10px; }
 </style>
 </head>
 <body>
@@ -414,19 +432,29 @@
           <a class="quick-btn q4" id="report-link" href="#" target="_blank" rel="noopener" style="display:none">
             <span class="ico">📊</span>월말평가<br>리포트
           </a>
+          <a class="quick-btn q2" id="kfb-btn" href="#" style="display:none">
+            <span class="ico">💬</span>주간<br>피드백
+          </a>
+          <a class="quick-btn q4" id="kplan-btn" href="#" target="_blank" rel="noopener" style="display:none">
+            <span class="ico">📅</span>이번 달<br>레슨 플랜
+          </a>
         </div>
       </div>
 
       <div class="quick-group">숙제</div>
       <div class="quick-grid two" id="homework-grid">
-        <a class="quick-btn q2" href="https://docs.google.com/forms/d/e/1FAIpQLScFajzGjpUdW0yAsinvC44zU4BK0o-rxTbgh-EP39SkDnd7EQ/viewform" target="_blank" rel="noopener">
+        <a class="quick-btn q2" id="hw-form-link" href="https://docs.google.com/forms/d/e/1FAIpQLScFajzGjpUdW0yAsinvC44zU4BK0o-rxTbgh-EP39SkDnd7EQ/viewform" target="_blank" rel="noopener">
           <span class="ico">✏️</span>숙제<br>제출
         </a>
         <a class="quick-btn q5" id="liveclass-link" href="#" target="_blank" rel="noopener" style="display:none">
           <span class="ico">🎬</span>주말숙제<br>수업영상
         </a>
+        <a class="quick-btn q3" id="kinder-hub-link" href="https://englisheyesahahills.github.io/english-quiz/kinder_hub.html" target="_blank" rel="noopener" style="display:none">
+          <span class="ico">🎮</span>루미의 유치부<br>놀이터 (숙제)
+        </a>
       </div>
 
+      <div id="word-group">
       <div class="quick-group">단어 학습</div>
       <div class="quick-grid">
         <a class="quick-btn q3 small" href="https://englisheyesahahills.github.io/english-quiz/stellavocaB.html" target="_blank" rel="noopener">
@@ -438,6 +466,7 @@
         <a class="quick-btn q3 small" href="https://englisheyesahahills.github.io/english-quiz/voca_study.html" target="_blank" rel="noopener">
           <span class="ico">📘</span>보카클리어<br>실력
         </a>
+      </div>
       </div>
     </div>
 
@@ -835,6 +864,7 @@ function showPersonal(info, canLogout){
   document.getElementById('logout-btn').style.display = canLogout ? '' : 'none';
   document.getElementById('personal-box').style.display = '';
   document.getElementById('login-area').style.display = 'none';
+  checkKinder(info, canLogout);
   return true;
 }
 function showLogin(){
@@ -1066,6 +1096,119 @@ function bindChart(){
   wrap.addEventListener('mouseleave', () => tip.style.display = 'none');
 }
 
+/* ================= 유치부 전용 화면 =================
+   학생DB 클래스가 '유치부'이면 주간 피드백 · 레슨 플랜 · 루미 놀이터(숙제)가 보입니다.
+   (Apps Script 유치부.gs 의 action=kinder 사용) */
+let KINDER = null;
+const K_RATE = { '◎':3, '◯':2, '○':2, 'O':2, 'o':2, '△':1 };
+
+async function checkKinder(info, canSave){
+  if (!LOGIN_API || !info || info.k === false) return;
+  if (!(info.s && /^[0-9a-f]{32}$/i.test(info.s))) return;
+  if (info.k === true) setKinderUI(true);           // 저장된 유치부 정보로 먼저 화면 전환
+  try{
+    const d = await loginJsonp(LOGIN_API + '?action=kinder&s=' + info.s);
+    if (CURRENT !== info) return;                   // 그 사이 다른 아이로 바뀐 경우
+    if (!d || !d.ok) return;                        // 아직 배포 전이거나 오류 → 기존 화면 유지
+    info.k = !!d.kinder;
+    if (canSave) saveInfo(info);
+    KINDER = d.kinder ? d : null;
+    setKinderUI(!!d.kinder);
+  } catch(e){}
+}
+
+function setKinderUI(on){
+  const $ = id => document.getElementById(id);
+  const plan = KINDER && KINDER.plan && /^https:\/\//.test(KINDER.plan.url || '') ? KINDER.plan : null;
+  if (on){
+    ['dash-btn','student-link','report-link'].forEach(id => $(id).style.display = 'none');
+    $('kfb-btn').style.display = '';
+    $('kplan-btn').style.display = plan ? '' : 'none';
+    if (plan) $('kplan-btn').href = plan.url;
+    $('personal-grid').style.gridTemplateColumns = plan ? '' : '1fr';
+    $('hw-form-link').style.display = 'none';
+    $('liveclass-link').style.display = 'none';
+    $('kinder-hub-link').style.display = '';
+    $('homework-grid').style.gridTemplateColumns = '1fr';
+    $('word-group').style.display = 'none';
+    const st = KINDER && KINDER.student;
+    if (st && CURRENT) $('who-name').textContent = (CURRENT.name || st.name) + ' 학생' + (st.group ? ' · 유치부 ' + st.group : ' · 유치부');
+  } else {
+    $('kfb-btn').style.display = 'none';
+    $('kplan-btn').style.display = 'none';
+    $('hw-form-link').style.display = '';
+    $('liveclass-link').style.display = LIVECLASS_URL ? '' : 'none';
+    $('kinder-hub-link').style.display = 'none';
+    $('homework-grid').style.gridTemplateColumns = LIVECLASS_URL ? '' : '1fr';
+    $('word-group').style.display = '';
+  }
+}
+
+async function openKinder(){
+  if (!CURRENT) return;
+  const box = document.getElementById('dash');
+  box.classList.add('open'); box.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('dash-title').textContent = (CURRENT.name || '') + ' 학생 주간 피드백';
+  const body = document.getElementById('dash-body');
+  if (!KINDER){
+    body.innerHTML = '<div class="loading-text">불러오는 중…</div>';
+    try{
+      const d = await loginJsonp(LOGIN_API + '?action=kinder&s=' + CURRENT.s);
+      if (!d.ok || !d.kinder){ body.innerHTML = '<div class="dash-empty">' + esc(d.msg || '불러오지 못했어요.') + '</div>'; return; }
+      KINDER = d;
+    } catch(e){
+      body.innerHTML = '<div class="dash-empty">연결이 원활하지 않아요. 잠시 후 다시 시도해 주세요.</div>'; return;
+    }
+  }
+  const st = KINDER.student || {};
+  document.getElementById('dash-sub').textContent = ['유치부', st.group, st.grade].filter(Boolean).join(' · ');
+  renderKinder();
+}
+
+function renderKinder(){
+  const body = document.getElementById('dash-body');
+  const fb = KINDER.feedback || [];
+  const plan = KINDER.plan || {};
+  let h = '';
+
+  if (/^https:\/\//.test(plan.url || '')){
+    const m = plan.month ? Number(plan.month.slice(5,7)) + '월 ' : '이번 달 ';
+    h += '<a class="dash-report" href="' + esc(plan.url) + '" target="_blank" rel="noopener">📅 ' + m + '레슨 플랜 보기</a>';
+    if (plan.topic) h += '<div class="kf-plan-topic">' + esc(plan.topic) + '</div>';
+  }
+  h += '<a class="dash-report" style="background:var(--gold-soft);color:#8A6A10" href="https://englisheyesahahills.github.io/english-quiz/kinder_hub.html" target="_blank" rel="noopener">🎮 루미의 유치부 놀이터 (숙제)</a>';
+
+  if (!fb.length){
+    h += '<div class="dash-sec"><div class="dash-empty">아직 등록된 주간 피드백이 없어요.</div></div>';
+  } else {
+    // 최근 4주 요약
+    const recent = fb.slice(0, 4), sum = {};
+    recent.forEach(w => w.items.forEach(it => {
+      const s = sum[it.label] || (sum[it.label] = { top:0, n:0 });
+      s.n++; if (K_RATE[it.r] === 3) s.top++;
+    }));
+    h += '<div class="dash-sec"><h3>최근 ' + recent.length + '주 한눈에 보기 <small>◎ 우수 횟수</small></h3><div class="kf-sum">' +
+      Object.keys(sum).map(k => '<div>' + esc(k) + '<b>◎ ' + sum[k].top + ' / ' + sum[k].n + '</b></div>').join('') + '</div></div>';
+
+    h += '<div class="kf-legend">◎ 우수 · ◯ 보통 · △ 연습 필요</div>';
+    fb.forEach(w => {
+      h += '<div class="dash-sec"><div class="kf-head"><span class="kf-week">' + esc(w.week) + '</span>' +
+        (w.topic ? '<span class="kf-topic">' + esc(w.topic) + '</span>' : '') + '</div>';
+      w.items.forEach(it => {
+        const r = K_RATE[it.r] || 0;
+        h += '<div class="kf-row"><div class="lb">' + esc(it.label) + '<small>' + esc(it.k) + '</small></div>' +
+          '<div class="kf-rate r' + r + '">' + esc(it.r || '–') + '</div>' +
+          '<div class="cm">' + esc(it.c) + '</div></div>';
+      });
+      if (w.other) h += '<div class="kf-other">💬 ' + esc(w.other) + '</div>';
+      h += '</div>';
+    });
+  }
+  h += '<div class="dash-foot">' + esc(KINDER.updated || '') + ' 기준 · 선생님이 노션에 쓰신 피드백과 자동 연동됩니다</div>';
+  body.innerHTML = h;
+}
+
 async function doLogin(){
   const name = document.getElementById('login-name').value.trim();
   const code = document.getElementById('login-code').value.replace(/\D/g,'');
@@ -1078,6 +1221,7 @@ async function doLogin(){
     if (!d.ok){ msg.style.color = ''; msg.textContent = d.msg || '확인하지 못했어요.'; return; }
     const st = d.students[0];
     const info = { name: st.name, s: st.s, r: st.r, t: st.t };
+    KINDER = null; DASH = null;
     saveInfo(info);
     msg.textContent = '';
     if (!showPersonal(info, true)){ msg.style.color=''; msg.textContent = '아직 등록된 자료가 없어요. 학원으로 문의해 주세요.'; }
@@ -1097,9 +1241,10 @@ async function doLogin(){
   document.getElementById('login-btn').addEventListener('click', doLogin);
   document.getElementById('dash-btn').addEventListener('click', e => { e.preventDefault(); openDash(); });
   document.getElementById('dash-back').addEventListener('click', closeDash);
+  document.getElementById('kfb-btn').addEventListener('click', e => { e.preventDefault(); openKinder(); });
   document.getElementById('login-code').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
   document.getElementById('logout-btn').addEventListener('click', () => {
-    saveInfo(null); DASH = null; CURRENT = null;
+    saveInfo(null); DASH = null; CURRENT = null; KINDER = null; setKinderUI(false);
     document.getElementById('login-name').value = '';
     document.getElementById('login-code').value = '';
     showLogin();
