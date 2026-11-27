@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>STELLA 문장 단어 트레이닝</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<script src="voca_sentence_data.js"></script>
+<style>
+:root{--navy:#14213E;--bur:#90394A;--gold:#C9A24B;--cream:#FBF8F2;--ink:#24262B;--line:#E4DCCB;--ok:#1F7A4D;--bad:#B3261E;--fs:1}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--cream);color:var(--ink);font-family:Pretendard,'Noto Sans KR',system-ui,sans-serif;-webkit-tap-highlight-color:transparent}
+body.class-mode{--fs:1.6}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:720px;margin:0 auto;padding:16px 16px 40px}
+body.class-mode .wrap{max-width:1200px}
+header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+.brand{font-weight:900;color:var(--navy);letter-spacing:.04em;font-size:15px}
+.brand b{color:var(--gold)}
+.pill{font-size:13px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 12px;color:#555}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:14px}
+h1{font-size:calc(24px*var(--fs));margin:0 0 6px;color:var(--navy)}
+h2{font-size:calc(19px*var(--fs));margin:0 0 12px;color:var(--navy)}
+.sub{color:#666;font-size:calc(14px*var(--fs));line-height:1.6;margin:0}
+label{display:block;font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 6px}
+input[type=text],select,textarea{width:100%;font:inherit;font-size:16px;padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--navy)}
+.row{display:flex;gap:10px}.row>*{flex:1}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:48px;padding:12px 18px;border-radius:14px;border:0;background:var(--navy);color:#fff;font-weight:700;font-size:calc(16px*var(--fs))}
+.btn.sec{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.btn.bur{background:var(--bur)}
+.btn.gold{background:var(--gold);color:var(--navy)}
+.btn.block{width:100%}
+.btn:disabled{opacity:.4;cursor:default}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg button{min-height:52px;border-radius:12px;border:1.5px solid var(--line);background:#fff;font-weight:700;color:var(--navy);font-size:14px;line-height:1.3;padding:6px}
+.seg button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:8px}
+.days button{min-height:44px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-weight:700;color:var(--navy)}
+.days button.on{background:var(--bur);border-color:var(--bur);color:#fff}
+.days button.done::after{content:" ✓";color:var(--ok)}
+.days button.on.done::after{color:#fff}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
+.stat{background:var(--cream);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-size:22px;color:var(--bur)}
+.stat span{font-size:12px;color:#666}
+.bar{height:8px;background:#EEE7D8;border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);width:0;transition:width .3s}
+.steps{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap}
+.steps span{flex:1;min-width:88px;text-align:center;font-size:12px;font-weight:700;padding:8px 4px;border-radius:10px;background:#fff;border:1px solid var(--line);color:#888}
+.steps span.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.steps span.done{color:var(--ok);border-color:#BFDCCB}
+body.class-mode .steps span{cursor:pointer}
+.word{font-size:calc(44px*var(--fs));font-weight:900;color:var(--navy);text-align:center;margin:8px 0 2px;letter-spacing:-.01em}
+.mean{text-align:center;color:var(--bur);font-weight:700;font-size:calc(18px*var(--fs))}
+.sent{font-size:calc(21px*var(--fs));line-height:1.6;text-align:center;margin:18px 0 6px;font-weight:500}
+.sent mark{background:linear-gradient(transparent 55%,#F3E1A8 55%);color:var(--navy);font-weight:800;padding:0 2px}
+.ko{text-align:center;color:#666;font-size:calc(15px*var(--fs))}
+.tts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:14px 0}
+.tts button{min-height:44px;padding:8px 14px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-weight:700;color:var(--navy);font-size:calc(14px*var(--fs))}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.opts button{min-height:60px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font-weight:700;font-size:calc(17px*var(--fs));color:var(--ink);padding:10px}
+.opts button.ok{background:#E6F4EC;border-color:var(--ok);color:var(--ok)}
+.opts button.bad{background:#FBEAE8;border-color:var(--bad);color:var(--bad)}
+.blank{display:inline-block;min-width:80px;border-bottom:3px solid var(--bur);color:var(--bur);font-weight:800}
+.hint{text-align:center;color:#888;font-size:14px;letter-spacing:.2em;margin-top:6px}
+.fb{min-height:28px;text-align:center;font-weight:700;margin-top:12px;font-size:calc(16px*var(--fs))}
+.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;min-height:58px;padding:10px;border-radius:14px;margin-top:12px}
+.tray.answer{background:var(--cream);border:2px dashed var(--line)}
+.tok{min-height:44px;padding:8px 14px;border-radius:12px;border:1.5px solid var(--navy);background:#fff;font-weight:700;color:var(--navy);font-size:calc(17px*var(--fs))}
+.tray.answer .tok{background:var(--navy);color:#fff}
+.nav{display:flex;gap:10px;margin-top:18px}
+.nav .btn{flex:1}
+.counter{text-align:center;font-size:13px;color:#888;margin-bottom:4px}
+.list{display:flex;flex-direction:column;gap:6px}
+.li{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;background:var(--cream);border-radius:10px;font-size:15px}
+.li b{color:var(--navy)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:12px 18px;border-radius:12px;font-size:14px;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9}
+.toast.on{opacity:1}
+.toggle{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--navy);font-weight:700;margin-top:14px}
+.toggle input{width:22px;height:22px}
+.big-score{font-size:56px;font-weight:900;color:var(--bur);text-align:center}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{border-bottom:1px solid var(--line);padding:6px;text-align:left;vertical-align:top}
+.warn{color:var(--bad);font-weight:700}
+.hide{display:none!important}
+footer{text-align:center;font-size:12px;color:#999;margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">STELLA <b>WORD</b> · 문장 단어 트레이닝</div>
+    <div class="pill" id="todayPill">오늘 0분 / 15분</div>
+  </header>
+  <div id="app"></div>
+  <footer>스텔라원장 김희정 제작 · 잉글리시아이스텔라 영어학원</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   설정
+   ========================================================= */
+const SAVE_URL = 'https://script.google.com/macros/s/AKfycbyiLo7WKRYBEuufsN01HrcHkRGzTtF0wkc4MUmEiO_VaMLjv-7rQ1jDdPd0ZV9DKjbwFw/exec';
+const BOOKS = { neung: '능률보카 초등 기본', vcb: '보카클리어 기본', vcs: '보카클리어 실력' };
+const CLASSES = ['A', 'B', 'C', 'D', 'E'];
+const BUILD_MAX = 6;   // 문장 조립 최대 문항
+const WRITE_N = 3;     // 나만의 문장 개수
+const STEP_NAMES = ['① 소리', '② 뜻 찾기', '③ 빈칸', '④ 문장 조립', '⑤ 나만의 문장'];
+
+const DATA = window.VOCA_DATA || {};
+
+/* ---------- 저장소 (기기 내) ---------- */
+const LS = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+const todayStr = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); };
+const profileKey = n => 'sv_profile_' + n;
+
+/* ---------- 유틸 ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const wordRe = w => new RegExp('\\b' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i');
+function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); clearTimeout(el._t); el._t = setTimeout(() => el.classList.remove('on'), 2200); }
+function highlight(s, w) { return esc(s).replace(wordRe(esc(w)), m => '<mark>' + m + '</mark>'); }
+const formOf = w => w.f || w.w;   // 예문 속 형태 (구동사·변화형)
+const sayOf = w => (/[~+]|-ing|\bA\b|\bB\b/.test(w.w) && w.f) ? w.f : w.w;
+
+/* ---------- 발음 (브라우저 음성) ---------- */
+let voice = null;
+function pickVoice() {
+  const vs = speechSynthesis.getVoices().filter(v => /^en(-|_)/i.test(v.lang));
+  voice = vs.find(v => /US/i.test(v.lang) && /female|samantha|google/i.test(v.name)) || vs.find(v => /en-US/i.test(v.lang)) || vs[0] || null;
+}
+if ('speechSynthesis' in window) { pickVoice(); speechSynthesis.onvoiceschanged = pickVoice; }
+function speak(t, rate) {
+  if (!('speechSynthesis' in window)) { toast('이 기기에서는 발음 듣기를 지원하지 않아요'); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(t); u.lang = 'en-US'; u.rate = rate || 0.9; if (voice) u.voice = voice;
+  speechSynthesis.speak(u);
+}
+
+/* =========================================================
+   상태
+   ========================================================= */
+let S = null;          // 현재 학습 세션
+let minuteTimer = null;
+
+function addMinutes() {
+  const k = 'sv_minutes_' + todayStr();
+  const m = LS.get(k, 0) + 1; LS.set(k, m); renderToday();
+}
+function renderToday() {
+  const m = LS.get('sv_minutes_' + todayStr(), 0);
+  $('#todayPill').textContent = '오늘 ' + m + '분 / 15분' + (m >= 15 ? ' ✓' : '');
+}
+
+/* =========================================================
+   시작 화면
+   ========================================================= */
+let pick = LS.get('sv_last', { name: '', cls: 'A', book: 'neung', day: null, classMode: false });
+
+function startScreen() {
+  stopTimer();
+  document.body.classList.toggle('class-mode', !!pick.classMode);
+  const prof = pick.name ? LS.get(profileKey(pick.name), { streak: 0, last: '', done: {}, review: [] }) : null;
+  const days = Object.keys(DATA[pick.book] || {}).sort();
+  if (!days.includes(pick.day)) pick.day = days[0] || null;
+  const done = prof ? (prof.done[pick.book] || []) : [];
+  const reviewN = prof ? prof.review.length : 0;
+
+  $('#app').innerHTML = `
+  <div class="card">
+    <h1>단어는 문장 속에서 내 것이 됩니다</h1>
+    <p class="sub">소리로 듣고 → 문장 속에서 뜻을 찾고 → 빈칸을 채우고 → 문장을 조립하고 → 나만의 문장을 만들어요.</p>
+    ${prof ? `<div class="stats" style="margin-top:14px">
+      <div class="stat"><b>${prof.streak}</b><span>연속 학습일</span></div>
+      <div class="stat"><b>${Object.values(prof.done).reduce((a, b) => a + b.length, 0)}</b><span>완료한 DAY</span></div>
+      <div class="stat"><b>${reviewN}</b><span>복습할 단어</span></div></div>` : ''}
+  </div>
+  <div class="card">
+    <label class="toggle"><input type="checkbox" id="cm" ${pick.classMode ? 'checked' : ''}> 수업 모드 (전자칠판 · 기록 저장 안 함)</label>
+    <div id="who" class="${pick.classMode ? 'hide' : ''}">
+      <div class="row">
+        <div><label for="nm">이름</label><input type="text" id="nm" placeholder="예: 김스텔라" value="${esc(pick.name)}" autocomplete="off"></div>
+        <div style="flex:0 0 110px"><label for="cl">반</label><select id="cl">${CLASSES.map(c => `<option ${c === pick.cls ? 'selected' : ''}>${c}</option>`).join('')}</select></div>
+      </div>
+    </div>
+    <label>교재</label>
+    <div class="seg" id="books">${Object.entries(BOOKS).map(([k, v]) => `<button data-b="${k}" class="${k === pick.book ? 'on' : ''}">${v}</button>`).join('')}</div>
+    <label>DAY</label>
+    ${days.length ? `<div class="days" id="days">${days.map(d => `<button data-d="${d}" class="${d === pick.day ? 'on' : ''} ${done.includes(d) ? 'done' : ''}">${d}</button>`).join('')}</div>`
+      : `<p class="sub">아직 이 교재의 단어가 등록되지 않았어요. 선생님께 알려주세요.</p>`}
+    <div style="display:flex;flex-direction:column;gap:10px;margin-top:20px">
+      <button class="btn block" id="go" ${days.length ? '' : 'disabled'}>학습 시작하기</button>
+      ${reviewN && !pick.classMode ? `<button class="btn gold block" id="rev">틀렸던 단어 복습하기 (${reviewN}개)</button>` : ''}
+    </div>
+  </div>`;
+
+  $('#cm').onchange = e => { pick.classMode = e.target.checked; saveForm(); startScreen(); };
+  const nm = $('#nm'); if (nm) nm.onchange = () => { saveForm(); startScreen(); };
+  const cl = $('#cl'); if (cl) cl.onchange = saveForm;
+  document.querySelectorAll('#books button').forEach(b => b.onclick = () => { saveForm(); pick.book = b.dataset.b; pick.day = null; LS.set('sv_last', pick); startScreen(); });
+  document.querySelectorAll('#days button').forEach(b => b.onclick = () => { saveForm(); pick.day = b.dataset.d; LS.set('sv_last', pick); startScreen(); });
+  $('#go').onclick = () => { saveForm(); if (!pick.classMode && !pick.name) { toast('이름을 입력해 주세요'); $('#nm').focus(); return; } begin(); };
+  const rv = $('#rev'); if (rv) rv.onclick = () => { saveForm(); beginReview(); };
+}
+function saveForm() {
+  const nm = $('#nm'), cl = $('#cl');
+  if (nm) pick.name = nm.value.trim();
+  if (cl) pick.cls = cl.value;
+  LS.set('sv_last', pick);
+}
+
+/* =========================================================
+   학습 세션
+   ========================================================= */
+function begin() {
+  const words = (DATA[pick.book] || {})[pick.day] || [];
+  S = {
+    review: false, book: pick.book, day: pick.day, words, step: 0, idx: 0, started: Date.now(),
+    order: [], score: { meaning: 0, blank: 0, build: 0, write: 0 }, total: { meaning: 0, blank: 0, build: 0, write: 0 },
+    wrong: new Set(), mine: [], tries: 0, built: []
+  };
+  startTimer(); renderStep();
+}
+function beginReview() {
+  const prof = LS.get(profileKey(pick.name), null); if (!prof) return;
+  const words = prof.review.map(r => {
+    const w = ((DATA[r.book] || {})[r.day] || []).find(x => x.w === r.w);
+    return w ? Object.assign({ _book: r.book, _day: r.day }, w) : null;
+  }).filter(Boolean);
+  if (!words.length) { prof.review = []; LS.set(profileKey(pick.name), prof); startScreen(); return; }
+  S = {
+    review: true, book: pick.book, day: '복습', words, step: 1, idx: 0, started: Date.now(),
+    order: [], score: { meaning: 0, blank: 0, build: 0, write: 0 }, total: { meaning: 0, blank: 0, build: 0, write: 0 },
+    wrong: new Set(), mine: [], tries: 0, built: []
+  };
+  startTimer(); renderStep();
+}
+function startTimer() { stopTimer(); minuteTimer = setInterval(addMinutes, 60000); }
+function stopTimer() { if (minuteTimer) clearInterval(minuteTimer); minuteTimer = null; }
+
+function stepItems(step) {
+  if (step === 3) return S.order3 || (S.order3 = shuffle(S.words).slice(0, BUILD_MAX));
+  if (step === 4) {
+    if (!S.order4) {
+      const wrongFirst = S.words.filter(w => S.wrong.has(w.w));
+      const rest = shuffle(S.words.filter(w => !S.wrong.has(w.w)));
+      S.order4 = wrongFirst.concat(rest).slice(0, WRITE_N);
+    }
+    return S.order4;
+  }
+  if (step === 0) return S.words;
+  return S['order' + step] || (S['order' + step] = shuffle(S.words));
+}
+
+function stepBar() {
+  const shown = S.review ? [1, 2] : [0, 1, 2, 3, 4];
+  return `<div class="steps">${shown.map(i => `<span data-s="${i}" class="${i === S.step ? 'on' : (i < S.step ? 'done' : '')}">${STEP_NAMES[i]}</span>`).join('')}</div>`;
+}
+function bindStepBar() {
+  if (!pick.classMode) return;
+  document.querySelectorAll('.steps span').forEach(sp => sp.onclick = () => { S.step = +sp.dataset.s; S.idx = 0; S.tries = 0; S.built = []; renderStep(); });
+}
+function header(title, n) {
+  const items = stepItems(S.step);
+  const pct = Math.round((S.idx / items.length) * 100);
+  return `${stepBar()}<div class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <h2 style="margin:0">${title}</h2>
+      <span class="pill">${S.review ? '복습' : BOOKS[S.book] + ' · DAY ' + S.day}</span>
+    </div>
+    <div class="bar"><i style="width:${pct}%"></i></div>
+    <div class="counter" style="margin-top:6px">${Math.min(S.idx + 1, items.length)} / ${items.length}</div>`;
+}
+function nextItem() {
+  S.idx++; S.tries = 0; S.built = [];
+  if (S.idx >= stepItems(S.step).length) {
+    S.idx = 0;
+    if (S.review) { if (S.step === 1) S.step = 2; else return finish(); }
+    else if (S.step < 4) S.step++; else return finish();
+  }
+  renderStep();
+}
+function renderStep() {
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  [stepListen, stepMeaning, stepBlank, stepBuild, stepWrite][S.step]();
+  bindStepBar();
+  window.scrollTo(0, 0);
+}
+function quitBtn() { return `<button class="btn sec" id="quit">그만하기</button>`; }
+function bindQuit() { $('#quit').onclick = () => { if (pick.classMode || confirm('학습을 그만할까요? 기록은 저장되지 않아요.')) startScreen(); }; }
+
+/* ---------- ① 소리: 듣고 따라 말하기 ---------- */
+function stepListen() {
+  const w = stepItems(0)[S.idx];
+  $('#app').innerHTML = header('① 소리 — 듣고 따라 말해요') + `
+    <div class="word">${esc(w.w)}</div>
+    <div class="tts">
+      <button id="t1">🔊 단어</button><button id="t2">🔊 문장</button><button id="t3">🐢 천천히</button>
+    </div>
+    <div class="sent">${highlight(w.s, formOf(w))}</div>
+    <div class="ko" id="ko" style="visibility:hidden">${esc(w.k || '')} · <b>${esc(w.w)}</b> = ${esc(w.m)}</div>
+    <div class="nav">
+      <button class="btn sec" id="showKo">뜻·해석 보기</button>
+      <button class="btn" id="next">3번 따라 말했어요 →</button>
+    </div>
+    <div class="nav">${quitBtn()}</div>
+  </div>`;
+  $('#t1').onclick = () => speak(sayOf(w), 0.8);
+  $('#t2').onclick = () => speak(w.s, 0.9);
+  $('#t3').onclick = () => speak(w.s, 0.6);
+  $('#showKo').onclick = () => { $('#ko').style.visibility = 'visible'; };
+  $('#next').onclick = nextItem;
+  bindQuit();
+  setTimeout(() => speak(sayOf(w), 0.8), 250);
+}
+
+/* ---------- ② 뜻 찾기: 문장 속 단어의 뜻 고르기 ---------- */
+function distractors(w, key, n) {
+  const pool = (S.review ? Object.values(DATA).flatMap(b => Object.values(b).flat()) : S.words).filter(x => x[key] !== w[key]);
+  return shuffle([...new Set(pool.map(x => x[key]))]).slice(0, n);
+}
+function stepMeaning() {
+  const w = stepItems(1)[S.idx];
+  if (!S._opts || S._opts.w !== w.w) S._opts = { w: w.w, list: shuffle([w.m].concat(distractors(w, 'm', 3))) };
+  $('#app').innerHTML = header('② 뜻 찾기 — 문장 속에서 뜻을 찾아요') + `
+    <p class="sub" style="text-align:center">문장을 읽고, 밑줄 친 단어의 뜻을 골라요.</p>
+    <div class="sent">${highlight(w.s, formOf(w))}</div>
+    <div class="tts"><button id="t2">🔊 문장 듣기</button></div>
+    <div class="opts">${S._opts.list.map((m, i) => `<button data-i="${i}">${esc(m)}</button>`).join('')}</div>
+    <div class="fb" id="fb"></div>
+    <div class="nav">${quitBtn()}<button class="btn hide" id="next">다음 →</button></div>
+  </div>`;
+  $('#t2').onclick = () => speak(w.s);
+  let answered = false;
+  document.querySelectorAll('.opts button').forEach(b => b.onclick = () => {
+    if (answered) return; answered = true;
+    const ok = S._opts.list[+b.dataset.i] === w.m;
+    S.total.meaning++;
+    if (ok) { S.score.meaning++; b.classList.add('ok'); $('#fb').className = 'fb ok'; $('#fb').textContent = '정답! ' + w.w + ' = ' + w.m; }
+    else {
+      b.classList.add('bad'); S.wrong.add(w.w);
+      document.querySelectorAll('.opts button').forEach(x => { if (S._opts.list[+x.dataset.i] === w.m) x.classList.add('ok'); });
+      $('#fb').className = 'fb bad'; $('#fb').textContent = '아쉬워요. ' + w.w + ' = ' + w.m;
+    }
+    if (w.k) $('#fb').textContent += '  (' + w.k + ')';
+    $('#next').classList.remove('hide'); $('#next').onclick = nextItem;
+  });
+  bindQuit();
+}
+
+/* ---------- ③ 빈칸: 문장 속 빈칸에 단어 쓰기 ---------- */
+function stepBlank() {
+  const w = stepItems(2)[S.idx];
+  const fw = formOf(w);
+  const m = w.s.match(wordRe(fw));
+  const form = m ? m[0] : fw;
+  const blanked = esc(w.s).replace(wordRe(esc(fw)), '<span class="blank">&nbsp;</span>');
+  const hint = form.split(' ').map(t => t[0] + ' ' + '_ '.repeat(Math.max(0, t.length - 1)).trim()).join('   ');
+  $('#app').innerHTML = header('③ 빈칸 — 알맞은 단어를 써요') + `
+    <div class="sent">${blanked}</div>
+    <div class="ko">${esc(w.k || '')}</div>
+    <div class="hint">${esc(hint)} &nbsp;(${esc(w.m)})</div>
+    <div class="row" style="margin-top:16px">
+      <input type="text" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="단어를 입력하세요" style="text-align:center;font-size:20px">
+    </div>
+    <div class="tts"><button id="t2">🔊 문장 듣고 힌트 얻기</button></div>
+    <div class="fb" id="fb"></div>
+    <div class="nav">${quitBtn()}<button class="btn" id="chk">확인</button></div>
+  </div>`;
+  const inp = $('#ans'); setTimeout(() => inp.focus(), 100);
+  $('#t2').onclick = () => speak(w.s, 0.75);
+  let finished = false;
+  const check = () => {
+    if (finished) return nextItem();
+    const v = inp.value.trim();
+    if (!v) return;
+    S.tries++;
+    if (v.toLowerCase() === form.toLowerCase()) {
+      if (S.tries === 1) S.score.blank++;
+      S.total.blank++; finished = true;
+      $('#fb').className = 'fb ok'; $('#fb').textContent = S.tries === 1 ? '정답!' : '좋아요, 맞혔어요!';
+      $('.sent').innerHTML = highlight(w.s, fw); speak(w.s);
+      $('#chk').textContent = '다음 →';
+    } else if (S.tries < 2) {
+      $('#fb').className = 'fb bad'; $('#fb').textContent = '한 번 더! 철자를 확인해 보세요.'; inp.select();
+    } else {
+      S.total.blank++; S.wrong.add(w.w); finished = true;
+      $('#fb').className = 'fb bad'; $('#fb').textContent = '정답은 ' + form + ' 이에요.';
+      $('.sent').innerHTML = highlight(w.s, fw);
+      $('#chk').textContent = '다음 →';
+    }
+  };
+  $('#chk').onclick = check;
+  inp.onkeydown = e => { if (e.key === 'Enter') check(); };
+  bindQuit();
+}
+
+/* ---------- ④ 문장 조립: 단어 카드를 순서대로 ---------- */
+function stepBuild() {
+  const w = stepItems(3)[S.idx];
+  const toks = w.s.split(/\s+/);
+  if (!S._pool || S._pool.s !== w.s) {
+    let sh = shuffle(toks.map((t, i) => ({ t, i })));
+    if (sh.every((x, k) => x.i === k) && toks.length > 1) sh = sh.reverse();
+    S._pool = { s: w.s, items: sh }; S.built = [];
+  }
+  const left = S._pool.items.filter(x => !S.built.includes(x.i));
+  $('#app').innerHTML = header('④ 문장 조립 — 순서대로 눌러요') + `
+    <div class="ko" style="margin-top:6px">${esc(w.k || '')}</div>
+    <p class="sub" style="text-align:center;margin-top:6px">꼭 들어가야 할 단어: <b style="color:var(--bur)">${esc(w.w)}</b></p>
+    <div class="tray answer" id="ansT">${S.built.map(i => `<button class="tok" data-i="${i}">${esc(toks[i])}</button>`).join('')}</div>
+    <div class="tray" id="poolT">${left.map(x => `<button class="tok" data-i="${x.i}">${esc(x.t)}</button>`).join('')}</div>
+    <div class="fb" id="fb"></div>
+    <div class="nav">${quitBtn()}<button class="btn sec" id="hear">🔊 듣기</button><button class="btn" id="chk" ${left.length ? 'disabled' : ''}>확인</button></div>
+  </div>`;
+  document.querySelectorAll('#poolT .tok').forEach(b => b.onclick = () => { S.built.push(+b.dataset.i); stepBuild(); bindStepBar(); });
+  document.querySelectorAll('#ansT .tok').forEach(b => b.onclick = () => { S.built = S.built.filter(i => i !== +b.dataset.i); stepBuild(); bindStepBar(); });
+  $('#hear').onclick = () => speak(w.s, 0.8);
+  $('#chk').onclick = () => {
+    const made = S.built.map(i => toks[i]).join(' ');
+    S.tries++;
+    if (made === w.s) {
+      if (S.tries === 1) S.score.build++;
+      S.total.build++; speak(w.s);
+      $('#fb').className = 'fb ok'; $('#fb').textContent = '완성! ' + w.s;
+      const c = $('#chk'); c.textContent = '다음 →'; c.onclick = nextItem;
+    } else if (S.tries < 2) {
+      $('#fb').className = 'fb bad'; $('#fb').textContent = '순서를 다시 확인해 보세요. 단어를 누르면 빠져요.';
+    } else {
+      S.total.build++; S.wrong.add(w.w);
+      $('#fb').className = 'fb bad'; $('#fb').textContent = '정답: ' + w.s;
+      const c = $('#chk'); c.textContent = '다음 →'; c.onclick = nextItem;
+    }
+  };
+  bindQuit();
+}
+
+/* ---------- ⑤ 나만의 문장 ---------- */
+function stepWrite() {
+  const w = stepItems(4)[S.idx];
+  $('#app').innerHTML = header('⑤ 나만의 문장 — 이 단어로 내 이야기를 써요') + `
+    <div class="word" style="font-size:calc(36px*var(--fs))">${esc(w.w)}</div>
+    <div class="mean">${esc(w.m)}</div>
+    <p class="sub" style="text-align:center;margin-top:12px">예문: ${highlight(w.s, formOf(w))}</p>
+    <label for="my">나만의 문장 (단어를 꼭 넣어요, 3단어 이상)</label>
+    <textarea id="my" rows="3" placeholder="예) ${esc(w.s)}" autocapitalize="sentences"></textarea>
+    <div class="fb" id="fb"></div>
+    <div class="nav">${quitBtn()}${pick.classMode ? '<button class="btn sec" id="skip">말로 했어요</button>' : ''}<button class="btn" id="chk">완성!</button></div>
+  </div>`;
+  const ta = $('#my');
+  $('#chk').onclick = () => {
+    const v = ta.value.trim().replace(/\s+/g, ' ');
+    const key = formOf(w).toLowerCase().split(' ').sort((a, b) => b.length - a.length)[0];
+    const stem = key.slice(0, Math.max(3, key.length - 2));
+    if (v.split(' ').length < 3) { $('#fb').className = 'fb bad'; $('#fb').textContent = '3단어 이상으로 문장을 만들어 봐요.'; return; }
+    if (!v.toLowerCase().includes(stem)) { $('#fb').className = 'fb bad'; $('#fb').textContent = '"' + w.w + '"를 문장에 넣어 주세요.'; return; }
+    if (v.toLowerCase() === w.s.toLowerCase()) { $('#fb').className = 'fb bad'; $('#fb').textContent = '예문과 똑같아요! 단어 하나라도 바꿔서 나만의 문장으로 만들어 봐요.'; return; }
+    S.mine.push({ w: w.w, s: v }); S.score.write++; S.total.write++;
+    speak(v); nextItem();
+  };
+  const sk = $('#skip'); if (sk) sk.onclick = () => { S.total.write++; S.score.write++; nextItem(); };
+  bindQuit();
+}
+
+/* =========================================================
+   결과 · 저장
+   ========================================================= */
+function finish() {
+  stopTimer();
+  const t = S.total, sc = S.score;
+  const qTotal = t.meaning + t.blank + t.build;
+  const qScore = sc.meaning + sc.blank + sc.build;
+  const pct = qTotal ? Math.round(qScore / qTotal * 100) : 100;
+  const minutes = Math.max(1, Math.round((Date.now() - S.started) / 60000));
+  const wrong = [...S.wrong];
+
+  // 기기 기록: 연속 학습일, 완료 DAY, 복습 목록
+  if (!pick.classMode && pick.name) {
+    const prof = LS.get(profileKey(pick.name), { streak: 0, last: '', done: {}, review: [] });
+    const today = todayStr();
+    if (prof.last !== today) {
+      const y = new Date(); y.setDate(y.getDate() - 1);
+      const yStr = y.getFullYear() + '-' + String(y.getMonth() + 1).padStart(2, '0') + '-' + String(y.getDate()).padStart(2, '0');
+      prof.streak = prof.last === yStr ? prof.streak + 1 : 1; prof.last = today;
+    }
+    if (S.review) {
+      prof.review = prof.review.filter(r => S.wrong.has(r.w));
+    } else {
+      prof.done[S.book] = [...new Set((prof.done[S.book] || []).concat(S.day))];
+      wrong.forEach(w => { if (!prof.review.some(r => r.w === w && r.book === S.book)) prof.review.push({ book: S.book, day: S.day, w }); });
+    }
+    LS.set(profileKey(pick.name), prof);
+  }
+
+  const payload = {
+    type: 'sentence_vocab',
+    name: pick.name, cls: pick.cls, book: BOOKS[S.book], day: S.review ? '복습' : S.day,
+    score: pct, meaning: sc.meaning + '/' + t.meaning, blank: sc.blank + '/' + t.blank, build: sc.build + '/' + t.build,
+    write: sc.write, wrongWords: wrong.join(', '), mySentences: S.mine.map(x => x.w + ': ' + x.s).join('\n'),
+    minutes, date: todayStr(), timestamp: new Date().toISOString()
+  };
+
+  const msg = pct >= 90 ? '완벽해요! 문장 속 단어가 내 것이 됐어요.' : pct >= 70 ? '잘했어요! 틀린 단어만 한 번 더 복습해요.' : '괜찮아요, 지난번의 나보다 나아지면 돼요. 복습으로 다시 만나요!';
+  $('#app').innerHTML = `
+  <div class="card">
+    <h2>${S.review ? '복습 완료' : BOOKS[S.book] + ' DAY ' + S.day + ' 완료'}</h2>
+    <div class="big-score">${pct}점</div>
+    <p class="sub" style="text-align:center">${msg}</p>
+    <div class="stats" style="margin-top:16px">
+      <div class="stat"><b>${sc.meaning}/${t.meaning}</b><span>뜻 찾기</span></div>
+      <div class="stat"><b>${sc.blank}/${t.blank}</b><span>빈칸</span></div>
+      <div class="stat"><b>${S.review ? '-' : sc.build + '/' + t.build}</b><span>문장 조립</span></div>
+    </div>
+  </div>
+  ${wrong.length ? `<div class="card"><h2>다시 만날 단어 ${wrong.length}개</h2><div class="list">${wrong.map(x => { const o = S.words.find(y => y.w === x); return `<div class="li"><b>${esc(x)}</b><span>${esc(o ? o.m : '')}</span></div>`; }).join('')}</div>
+    <p class="sub" style="margin-top:10px">${pick.classMode ? '' : '다음에 첫 화면의 “틀렸던 단어 복습하기”에서 다시 연습할 수 있어요.'}</p></div>` : ''}
+  ${S.mine.length ? `<div class="card"><h2>내가 만든 문장</h2><div class="list">${S.mine.map(x => `<div class="li" style="flex-direction:column"><b>${esc(x.w)}</b><span>${esc(x.s)}</span></div>`).join('')}</div></div>` : ''}
+  <div class="card">
+    <div class="fb" id="saveFb">${pick.classMode ? '수업 모드에서는 기록을 저장하지 않아요.' : '선생님께 기록을 보내는 중…'}</div>
+    <div class="nav"><button class="btn sec hide" id="retry">다시 보내기</button><button class="btn" id="home">처음으로</button></div>
+  </div>`;
+  $('#home').onclick = startScreen;
+  if (!pick.classMode) send(payload);
+}
+
+async function send(payload) {
+  const fb = $('#saveFb'), rt = $('#retry');
+  try {
+    const r = await fetch(SAVE_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    fb.className = 'fb ok'; fb.textContent = '선생님께 기록을 보냈어요 ✓'; rt.classList.add('hide');
+  } catch (e) {
+    const q = LS.get('sv_pending', []); if (!q.some(x => x.timestamp === payload.timestamp)) q.push(payload); LS.set('sv_pending', q);
+    fb.className = 'fb bad'; fb.textContent = '기록을 보내지 못했어요. 인터넷을 확인하고 다시 보내기를 눌러 주세요.';
+    rt.classList.remove('hide'); rt.onclick = () => { fb.className = 'fb'; fb.textContent = '다시 보내는 중…'; send(payload); };
+    return;
+  }
+  const q = LS.get('sv_pending', []).filter(x => x.timestamp !== payload.timestamp); LS.set('sv_pending', q);
+}
+async function flushPending() {
+  const q = LS.get('sv_pending', []); if (!q.length) return;
+  const left = [];
+  for (const p of q) {
+    try { const r = await fetch(SAVE_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(p) }); if (!r.ok) left.push(p); }
+    catch (e) { left.push(p); }
+  }
+  LS.set('sv_pending', left);
+}
+
+/* =========================================================
+   선생님 모드 (?teacher): 단어 붙여넣기 → 데이터 파일 만들기
+   ========================================================= */
+function teacherScreen() {
+  $('#app').innerHTML = `
+  <div class="card">
+    <h1>선생님 모드 · 단어 등록</h1>
+    <p class="sub">엑셀에서 <b>단어 · 뜻 · 예문 · 해석</b> 네 칸을 복사해 붙여넣으세요 (탭 또는 | 로 구분). 예문에는 단어가 <b>그대로</b> 들어가야 빈칸 문제가 만들어져요.<br>
+    예문이 없으면 단어·뜻만 붙여넣고 “예문 필요” 목록을 Claude에게 보내 예문을 받으세요.</p>
+    <div class="row"><div><label>교재</label><select id="tb">${Object.entries(BOOKS).map(([k, v]) => `<option value="${k}">${v}</option>`).join('')}</select></div>
+    <div><label>DAY (예: 01)</label><input type="text" id="td" value="01"></div></div>
+    <label>단어 붙여넣기</label>
+    <textarea id="tx" rows="10" placeholder="friend	친구	My friend likes soccer.	내 친구는 축구를 좋아해."></textarea>
+    <div class="nav"><button class="btn sec" id="prev">미리보기</button><button class="btn" id="add">이 DAY 추가/교체</button></div>
+    <div id="pv" style="margin-top:14px;overflow-x:auto"></div>
+  </div>
+  <div class="card">
+    <h2>등록된 단어</h2>
+    <div id="sum" class="sub"></div>
+    <div class="nav"><button class="btn gold" id="dl">voca_sentence_data.js 내려받기</button></div>
+    <p class="sub" style="margin-top:10px">내려받은 파일을 GitHub 저장소의 같은 이름 파일에 덮어 올리면 학생 화면에 반영돼요. (이 기기에서 추가한 내용은 내려받기 전까지 이 기기에만 있어요.)</p>
+  </div>`;
+  const draft = LS.get('sv_teacher_data', null);
+  const data = draft || JSON.parse(JSON.stringify(DATA));
+  const parse = () => $('#tx').value.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map(l => {
+    const c = l.split(l.includes('\t') ? '\t' : '|').map(x => x.trim());
+    return { w: c[0] || '', m: c[1] || '', s: c[2] || '', k: c[3] || '' };
+  });
+  const problems = r => !r.w || !r.m ? '단어/뜻 없음' : !r.s ? '예문 필요' : !wordRe(r.w).test(r.s) ? '예문에 단어가 그대로 없음' : '';
+  const summary = () => {
+    $('#sum').innerHTML = Object.entries(BOOKS).map(([k, v]) => `<b>${v}</b>: ${Object.keys(data[k] || {}).sort().map(d => d + '(' + data[k][d].length + ')').join(', ') || '없음'}`).join('<br>');
+  };
+  $('#prev').onclick = () => {
+    const rows = parse();
+    $('#pv').innerHTML = `<table><tr><th>단어</th><th>뜻</th><th>예문</th><th>확인</th></tr>${rows.map(r => `<tr><td>${esc(r.w)}</td><td>${esc(r.m)}</td><td>${esc(r.s)}<br><span style="color:#888">${esc(r.k)}</span></td><td class="${problems(r) ? 'warn' : ''}">${problems(r) || '✓'}</td></tr>`).join('')}</table>`;
+  };
+  $('#add').onclick = () => {
+    const rows = parse(); if (!rows.length) return toast('붙여넣은 단어가 없어요');
+    const bad = rows.filter(problems);
+    if (bad.length && !confirm(bad.length + '개 단어에 확인할 점이 있어요. 그래도 추가할까요? (예문 없는 단어는 소리·뜻 단계만 제대로 동작해요)')) return;
+    const b = $('#tb').value, d = $('#td').value.trim().padStart(2, '0');
+    data[b] = data[b] || {}; data[b][d] = rows;
+    LS.set('sv_teacher_data', data); summary(); toast(BOOKS[b] + ' DAY ' + d + ' 저장 (' + rows.length + '개)');
+  };
+  $('#dl').onclick = () => {
+    const js = '// STELLA 문장 단어 트레이닝 — 단어 데이터 (스텔라원장 김희정 제작)\nwindow.VOCA_DATA = ' + JSON.stringify(data, null, 1) + ';\n';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([js], { type: 'text/javascript' }));
+    a.download = 'voca_sentence_data.js'; a.click();
+  };
+  summary();
+}
+
+/* ---------- 시작 ---------- */
+renderToday();
+if (new URLSearchParams(location.search).has('teacher')) teacherScreen();
+else { startScreen(); flushPending(); }
+</script>
+</body>
+</html>
